@@ -1,0 +1,56 @@
+'Level 2 PBLAS, Timing input file'
+'Intel iPSC/860 hypercube, gamma model.'
+'PCBLAS2TIM.SUMM'	output file name (if any)
+6		device out
+10		value of the logical computational blocksize NB
+1		number of process grids (ordered pairs of P & Q)
+2 2 1 4 2 3 8	values of P
+2 2 4 1 3 2 1	values of Q
+(2.0E0, -4.0E0)	value of ALPHA
+(3.0E0, -2.0E0)	value of BETA
+16		number of tests problems
+'L' 'L' 'L' 'L' 'L' 'L' 'L' 'L' 'U' 'U' 'U' 'U' 'U' 'U' 'U' 'U'	values of UPLO
+'N' 'N' 'N' 'N' 'T' 'T' 'T' 'T' 'N' 'N' 'N' 'N' 'T' 'T' 'T' 'T'	values of TRANS
+'N' 'U' 'N' 'U' 'N' 'U' 'N' 'U' 'N' 'U' 'N' 'U' 'N' 'U' 'N' 'U'	values of DIAG
+3  4  3  4  3  4  3  4  3  4  3  4  3  4  3  4		values of M
+3  4  3  4  3  4  3  4  3  4  3  4  3  4  3  4 		values of N
+6 10  6 10  6 10  6 10  6 10  6 10  6 10  6 10 		values of M_A
+6 10  6 10  6 10  6 10  6 10  6 10  6 10  6 10 		values of N_A
+2  5  2  5  2  5  2  5  2  5  2  5  2  5  2  5 		values of IMB_A
+2  5  2  5  2  5  2  5  2  5  2  5  2  5  2  5		values of INB_A
+2  5  2  5  2  5  2  5  2  5  2  5  2  5  2  5 		values of MB_A
+2  5  2  5  2  5  2  5  2  5  2  5  2  5  2  5		values of NB_A
+0  1  0  1  0  1  0  1  0  1  0  1  0  1  0  1		values of RSRC_A
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0		values of CSRC_A
+1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1		values of IA
+1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1		values of JA
+6 10  6 10  6 10  6 10  6 10  6 10  6 10  6 10		values of M_X
+6 10  6 10  6 10  6 10  6 10  6 10  6 10  6 10		values of N_X
+2  5  2  5  2  5  2  5  2  5  2  5  2  5  2  5		values of IMB_X
+2  5  2  5  2  5  2  5  2  5  2  5  2  5  2  5		values of INB_X
+2  5  2  5  2  5  2  5  2  5  2  5  2  5  2  5		values of MB_X
+2  5  2  5  2  5  2  5  2  5  2  5  2  5  2  5		values of NB_X
+0  1  0  1  0  1  0  1  0  1  0  1  0  1  0  1		values of RSRC_X
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0		values of CSRC_X
+1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1		values of IX
+1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1		values of JX
+1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1		values of INCX
+6 10  6 10  6 10  6 10  6 10  6 10  6 10  6 10		values of M_Y
+6 10  6 10  6 10  6 10  6 10  6 10  6 10  6 10		values of N_Y
+2  5  2  5  2  5  2  5  2  5  2  5  2  5  2  5		values of IMB_Y
+2  5  2  5  2  5  2  5  2  5  2  5  2  5  2  5		values of INB_Y
+2  5  2  5  2  5  2  5  2  5  2  5  2  5  2  5		values of MB_Y
+2  5  2  5  2  5  2  5  2  5  2  5  2  5  2  5		values of NB_Y
+0  1  0  1  0  1  0  1  0  1  0  1  0  1  0  1		values of RSRC_Y
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0		values of CSRC_Y
+1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1		values of IY
+1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1		values of JY
+1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1		values of INCY
+PCGEMV  T	put F for no test in the same column
+PCHEMV  T	put F for no test in the same column
+PCTRMV  T	put F for no test in the same column
+PCTRSV  T	put F for no test in the same column
+PCGERU  T	put F for no test in the same column
+PCGERC  T	put F for no test in the same column
+PCHER   T	put F for no test in the same column
+PCHER2  T	put F for no test in the same column

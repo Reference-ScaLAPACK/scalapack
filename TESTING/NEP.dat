@@ -1,0 +1,12 @@
+'SCALAPACK NEP (Nonsymmetric Eigenvalue Problem) input file'
+'MPI machine'
+'NEP.out'               output file name (if any)
+6                       device out
+7                       number of problems sizes
+1 2 3 4 6 10 50         Probs
+3                       number of NB's
+6 8 17                  values of NB
+2                       number of process grids (ordered pairs of P & Q)
+1 2 1 1 4 2 1           values of P
+1 2 3 4 1 4 8           values of Q
+20.0                    threshold

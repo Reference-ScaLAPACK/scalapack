@@ -1,0 +1,18 @@
+'ScaLAPACK, Version 1.2, banded linear systems input file'
+'MPI machine'
+''                              output file name (if any)
+6                               device out
+'U'                             define Lower or Upper
+ 8                              number of problem sizes
+ 3 5 17 28 37 121 200 1023      values of N
+ 6                              number of bandwidths
+ 1 2 4 10 31 64                 values of BW
+1                               number of NB's
+-1                              values of NB (-1 for automatic determination)
+1                               number of NRHS's (must be 1)
+4                               values of NRHS
+1                               number of NBRHS's (ignored)
+1                               values of NBRHS (ignored)
+ 4                              number of process grids
+ 1 2 3 4                        values of "Number of Process Columns"
+3.0                             threshold

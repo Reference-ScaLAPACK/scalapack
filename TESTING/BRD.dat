@@ -1,0 +1,13 @@
+'ScaLAPACK BRD input file'
+'MPI machine'
+'BRD.out'		output file name (if any)
+6			device out
+4			number of problems sizes
+4 10 17 13 23 31 57	values of M
+4 12 13 13 23 31 50	values of N
+4 			number of NB's
+2 3 4 5			values of NB
+4			number of processor grids (ordered pairs of P & Q)
+1 2 1 4 2 3 8		values of P
+1 2 4 1 3 2 1		values of Q
+10.0		        threshold

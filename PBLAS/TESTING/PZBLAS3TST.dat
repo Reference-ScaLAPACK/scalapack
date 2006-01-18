@@ -1,0 +1,65 @@
+'Level 3 PBLAS, Testing input file'
+'Intel iPSC/860 hypercube, gamma model.'
+'PZBLAS3TST.SUMM'	output file name (if any)
+6		device out
+F		logical flag, T to stop on failures
+T		logical flag, T to test error exits
+0		verbosity, 0 for pass/fail, 1-3 for matrix dump on errors
+10		the leading dimension gap
+16.0            threshold value of test ratio
+10		value of the logical computational blocksize NB
+4		number of process grids (ordered pairs of P & Q)
+2 1 2 1 4 2 3 8	values of P
+2 2 1 4 1 3 2 1	values of Q
+(2.0D0, -4.0D0)	value of ALPHA
+(3.0D0, -2.0D0)	value of BETA
+4		number of tests problems
+'N' 'N' 'N' 'N' 'N' 'N' 'N' 'N'		values of DIAG
+'L' 'L' 'L' 'L' 'L' 'L' 'L' 'L'		values of SIDE
+'N' 'N' 'N' 'N' 'T' 'T' 'T' 'T'		values of TRANSA
+'N' 'N' 'T' 'T' 'N' 'N' 'T' 'T'		values of TRANSB
+'U' 'L' 'U' 'L' 'U' 'L' 'U' 'L'		values of UPLO
+22 30  8 20  3  5 11  8		values of M
+23 29  7 21  3 14 11  8		values of N
+24 28  9 22  3  9 11  8		values of K
+31 31 31 31 31 31 31 31		values of M_A
+31 31 31 31 31 31 31 31		values of N_A
+ 4  5  6  3  2  1  4  5		values of IMB_A
+ 4  5  6  3  2  1  4  5		values of INB_A
+ 4  5  6  3  2  1  4  5		values of MB_A
+ 4  5  6  3  2  1  4  5		values of NB_A
+ 0  0  0  0  0  0  0  0		values of RSRC_A
+ 0  0  0  0  0  0  0  0		values of CSRC_A
+ 5  1  7  7  1 12  1 11		values of IA
+ 5  1  7  7  1 12  1 11		values of JA
+32 32 32 32 32 32 32 32		values of M_B
+32 32 32 32 32 32 32 32		values of N_B
+ 4  5  6  3  2  1  4  5		values of IMB_B
+ 4  5  6  3  2  1  4  5		values of INB_B
+ 4  5  6  3  2  1  4  5		values of MB_B
+ 4  5  6  3  2  1  4  5		values of NB_B
+ 0  0  0  0  0  0  0  0		values of RSRC_B
+ 0  0  0  0  0  0  0  0		values of CSRC_B
+ 5  1  7  7  1 12  1 11		values of IB
+ 5  1  7  7  1 12  1 11		values of JB
+35 35 35 35 35 35 35 35		values of M_C
+35 35 35 35 35 35 35 35		values of N_C
+ 4  5  6  3  2  1  4  5		values of IMB_C
+ 4  5  6  3  2  1  4  5		values of INB_C
+ 4  5  6  3  2  1  4  5		values of MB_C
+ 4  5  6  3  2  1  4  5		values of NB_C
+ 0  0  0  0  0  0  0  0		values of RSRC_C
+ 0  0  0  0  0  0  0  0		values of CSRC_C
+ 5  1  7  7  1 12  1 11		values of IC
+ 5  1  7  7  1 12  1 11		values of JC
+PZGEMM  T	put F for no test in the same column
+PZSYMM  T	put F for no test in the same column
+PZHEMM  T	put F for no test in the same column
+PZSYRK  T	put F for no test in the same column
+PZHERK  T	put F for no test in the same column
+PZSYR2K T	put F for no test in the same column
+PZHER2K T	put F for no test in the same column
+PZTRMM  T	put F for no test in the same column
+PZTRSM  T	put F for no test in the same column
+PZGEADD T	put F for no test in the same column
+PZTRADD T	put F for no test in the same column

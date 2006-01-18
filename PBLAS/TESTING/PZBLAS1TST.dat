@@ -1,0 +1,46 @@
+'Level 1 PBLAS, Testing input file'
+'Intel iPSC/860 hypercube, gamma model.'
+'PZBLAS1TST.SUMM'	output file name (if any)
+6		device out
+F		logical flag, T to stop on failures
+T		logical flag, T to test error exits
+0		verbosity, 0 for pass/fail, 1-3 for matrix dump on errors
+10		the leading dimension gap
+4		number of process grids (ordered pairs of P & Q)
+2 1 2 1 4 2 3 8	values of P
+2 2 1 4 1 3 2 1	values of Q
+(2.0D0, -3.0D0)	value of ALPHA
+4		number of tests problems
+14 44 28  7		values of N
+36  9 39 53 		values of M_X
+24 67  3 12 		values of N_X
+ 2  5  2  5  		values of IMB_X
+ 2  5  2  5 		values of INB_X
+ 2  5  2  5  		values of MB_X
+ 2  5  2  5 		values of NB_X
+ 0  0  0  0  		values of RSRC_X
+ 0  0  0  0  		values of CSRC_X
+ 5  3  1  1		values of IX
+ 2  6  1  1  		values of JX
+ 1  9  1 53		values of INCX
+ 2  6 35 14 		values of M_Y
+27 55 43 12 		values of N_Y
+ 2  5  2  5 		values of IMB_Y
+ 2  5  2  5 		values of INB_Y
+ 2  5  2  5 		values of MB_Y
+ 2  5  2  5 		values of NB_Y
+ 0  0  0  0 		values of RSRC_Y
+ 0  0  0  0 		values of CSRC_Y
+ 1  4  1  1 		values of IY
+ 7  6  1  1 		values of JY
+ 2  6 35  1		values of INCY
+PZSWAP  T	put F for no test in the same column
+PZSCAL  T	put F for no test in the same column
+PZDSCAL T	put F for no test in the same column
+PZCOPY  T	put F for no test in the same column
+PZAXPY  T	put F for no test in the same column
+PZDOTU  T	put F for no test in the same column
+PZDOTC  T	put F for no test in the same column
+PDZNRM2 T	put F for no test in the same column
+PDZASUM T	put F for no test in the same column
+PZAMAX  T	put F for no test in the same column

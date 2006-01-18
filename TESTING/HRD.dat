@@ -1,0 +1,14 @@
+'ScaLAPACK HRD input file'
+'MPI machine'
+'HRD.out'		output file name (if any)
+6			device out
+4			number of problems sizes
+50 50 50 50		values of N
+1  2  3  5		values of ILO
+50 48 45 49		values of IHI
+3			number of NB's
+2 3 4		 	values of NB
+4			number of processor grids (ordered pairs of P & Q)
+1 2 1 4 2 3 8           values of P
+1 2 4 1 3 2 1           values of Q
+3.0			threshold

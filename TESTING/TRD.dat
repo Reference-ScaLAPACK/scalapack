@@ -1,0 +1,13 @@
+'ScaLAPACK TRD computation input file'
+'MPI machine'
+'TRD.out'		output file name
+6                       device out
+'L'			define Lower or Upper
+4                       number of problems sizes
+16 50 6 11 21 22 23	values of N
+4                       number of NB's
+1 2 3 4 5		values of NB
+3                       Number of processor grids (ordered pairs of P & Q)
+1 1 4 2 1 3 1 		values of P
+1 4 1 2 3 1 1 		values of Q
+10.0			threshold

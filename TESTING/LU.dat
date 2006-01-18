@@ -1,0 +1,18 @@
+'SCALAPACK, LU factorization input file'
+'MPI Machine'
+'LU.out'		output file name (if any)
+6			device out
+4			number of problems sizes
+4 10 17 13 23 31 57	values of M
+4 12 13 13 23 31 50	values of N
+3			number of NB's
+2 3 4 5 		values of NB
+3			number of NRHS's
+1 3 9 28		values of NRHS
+3			Number of NBRHS's
+1 3 5 7			values of NBRHS
+4			number of process grids (ordered pairs of P & Q)
+1 2 1 4 2 3 8		values of P
+1 2 4 1 3 2 1 		values of Q
+1.0			threshold
+T			(T or F) Test Cond. Est. and Iter. Ref. Routines
