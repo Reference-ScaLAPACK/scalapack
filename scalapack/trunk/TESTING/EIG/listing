@@ -1,0 +1,6 @@
+*  orthogonal matrix Q, the Hessenberg matrix, and the array TAU returned
+      INTEGER            CONTEXTC, CSRC_A, IACOL, IAROW, ICOFFA, IROFFA, 
+      DOUBLE PRECISION   ANINV, ANORM, COND, MAXQTQNRM, MAXTSTNRM, OVFL, 
+*  orthogonal matrix Q, the Hessenberg matrix, and the array TAU returned
+      INTEGER            CONTEXTC, CSRC_A, IACOL, IAROW, ICOFFA, IROFFA, 
+      REAL               ANINV, ANORM, COND, MAXQTQNRM, MAXTSTNRM, OVFL, 

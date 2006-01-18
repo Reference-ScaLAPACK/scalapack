@@ -1,0 +1,129 @@
+=====================
+ScaLAPACK README FILE
+=====================
+
+ VERSION 1.0  :  February 28, 1995
+
+ UPDATES:
+  VERSION 1.1 :  March 20, 1995
+
+ VERSION 1.2  :  May 10, 1996
+
+ UPDATES:
+  VERSION 1.3 :  June 5, 1996
+
+ VERSION 1.4  :  November 17, 1996
+
+ VERSION 1.5  :  May 1, 1997
+
+ UPDATES:
+  VERSION 1.6 :  November 15, 1997
+
+  VERSION 1.7 :  August, 2001
+
+ScaLAPACK, or Scalable LAPACK, is a library of high performance linear
+algebra routines for distributed memory message-passing MIMD computers
+and networks of workstations supporting MPI and/or PVM.
+
+The complete ScaLAPACK package is freely available on netlib and
+can be obtained via the World Wide Web or anonymous ftp.
+
+    http://www.netlib.org/scalapack/
+
+ScaLAPACK, version 1.7, includes routines for the solution of dense,
+band, and tridiagonal linear systems of equations, condition estimation and
+iterative refinement, for LU and Cholesky factorization, matrix inversion,
+full-rank linear least squares problems, orthogonal and generalized orthogonal
+factorizations, orthogonal transformation routines, reductions to upper
+Hessenberg, bidiagonal and tridiagonal form, reduction of a symmetric-definite/
+Hermitian-definite generalized eigenproblem to standard form, the
+symmetric/Hermitian, divide-and-conquer symmetric/Hermitian, generalized
+symmetric/Hermitian and the nonsymmetric eigenproblem, and the singular value
+decomposition.  With the exception of the singular value decomposition,
+all routines are available in four types: single precision real, double
+precision real, single precision complex, and double precision complex.
+
+Unless otherwise noted, the current scalapack.tgz on netlib contains
+all available updates.
+
+Errata for ScaLAPACK (source code and documentation) can be found at:
+  http://www.netlib.org/scalapack/errata.html
+
+ScaLAPACK example programs can be found at:
+  http://www.netlib.org/scalapack/examples/
+ 
+Prototype versions of ScaLAPACK routines using packed storage are
+now available in the scalapack/prototype directory on netlib:
+   http://www.netlib.org/scalapack/prototype/packed.tgz
+ 
+It is highly recommended that you obtain a copy of the ScaLAPACK
+Users' Guide published by SIAM.  This Users' Guide gives a detailed
+description of the philosophy behind ScaLAPACK as well as an explanation
+of its usage.  Each Users' Guide includes a CD-ROM containing the HTML
+version of the ScaLAPACK Users' Guide, the source code for the package,
+testing and timing programs, prebuilt versions of the library for a number
+of computers, example programs, and a full set of LAPACK Working Notes.
+The ScaLAPACK Users' Guide can be purchased from:
+SIAM; 3600 University City Science Center; Philadelphia, PA 19104-2688;
+215-382-9800, FAX 215-386-7999.  It will also be available from
+booksellers.
+
+To order by email, send email to service@siam.org.  The book is also
+available via SIAM's World Wide Web URL at http://www.siam.org.  The
+ISBN number is 0-89871-397-8, and SIAM order code is SE04.  The list
+price for SIAM members is $39.60; the cost for nonmembers is $49.50.
+ 
+To view an HTML version of the Users' Guide please refer to the URL
+ 
+ http://www.netlib.org/scalapack/slug/
+
+Prebuilt ScaLAPACK libraries are available for a variety of
+architectures.
+ http://www.netlib.org/scalapack/archives/
+
+A number of technical reports were written during the development of
+ScaLAPACK and published as LAPACK Working Notes by the University
+of Tennessee.  These working notes are available in postscript and
+pdf format.
+ http://www.netlib.org/lapack/lawns/
+ http://www.netlib.org/lapack/lawnspdf/
+
+All questions/comments should be directed to scalapack@cs.utk.edu.
+
+----------------------------------------------------------------------
+
+The Makefiles in ScaLAPACK and its support libraries assume the basic
+directory structure below:
+
+                               SCALAPACK/
+ _____________________________/     |   \_______________________________
+/   |        |        | <library.a> | SLmake.inc  |               |     \
+    |        |        |             |             |               |
+    |        |        |             |             |               |
+ INSTALL/  PBLAS/   REDIST/        SRC/        TESTING/         TOOLS/
+                                              / Input \                
+                                             / Files & \
+                                            /Executables\
+                                    
+
+NOTE:  It is assumed that the BLAS and BLACS libraries (and possibly
+       MPI or PVM) are available on your machine.  These libraries
+       are NOT included with this distribution.  They can be obtained
+       from the respective blas, blacs, mpi, or pvm directory on netlib.
+       http://www.netlib.org/blas/
+       http://www.netlib.org/blacs/
+       http://www.mcs.anl.gov/mpi/mpich/
+       http://www.lam-mpi.org/
+       http://www.netlib.org/pvm3/
+
+All ScaLAPACK routines -- driver, computational, and auxiliary -- can be
+found in the SRC/ directory.  Testing routines and input files can be found
+in the TESTING/ directory.  All machine-specific parameters and the locations
+of BLAS and BLACS libraries are specified in the SCALAPACK/SLmake.inc file.
+This include file is then referenced in all subdirectory Makefiles.  Once 
+the include file has been modified, the entire installation process (including
+the building of testing executables) can be performed by typing ``make''
+in the top-level ScaLAPACK directory.  For detailed information on the
+installation and testing process, please refer to the "Installation Guide
+for ScaLAPACK" (scalapack_install.ps) in the INSTALL/ directory, or the
+scalapack directory on netlib.

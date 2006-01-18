@@ -1,0 +1,16 @@
+'ScaLAPACK, Orthogonal factorizations input file'
+'MPI machine'
+'QR.out'			output file name (if any)
+6				device out
+6				number of factorizations
+'QR' 'QL' 'LQ' 'RQ' 'QP' 'TZ'	factorizations: QR, QL, LQ, RQ, QP, TZ
+4				number of problems sizes
+2 5 13 15 13 26 30 15		values of M
+2 7 8  10 17 20 30 35		values of N
+4				number of blocking sizes
+4 3 5 5 4 6			values of MB
+4 7 3 5 8 2			values of NB
+4				number of process grids (ordered pairs P & Q)
+1 2 1 4 2 3 8			values of P
+1 2 4 1 3 2 1			values of Q
+3.0				threshold

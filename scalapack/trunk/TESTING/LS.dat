@@ -1,0 +1,17 @@
+'ScaLAPACK LS solve input file'
+'MPI machine'
+'LS.out'			output file name (if any)
+6				device out
+3				number of problems sizes
+15 7 31    			values of M
+5 21 31    			values of N
+2				number of NB's
+2 3 5				values of NB
+2				number of NRHS's
+2 3 5				values of NRHS
+2				number of NBRHS's
+1 2				values of NBRHS
+4				number of process grids (ordered pairs P & Q)
+1 1 4 2 2 3 8			values of P
+1 4 1 2 3 2 1			values of Q
+4.0				threshold

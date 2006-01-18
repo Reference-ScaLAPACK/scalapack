@@ -1,0 +1,36 @@
+'ScaLAPACK Singular Value Decomposition  input file'
+6                               device out
+4				maxnodes
+' '
+'TEST 1 - test medium matrices - all types and requests'
+20.0                            Threshold
+1                               number of matrices
+100                             number of rows
+25                              number of columns
+1                               number of processor configurations (P, Q, NB)
+2                               values of P (NPROW)
+2                               values of Q (NPCOL)
+8                               values of NB
+' '
+'TEST 2 - test medium matrices - all processor configurations'
+20.0                            Threshold
+1                               number of matrices
+80                              number of rows
+32                              number of columns
+1                               number of processor configurations (P, Q, NB)
+2                               values of P (NPROW)
+2                               values of Q (NPCOL)
+8                               values of NB
+' '
+'TEST 3 - test one large matrix'
+15.0                            Threshold
+1                               number of matrices
+24                              number of rows
+8                               number of columns
+1                               number of processor configurations (P, Q, NB)
+2                               values of P (NPROW)
+2                               values of Q (NPCOL)
+8                               values of NB
+' '
+'End of tests'
+-1

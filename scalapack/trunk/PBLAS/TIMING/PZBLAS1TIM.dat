@@ -1,0 +1,42 @@
+'Level 1 PBLAS, Timing input file'
+'Intel iPSC/860 hypercube, gamma model.'
+'PZBLAS1TIM.SUMM'	output file name (if any)
+6		device out
+1		number of process grids (ordered pairs of P & Q)
+2 2 1 4 2 3 8	values of P
+2 2 4 1 3 2 1	values of Q
+(2.0D0, -3.0D0)	value of ALPHA
+2		number of tests problems
+1000 1000	values of N
+1000    1	values of M_X
+   1 1500	values of N_X
+  32   32	values of IMB_X
+  32   32	values of INB_X
+  32   32	values of MB_X
+  32   32	values of NB_X
+   0    0	values of RSRC_X
+   0    0	values of CSRC_X
+   1    1	values of IX
+   1    1	values of JX
+   1    1	values of INCX
+   1    1	values of M_Y
+1000 1500	values of N_Y
+  32   32	values of IMB_Y
+  32   32	values of INB_Y
+  32   32	values of MB_Y
+  32   32	values of NB_Y
+   0    0	values of RSRC_Y
+   0    0 	values of CSRC_Y
+   1    1 	values of IY
+   1    1 	values of JY
+   1    1	values of INCY
+PZSWAP  T	put F for no test in the same column
+PZSCAL  T	put F for no test in the same column
+PZDSCAL T	put F for no test in the same column
+PZCOPY  T	put F for no test in the same column
+PZAXPY  T	put F for no test in the same column
+PZDOTU  T	put F for no test in the same column
+PZDOTC  T	put F for no test in the same column
+PDZNRM2 T	put F for no test in the same column
+PDZASUM T	put F for no test in the same column
+PZAMAX  T	put F for no test in the same column
