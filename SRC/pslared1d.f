@@ -1,11 +1,9 @@
-*
-*
       SUBROUTINE PSLARED1D( N, IA, JA, DESC, BYCOL, BYALL, WORK, LWORK )
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
 *     and University of California, Berkeley.
-*     May 1, 1997
+*     December 12, 2005
 *
 *     .. Scalar Arguments ..
       INTEGER            IA, JA, LWORK, N
@@ -21,7 +19,7 @@
 *  PSLARED1D redistributes a 1D array
 *
 *  It assumes that the input array, BYCOL, is distributed across
-*  rows and that all process column contain the same copy of
+*  rows and that all process columns contain the same copy of
 *  BYCOL.  The output array, BYALL, will be identical on all processes
 *  and will contain the entire array.
 *
@@ -93,11 +91,11 @@
 *  JA      (global input) INTEGER
 *          JA must be equal to 1
 *
-*  DESC    (global/local input) INTEGER Array of dimension 8
-*          A 2D array descirptor, which describes BYCOL
+*  DESC    (global/local input) INTEGER Array of dimension DLEN_
+*          A 2D array descriptor, which describes BYCOL
 *
 *  BYCOL   (local input) distributed block cyclic REAL array
-*          global dimension (N), local dimension NP
+*          global dimension (N), local dimension (NP)
 *          BYCOL is distributed across the process rows
 *          All process columns are assumed to contain the same value
 *
@@ -107,8 +105,8 @@
 *          It contains the same values as BYCOL, but it is replicated
 *          across all processes rather than being distributed
 *
-*          BYALL(i) = BYCOL( NUMROC(i,NB,MYROW,0,NPROW ) on the procs
-*          whose MYROW == mod((i-1)/NB,NPROW)
+*          BYALL(i) = BYCOL( NUMROC(i,DESC( NB_ ),MYROW,0,NPROW ) on the procs
+*          whose MYROW == mod((i-1)/DESC( NB_ ),NPROW)
 *
 *  WORK    (local workspace) REAL dimension (LWORK)
 *          Used to hold the buffers sent from one process to another
@@ -147,7 +145,6 @@
 *
       CALL BLACS_GRIDINFO( DESC( CTXT_ ), NPROW, NPCOL, MYROW, MYCOL )
       NB = DESC( MB_ )
-*
 *
       DO 30 PCOL = 0, NPCOL - 1
          BUFLEN = NUMROC( N, NB, PCOL, 0, NPCOL )

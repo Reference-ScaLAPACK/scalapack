@@ -3,7 +3,7 @@
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
 *     and University of California, Berkeley.
-*     May 1, 1997       
+*     December 12, 2005
 *
 *     .. Scalar Arguments ..
       INTEGER            IA, JA, LWORK, N
@@ -92,27 +92,27 @@
 *          JA must be equal to 1
 *
 *  DESC    (global/local input) INTEGER Array of dimension DLEN_
-*           A 2D array descriptor, which describes BYROW
+*          A 2D array descriptor, which describes BYROW
 *
-*  BYROW   (local input) distributed block cyclic REAL            array
-*          global dimension (N), local dimension NP
-*          BYCOL is distributed across the process columns
+*  BYROW   (local input) distributed block cyclic REAL array
+*          global dimension (N), local dimension (NP)
+*          BYROW is distributed across the process columns
 *          All process rows are assumed to contain the same value
 *
-*  BYALL   (global output) REAL            global dimension( N )
+*  BYALL   (global output) REAL global dimension( N )
 *          local dimension (N)
 *          BYALL is exactly duplicated on all processes
-*          It contains the same values as BYCOL, but it is replicated
+*          It contains the same values as BYROW, but it is replicated
 *          across all processes rather than being distributed
 *
-*          BYALL(i) = BYCOL( NUMROC(i,NB,MYROW,0,NPROW ) on the procs
-*          whose MYROW == mod((i-1)/NB,NPROW)
+*          BYALL(i) = BYROW( NUMROC(i,DESC( MB_ ),MYCOL,0,NPCOL ) on the procs
+*          whose MYCOL == mod((i-1)/DESC( MB_ ),NPCOL)
 *
-*  WORK    (local workspace) REAL            dimension (LWORK)
+*  WORK    (local workspace) REAL dimension (LWORK)
 *          Used to hold the buffers sent from one process to another
 *
-*  LWORK   (local input) INTEGER size of WORK array LWORK >=
-*          LWORK >= NUMROC(N, DESC( NB_ ), 0, 0, NPCOL)
+*  LWORK   (local input) INTEGER size of WORK array
+*          LWORK >= NUMROC(N, DESC( MB_ ), 0, 0, NPROW)
 *
 *     .. Parameters ..
       INTEGER            BLOCK_CYCLIC_2D, DLEN_, DTYPE_, CTXT_, M_, N_,
@@ -136,6 +136,10 @@
       INTRINSIC          MIN
 *     ..
 *     .. Executable Statements ..
+*       This is just to keep ftnchek happy
+      IF( BLOCK_CYCLIC_2D*CSRC_*CTXT_*DLEN_*DTYPE_*LLD_*MB_*M_*NB_*N_*
+     $    RSRC_.LT.0 )RETURN
+*
       CALL BLACS_GRIDINFO( DESC( CTXT_ ), NPROW, NPCOL, MYROW, MYCOL )
       MB = DESC( MB_ )
 *
@@ -160,4 +164,7 @@
    30 CONTINUE
 *
       RETURN
+*
+*     End of PSLARED2D
+*
       END
