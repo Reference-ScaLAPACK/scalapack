@@ -4,7 +4,7 @@
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
 *     and University of California, Berkeley.
-*     May 1, 1997
+*     Jan 30, 2006
 *
 *     .. Scalar Arguments ..
       INTEGER            IA, IB, INFO, JA, JB, N, NRHS
@@ -96,7 +96,7 @@
 *
 *  NRHS    (global input) INTEGER
 *          The number of right hand sides, i.e., the number of columns
-*          of the distributed submatrix sub( A ). NRHS >= 0.
+*          of the distributed submatrix sub( B ). NRHS >= 0.
 *
 *  A       (local input/local output) DOUBLE PRECISION pointer into the
 *          local memory to an array of dimension (LLD_A,LOCc(JA+N-1)).

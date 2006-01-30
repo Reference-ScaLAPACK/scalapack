@@ -2000,8 +2000,8 @@
          CALL INFOG2L( I-1, I-1, DESCA, NPROW, NPCOL, MYROW, MYCOL,
      $                 IROW1, ICOL1, II, JJ )
          IF( ( MYROW.EQ.II ) .AND. ( MYCOL.EQ.JJ ) ) THEN
+            H11 = A( ( ICOL1-1 )*LDA+IROW1 )
             IF( MODKM1.NE.0 ) THEN
-               H11 = A( ( ICOL1-1 )*LDA+IROW1 )
                H21 = A( ( ICOL1-1 )*LDA+IROW1+1 )
                H12 = A( ICOL1*LDA+IROW1 )
                H22 = A( ICOL1*LDA+IROW1+1 )
