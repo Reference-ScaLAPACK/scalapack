@@ -235,7 +235,7 @@
 *          1-dimensional "row" of processes. Calling the LAPACK
 *          procedure DBDSQR requires
 *
-*          WDBDSQR = MAX(1, 2*SIZE + (2*SIZE - 4)*MAX(WANTU, WANTVT))
+*          WDBDSQR = MAX(1, 4*SIZE )
 *
 *          on every processor. Finally,
 *
@@ -424,7 +424,7 @@
               WPDGEBRD = NB* (MP+NQ+1) + NQ
               WATOBD = MAX(MAX(WPDLANGE,WPDGEBRD),MAXIM)
 *
-              WDBDSQR = MAX(1,2*SIZE+ (2*SIZE-4)*MAX(WANTU,WANTVT))
+              WDBDSQR = MAX(1,4*SIZE)
               WPDORMBRQLN = MAX((NB* (NB-1))/2, (SIZEQ+MP)*NB) + NB*NB
               WPDORMBRPRT = MAX((MB* (MB-1))/2, (SIZEP+NQ)*MB) + MB*MB
               WBDTOSVD = SIZE* (WANTU*NRU+WANTVT*NCVT) +
