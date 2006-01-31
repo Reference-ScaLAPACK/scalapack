@@ -1,6 +1,6 @@
 
-      SUBROUTINE PSGESVD(JOBU,JOBVT,M,N,A,IA,JA,DESCA,S,U,IU,JU,DESCU,
-     +                   VT,IVT,JVT,DESCVT,WORK,LWORK,INFO)
+      SUBROUTINE PCGESVD(JOBU,JOBVT,M,N,A,IA,JA,DESCA,S,U,IU,JU,DESCU,
+     +                   VT,IVT,JVT,DESCVT,WORK,LWORK,RWORK,INFO)
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     Univ. of Tennessee, Oak Ridge National Laboratory
@@ -14,14 +14,15 @@
 *     ..
 *     .. Array Arguments ..
       INTEGER DESCA(*),DESCU(*),DESCVT(*)
-      REAL A(*),U(*),VT(*),WORK(*)
+      COMPLEX A(*),U(*),VT(*),WORK(*)
       REAL S(*)
+      REAL RWORK(*)
 *     ..
 *
 *  Purpose
 *  =======
 *
-*  PSGESVD computes the singular value decomposition (SVD) of an
+*  PCGESVD computes the singular value decomposition (SVD) of an
 *  M-by-N matrix A, optionally computing the left and/or right
 *  singular vectors. The SVD is written as
 *
@@ -116,7 +117,7 @@
 *  N       (global input) INTEGER
 *          The number of columns of the input matrix A.  N >= 0.
 *
-*  A       (local input/workspace) block cyclic REAL
+*  A       (local input/workspace) block cyclic COMPLEX
 *          array,
 *          global dimension (M, N), local dimension (MP, NQ)
 *          On exit, the contents of A are destroyed.
@@ -135,7 +136,7 @@
 *  S       (global output) REAL               array, dimension SIZE
 *          The singular values of A, sorted so that S(i) >= S(i+1).
 *
-*  U       (local output) REAL               array, local dimension
+*  U       (local output) COMPLEX            array, local dimension
 *          (MP, SIZEQ), global dimension (M, SIZE)
 *          if JOBU = 'V', U contains the first min(m,n) columns of U
 *          if JOBU = 'N', U is not referenced.
@@ -151,7 +152,7 @@
 *  DESCU   (global input) INTEGER array of dimension DLEN_
 *          The array descriptor for the distributed matrix U.
 *
-*  VT      (local output) REAL               array, local dimension
+*  VT      (local output) COMPLEX            array, local dimension
 *          (SIZEP, NQ), global dimension (SIZE, N).
 *          If JOBVT = 'V', VT contains the first SIZE rows of
 *          V**T. If JOBVT = 'N', VT is not referenced.
@@ -167,14 +168,14 @@
 *  DESCVT   (global input) INTEGER array of dimension DLEN_
 *          The array descriptor for the distributed matrix VT.
 *
-*  WORK    (local workspace/output) REAL               array, dimension
+*  WORK    (local workspace/output) COMPLEX            array, dimension
 *          (LWORK)
 *          On exit, if INFO = 0, WORK(1) returns the optimal LWORK.
 *
 *  LWORK   (local input) INTEGER
 *          The dimension of the array WORK.
 *
-*          LWORK >= 1 + 6*SIZEB + MAX(WATOBD, WBDTOSVD),
+*          LWORK >= 1 + 2*SIZEB + MAX(WATOBD, WBDTOSVD),
 *
 *          where SIZEB = MAX(M,N), and WATOBD and WBDTOSVD refer,
 *          respectively, to the workspace required to bidiagonalize
@@ -183,12 +184,12 @@
 *
 *          For WATOBD, the following holds:
 *
-*          WATOBD = MAX(MAX(WPSLANGE,WPSGEBRD),
-*                       MAX(WPSLARED2D,WP(pre)LARED1D)),
+*          WATOBD = MAX(MAX(WPCLANGE,WPCGEBRD),
+*                       MAX(WPCLARED2D,WP(pre)LARED1D)),
 *
-*          where WPSLANGE, WPSLARED1D, WPSLARED2D, WPSGEBRD are the
+*          where WPCLANGE, WPCLARED1D, WPCLARED2D, WPCGEBRD are the
 *          workspaces required respectively for the subprograms
-*          PSLANGE, PSLARED1D, PSLARED2D, PSGEBRD. Using the
+*          PCLANGE, PSLARED1D, PSLARED2D, PCGEBRD. Using the
 *          standard notation
 *
 *          MP = NUMROC( M, MB, MYROW, DESCA( CTXT_ ), NPROW),
@@ -196,10 +197,10 @@
 *
 *          the workspaces required for the above subprograms are
 *
-*          WPSLANGE = MP,
+*          WPCLANGE = MP,
 *          WPSLARED1D = NQ0,
 *          WPSLARED2D = MP0,
-*          WPSGEBRD = NB*(MP + NQ + 1) + NQ,
+*          WPCGEBRD = NB*(MP + NQ + 1) + NQ,
 *
 *          where NQ0 and MP0 refer, respectively, to the values obtained
 *          at MYCOL = 0 and MYROW = 0. In general, the upper limit for
@@ -215,8 +216,8 @@
 *          For WBDTOSVD, the following holds:
 *
 *          WBDTOSVD = SIZE*(WANTU*NRU + WANTVT*NCVT) +
-*                     MAX(WSBDSQR,
-*                         MAX(WANTU*WPSORMBRQLN, WANTVT*WPSORMBRPRT)),
+*                     MAX(WCBDSQR,
+*                         MAX(WANTU*WPCORMBRQLN, WANTVT*WPCORMBRPRT)),
 *
 *          where
 *
@@ -224,23 +225,23 @@
 *          WANTU(WANTVT) =
 *                          0, otherwise
 *
-*          and WSBDSQR, WPSORMBRQLN and WPSORMBRPRT refer respectively
-*          to the workspace required for the subprograms SBDSQR,
-*          PSORMBR(QLN), and PSORMBR(PRT), where QLN and PRT are the
+*          and WCBDSQR, WPCORMBRQLN and WPCORMBRPRT refer respectively
+*          to the workspace required for the subprograms CBDSQR,
+*          PCUNMBR(QLN), and PCUNMBR(PRT), where QLN and PRT are the
 *          values of the arguments VECT, SIDE, and TRANS in the call
-*          to PSORMBR. NRU is equal to the local number of rows of
+*          to PCUNMBR. NRU is equal to the local number of rows of
 *          the matrix U when distributed 1-dimensional "column" of
 *          processes. Analogously, NCVT is equal to the local number
 *          of columns of the matrix VT when distributed across
 *          1-dimensional "row" of processes. Calling the LAPACK
-*          procedure SBDSQR requires
+*          procedure CBDSQR requires
 *
-*          WSBDSQR = MAX(1, 2*SIZE + (2*SIZE - 4)*MAX(WANTU, WANTVT))
+*          WCBDSQR = MAX(1, 2*SIZE + (2*SIZE - 4)*MAX(WANTU, WANTVT))
 *
 *          on every processor. Finally,
 *
-*          WPSORMBRQLN = MAX( (NB*(NB-1))/2, (SIZEQ+MP)*NB)+NB*NB,
-*          WPSORMBRPRT = MAX( (MB*(MB-1))/2, (SIZEP+NQ)*MB )+MB*MB,
+*          WPCORMBRQLN = MAX( (NB*(NB-1))/2, (SIZEQ+MP)*NB)+NB*NB,
+*          WPCORMBRPRT = MAX( (MB*(MB-1))/2, (SIZEP+NQ)*MB )+MB*MB,
 *
 *          If LWORK = -1, then LWORK is global input and a workspace
 *          query is assumed; the routine only calculates the minimum
@@ -248,21 +249,24 @@
 *          as the first element of WORK and no error message is issued
 *          by PXERBLA.
 *
+*  RWORK   (workspace) REAL             array, dimension (1+4*SIZEB)
+*          On exit, if INFO = 0, RWORK(1) returns the necessary size
+*          for RWORK.
 *
 *  INFO    (output) INTEGER
 *          = 0:  successful exit
 *          < 0:  if INFO = -i, the i-th argument had an illegal value
 
-*          > 0:  if SBDSQR did not converge
-*                If INFO = MIN(M,N) + 1, then PSGESVD has detected
+*          > 0:  if CBDSQR did not converge
+*                If INFO = MIN(M,N) + 1, then PCGESVD has detected
 *                heterogeneity by finding that eigenvalues were not
 *                identical across the process grid. In this case, the
-*                accuracy of the results from PSGESVD cannot be
+*                accuracy of the results from PCGESVD cannot be
 *                guaranteed.
 *
 *  =====================================================================
 *
-*  The results of PSGEBRD, and therefore PSGESVD, may vary slightly
+*  The results of PCGEBRD, and therefore PCGESVD, may vary slightly
 *  from run to run with the same input data. If repeatability is an
 *  issue, call BLACS_SET with the appropriate option after defining
 *  the process grid.
@@ -270,8 +274,8 @@
 *  Alignment requirements
 *  ======================
 *
-*  The routine PSGESVD inherits the same alignement requirement as
-*  the routine PSGEBRD, namely:
+*  The routine PCGESVD inherits the same alignement requirement as
+*  the routine PCGEBRD, namely:
 *
 *  The distributed submatrix sub( A ) must verify some alignment proper-
 *  ties, namely the following expressions should be true:
@@ -287,8 +291,10 @@
      +        CSRC_,LLD_,ITHVAL
       PARAMETER (BLOCK_CYCLIC_2D=1,DLEN_=9,DTYPE_=1,CTXT_=2,M_=3,N_=4,
      +          MB_=5,NB_=6,RSRC_=7,CSRC_=8,LLD_=9,ITHVAL=10)
-      REAL ZERO,ONE
-      PARAMETER (ZERO= (0.0E+0),ONE= (1.0E+0))
+      COMPLEX ZERO,ONE
+      PARAMETER (ZERO= ((0.0E+0,0.0E+0)),ONE= ((1.0E+0,0.0E+0)))
+      REAL DZERO,DONE
+      PARAMETER (DZERO=0.0D+0,DONE=1.0D+0)
 *     ..
 *     .. Local Scalars ..
       CHARACTER UPLO
@@ -297,8 +303,8 @@
      +        LWMIN,MAXIM,MB,MP,MYPCOL,MYPCOLC,MYPCOLR,MYPROW,MYPROWC,
      +        MYPROWR,NB,NCVT,NPCOL,NPCOLC,NPCOLR,NPROCS,NPROW,NPROWC,
      +        NPROWR,NQ,NRU,SIZE,SIZEB,SIZEP,SIZEPOS,SIZEQ,WANTU,WANTVT,
-     +        WATOBD,WBDTOSVD,WSBDSQR,WPSGEBRD,WPSLANGE,WPSORMBRPRT,
-     +        WSDORMBRQLN
+     +        WATOBD,WBDTOSVD,WCBDSQR,WPCGEBRD,WPCLANGE,WPCORMBRPRT,
+     +        WCDORMBRQLN
       REAL ANRM,BIGNUM,EPS,RMAX,RMIN,SAFMIN,SIGMA,SMLNUM
 *     ..
 *     .. Local Arrays ..
@@ -308,17 +314,18 @@
 *     .. External Functions ..
       LOGICAL LSAME
       INTEGER NUMROC
-      REAL PSLAMCH,PSLANGE
+      REAL PSLAMCH,PCLANGE
       EXTERNAL LSAME,NUMROC,PDLAMCH,PZLANGE
 *     ..
 *     .. External Subroutines ..
       EXTERNAL BLACS_GET,BLACS_GRIDEXIT,BLACS_GRIDINFO,BLACS_GRIDINIT,
-     +         CHK1MAT,SBDSQR,DESCINIT,SGAMN2D,SGAMX2D,SSCAL,IGAMX2D,
-     +         IGEBR2D,IGEBS2D,PCHK1MAT,PSGEBRD,PSGEMR2D,PSLARED1D,
-     +         PSLARED2D,PSLASCL,PSLASET,PSORMBR,PXERBLA
+     +         CHK1MAT,CBDSQR,DESCINIT,SGAMN2D,SGAMX2D,SSCAL,IGAMX2D,
+     +         IGEBR2D,IGEBS2D,PCHK1MAT,PCGEBRD,PCGEMR2D,PSLARED1D,
+     +         PSLARED2D,PCLASCL,PCLASET,PCUNMBR,PXERBLA
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC MAX,MIN,SQRT,REAL
+      INTRINSIC CMPLX
 *     ..
 *     .. Executable Statements ..
 *     This is just to keep ftnchek happy
@@ -374,7 +381,7 @@
               INDD2 = INDE + SIZEB + IOFFE
               INDE2 = INDD2 + SIZEB + IOFFD
 *
-              INDTAUQ = INDE2 + SIZEB + IOFFE
+              INDTAUQ = 2
               INDTAUP = INDTAUQ + SIZEB + JA - 1
               INDWORK = INDTAUP + SIZEB + IA - 1
               LLWORK = LWORK - INDWORK + 1
@@ -420,21 +427,22 @@
                   CALL IGEBR2D(DESCA(CTXT_),'All',' ',1,1,MAXIM,1,0,0)
               END IF
 *
-              WPSLANGE = MP
-              WPSGEBRD = NB* (MP+NQ+1) + NQ
-              WATOBD = MAX(MAX(WPSLANGE,WPSGEBRD),MAXIM)
+              WPCLANGE = MP
+              WPCGEBRD = NB* (MP+NQ+1) + NQ
+              WATOBD = MAX(MAX(WPCLANGE,WPCGEBRD),MAXIM)
 *
-              WSBDSQR = MAX(1,2*SIZE+ (2*SIZE-4)*MAX(WANTU,WANTVT))
-              WPSORMBRQLN = MAX((NB* (NB-1))/2, (SIZEQ+MP)*NB) + NB*NB
-              WPSORMBRPRT = MAX((MB* (MB-1))/2, (SIZEP+NQ)*MB) + MB*MB
+              WCBDSQR = MAX(1,2*SIZE+ (2*SIZE-4)*MAX(WANTU,WANTVT))
+              WPCORMBRQLN = MAX((NB* (NB-1))/2, (SIZEQ+MP)*NB) + NB*NB
+              WPCORMBRPRT = MAX((MB* (MB-1))/2, (SIZEP+NQ)*MB) + MB*MB
               WBDTOSVD = SIZE* (WANTU*NRU+WANTVT*NCVT) +
-     +                   MAX(WSBDSQR,MAX(WANTU*WPSORMBRQLN,
-     +                   WANTVT*WPSORMBRPRT))
+     +                   MAX(WCBDSQR,MAX(WANTU*WPCORMBRQLN,
+     +                   WANTVT*WPCORMBRPRT))
 *
 *           Finally, calculate required workspace.
 *
-              LWMIN = 1 + 6*SIZEB + MAX(WATOBD,WBDTOSVD)
-              WORK(1) = REAL(LWMIN)
+              LWMIN = 1 + 2*SIZEB + MAX(WATOBD,WBDTOSVD)
+              WORK(1) = CMPLX(LWMIN,0D+00)
+              RWORK(1) = REAL(1+4*SIZEB)
 *
               IF (WANTU.NE.1 .AND. .NOT. (LSAME(JOBU,'N'))) THEN
                   INFO = -1
@@ -471,7 +479,7 @@
       END IF
 *
       IF (INFO.NE.0) THEN
-          CALL PXERBLA(DESCA(CTXT_),'PSGESVD',-INFO)
+          CALL PXERBLA(DESCA(CTXT_),'PCGESVD',-INFO)
           RETURN
       ELSE IF (LWORK.EQ.-1) THEN
           GO TO 40
@@ -486,14 +494,14 @@
       SAFMIN = PSLAMCH(DESCA(CTXT_),'Safe minimum')
       EPS = PSLAMCH(DESCA(CTXT_),'Precision')
       SMLNUM = SAFMIN/EPS
-      BIGNUM = ONE/SMLNUM
+      BIGNUM = DONE/SMLNUM
       RMIN = SQRT(SMLNUM)
-      RMAX = MIN(SQRT(BIGNUM),ONE/SQRT(SQRT(SAFMIN)))
+      RMAX = MIN(SQRT(BIGNUM),DONE/SQRT(SQRT(SAFMIN)))
 *
 *     Scale matrix to allowable range, if necessary.
 *
-      ANRM = PSLANGE('1',M,N,A,IA,JA,DESCA,WORK(INDWORK))
-      IF (ANRM.GT.ZERO .AND. ANRM.LT.RMIN) THEN
+      ANRM = PCLANGE('1',M,N,A,IA,JA,DESCA,WORK(INDWORK))
+      IF (ANRM.GT.DZERO .AND. ANRM.LT.RMIN) THEN
           ISCALE = 1
           SIGMA = RMIN/ANRM
       ELSE IF (ANRM.GT.RMAX) THEN
@@ -502,10 +510,10 @@
       END IF
 *
       IF (ISCALE.EQ.1) THEN
-          CALL PSLASCL('G',ONE,SIGMA,M,N,A,IA,JA,DESCA,INFO)
+          CALL PCLASCL('G',DONE,SIGMA,M,N,A,IA,JA,DESCA,INFO)
       END IF
 *
-      CALL PSGEBRD(M,N,A,IA,JA,DESCA,WORK(INDD),WORK(INDE),
+      CALL PCGEBRD(M,N,A,IA,JA,DESCA,RWORK(INDD),RWORK(INDE),
      +             WORK(INDTAUQ),WORK(INDTAUP),WORK(INDWORK),LLWORK,
      +             INFO)
 *
@@ -517,21 +525,21 @@
 *
       IF (M.GE.N) THEN
 *        Distribute D
-          CALL PSLARED1D(N+IOFFD,IA,JA,DESCA,WORK(INDD),WORK(INDD2),
+          CALL PSLARED1D(N+IOFFD,IA,JA,DESCA,RWORK(INDD),RWORK(INDD2),
      +                   WORK(INDWORK),LLWORK)
 *        Distribute E
-          CALL PSLARED2D(M+IOFFE,IA,JA,DESCA,WORK(INDE),WORK(INDE2),
+          CALL PSLARED2D(M+IOFFE,IA,JA,DESCA,RWORK(INDE),RWORK(INDE2),
      +                   WORK(INDWORK),LLWORK)
       ELSE
 *        Distribute D
-          CALL PSLARED2D(M+IOFFD,IA,JA,DESCA,WORK(INDD),WORK(INDD2),
+          CALL PSLARED2D(M+IOFFD,IA,JA,DESCA,RWORK(INDD),RWORK(INDD2),
      +                   WORK(INDWORK),LLWORK)
 *        Distribute E
-          CALL PSLARED1D(N+IOFFE,IA,JA,DESCA,WORK(INDE),WORK(INDE2),
+          CALL PSLARED1D(N+IOFFE,IA,JA,DESCA,RWORK(INDE),RWORK(INDE2),
      +                   WORK(INDWORK),LLWORK)
       END IF
 *
-*     Prepare for calling PSBDSQR.
+*     Prepare for calling PCBDSQR.
 *
       IF (M.GE.N) THEN
           UPLO = 'U'
@@ -550,52 +558,52 @@
       CALL DESCINIT(DESCTVT,SIZE,N,1,1,0,0,CONTEXTR,LDVT,INFO)
 *
       IF (WANTU.EQ.1) THEN
-          CALL PSLASET('Full',M,SIZE,ZERO,ONE,WORK(INDU),1,1,DESCTU)
+          CALL PCLASET('Full',M,SIZE,ZERO,ONE,WORK(INDU),1,1,DESCTU)
       ELSE
           NRU = 0
       END IF
 *
       IF (WANTVT.EQ.1) THEN
-          CALL PSLASET('Full',SIZE,N,ZERO,ONE,WORK(INDV),1,1,DESCTVT)
+          CALL PCLASET('Full',SIZE,N,ZERO,ONE,WORK(INDV),1,1,DESCTVT)
       ELSE
           NCVT = 0
       END IF
 *
-      CALL SBDSQR(UPLO,SIZE,NCVT,NRU,0,WORK(INDD2+IOFFD),
-     +            WORK(INDE2+IOFFE),WORK(INDV),SIZE,WORK(INDU),LDU,C,1,
+      CALL CBDSQR(UPLO,SIZE,NCVT,NRU,0,RWORK(INDD2+IOFFD),
+     +            RWORK(INDE2+IOFFE),WORK(INDV),SIZE,WORK(INDU),LDU,C,1,
      +            WORK(INDWORK),INFO)
 *
 *     Redistribute elements of U and VT in the block-cyclic fashion.
 *
-      IF (WANTU.EQ.1) CALL PSGEMR2D(M,SIZE,WORK(INDU),1,1,DESCTU,U,IU,
+      IF (WANTU.EQ.1) CALL PCGEMR2D(M,SIZE,WORK(INDU),1,1,DESCTU,U,IU,
      +                              JU,DESCU,DESCU(CTXT_))
 *
-      IF (WANTVT.EQ.1) CALL PSGEMR2D(SIZE,N,WORK(INDV),1,1,DESCTVT,VT,
+      IF (WANTVT.EQ.1) CALL PCGEMR2D(SIZE,N,WORK(INDV),1,1,DESCTVT,VT,
      +                               IVT,JVT,DESCVT,DESCVT(CTXT_))
 *
 *     Set to ZERO "non-square" elements of the larger matrices U, VT.
 *
       IF (M.GT.N .AND. WANTU.EQ.1) THEN
-          CALL PSLASET('Full',M-SIZE,SIZE,ZERO,ZERO,U,IA+SIZE,JU,DESCU)
+          CALL PCLASET('Full',M-SIZE,SIZE,ZERO,ZERO,U,IA+SIZE,JU,DESCU)
       ELSE IF (N.GT.M .AND. WANTVT.EQ.1) THEN
-          CALL PSLASET('Full',SIZE,N-SIZE,ZERO,ZERO,VT,IVT,JVT+SIZE,
+          CALL PCLASET('Full',SIZE,N-SIZE,ZERO,ZERO,VT,IVT,JVT+SIZE,
      +                 DESCVT)
       END IF
 *
 *     Multiply Householder rotations from bidiagonalized matrix.
 *
-      IF (WANTU.EQ.1) CALL PSORMBR('Q','L','N',M,SIZE,N,A,IA,JA,DESCA,
+      IF (WANTU.EQ.1) CALL PCUNMBR('Q','L','N',M,SIZE,N,A,IA,JA,DESCA,
      +                             WORK(INDTAUQ),U,IU,JU,DESCU,
      +                             WORK(INDWORK),LLWORK,INFO)
 *
-      IF (WANTVT.EQ.1) CALL PSORMBR('P','R','T',SIZE,N,M,A,IA,JA,DESCA,
+      IF (WANTVT.EQ.1) CALL PCUNMBR('P','R','C',SIZE,N,M,A,IA,JA,DESCA,
      +                              WORK(INDTAUP),VT,IVT,JVT,DESCVT,
      +                              WORK(INDWORK),LLWORK,INFO)
 *
 *     Copy singular values into output array S.
 *
       DO 10 I = 1,SIZE
-          S(I) = WORK(INDD2+IOFFD+I-1)
+          S(I) = RWORK(INDD2+IOFFD+I-1)
    10 CONTINUE
 *
 *     If matrix was scaled, then rescale singular values appropriately.
@@ -616,15 +624,16 @@
       END IF
 *
       DO 20 I = 1,J
-          WORK(I+INDE) = S((I-1)*K+1)
-          WORK(I+INDD2) = S((I-1)*K+1)
+          RWORK(I+INDE) = S((I-1)*K+1)
+          RWORK(I+INDD2) = S((I-1)*K+1)
    20 CONTINUE
 *
-      CALL SGAMN2D(DESCA(CTXT_),'a',' ',J,1,WORK(1+INDE),J,1,1,-1,-1,0)
-      CALL SGAMX2D(DESCA(CTXT_),'a',' ',J,1,WORK(1+INDD2),J,1,1,-1,-1,0)
+      CALL SGAMN2D(DESCA(CTXT_),'a',' ',J,1,RWORK(1+INDE),J,1,1,-1,-1,0)
+      CALL SGAMX2D(DESCA(CTXT_),'a',' ',J,1,RWORK(1+INDD2),J,1,1,-1,-1,
+     +             0)
 *
       DO 30 I = 1,J
-          IF ((WORK(I+INDE)-WORK(I+INDD2)).NE.ZERO) THEN
+          IF ((RWORK(I+INDE)-RWORK(I+INDD2)).NE.DZERO) THEN
               INFO = SIZE + 1
           END IF
    30 CONTINUE
@@ -634,7 +643,7 @@
       CALL BLACS_GRIDEXIT(CONTEXTC)
       CALL BLACS_GRIDEXIT(CONTEXTR)
 *
-*     End of PSGESVD
+*     End of PCGESVD
 *
       RETURN
       END

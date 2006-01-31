@@ -5,7 +5,7 @@
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
 *     and University of California, Berkeley.
-*     December 31, 1998
+*     January 30, 2006
 *
 *     .. Scalar Arguments ..
       LOGICAL            WANTT, WANTZ
