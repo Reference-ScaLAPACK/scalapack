@@ -236,7 +236,7 @@
 *          1-dimensional "row" of processes. Calling the LAPACK
 *          procedure ZBDSQR requires
 *
-*          WZBDSQR = MAX(1, 2*SIZE + (2*SIZE - 4)*MAX(WANTU, WANTVT))
+*          WZBDSQR = MAX(1, 4*SIZE )
 *
 *          on every processor. Finally,
 *
@@ -431,7 +431,7 @@
               WPZGEBRD = NB* (MP+NQ+1) + NQ
               WATOBD = MAX(MAX(WPZLANGE,WPZGEBRD),MAXIM)
 *
-              WZBDSQR = MAX(1,2*SIZE+ (2*SIZE-4)*MAX(WANTU,WANTVT))
+              WZBDSQR = MAX(1,4*SIZE)
               WPZORMBRQLN = MAX((NB* (NB-1))/2, (SIZEQ+MP)*NB) + NB*NB
               WPZORMBRPRT = MAX((MB* (MB-1))/2, (SIZEP+NQ)*MB) + MB*MB
               WBDTOSVD = SIZE* (WANTU*NRU+WANTVT*NCVT) +

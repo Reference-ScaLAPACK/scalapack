@@ -236,7 +236,7 @@
 *          1-dimensional "row" of processes. Calling the LAPACK
 *          procedure CBDSQR requires
 *
-*          WCBDSQR = MAX(1, 2*SIZE + (2*SIZE - 4)*MAX(WANTU, WANTVT))
+*          WCBDSQR = MAX(1, 4*SIZE )
 *
 *          on every processor. Finally,
 *
@@ -431,7 +431,7 @@
               WPCGEBRD = NB* (MP+NQ+1) + NQ
               WATOBD = MAX(MAX(WPCLANGE,WPCGEBRD),MAXIM)
 *
-              WCBDSQR = MAX(1,2*SIZE+ (2*SIZE-4)*MAX(WANTU,WANTVT))
+              WCBDSQR = MAX(1,4*SIZE)
               WPCORMBRQLN = MAX((NB* (NB-1))/2, (SIZEQ+MP)*NB) + NB*NB
               WPCORMBRPRT = MAX((MB* (MB-1))/2, (SIZEP+NQ)*MB) + MB*MB
               WBDTOSVD = SIZE* (WANTU*NRU+WANTVT*NCVT) +
