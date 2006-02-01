@@ -99,7 +99,8 @@ CLASRC = \
    pcgebd2.o pcgebrd.o pcgecon.o          pcgeequ.o pcgehd2.o pcgehrd.o \
    pcgelq2.o pcgelqf.o  pcgels.o pcgeql2.o pcgeqlf.o pcgeqpf.o pcgeqr2.o \
    pcgeqrf.o pcgerfs.o pcgerq2.o pcgerqf.o                               \
-   pcgesv.o  pcgesvx.o pcgetf2.o pcgetrf.o pcgetri.o pcgetrs.o pcggqrf.o \
+   pcgesv.o  pcgesvd.o pcgesvx.o pcgetf2.o pcgetrf.o pcgetri.o pcgetrs.o \
+   pcggqrf.o \
    pcggrqf.o pcheev.o  pcheevd.o pcheevx.o pchegs2.o pchegst.o pchegvx.o \
    pchengst.o pchentrd.o pchettrd.o pchetd2.o \
    pchetrd.o pclabrd.o pclacon.o pclacgv.o pclacp2.o pclacpy.o pclahrd.o \
@@ -158,7 +159,8 @@ ZLASRC = \
    pzgebd2.o pzgebrd.o pzgecon.o           pzgeequ.o pzgehd2.o pzgehrd.o \
    pzgelq2.o pzgelqf.o pzgels.o  pzgeql2.o pzgeqlf.o pzgeqpf.o pzgeqr2.o \
    pzgeqrf.o pzgerfs.o pzgerq2.o pzgerqf.o                               \
-   pzgesv.o  pzgesvx.o pzgetf2.o pzgetrf.o pzgetri.o pzgetrs.o pzggqrf.o \
+   pzgesv.o  pzgesvd.o pzgesvx.o pzgetf2.o pzgetrf.o pzgetri.o pzgetrs.o \
+   pzggqrf.o \
    pzggrqf.o pzheev.o  pzheevd.o pzheevx.o pzhegs2.o pzhegst.o pzhegvx.o \
    pzhengst.o pzhentrd.o pzhettrd.o pzhetd2.o \
    pzhetrd.o pzlabrd.o pzlacon.o pzlacgv.o pzlacp2.o pzlacpy.o pzlahrd.o \
