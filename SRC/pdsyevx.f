@@ -244,7 +244,7 @@
 *
 *  WORK    (local workspace/output) DOUBLE PRECISION array,
 *          dimension (LWORK)
-*          On return, WROK(1) contains the optimal amount of
+*          On return, WORK(1) contains the optimal amount of
 *          workspace required for efficient execution.
 *          if JOBZ='N' WORK(1) = optimal amount of workspace
 *             required to compute eigenvalues efficiently
