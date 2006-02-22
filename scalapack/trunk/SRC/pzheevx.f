@@ -278,8 +278,8 @@
 *          work array, and no error message is issued by PXERBLA.
 *
 *  RWORK   (local workspace/output) DOUBLE PRECISION array,
-*             dimension (LRWORK)
-*          On return, WROK(1) contains the optimal amount of
+*             dimension max(3,LRWORK)
+*          On return, WORK(1) contains the optimal amount of
 *          workspace required for efficient execution.
 *          if JOBZ='N' RWORK(1) = optimal amount of workspace
 *             required to compute eigenvalues efficiently
@@ -638,7 +638,7 @@
 *
             END IF
 *
-*           Conpute how much workspace is needed to use the
+*           Compute how much workspace is needed to use the
 *           new TRD code
 *
             ANB = PJLAENV( ICTXT, 3, 'PZHETTRD', 'L', 0, 0, 0, 0 )

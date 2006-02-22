@@ -243,8 +243,8 @@
 *          DESCZ( CTXT_ ) must equal DESCA( CTXT_ )
 *
 *  WORK    (local workspace/output) REAL array,
-*          dimension (LWORK)
-*          On return, WROK(1) contains the optimal amount of
+*          dimension max(3,LWORK)
+*          On return, WORK(1) contains the optimal amount of
 *          workspace required for efficient execution.
 *          if JOBZ='N' WORK(1) = optimal amount of workspace
 *             required to compute eigenvalues efficiently
@@ -620,7 +620,7 @@
 *
             END IF
 *
-*           Conpute how much workspace is needed to use the
+*           Compute how much workspace is needed to use the
 *           new TRD code
 *
             ANB = PJLAENV( ICTXT, 3, 'PSSYTTRD', 'L', 0, 0, 0, 0 )
