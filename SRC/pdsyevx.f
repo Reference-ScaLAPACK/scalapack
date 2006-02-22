@@ -243,7 +243,7 @@
 *          DESCZ( CTXT_ ) must equal DESCA( CTXT_ )
 *
 *  WORK    (local workspace/output) DOUBLE PRECISION array,
-*          dimension (LWORK)
+*          dimension max(3,LWORK)
 *          On return, WORK(1) contains the optimal amount of
 *          workspace required for efficient execution.
 *          if JOBZ='N' WORK(1) = optimal amount of workspace
@@ -351,7 +351,7 @@
 *          required for optimal performance for all work arrays. Each of
 *          these values is returned in the first entry of the
 *          corresponding work arrays, and no error message is issued by
-*          PXERBLA.
+*          PXERBLA. 
 *
 *  IWORK   (local workspace) INTEGER array
 *          On return, IWORK(1) contains the amount of integer workspace
@@ -619,7 +619,7 @@
 *
             END IF
 *
-*           Conpute how much workspace is needed to use the
+*           Compute how much workspace is needed to use the
 *           new TRD code
 *
             ANB = PJLAENV( ICTXT, 3, 'PDSYTTRD', 'L', 0, 0, 0, 0 )

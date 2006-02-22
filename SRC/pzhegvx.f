@@ -315,7 +315,7 @@
 *          error message is issued by PXERBLA.
 *
 *  RWORK   (local workspace/output) DOUBLE PRECISION array,
-*             dimension (LRWORK)
+*             dimension max(3,LRWORK)
 *          On return, RWORK(1) contains the amount of workspace
 *             required for optimal efficiency
 *          if JOBZ='N' RWORK(1) = optimal amount of workspace
@@ -632,7 +632,7 @@
 *
             END IF
 *
-*           Conpute how much workspace is needed to use the
+*           Compute how much workspace is needed to use the
 *           new TRD and GST algorithms
 *
             ANB = PJLAENV( ICTXT, 3, 'PZHETTRD', 'L', 0, 0, 0, 0 )
