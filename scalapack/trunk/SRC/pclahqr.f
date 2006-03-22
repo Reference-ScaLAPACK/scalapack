@@ -2,10 +2,12 @@
      $                    IHIZ, Z, DESCZ, WORK, LWORK, IWORK, ILWORK,
      $                    INFO )
 *
-*  -- ScaLAPACK routine (version 1.7) --
+*  -- ScaLAPACK routine (version 1.7.3) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
 *     and University of California, Berkeley.
-*     July 31, 2001
+*     1.7.3: March   22, 2006
+*            modification suggested by Mark Fahey and Greg Henry
+*     1.7.0: July    31, 2001
 *
 *     .. Scalar Arguments ..
       LOGICAL            WANTT, WANTZ
@@ -519,12 +521,13 @@
 *
 *           Exceptional shift.
 *
-            DO 20 II = 2*JBLK, 1, -1
+            DO 20 II = 2*JBLK, 2, -1
                S1( II, II ) = CONST*( CABS1( S1( II, II ) )+
      $                        CABS1( S1( II, II-1 ) ) )
                S1( II, II-1 ) = ZERO
                S1( II-1, II ) = ZERO
    20       CONTINUE
+            S1( 1, 1 ) = CONST*CABS1( S1( 1, 1 ) )
          ELSE
             CALL CLAHQR2( .FALSE., .FALSE., 2*JBLK, 1, 2*JBLK, S1,
      $                   2*IBLK, WORK( IRBUF+1 ), 1, 2*JBLK, Z, LDZ,
