@@ -1,10 +1,11 @@
       SUBROUTINE PDGETRI( N, A, IA, JA, DESCA, IPIV, WORK, LWORK,
      $                    IWORK, LIWORK, INFO )
 *
-*  -- ScaLAPACK routine (version 1.7) --
+*  -- ScaLAPACK routine (version 1.7.4) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
 *     and University of California, Berkeley.
-*     May 1, 1997
+*     v1.7.4: May 10, 2006 
+*     v1.7:   May 1,  1997
 *
 *     .. Scalar Arguments ..
       INTEGER            IA, INFO, JA, LIWORK, LWORK, N
@@ -217,9 +218,40 @@
             IF( NPROW.EQ.NPCOL ) THEN
                LIWMIN = NQ + DESCA( NB_ )
             ELSE
+*
+* Use the formula for the workspace given in PxLAPIV
+* to compute the minimum size LIWORK for IWORK
+*
+* The formula in PxLAPIV is
+*   LDW = LOCc( M_P + MOD(IP-1, MB_P) ) +
+*         MB_P * CEIL( CEIL(LOCr(M_P)/MB_P) / (LCM/NPROW) )
+*
+* where 
+*   M_P     is the global length of the pivot vector
+*           MP = DESCA( M_ ) + DESCA( MB_ ) * NPROW
+*   I_P     is IA
+*           I_P = IA
+*   MB_P    is the block size use for the block cyclic distribution of the 
+*           pivot vector
+*           MB_P = DESCA (MB_ )
+*   LOCc ( . ) 
+*           NUMROC ( . , DESCA ( NB_ ), MYCOL, DESCA ( CSRC_ ), NPCOL )
+*   LOCr ( . )
+*           NUMROC ( . , DESCA ( MB_ ), MYROW, DESCA ( RSRC_ ), NPROW )
+*   CEIL ( X / Y )
+*           ICEIL( X, Y )
+*   LCM 
+*           LCM = ILCM( NPROW, NPCOL )
+*
                LCM = ILCM( NPROW, NPCOL )
-               LIWMIN = NQ + MAX( ICEIL( ICEIL( MP, DESCA( MB_ ) ),
-     $                            LCM / NPROW ), DESCA( NB_ ) )
+               LIWMIN = NUMROC( DESCA( M_ ) + DESCA( MB_ ) * NPROW
+     $                  + MOD ( IA - 1, DESCA( MB_ ) ), DESCA ( NB_ ),
+     $                  MYCOL, DESCA( CSRC_ ), NPCOL ) +
+     $                  MAX ( DESCA( MB_ ) * ICEIL ( ICEIL(
+     $                  NUMROC( DESCA( M_ ) + DESCA( MB_ ) * NPROW,
+     $                  DESCA( MB_ ), MYROW, DESCA( RSRC_ ), NPROW ),
+     $                  DESCA( MB_ ) ), LCM / NPROW ), DESCA( NB_ ) )
+*
             END IF
 *
             WORK( 1 ) = DBLE( LWMIN )
@@ -325,6 +357,10 @@
 *
 *     Use the row pivots and apply them to the columns of the global
 *     matrix.
+*
+*
+* JL: I do not get why the size of the PIVOT vector is DESCA( M_ ) + DESCA( MB_ )*NPROW
+* should be DESCA( M_ ) + DESCA( MB_ ) no?
 *
       CALL DESCSET( DESCW, DESCA( M_ ) + DESCA( MB_ )*NPROW, 1,
      $              DESCA( MB_ ), 1, DESCA( RSRC_ ), MYCOL, ICTXT,
