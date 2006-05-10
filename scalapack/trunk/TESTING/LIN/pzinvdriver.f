@@ -316,10 +316,21 @@
                      IF( NPROW.EQ.NPCOL ) THEN
                         LIWORK = NQ + DESCA( NB_ )
                      ELSE
-                        LIWORK = MAX( DESCA( NB_ ), DESCA( MB_ ) *
-     $                           ICEIL( ICEIL( DESCA( LLD_ ),
-     $                                  DESCA( MB_ ) ), LCM / NPROW ) )
-     $                                  + NQ
+*
+* change the integer workspace needed for PDGETRI
+*                        LIWORK = MAX( DESCA( NB_ ), DESCA( MB_ ) *
+*     $                           ICEIL( ICEIL( DESCA( LLD_ ),
+*     $                                  DESCA( MB_ ) ), LCM / NPROW ) )
+*     $                                  + NQ
+                         LIWORK = NUMROC( DESCA( M_ ) +
+     $                  DESCA( MB_ ) * NPROW
+     $                  + MOD ( 1 - 1, DESCA( MB_ ) ), DESCA ( NB_ ),
+     $                  MYCOL, DESCA( CSRC_ ), NPCOL ) +
+     $                  MAX ( DESCA( MB_ ) * ICEIL ( ICEIL(
+     $                  NUMROC( DESCA( M_ ) + DESCA( MB_ ) * NPROW,
+     $                  DESCA( MB_ ), MYROW, DESCA( RSRC_ ), NPROW ),
+     $                  DESCA( MB_ ) ), LCM / NPROW ), DESCA( NB_ ) )
+*
                      END IF
                      WORKIINV = ICEIL( LIWORK*INTGSZ, ZPLXSZ ) +
      $                          IPOSTPAD
