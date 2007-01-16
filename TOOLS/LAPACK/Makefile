@@ -64,7 +64,8 @@ ZLASRC = \
    zunm2l.o zunm2r.o zunmql.o zunmqr.o zunmtr.o \
    izmax1.o dzsum1.o \
    ztbtrs.o zpbtrf.o zpttrf.o ztrtrs.o zpotrf.o zpbtf2.o zpotf2.o \
-   zhetrd.o zhetd2.o zlatrd.o zstedc.o zlanhs.o zrot.o
+   zhetrd.o zhetd2.o zlatrd.o zstedc.o zlanhs.o zrot.o \
+   cbdsqr.o zbdsqr.o
 
 SCATGEN = slatm1.o slaran.o slarnd.o
 
