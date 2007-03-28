@@ -348,7 +348,7 @@ void pcrot_( n, X, ix, jx, desc_X, incx, Y, iy, jy, desc_Y, incy, c, s )
                       &X[iix-1+(jjx-1)*desc_X[LLD_]], &desc_X[LLD_],
                       &iyrow, &mycol );
             buff = (complex *)getpbbuf( "PCROT", nq*sizeof(complex) );
-            cgerv2d_( &ictxt, &nq, &ione, buff, &ione, &iyrow, &mycol );
+            cgerv2d_( &ictxt, &nq, &ione, buff, &nq, &iyrow, &mycol );
             crot_( &nq, &X[iix-1+(jjx-1)*desc_X[LLD_]], &desc_X[LLD_],
                         buff, &ione, c, s );
          }
@@ -358,7 +358,7 @@ void pcrot_( n, X, ix, jx, desc_X, incx, Y, iy, jy, desc_Y, incy, c, s )
                       &Y[iiy-1+(jjy-1)*desc_Y[LLD_]], &desc_Y[LLD_],
                       &ixrow, &mycol );
             buff = (complex *)getpbbuf( "PCROT", nq*sizeof(complex) );
-            cgerv2d_( &ictxt, &nq, &ione, buff, &ione, &ixrow, &mycol );
+            cgerv2d_( &ictxt, &nq, &ione, buff, &nq, &ixrow, &mycol );
             crot_( &nq, buff, &ione,
                         &Y[iiy-1+(jjy-1)*desc_Y[LLD_]], &desc_Y[LLD_], c, s );
          }
@@ -388,7 +388,7 @@ void pcrot_( n, X, ix, jx, desc_X, incx, Y, iy, jy, desc_Y, incy, c, s )
                       &X[iix-1+(jjx-1)*desc_X[LLD_]], &desc_X[LLD_],
                       &myrow, &iycol );
             buff = (complex *)getpbbuf( "PCROT", np*sizeof(complex) );
-            cgerv2d_( &ictxt, &np, &ione, buff, &ione, &myrow, &iycol );
+            cgerv2d_( &ictxt, &np, &ione, buff, &np, &myrow, &iycol );
             crot_( &np, &X[iix-1+(jjx-1)*desc_X[LLD_]], incx,
                         buff, &ione, c, s );
          }
@@ -398,7 +398,7 @@ void pcrot_( n, X, ix, jx, desc_X, incx, Y, iy, jy, desc_Y, incy, c, s )
                       &Y[iiy-1+(jjy-1)*desc_Y[LLD_]], &desc_Y[LLD_],
                       &myrow, &ixcol );
             buff = (complex *)getpbbuf( "PCROT", np*sizeof(complex) );
-            cgerv2d_( &ictxt, &np, &ione, buff, &ione, &myrow, &ixcol );
+            cgerv2d_( &ictxt, &np, &ione, buff, &np, &myrow, &ixcol );
             crot_( &np, buff, &ione,
                         &Y[iiy-1+(jjy-1)*desc_Y[LLD_]], incy, c, s );
          }

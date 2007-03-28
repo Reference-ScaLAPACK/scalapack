@@ -131,14 +131,13 @@
      $                NPCOLS, NBS, NMATTYPES, MATTYPES, 22, SUBTESTS,
      $                THRESH, ORDER, ABSTOL, INFO )
 *
-*        Thresholds must be bigger for the generalized problem.
-*
-      THRESH = THRESH*FIVE
-*
       CALL BLACS_GRIDEXIT( INITCON )
 *
       IF( INFO.EQ.0 ) THEN
 *
+*        Thresholds must be bigger for the generalized problem.
+*
+         THRESH = THRESH*FIVE
 *
          DO 50 MATSIZE = 1, NMATSIZES
 *

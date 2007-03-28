@@ -141,7 +141,7 @@
      $              NPCOL ), ICTXT, MAX( 1, IHLP ) )
 *
       DO 10 J = JL, ILO+JA+NB-IOFF-1, -NB
-         JB = MIN( JA+IHI-J, NB )
+         JB = MIN( JA+IHI-J-1, NB )
          I  = IA + J - JA
          K  = I - IA + 1
          IV = K - ILO + IOFF + 1
@@ -183,7 +183,7 @@
       IV = IOFF + 1
       I = IA + ILO - 1
       J = JA + ILO - 1
-      JB = MIN( NB-IOFF, JA+IHI-J )
+      JB = MIN( NB-IOFF, JA+IHI-J-1 )
 *
 *     Compute upper triangular matrix T from TAU.
 *

@@ -672,6 +672,9 @@
 *
 *        Get first transform on node who owns M+2,M+2
 *
+         DO 31 ITMP1 = 1, 3
+            VCOPY(ITMP1) = ZERO
+   31    CONTINUE
          ITMP1 = ISTARTROW
          ITMP2 = ISTARTCOL
          CALL PZLAWIL( ITMP1, ITMP2, M, A, DESCA, H44, H33, H43H34,
@@ -717,7 +720,12 @@
                ISTOP = MIN( K2( KI ), I-1 )
                K = ISTART
                MODKM1 = MOD( K-1, HBL )
-               IF( MODKM1.GE.HBL-2 ) THEN
+               IF( ( MODKM1.GE.HBL-2 ) .AND. ( K.LE.I-1 ) ) THEN
+                  DO 81 ITMP1 = 1, 6
+                     DO 82 ITMP2 = 1, 6
+                        SMALLA(ITMP1, ITMP2, KI) = ZERO
+   82                CONTINUE
+   81             CONTINUE
                   IF( ( MODKM1.EQ.HBL-2 ) .AND. ( K.LT.I-1 ) ) THEN
 *
 *                 Copy 6 elements from global A(K-1:K+4,K-1:K+4)
@@ -728,7 +736,7 @@
      $                             SMALLA( 1, 1, KI ), 6, ITMP1, ITMP2,
      $                             0 )
                   END IF
-                  IF( ( MODKM1.EQ.HBL-1 ) .AND. ( K.EQ.M ) ) THEN
+                  IF( MODKM1.EQ.HBL-1 ) THEN
 *
 *                 Copy 6 elements from global A(K-2:K+3,K-2:K+3)
 *
@@ -949,7 +957,7 @@
 *
 *                    Get updated VCOPY from RIGHT
 *
-                        CALL ZGERV2D( CONTXT, 3, 1, VCOPY, 1, MYROW,
+                        CALL ZGERV2D( CONTXT, 3, 1, VCOPY, 3, MYROW,
      $                                RIGHT )
                      END IF
                      CALL ZLARFG( NR, VCOPY( 1 ), VCOPY( 2 ), 1,
@@ -1001,7 +1009,7 @@
 *
                      IF( NPCOL.GT.1 .AND. ISTART.LE.M .AND.
      $                   MOD( K-1, HBL ).EQ.0 ) THEN
-                        CALL ZGESD2D( CONTXT, 3, 1, VCOPY, 1, MYROW,
+                        CALL ZGESD2D( CONTXT, 3, 1, VCOPY, 3, MYROW,
      $                                LEFT )
                      END IF
                      CALL ZLARFG( NR, VCOPY( 1 ), VCOPY( 2 ), 1,
@@ -1254,10 +1262,8 @@
                      V3 = WORK( VECSIDX+( K-1 )*3+2 )
                      T1 = WORK( VECSIDX+( K-1 )*3+3 )
                      NR = MIN( 3, I-K+1 )
-                     T2 = T1*V2
                      IF( ( NR.EQ.3 ) .AND. ( KROW( KI ).LE.
      $                   KP2ROW( KI ) ) ) THEN
-                        T3 = T1*V3
                         IF( ( K.LT.ISTOP ) .AND.
      $                      ( MOD( K-1, HBL ).LT.HBL-2 ) ) THEN
                            ITMP1 = MIN( K2( KI )+1, I-1 ) + 1
@@ -1291,6 +1297,8 @@
                         ICOL2 = LOCALI2
                         IF( ( MOD( K-1, HBL ).LT.HBL-2 ) .OR.
      $                      ( NPROW.EQ.1 ) ) THEN
+                           T2 = T1*V2
+                           T3 = T1*V3
                            CALL ZLAREF( 'Row', A, LDA, WANTZ, Z, LDZ,
      $                                  .FALSE., IROW1, IROW1, ISTART,
      $                                  ISTOP, ICOL1, ICOL2, LILOZ,
@@ -1313,6 +1321,8 @@
                               CALL ZGERV2D( CONTXT, 2, ICOL2-ICOL1+1,
      $                                      WORK( IRBUF+1 ), 2, UP,
      $                                      MYCOL )
+                              T2 = T1*V2
+                              T3 = T1*V3
                               DO 190 J = ICOL1, ICOL2
                                  SUM = DCONJG( T1 )*
      $                                 WORK( IRBUF+2*( J-ICOL1 )+1 ) +
@@ -1355,6 +1365,8 @@
      $                                         WORK( IRBUF+1 ), 2, UP,
      $                                         MYCOL )
                               END IF
+                              T2 = T1*V2
+                              T3 = T1*V3
                               DO 200 J = ICOL1, ICOL2
                                  SUM = DCONJG( T1 )*
      $                                 WORK( IRBUF+2*( J-ICOL1 )+2 ) +
@@ -1398,10 +1410,8 @@
                      V3 = WORK( VECSIDX+( K-1 )*3+2 )
                      T1 = WORK( VECSIDX+( K-1 )*3+3 )
                      NR = MIN( 3, I-K+1 )
-                     T2 = T1*V2
                      IF( ( NR.EQ.3 ) .AND. ( KROW( KI ).LE.
      $                   KP2ROW( KI ) ) ) THEN
-                        T3 = T1*V3
                         IF( ( K.LT.ISTOP ) .AND.
      $                      ( MOD( K-1, HBL ).LT.HBL-2 ) ) THEN
                            ITMP1 = MIN( K2( KI )+1, I-1 ) + 1
@@ -1439,6 +1449,8 @@
                               CALL ZGERV2D( CONTXT, 2, ICOL2-ICOL1+1,
      $                                      WORK( IRBUF+1 ), 2, UP,
      $                                      MYCOL )
+                              T2 = T1*V2
+                              T3 = T1*V3
                               DO 230 J = ICOL1, ICOL2
                                  SUM = DCONJG( T1 )*
      $                                 WORK( IRBUF+2*( J-ICOL1 )+1 ) +
@@ -1470,6 +1482,8 @@
      $                                         WORK( IRBUF+1 ), 2, UP,
      $                                         MYCOL )
                               END IF
+                              T2 = T1*V2
+                              T3 = T1*V3
                               DO 240 J = ICOL1, ICOL2
                                  SUM = DCONJG( T1 )*
      $                                 WORK( IRBUF+2*( J-ICOL1 )+2 ) +
@@ -1509,10 +1523,8 @@
                      V3 = WORK( VECSIDX+( K-1 )*3+2 )
                      T1 = WORK( VECSIDX+( K-1 )*3+3 )
                      NR = MIN( 3, I-K+1 )
-                     T2 = T1*V2
                      IF( ( NR.EQ.3 ) .AND. ( KROW( KI ).LE.
      $                   KP2ROW( KI ) ) ) THEN
-                        T3 = T1*V3
                         IF( ( K.LT.ISTOP ) .AND.
      $                      ( MOD( K-1, HBL ).LT.HBL-2 ) ) THEN
                            ITMP1 = MIN( K2( KI )+1, I-1 ) + 1
@@ -1672,10 +1684,8 @@
                   V3 = WORK( VECSIDX+( K-1 )*3+2 )
                   T1 = WORK( VECSIDX+( K-1 )*3+3 )
                   NR = MIN( 3, I-K+1 )
-                  T2 = T1*V2
                   IF( ( NR.EQ.3 ) .AND. ( KCOL( KI ).LE.KP2COL( KI ) ) )
      $                 THEN
-                     T3 = T1*V3
 *
                      IF( ( K.LT.ISTOP ) .AND.
      $                   ( MOD( K-1, HBL ).LT.HBL-2 ) ) THEN
@@ -1721,6 +1731,8 @@
      $                                      LDA, MYROW, RIGHT )
                            END IF
                         ELSE IF( SKIP ) THEN
+                           T2 = T1*V2
+                           T3 = T1*V3
                            CALL ZGERV2D( CONTXT, IROW2-IROW1+1, 2,
      $                                   WORK( ICBUF+1 ), IROW2-IROW1+1,
      $                                   MYROW, LEFT )
@@ -1761,6 +1773,8 @@
      $                                      WORK( ICBUF+1 ),
      $                                      IROW2-IROW1+1, MYROW, LEFT )
                            END IF
+                           T2 = T1*V2
+                           T3 = T1*V3
                            II = ICBUF + IROW2 - 2*IROW1 + 2
                            DO 320 J = IROW1, IROW2
                               SUM = T1*WORK( J+II ) +
@@ -1802,6 +1816,8 @@
                               CALL ZGERV2D( CONTXT, IROW2-IROW1+1, 2,
      $                                      WORK( IZBUF+1 ),
      $                                      IROW2-IROW1+1, MYROW, LEFT )
+                              T2 = T1*V2
+                              T3 = T1*V3
                               ICOL1 = ( ICOL1-1 )*LDZ
                               II = IZBUF - IROW1 + 1
                               JJ = IZBUF + IROW2 - 2*IROW1 + 2
@@ -1843,6 +1859,8 @@
      $                                         IROW2-IROW1+1, MYROW,
      $                                         LEFT )
                               END IF
+                              T2 = T1*V2
+                              T3 = T1*V3
                               ICOL1 = ( ICOL1-1 )*LDZ
                               II = IZBUF + IROW2 - 2*IROW1 + 2
                               DO 340 J = IROW1, IROW2
@@ -1892,10 +1910,8 @@
                   V3 = WORK( VECSIDX+( K-1 )*3+2 )
                   T1 = WORK( VECSIDX+( K-1 )*3+3 )
                   NR = MIN( 3, I-K+1 )
-                  T2 = T1*V2
                   IF( ( NR.EQ.3 ) .AND. ( KCOL( KI ).LE.KP2COL( KI ) ) )
      $                 THEN
-                     T3 = T1*V3
 *
                      IF( ( K.LT.ISTOP ) .AND.
      $                   ( MOD( K-1, HBL ).LT.HBL-2 ) ) THEN
@@ -1935,6 +1951,8 @@
                            CALL ZGERV2D( CONTXT, IROW2-IROW1+1, 2,
      $                                   WORK( ICBUF+1 ), IROW2-IROW1+1,
      $                                   MYROW, LEFT )
+                           T2 = T1*V2
+                           T3 = T1*V3
                            II = ICBUF - IROW1 + 1
                            JJ = ICBUF + IROW2 - 2*IROW1 + 2
                            DO 370 J = IROW1, IROW2
@@ -1961,6 +1979,8 @@
      $                                      WORK( ICBUF+1 ),
      $                                      IROW2-IROW1+1, MYROW, LEFT )
                            END IF
+                           T2 = T1*V2
+                           T3 = T1*V3
                            II = ICBUF + IROW2 - 2*IROW1 + 2
                            DO 380 J = IROW1, IROW2
                               SUM = T1*WORK( J+II ) +
@@ -1992,6 +2012,8 @@
                               CALL ZGERV2D( CONTXT, IROW2-IROW1+1, 2,
      $                                      WORK( IZBUF+1 ),
      $                                      IROW2-IROW1+1, MYROW, LEFT )
+                              T2 = T1*V2
+                              T3 = T1*V3
                               ICOL1 = ( ICOL1-1 )*LDZ
                               II = IZBUF - IROW1 + 1
                               JJ = IZBUF + IROW2 - 2*IROW1 + 2
@@ -2020,6 +2042,8 @@
      $                                         IROW2-IROW1+1, MYROW,
      $                                         LEFT )
                               END IF
+                              T2 = T1*V2
+                              T3 = T1*V3
                               ICOL1 = ( ICOL1-1 )*LDZ
                               II = IZBUF + IROW2 - 2*IROW1 + 2
                               DO 400 J = IROW1, IROW2
@@ -2066,10 +2090,8 @@
                   V3 = WORK( VECSIDX+( K-1 )*3+2 )
                   T1 = WORK( VECSIDX+( K-1 )*3+3 )
                   NR = MIN( 3, I-K+1 )
-                  T2 = T1*V2
                   IF( ( NR.EQ.3 ) .AND. ( KCOL( KI ).LE.KP2COL( KI ) ) )
      $                 THEN
-                     T3 = T1*V3
 *
                      IF( ( K.LT.ISTOP ) .AND.
      $                   ( MOD( K-1, HBL ).LT.HBL-2 ) ) THEN
@@ -2180,8 +2202,13 @@
                   V3 = WORK( VECSIDX+( K-1 )*3+2 )
                   T1 = WORK( VECSIDX+( K-1 )*3+3 )
                   NR = MIN( 3, I-K+1 )
-                  T2 = T1*V2
                   IF( NR.EQ.2 ) THEN
+                     IF ( ICURROW( KI ).EQ.MYROW ) THEN
+                        T2 = T1*V2
+                     END IF
+                     IF ( ICURCOL( KI ).EQ.MYCOL ) THEN
+                        T2 = T1*V2
+                     END IF
 *
 *              Apply G from the left to transform the rows of the matrix
 *              in columns K to I2.
@@ -2407,7 +2434,7 @@
      $                           JAFIRST, NPCOL )
                END IF
                K1( KI ) = K2( KI ) + 1
-               ISTOP = MIN( K1( KI )+ROTN-1, I-2 )
+               ISTOP = MIN( K1( KI )+ROTN-MOD( K1( KI ), ROTN ), I-2 )
                ISTOP = MIN( ISTOP, K1( KI )+HBL-3-
      $                 MOD( K1( KI )-1, HBL ) )
                ISTOP = MIN( ISTOP, I2-2 )

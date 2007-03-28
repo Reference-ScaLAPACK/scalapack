@@ -342,12 +342,12 @@
 *
 *                 FIND SOME NORM OF THE LOCAL H(L:I,L:I)
 *
-               CALL INFOG1L( L, HBL, NPROW, MYROW, 0, IROW1, III )
+               CALL INFOG1L( L, HBL, NPROW, MYROW, 0, ITMP1, III )
                IROW2 = NUMROC( I, HBL, MYROW, 0, NPROW )
-               CALL INFOG1L( L, HBL, NPCOL, MYCOL, 0, ICOL1, III )
+               CALL INFOG1L( L, HBL, NPCOL, MYCOL, 0, ITMP2, III )
                ICOL2 = NUMROC( I, HBL, MYCOL, 0, NPCOL )
-               DO 30 III = IROW1, IROW2
-                  DO 20 JJJ = ICOL1, ICOL2
+               DO 30 III = ITMP1, IROW2
+                  DO 20 JJJ = ITMP2, ICOL2
                      TST1 = TST1 + CABS1( A( ( JJJ-1 )*LDA+III ) )
    20             CONTINUE
    30          CONTINUE

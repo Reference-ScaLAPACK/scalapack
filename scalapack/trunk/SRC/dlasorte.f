@@ -114,9 +114,19 @@
          OUT( BOT, 2 ) = S( 2, 2 )
          OUT( BOT-1, 2 ) = S( 1, 2 )
          OUT( BOT, 1 ) = S( 2, 1 )
+         BOT = BOT - 2
       END IF
-      IF( TOP+1.NE.BOT ) THEN
+      IF( LAST.EQ.1 .and. mod(top, 2) .eq. 0 ) THEN
+*
+*        GRAB SECOND PART OF LAST PAIR
+*
+         OUT(TOP, 2) = s(1,1)
+         OUT(TOP, 1) = zero
+         TOP = TOP + 1
+      END IF
+      IF( TOP-1.NE.BOT ) THEN
          INFO = -BOT
+         RETURN
       END IF
 *
 *     Overwrite the S diagonals

@@ -178,6 +178,8 @@
       IF( MYCOL.EQ.IACOL )
      $   NQ = NQ - IOFF
 *
+      EI = ZERO
+
       JW = IOFF + 1
       CALL DESCSET( DESCW, 1, DESCA( MB_ ), 1, DESCA( MB_ ), IAROW,
      $              IACOL, ICTXT, 1 )
