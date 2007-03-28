@@ -415,6 +415,7 @@
       NVS = 0
       NEXT = 1
       IM = 0
+      ONENRM = ZERO
       DO 100 I = 0, ILAST - 1
          NEXT = NEXT + LOAD
          J = NEXT - 1

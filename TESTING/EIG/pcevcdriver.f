@@ -390,7 +390,7 @@
                      MEM( IPWR-1+JJJ ) = ZERO
                   END IF
    10          CONTINUE
-               CALL CGSUM2D( ICTXT, 'All', ' ', N, 1, MEM( IPWR ), 1,
+               CALL CGSUM2D( ICTXT, 'All', ' ', N, 1, MEM( IPWR ), N,
      $                       -1, -1 )
 *
                SELECT( 1 ) = .TRUE.

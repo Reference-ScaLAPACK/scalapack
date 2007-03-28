@@ -336,7 +336,7 @@
    30 CONTINUE
 *     I replicate the norms in RWORK.  Should they be distributed
 *     over the process rows?
-      CALL SGSUM2D( CONTXT, 'Row', ' ', N, 1, RWORK, 1, -1, -1 )
+      CALL SGSUM2D( CONTXT, 'Row', ' ', N, 1, RWORK, N, -1, -1 )
 *
       IF( RIGHTV ) THEN
 *

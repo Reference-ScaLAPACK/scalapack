@@ -178,7 +178,7 @@ void psscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
 /*
 *  Quick return if possible
 */
-   if( ( *N == 0 ) || ( ALPHA[REAL_PART] == ONE ) ) return;
+   if( *N == 0 ) return;
 /*
 *  Retrieve process grid information
 */
@@ -200,6 +200,7 @@ void psscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
 */
       if( ( myrow == Xrow ) || ( Xrow < 0 ) )
       {
+         if( ALPHA[REAL_PART] == ONE ) return;
 /*
 *  Make sure I own some data and scale sub( X )
 */
@@ -228,6 +229,7 @@ void psscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
 */
       if( ( mycol == Xcol ) || ( Xcol < 0 ) )
       {
+         if( ALPHA[REAL_PART] == ONE ) return;
 /*
 *  Make sure I own some data and scale sub( X )
 */

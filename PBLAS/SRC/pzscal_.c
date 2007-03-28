@@ -179,8 +179,7 @@ void pzscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
 /*
 *  Quick return if possible
 */
-   if( ( *N == 0 ) ||
-       ( ( ALPHA[REAL_PART] == ONE ) && ( ALPHA[IMAG_PART] == ZERO ) ) ) return;
+   if( *N == 0 ) return;
 /*
 *  Retrieve process grid information
 */
@@ -202,6 +201,7 @@ void pzscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
 */
       if( ( myrow == Xrow ) || ( Xrow < 0 ) )
       {
+         if( ( ALPHA[REAL_PART] == ONE ) && ( ALPHA[IMAG_PART] == ZERO ) ) return;
 /*
 *  Make sure I own some data and scale sub( X )
 */
@@ -231,6 +231,7 @@ void pzscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
 */
       if( ( mycol == Xcol ) || ( Xcol < 0 ) )
       {
+         if( ( ALPHA[REAL_PART] == ONE ) && ( ALPHA[IMAG_PART] == ZERO ) ) return;
 /*
 *  Make sure I own some data and scale sub( X )
 */
