@@ -970,6 +970,7 @@ typedef char *          F_CHAR;
 #define pscasum_          pscasum
 #define pcamax_           pcamax
 #define pcrot_            pcrot
+#define crot_             crot
 
 #define pzswap_           pzswap
 #define pzscal_           pzscal
@@ -982,6 +983,7 @@ typedef char *          F_CHAR;
 #define pdzasum_          pdzasum
 #define pzamax_           pzamax
 #define pzrot_            pzrot
+#define zrot_             zrot
                                                     /* Level-2 PBLAS */
 #define pcgemv_           pcgemv
 #define pcgeru_           pcgeru
