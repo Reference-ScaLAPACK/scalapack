@@ -97,8 +97,9 @@ RANLIB        = echo
 SCALAPACKLIB  = $(home)/scalapack_$(PLAT).a
 BLASLIB       = -xlic_lib=sunperf
 #BLASLIB       = -xlic_lib=sunperf_mt
+LAPACKLIB     =
 #
-PBLIBS        = $(SCALAPACKLIB) $(FBLACSLIB) $(BLASLIB) $(SMPLIB)
+PBLIBS        = $(SCALAPACKLIB) $(FBLACSLIB) $(LAPACKLIB) $(BLASLIB) $(SMPLIB)
 PRLIBS        = $(SCALAPACKLIB) $(CBLACSLIB) $(SMPLIB)
-RLIBS         = $(SCALAPACKLIB) $(FBLACSLIB) $(CBLACSLIB) $(BLASLIB) $(SMPLIB)
+RLIBS         = $(SCALAPACKLIB) $(FBLACSLIB) $(CBLACSLIB) $(LAPACKLIB) $(BLASLIB) $(SMPLIB)
 LIBS          = $(PBLIBS)

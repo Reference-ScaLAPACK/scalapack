@@ -1,10 +1,9 @@
       SUBROUTINE SLAROT( LROWS, LLEFT, LRIGHT, NL, C, S, A, LDA, XLEFT,
      $                   XRIGHT )
 *
-*  -- LAPACK auxiliary test routine (version 3.0) --
-*     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
-*     Courant Institute, Argonne National Lab, and Rice University
-*     February 29, 1992
+*  -- LAPACK auxiliary test routine (version 3.1) --
+*     Univ. of Tennessee, Univ. of California Berkeley and NAG Ltd..
+*     November 2006
 *
 *     .. Scalar Arguments ..
       LOGICAL            LLEFT, LRIGHT, LROWS
@@ -20,7 +19,7 @@
 *
 *     SLAROT applies a (Givens) rotation to two adjacent rows or
 *     columns, where one element of the first and/or last column/row
-*     may be a separate variable.  This is specifically indended
+*     November 2006
 *     for use on matrices stored in some format other than GE, so
 *     that elements of the matrix may be used or modified for which
 *     no array element is provided.
