@@ -19,7 +19,7 @@ SHELL         = /bin/sh
 #  The complete path to the top level of ScaLAPACK directory, usually
 #  $(HOME)/SCALAPACK
 #
-home          = $(HOME)/scalapack-dev/scalapack/trunk-grig
+home          = $(HOME)/SCALAPACK
 #
 #  The platform identifier to suffix to the end of library names
 #
@@ -29,17 +29,16 @@ PLAT          = LINUX
 #  and the directory where the BLACS libraries are
 #
 BLACSDBGLVL   = 0
-BLACSdir      = $(HOME)/grig_home/lib/BLACS_LAMMPI/LIB
+BLACSdir      = /usr/local/lib
 #
 #  MPI setup; tailor to your system if using MPIBLACS
 #  Will need to comment out these 6 lines if using PVM
 #
 USEMPI        = -DUsingMpiBlacs
-SMPLIB        = $(HOME)/opt/grig/lam-7.1.2/lib/libmpi.a
-MPIdir        = $(HOME)/opt/grig/lam-7.1.2
-BLACSFINIT    = $(BLACSdir)/blacsF77init_MPI-LINUX-0.a
-BLACSCINIT    = $(BLACSdir)/blacsCinit_MPI-LINUX-0.a
-BLACSLIB      = $(BLACSdir)/blacs_MPI-LINUX-0.a
+SMPLIB        = /usr/local/mpich-1.2.1/lib/libmpich.a
+BLACSFINIT    = $(BLACSdir)/libmpiblacsF77init-p4.a
+BLACSCINIT    = $(BLACSdir)/libmpiblacsCinit-p4.a
+BLACSLIB      = $(BLACSdir)/libmpiblacs-p4.a
 TESTINGdir    = $(home)/TESTING
 
 #
@@ -94,10 +93,10 @@ RANLIB        = ranlib
 #  The name of the libraries to be created/linked to
 #
 SCALAPACKLIB  = $(home)/libscalapack.a
-#BLASLIB       = ${HOME}/lib/LAPACK/blas_LINUX.a
-BLASLIB       = /usr/local/lib/libf77blas.a  /usr/local/lib/libatlas.a
+BLASLIB       = /usr/local/lib/libf77blas.a /usr/local/lib/libatlas.a
+LAPACKLIB     = /usr/local/lib/liblapack.a
 #
-PBLIBS        = $(SCALAPACKLIB) $(FBLACSLIB) $(BLASLIB) $(SMPLIB)
+PBLIBS        = $(SCALAPACKLIB) $(FBLACSLIB) $(LAPACKLIB) $(BLASLIB) $(SMPLIB)
 PRLIBS        = $(SCALAPACKLIB) $(CBLACSLIB) $(SMPLIB)
-RLIBS         = $(SCALAPACKLIB) $(FBLACSLIB) $(CBLACSLIB) $(BLASLIB) $(SMPLIB)
+RLIBS         = $(SCALAPACKLIB) $(FBLACSLIB) $(CBLACSLIB) $(LAPACKLIB) $(BLASLIB) $(SMPLIB)
 LIBS          = $(PBLIBS)
