@@ -1,0 +1,2114 @@
+\documentclass[11pt]{report}
+\usepackage{psfig}
+\def\thesection{\arabic{section}}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+\textwidth=6in
+\textheight=8.5in
+\hoffset=-.6in
+\voffset=-.6in
+\newcommand{\dent}{\hspace*{\parindent}}
+\newcommand{\nh}[1]{\hyphenation{#1}}
+\newcommand{\ignore}[1]{}
+%
+%    The definition of \bigarray requires that @ be considered a letter.
+%    Thus, the \catcode commands are necessary.
+%
+\catcode`\@=11
+\def\thefigure{\@arabic\c@figure}
+\def\thetable{\@arabic\c@table}
+\def\bigarray{%
+    \def\@arrayclassz{\ifcase \@lastchclass \@acolampacol \or \@ampacol \or
+       \or \or \@addamp \or
+       \@acolampacol \or \@firstampfalse \@acol \fi
+    \edef\@preamble{\@preamble
+      \ifcase \@chnum
+         \hfil$\displaystyle\relax\@sharp$\hfil
+          \or $\displaystyle\relax\@sharp$\hfil
+     \or \hfil$\displaystyle\relax\@sharp$\fi}}
+    }
+\catcode`\@=12
+%
+\newcommand{\leftnorm}{\left\|}
+\newcommand{\rightnorm}{\right\|}
+\newcommand{\TS}{\begin{table}[tbh]\centering}
+\newcommand{\TE}{\end{table}}
+\newcommand{\DS}{\vspace{11pt}\newline\hspace*{\parindent}}
+\newcommand{\DE}{\vspace{11pt}\newline}
+\newcommand{\FTS}{\begin{table}[p]\centering}
+\newcommand{\FTE}{\end{table}}
+\newcommand{\bop}{\vspace{11pt}\begin{flushleft}\begin{tabular}{@{} p{4.5em} l l }}
+\newcommand{\eop}{\end{tabular}\end{flushleft}}
+\newcommand{\keep}[1]{\vspace{11pt}\parbox{\textwidth}{#1}\vspace{11pt}}
+\newcommand{\up}[1]{\small\raisebox{1ex}{#1}}
+\newcommand{\biblio}{\begin{thebibliography}}
+\newcommand{\bibend}{\end{thebibliography}}
+%\renewcommand{\footnoterule}{\rule{1.0in}{0.2mm}}
+
+%\input{psfig}
+
+\newcounter{titem}
+\newcommand{\titem}{\stepcounter{titem}\thetitem.}
+
+\begin{document}
+\begin{center}
+  {\Large LAPACK Working Note 93\\
+  Installation Guide for ScaLAPACK\footnote{This work was supported
+in part by the National Science Foundation Grant No. ASC-9005933; by
+the Defense Advanced Research Projects Agency under contract
+DAAH04-95-1-0077, administered by the Army Research Office;
+by the Office of Scientific Computing,
+U.S. Department of Energy, under Contract
+DE-AC05-84OR21400; and
+by the National Science
+Foundation Science and Technology Center Cooperative
+Agreement No. CCR-8809615.}}
+\end{center}
+\begin{center}
+L. S. Blackford, A. Cleary\footnote{Current address:  LLNL}, J. Choi\footnote{Current address: Soongsil University, Seoul,
+Korea}, \\
+J. J. Dongarra, A. Petitet\footnote{Current address: Sun France, Paris, France}, and R. C. Whaley\\
+Department of Computer Science \\
+University of Tennessee \\
+Knoxville, Tennessee  37996-3450 \\
+\end{center}
+\begin{center}
+and
+\end{center}
+\begin{center}
+J. Demmel, I. Dhillon\footnote{Current address: IBM Austin}, O. Marques\footnote{Current address:  LBL}, and K. Stanley \\
+   Computer Science Division \\
+   University of California, Berkeley \\
+   Berkeley, CA 94720 \\
+\end{center}
+\begin{center}
+and
+\end{center}
+\begin{center}
+D. Walker\footnote{Current address:  Cardiff University, Wales} \\
+\end{center}
+\begin{center}
+  VERSION 1.7:  August 31, 2001
+\end{center}
+
+\begin{center}
+Abstract
+\end{center}
+This working note describes how to install and test
+version 1.7 of ScaLAPACK.
+This release of ScaLAPACK extends the
+functionality of the package by providing new routines for
+the nonsymmetric eigenproblem, divide and conquer symmetric eigenproblem,
+and improved routines for generalized symmetric eigenproblem and
+the reduction to tridiagonal form.
+It also includes PBLAS v2.0.
+These two-dimensional
+distributed memory versions of common LAPACK routines
+rely on calls
+to the BLAS for local computation, and calls to the
+PBLAS for global
+computations.  For portability concerns, communication takes place inside
+the PBLAS through calls to the BLACS.
+The design of the testing/timing
+programs for the ScaLAPACK codes is also discussed. 
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+\vspace{0.25in}
+
+\dent
+This working note describes how to install and test
+version 1.7 of ScaLAPACK \cite{slug}.
+This release of ScaLAPACK extends the
+functionality of the package by providing new routines for
+the nonsymmetric eigenproblem, divide and conquer symmetric eigenproblem,
+and improved routines for generalized symmetric eigenproblem and
+the reduction to tridiagonal form.  It also includes PBLAS v2.0.
+For a detailed explanation of the design and contents of the ScaLAPACK library,
+please refer to the ScaLAPACK Users' Guide\cite{slug}.
+
+ScaLAPACK is freely available on {\em netlib} and
+can be obtained via the World Wide Web or anonymous ftp.
+\begin{quote} 
+{\tt http://www.netlib.org/scalapack/scalapack.tgz}
+\end{quote}
+Prebuilt ScaLAPACK libraries are available on {\em netlib} for a variety
+of architectures.
+\begin{quote} 
+{\tt http://www.netlib.org/scalapack/archives/}
+\end{quote}
+However, if a prebuilt library does not exist
+for your architecture, you will need to download the distribution tar
+file and build the library as instructed in this guide.
+
+To install and test ScaLAPACK, the user must have the 
+BLACS, BLAS\cite{blas1,blas2,blas3}, and
+MPI~\cite{mpi} or PVM~\cite{pvm} available on his machine.
+
+ScaLAPACK has been tested on MPPs like the IBM SP series, Cray T3E,
+and SGI Origin 2000/3000, and tested on clusters of PCs and networks of 
+ workstations supporting
+MPI or PVM.\footnote{It is very important to note that only PVM version
+3.3 or later is supported with the BLACS\cite{lawn94,lawn73}.  Due to
+major changes
+in PVM and the resulting changes required in the BLACS,
+earlier versions of PVM are NOT supported.}
+
+%Section~\ref{overview} provides an overview of the contents of the
+%ScaLAPACK library.
+Section~\ref{installation} contains step-by-step installation and
+testing/timing instructions.  For users desiring additional information,
+Section~\ref{LTDET} gives details on the testing/timing programs for the
+ScaLAPACK codes and their input files.
+Appendices A and B describe the ScaLAPACK driver, computational, and
+auxiliary routines currently available.
+
+\ignore{
+\subsection{Overview of ScaLAPACK Contents}\label{overview}
+
+\hspace{\parindent}
+Like LAPACK, there are three classes of ScaLAPACK routines:
+\begin{itemize}
+
+\item {\bf Driver} routines solve a complete problem, such as solving a
+system of linear equations or computing the eigenvalues of a real
+symmetric matrix.  Please refer to Appendix~\ref{appendixa} for a list
+of all available driver routines.
+Global and local input error-checking are performed for these routines.
+
+\item {\bf Computational} routines, also called simply ScaLAPACK routines,
+perform a distinct computational task, such as computing
+the $LU$ decomposition of an $m$-by-$n$ matrix, or reducing a real
+general matrix to upper Hessenberg form.
+Please refer to Appendix~\ref{appendixa} for a list of all available ScaLAPACK
+computational routines.
+Global and local input error-checking are performed for these routines.
+
+\item {\bf Auxiliary} routines are all of the other subroutines called
+by the computational routines.
+Among them are subroutines to perform subtasks of block algorithms,
+and a number of routines to perform common low-level computations.
+%A list of all available ScaLAPACK auxiliary routines can be found in
+%Appendix~\ref{appendixb}.
+In general, no input error-checking is
+performed on the auxiliary routines.  The exception to this rule is
+for the auxiliary routines which are Level 2 equivalents of
+computational routines (e.g., PxGETF2, PxGEQR2, PxORMR2, PxORM2R, etc.).
+For these routines, local input error-checking routines is performed.
+
+LAPACK auxiliary routines are also used whenever possible for local
+computation.
+\end{itemize}
+
+ScaLAPACK provides two matrix redistribution/copy routines (in {\tt
+SCALAPACK/REDIST}) for each data type.  These routines provide a truly
+general copy from any block cyclicly distributed (sub)matrix to any
+other block cyclicly distributed (sub)matrix.  These routines are
+the only ones in the entire ScaLAPACK library which provide
+{\em inter-context} operations.
+
+Testing/timing programs are included for each of the ScaLAPACK
+routines.
+Refer to section \ref{LTDET} for more details.
+} %end ignore
+
+\section{Installation Procedure}\label{installation}
+
+Installing, testing, and timing ScaLAPACK
+involves the following steps: 
+\begin{enumerate}
+\item Gunzip and tar the file {\tt scalapack.tgz}.
+
+\item Edit the {\tt SLmake.inc} include file, specifying the
+      location of the MPI or PVM library, the BLACS library,
+      and the BLAS library.
+
+\item Edit the top-level {\tt Makefile}, and type {\tt make}.
+
+\item Run the Test Suite(s).
+
+%\item Run the PBLAS Test Suite.
+
+%\item Run the PBLAS Timing Suite (optional).
+
+%\item Run the REDIST Test Suite.
+
+%\item Run the ScaLAPACK Test Suite.
+
+%\item Communicate any difficulties to the authors.
+\end{enumerate}
+
+If failures are encountered during any phase of the installation or
+testing process, please first refer to the FAQ and Errata files for
+information
+\begin{list}{}{}
+\item {\tt http://www.netlib.org/scalapack/faq.html}
+\item {\tt http://www.netlib.org/scalapack/errata.html}
+\end{list}
+and if that does not resolve the problem, please contact
+the developers at
+\begin{list}{}{}
+\item {\tt scalapack@cs.utk.edu}
+\end{list}
+
+\subsection{Gunzip and tar the file {\tt scalapack.tgz}}
+
+\dent
+The software is distributed in the form of a gzipped
+tar file which contains the ScaLAPACK source code and test suite,
+as well as the PBLAS source code and testing/timing programs.
+The PBLAS are parallel versions of the Level 1, 2, and 3 BLAS.  For
+more details on the PBLAS, refer to \cite{lawn100,lawn80}.
+\begin{quote}
+{\tt http://www.netlib.org/scalapack/scalapack.tgz}
+\end{quote}
+
+To unpack the {\tt scalapack.tgz} file, type the following command:
+ 
+\begin{list}{}{}
+\item {\tt gunzip -c scalapack.tgz | tar xvf -}
+\end{list}
+
+\noindent
+This will create a top-level directory called {\tt SCALAPACK} as
+shown in Figure 1.  Please note that this figure does not reflect everything
+that is contained in the {\tt SCALAPACK} directory.  Input and instructional
+files are also located at various levels.
+\begin{figure}[tbh!]
+\vspace{0.3in}
+\input pic1.tex
+\caption{Organization of ScaLAPACK}
+\vspace{11pt}
+\end{figure}
+Libraries are created in the {\tt SCALAPACK} directory and 
+executable files are created in the {\tt TESTING} directory(ies).  Input
+files are copied into the {\tt TESTING} directory at the time each
+executable is created.  You will need approximately 28 Mbytes of space
+for the tar file.  Your total space requirements will vary depending upon
+if all platforms of the BLACS are installed and the size of executable files
+that your configuration can handle.
+
+\subsection{Edit the {\tt SLmake.inc} include file}
+
+\dent
+Example machine-specific {\tt SCALAPACK/SLmake.inc} files are provided in
+the {\tt INSTALL} subdirectory for the Intel i860, IBM SP, Cray T3E,
+SGI Origin, and various workstations using MPI or PVM.
+When you have selected the machine to
+which you wish to install ScaLAPACK, copy the appropriate sample include
+file (if one is present) into {\tt SCALAPACK/SLmake.inc}.  For example, if
+you wish to run ScaLAPACK on a DEC ALPHA,
+
+\begin{list}{}{}
+\item {\tt cp INSTALL/SLmake.ALPHA SLmake.inc}
+\end{list}
+
+Edit the {\tt SLmake.inc} make include file to contain the following:
+\begin{enumerate}
+\item
+Specify the complete path to the top level
+{\tt SCALAPACK} directory called {\tt home}.
+\item  Identify the platform to which you will
+be installing the libraries.  If your directory structure for ScaLAPACK
+is different than the aforementioned structure, you will also need to
+specify locations of {\tt SCALAPACK} subdirectories.
+\item
+Define {\tt F77}, {\tt NOOPT},
+{\tt F77FLAGS}, {\tt CC}, {\tt CCFLAGS}, {\tt LOADER}, {\tt LOADFLAGS},
+{\tt ARCH}, {\tt ARCHFLAGS}, and {\tt RANLIB}, to refer to the compiler
+and compiler options, loader and loader options, library archiver
+and options, and ranlib for your machine.
+If your machine does not require ranlib set {\tt RANLIB = echo}.
+\item Specify the C preprocessor definitions for compilation,
+{\tt BLACSDBGLVL} and {\tt CDEFS}.  The possible values for {\tt
+BLACSDBGLVL} are 0 and 1.  The possible options for {\tt CDEFS} are
+{\tt -DAdd\_}, {\tt -DNoChange}, and {\tt -DUPCASE}.  If you are on a
+DEC ALPHA, you must also add {\tt -DNO\_IEEE} to the definition of {\tt
+CDEFS}.
+\item Specify the locations
+of the needed libraries: {\tt BLACS}, {\tt PVM} or {\tt MPI}, and {\tt BLAS}.
+\end{enumerate}
+This make include file is referenced inside each of the makefiles in the
+various subdirectories.  As a result, there is no need to edit the
+makefiles in the subdirectories.  All information that is machine
+specific has been defined in this include file.
+
+\subsubsection{Further Details to obtain BLACS, BLAS, and PVM or MPI}
+
+Prebuilt BLACS libraries are available on
+{\em netlib} for a variety of architectures and message passing library
+combinations;
+\begin{quote}
+{\tt http://www.netlib.org/blacs/archives}
+\end{quote}
+otherwise, the BLACS distribution tar files are available.
+\begin{quote}
+{\tt http://www.netlib.org/blacs/mpiblacs.tgz} \\
+{\tt http://www.netlib.org/blacs/pvmblacs.tgz}
+\end{quote}
+After obtaining the source, follow the 
+instructions in ``A User's Guide to the BLACS'' or in the ''Installing
+the BLACS'' section of the BLACS webpage to install the library.  Instructions
+for running the BLACS Test Suite can be found in ``A User's Guide to the
+BLACS Tester''.  Both of these documents are available via the
+{\em blacs} {\em index} on {\em netlib}.
+
+If an vendor optimized BLAS library is not available, then the user can
+install ATLAS which will generate an optimized BLAS library for the given
+architecture, or install the Fortran77 reference implementation of the BLAS.
+\begin{quote}
+{\tt http://www.netlib.org/blas/faq.html\#1.6} \\
+{\tt http://www.netlib.org/atlas/} \\
+{\tt http://www.netlib.org/blas/blas.tgz}
+\end{quote}
+An optimized BLAS library is essential for best performance, and
+use of the Fortran77 reference implementation BLAS is strongly
+discouraged.
+
+If a vendor-supplied MPI or PVM library is not available,
+portable implementations of PVM and MPI (MPICH and LAM/MPI)
+are available:
+\begin{quote}
+{\tt http://www.netlib.org/pvm3/}\\
+{\tt http://www.mcs.anl.gov/mpi/mpich/} \\
+{\tt http://www.lam-mpi.org/}
+\end{quote}
+Installation instructions for PVM are contained in the PVM Users'
+Guide~\cite{pvm}.  An Installation Guide for MPICH is available on
+the aforementioned webpage.  Likewise, installation instructions
+for LAM/MPI are contained on its respective webpage.
+
+\subsection{Edit the top-level {\tt SCALAPACK/Makefile} and type {\tt make}}
+
+A top-level {\tt SCALAPACK/Makefile} has been included to build all
+libraries and testing executables.  This makefile is very useful if you
+are familiar with the installation process and wish to do a quick
+installation.  Your instructions to build the ScaLAPACK library are:
+
+\begin{list}{}{}
+\item {\tt cd SCALAPACK}
+\item {\tt make}
+\end{list}
+
+If you wish to build the testing executables (assuming that all
+libraries have previously been built), you can specify
+
+\begin{list}{}{}
+\item {\tt make exe}.
+\end{list}
+
+If you wish to build only selected libraries or executables,
+you can modify the {\tt lib} or {\tt exe} definition accordingly.
+
+To specify the data types to be built, you will need to modify
+the definition of {\tt PRECISIONS}.  By default, {\tt PRECISIONS}
+is set to
+\begin{verbatim}
+PRECISIONS = single double complex complex16
+\end{verbatim}
+to build all precisions of the libraries and executables.  If you only
+wish to compile the single precision real version of a target specify
+{\tt single}, for double precision real specify {\tt double}, for single
+precision complex specify {\tt complex}, and for double precision
+complex specify {\tt complex16}.
+
+By default, the presence of
+no arguments following the {\tt make} command will result in the
+building of all data types.
+The make command can be run more than once to add another
+data type to the library if necessary.
+
+You may then proceed to running each of the individual test suites.  See
+section~\ref{PBTEST} for details on the PBLAS Test Suite,
+section~\ref{RDTEST} to run the REDIST test suite, and section \ref{SLTEST}
+for details on the ScaLAPACK Test Suite.  After
+all testing has been completed, you can remove all object files from the
+various subdirectories and all executables from the {\tt
+SCALAPACK/TESTING} directory by
+typing
+
+\begin{list}{}{}
+\item {\tt make clean}.
+\end{list}
+
+Or, you can selectively remove only the object files with {\tt make
+cleanlib}, or {\tt make cleanexe} to remove only the testing routine
+object files and executable files. 
+
+\subsection{Run the PBLAS Test Suite}
+\label{PBTEST}
+
+The PBLAS testing executables are created in the {\tt PBLASTSTdir}
+directory as defined in {\tt SLmake.inc}.  By default, these testing
+executables are copied into the {\tt SCALAPACK/TESTING} directory.
+ For the Level 1 PBLAS routines, the testing executables are called
+{\tt xspblas1tst}, {\tt xdpblas1tst}, {\tt xcpblas1tst}, and {\tt xzpblas1tst}.
+Likewise, the testing executables for the Level 2 PBLAS are {\tt xspblas2tst},
+{\tt xdpblas2tst}, {\tt xcpblas2tst}, and {\tt xzpblas2tst}.  The
+testing executables for the Level 3 PBLAS are {\tt xspblas3tst},
+{\tt xdpblas3tst}, {\tt xcpblas3tst}, and {\tt xzpblas3tst}. There is one input
+file associated with each testing executable.  For example, the input
+file for {\tt xspblas1tst} is called {\tt PSBLA1TST.dat}.  The input files
+are copied to the {\tt PBLASTSTdir} directory at the time the
+executables are built.
+
+For brevity, we shall only list instructions for testing PBLAS
+executables using MPICH on a network of workstations, and PVM on
+a network of workstations.  Execution instructions for the various
+distributed-memory computers are machine-dependent.
+
+\subsubsection*{Testing instructions with MPICH on a network of workstations}
+
+For the sake of an example, we shall assume that you have installed the
+portable implementation of MPI, called {\tt MPICH}, and built the
+PBLAS tester executables for each of the machines used in your 
+application.  The executable files are not required to be stored in
+a particular directory.  Then, to run the executable, you will use
+the command {\tt mpirun}.  For example,
+ 
+\begin{list}{}{}
+\item{\tt mpirun -np $<$number of processes$>$~$<$executable$>$}
+\end{list}
+ 
+where {\tt $<$executable$>$} is replaced by {\tt xspblas1tst}, and so on.
+If the network of workstations is heterogeneous, you will need to
+specify the {\tt -p4pg} option and supply a text file containing the names
+of the machines and the locations of the executables to which you
+will spawn tasks.  Refer to the {\tt mpirun} manpage for complete details.
+
+\subsubsection*{Testing instructions with PVM on a network of workstations}
+
+First, insure that the PVM library and tester executable files have been
+compiled for each of the machines used in your PVM implementation.  
+PVM 3.3 requires that executable files be stored in a particular
+directory so that the PVM daemon can find them.  In the general
+case, PVM looks for executable files in {\tt \~{}/pvm3/bin/\em{}arch},
+where {\em{}arch} specifies the architecture for which the executable
+has been built.  For example, if one wished to run the test
+program on a SUN SPARCstation and on an IBM RS6000 workstation,
+appropriately compiled executable files need to be placed in
+{\tt \~{}/pvm3/bin/SUN4} and {\tt{}\~{}/pvm3/bin/RS6K} (for
+more directory information, consult the PVM documentation).
+If you wish to run the tests on machines that are not connected to
+the same file system, you need to make sure that the executable
+is available on each file system.
+Next, start pvm by typing
+
+\begin{list}{}{}
+\item{\tt pvm}
+\end{list}
+
+At this point, you specify the machines that are to take
+part in the testing process (see the PVM documentation for more information).
+Finally, to test the REAL PVM Level 1 PBLAS, start the test program
+by typing:
+
+\begin{list}{}{}
+\item{\tt xspblas1tst}
+\end{list}
+
+on one of the machines that is a member of your PVM machine.
+This program will then instruct the PVM daemon to start processes on the
+other computers in your PVM machine and 
+you will be prompted by the program for the name of the
+executable.
+Make sure that {\tt PSBLA1TST.dat} is located
+in the same directory as {\tt xspblas1tst}.
+It is read on the machine from which you type {\tt xspblas1tst} and
+its contents distributed to the other computers in your PVM
+machine.
+
+{\it Alternatively, you can use {\tt blacs\_setup.dat} to perform much of
+this process.  This file specifies the name of
+the executable and the machines to spawn in your pvm cluster, as well
+as a few other features.  See the ``A User's Guide to the BLACS'' for details.
+However, the use of this file is not recommended for the naive user.}
+
+Similar commands should be used for the other test programs, with
+the second letter `s' in the executable and data file
+replaced by `d', `c', or `z'.
+The name of the output file is indicated on the first line of the
+input file and is currently defined to be {\tt PSBLA1TST.SUMM} for
+the REAL version, with similar names for the other data types.  The
+user may also choose to send all output to standard error.
+
+\subsection{Run the PBLAS Timing Suite (optional)}
+\label{PBTIME}
+
+\begin{itemize}
+\item[a)]
+Go to the directory {\tt SCALAPACK/PBLAS/TIMING}.
+
+\item[b)]
+Type {\tt make} followed by the data types desired.  For the Level 1
+PBLAS routines, the timing executables are called {\tt xspblas1tim},
+{\tt xdpblas1tim}, {\tt xcpblas1tim}, and {\tt xzpblas1tim}, and are
+created in the
+{\tt PBLASTSTdir} directory as defined in {\tt SLmake.inc}.  Likewise,
+the timing executables for the Level 2 PBLAS are {\tt xspblas2tim},
+{\tt xdpblas2tim}, {\tt xcpblas2tim}, and {\tt xzpblas2tim}.  The
+timing executables for the Level 3 PBLAS are {\tt xspblas3tim},
+{\tt xdpblas3tim}, {\tt xcpblas3tim}, and {\tt xzpblas3tim}. There is
+one input
+file associated with each timing executable.  For example, the input
+file for {\tt xspblas1tim} is called {\tt PSBLA1TIM.dat}.  The input files
+are copied to the {\tt PBLASTSTdir} directory at the time the
+executables are built.
+
+\item[c)] Run the timing executables on the desired platform as
+analogously described in Section~\ref{PBTEST}.
+\end{itemize}
+
+\subsection{Run the REDIST Test Suite}
+\label{RDTEST}
+The redistribution/copy routines allow the
+redistribution of a 2-D block cyclic distributed general or trapezoidal
+matrix from an arbitrary $P \times Q$ grid with arbitrary blocksize to
+another grid with arbitrary
+blocksize.
+
+\begin{itemize}
+\item[a)]
+Go to the directory {\tt SCALAPACK/REDIST/TESTING}.
+
+\item[b)]
+Type {\tt make} followed by the data types desired.  The testing executables
+are called {\tt xigemr}, {\tt xsgemr}, {\tt xdgemr}, {\tt xcgemr}, {\tt
+xzgemr} for the redistribution of general matrices.  They are called
+{\tt xitrmr}, {\tt xstrmr}, {\tt xdtrmr}, {\tt xctrmr}, and {\tt xztrmr}
+for trapezoidal
+matrices, and are created in the {\tt REDISTdir/TESTING} directory as
+defined in {\tt SLmake.inc}.
+There is one input file {\tt GEMR2D.dat} for general matrices, and one
+input file {\tt TRMR2D.dat} for trapezoidal matrices.
+Each line of the input file is a separate test.
+\end{itemize}
+
+\subsection{Run the ScaLAPACK Test Suite}
+\label{SLTEST}
+\dent
+There are eighteen distinct test programs for testing the ScaLAPACK
+routines of the following type:  LU, Cholesky, Band LU, Band Cholesky,
+General Tridiagonal, Band Tridiagonal, QR (RQ, LQ, QL, QP, and TZ), 
+Linear Least Squares, upper Hessenberg reduction, tridiagonal reduction,
+bidiagonal reduction, matrix inversion, the symmetric eigenproblem,
+the generalized symmetric eigenproblem, the nonsymmetric eigenproblem,
+and the singular value decomposition.
+
+Each of the test programs is automatically timed
+and reports a table of execution times and megaflop rates.
+There is one input file for each test program.
+As previously stated, the input files reside in the
+{\tt SCALAPACK/TESTING} subdirectory and are copied into the
+{\tt TESTINGdir} directory (as specified in the {\tt SLmake.inc} file)
+at the time the executables are built.  All testing programs occur in
+four precisions, with the exception of the singular value decomposition which
+only occurs in SINGLE and DOUBLE PRECISION REAL.
+For more information on the test programs and how to modify the
+input files see Section \ref{LTDET}.
+
+Run the testing executables on the desired platform as analogously
+described in Section~\ref{PBTEST}.  For example, in double precision,
+the testing executables are named
+{\tt xdlu}, {\tt xdllt}, {\tt xddblu}, {\tt xdgblu}, {\tt xddtlu},
+{\tt xdpbllt}, {\tt xdptllt}, {\tt xdls}, {\tt xdqr}, {\tt xdhrd},
+{\tt xdtrd}, {\tt xdbrd}, {\tt xdinv}, {\tt xdsep}, {\tt xdgsep}, {\tt xdnep},
+and {\tt xdsvd}.
+The input files are {\tt LU.dat}, {\tt LLT.dat},
+{\tt BLU.dat}, {\tt BLLT.dat}, {\tt LS.dat}, {\tt QR.dat},
+{\tt HRD.dat}, {\tt TRD.dat}, {\tt BRD.dat}, {\tt INV.dat}, 
+{\tt SEP.dat}, {\tt NEP.dat},
+and {\tt SVD.dat}. 
+ 
+Similar commands can be used for alternate precisions of the same test
+program or other test programs.
+The name of the output file is indicated on the first line of the
+input file and is currently defined to be {\tt lu.out} for
+the LU tester, with similar names for the other data types.  The
+user may also choose to send all output to standard error.
+
+\subsection{Troubleshooting}
+
+If failures are encountered during any phase of the installation or
+testing process,
+please first refer to the FAQ and Errata files for information
+\begin{list}{}{}
+\item {\tt http://www.netlib.org/scalapack/faq.html}
+\item {\tt http://www.netlib.org/scalapack/errata.html}
+\end{list}
+and if that does not resolve the problem, please contact
+the developers at
+\begin{list}{}{}
+\item {\tt scalapack@cs.utk.edu}
+\end{list}
+
+This release of ScaLAPACK is compatible with the previous release
+(version 1.6).
+
+\section{More About the ScaLAPACK Test Suite}
+\label{LTDET}
+\dent
+The main test programs for the ScaLAPACK
+routines are located in the {\tt SCALAPACK/TESTING/LIN} and {\tt
+SCALAPACK/TESTING/EIG} subdirectories and
+are called {\tt pd\_\_driver.f} ({\tt ps\_\_driver.f} for REAL, {\tt
+pc\_\_driver.f} for COMPLEX, and {\tt pz\_\_driver.f} for COMPLEX*16),
+where the \_\_ is replaced by {\tt lu},
+{\tt qr}, {\tt llt}, and so on.  Each of the test programs for the
+ScaLAPACK routines has a similar style of input.
+
+%Please note that only the SINGLE and DOUBLE
+%PRECISION REAL symmetric eigenproblem driver is available at this time.
+
+The following sections describe the different input formats and
+testing verifications.  The data inside the input files is only test
+data designed to exercise the code.  It should NOT be interpreted
+in any way as OPTIMAL performance values for any of the routines.  
+For best performance, the value of the blocksize NB should
+be set to the value determined by ATLAS as optimal.  A good
+starting point is a multiple of 16 -- e.g., 16, 32, 48, 64.
+
+The test programs for the routines are driven by separate data files.
+%from which the following types of parameters may be varied:
+
+%\begin{itemize}
+%\item TRANS, ({\em only used for LLS})
+%\item LOWER or UPPER, triangular input matrix  ({\em ONLY for TRD})
+%\item M, the number of rows in the matrix ({\em not used for LLT, INV, HRD,
+%or TRD})
+%\item N, the order of the matrix ({\em not used for QR})
+%\item ILO and IHI ({\em ONLY for HRD})
+%\item NB, the blocksize for the blocked routines
+%\item NRHS, the number of right hand sides ({\em only used for LU, LLT, and LLS}) 
+%\item NBRHS, the column blocksize for the rhs matrix B ({\em only used for LU,
+%LLT, and LLS})
+%\item P, the grid row dimension
+%\item Q, the grid column dimension
+%\item THRESH, the acceptable threshold value for the residuals
+%\item EST, logical flag to test cond. est. and it. ref. ({\em ONLY for LU and LLT})
+%\end{itemize}
+
+The number and size of the input values are limited by certain program
+maximums which are defined in PARAMETER statements in the
+main test programs.  These program maximums are:
+
+%
+\keep{
+\begin{tabular}{l l r}
+Parameter & Description                             & Value \\ \hline
+TOTMEM    & Total Memory available for testing data &  2000000 \\
+INTGSZ    & Length in bytes to store a INTEGER element &  4 \\
+REALSZ    & Length in bytes to store a REAL element &  4 \\
+DBLESZ    & Length in bytes to store a DOUBLE PRECISION element &  8 \\
+CPLXSZ    & Length in bytes to store a COMPLEX element &  8 \\
+ZPLXSZ    & Length in bytes to store a COMPLEX*16 element &  16 \\
+NTESTS   & Maximum number of tests to be performed         &  20 \\
+\end{tabular}
+}
+
+The user should modify TOTMEM to indicate the maximum amount of
+memory in bytes his system has available.  You must remember to leave
+room in memory for the operating system, the BLACS buffer, etc.
+For example, for PVM, the
+parameters we use are TOTMEM=2,000,000, and the length of a DOUBLE is 8.
+Some experimenting with the maximum allowable value of TOTMEM
+may be required.  All arrays used by the factorizations, reductions,
+solves, and condition and error estimation are
+allocated out of the big array called MEM.
+
+Please note that these parameter maximums in the test programs assume at least 
+2 Megabytes of memory per process.  Thus, if you do not have
+that much space per process then you will need to reduce the size of
+the parameters.
+
+For each of the test programs, the test program
+generates test matrices (nonsymmetric, symmetric, symmetric
+positive-definite, or upper Hessenberg), calls the ScaLAPACK routines in
+that path, and computes a solve and/or factorization and/or reduction
+residual error check to verify 
+that each operation has performed correctly.  The factorization residual
+is only calculated if the residual for the solve step exceeds
+the threshold value THRESH.  Thus, if a user wants both checks
+automatically done then he should set THRESH = 0.0.
+
+When the tests are run, each test ratio that is greater than or
+equal to the threshold value causes a line of information to be
+printed to the output file.
+
+A table of timing information is printed in the output file containing
+execution times as well as megaflop rates.
+
+After all of the tests have been completed, summary lines are printed
+of the form
+\begin{verbatim}
+Finished  180 tests, with the following results:
+  180 tests completed and passed residual checks.
+    0 tests completed and failed residual checks.
+    0 tests skipped because of illegal input values.
+
+END OF TESTS.
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK LU routines}
+
+The LU test program generates random nonsymmetric test matrices with
+values in the interval [-1,1], calls the ScaLAPACK 
+routines to factor and solve the system, and computes a solve and/or 
+factorization residual error check to verify that each operation has performed 
+correctly.  Condition estimation and iterative refinement routines are
+included and are optionally tested.
+
+Specifically, each test matrix is subjected to the following tests:
+
+\begin{itemize}
+\item Factor the matrix $A = LU$ using PxGETRF
+\item Solve the system $A X = B$ using PxGETRS, and compute the ratio
+\begin{list}{}{}
+\item  {\sl SRESID} $ = ||AX - B|| / ( n ||A|| \, ||X|| \varepsilon ) $
+\end{list}
+\item If  {\sl SRESID} $>$ {\sl THRESH}, then compute the ratio
+\begin{list}{}{}
+\item  {\sl FRESID} $ = || LU - A || / ( n || A || \varepsilon ) $ 
+\end{list}
+\end{itemize}
+
+The expert driver ({\tt PxGESVX}) performs condition estimation and 
+iterative refinement and thus incorporates the following additional
+test:
+
+\begin{itemize}
+\item
+Compute the reciprocal condition number RCOND using PxGECON.
+%and compare to the value RCONDC which was computed as 1/(ANORM * AINVNM)
+%where AINVNM is the explicitly computed norm of $A^{-1}$.
+%The larger of the ratios
+%\begin{list}{}{}
+%\item $\mbox{RCOND} / \mbox{RCONDC}$ and $\mbox{RCONDC} / \mbox{RCOND}$
+%\end{list}
+%is returned.  Since the same value of ANORM is used in both cases,
+%this test measures the accuracy of the estimate computed for $A^{-1}$.
+\item
+Use iterative refinement (PxGERFS) to improve the solution,
+and recompute the ratio
+\begin{list}{}{}
+\item  {\sl SRESID} $ = ||AX - B|| / ( n ||A|| \, ||X|| \varepsilon ) $
+\end{list}
+\end{itemize}
+
+\subsubsection{Input File for Testing the ScaLAPACK LU Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'ScaLAPACK LU factorization input file'
+'MPI machine.'
+'lu.out'                output file name (if any)
+6                       device out
+2                       number of problems sizes
+250 553                 values of N
+3                       number of NB's
+2 3 5                   values of NB
+2                       number of NRHS's
+1 5                     values of NRHS
+3                       Number of NBRHS's
+1 3 5                   values of NBRHS
+5                       Number of processor grids (ordered pairs of P & Q)
+1 4 2 1 8               values of P
+1 2 4 8 1               values of Q
+1.0                     threshold
+T                       (T or F) Test Cond. Est. and Iter. Ref. Routines
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK Band and Tridiagonal LU routines}
+
+The LU test program generates random nonsymmetric band test matrices with
+values in the interval [-1,1], calls the ScaLAPACK 
+routines to factor and solve the system, and computes a solve and/or 
+factorization residual error check to verify that each operation has performed 
+correctly.
+
+Specifically, each test matrix is subjected to the following test:
+
+\begin{itemize}
+\item
+Compute the Band or Tridiagonal LU factorization using PxDBTRF (PxGBTRF
+or PxDTTRF)
+\item Solve the system $A X = B$ using PxDBTRS (PxGBTRS or PxDTTRS), and
+compute the ratio
+\begin{list}{}{}
+\item  {\sl SRESID} $ = ||AX - B|| / ( n ||A|| \, ||X|| \varepsilon ) $
+\end{list}
+\end{itemize}
+
+\subsubsection{Input File for Testing the ScaLAPACK Band and Tridiagonal
+LU Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'ScaLAPACK, Version 1.5, banded linear systems input file'
+'PVM.'
+''                              output file name (if any)
+6                               device out
+'T'                             define transpose or not
+ 7 3 4 8                                number of problem sizes
+ 2 5 17 28 37 121 200 1023 2048 3073    values of N
+ 6                               number of bandwidths
+ 1 2 3 15 6  8             values of BWL
+ 2 1 1 4  15 6              values of BWU
+1                               number of NB's
+-1 3 4 5                        values of NB (-1 for automatic determination)
+1                               number of NRHS's (must be 1)
+8                               values of NRHS
+1                               number of NBRHS's (ignored)
+1                               values of NBRHS (ignored)
+4                              number of process grids
+1 2 3 4 5 7 8 15 26 47 64      values of "Number of Process Columns"
+3.0                             threshold
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK LLT routines}
+
+The Cholesky test program generates random symmetric test matrices with
+values in the interval [-1,1] and then modifies these matrices to be
+diagonally dominant with positive diagonal elements thus creating
+symmetric positive-definite matrices. It then calls the ScaLAPACK 
+routines to factor and solve the system, and computes a solve and/or 
+factorization residual error check to verify that each operation has performed 
+correctly.  Condition estimation and iterative refinement routines are
+included and optionally tested.
+
+Specifically, each test matrix is subjected to the following tests:
+
+\begin{itemize}
+\item
+Compute the LLT factorization using PxPOTRF
+\item
+Solve the system $A X = B$ using PxPOTRS, and compute the ratio
+\begin{list}{}{}
+\item {\sl SRESID} $ = ||AX - B|| / ( n ||A|| \, ||X|| \varepsilon ) $
+\end{list}
+\item IF {\sl SRESID} $ >$ {\sl THRESH}, then compute the ratio
+\begin{list}{}{}
+\item {\sl FRESID} $= || L L^T - A || / ( n || A || \varepsilon ) $
+\end{list}
+\end{itemize}
+
+The expert driver ({\tt PxPOSVX}) performs condition estimation and
+iterative refinement and thus incorporates the following additional
+tests:
+
+\begin{itemize}
+\item
+Compute the reciprocal condition number RCOND using PxPOCON.
+%and compare to the value RCONDC which was computed as 1/(ANORM *
+%AINVNM)
+%where AINVNM is the explicitly computed norm of $A^{-1}$.
+%The larger of the ratios
+%\begin{list}{}{}
+%\item $\mbox{RCOND} / \mbox{RCONDC}$ and $\mbox{RCONDC} / \mbox{RCOND}$
+%\end{list}
+%is returned.  Since the same value of ANORM is used in both cases,
+%this test measures the accuracy of the estimate computed for $A^{-1}$.
+\item
+Use iterative refinement (PxPORFS) to improve the solution,
+and recompute the ratio
+\begin{list}{}{}
+\item  {\sl SRESID} $ = ||AX - B|| / ( n ||A|| \, ||X|| \varepsilon ) $
+\end{list}
+\end{itemize}
+
+\subsubsection{Input File for Testing the ScaLAPACK LLT Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'ScaLAPACK LLT factorization input file'
+'MPI machine.'
+'lltest.out'                     output file name (if any)
+6                               device out
+2                               number of problems sizes
+250 553                         values of N
+3                               number of NB's
+2 3 5                           values of NB
+2                               number of NRHS's
+1 5                             values of NRHS
+3                               Number of NBRHS's
+1 3 5                           values of NBRHS
+5                               Number of processor grids (ordered pairs of P & Q)
+1 4 2 8 1                       values of P
+1 2 4 1 8                       values of Q
+1.0                             threshold
+T                               (T or F) Test Cond. Est. and Iter. Ref. Routines
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK Band and Tridiagonal LLT routines}
+
+The Cholesky test program generates random symmetric positive definite
+band or tridiagonal test matrices with values in the interval [-1,1].
+It then calls the ScaLAPACK 
+routines to factor and solve the system, and computes a solve
+residual error check to verify that each operation has performed 
+correctly.
+
+Specifically, each test matrix is subjected to the following tests:
+
+\begin{itemize}
+\item
+Compute the Band or Tridiagonal LLT factorization using PxPBTRF (or PxPTTRF)
+\item
+Solve the system $A X = B$ using PxPBTRS (or PxPTTRS), and compute the ratio
+\begin{list}{}{}
+\item {\sl SRESID} $ = ||AX - B|| / ( n ||A|| \, ||X|| \varepsilon ) $
+\end{list}
+\end{itemize}
+
+\subsubsection{Input File for Testing the ScaLAPACK Band or Tridiagonal
+LLT Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'ScaLAPACK, banded linear systems input file'
+'PVM.'
+''                              output file name (if any)
+6                               device out
+'L'                             define Lower or Upper
+7                               number of problem sizes
+1 5 17 28 37 121 200            values of N
+6                               number of bandwidths
+1 2 4 10 31 64                  values of BW
+1                               number of NB's
+-1 3 4 5                        values of NB (-1 for automatic determination)
+1                               number of NRHS's (must be 1)
+8                               values of NRHS
+1                               number of NBRHS's (ignored)
+1                               values of NBRHS (ignored)
+4                               number of process grids
+1 2 3 4 5 7                     values of "Number of Process Columns"
+3.0                             threshold
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK QR, RQ, LQ, QL, QP, and TZ routines}
+
+The QR test program generates random nonsymmetric test matrices with
+values in the interval [-1,1], calls the ScaLAPACK 
+routines to factor the system, and computes a
+factorization residual error check to verify that each operation has performed 
+correctly.
+
+Specifically, each test matrix is subjected to the following tests:
+
+\begin{itemize}
+\item
+Compute the QR factorization using PxGEQRF, and generate the orthogonal
+matrix $Q$ from the Householder vectors
+\item
+Compute the ratio
+\begin{list}{}{}
+\item  {\sl FRESID} $ = || QR - A || / ( n || A || \varepsilon ) $
+\end{list}
+\end{itemize}
+
+The testing of the RQ, LQ, QL, and QP routines proceeds in a similar
+fashion.  Simply replace all occurrences of QR in the previous discussion
+with RQ, LQ, QL, or QP respectively.  For TZ, the factorization routine
+is called PxTZRZF.
+
+\subsubsection{Input File for Testing the ScaLAPACK QR, RQ, LQ, QL, QP, and TZ Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'ScaLAPACK, Orthogonal factorizations input file'
+'MPI machine'
+'QR.out'                        output file name (if any)
+6                               device out
+6                               number of factorizations
+'QR' 'QL' 'LQ' 'RQ' 'QP' 'TZ'   factorizations: QR, QL, LQ, RQ, QP, TZ
+4                               number of problems sizes
+2 5 13 15 13 26 30 15           values of M
+2 7 8  10 17 20 30 35           values of N
+4                               number of blocking sizes
+4 3 5 5 4 6                     values of MB
+4 7 3 5 8 2                     values of NB
+4                               number of process grids (ordered pairs P & Q)
+1 2 1 4 2 3 8                   values of P
+1 2 4 1 3 2 1                   values of Q
+3.0                             threshold
+\end{verbatim}
+
+\subsection{Tests for the Linear Least Squares (LLS) routines}
+
+The LLS test program tests the PxGELS driver routine for computing solutions
+to over- and underdetermined, full-rank systems of
+linear equations $AX = B$ ($A$ is $m$-by-$n$). For each test
+matrix type, we generate three matrices: One which is scaled near
+underflow, a matrix with moderate norm, and one which is scaled
+near overflow.
+
+The PxGELS driver
+computes the least-squares
+solutions (when $m \ge n$) and the
+minimum-norm solution (when $m < n$) for an $m$-by-$n$ matrix $A$
+of full rank. To test PxGELS, we generate a diagonally
+dominant matrix $A$, and for $C = A$ and $C = A^H$, we
+\begin{itemize}
+\item generate a consistent right-hand side $B$ such that $X$ is in
+the range space of $C$, compute a matrix $X$ using PxGELS, and compute
+the ratio
+        $$||AX - B||/(\max(m,n) ||A|| ||X|| \epsilon)$$
+
+\item If $C$ has more rows than columns (i.e. we are solving a
+least-squares problem), form $R = AX - B$, and check whether
+$R$ is orthogonal to the column space of $A$ by computing
+        $$|| R^H C ||/(\max(m,n,nrhs)||A|| ||B|| \epsilon)$$
+\item
+If $C$ has more columns than rows (i.e. we are solving an
+overdetermined system), check whether the solution $X$ is
+in the row space of $C$ by scaling both $X$ and $C$ to have
+norm one, and forming the QR factorization
+of $D = [A,X]$ if $C = A^H$, and the LQ factorization of
+$D = [A^H,X]^H$ if $C = A$. Letting $E = D(n:n+nrhs,n+1,n+nrhs)$ in the
+first case, and $E = D(m+1:m+nrhs,m+1:m+nrhs)$ in the latter,
+we compute
+        $$\max |d_{ij}| / (\max(m,n,nrhs) \epsilon)$$
+\end{itemize}
+
+\subsubsection{Input File for Testing the ScaLAPACK LLS Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'ScaLAPACK LLS input file'
+'MPI machine'
+'LS.out'                        output file name (if any)
+6                               device out
+3                               number of problems sizes
+55 17 31                        values of M
+5 71 31                         values of N
+3                               number of NB's
+2 3 5                           values of NB
+3                               number of NRHS's
+2 3 5                           values of NRHS
+2                               number of NBRHS's
+1 2                             values of NBRHS
+4                               number of process grids (ordered pairs P & Q)
+1 2 1 4 2 3 8                   values of P
+1 2 4 1 3 2 1                   values of Q
+4.0                             threshold
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK INV routines}
+
+The inversion test driver tests five different matrix types -- general
+nonsymmetric (GEN), general upper or lower triangular (UTR and LTR),
+and symmetric positive definite (upper or lower triangular) (UPD or
+LPD).
+
+\begin{itemize}
+\item
+If GEN, compute the LU factorization using PxGETRF, and then compute the inverse
+by invoking PxGETRI
+\item
+If UTR or LTR, set UPLO='U' or UPLO='L' respectively, and compute the inverse
+by invoking PxTRTRI
+\item
+If UPD or LPD, set UPLO='U' or UPLO='L' respectively, compute the Cholesky
+factorization using PxPOTRF, and then compute the inverse by invoking PxPOTRI
+\item
+Compute the ratio
+\begin{list}{}{}
+\item  {\sl FRESID} $ = || A A^{-1} - I || / ( n || A ||
+\varepsilon ) $
+\end{list}
+\end{itemize}
+
+\subsubsection{Input File for Testing the ScaLAPACK INV Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'ScaLAPACK, Matrix Inversion Testing input file'
+'MPI machine.'
+'INV.out'                       output file name (if any)
+6                               device out
+5                               number of matrix types (next line)
+'GEN' 'UTR' 'LTR' 'UPD' 'LPD'   GEN, UTR, LTR, UPD, LPD
+4                               number of problems sizes
+2 5 10 15 13 20 30 50           values of N
+4                               number of NB's
+2 3 4 5 6 20                    values of NB
+4                               number of process grids (ordered P & Q)
+1 2 1 4 2 3 8                   values of P
+1 1 4 1 3 2 1                   values of Q
+1.0                             threshold
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK HRD routines}
+
+The HRD test program generates random nonsymmetric test matrices with
+values in the interval [-1,1], calls the ScaLAPACK 
+routines to reduce the test matrix to upper Hessenberg form, and computes
+a reduction residual error check to verify that each operation has performed 
+correctly.
+
+Specifically, each test matrix is subjected to the following tests:
+
+\begin{itemize}
+\item Reduce the matrix $A$ to upper Hessenberg form $H$ using PxGEHRD
+\begin{list}{}{}
+\item $Q^{T} \ast A \ast Q = H$.
+\end{list}
+\item and compute the ratio
+\begin{list}{}{}
+\item  {\sl FRESID} $ = || Q \ast H \ast Q^{T} - A || / ( n || A || \varepsilon ) $ 
+\end{list}
+\end{itemize}
+
+\subsubsection{Input File for Testing the ScaLAPACK HRD Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'ScaLAPACK HRD input file'
+'MPI machine.'
+'HRD.out'               output file name (if any)
+6                       device out
+1                       number of problems sizes
+100 101                 values of N
+1 1                     values of ILO
+100 101                 values of IHI
+1                       number of NB's
+2 1 2 3 4 5             values of NB
+1                       number of processor grids (ordered pairs of P & Q)
+2 1 4                   values of P
+2 4 1                   values of Q
+1.0                     threshold
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK TRD routines}
+
+The TRD test program generates random symmetric test matrices with
+values in the interval [-1,1], calls the ScaLAPACK 
+routines to reduce the test matrix to symmetric tridiagonal form, and computes
+a reduction residual error check to verify that each operation has performed 
+correctly.
+
+Specifically, each test matrix is subjected to the following tests:
+
+\begin{itemize}
+\item Reduce the symmetric matrix $A$ to symmetric tridiagonal form $T$ using PxSYTRD
+\begin{list}{}{}
+\item $Q^{T} \ast A \ast Q = T$.
+\end{list}
+\item and compute the ratio
+\begin{list}{}{}
+\item  {\sl FRESID} $ = || Q \ast T \ast Q^{T} - A || / ( n || A || \varepsilon ) $ 
+\end{list}
+\end{itemize}
+
+\subsubsection{Input File for Testing the SCALAPACK TRD Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'ScaLAPACK TRD computation input file'
+'MPI machine.'
+'TRD.out'       output file name
+6               device out
+'L'             define Lower or Upper
+2               number of problems sizes
+16 17 100 101   values of N
+3               number of NB's
+3 4 5           values of NB
+3               Number of processor grids (ordered pairs of P & Q)
+2 4 1           values of P
+2 1 4           values of Q
+1.0             threshold
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK BRD routines}
+
+The BRD test program generates random nonsymmetric test matrices with
+values in the interval [-1,1], calls the ScaLAPACK 
+routines to reduce the test matrix to upper or lower bidiagonal form,
+and computes a reduction residual error check to verify that each operation
+has performed correctly.
+
+Specifically, each test matrix is subjected to the following tests:
+
+\begin{itemize}
+\item Reduce the matrix $A$ to upper or lower bidiagonal form $B$ using PxGEBRD
+\begin{list}{}{}
+\item $Q^{T} \ast A \ast P = B$.
+\end{list}
+\item and compute the ratio
+\begin{list}{}{}
+\item  {\sl FRESID} $ = || Q \ast B \ast P^{T} - A || / ( n || A || \varepsilon ) $ 
+\end{list}
+\end{itemize}
+
+\subsubsection{Input File for Testing the ScaLAPACK BRD Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'ScaLAPACK BRD input file'
+'MPI machine.'
+'BRD.out'       output file name (if any)
+6               device out
+3               number of problems sizes
+16 14 25 15 16  values of M
+9  13 20 15 16  values of N
+2               number of NB's
+3 4 5           values of NB
+3               Number of processor grids (ordered pairs of P & Q)
+2 4 1           values of P
+2 1 4           values of Q
+1.0             threshold
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK SEP routines}
+
+\dent
+The following tests will be performed on PxSYEV/PxHEEV, PxSYEVX/PxHEEVX and
+PxSYEVD/PxHEEVD:
+
+\begin{eqnarray}
+          r_1&=&\frac{\leftnorm A Z - Z L \rightnorm}
+                {abstol + ulp \, \leftnorm A \rightnorm} \nonumber\\[1ex] 
+          r_2&=&\frac{\leftnorm Z^* Z - I \rightnorm}
+                 {ulp \, \leftnorm A \rightnorm} \nonumber
+\end{eqnarray}
+where $Z$ is the matrix of eigenvectors returned when the
+eigenvector option is given, $L$ is the matrix of eigenvalues,
+$ulp$ represents PxLAMCH( ICTXT, 'P' ),
+and $abstol$ represents $ulp \ast \leftnorm A
+\rightnorm$.
+
+The tester allows multiple test requests to be controlled from a 
+single input file.  Each test request is controlled by the following inputs:
+
+\begin{description}
+\item[] Values of N \\
+N = The matrix size
+\item[] Values of P, Q, NB \\
+P = NPROW, the number of processor rows \\
+Q = NPCOL, the number of processor columns \\
+NB = the block size
+\item[] Values of the matrix types \\
+See Section~\ref{sep_test_matrices}.
+\item[] Number of eigen requests \\
+1 = Test full eigendecomposition only \\
+8 = Test the following eigen requests: \\
+Full eigendecomposition \\
+All eigenvalues, no eigenvectors \\
+Eigenvalues requested by value (i.e. VL,VU) \\
+Eigenvalues and vectors requested by value \\
+Eigenvalues requested by index (i.e. IL, IU) \\
+Eigenvalues and vectors requested by index \\
+Full eigendecomposition with minimal workspace provided\\
+Full eigendecomposition with random workspace provided
+\item[] Threshold \\
+The highest value of $r_1, r_2$ and $r_3$ that will be accepted.
+\item[] Absolute tolerance \\
+Must be -1.0 to ensure orthogonal eigenvectors
+\item[] Print Request \\
+1 = Print every test \\
+2 = Print only failing tests and a summary of the request
+\end{description}
+
+\subsubsection{Test Matrices for the Symmetric Eigenvalue Routines}
+\label{sep_test_matrices}
+
+\dent
+Twenty-two different types of test matrices may be generated for
+the symmetric eigenvalue routines.
+Table~\ref{testmat:symm} shows the types,
+along with the numbers used to refer to the matrix types.
+Except as noted, all matrices have norm $O(1)$.
+The expression $U D U^{-1}$ means a real diagonal matrix $D$
+with entries of magnitude $O(1)$ conjugated
+by a unitary (or real orthogonal) matrix $U$.
+
+%
+%         Table of Symmetric Test Matrices
+%
+\TS
+\newcommand{\1}{{\footnotesize\raisebox{1ex}{\dag}}}
+\newcommand{\2}{{\footnotesize\raisebox{1ex}{\ddag}}}
+\newcommand{\3}{{\footnotesize\raisebox{1ex}{$\ast$}}}
+\newcommand{\4}{{\footnotesize\raisebox{1ex}{$\star$}}}
+\newcommand{\5}{{\footnotesize\raisebox{1ex}{$\bullet$}}}
+\newcommand{\6}{{\footnotesize\raisebox{1ex}{$a$}}}
+\newcommand{\7}{{\footnotesize\raisebox{1ex}{$b$}}}
+  \begin{tabular}{|l|c|c|c|c|} \hline
+         & \multicolumn{4}{c|}{Eigenvalue Distribution}        \\ \cline{2-5}
+    Type & Arithmetic & Geometric & Clustered  & Other         \\ \hline
+    Zero     & \multicolumn{3}{c|}{ }          & 1             \\ \hline
+    Identity & \multicolumn{3}{c|}{ }          & 2             \\ \hline
+   Diagonal     & 3 & 4, 6\1, 7\2   &    5   &               \\ \hline
+   $U D U^{-1}$ & 8, 11\1, 12\2, & 9, 17\3 & 10, 18\3 & \\
+      \,        & 16\3, 19\4, 20\5 &       &          & \\ \hline
+   Symmetric w/Random entries & \multicolumn{3}{c|}{ } & 13, 14\1, 15\2 \\ \hline
+   Tridiagonal   &   &  &  &    21\6            \\ \hline
+   Multiple Clusters    &   &  &  &     22\7           \\ \hline
+\multicolumn{5}{l}{\dag -- matrix entries are {\footnotesize $O(\sqrt{\mbox{overflow}})$}} \\
+\multicolumn{5}{l}{\ddag -- matrix entries are {\footnotesize $O(\sqrt{\mbox{underflow}})$}} \\
+\multicolumn{5}{l}{$\ast$ -- diagonal entries are positive} \\
+\multicolumn{5}{l}{$\star$ -- matrix entries are {\footnotesize $O(\sqrt{\mbox{overflow}})$} and diagonal entries are positive} \\
+\multicolumn{5}{l}{$\bullet$ -- matrix entries are {\footnotesize $O(\sqrt{\mbox{underflow}})$} and diagonal entries are positive}\\
+\multicolumn{5}{l}{$a$ -- Some of the immediately off-diagonal elements are zero - guaranteeing splitting}\\
+\multicolumn{5}{l}{$b$ -- Clusters are sized: 1, 2, 4, \ldots, $2^i$.}
+  \end{tabular}
+\caption{Test matrices for the symmetric eigenvalue problem}
+\label{testmat:symm}
+\TE
+
+
+\subsubsection{Input File for Testing the Symmetric Eigenvalue Routines
+and Drivers}
+\label{sep:datfile}
+
+\dent
+An annotated example of an input file for testing the symmetric
+eigenvalue routines and drivers is shown below.
+
+\begin{verbatim}
+'ScaLAPACK Symmetric Eigensolver Test File'
+' '
+'sep.out'                       output file name (if any)
+6                               device out (13 & 14 reserved for internal testing)
+4 				maximum number of processes
+'N'				disable pxsyev tests, recommended for heterogeneous systems.
+' '
+'TEST 1 - test tiny matrices - different process configurations'
+3                               number of matrices
+0 1 2				matrix size
+1				number of uplo choices
+'L'				uplo choices
+2				number of processor configurations (P, Q, NB)
+1 1	         		values of P (NPROW)
+2 1	 			values of Q (NPCOL)
+1 1	 			values of NB 
+1				number of matrix types
+8 			 	matrix types (see pdseptst.f)
+'N'				perform subset tests?
+80.0				Threshold (* 5 for generalized tests) 
+-1 				Absolute Tolerance
+' '
+'End of tests'
+-1
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK GSEP routines}
+
+Finding the eigenvalues and eigenvectors of symmetric matrices A and B,
+where B is also positive definite, follows the same stages as the
+symmetric eigenvalue problem except that the problem is first reduced from
+generalized to standard form using PxSYGST/PxHEGST.
+
+To check these calculations, the following test ratios are computed:
+\begin{eqnarray}
+        r_1&=&\frac{ \leftnorm A \, Z - B \, Z \, D \rightnorm }
+                   { \leftnorm A\rightnorm \, \leftnorm Z \rightnorm \, n \, ulp} \nonumber \\
+           & &\mbox{calling PxSYGVX/PxHEGVX with ITYPE=1 and UPLO='U'} \nonumber \\
+        r_2&=&\frac{ \leftnorm A \, Z - B \, Z \, D \rightnorm }
+                   { \leftnorm A\rightnorm \, \leftnorm Z \rightnorm \, n \, ulp} \nonumber \\
+           & &\mbox{calling PxSYGVX/PxHEGVX with ITYPE=1 and UPLO='L'} \nonumber \\
+        r_5&=&\frac{ \leftnorm A \, Z - B \, Z \, D \rightnorm }
+                   { \leftnorm A\rightnorm \, \leftnorm Z \rightnorm \, n \, ulp} \nonumber \\
+           & &\mbox{calling PxSYGVX/PxHEEVX with ITYPE=2 and UPLO='U'} \nonumber \\
+        r_8&=&\frac{ \leftnorm A \, B \, Z - Z \, D \rightnorm }
+                   { \leftnorm A\rightnorm \, \leftnorm Z \rightnorm \, n \, ulp} \nonumber \\
+           & &\mbox{calling PxSYGVX/PxHEEVX with ITYPE=2 and UPLO='L'} \nonumber \\
+        r_{10}&=&\frac{ \leftnorm A \, B \, Z - Z \, D \rightnorm }
+                   { \leftnorm A\rightnorm \, \leftnorm Z \rightnorm \, n \, ulp} \nonumber \\
+           & &\mbox{calling PxSYGVX/PxHEEVX with ITYPE=3 and UPLO='U'} \nonumber \\
+        r_{12}&=&\frac{ \leftnorm B \, A \, Z - Z \, D \rightnorm }
+                   { \leftnorm A\rightnorm \, \leftnorm Z \rightnorm \, n \, ulp} \nonumber \\
+           & &\mbox{calling PxSYGVX/PxHEEVX with ITYPE=3 and UPLO='L'} \nonumber \\
+        r_{14}&=&\frac{ \leftnorm B \, A \, Z - Z \, D \rightnorm }
+                   { \leftnorm A\rightnorm \, \leftnorm Z \rightnorm \, n \, ulp} \nonumber \\
+\end{eqnarray}
+
+\subsubsection{Input File for Testing the Generalized Symmetric Eigenvalue Routines and Drivers}
+
+\dent
+The input file for testing the generalized symmetric
+eigenvalue routines and drivers is the same as that for testing
+the symmetric eigenproblem routines.  Refer to the Section ~\ref{sep:datfile}
+for further details.
+
+\subsection{Tests for the ScaLAPACK NEP routines}
+
+The PxLAHQR test program generates random upper Hessenberg matrices,
+completes a Schur decomposition on them, and then tests the resulting
+Schur decomposition for maintaining similarity.
+The following tests will be performed on P\_LAHQR:
+
+\begin{eqnarray}
+          r_1&=&\frac{\leftnorm H - Q S Q^T \rightnorm}
+                {n \, ulp \, \leftnorm H \rightnorm} \nonumber\\[1ex]
+          r_2&=&\frac{\leftnorm I - Q^T Q \rightnorm}
+                 {n \, ulp } \nonumber\\[1ex]
+\end{eqnarray}
+where $Q$ is the Schur vectors of the upper Hessenberg matrix $H$ when
+the Schur vector and Schur decomposition option is given.  $N$ is the
+order of the matrix, $ulp$ represents PxLAMCH( ICTXT, 'P' ), and the
+one-norm is used for the norm computations.
+
+\subsubsection{Input File for Testing the ScaLAPACK NEP Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'SCALAPACK NEP (Nonsymmetric Eigenvalue Problem) input file'
+'MPI Machine'
+'NEP.out'               output file name (if any)
+6                       device out
+8                       number of problems sizes
+1 2 3 4 6 10 100 200    values of N
+3                       number of NB's
+6 20 40                 values of NB
+4                       number of process grids (ordered pairs of P & Q)
+1 2 1 4                 values of P
+1 2 4 1                 values of Q
+20.0                    threshold
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK EVC routines}
+
+The PCTREVC/PZTREVC test program performs a right and
+left eigenvector calculation of a triangular matrix followed by
+a residual checks of the calculated eigenvectors.
+
+The following tests will be performed on P\_TREVC.  The 
+basic test is:
+
+\begin{eqnarray}
+          r_1&=&\frac{\leftnorm H Z - Z D \rightnorm}
+                {n \, ulp \, \leftnorm T \rightnorm} \nonumber\\[1ex]
+\end{eqnarray}
+using the 1-norm.  It also tests the normalization of $Z$.
+\begin{eqnarray}
+          r_2&=&\frac{max_j \leftnorm m-norm( Z(j) ) - 1 \rightnorm)}
+                 {n \, ulp } \nonumber\\[1ex]
+\end{eqnarray}
+where $H$ is the upper Hessenberg matrix, $n$ is the order of the
+matrix, $Z(j)$ is the j-th eigenvector, and m-norm is the max-norm of a
+vector, and  $ulp$ represents PxLAMCH( ICTXT, 'P' ).  The max-norm of a 
+complex n-vector $x$ in this case is the
+maximum of $\leftnorm re(x(i))\rightnorm$ + $\leftnorm im(x(i)) \rightnorm$
+over $i = 1, \ldots, n$.
+
+\subsubsection{Input File for Testing the ScaLAPACK EVC Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'SCALAPACK NEP (Nonsymmetric Eigenvalue Problem) input file'
+'MPI Machine'
+'EVC.out'               output file name (if any)
+6                       device out
+1                       number of problems sizes
+100 1000 1500 2000 2500 3000    Probs
+1                       number of NB's
+8                      values of NB
+4                       number of process grids (ordered pairs of P & Q)
+1 1 4 2 3 2 2 1           values of P
+1 4 1 2 3 1 4 8           values of Q
+20.0                    threshold
+\end{verbatim}
+
+\subsection{Tests for the ScaLAPACK SVD routines}
+
+The following tests will be performed on PSGESVD/PDGESVD.
+A number of matrix ``types'' are specified, as denoted in 
+Table~\ref{testmat:SVD}.  For each type of matrix, and for the minimal
+workspace as well as
+for larger than minimal workspace an  $M$-by$N$ matrix ``A'' with known
+singular values is generated and used to test the SVD routines.
+For each matrix, A will be factored as $A~=~U~diag(S)~VT$ and the
+following 9 tests computed:
+
+\begin{eqnarray}
+   r_1 &=& \frac{ \leftnorm A - U1 \mbox{diag}(S1) VT1 \rightnorm }
+                { \leftnorm A\rightnorm \max(M,N) \, ulp} \nonumber\\
+   r_2 &=& \frac{ \leftnorm I - (U1)^T U1 \rightnorm }
+                { M \, ulp} \nonumber\\
+   r_3 &=& \frac{ \leftnorm I - VT1 (VT1)^T \rightnorm }
+                { N \, ulp} \nonumber\\
+   r_4 &=&  \left\{
+                  \begin{array}{ll}
+                    0 & \mbox{if $S1$ contains SIZE nonnegative values
+                          in decreasing order.} \\
+                    \frac{1}{ulp} & \mbox{otherwise}
+                  \end{array}
+             \right. \nonumber\\
+   r_5 &=& \frac{ \leftnorm S1 - S2 \rightnorm }
+                { SIZE \, M \leftnorm S\rightnorm} \nonumber\\
+   r_6 &=& \frac{ \leftnorm U1 - U2 \rightnorm }
+                { M \, ulp} \nonumber\\
+   r_7 &=& \frac{ \leftnorm S1 - S3 \rightnorm }
+                { SIZE \, ulp \leftnorm S\rightnorm } \nonumber\\
+   r_8 &=& \frac{ \leftnorm VT1 - VT3 \rightnorm }
+                { N \, ulp} \nonumber\\
+   r_9 &=& \frac{ \leftnorm S1 - S4 \rightnorm }
+                { SIZE \, ulp \, \leftnorm S\rightnorm} \nonumber
+\end{eqnarray}
+where $ulp$ represents PxLAMCH(ICTXT, 'P').
+
+\subsubsection{Test Matrices for the Singular Value Decomposition Routines}
+\label{svd_test_matrices}
+
+\dent
+Six different types of test matrices may be generated for
+the singular value decomposition routines.
+Table~\ref{testmat:SVD} shows the types available,
+along with the numbers used to refer to the matrix types.
+Except as noted, all matrix types other than the random bidiagonal
+matrices have $O(1)$ entries.
+The expression $U D V$ means a real diagonal matrix $D$ with
+$O(1)$ entries multiplied by unitary (or real orthogonal) matrices
+on the left and right.
+%
+%         Table of SVD Test Matrices
+%
+\TS
+\newcommand{\1}{{\footnotesize\raisebox{1ex}{\dag}}}
+\newcommand{\2}{{\footnotesize\raisebox{1ex}{\ddag}}}
+  \begin{tabular}{|l|c|c|} \hline
+         & \multicolumn{2}{c|}{Singular Value Distribution}    \\ \cline{2-3}
+    Type & Arithmetic & Other         \\ \hline
+   Zero     &         & 1             \\ \hline
+    Identity &        & 2             \\ \hline
+  Diagonal  & 3       &               \\ \hline
+   $U D V$   & 4, 5\1, 6\2    &       \\ \hline
+\multicolumn{3}{l}{\dag -- matrix entries are {\footnotesize $O(\sqrt{\mbox{overflow}})$}} \\
+\multicolumn{3}{l}{\ddag -- matrix entries are {\footnotesize $O(\sqrt{\mbox{underflow}})$}}
+  \end{tabular}
+\caption{Test matrices for the singular value decomposition}
+\label{testmat:SVD}
+\TE
+
+\subsubsection{Input File for Testing the ScaLAPACK SVD Routines}
+\dent
+An annotated example of an input file for the
+test program is shown below.
+
+\begin{verbatim}
+'ScaLAPACK Singular Value Decomposition  input file'
+6                               device out
+4				maxnodes
+' '
+'TEST 1 - test medium matrices - all types and requests'
+20.0                            Threshold
+1                               number of matrices
+100                             number of rows
+25                              number of columns
+1                               number of processor configurations (P, Q, NB)
+2                               values of P (NPROW)
+2                               values of Q (NPCOL)
+8                               values of NB
+' '
+'End of tests'
+-1
+\end{verbatim}
+
+\clearpage
+
+\def\thesection{\thechapter.\arabic{section}}
+% Appendix A of Implementation Guide
+%\addtocontents{toc}{\protect\clearpage}
+\appendix
+
+%Appendix A 
+
+\chapter{ScaLAPACK Routines}\label{appendixa}
+
+In this appendix, we review the subroutine naming scheme for ScaLAPACK
+and indicate by means of a table which subroutines
+are included in this release. We also list the driver routines.
+
+Each subroutine name in ScaLAPACK, which has an LAPACK equivalent, is
+simply the LAPACK name prepended by a {\tt P}.  All names consist of
+seven characters in the form PTXXYYY.  The second letter, T, indicates the 
+matrix data type as follows:
+\begin{tabbing}
+Smmm \= \kill
+S \> REAL \\
+D \> DOUBLE PRECISION \\
+C \> COMPLEX \\
+Z \> COMPLEX*16 (if available)
+\end{tabbing}
+
+The next two letters, XX, indicate the type of matrix. 
+Most of these two-letter codes apply to both real and complex routines;
+a few apply specifically to one or the other, as indicated below:
+
+\begin{tabbing}
+Smmm \= \kill
+%BD  \>  bidiagonal \\
+DB  \>  general band (diagonally-dominant like) \\
+DT  \>  general tridiagonal (diagonally-dominant like) \\
+GB  \>  general band \\
+GE  \>  general (i.e. unsymmetric, in some cases rectangular) \\
+GG  \>  general matrices, generalized problem (i.e. a pair of general matrices)\\
+%GT  \>  general tridiagonal \\
+HE  \>  (complex) Hermitian \\
+%HS  \>  upper Hessenberg \\
+OR  \>  (real) orthogonal \\
+PB  \>  symmetric or Hermitian positive definite band \\
+PO  \>  symmetric or Hermitian positive definite \\
+PT  \>  symmetric or Hermitian positive definite tridiagonal \\
+%SB  \>  (real) symmetric band \\
+ST  \>  symmetric tridiagonal \\
+SY  \>  symmetric \\
+TR  \>  triangular (or in some cases quasi-triangular)\\
+TZ  \>  trapezoidal \\
+UN  \>  (complex) unitary \\
+\end{tabbing}
+
+The last three characters, YYY, indicate the computation done by a
+particular subroutine. 
+Included in this release are subroutines
+to perform the following computations:
+\begin{tabbing}
+Smmm \= \kill
+BRD \>  reduce to bidiagonal form by orthogonal transformations \\
+CON \>  estimate condition number\\
+EBZ \>  compute selected eigenvalues by bisection \\
+EDC \>  compute eigenvectors using divide and conquer \\
+EIN \>  compute selected eigenvectors by inverse iteration \\
+%EQR \>  compute eigenvalues and/or the Schur form using the QR algorithm \\
+EQU \>  equilibrate a matrix to reduce its condition number \\
+EVC \>  compute the eigenvectors from the Schur factorization \\
+GBR \>  generate the orthogonal/unitary matrix from PxGEBRD \\
+GHR \>  generate the orthogonal/unitary matrix from PxGEHRD \\
+GLQ \>  generate the orthogonal/unitary matrix from PxGELQF \\
+GQL \>  generate the orthogonal/unitary matrix from PxGEQLF \\
+GQR \>  generate the orthogonal/unitary matrix from PxGEQRF \\
+GRQ \>  generate the orthogonal/unitary matrix from PxGERQF \\
+GST \>  reduce a symmetric-definite generalized eigenvalue problem to standard form \\
+%GTR \>  generate the orthogonal/unitary matrix from PxxxTRD \\
+HRD \>  reduce to upper Hessenberg form by orthogonal transformations \\
+LQF \>  compute an LQ factorization without pivoting \\
+MBR \>  multiply by the orthogonal/unitary matrix from PxGEBRD \\
+MHR \>  multiply by the orthogonal/unitary matrix from PxGEHRD \\
+MLQ \>  multiply by the orthogonal/unitary matrix from PxGELQF \\
+MQL \>  multiply by the orthogonal/unitary matrix from PxGEQLF \\
+MQR \>  multiply by the orthogonal/unitary matrix from PxGEQRF \\
+MRQ \>  multiply by the orthogonal/unitary matrix from PxGERQF \\
+MRZ \>  multiply by the orthogonal/unitary matrix from PxTZRZF \\
+MTR \>  multiply by the orthogonal/unitary matrix from PxxxTRD \\
+QLF \>  compute a QL factorization without pivoting \\
+QPF \>  compute a QR factorization with column pivoting\\
+QRF \>  compute a QR factorization without pivoting \\
+RFS \>  refine initial solution returned by TRS routines \\
+RQF \>  compute an RQ factorization without pivoting \\
+RZF \>  compute an RZ factorization without pivoting \\
+TRD \>  reduce a symmetric matrix to real symmetric tridiagonal form \\
+TRF \>  compute a triangular factorization (LU, Cholesky, etc.) \\
+TRI \>  compute inverse (based on triangular factorization)\\
+TRS \>  solve systems of linear equations (based on triangular factorization)
+\end{tabbing}
+
+\vspace{5pt}
+Given these definitions, the following table indicates the ScaLAPACK
+subroutines for the solution of systems of linear equations:
+
+\vspace{5pt}
+\newcommand{\ok}{$ \times $}
+\newcommand{\1}{{\small\raisebox{1ex}{\dag}}}
+\newcommand{\2}{{\small\raisebox{1ex}{\ddag}}}
+\begin{tabular}{l c c c c c c c c c c c c c}
+     &    &    &    &    &   &    &    &     &    & HE &    &    & UN \\
+     & GE & GG & DB & GB & DT & GT & PO & PB  & PT & SY & TR & TZ & OR \\
+TRF  & \ok&    & \ok& \ok& \ok&    & \ok& \ok &\ok &    &    &    &    \\
+TRS  & \ok&    & \ok& \ok& \ok&    & \ok& \ok &\ok &    & \ok&    &    \\
+RFS  & \ok&    &    &    &    &    & \ok&     &    &    & \ok&    &    \\
+TRI  & \ok&    &    &    &    &    & \ok&     &    &    & \ok&    &    \\
+CON  & \ok&    &    &    &    &    & \ok&     &    &    & \ok&    &    \\
+EQU  & \ok&    &    &    &    &    & \ok&     &    &    &    &    &    \\
+QPF  & \ok&    &    &    &    &    &    &     &    &    &    &    &    \\
+QRF\1& \ok& \ok&    &    &    &    &    &     &    &    &    &    &    \\
+RZF  &    &    &    &    &    &    &    &     &    &    &    & \ok&    \\
+GQR\1&    &    &    &    &    &    &    &     &    &    &    &    & \ok \\
+MQR\2&    &    &    &    &    &    &    &     &    &    &    &    & \ok \\
+\multicolumn{12}{l}{\dag -- also RQ, QL, and LQ} \\
+\multicolumn{12}{l}{\ddag -- also RQ, RZ, QL, and LQ} \\
+\end{tabular}
+
+\vspace{11pt}
+The following table indicates the ScaLAPACK
+subroutines for finding eigenvalues and eigenvectors
+or singular values and singular vectors:
+
+\vspace{5pt}
+\begin{tabular}{l c c c c c c c c c c }
+    &      &    &    &    &    &    & HE  &     &    &    \\
+    & GE   & GG & HS & HG & TR & TG & SY  & ST  & PT & BD \\
+HRD & \ok  &    &    &    &    &    &     &     &    &    \\
+TRD &      &    &    &    &    &    & \ok &     &    &    \\
+BRD & \ok  &    &    &    &    &    &     &     &    &    \\
+EQZ &      &    &    &    &    &    &     &     &    &    \\
+EIN &      &    &    &    &    &    &     & \ok &    &    \\
+EBZ &      &    &    &    &    &    &     & \ok &    &    \\
+EDC &      &    &    &    &    &    &     & \ok &    &    \\
+EVC &      &    &    &    & \ok&    &     & \ok &    &    \\
+GST &      &    &    &    &    &    & \ok &     &    &    \\
+\end{tabular}
+
+Orthogonal/unitary transformation routines have also been
+provided for the reductions that use elementary transformations.
+
+\begin{tabular}{l c}
+    & UN   \\
+    & OR   \\
+GHR & \ok  \\
+GTR & \ok  \\
+GBR & \ok  \\
+MHR & \ok  \\
+MTR & \ok  \\
+MBR & \ok  \\
+\end{tabular}
+
+\vspace{5pt}
+In addition, a number of driver routines are provided with this release.
+The naming convention for the driver routines is the same as for the
+LAPACK routines, but the last 3 characters YYY have the following
+meanings (note an `X' in the last character position indicates a more
+expert driver):
+
+\vspace{-0.05in}
+\begin{tabbing}
+Smmm \= \kill
+SV   \> factor the matrix and solve a system of equations \\
+SVX  \> equilibrate, factor, solve, compute error bounds and do iterative refinement, and \\
+     \> estimate the condition number \\
+LS   \> solve over- or underdetermined linear system using orthogonal factorizations \\
+EV   \> compute all eigenvalues and/or eigenvectors \\
+EVD  \> compute all eigenvalues and, optionally, eigenvectors (using divide and conquer algorithm) \\
+EVX  \> compute selected eigenvalues and eigenvectors \\
+%GV   \> compute generalized eigenvalues and/or generalized eigenvectors \\
+GVX  \> compute selected generalized eigenvalues and/or generalized eigenvectors \\
+SVD  \> compute the SVD and/or singular vectors
+\end{tabbing}
+
+The driver routines provided in ScaLAPACK are indicated by the following
+table:
+
+\vspace{5pt}
+\begin{tabular}{l c c c c c c c c c c c c}
+    &     &     &     &     &     &    &     &     &     & HE  & HB  & \\
+    & GE  & GG  & DB  & GB  & DT  & GT  & PO  & PB  & PT  & SY  & SB  & ST \\
+SV  & \ok &     & \ok & \ok & \ok &    & \ok & \ok & \ok &     &     &    \\
+SVX & \ok &     &     &     &     &    & \ok &     &     &     &     &     \\
+LS  & \ok &     &     &     &     &     &     &     &     &     &     &     \\
+EV  &     &     &     &     &     &    &     &     &     & \ok &     &     \\
+EVD &     &     &     &     &     &    &     &     &     & \ok &     &     \\
+EVX &     &     &     &     &     &    &     &     &     & \ok &     &    \\
+%GV  &     &     &     &     &     &    &     &     &     &     &     &    \\
+GVX &     &     &     &     &     &    &     &     &     & \ok &     & \\
+SVD & \ok &     &     &     &     &    &     &     &     &     &     &
+\end{tabular}
+\clearpage
+
+% Appendix B
+
+\chapter{ScaLAPACK Auxiliary Routines}\label{appendixb}
+
+This appendix lists all of the auxiliary routines (except for the
+BLAS and LAPACK) that are called from the ScaLAPACK routines. 
+These routines are found in the directory {\tt SCALAPACK/SRC}.
+Routines specified with a first character P followed by an underscore
+as the second character are available in all four data types (S, D, C,
+and Z), except those marked (real), for which the first character may
+be `S' or `D', and those marked (complex), for which the first character
+may be `C' or `Z'.
+
+\noindent
+Functions for computing norms:
+\begin{tabbing}
+MOOMOO \= \kill
+%\_LANGB \> General band matrix \\
+P\_LANGE \> General matrix \\
+%\_LANGT \> General tridiagonal matrix \\
+%\_LANHB \> (complex) Hermitian band matrix \\
+P\_LANHE \> (complex) Hermitian matrix \\
+%\_LANHP \> (complex) Hermitian packed matrix \\
+P\_LANHS \> Upper Hessenberg matrix \\
+%\_LANHT \> (complex) Hermitian tridiagonal matrix \\
+%\_LANSB \> Symmetric band matrix \\
+%\_LANSP \> Symmetric packed matrix \\
+%\_LANST \> (real) Symmetric tridiagonal matrix \\
+P\_LANSY \> Symmetric matrix \\
+%\_LANTB \> Triangular band matrix \\
+%\_LANTP \> Triangular packed matrix \\
+P\_LANTR \> Trapezoidal matrix 
+\end{tabbing}
+
+\noindent
+Level 2 BLAS versions of the block routines:
+\begin{tabbing}
+MOOMOO \= \kill
+%\_GBTF2 \> compute the LU factorization of a general band matrix \\
+P\_GEBD2 \> reduce a general matrix to bidiagonal form \\
+P\_GEHD2 \> reduce a square matrix to upper Hessenberg form \\
+P\_GELQ2 \> compute an LQ factorization without pivoting \\
+P\_GEQL2 \> compute a QL factorization without pivoting \\
+P\_GEQR2 \> compute a QR factorization without pivoting \\
+P\_GERQ2 \> compute an RQ factorization without pivoting \\
+P\_GETF2 \> compute the LU factorization of a general matrix \\
+%\_HEGS2 \> (complex) reduce a Hermitian-definite generalized eigenvalue problem to \\
+%        \> standard form \\
+P\_HETD2 \> (complex) reduce a Hermitian matrix to real tridiagonal form \\
+%\_HETF2 \> (complex) compute diagonal pivoting factorization of a Hermitian matrix \\
+P\_ORG2L \> (real) generate the orthogonal matrix from PxGEQLF \\
+P\_ORG2R \> (real) generate the orthogonal matrix from PxGEQRF \\
+P\_ORGL2 \> (real) generate the orthogonal matrix from PxGEQLF \\
+P\_ORGR2 \> (real) generate the orthogonal matrix from PxGERQF \\
+P\_ORM2L \> (real) multiply by the orthogonal matrix from PxGEQLF \\
+P\_ORM2R \> (real) multiply by the orthogonal matrix from PxGEQRF \\
+%P\_ORMBR \> (real) multiply by the orthogonal matrix from PxGEBRD \\
+%P\_ORMHR \> (real) multiply by the orthogonal matrix from PxGEHRD \\
+P\_ORML2 \> (real) multiply by the orthogonal matrix from PxGELQF \\
+P\_ORMR2 \> (real) multiply by the orthogonal matrix from PxGERQF \\
+P\_ORMR3 \> (real) multiply by the orthogonal matrix from PxTZRZF \\
+%P\_ORMTR \> (real) multiply by the orthogonal matrix from PxSYTRD \\
+P\_POTF2 \> compute the Cholesky factorization of a positive definite matrix \\
+P\_SYGS2 \> (real) reduce a symmetric-definite generalized eigenvalue problem to \\
+%        \> standard form \\
+P\_SYTD2 \> (real) reduce a symmetric matrix to tridiagonal form \\
+%\_SYTF2 \> compute the diagonal pivoting factorization of a symmetric matrix \\
+P\_TRTI2 \> compute the inverse of a triangular matrix \\
+P\_UNG2L \> (complex) generate the unitary matrix from PxGEQLF \\
+P\_UNG2R \> (complex) generate the unitary matrix from PxGEQRF \\
+P\_UNGL2 \> (complex) generate the unitary matrix from PxGEQLF \\
+P\_UNGR2 \> (complex) generate the unitary matrix from PxGERQF \\
+P\_UNM2L \> (complex) multiply by the unitary matrix from PxGEQLF \\
+P\_UNM2R \> (complex) multiply by the unitary matrix from PxGEQRF \\
+P\_UNML2 \> (complex) multiply by the unitary matrix from PxGELQF \\
+P\_UNMR2 \> (complex) multiply by the unitary matrix from PxGERQF \\
+P\_UNMR3 \> (complex) multiply by the unitary matrix from PxTZRZF
+\end{tabbing}
+
+\noindent
+Other ScaLAPACK auxiliary routines:
+\begin{tabbing}
+MOOMOOOOOMM \= \kill
+P\_LABAD \> (real) returns square root of underflow and overflow if exponent range is large \\
+P\_LABRD \> reduce NB rows or columns of a matrix to upper or lower bidiagonal form \\
+P\_LACGV  \> (complex) conjugates a complex vector of length n \\
+P\_LACHKIEEE \> (real) performs a simple check for the features of the IEEE standard \\
+%\_LACRM  \> (complex) matrix multiply $C~=~A \ast B$, where A is complex, B is real, \\
+%         \> and C is complex. \\
+%\_LACRT  \> (complex) applies a plane rotation to two complex vectors \\
+P\_LACON  \> estimate the norm of a matrix for use in condition estimation\\
+P\_LACONSB \> (real) looks for two consecutive small subdiagonal elements \\
+P\_LACP2 \> copies all or part of a distributed matrix to another distributed matrix \\
+P\_LACP3 \> (real) copies from a global parallel array into a local \\
+         \>  replicated array or vice versa. \\
+P\_LACPY \> copy all or part of a distributed matrix to another distributed matrix\\
+%P\_LADIV \> perform complex division in real arithmetic \\
+%\_LAE2  \> (real) compute eigenvalues of a 2-by-2 real symmetric matrix\\
+%\_LAEBZ \> compute and use the count of eigenvalues of a symmetric \\
+%       \> tridiagonal matrix \\
+P\_LAED0 \> Used by PxSTEDC.  \\
+P\_LAED1 \> (real) Used by PxSTEDC. \\
+P\_LAED2 \> (real) Used by PxSTEDC. \\
+P\_LAED3 \> (real) Used by PxSTEDC. \\
+P\_LAEDZ \> (real) Used by PxSTEDC. \\
+P\_LAEVSWP \> moves the eigenvectors from where they are computed to a \\
+          \> standard block cyclic array\\
+P\_LAHEF \> (complex) compute part of the diagonal pivoting factorization of a Hermitian \\
+        \> matrix\\
+P\_LAHQR \> Find the Schur factorization of a Hessenberg matrix (modified version of \\
+        \> HQR from EISPACK)\\
+P\_LAHRD \> reduce NB columns of a general matrix to Hessenberg form\\
+P\_LAIECTB \> (real) computes the number of negative eigenvalues in $(A- \Sigma I)$ \\
+          \> where the sign bit is assumed to be bit 32.\\
+P\_LAIECTL \> (real) computes the number of negative eigenvalues in $(A- \Sigma I)$ \\
+          \> where the sign bit is assumed to be bit 64.\\
+\_LANV2 \> (complex) computes the Schur factorization of a real 2-by-2 nonsymmetric matrix \\
+P\_LAPIV \> applies permutation matrix to a general distributed matrix \\
+P\_LAPV2 \> pivoting \\
+%\_LAPY2 \> (real) Compute square root of X**2 + Y**2\\
+%\_LAPY3 \> (real) Compute square root of X**2 + Y**2 + Z**2\\
+P\_LAQGE \> equilibrate a general matrix \\
+P\_LAQSY \> equilibrate a symmetric matrix \\
+P\_LARED1D \> (real) Redistributes an array assuming that the input \\
+         \> array, BYCOL, is distributed across rows and that all \\
+         \> process columns contain the same copy of BYCOL.\\
+P\_LARED2D \> Redistributes an array assuming that the input array, \\
+         \> BYROW, is distributed across columns and that all process \\
+         \> rows contain the same copy of BYROW.  The output array, \\
+         \> BYALL, will be identical on all processes.\\
+P\_LARF  \> apply (multiply by) an elementary reflector to a general \\
+         \> rectangular matrix.\\
+P\_LARFB \> apply (multiply by) a block reflector or its transpose/ \\
+         \> conjugate-transpose to a general rectangular matrix.\\
+P\_LARFC \> (complex) apply (multiply by) the conjugate-transpose \\
+         \> of an elementary reflector to a general matrix.\\
+P\_LARFG \> generate an elementary reflector (Householder matrix).\\
+P\_LARFT \> form the triangular factor of a block reflector \\
+P\_LARZ  \> apply (multiply by) an elementary reflector as returned by \\
+         \> P\_TZRZF to a general matrix.\\
+P\_LARZB \> apply (multiply by) a block reflector or its transpose/ \\
+         \> conjugate transpose as returned by P\_TZRZF to a general matrix.\\
+P\_LARZC \> (complex) apply (multiply by) the conjugate transpose of \\
+         \> an elementary reflector as returned by P\_TZRZF to a \\
+         \> general matrix.\\
+P\_LARZT \> form the triangular factor of a block reflector as returned \\
+         \> by P\_TZRZF.\\
+P\_LASCL \> multiplies a general rectangular matrix by a real scalar CTO/CFROM \\
+P\_LASE2 \>  \\
+P\_LASET \> initializes a matrix to BETA on the diagonal and ALPHA on \\
+        \> the off-diagonals \\
+P\_LASMSUB \> (real) looks for a small subdiagonal element from the bottom \\
+        \> of the matrix that it can safely set to zero. \\
+P\_LASNBT \> computes the position of the sign bit of a double precision \\
+         \> floating point number \\
+P\_LASRT \> \\
+P\_LASSQ \> Compute a scaled sum of squares of the elements of a vector\\
+P\_LASWP \> Perform a series of row interchanges\\
+P\_LATRA \> computes the trace of a distributed matrix \\
+P\_LATRD \> reduce NB rows and columns of a real symmetric or complex Hermitian \\
+        \> matrix to tridiagonal form \\
+P\_LATRS \> solve a triangular system with scaling to prevent overflow \\
+P\_LATRZ \> reduces an upper trapezoidal matrix to upper triangular form \\
+P\_LAUU2 \> Unblocked version of P\_LAUUM\\
+P\_LAUUM \> Compute the product U*U' or L'*L (blocked version)\\
+P\_LAWIL \> forms the Wilkinson transform \\
+\end{tabbing}
+\clearpage
+
+\newpage
+\bibliographystyle{siam}
+\addcontentsline{toc}{section}{Bibliography}
+
+\bibliography{/home/susan/SLUG/slug}
+%\biblio{9}
+%
+%\bibitem{LUG}
+%E. Anderson, Z. Bai, C. Bischof, J. Demmel, J. Dongarra,
+%J. Du Croz, A. Greenbaum, S. Hammarling, A. McKenney,
+%S. Ostrouchov, and D. Sorensen, 
+%{\em LAPACK Users' Guide}, Second Edition,
+%{SIAM}, Philadelphia, PA, 1995.
+%
+%\bibitem{WN20}
+%E. Anderson, Z. Bai, C. Bischof, J. Demmel. J. Dongarra, J. Du Croz, A.
+%Greenbaum, S. Hammarling, A. McKenney, D. Sorensen, {\em {LAPACK}:  A
+%Portable Linear Algebra Library for High-Performance Computers},
+%University of Tennessee, CS-90-105, May 1990.
+%
+%\bibitem{blacs}
+%{J. Dongarra and R. C. Whaley},
+%{\em LAPACK Working Note 94:  A User's Guide to the BLACS v1.0},
+%University of Tennessee, CS-95-281, March 1995.
+%
+%\bibitem{LAWN41}
+%{E.~Anderson, J.~Dongarra, and S.~Ostrouchov},
+%{\em LAPACK Working Note 41:  Installation Guide for LAPACK},
+%University of Tennessee, CS-92-151, February 1992. 
+%
+%\bibitem{SIGN}
+%{Z. Bai and J. Demmel},
+%{\em Design of a Parallel Nonsymmetric Eigenroutine Toolbox},
+%Computer Science Tech. Report UCB/CSD-92-718, U.C.Berkeley, 1992.
+%
+%\bibitem{WN5}
+%C. Bischof, J. Demmel, J. Dongarra, J. Du Croz, A. Greenbaum,
+%S. Hammarling, and D. Sorensen,
+%{\em LAPACK Working Note \#5:  Provisional Contents},
+%Argonne National Laboratory, ANL-88-38, September 1988.
+%
+%\bibitem{SCALAPACK}
+%{J. Choi, J.~J. Dongarra, R. Pozo, and D.~W. Walker},
+%{\em {SCALAPACK}:  A Scalable Linear Algebra Library for Distributed
+%Memory Concurrent Computers},
+%Proceedings of the Fourth Symposium on the Frontiers of Massively
+%Parallel Computation (FRONTIERS '92),
+%IEEE Computer Society Press, 1992.
+%
+%\bibitem{LAWN80}
+%{J. Choi, J.~J. Dongarra, S.~Ostrouchov, A.~P. Petitet, D.~W. Walker,
+%R.~C. Whaley},
+%{\em The Design and Implementation of the ScaLAPACK LU, QR, and Cholesky
+%Factorization Routines}, Scientific Programming, Vol. 5, pp. 173--184, 1996.
+%\newblock (LAPACK Working Note 80).
+%
+%\bibitem{pblas}
+%{J. Choi, J.~J. Dongarra, S. Ostrouchov, A. Petitet, and R.~C. Whaley},
+%{\em A Proposal for a Set of Parallel Basic Linear Algebra Subprograms},
+%{LAPACK} {W}orking {N}ote 100, Technical Report CS-95-292, May, 1995.
+%
+%\bibitem{LAWN86}
+%{J. Demmel and K. Stanley},
+%{\em The Performance of Finding Eigenvalues and Eigenvectors of
+%Dense Symmetric Matrices on Distributed Memory Computers}, {LAPACK}
+%{W}orking {N}ote 86, Technical Report CS-94-254, September, 1994. 
+%
+%\bibitem{BLAS3}
+%J. Dongarra, J. Du Croz, I. Duff, and S. Hammarling,
+%``A Set of Level 3 Basic Linear Algebra Subprograms,''
+%{\em ACM Trans. Math. Soft.}, 16, 1:1-17, March 1990.
+%Argonne National Laboratory, ANL-MCS-P88-1, August 1988.
+%
+%\bibitem{BLAS2}
+%J. Dongarra, J. Du Croz, S. Hammarling, and R. Hanson,
+%``An Extended Set of Fortran Basic Linear Algebra Subprograms,''
+%{\em ACM Trans. Math. Soft.}, 14, 1:1-17, March 1988.
+%
+%%\bibitem{WN37}
+%%{ J.~Dongarra and R.~van~de Geijn}, {\em Two Dimensional Basic
+%%  Linear Algebra Communication Subprograms}, {LAPACK} {W}orking
+%  {N}ote 37, technical report, University of Tennessee, 1991.
+%
+%\bibitem{WN57}
+%{J.~J. Dongarra, R.~van~de Geijn, and R.~C. Whaley}, {\em A Users' 
+%  Guide to the {BLACS}}, {LAPACK} {W}orking
+%  {N}ote 57, Technical Report CS-93-187, University of Tennessee, 1993.
+%
+%\bibitem{PVM}
+%{G.~A. Geist, A.~L. Beguelin, J.~J. Dongarra, W.~Jiang, R.~J. Manchek, 
+%and V.~S. Sunderam.},
+%{\em {PVM} 3.3 User's Guide and Reference Manual},
+%Technical Report ORNL/TM-12187, Oak Ridge National Laboratory, Oak
+%Ridge, Tennessee, September 1994.
+%
+%\bibitem{BLAS1}
+%C. L. Lawson, R. J. Hanson, D. R. Kincaid, and F. T. Krogh,
+%``Basic Linear Algebra Subprograms for Fortran Usage,''
+%{\em ACM Trans. Math. Soft.}, 5, 3:308-323, September 1979.
+%
+%\bibitem{WN73}
+%R. Clint Whaley, {\em Basic Linear Algebra Communication Subprograms:
+%Analysis and Implementation Across Multiple Parallel Architectures},
+%{LAPACK} {W}orking {N}ote 73, Technical Report CS-94-234, University of
+%Tennessee, May 1994.
+%
+%\bibend
+%
+\end{document}
