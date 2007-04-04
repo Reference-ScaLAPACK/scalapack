@@ -36,6 +36,8 @@ PRECISIONS = single double complex complex16
 #  creates only the library,
 #       make exe
 #  creates only the testing executables.
+#       make example
+#  creates only the example
 #
 #  The name of the library is defined in the file called SLmake.inc and
 #  is created at this directory level.
@@ -47,13 +49,13 @@ PRECISIONS = single double complex complex16
 ############################################################################
 
 all: lib
-#all: lib exe
+#all: lib exe example
 
 lib: toolslib pblaslib redistlib scalapacklib
 
 exe: pblasexe redistexe scalapackexe
 
-clean: cleanlib cleanexe
+clean: cleanlib cleanexe cleanexample
 
 pblaslib:
 	( cd $(PBLASdir)/SRC; $(MAKE) $(PRECISIONS) )
@@ -78,6 +80,9 @@ scalapackexe:
 redistexe:
 	( cd $(REDISTdir)/TESTING; $(MAKE) integer $(PRECISIONS) )
 
+example:
+	( cd EXAMPLE; $(MAKE) $(PRECISIONS) )
+
 cleanexe:
 	( cd $(PBLASdir)/TESTING; $(MAKE) clean )
 	( cd $(PBLASdir)/TIMING; $(MAKE) clean )
@@ -90,3 +95,7 @@ cleanlib:
 	( cd $(SRCdir); $(MAKE) clean )
 	( cd $(TOOLSdir); $(MAKE) clean )
 	( cd $(REDISTdir)/SRC; $(MAKE) clean )
+
+cleanexample:
+	( cd EXAMPLE; $(MAKE) clean )
+

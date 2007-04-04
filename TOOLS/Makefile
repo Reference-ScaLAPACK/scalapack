@@ -27,20 +27,24 @@ ITOOLS = picol2row.o  pirow2col.o  pilaprnt.o   pitreecomb.o  pifillpad.o  \
 
 STOOLS = dsnrm2.o     dsasum.o     slatcpy.o    ssdot.o       smatadd.o   \
          psmatadd.o   pscol2row.o  psrow2col.o  pslaprnt.o    pstreecomb.o \
-         psfillpad.o  pschekpad.o  pselset.o    pselset2.o    pselget.o
+         psfillpad.o  pschekpad.o  pselset.o    pselset2.o    pselget.o \
+         pslaread.o   pslawrite.o
 
 DTOOLS = dddot.o      dlatcpy.o    dmatadd.o    pdmatadd.o    pdcol2row.o \
          pdrow2col.o  pdlaprnt.o   pdtreecomb.o pdfillpad.o   pdchekpad.o \
-         pdelset.o    pdelset2.o   pdelget.o
+         pdelset.o    pdelset2.o   pdelget.o \
+         pdlaread.o   pdlawrite.o
 
 CTOOLS = dscnrm2.o    dscasum.o    ccdotu.o     ccdotc.o      clatcpy.o \
          cmatadd.o    pcmatadd.o   pccol2row.o  pcrow2col.o   pclaprnt.o \
          pctreecomb.o pcfillpad.o  pcchekpad.o  pcelset.o     pcelset2.o \
-         pcelget.o
+         pcelget.o \
+         pclaread.o   pclawrite.o
 
 ZTOOLS = zzdotu.o     zzdotc.o     zlatcpy.o    zmatadd.o     pzmatadd.o \
          pzcol2row.o  pzrow2col.o  pzlaprnt.o   pztreecomb.o  pzfillpad.o \
-         pzchekpad.o  pzelset.o    pzelset2.o   pzelget.o
+         pzchekpad.o  pzelset.o    pzelset2.o   pzelget.o \
+         pzlaread.o   pzlawrite.o
 
 all: single double complex complex16
 
