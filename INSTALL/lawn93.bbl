@@ -59,4 +59,11 @@
   Tennessee, Knoxville, TN, May 1994.
 \newblock (Also LAPACK Working Note 73).
 
+\bibitem{lapack}
+{\sc S. Blackford and J. Dongarra}, {\em 
+   Quick Installation Guide for LAPACK on Unix Systems}
+  {C}omputer {S}cience {D}ept. {T}echnical {R}eport {CS}-94-249, University of
+  Tennessee, Knoxville, TN, September 1994.
+\newblock (Also LAPACK Working Note 81).
+
 \end{thebibliography}

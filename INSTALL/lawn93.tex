@@ -1,5 +1,8 @@
 \documentclass[11pt]{report}
-\usepackage{psfig}
+\usepackage{indentfirst}
+\usepackage[body={6in,8.5in}]{geometry}
+\usepackage{graphicx}
+\DeclareGraphicsRule{.ps}{eps}{}{}
 \def\thesection{\arabic{section}}
 \setcounter{tocdepth}{3}
 \setcounter{secnumdepth}{3}
@@ -65,9 +68,9 @@ Foundation Science and Technology Center Cooperative
 Agreement No. CCR-8809615.}}
 \end{center}
 \begin{center}
-L. S. Blackford, A. Cleary\footnote{Current address:  LLNL}, J. Choi\footnote{Current address: Soongsil University, Seoul,
+L. S. Blackford\footnote{Current address:  Myricom}, A. Cleary\footnote{Current address:  LLNL}, J. Choi\footnote{Current address: Soongsil University, Seoul,
 Korea}, \\
-J. J. Dongarra, A. Petitet\footnote{Current address: Sun France, Paris, France}, and R. C. Whaley\\
+J. J. Dongarra, J. Langou, A. Petitet\footnote{Current address: Sun France, Paris, France}, and R. C. Whaley\footnote{Current address:  UTSA}\\
 Department of Computer Science \\
 University of Tennessee \\
 Knoxville, Tennessee  37996-3450 \\
@@ -88,27 +91,22 @@ and
 D. Walker\footnote{Current address:  Cardiff University, Wales} \\
 \end{center}
 \begin{center}
-  VERSION 1.7:  August 31, 2001
+  VERSION 1.8:  April 5, 2007
 \end{center}
 
 \begin{center}
 Abstract
 \end{center}
 This working note describes how to install and test
-version 1.7 of ScaLAPACK.
-This release of ScaLAPACK extends the
-functionality of the package by providing new routines for
-the nonsymmetric eigenproblem, divide and conquer symmetric eigenproblem,
-and improved routines for generalized symmetric eigenproblem and
-the reduction to tridiagonal form.
-It also includes PBLAS v2.0.
-These two-dimensional
-distributed memory versions of common LAPACK routines
-rely on calls
-to the BLAS for local computation, and calls to the
-PBLAS for global
-computations.  For portability concerns, communication takes place inside
-the PBLAS through calls to the BLACS.
+version 1.8 of ScaLAPACK.
+The most significant change in this release of ScaLAPACK 
+is the externalisation of the LAPACK routines. Now ScaLAPACK 
+requires to have the LAPACK library installed besides BLACS, 
+BLAS and MPI or PVM . This will allow the user to use the latest 
+LAPACK algorithms, modifications without the need of reinstalling 
+the ScaLAPACK library.
+Two new routines to allow read and write from files have been added.
+Also a complete ScaLAPACK example has been added in the main directory. 
 The design of the testing/timing
 programs for the ScaLAPACK codes is also discussed. 
 
@@ -124,12 +122,14 @@ programs for the ScaLAPACK codes is also discussed.
 
 \dent
 This working note describes how to install and test
-version 1.7 of ScaLAPACK \cite{slug}.
-This release of ScaLAPACK extends the
-functionality of the package by providing new routines for
-the nonsymmetric eigenproblem, divide and conquer symmetric eigenproblem,
-and improved routines for generalized symmetric eigenproblem and
-the reduction to tridiagonal form.  It also includes PBLAS v2.0.
+version 1.8 of ScaLAPACK \cite{slug}.
+This release of ScaLAPACK includes:
+\begin{itemize}
+\item Externalisation of the LAPACK routines. Now you NEED the LAPACK library installed on your machine in order to link/run a ScaLAPACK program. 
+\item 2 new routines: p[sdcz]lawrite and [psdcz]laread declined in the 4 precisions( they haev been adapated from ScaEx example from Antoine Pettitet.
+\item a new directory EXAMPLE that contains a ScaLAPACK example in the 4 precisions.
+\item Several bug fixes.
+\end{itemize}
 For a detailed explanation of the design and contents of the ScaLAPACK library,
 please refer to the ScaLAPACK Users' Guide\cite{slug}.
 
@@ -148,7 +148,7 @@ for your architecture, you will need to download the distribution tar
 file and build the library as instructed in this guide.
 
 To install and test ScaLAPACK, the user must have the 
-BLACS, BLAS\cite{blas1,blas2,blas3}, and
+BLACS, BLAS\cite{blas1,blas2,blas3}, LAPACK\cite{lapack} and
 MPI~\cite{mpi} or PVM~\cite{pvm} available on his machine.
 
 ScaLAPACK has been tested on MPPs like the IBM SP series, Cray T3E,
@@ -225,11 +225,16 @@ involves the following steps:
 \begin{enumerate}
 \item Gunzip and tar the file {\tt scalapack.tgz}.
 
-\item Edit the {\tt SLmake.inc} include file, specifying the
+\item Copy the SLmake.inc.example to SLmake.inc and edit 
+      the {\tt SLmake.inc} include file, specifying the
       location of the MPI or PVM library, the BLACS library,
-      and the BLAS library.
+      the BLAS library and the LAPACK library.
 
-\item Edit the top-level {\tt Makefile}, and type {\tt make}.
+\item Edit the top-level {\tt Makefile}, and type {\tt make}
+      to generate the ScaLAPACK library 
+
+\item Type {\tt make exe}
+      to generate the ScaLAPACK Test Suite(s). 
 
 \item Run the Test Suite(s).
 
@@ -332,14 +337,15 @@ BLACSDBGLVL} are 0 and 1.  The possible options for {\tt CDEFS} are
 DEC ALPHA, you must also add {\tt -DNO\_IEEE} to the definition of {\tt
 CDEFS}.
 \item Specify the locations
-of the needed libraries: {\tt BLACS}, {\tt PVM} or {\tt MPI}, and {\tt BLAS}.
+of the needed libraries: {\tt BLACS}, {\tt PVM} or {\tt MPI}, {\tt BLAS}
+and {\tt LAPACK}.
 \end{enumerate}
 This make include file is referenced inside each of the makefiles in the
 various subdirectories.  As a result, there is no need to edit the
 makefiles in the subdirectories.  All information that is machine
 specific has been defined in this include file.
 
-\subsubsection{Further Details to obtain BLACS, BLAS, and PVM or MPI}
+\subsubsection{Further Details to obtain BLACS, BLAS, LAPACK and PVM or MPI}
 
 Prebuilt BLACS libraries are available on
 {\em netlib} for a variety of architectures and message passing library
@@ -371,23 +377,36 @@ An optimized BLAS library is essential for best performance, and
 use of the Fortran77 reference implementation BLAS is strongly
 discouraged.
 
+If an vendor optimized LAPACK library is not available, then the user can
+install LAPACK from netlib.
+\begin{quote}
+{\tt http://www.netlib.org/lapack/faq.html\#1.1} \\
+{\tt http://www.netlib.org/lapack/} \\
+{\tt http://www.netlib.org/lapack/lapack.tgz}
+\end{quote}
+
 If a vendor-supplied MPI or PVM library is not available,
 portable implementations of PVM and MPI (MPICH and LAM/MPI)
 are available:
+If a vendor-supplied MPI or PVM library is not available,
+portable implementations of PVM and MPI (MPICH, MPICH2, Open MPI and LAM/MPI)
+are available:
 \begin{quote}
 {\tt http://www.netlib.org/pvm3/}\\
-{\tt http://www.mcs.anl.gov/mpi/mpich/} \\
+{\tt http://www-unix.mcs.anl.gov/mpi/mpich1/} \\
+{\tt http://www-unix.mcs.anl.gov/mpi/mpich//} \\
 {\tt http://www.lam-mpi.org/}
+{\tt http://www.open-mpi.org/}
 \end{quote}
 Installation instructions for PVM are contained in the PVM Users'
-Guide~\cite{pvm}.  An Installation Guide for MPICH is available on
+Guide~\cite{pvm}.  An Installation Guide for MPICH/MPICH2 is available on
 the aforementioned webpage.  Likewise, installation instructions
-for LAM/MPI are contained on its respective webpage.
+for Open MPI and LAM/MPI are contained on their respective webpage.
 
 \subsection{Edit the top-level {\tt SCALAPACK/Makefile} and type {\tt make}}
 
 A top-level {\tt SCALAPACK/Makefile} has been included to build all
-libraries and testing executables.  This makefile is very useful if you
+libraries, testing executables and examples.  This makefile is very useful if you
 are familiar with the installation process and wish to do a quick
 installation.  Your instructions to build the ScaLAPACK library are:
 
@@ -401,6 +420,13 @@ libraries have previously been built), you can specify
 
 \begin{list}{}{}
 \item {\tt make exe}.
+\end{list}
+
+If you wish to build the examples (assuming that all
+libraries have previously been built), you can specify
+
+\begin{list}{}{}
+\item {\tt make example}.
 \end{list}
 
 If you wish to build only selected libraries or executables,
@@ -438,8 +464,9 @@ typing
 \end{list}
 
 Or, you can selectively remove only the object files with {\tt make
-cleanlib}, or {\tt make cleanexe} to remove only the testing routine
-object files and executable files. 
+cleanlib}, {\tt make cleanexe}  to remove only the testing routine
+object files and executable files, or {\tt make cleanexample} to remove 
+only the object files created for the examples.
 
 \subsection{Run the PBLAS Test Suite}
 \label{PBTEST}
@@ -632,6 +659,41 @@ The name of the output file is indicated on the first line of the
 input file and is currently defined to be {\tt lu.out} for
 the LU tester, with similar names for the other data types.  The
 user may also choose to send all output to standard error.
+ 
+
+\subsection{Run the examples}
+\label{SLEXAMPLE}
+\dent
+In the EXAMPLE directory, you have a program declined in the 4 precisions 
+that solves a linear system by calling the ScaLAPACK 
+routine PDGESV. The input matrix and right-and-sides are
+read from a file. The solution is written to a file.
+
+To compile and create the example executables (assuming that all librairies
+have previously been built), type {\tt make example} or {\tt make} 
+if you are in the EXAMPLE directory.
+
+This will create the four executables in the TESTING directory: 
+\begin{itemize}
+\item xsscaex: for the example using single precision
+\item xdscaex: for the example using double precision
+\item xcscaex: for the example using complex precision
+\item xzscaex: for the example using double complex precision.
+\end{itemize}
+and copy the input files in the TESTING directory.
+The input files are {\tt CSCAEXMAT.dat}, {\tt CSCAEXRHS.dat},
+{\tt DSCAEXMAT.dat}, {\tt DSCAEXRHS.dat}, {\tt SCAEX.dat},
+{\tt SSCAEXMAT.dat}, {\tt SSCAEXRHS.dat}, {\tt ZSCAEXMAT.dat} and
+{\tt ZSCAEXRHS.dat}.
+
+To run the example programs using MPI, type (for single precision example)
+\begin{list}{}{}
+\item{\tt mpirun -np $<$number of processes$>$ xsscaex}
+\end{list}
+
+The results will be written in {\tt CSCAEXSOL.dat} for xcscaex , 
+{\tt DSCAEXSOL.dat} for xdscaex, {\tt SSCAEXSOL.dat} for xsscaex
+and{\tt ZSCAEXSOL.dat} for xzscaex.
 
 \subsection{Troubleshooting}
 
@@ -649,7 +711,7 @@ the developers at
 \end{list}
 
 This release of ScaLAPACK is compatible with the previous release
-(version 1.6).
+(version 1.7).
 
 \section{More About the ScaLAPACK Test Suite}
 \label{LTDET}
