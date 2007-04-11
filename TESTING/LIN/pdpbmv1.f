@@ -342,7 +342,7 @@
       INTEGER            PARAM_CHECK( 16, 3 )
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           BLACS_GRIDINFO, PXERBLA
+      EXTERNAL           BLACS_GRIDINFO, PXERBLA, RESHAPE
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
