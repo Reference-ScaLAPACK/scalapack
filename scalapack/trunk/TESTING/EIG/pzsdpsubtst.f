@@ -172,7 +172,7 @@
 *     .. Local Scalars ..
       INTEGER            I, IAM, INFO, ISIZEHEEVD, ISIZEHEEVX,
      $                   ISIZESUBTST, ISIZETST, MYCOL, MYROW, NP, NPCOL,
-     $                   NPROW, NQ, NZ, RES, RSIZECHK, RSIZEHEEVD,
+     $                   NPROW, NQ, RES, RSIZECHK, RSIZEHEEVD,
      $                   RSIZEHEEVX, RSIZEQTQ, RSIZESUBTST, RSIZETST,
      $                   SIZEHEEVD, SIZEHEEVX, SIZEMQRLEFT,
      $                   SIZEMQRRIGHT, SIZEQRF, SIZESUBTST, SIZETMS,
@@ -352,7 +352,7 @@
          CALL PDFILLPAD( DESCA( CTXT_ ), RSIZECHK, 1, RWORK, RSIZECHK,
      $                   IPREPAD, IPOSTPAD, 4.3D+0 )
 *
-         CALL PZSEPCHK( N, NZ, COPYA, IA, JA, DESCA,
+         CALL PZSEPCHK( N, N, COPYA, IA, JA, DESCA,
      $                  MAX( ABSTOL+EPSNORMA, SAFMIN ), THRESH,
      $                  Z( 1+IPREPAD ), IA, JA, DESCA, A( 1+IPREPAD ),
      $                  IA, JA, DESCA, WNEW( 1+IPREPAD ),
