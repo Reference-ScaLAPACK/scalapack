@@ -153,7 +153,7 @@
 *  LIWORK  (local or global input) INTEGER
 *          The dimension of the array IWORK.
 *          LIWORK is local input and must be at least
-*          LIWORK >= LOCr(N+MOD(IA-1,MB_A)).
+*          LIWORK >= MAX( 1, LOCr(N+MOD(IA-1,MB_A)) ).
 *
 *          If LIWORK = -1, then LIWORK is global input and a workspace
 *          query is assumed; the routine only calculates the minimum
@@ -238,7 +238,7 @@
      $                   DESCA( NB_ )*
      $                   MAX( 1, ICEIL( NPCOL-1, NPROW ) ) ) )
             WORK( 1 ) = REAL( LWMIN )
-            LIWMIN = NPMOD
+            LIWMIN = MAX( 1, NPMOD )
             IWORK( 1 ) = LIWMIN
             LQUERY = ( LWORK.EQ.-1 .OR. LIWORK.EQ.-1 )
 *
