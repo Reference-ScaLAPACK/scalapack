@@ -154,7 +154,7 @@
 *  LRWORK  (local or global input) INTEGER
 *          The dimension of the array RWORK.
 *          LRWORK is local input and must be at least
-*          LRWORK >= 2*LOCc(N+MOD(JA-1,NB_A)).
+*          LRWORK >= MAX( 1, 2*LOCc(N+MOD(JA-1,NB_A)) ).
 *
 *          If LRWORK = -1, then LRWORK is global input and a workspace
 *          query is assumed; the routine only calculates the minimum
@@ -246,7 +246,7 @@
      $                   DESCA( NB_ )*
      $                   MAX( 1, ICEIL( NPCOL-1, NPROW ) ) ) )
             WORK( 1 ) = DBLE( LWMIN )
-            LRWMIN = 2*NQMOD
+            LRWMIN = MAX( 1, 2*NQMOD )
             RWORK( 1 ) = DBLE( LRWMIN )
             LQUERY = ( LWORK.EQ.-1 .OR. LRWORK.EQ.-1 )
 *
