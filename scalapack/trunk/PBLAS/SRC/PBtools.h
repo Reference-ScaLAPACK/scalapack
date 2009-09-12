@@ -107,15 +107,27 @@
 *  DNROC computes maximum number of local rows or columns. This macro is
 *  only used to compute the time estimates in the Level 3 PBLAS routines.
 */
+
 #define    DNROC( n_, nb_, p_ ) \
            ((double)(((((n_)+(nb_)-1)/(nb_))+(p_)-1)/(p_))*(double)((nb_)))
-
 /*
 *  Mptr returns a pointer to a_( i_, j_ ) for readability reasons and
 *  also less silly errors ...
+*
+*  There was some problems with the previous code which read:
+*
+*      #define    Mptr( a_, i_, j_, lda_, siz_ ) \
+*                    ( (a_) + ( ( (i_)+(j_)*(lda_) )*(siz_) ) )
+* 
+*  since it can overflow the 32-bit integer "easily".
+*  The following code should fix the problem.
+*  It uses the "off_t" command.
+*
+*  Change made by Julien Langou on Sat. September 12, 2009. 
+*  Fix provided by John Moyard from CNES.
+*
 */
-#define    Mptr( a_, i_, j_, lda_, siz_ ) \
-              ( (a_) + ( ( (i_)+(j_)*(lda_) )*(siz_) ) )
+#define    Mptr( a_, i_, j_, lda_, siz_ ) \ ( (a_) + ( (off_t) ( (off_t)(i_)+(off_t)(j_)*(off_t)(lda_))*(off_t)(siz_) ) )
 /*
 *  Mfirstnb and Mlastnb compute the global size of the first and last
 *  block corresponding to the interval i_:i_+n_-1 of global indexes.
