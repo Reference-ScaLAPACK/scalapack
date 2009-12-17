@@ -280,7 +280,11 @@
          INFO = -( 800 + CTXT_ )
       ELSE
          CALL CHK1MAT( M, 2, N, 3, IA, JA, DESCA, 8, INFO )
-         CALL CHK1MAT( N, 3, NRHS, 4, IB, JB, DESCB, 12, INFO )
+         IF ( M .GE. N ) THEN
+            CALL CHK1MAT( M, 2, NRHS, 4, IB, JB, DESCB, 12, INFO )
+         ELSE
+            CALL CHK1MAT( N, 3, NRHS, 4, IB, JB, DESCB, 12, INFO )
+         ENDIF
          IF( INFO.EQ.0 ) THEN
             IROFFA = MOD( IA-1, DESCA( MB_ ) )
             ICOFFA = MOD( JA-1, DESCA( NB_ ) )
