@@ -153,10 +153,10 @@
       EXTERNAL           BLACS_GRIDINFO, CHK1MAT, INFOG2L, PXERBLA
 *     ..
 *     .. External Functions ..
-      LOGICAL            LSAME
+      LOGICAL            LSAME, DISNAN
       INTEGER            ICEIL, NUMROC
       REAL               PSLAMCH
-      EXTERNAL           ICEIL, LSAME, NUMROC, PSLAMCH
+      EXTERNAL           DISNAN, ICEIL, LSAME, NUMROC, PSLAMCH
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, MIN, MOD
@@ -189,8 +189,10 @@
             END IF
             IF( ITYPE.EQ.-1 ) THEN
                INFO = -1
-            ELSE IF( CFROM.EQ.ZERO ) THEN
+            ELSE IF( CFROM.EQ.ZERO .OR. DISNAN(CFROM) ) THEN
                INFO = -4
+            ELSE IF( DISNAN(CTO) ) THEN
+               INFO = -5
             END IF
          END IF
       END IF
@@ -230,18 +232,32 @@
 *
    10 CONTINUE
       CFROM1 = CFROMC*SMLNUM
-      CTO1 = CTOC / BIGNUM
-      IF( ABS( CFROM1 ).GT.ABS( CTOC ) .AND. CTOC.NE.ZERO ) THEN
-         MUL = SMLNUM
-         DONE = .FALSE.
-         CFROMC = CFROM1
-      ELSE IF( ABS( CTO1 ).GT.ABS( CFROMC ) ) THEN
-         MUL = BIGNUM
-         DONE = .FALSE.
-         CTOC = CTO1
-      ELSE
+      IF( CFROM1.EQ.CFROMC ) THEN
+!        CFROMC is an inf.  Multiply by a correctly signed zero for
+!        finite CTOC, or a NaN if CTOC is infinite.
          MUL = CTOC / CFROMC
          DONE = .TRUE.
+         CTO1 = CTOC
+      ELSE
+         CTO1 = CTOC / BIGNUM
+         IF( CTO1.EQ.CTOC ) THEN
+!           CTOC is either 0 or an inf.  In both cases, CTOC itself
+!           serves as the correct multiplication factor.
+            MUL = CTOC
+            DONE = .TRUE.
+            CFROMC = ONE
+         IF( ABS( CFROM1 ).GT.ABS( CTOC ) .AND. CTOC.NE.ZERO ) THEN
+            MUL = SMLNUM
+            DONE = .FALSE.
+            CFROMC = CFROM1
+         ELSE IF( ABS( CTO1 ).GT.ABS( CFROMC ) ) THEN
+            MUL = BIGNUM
+            DONE = .FALSE.
+            CTOC = CTO1
+         ELSE
+            MUL = CTOC / CFROMC
+            DONE = .TRUE.
+         END IF
       END IF
 *
       IOFFA = ( JJA - 1 ) * LDA
