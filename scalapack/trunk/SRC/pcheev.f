@@ -20,7 +20,7 @@
 *  =======
 *
 *  PCHEEV computes selected eigenvalues and, optionally, eigenvectors
-*  of a real symmetric matrix A by calling the recommended sequence
+*  of a real Hermitian matrix A by calling the recommended sequence
 *  of ScaLAPACK routines.
 *
 *  In its present form, PCHEEV assumes a homogeneous system and makes
@@ -91,7 +91,7 @@
 *
 *  UPLO    (global input) CHARACTER*1
 *          Specifies whether the upper or lower triangular part of the
-*          symmetric matrix A is stored:
+*          Hermitian matrix A is stored:
 *          = 'U':  Upper triangular
 *          = 'L':  Lower triangular
 *
@@ -102,11 +102,11 @@
 *          global dimension (N, N), local dimension ( LLD_A,
 *          LOCc(JA+N-1) )
 *
-*          On entry, the symmetric matrix A.  If UPLO = 'U', only the
+*          On entry, the Hermitian matrix A.  If UPLO = 'U', only the
 *          upper triangular part of A is used to define the elements of
-*          the symmetric matrix.  If UPLO = 'L', only the lower
+*          the Hermitian matrix.  If UPLO = 'L', only the lower
 *          triangular part of A is used to define the elements of the
-*          symmetric matrix.
+*          Hermitian matrix.
 *
 *          On exit, the lower triangle (if UPLO='L') or the upper
 *          triangle (if UPLO='U') of A, including the diagonal, is
@@ -524,7 +524,7 @@
          CALL PCLASCL( UPLO, ONE, SIGMA, N, N, A, IA, JA, DESCA, IINFO )
       END IF
 *
-*     Reduce symmetric matrix to tridiagonal form.
+*     Reduce Hermitian matrix to tridiagonal form.
 *
       CALL PCHETRD( UPLO, N, A, IA, JA, DESCA, RWORK( INDRD ),
      $              RWORK( INDRE ), WORK( INDTAU ), WORK( INDWORK ),
