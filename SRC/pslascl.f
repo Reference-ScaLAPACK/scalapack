@@ -246,7 +246,7 @@
             MUL = CTOC
             DONE = .TRUE.
             CFROMC = ONE
-         IF( ABS( CFROM1 ).GT.ABS( CTOC ) .AND. CTOC.NE.ZERO ) THEN
+         ELSE IF( ABS( CFROM1 ).GT.ABS( CTOC ) .AND. CTOC.NE.ZERO ) THEN
             MUL = SMLNUM
             DONE = .FALSE.
             CFROMC = CFROM1
