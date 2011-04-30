@@ -126,8 +126,12 @@
 *  Change made by Julien Langou on Sat. September 12, 2009. 
 *  Fix provided by John Moyard from CNES.
 *
+*  JL :April 2011: Change off_t by long long
+*  off_t is not supported under Windows
 */
-#define    Mptr( a_, i_, j_, lda_, siz_ ) \ ( (a_) + ( (off_t) ( (off_t)(i_)+(off_t)(j_)*(off_t)(lda_))*(off_t)(siz_) ) )
+#define    Mptr( a_, i_, j_, lda_, siz_ ) \
+              ( (a_) + ( (long long) ( (long long)(i_)+ \
+              (long long)(j_)*(long long)(lda_))*(long long)(siz_) ) )
 /*
 *  Mfirstnb and Mlastnb compute the global size of the first and last
 *  block corresponding to the interval i_:i_+n_-1 of global indexes.
