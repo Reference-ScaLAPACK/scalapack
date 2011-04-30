@@ -153,10 +153,10 @@
       EXTERNAL           BLACS_GRIDINFO, CHK1MAT, INFOG2L, PXERBLA
 *     ..
 *     .. External Functions ..
-      LOGICAL            LSAME, DISNAN
+      LOGICAL            LSAME, SISNAN
       INTEGER            ICEIL, NUMROC
       REAL               PSLAMCH
-      EXTERNAL           DISNAN, ICEIL, LSAME, NUMROC, PSLAMCH
+      EXTERNAL           SISNAN, ICEIL, LSAME, NUMROC, PSLAMCH
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, MIN, MOD
@@ -189,9 +189,9 @@
             END IF
             IF( ITYPE.EQ.-1 ) THEN
                INFO = -1
-            ELSE IF( CFROM.EQ.ZERO .OR. DISNAN(CFROM) ) THEN
+            ELSE IF( CFROM.EQ.ZERO .OR. SISNAN(CFROM) ) THEN
                INFO = -4
-            ELSE IF( DISNAN(CTO) ) THEN
+            ELSE IF( SISNAN(CTO) ) THEN
                INFO = -5
             END IF
          END IF
