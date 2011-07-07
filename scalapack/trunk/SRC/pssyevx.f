@@ -595,6 +595,9 @@
                RSRC_Z = DESCZ( RSRC_ )
                IROFFZ = MOD( IZ-1, MB_A )
                IZROW = INDXG2P( 1, NB_A, MYROW, RSRC_Z, NPROW )
+            ELSE
+               IROFFZ = 0
+               IZROW = 0
             END IF
 *
             IF( ( .NOT.WANTZ ) .OR. ( VALEIG .AND. ( .NOT.LQUERY ) ) )

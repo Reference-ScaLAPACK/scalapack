@@ -342,6 +342,8 @@
      $                            NB_A ) + NB_A*NB_A
             ELSE
                SIZEMQRLEFT = 0
+               IROFFZ = 0
+               IZROW = 0
             END IF
             SIZESYTRD = MAX( NB * ( NP +1 ), 3 * NB )
 *
