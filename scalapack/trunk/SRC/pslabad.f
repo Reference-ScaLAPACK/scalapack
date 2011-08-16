@@ -62,6 +62,7 @@
          SMALL = SQRT( SMALL )
          LARGE = SQRT( LARGE )
       END IF
+      IDUMM = 0
 *
       CALL SGAMX2D( ICTXT, 'All', ' ', 1, 1, SMALL, 1, IDUMM,
      $              IDUMM, -1, -1, IDUMM )

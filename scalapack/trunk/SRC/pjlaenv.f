@@ -351,6 +351,7 @@
   100 CONTINUE
 *
       IF( GLOBAL ) THEN
+         IDUMM = 0
          CALL IGAMX2D( ICTXT, 'All', ' ', 1, 1, PJLAENV, 1, IDUMM,
      $                 IDUMM, -1, -1, IDUMM )
       END IF

@@ -169,6 +169,9 @@
          WRITE( NOUT, FMT = 9997 )TESTSUMMRY
       END IF
 *
+*     assign a default
+      INFO = 0
+*
       IF( IAM.EQ.0 ) THEN
          READ( NIN, FMT = * )NMATSIZES
          CALL IGEBS2D( CONTEXT, 'All', ' ', 1, 1, NMATSIZES, 1 )

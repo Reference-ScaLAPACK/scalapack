@@ -255,6 +255,7 @@
 *
          TEMP( 1 ) = BNORM
          TEMP( 2 ) = XNORM
+         IDUMM = 0
          CALL SGAMX2D( ICTXT, 'All', ' ', 2, 1, TEMP, 2, IDUMM, IDUMM,
      $                 -1, -1, IDUMM )
          BNORM = TEMP( 1 )

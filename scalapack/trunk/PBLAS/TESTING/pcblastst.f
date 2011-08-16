@@ -7487,10 +7487,12 @@
       IF( LSAME( CMACH, 'E' ).OR.LSAME( CMACH, 'S' ).OR.
      $    LSAME( CMACH, 'M' ).OR.LSAME( CMACH, 'U' ) ) THEN
          CALL PB_TOPGET( ICTXT, 'Combine', 'All', TOP )
+         IDUMM = 0
          CALL SGAMX2D( ICTXT, 'All', TOP, 1, 1, TEMP, 1, IDUMM,
      $                 IDUMM, -1, -1, IDUMM )
       ELSE IF( LSAME( CMACH, 'L' ).OR.LSAME( CMACH, 'O' ) ) THEN
          CALL PB_TOPGET( ICTXT, 'Combine', 'All', TOP )
+         IDUMM = 0
          CALL SGAMN2D( ICTXT, 'All', TOP, 1, 1, TEMP, 1, IDUMM,
      $                 IDUMM, -1, -1, IDUMM )
       END IF

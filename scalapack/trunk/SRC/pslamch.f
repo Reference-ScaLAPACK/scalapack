@@ -65,6 +65,7 @@
 *     .. Executable Statements ..
 *
       TEMP = SLAMCH( CMACH )
+      IDUMM = 0
 *
       IF( LSAME( CMACH, 'E' ).OR.LSAME( CMACH, 'S' ).OR.
      $    LSAME( CMACH, 'M' ).OR.LSAME( CMACH, 'U' ) ) THEN
