@@ -408,6 +408,15 @@ void pdtrsm_( SIDE, UPLO, TRANS, DIAG, M, N, ALPHA,
       }
    }
 
+/*
+* Var can remain uninitialized but is nevertheless used in PB_CptrsmAB.c
+*  provide a default here. TODO: does this make sense ?
+*==19891==    at 0x44F81B: PB_CptrsmAB (PB_CptrsmAB.c:538)
+*==19891==    by 0x427BE7: pdtrsm_ (pdtrsm_.c:488)
+*==19891==    by 0x405E46: MAIN_ (pdblas3tim.f:727)
+*/
+   Var = CRIGHT;
+
    if( ChooseAB )
    {
 /*

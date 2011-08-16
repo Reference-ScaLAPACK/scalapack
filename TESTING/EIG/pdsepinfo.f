@@ -162,6 +162,7 @@
       IF( BLOCK_CYCLIC_2D*CSRC_*CTXT_*DLEN_*DTYPE_*LLD_*MB_*M_*NB_*N_*
      $    RSRC_.LT.0 )RETURN
 *
+      INFO = 0
       IF( IAM.EQ.0 ) THEN
          READ( NIN, FMT = 9997 )TESTSUMMRY
          TESTSUMMRY = ' '

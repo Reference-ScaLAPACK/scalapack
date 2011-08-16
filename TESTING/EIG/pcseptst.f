@@ -537,6 +537,10 @@
      $                      WORK( INDWORK ), SIZETMS, IPREPAD, IPOSTPAD,
      $                      PADVAL+4.0E+0 )
 *
+*
+*     WKNOWN ... NOT SET, GUESS A DEFAULT
+*
+            WKNOWN = .TRUE.
          ELSE
             IINFO = 1
          END IF
