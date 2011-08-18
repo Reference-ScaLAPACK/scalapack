@@ -129,9 +129,9 @@
      $                   S, TMP, ZNM2
 *     ..
 *     .. External Functions ..
-      LOGICAL DISANAN
+      LOGICAL DISNAN
       DOUBLE PRECISION   DLAMCH
-      EXTERNAL           DISANAN, DLAMCH
+      EXTERNAL           DISNAN, DLAMCH
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           DCOPY
@@ -213,7 +213,7 @@
                DPLUS( I+1 ) = D( I+1 ) + S
                MAX1 = MAX( MAX1,ABS(DPLUS(I+1)) )
  1          CONTINUE
-            SAWNAN1=SAWNAN1 .OR. DISANAN(MAX1,MAX1)
+            SAWNAN1=SAWNAN1 .OR. DISNAN(MAX1)
             IF (SAWNAN1) GOTO 3
  2       CONTINUE
 
@@ -255,7 +255,7 @@
             DPLUS( I+1 ) = D( I+1 ) + S
             MAX1 = MAX( MAX1,ABS(DPLUS(I+1)) )
  11      CONTINUE
-         SAWNAN1=SAWNAN1 .OR. DISANAN(MAX1,MAX1)
+         SAWNAN1=SAWNAN1 .OR. DISNAN(MAX1)
          IF (SAWNAN1) GOTO 13
  12   CONTINUE
       IF( .NOT.SAWNAN1 ) THEN
@@ -282,7 +282,7 @@
             WORK( I+1 ) = D( I+1 ) + S
             MAX2 = MAX( MAX2,ABS(WORK(I+1)) )
  21      CONTINUE
-         SAWNAN2=SAWNAN2 .OR. DISANAN(MAX2,MAX2)
+         SAWNAN2=SAWNAN2 .OR. DISNAN(MAX2)
          IF (SAWNAN2) GOTO 23
  22   CONTINUE
       IF( .NOT.SAWNAN2 ) THEN

@@ -124,10 +124,10 @@
       LOGICAL   PARANOID
 *     ..
 *     .. External Functions ..
-      LOGICAL            SISANAN
+      LOGICAL            SISNAN
       REAL               SLAMCH
       INTEGER            SLANEG_CV
-      EXTERNAL           SISANAN, SLAMCH, SLANEG_CV
+      EXTERNAL           SISNAN, SLAMCH, SLANEG_CV
 *
 *     ..
 *     .. Intrinsic Functions ..
@@ -345,8 +345,8 @@
       LOGICAL SAWNAN
 *     ..
 *     .. External Functions ..
-      LOGICAL SISANAN
-      EXTERNAL SISANAN
+      LOGICAL SISNAN
+      EXTERNAL SISNAN
       
       NEGCNT = 0
       
@@ -359,7 +359,7 @@
          S = T*LLD( J ) / DPLUS 
          IF( DPLUS.LT.ZERO ) NEG1 = NEG1 + 1
  21   CONTINUE
-      SAWNAN = SISANAN( S, S )
+      SAWNAN = SISNAN( S )
 *     Run a slower version of the above loop if a NaN is detected
       IF( SAWNAN ) THEN
          NEG1 = 0
@@ -385,7 +385,7 @@
          P = P*D( J )/DMINUS - SIGMA
          IF( DMINUS.LT.ZERO ) NEG2 = NEG2 + 1
  23   CONTINUE
-      SAWNAN = SISANAN( P, P )
+      SAWNAN = SISNAN( P )
       IF( SAWNAN ) THEN
          NEG2 = 0
          P = D( N ) - SIGMA
