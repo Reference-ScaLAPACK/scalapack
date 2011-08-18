@@ -57,17 +57,17 @@ SCLAUX = \
    pslabad.o pslaed0.o pslaed1.o pslaed2.o pslaed3.o pslaedz.o pslaiect.o \
    pslamch.o pslared1d.o pslasrt.o psstebz.o psstedc.o slapst.o slasrt2.o \
    sstein2.o pbchkvect.o getpbbuf.o \
-   sisnan.o slar1v.o slar1va.o slarra.o slarrb.o slarrb2.o slarrc.o \
-   slarrd.o slarrd2.o slarre2.o slarre2a.o slarrf.o slarrf2.o slarrk.o \
-   slarrv.o slarrv2.o sstegr2.o sstegr2a.o sstegr2b.o
+   slar1v_cv.o slar1va_cv.o slarra_cv.o slarrb_cv.o slarrb2_cv.o slarrc_cv.o \
+   slarrd2.o slarre2_cv.o slarre2a_cv.o slarrf_cv.o slarrf2_cv.o \
+   slarrv_cv.o slarrv2_cv.o sstegr2_cv.o sstegr2a_cv.o sstegr2b_cv.o
 
 DZLAUX = \
    pdlabad.o pdlaed0.o pdlaed1.o pdlaed2.o pdlaed3.o pdlaedz.o pdlaiect.o \
    pdlamch.o pdlared1d.o pdlasrt.o pdstebz.o pdstedc.o dlapst.o dlasrt2.o \
    dstein2.o pbchkvect.o getpbbuf.o \
-   disnan.o dlar1v.o dlar1va.o dlarra.o dlarrb.o dlarrb2.o dlarrc.o dlarrd.o \
-   dlarrd2.o dlarre2.o dlarre2a.o dlarrf.o dlarrf2.o dlarrk.o dlarrv.o \
-   dlarrv2.o dstegr2.o dstegr2a.o dstegr2b.o
+   dlar1v_cv.o dlar1va_cv.o dlarra_cv.o dlarrb_cv.o dlarrb2_cv.o dlarrc_cv.o \
+   dlarrd2.o dlarre2_cv.o dlarre2a_cv.o dlarrf_cv.o dlarrf2_cv.o dlarrv_cv.o \
+   dlarrv2_cv.o dstegr2_cv.o dstegr2a_cv.o dstegr2b_cv.o
 
 SLASRC = \
    psdbsv.o  psdbtrf.o psdbtrs.o psdbtrsv.o \

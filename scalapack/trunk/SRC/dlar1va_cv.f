@@ -1,6 +1,8 @@
-      SUBROUTINE SLAR1V_CV( N, B1, BN, LAMBDA, D, L, LD, LLD, 
+      SUBROUTINE DLAR1VA_CV(N, B1, BN, LAMBDA, D, L, LD, LLD, 
      $           PIVMIN, GAPTOL, Z, WANTNC, NEGCNT, ZTZ, MINGMA, 
      $           R, ISUPPZ, NRMINV, RESID, RQCORR, WORK )
+*
+      IMPLICIT NONE
 *
 *  -- LAPACK computational routine (version *TBA*) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -10,19 +12,19 @@
 *     .. Scalar Arguments ..
       LOGICAL            WANTNC
       INTEGER   B1, BN, N, NEGCNT, R
-      REAL               GAPTOL, LAMBDA, MINGMA, NRMINV, PIVMIN, RESID,
+      DOUBLE PRECISION   GAPTOL, LAMBDA, MINGMA, NRMINV, PIVMIN, RESID,
      $                   RQCORR, ZTZ
 *     ..
 *     .. Array Arguments ..
       INTEGER            ISUPPZ( * )
-      REAL               D( * ), L( * ), LD( * ), LLD( * ),
+      DOUBLE PRECISION   D( * ), L( * ), LD( * ), LLD( * ),
      $                  WORK( * )
-      REAL             Z( * )
+      DOUBLE PRECISION Z( * )
 *
 *  Purpose
 *  =======
 *
-*  SLAR1V computes the (scaled) r-th column of the inverse of
+*  DLAR1VA computes the (scaled) r-th column of the inverse of
 *  the sumbmatrix in rows B1 through BN of the tridiagonal matrix
 *  L D L^T - sigma I. When sigma is close to an eigenvalue, the
 *  computed vector is an accurate eigenvector. Usually, r corresponds
@@ -50,32 +52,32 @@
 *  BN       (input) INTEGER
 *           Last index of the submatrix of L D L^T.
 *
-*  LAMBDA    (input) REAL            
+*  LAMBDA    (input) DOUBLE PRECISION
 *           The shift. In order to compute an accurate eigenvector,
 *           LAMBDA should be a good approximation to an eigenvalue
 *           of L D L^T.
 *
-*  L        (input) REAL             array, dimension (N-1)
+*  L        (input) DOUBLE PRECISION array, dimension (N-1)
 *           The (n-1) subdiagonal elements of the unit bidiagonal matrix
 *           L, in elements 1 to N-1.
 *
-*  D        (input) REAL             array, dimension (N)
+*  D        (input) DOUBLE PRECISION array, dimension (N)
 *           The n diagonal elements of the diagonal matrix D.
 *
-*  LD       (input) REAL             array, dimension (N-1)
+*  LD       (input) DOUBLE PRECISION array, dimension (N-1)
 *           The n-1 elements L(i)*D(i).
 *
-*  LLD      (input) REAL             array, dimension (N-1)
+*  LLD      (input) DOUBLE PRECISION array, dimension (N-1)
 *           The n-1 elements L(i)*L(i)*D(i).
 *
-*  PIVMIN   (input) REAL            
+*  PIVMIN   (input) DOUBLE PRECISION
 *           The minimum pivot in the Sturm sequence.
 *           
-*  GAPTOL   (input) REAL            
+*  GAPTOL   (input) DOUBLE PRECISION
 *           Tolerance that indicates when eigenvector entries are negligible
 *           w.r.t. their contribution to the residual.
 *
-*  Z        (input/output) REAL             array, dimension (N)
+*  Z        (input/output) DOUBLE PRECISION array, dimension (N)
 *           On input, all entries of Z must be set to 0.
 *           On output, Z contains the (scaled) r-th column of the
 *           inverse. The scaling is such that Z(R) equals 1.
@@ -87,10 +89,10 @@
 *           If WANTNC is .TRUE. then NEGCNT = the number of pivots < pivmin 
 *           in the  matrix factorization L D L^T, and NEGCNT = -1 otherwise.
 *
-*  ZTZ      (output) REAL            
+*  ZTZ      (output) DOUBLE PRECISION
 *           The square of the 2-norm of Z.
 *
-*  MINGMA   (output) REAL            
+*  MINGMA   (output) DOUBLE PRECISION
 *           The reciprocal of the largest (in magnitude) diagonal
 *           element of the inverse of L D L^T - sigma I.
 *
@@ -108,18 +110,18 @@
 *           The support of the vector in Z, i.e., the vector Z is
 *           nonzero only in elements ISUPPZ(1) through ISUPPZ( 2 ).
 *
-*  NRMINV   (output) REAL            
+*  NRMINV   (output) DOUBLE PRECISION
 *           NRMINV = 1/SQRT( ZTZ )
 *
-*  RESID    (output) REAL            
+*  RESID    (output) DOUBLE PRECISION
 *           The residual of the FP vector.
 *           RESID = ABS( MINGMA )/SQRT( ZTZ )
 *
-*  RQCORR   (output) REAL            
+*  RQCORR   (output) DOUBLE PRECISION
 *           The Rayleigh Quotient correction to LAMBDA.
 *           RQCORR = MINGMA*TMP
 *
-*  WORK     (workspace) REAL             array, dimension (4*N)
+*  WORK     (workspace) DOUBLE PRECISION array, dimension (4*N)
 *
 *  Further Details
 *  ===============
@@ -134,27 +136,30 @@
 *  =====================================================================
 *
 *     .. Parameters ..
-      REAL               ZERO, ONE
-      PARAMETER          ( ZERO = 0.0E0, ONE = 1.0E0 )
+      INTEGER            BLKLEN
+      PARAMETER          ( BLKLEN = 16 )
+       DOUBLE PRECISION   ZERO, ONE
+      PARAMETER          ( ZERO = 0.0D0, ONE = 1.0D0 )
 
 *     ..
 *     .. Local Scalars ..
       LOGICAL            SAWNAN1, SAWNAN2
-      INTEGER            I, INDLPL, INDP, INDS, INDUMN, NEG1, NEG2, R1,
-     $                   R2
-      REAL               DMINUS, DPLUS, EPS, S, TMP
+      INTEGER            BI, I, INDLPL, INDP, INDS, INDUMN, NB, NEG1,
+     $                   NEG2, NX, R1, R2, TO
+      DOUBLE PRECISION            ABSZCUR, ABSZPREV, DMINUS, DPLUS, EPS,
+     $                            S, TMP, ZPREV
 *     ..
 *     .. External Functions ..
-      LOGICAL SISANAN
-      REAL               SLAMCH
-      EXTERNAL           SISANAN, SLAMCH
+      LOGICAL DISNAN
+      DOUBLE PRECISION   DLAMCH
+      EXTERNAL           DISNAN, DLAMCH
 *     ..
 *     .. Intrinsic Functions ..
-      INTRINSIC          ABS, MAX, MIN, REAL
+      INTRINSIC          ABS, MAX, MIN, DBLE
 *     ..
 *     .. Executable Statements ..
 *
-      EPS = SLAMCH( 'Precision' )
+      EPS = DLAMCH( 'Precision' )
 
       
       IF( R.EQ.0 ) THEN
@@ -192,7 +197,7 @@
          WORK( INDS+I ) = S*WORK( INDLPL+I )*L( I )
          S = WORK( INDS+I ) - LAMBDA
  50   CONTINUE
-      SAWNAN1 = SISANAN( S, S )
+      SAWNAN1 = DISNAN( S )
       IF( SAWNAN1 ) GOTO 60     
       DO 51 I = R1, R2 - 1
          DPLUS = D( I ) + S
@@ -200,7 +205,7 @@
          WORK( INDS+I ) = S*WORK( INDLPL+I )*L( I )
          S = WORK( INDS+I ) - LAMBDA
  51   CONTINUE
-      SAWNAN1 = SISANAN( S, S )
+      SAWNAN1 = DISNAN( S )
 *
  60   CONTINUE
       IF( SAWNAN1 ) THEN
@@ -242,8 +247,7 @@
          WORK( INDP+I-1 ) = WORK( INDP+I )*TMP - LAMBDA
  80   CONTINUE
       TMP = WORK( INDP+R1-1 )
-      SAWNAN2 = SISANAN( TMP, TMP )
-	
+      SAWNAN2 = DISNAN( TMP )	
       IF( SAWNAN2 ) THEN
 *        Runs a slower version of the above loop if a NaN is detected
          NEG2 = 0
@@ -291,68 +295,120 @@
 *
 *     Compute the FP vector upwards from R
 *
-      IF( .NOT.SAWNAN1 .AND. .NOT.SAWNAN2 ) THEN
-         DO 210 I = R-1, B1, -1
-            Z( I ) = -( WORK( INDLPL+I )*Z( I+1 ) )
-            IF( (ABS(Z(I))+ABS(Z(I+1)))* ABS(LD(I)).LT.GAPTOL ) 
-     $           THEN                                              
-               Z( I ) = ZERO
-               ISUPPZ( 1 ) = I + 1                                
+      NB = INT((R-B1)/BLKLEN)
+      NX = R-NB*BLKLEN
+      IF( .NOT.SAWNAN1 ) THEN
+         DO 210 BI = R-1, NX, -BLKLEN
+            TO = BI-BLKLEN+1
+            DO 205 I = BI, TO, -1
+               Z( I ) = -( WORK(INDLPL+I)*Z(I+1) )
+               ZTZ = ZTZ + Z( I )*Z( I )
+ 205        CONTINUE
+            IF( ABS(Z(TO)).LT.EPS .AND. 
+     $        ABS(Z(TO+1)).LT.EPS ) THEN
+               ISUPPZ(1) = TO
                GOTO 220
-            ENDIF
-            ZTZ = ZTZ + Z( I )*Z( I )
+	    ENDIF
  210     CONTINUE
+         DO 215 I = NX-1, B1, -1
+            Z( I ) = -( WORK(INDLPL+I)*Z(I+1) )
+            ZTZ = ZTZ + Z( I )*Z( I )
+ 215     CONTINUE
  220     CONTINUE
       ELSE
 *        Run slower loop if NaN occurred.
-         DO 230 I = R - 1, B1, -1
+         DO 230 BI = R-1, NX, -BLKLEN
+            TO = BI-BLKLEN+1
+            DO 225 I = BI, TO, -1
+               IF( Z( I+1 ).EQ.ZERO ) THEN
+                  Z( I ) = -( LD( I+1 ) / LD( I ) )*Z( I+2 )
+               ELSE
+                  Z( I ) = -( WORK( INDLPL+I )*Z( I+1 ) )
+               END IF
+               ZTZ = ZTZ + Z( I )*Z( I )
+ 225        CONTINUE
+            IF( ABS(Z(TO)).LT.EPS .AND. 
+     $        ABS(Z(TO+1)).LT.EPS ) THEN
+               ISUPPZ(1) = TO
+               GOTO 240
+	    ENDIF
+ 230     CONTINUE
+         DO 235 I = NX-1, B1, -1
             IF( Z( I+1 ).EQ.ZERO ) THEN
                Z( I ) = -( LD( I+1 ) / LD( I ) )*Z( I+2 )
             ELSE
                Z( I ) = -( WORK( INDLPL+I )*Z( I+1 ) )
             END IF
-            IF( (ABS(Z(I))+ABS(Z(I+1)))* ABS(LD(I)).LT.GAPTOL ) 
-     $           THEN                                           
-               Z( I ) = ZERO
-               ISUPPZ( 1 ) = I + 1                              
-               GO TO 240
-            END IF
             ZTZ = ZTZ + Z( I )*Z( I )
- 230     CONTINUE
+ 235     CONTINUE
  240     CONTINUE
       ENDIF
-
-*     Compute the FP vector downwards from R in blocks of size BLKSIZ
-      IF( .NOT.SAWNAN1 .AND. .NOT.SAWNAN2 ) THEN
-         DO 250 I = R, BN-1
-            Z( I+1 ) = -( WORK( INDUMN+I )*Z( I ) )
-            IF( (ABS(Z(I))+ABS(Z(I+1)))* ABS(LD(I)).LT.GAPTOL ) 
-     $         THEN                                           
-               Z( I+1 ) = ZERO
-               ISUPPZ( 2 ) = I                              
-               GO TO 260
-            END IF
-            ZTZ = ZTZ + Z( I+1 )*Z( I+1 )
- 250     CONTINUE
+      DO 245 I= B1, (ISUPPZ(1)-1)
+         Z(I) = ZERO
+ 245  CONTINUE
+      
+*     Compute the FP vector downwards from R in blocks of size BLKLEN
+      IF( .NOT.SAWNAN2 ) THEN
+         DO 260 BI = R+1, BN, BLKLEN
+            TO = BI+BLKLEN-1
+            IF ( TO.LE.BN ) THEN
+               DO 250 I = BI, TO
+                  Z(I) = -(WORK(INDUMN+I-1)*Z(I-1))
+                  ZTZ = ZTZ + Z( I )*Z( I )
+ 250           CONTINUE   
+               IF( ABS(Z(TO)).LE.EPS .AND. 
+     $             ABS(Z(TO-1)).LE.EPS ) THEN
+                  ISUPPZ(2) = TO
+                  GOTO 265
+	       ENDIF
+            ELSE
+               DO 255 I = BI, BN
+                  Z(I) = -(WORK(INDUMN+I-1)*Z(I-1))
+                  ZTZ = ZTZ + Z( I )*Z( I )
+ 255           CONTINUE   
+            ENDIF
  260     CONTINUE
+ 265     CONTINUE
       ELSE
 *        Run slower loop if NaN occurred.
-         DO 270 I = R, BN - 1
-            IF( Z( I ).EQ.ZERO ) THEN
-               Z( I+1 ) = -( LD( I-1 ) / LD( I ) )*Z( I-1 )
+         DO 280 BI = R+1, BN, BLKLEN
+            TO = BI+BLKLEN-1
+            IF ( TO.LE.BN ) THEN
+               DO 270 I = BI, TO
+                  ZPREV = Z(I-1)
+                  ABSZPREV = ABS(ZPREV)
+                  IF( ZPREV.NE.ZERO ) THEN
+                     Z(I)= -(WORK(INDUMN+I-1)*ZPREV)
+                  ELSE
+                     Z(I)= -(LD(I-2)/LD(I-1))*Z(I-2)
+                  END IF
+                  ABSZCUR = ABS(Z(I))
+                  ZTZ = ZTZ + ABSZCUR**2
+ 270           CONTINUE
+               IF( ABSZCUR.LT.EPS .AND. 
+     $             ABSZPREV.LT.EPS ) THEN
+                  ISUPPZ(2) = I
+                  GOTO 285
+	       ENDIF
             ELSE
-               Z( I+1 ) = -( WORK( INDUMN+I )*Z( I ) )
-            END IF
-            IF( (ABS(Z(I))+ABS(Z(I+1)))* ABS(LD(I)).LT.GAPTOL ) 
-     $           THEN                                           
-               Z( I+1 ) = ZERO
-               ISUPPZ( 2 ) = I                              
-               GO TO 280
-            END IF
-            ZTZ = ZTZ + Z( I+1 )*Z( I+1 )
- 270     CONTINUE
+               DO 275 I = BI, BN
+                  ZPREV = Z(I-1)
+                  ABSZPREV = ABS(ZPREV)
+                  IF( ZPREV.NE.ZERO ) THEN
+                     Z(I)= -(WORK(INDUMN+I-1)*ZPREV)
+                  ELSE
+                     Z(I)= -(LD(I-2)/LD(I-1))*Z(I-2)
+                  END IF
+                  ABSZCUR = ABS(Z(I))
+                  ZTZ = ZTZ + ABSZCUR**2
+ 275           CONTINUE
+            ENDIF
  280     CONTINUE
+ 285     CONTINUE
       END IF
+      DO 290 I= ISUPPZ(2)+1,BN
+         Z(I) = ZERO
+ 290  CONTINUE
 *
 *     Compute quantities for convergence test
 *     
@@ -361,9 +417,8 @@
       RESID = ABS( MINGMA )*NRMINV
       RQCORR = MINGMA*TMP
 *
-*
       RETURN
 *
-*     End of SLAR1V
+*     End of DLAR1VA
 *
       END

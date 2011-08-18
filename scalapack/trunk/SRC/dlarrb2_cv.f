@@ -1,4 +1,4 @@
-      SUBROUTINE SLARRB2_CV( N, D, LLD, IFIRST, ILAST, RTOL1,
+      SUBROUTINE DLARRB2_CV( N, D, LLD, IFIRST, ILAST, RTOL1,
      $                   RTOL2, OFFSET, W, WGAP, WERR, WORK, IWORK,
      $                   PIVMIN, LGPVMN, LGSPDM, TWIST, INFO )
 *
@@ -10,19 +10,19 @@
 *
 *     .. Scalar Arguments ..
       INTEGER            IFIRST, ILAST, INFO, N, OFFSET, TWIST
-      REAL               LGPVMN, LGSPDM, PIVMIN, 
+      DOUBLE PRECISION   LGPVMN, LGSPDM, PIVMIN, 
      $                   RTOL1, RTOL2
 *     ..
 *     .. Array Arguments ..
       INTEGER            IWORK( * )
-      REAL               D( * ), LLD( * ), W( * ),
+      DOUBLE PRECISION   D( * ), LLD( * ), W( * ),
      $                   WERR( * ), WGAP( * ), WORK( * )
 *     ..
 *
 *  Purpose
 *  =======
 *
-*  Given the relatively robust representation(RRR) L D L^T, SLARRB2
+*  Given the relatively robust representation(RRR) L D L^T, DLARRB2
 *  does "limited" bisection to refine the eigenvalues of L D L^T,
 *  W( IFIRST-OFFSET ) through W( ILAST-OFFSET ), to more accuracy. Initial
 *  guesses for these eigenvalues are input in W, the corresponding estimate
@@ -32,13 +32,13 @@
 *  semi-widths in the arrays W and WERR respectively.
 *
 *  NOTE: 
-*  There are very few minor differences between SLARRB from LAPACK
-*  and this current subroutine SLARRB2.
+*  There are very few minor differences between DLARRB from LAPACK
+*  and this current subroutine DLARRB2.
 *  The most important reason for creating this nearly identical copy
 *  is profiling: in the ScaLAPACK MRRR algorithm, eigenvalue computation 
-*  using SLARRB2 is used for refinement in the construction of 
+*  using DLARRB2 is used for refinement in the construction of 
 *  the representation tree, as opposed to the initial computation of the
-*  eigenvalues for the root RRR which uses SLARRB. When profiling,
+*  eigenvalues for the root RRR which uses DLARRB. When profiling,
 *  this allows an easy quantification of refinement work vs. computing
 *  eigenvalues of the root.
 *
@@ -48,10 +48,10 @@
 *  N       (input) INTEGER
 *          The order of the matrix.
 *
-*  D       (input) REAL             array, dimension (N)
+*  D       (input) DOUBLE PRECISION array, dimension (N)
 *          The N diagonal elements of the diagonal matrix D.
 *
-*  LLD     (input) REAL             array, dimension (N-1)
+*  LLD     (input) DOUBLE PRECISION array, dimension (N-1)
 *          The (N-1) elements L(i)*L(i)*D(i).
 *
 *  IFIRST  (input) INTEGER
@@ -60,8 +60,8 @@
 *  ILAST   (input) INTEGER
 *          The index of the last eigenvalue to be computed.
 *
-*  RTOL1   (input) REAL            
-*  RTOL2   (input) REAL            
+*  RTOL1   (input) DOUBLE PRECISION
+*  RTOL2   (input) DOUBLE PRECISION
 *          Tolerance for the convergence of the bisection intervals.
 *          An interval [LEFT,RIGHT] has converged if
 *          RIGHT-LEFT.LT.MAX( RTOL1*GAP, RTOL2*MAX(|LEFT|,|RIGHT|) )
@@ -72,36 +72,36 @@
 *          Offset for the arrays W, WGAP and WERR, i.e., the IFIRST-OFFSET
 *          through ILAST-OFFSET elements of these arrays are to be used.
 *
-*  W       (input/output) REAL             array, dimension (N)
+*  W       (input/output) DOUBLE PRECISION array, dimension (N)
 *          On input, W( IFIRST-OFFSET ) through W( ILAST-OFFSET ) are
 *          estimates of the eigenvalues of L D L^T indexed IFIRST through ILAST.
 *          On output, these estimates are refined.
 *
-*  WGAP    (input/output) REAL             array, dimension (N-1)
+*  WGAP    (input/output) DOUBLE PRECISION array, dimension (N-1)
 *          On input, the (estimated) gaps between consecutive
 *          eigenvalues of L D L^T, i.e., WGAP(I-OFFSET) is the gap between
 *          eigenvalues I and I+1. Note that if IFIRST.EQ.ILAST
 *          then WGAP(IFIRST-OFFSET) must be set to ZERO.
 *          On output, these gaps are refined.
 *
-*  WERR    (input/output) REAL             array, dimension (N)
+*  WERR    (input/output) DOUBLE PRECISION array, dimension (N)
 *          On input, WERR( IFIRST-OFFSET ) through WERR( ILAST-OFFSET ) are
 *          the errors in the estimates of the corresponding elements in W.
 *          On output, these errors are refined.
 *
-*  WORK    (workspace) REAL             array, dimension (4*N)
+*  WORK    (workspace) DOUBLE PRECISION array, dimension (4*N)
 *          Workspace.
 *
 *  IWORK   (workspace) INTEGER array, dimension (2*N)
 *          Workspace.
 *
-*  PIVMIN  (input) REAL             
+*  PIVMIN  (input) DOUBLE PRECISION 
 *          The minimum pivot in the sturm sequence.
 *
-*  LGPVMN  (input) REAL            
+*  LGPVMN  (input) DOUBLE PRECISION
 *          Logarithm of PIVMIN, precomputed.
 *
-*  LGSPDM  (input) REAL             
+*  LGSPDM  (input) DOUBLE PRECISION 
 *          Logarithm of the spectral diameter, precomputed.
 *
 *  TWIST   (input) INTEGER
@@ -115,24 +115,24 @@
 *          Error flag.
 *
 *     .. Parameters ..
-      REAL               ZERO, TWO, HALF
-      PARAMETER        ( ZERO = 0.0E0, TWO = 2.0E0,
-     $                   HALF = 0.5E0 )
+      DOUBLE PRECISION   ZERO, TWO, HALF
+      PARAMETER        ( ZERO = 0.0D0, TWO = 2.0D0,
+     $                   HALF = 0.5D0 )
       INTEGER   MAXITR
 *     ..
 *     .. Local Scalars ..
       INTEGER            I, I1, II, INDLLD, IP, ITER, J, K, NEGCNT,
      $                   NEXT, NINT, OLNINT, PREV, R
-      REAL               BACK, CVRGD, GAP, LEFT, LGAP, MID, MNWDTH,
+      DOUBLE PRECISION   BACK, CVRGD, GAP, LEFT, LGAP, MID, MNWDTH,
      $                   RGAP, RIGHT, SAVGAP, TMP, WIDTH
       LOGICAL   PARANOID
 *     ..
 *     .. External Functions ..
-      LOGICAL            SISANAN
-      REAL               SLAMCH
-      INTEGER            SLANEG2A_CV
-      EXTERNAL           SISANAN, SLAMCH, 
-     $                   SLANEG2A_CV
+      LOGICAL            DISNAN
+      DOUBLE PRECISION   DLAMCH
+      INTEGER            DLANEG2A_CV
+      EXTERNAL           DISNAN, DLAMCH, 
+     $                   DLANEG2A_CV
 *
 *     ..
 *     .. Intrinsic Functions ..
@@ -199,7 +199,7 @@
 *	 
          BACK = WERR( II )
  20      CONTINUE
-         NEGCNT = SLANEG2A_CV( N, WORK(INDLLD+1), LEFT, PIVMIN, R )
+         NEGCNT = DLANEG2A_CV( N, WORK(INDLLD+1), LEFT, PIVMIN, R )
          IF( NEGCNT.GT.I-1 ) THEN
             LEFT = LEFT - BACK
             BACK = TWO*BACK
@@ -211,7 +211,7 @@
 *	 
          BACK = WERR( II )
  50      CONTINUE
-         NEGCNT = SLANEG2A_CV( N, WORK(INDLLD+1),RIGHT, PIVMIN, R )
+         NEGCNT = DLANEG2A_CV( N, WORK(INDLLD+1),RIGHT, PIVMIN, R )
 
          IF( NEGCNT.LT.I ) THEN
              RIGHT = RIGHT + BACK
@@ -287,7 +287,7 @@
 *
 *        Perform one bisection step
 *
-         NEGCNT = SLANEG2A_CV( N, WORK(INDLLD+1), MID, PIVMIN, R )
+         NEGCNT = DLANEG2A_CV( N, WORK(INDLLD+1), MID, PIVMIN, R )
          IF( NEGCNT.LE.I-1 ) THEN
             WORK( K-1 ) = MID
          ELSE
@@ -327,39 +327,39 @@
 
       RETURN
 *
-*     End of SLARRB2
+*     End of DLARRB2
 *
       END
 *
 *
 *
-      FUNCTION SLANEG2_CV( N, D, LLD, SIGMA, PIVMIN, R )
+      FUNCTION DLANEG2_CV( N, D, LLD, SIGMA, PIVMIN, R )
 *
       IMPLICIT NONE
 *
-      INTEGER SLANEG2_CV
+      INTEGER DLANEG2_CV
 *
 *     .. Scalar Arguments ..
       INTEGER            N, R
-      REAL               PIVMIN, SIGMA
+      DOUBLE PRECISION   PIVMIN, SIGMA
 *     ..
 *     .. Array Arguments ..
-      REAL               D( * ), LLD( * )
+      DOUBLE PRECISION   D( * ), LLD( * )
 *
-      REAL               ZERO
-      PARAMETER        ( ZERO = 0.0E0 )
+      DOUBLE PRECISION   ZERO
+      PARAMETER        ( ZERO = 0.0D0 )
 
       INTEGER BLKLEN
       PARAMETER ( BLKLEN = 2048 )
 *     ..
 *     .. Local Scalars ..
       INTEGER            BJ, J, NEG1, NEG2, NEGCNT, TO
-      REAL               DMINUS, DPLUS, GAMMA, P, S, T, TMP, XSAV
+      DOUBLE PRECISION   DMINUS, DPLUS, GAMMA, P, S, T, TMP, XSAV
       LOGICAL SAWNAN
 *     ..
 *     .. External Functions ..
-      LOGICAL SISANAN
-      EXTERNAL SISANAN
+      LOGICAL DISNAN
+      EXTERNAL DISNAN
       
       NEGCNT = 0
 *      
@@ -386,7 +386,7 @@
                S = T*LLD( J ) / DPLUS 
  22         CONTINUE
          ENDIF
-         SAWNAN = SISANAN( S, S )
+         SAWNAN = DISNAN( S )
 *         
          IF( SAWNAN ) THEN
             NEG1 = 0
@@ -442,7 +442,7 @@
                P = TMP * D( J ) - SIGMA
  26         CONTINUE
          ENDIF
-         SAWNAN = SISANAN( P, P )
+         SAWNAN = DISNAN( P )
 *
          IF( SAWNAN ) THEN
             NEG2 = 0
@@ -482,26 +482,26 @@
       GAMMA = S + P
       IF( GAMMA.LT.ZERO ) NEGCNT = NEGCNT+1
 
-      SLANEG2_CV = NEGCNT
+      DLANEG2_CV = NEGCNT
       END
 *
 *
 *
-      FUNCTION SLANEG2A_CV( N, DLLD, SIGMA, PIVMIN, R )
+      FUNCTION DLANEG2A_CV( N, DLLD, SIGMA, PIVMIN, R )
 *
       IMPLICIT NONE
 *
-      INTEGER SLANEG2A_CV
+      INTEGER DLANEG2A_CV
 *
 *     .. Scalar Arguments ..
       INTEGER            N, R
-      REAL               PIVMIN, SIGMA
+      DOUBLE PRECISION   PIVMIN, SIGMA
 *     ..
 *     .. Array Arguments ..
-      REAL               DLLD( * )
+      DOUBLE PRECISION   DLLD( * )
 *
-      REAL               ZERO
-      PARAMETER        ( ZERO = 0.0E0 )
+      DOUBLE PRECISION   ZERO
+      PARAMETER        ( ZERO = 0.0D0 )
 
       INTEGER BLKLEN
       PARAMETER ( BLKLEN = 512 )
@@ -512,12 +512,12 @@
 *     ..
 *     .. Local Scalars ..
       INTEGER            BJ, I, J, NB, NEG1, NEG2, NEGCNT, NX
-      REAL               DMINUS, DPLUS, GAMMA, P, S, T, TMP, XSAV
+      DOUBLE PRECISION   DMINUS, DPLUS, GAMMA, P, S, T, TMP, XSAV
       LOGICAL SAWNAN
 *     ..
 *     .. External Functions ..
-      LOGICAL SISANAN
-      EXTERNAL SISANAN
+      LOGICAL DISNAN
+      EXTERNAL DISNAN
       
       NEGCNT = 0
 *      
@@ -538,7 +538,7 @@
             IF( DPLUS.LT.ZERO ) NEG1=NEG1 + 1
             S = T*DLLD( I ) / DPLUS 
  21      CONTINUE
-         SAWNAN = SISANAN( S, S )
+         SAWNAN = DISNAN( S )
 *         
          IF( SAWNAN ) THEN
             NEG1 = 0
@@ -568,7 +568,7 @@
          IF( DPLUS.LT.ZERO ) NEG1=NEG1 + 1
          S = T*DLLD( I ) / DPLUS 
  22   CONTINUE
-      SAWNAN = SISANAN( S, S )
+      SAWNAN = DISNAN( S )
 *         
       IF( SAWNAN ) THEN
          NEG1 = 0
@@ -602,7 +602,7 @@
             TMP = P / DMINUS
             P = TMP * DLLD( I-1 ) - SIGMA
  25      CONTINUE
-         SAWNAN = SISANAN( P, P )
+         SAWNAN = DISNAN( P )
 *
          IF( SAWNAN ) THEN
             NEG2 = 0
@@ -632,7 +632,7 @@
          TMP = P / DMINUS
          P = TMP * DLLD( I-1 ) - SIGMA
  26   CONTINUE
-      SAWNAN = SISANAN( P, P )
+      SAWNAN = DISNAN( P )
 *
       IF( SAWNAN ) THEN
          NEG2 = 0
@@ -657,6 +657,6 @@
       GAMMA = S + P
       IF( GAMMA.LT.ZERO ) NEGCNT = NEGCNT+1
 
-      SLANEG2A_CV = NEGCNT
+      DLANEG2A_CV = NEGCNT
       END
 

@@ -145,9 +145,9 @@
       DOUBLE PRECISION   DMINUS, DPLUS, EPS, S, TMP
 *     ..
 *     .. External Functions ..
-      LOGICAL DISANAN
+      LOGICAL DISNAN
       DOUBLE PRECISION   DLAMCH
-      EXTERNAL           DISANAN, DLAMCH
+      EXTERNAL           DISNAN, DLAMCH
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, MAX, MIN, DBLE
@@ -192,7 +192,7 @@
          WORK( INDS+I ) = S*WORK( INDLPL+I )*L( I )
          S = WORK( INDS+I ) - LAMBDA
  50   CONTINUE
-      SAWNAN1 = DISANAN( S, S )
+      SAWNAN1 = DISNAN( S )
       IF( SAWNAN1 ) GOTO 60     
       DO 51 I = R1, R2 - 1
          DPLUS = D( I ) + S
@@ -200,7 +200,7 @@
          WORK( INDS+I ) = S*WORK( INDLPL+I )*L( I )
          S = WORK( INDS+I ) - LAMBDA
  51   CONTINUE
-      SAWNAN1 = DISANAN( S, S )
+      SAWNAN1 = DISNAN( S )
 *
  60   CONTINUE
       IF( SAWNAN1 ) THEN
@@ -242,7 +242,7 @@
          WORK( INDP+I-1 ) = WORK( INDP+I )*TMP - LAMBDA
  80   CONTINUE
       TMP = WORK( INDP+R1-1 )
-      SAWNAN2 = DISANAN( TMP, TMP )
+      SAWNAN2 = DISNAN( TMP )
 	
       IF( SAWNAN2 ) THEN
 *        Runs a slower version of the above loop if a NaN is detected
