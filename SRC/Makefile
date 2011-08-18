@@ -56,12 +56,18 @@ ALLAUX = pjlaenv.o
 SCLAUX = \
    pslabad.o pslaed0.o pslaed1.o pslaed2.o pslaed3.o pslaedz.o pslaiect.o \
    pslamch.o pslared1d.o pslasrt.o psstebz.o psstedc.o slapst.o slasrt2.o \
-   sstein2.o pbchkvect.o getpbbuf.o
+   sstein2.o pbchkvect.o getpbbuf.o \
+   sisnan.o slar1v.o slar1va.o slarra.o slarrb.o slarrb2.o slarrc.o \
+   slarrd.o slarrd2.o slarre2.o slarre2a.o slarrf.o slarrf2.o slarrk.o \
+   slarrv.o slarrv2.o sstegr2.o sstegr2a.o sstegr2b.o
 
 DZLAUX = \
    pdlabad.o pdlaed0.o pdlaed1.o pdlaed2.o pdlaed3.o pdlaedz.o pdlaiect.o \
    pdlamch.o pdlared1d.o pdlasrt.o pdstebz.o pdstedc.o dlapst.o dlasrt2.o \
-   dstein2.o pbchkvect.o getpbbuf.o
+   dstein2.o pbchkvect.o getpbbuf.o \
+   disnan.o dlar1v.o dlar1va.o dlarra.o dlarrb.o dlarrb2.o dlarrc.o dlarrd.o \
+   dlarrd2.o dlarre2.o dlarre2a.o dlarrf.o dlarrf2.o dlarrk.o dlarrv.o \
+   dlarrv2.o dstegr2.o dstegr2a.o dstegr2b.o
 
 SLASRC = \
    psdbsv.o  psdbtrf.o psdbtrs.o psdbtrsv.o \
@@ -90,8 +96,8 @@ SLASRC = \
    pslarzb.o pslarzt.o pslarz.o pslatrz.o pstzrzf.o psormr3.o psormrz.o \
    pslahqr.o pslaconsb.o pslacp3.o pslawil.o \
    pslasmsub.o pslared2d.o pslamr1d.o slaref.o slamsh.o slasorte.o ssteqr2.o \
-   sdbtf2.o  sdbtrf.o  sdttrf.o sdttrsv.o spttrsv.o strmvt.o
-   
+   sdbtf2.o  sdbtrf.o  sdttrf.o sdttrsv.o spttrsv.o strmvt.o pssyevr.o
+
 CLASRC = \
    pcdbsv.o  pcdbtrf.o pcdbtrs.o pcdbtrsv.o \
    pcdtsv.o  pcdttrf.o pcdttrs.o pcdttrsv.o \
@@ -121,7 +127,7 @@ CLASRC = \
    pclattrs.o \
    pcunmr3.o pcunmrz.o pcmax1.o pscsum1.o pclamr1d.o \
    cdbtf2.o  cdbtrf.o  cdttrf.o cdttrsv.o  cpttrsv.o csteqr2.o ctrmvt.o \
-   clamsh.o  claref.o  clanv2.o clahqr2.o
+   clamsh.o  claref.o  clanv2.o clahqr2.o pcheevr.o
 
 DLASRC = \
    pddbsv.o  pddbtrf.o pddbtrs.o pddbtrsv.o \
@@ -150,7 +156,7 @@ DLASRC = \
    pdlarzb.o pdlarzt.o pdlarz.o pdlatrz.o pdtzrzf.o pdormr3.o pdormrz.o \
    pdlahqr.o pdlaconsb.o pdlacp3.o pdlawil.o \
    pdlasmsub.o pdlared2d.o pdlamr1d.o dlaref.o dlamsh.o dlasorte.o dsteqr2.o \
-   ddbtf2.o  ddbtrf.o  ddttrf.o ddttrsv.o dpttrsv.o dtrmvt.o
+   ddbtf2.o  ddbtrf.o  ddttrf.o ddttrsv.o dpttrsv.o dtrmvt.o pdsyevr.o
 
 ZLASRC = \
    pzdbsv.o  pzdbtrf.o pzdbtrs.o pzdbtrsv.o \
@@ -181,7 +187,7 @@ ZLASRC = \
    pzlarzb.o pzlarzt.o pzlarz.o  pzlarzc.o pzlatrz.o pztzrzf.o \
    pzunmr3.o pzunmrz.o pzmax1.o pdzsum1.o pzlamr1d.o \
    zdbtf2.o  zdbtrf.o  zdttrf.o zdttrsv.o  zpttrsv.o zsteqr2.o ztrmvt.o \
-   zlamsh.o  zlaref.o  zlanv2.o zlahqr2.o
+   zlamsh.o  zlaref.o  zlanv2.o zlahqr2.o pzheevr.o
 
 all: single complex double complex16
 
