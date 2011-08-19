@@ -53,6 +53,11 @@ znepexe = $(TESTINGdir)/xznep
 cevcexe = $(TESTINGdir)/xcevc
 zevcexe = $(TESTINGdir)/xzevc
 
+ssyevrexe = $(TESTINGdir)/xssyevr
+dsyevrexe = $(TESTINGdir)/xdsyevr
+cheevrexe = $(TESTINGdir)/xcheevr
+zheevrexe = $(TESTINGdir)/xzheevr
+
 smatgen = psmatgen.o pmatgeninc.o
 dmatgen = pdmatgen.o pmatgeninc.o
 cmatgen = pcmatgen.o pmatgeninc.o
@@ -116,16 +121,25 @@ znep =  pznepdriver.o pznepinfo.o pznepfchk.o $(zmatgen)
 cevc =  pcevcdriver.o pcevcinfo.o pcget22.o $(cmatgen)
 zevc =  pzevcdriver.o pzevcinfo.o pzget22.o $(zmatgen)
 
+ssyevr =  pslasizesepr.o pslasizesyevr.o psseprdriver.o psseprreq.o psseprsubtst.o \
+pssepchk.o pssepqtq.o pslatms.o psseprtst.o pssepinfo.o pslagsy.o pslasizesep.o $(smatgen)
+dsyevr =  pdlasizesepr.o pdlasizesyevr.o pdseprdriver.o pdseprreq.o pdseprsubtst.o \
+pdsepchk.o pdsepqtq.o pdlatms.o pdseprtst.o pdsepinfo.o pdlagsy.o pdlasizesep.o $(dmatgen) 
+cheevr =  pclasizesepr.o pclasizeheevr.o pcseprdriver.o pcseprreq.o pcseprsubtst.o \
+pcsepchk.o pcsepqtq.o pclatms.o pcseprtst.o pssepinfo.o pclagsy.o pclasizesep.o $(cmatgen)
+zheevr =  pzlasizesepr.o pzlasizeheevr.o pzseprdriver.o pzseprreq.o pzseprsubtst.o \
+pzsepchk.o pzsepqtq.o pzlatms.o pzseprtst.o pdsepinfo.o pzlagsy.o pzlasizesep.o $(zmatgen)
+
 all : single double complex complex16
 
 single:    $(shrdexe) $(strdexe) $(sbrdexe) $(ssepexe) $(sgsepexe) \
-           $(snepexe) $(ssvdexe)
+           $(snepexe) $(ssvdexe) $(ssyevrexe)
 double:    $(dhrdexe) $(dtrdexe) $(dbrdexe) $(dsepexe) $(dgsepexe) \
-           $(dnepexe) $(dsvdexe)
+           $(dnepexe) $(dsvdexe) $(dsyevrexe)
 complex:   $(chrdexe) $(ctrdexe) $(cbrdexe) $(csepexe) $(cgsepexe) \
-           $(cnepexe) $(cevcexe)
+           $(cnepexe) $(cevcexe) $(cheevrexe)
 complex16: $(zhrdexe) $(ztrdexe) $(zbrdexe) $(zsepexe) $(zgsepexe) \
-           $(znepexe) $(zevcexe)
+           $(znepexe) $(zevcexe) $(zheevrexe)
 
 $(TESTINGdir)/BRD.dat: ../BRD.dat
 	cp ../BRD.dat $(TESTINGdir)
@@ -240,6 +254,25 @@ $(cevcexe) : $(SCALAPACKLIB) $(cevc)
 $(zevcexe) : $(SCALAPACKLIB) $(zevc)
 	$(F77LOADER) $(F77LOADFLAGS) -o $(zevcexe) $(zevc) $(LIBS)
 	$(MAKE) $(TESTINGdir)/EVC.dat
+
+$(TESTINGdir)/SEPR.dat: ../SEPR.dat
+	cp ../SEPR.dat $(TESTINGdir)
+
+$(ssyevrexe): $(SCALAPACKLIB) $(ssyevr)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(ssyevrexe) $(ssyevr) $(RLIBS)
+	$(MAKE) $(TESTINGdir)/SEPR.dat
+
+$(dsyevrexe): $(SCALAPACKLIB) $(dsyevr)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dsyevrexe) $(dsyevr) $(RLIBS)
+	$(MAKE) $(TESTINGdir)/SEPR.dat
+
+$(cheevrexe): $(SCALAPACKLIB) $(cheevr)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cheevrexe) $(cheevr) $(LIBS)
+	$(MAKE) $(TESTINGdir)/SEPR.dat
+
+$(zheevrexe): $(SCALAPACKLIB) $(zheevr)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zheevrexe) $(zheevr) $(LIBS)
+	$(MAKE) $(TESTINGdir)/SEPR.dat
 
 $(sbrd): $(FRC)
 $(dbrd): $(FRC)
