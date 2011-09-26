@@ -125,8 +125,7 @@
 *          correct error reporting.
 *
 *  W       (global output) REAL array, dimension (N)
-*          On normal exit, the first M entries contain the selected
-*          eigenvalues in ascending order.
+*          If INFO=0, the eigenvalues in ascending order.
 *
 *  Z       (local output) REAL array,
 *          global dimension (N, N),

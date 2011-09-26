@@ -126,8 +126,7 @@
 *          correct error reporting.
 *
 *  W       (global output) DOUBLE PRECISION array, dimension (N)
-*          On normal exit, the first M entries contain the selected
-*          eigenvalues in ascending order.
+*          If INFO=0, the eigenvalues in ascending order.
 *
 *  Z       (local output) COMPLEX*16 array,
 *          global dimension (N, N),
