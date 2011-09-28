@@ -1,0 +1,10 @@
+'Sample BLACS tester run'       Comment line
+6                               device out
+'blacstest.out'                 output fname
+'T'                             Run SDRV?
+'T'                             Run BSBR?
+'T'                             Run COMB?
+'T'                             Run AUX?
+5                               Number of precisions
+'I' 'S' 'D' 'C' 'Z'             Values for precision
+0                               Verbosity level

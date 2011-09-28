@@ -1,0 +1,11 @@
+(1)  To compile, just type "make".  You must first edit and correct the
+     file BLACS/Bmake.inc.  Sample Bmake.inc's can be found in the
+     BLACS/BMAKES directories.  See the paper "Installing and testing the BLACS"
+     for details.
+
+(2)  Type "make clean" to get rid of old .o files.
+
+(3)  The file blacstest.f is extremely large (roughly 20,000 lines),
+     and this may be too large to compile on some systems.  If you have this
+     problem, a slight modification to the BLACS/TESTING Makefile should allow
+     you to split blacstest.f into smaller files.

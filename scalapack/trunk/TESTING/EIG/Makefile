@@ -194,20 +194,20 @@ $(TESTINGdir)/SVD.dat: ../SVD.dat
 	cp ../SVD.dat $(TESTINGdir)
 
 $(ssvdexe) : $(SCALAPACKLIB) $(ssvd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ssvdexe) $(ssvd) $(RLIBS)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(ssvdexe) $(ssvd) $(LIBS)
 	$(MAKE) $(TESTINGdir)/SVD.dat
 $(dsvdexe) : $(SCALAPACKLIB) $(dsvd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dsvdexe) $(dsvd) $(RLIBS)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dsvdexe) $(dsvd) $(LIBS)
 	$(MAKE) $(TESTINGdir)/SVD.dat
 
 $(TESTINGdir)/SEP.dat: ../SEP.dat
 	cp ../SEP.dat $(TESTINGdir)
 
 $(ssepexe) : $(SCALAPACKLIB) $(ssep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ssepexe) $(ssep) $(RLIBS)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(ssepexe) $(ssep) $(LIBS)
 	$(MAKE) $(TESTINGdir)/SEP.dat
 $(dsepexe) : $(SCALAPACKLIB) $(dsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dsepexe) $(dsep) $(RLIBS)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dsepexe) $(dsep) $(LIBS)
 	$(MAKE) $(TESTINGdir)/SEP.dat
 $(csepexe) : $(SCALAPACKLIB) $(csep)
 	$(F77LOADER) $(F77LOADFLAGS) -o $(csepexe) $(csep) $(LIBS)
@@ -259,11 +259,11 @@ $(TESTINGdir)/SEPR.dat: ../SEPR.dat
 	cp ../SEPR.dat $(TESTINGdir)
 
 $(ssyevrexe): $(SCALAPACKLIB) $(ssyevr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ssyevrexe) $(ssyevr) $(RLIBS)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(ssyevrexe) $(ssyevr) $(LIBS)
 	$(MAKE) $(TESTINGdir)/SEPR.dat
 
 $(dsyevrexe): $(SCALAPACKLIB) $(dsyevr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dsyevrexe) $(dsyevr) $(RLIBS)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dsyevrexe) $(dsyevr) $(LIBS)
 	$(MAKE) $(TESTINGdir)/SEPR.dat
 
 $(cheevrexe): $(SCALAPACKLIB) $(cheevr)
