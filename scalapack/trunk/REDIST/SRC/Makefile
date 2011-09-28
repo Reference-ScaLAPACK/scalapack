@@ -103,4 +103,4 @@ FRC:
 clean :
 	rm -f *.o
 
-.c.o : ; $(CC) -c $(CCFLAGS) $(CDEFS) $*.c
+.c.o : ; $(CC) -c $(CCFLAGS) $*.c

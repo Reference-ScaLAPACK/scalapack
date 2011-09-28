@@ -81,10 +81,10 @@ complex16: PblasErrorHandler $(zpb1tst) $(zpb2tst) $(zpb3tst)
 PblasErrorHandler:
 	rm -f PB_Cwarn.c  PB_Cwarn.o
 	ln -s $(PBLASdir)/SRC/PTOOLS/PB_Cwarn.c  PB_Cwarn.c
-	$(CC) -c $(CCFLAGS) $(CDEFS) -DTestingPblas PB_Cwarn.c
+	$(CC) -c $(CCFLAGS)  -DTestingPblas PB_Cwarn.c
 	rm -f PB_Cabort.c PB_Cabort.o
 	ln -s $(PBLASdir)/SRC/PTOOLS/PB_Cabort.c PB_Cabort.c
-	$(CC) -c $(CCFLAGS) $(CDEFS) -DTestingPblas PB_Cabort.c
+	$(CC) -c $(CCFLAGS)  -DTestingPblas PB_Cabort.c
 
 $(PBLASTSTdir)/PSBLAS1TST.dat: PSBLAS1TST.dat
 	cp PSBLAS1TST.dat $(PBLASTSTdir)
@@ -181,4 +181,4 @@ dlamch.o:
 
 .f.o : ; $(F77) -c $(F77FLAGS) $*.f
 
-# .c.o : ; $(CC) -c $(CCFLAGS) $(CDEFS) -DTestingPblas $*.c
+# .c.o : ; $(CC) -c $(CCFLAGS) -DTestingPblas $*.c

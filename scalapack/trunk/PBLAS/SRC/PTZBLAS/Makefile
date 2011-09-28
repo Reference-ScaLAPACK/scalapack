@@ -138,4 +138,4 @@ clean:
 	rm -f *.o
 
 .f.o : ; $(F77) -c $(F77FLAGS) $*.f
-.c.o : ; $(CC) -c $(CCFLAGS) $(CDEFS) $*.c
+.c.o : ; $(CC) -c $(CCFLAGS) $*.c
