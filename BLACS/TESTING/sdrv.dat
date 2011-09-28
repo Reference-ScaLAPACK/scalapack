@@ -1,0 +1,16 @@
+5                       Number of shapes                               
+'G' 'U' 'U' 'L' 'L'     UPLO
+'E' 'U' 'N' 'U' 'N'     DIAG
+5                       Number of matrices
+2 1 25 13 0             M
+2 7 19 32 0             N
+2 3 25 14 1             LDASRC
+3 2 25 22 1             LDADEST
+1                       Number of src/dest pairs
+0 1 3 0                 RSRC
+0 0 0 2                 CSRC
+0 1 2 0                 RDEST
+1 1 0 0                 CDEST
+3                       Number of grids
+2 4 1                   NPROW
+2 1 4                   NPCOL

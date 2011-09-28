@@ -1,0 +1,18 @@
+3                       Number of scopes
+'R' 'C' 'A'             values for scopes
+8                       Number of topologies
+'I' 'S' '1' 'd' 'm' ' ' 'T' 'H'   TOP
+5                       Number of shapes
+'G' 'U' 'U' 'L' 'L'     UPLO
+'E' 'U' 'N' 'U' 'N'     DIAG
+5                       Number of matrices
+2 1 25 13 0             M
+2 7 19 32 0             N
+3 3 25 14 1             LDASRC
+2 2 25 22 1             LDADEST
+4                       Number of src/dest pairs
+0 1 3 2                 RSRC
+0 0 1 1                 CSRC
+4                       Number of grids
+2 4 1 1 7 1 4           NPROW
+2 1 3 4 1 8 2           NPCOL

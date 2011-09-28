@@ -1,0 +1,20 @@
+3                       Number of OPs
+'+' '>' '<'             Combine operations to perform
+3                       Number of scopes
+'R' 'C' 'A'             values for scopes
+2                       Repeatability flag (0=no-rep, 1=rep, 2=both)
+2                       Coherence flag (0=no-coh, 1=coh, 2=both)
+4                       Number of topologies
+' ' 'T' 'H' 'f' 'M'     TOP
+6                       Number of matrices
+3 1 2  25 13 0          M
+5 1 3  19 32 0          N
+5 1 4  25 14 1          LDASRC
+9 1 5  25 22 1          LDADEST
+4 1 -1 25 22 1          LDI
+4                       Number of dests
+0 -1 0 2                RDEST
+0 -1 1 0                CDEST
+4                       Number of grids
+2 1 4 1 1 8 3           NPROW
+2 4 1 3 7 1 2           NPCOL

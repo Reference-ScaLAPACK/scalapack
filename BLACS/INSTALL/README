@@ -1,0 +1,27 @@
+These routines help to configure the BLACS and its tester during installation.
+See the paper "Installing and testing the BLACS" for details.
+
+
+xintface will tell you the correct setting for Bmake.inc's INTFACE macro.
+
+xsize prints out the correct sizes for various data types, which are hardwired
+in btprim_PVM.c ibtsizeof.
+
+============================ MPI SPECIFIC ROUTINES ============================
+xsyserrors indicates the correct setting for Bmake.inc's SYSERRORS macro.
+
+xcmpi_sane will give you a sanity test to see if the most basic MPI program
+will run on your system using the C interface to MPI.
+
+xfmpi_sane will give you a sanity test to see if the most basic MPI program
+will run on your system using the Fortran77 interface to MPI.
+
+              *****  FINDING THE CORRECT TRANSCOMM SETTING  *****
+The remaining routines exist in order to allow the user to find the correct
+setting for Bmake.inc's TRANSCOMM macro.  THESE ROUTINES USE HEURISTICS, AND
+THUS MAY BE INCORRECT.
+
+First make and run xtc_CsameF77.  If this reports back not to set TRANSCOMM
+to -DCSameF77 or does not complete, make and run xtc_UseMpich.  If this fails to
+compile or does not tell you what to set TRANSCOMM to, you must leave TRANSCOMM
+blank.

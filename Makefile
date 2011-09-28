@@ -51,11 +51,14 @@ PRECISIONS = single double complex complex16
 all: lib
 #all: lib exe example
 
-lib: toolslib pblaslib redistlib scalapacklib
+lib: blacslib toolslib pblaslib redistlib scalapacklib
 
 exe: pblasexe redistexe scalapackexe
 
-clean: cleanlib cleanexe cleanexample
+clean: cleanlib
+
+blacslib:
+	( cd $(BLACSdir); $(MAKE) lib )
 
 pblaslib:
 	( cd $(PBLASdir)/SRC; $(MAKE) $(PRECISIONS) )
@@ -91,10 +94,12 @@ cleanexe:
 	( cd $(REDISTdir)/TESTING; $(MAKE) clean )
 
 cleanlib:
+	( cd $(BLACSdir); $(MAKE) clean )
 	( cd $(PBLASdir)/SRC; $(MAKE) clean )
 	( cd $(SRCdir); $(MAKE) clean )
 	( cd $(TOOLSdir); $(MAKE) clean )
 	( cd $(REDISTdir)/SRC; $(MAKE) clean )
+	( rm -f $(SCALAPACKLIB) )
 
 cleanexample:
 	( cd EXAMPLE; $(MAKE) clean )
