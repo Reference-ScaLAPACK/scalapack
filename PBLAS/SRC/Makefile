@@ -181,10 +181,10 @@ clean :
 
 .f.o : ; $(F77) -c $(F77FLAGS) $*.f
 
-.c.o : ; $(CC) -c $(CCFLAGS) $(CDEFS) $*.c
+.c.o : ; $(CC) -c $(CCFLAGS) $*.c
 #
 # To compile  without  input  argument checking replace previous line by
-# .c.o : ; $(CC) -c $(CCFLAGS) $(CDEFS) -DNO_ARGCHK $*.c
+# .c.o : ; $(CC) -c $(CCFLAGS)  -DNO_ARGCHK $*.c
 #
 # Note that when the PBLAS routines have been compiled without input ar-
 # gument checking, it is impossible to test PBLAS error exits. Trying to

@@ -56,46 +56,46 @@ $(TESTINGdir)/GEMR2D.dat: GEMR2D.dat
 	cp GEMR2D.dat $(TESTINGdir)
 
 $(igemrexe): $(SCALAPACKLIB) $(igemr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(igemrexe) $(igemr) $(PRLIBS)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(igemrexe) $(igemr) $(LIBS)
 	$(MAKE) $(TESTINGdir)/GEMR2D.dat
 
 $(sgemrexe): $(SCALAPACKLIB) $(sgemr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(sgemrexe) $(sgemr) $(PRLIBS)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(sgemrexe) $(sgemr) $(LIBS)
 	$(MAKE) $(TESTINGdir)/GEMR2D.dat
 
 $(dgemrexe): $(SCALAPACKLIB) $(dgemr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(dgemrexe) $(dgemr) $(PRLIBS)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(dgemrexe) $(dgemr) $(LIBS)
 	$(MAKE) $(TESTINGdir)/GEMR2D.dat
 
 $(cgemrexe): $(SCALAPACKLIB) $(cgemr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(cgemrexe) $(cgemr) $(PRLIBS)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(cgemrexe) $(cgemr) $(LIBS)
 	$(MAKE) $(TESTINGdir)/GEMR2D.dat
 
 $(zgemrexe): $(SCALAPACKLIB) $(zgemr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(zgemrexe) $(zgemr) $(PRLIBS)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(zgemrexe) $(zgemr) $(LIBS)
 	$(MAKE) $(TESTINGdir)/GEMR2D.dat
 
 $(TESTINGdir)/TRMR2D.dat: TRMR2D.dat
 	cp TRMR2D.dat $(TESTINGdir)
 
 $(itrmrexe): $(SCALAPACKLIB) $(itrmr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(itrmrexe) $(itrmr) $(PRLIBS)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(itrmrexe) $(itrmr) $(LIBS)
 	$(MAKE) $(TESTINGdir)/TRMR2D.dat
 
 $(strmrexe): $(SCALAPACKLIB) $(strmr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(strmrexe) $(strmr) $(PRLIBS)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(strmrexe) $(strmr) $(LIBS)
 	$(MAKE) $(TESTINGdir)/TRMR2D.dat
 
 $(dtrmrexe): $(SCALAPACKLIB) $(dtrmr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(dtrmrexe) $(dtrmr) $(PRLIBS)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(dtrmrexe) $(dtrmr) $(LIBS)
 	$(MAKE) $(TESTINGdir)/TRMR2D.dat
 
 $(ctrmrexe): $(SCALAPACKLIB) $(ctrmr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(ctrmrexe) $(ctrmr) $(PRLIBS)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(ctrmrexe) $(ctrmr) $(LIBS)
 	$(MAKE) $(TESTINGdir)/TRMR2D.dat
 
 $(ztrmrexe): $(SCALAPACKLIB) $(ztrmr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(ztrmrexe) $(ztrmr) $(PRLIBS)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(ztrmrexe) $(ztrmr) $(LIBS)
 	$(MAKE) $(TESTINGdir)/TRMR2D.dat
 
 $(igemr): $(FRC)
@@ -116,4 +116,4 @@ FRC:
 clean :
 	rm -f *.o
 
-.c.o : ; $(CC) -c $(CCFLAGS) $(CDEFS) $*.c
+.c.o : ; $(CC) -c $(CCFLAGS) $*.c

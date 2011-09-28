@@ -48,14 +48,13 @@ PRECISIONS = single double complex complex16
 #
 ############################################################################
 
-all: lib
-#all: lib exe example
+all: lib exe example
 
 lib: blacslib toolslib pblaslib redistlib scalapacklib
 
-exe: pblasexe redistexe scalapackexe
+exe: blacsexe pblasexe redistexe scalapackexe
 
-clean: cleanlib
+clean: cleanlib cleanexe cleanexample
 
 blacslib:
 	( cd $(BLACSdir); $(MAKE) lib )
@@ -72,13 +71,16 @@ scalapacklib:
 toolslib:
 	( cd $(TOOLSdir); $(MAKE) $(PRECISIONS) )
 
+blacsexe:
+	( cd $(BLACSdir); $(MAKE) tester )
+
 pblasexe:
 	( cd $(PBLASdir)/TESTING; $(MAKE) $(PRECISIONS) )
 	( cd $(PBLASdir)/TIMING; $(MAKE) $(PRECISIONS) )
 
 scalapackexe:
-	( cd $(TESTdir)/LIN; $(MAKE) $(PRECISIONS) )
-	( cd $(TESTdir)/EIG; $(MAKE) $(PRECISIONS) )
+	( cd $(TESTINGdir)/LIN; $(MAKE) $(PRECISIONS) )
+	( cd $(TESTINGdir)/EIG; $(MAKE) $(PRECISIONS) )
 
 redistexe:
 	( cd $(REDISTdir)/TESTING; $(MAKE) integer $(PRECISIONS) )
@@ -89,9 +91,11 @@ example:
 cleanexe:
 	( cd $(PBLASdir)/TESTING; $(MAKE) clean )
 	( cd $(PBLASdir)/TIMING; $(MAKE) clean )
-	( cd $(TESTdir)/LIN; $(MAKE) clean )
-	( cd $(TESTdir)/EIG; $(MAKE) clean )
+	( cd $(TESTINGdir)/LIN; $(MAKE) clean )
+	( cd $(TESTINGdir)/EIG; $(MAKE) clean )
 	( cd $(REDISTdir)/TESTING; $(MAKE) clean )
+	( cd $(BLACSdir)/TESTING; $(MAKE) clean )
+	( cd $(TESTINGdir); rm -f x* )
 
 cleanlib:
 	( cd $(BLACSdir); $(MAKE) clean )

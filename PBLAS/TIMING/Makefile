@@ -76,10 +76,10 @@ complex16: PblasErrorHandler $(zpb1tim) $(zpb2tim) $(zpb3tim)
 PblasErrorHandler:
 	rm -f PB_Cwarn.c  PB_Cwarn.o
 	ln -s $(PBLASdir)/SRC/PTOOLS/PB_Cwarn.c  PB_Cwarn.c
-	$(CC) -c $(CCFLAGS) $(CDEFS) -DTestingPblas PB_Cwarn.c
+	$(CC) -c $(CCFLAGS) -DTestingPblas PB_Cwarn.c
 	rm -f PB_Cabort.c PB_Cabort.o
 	ln -s $(PBLASdir)/SRC/PTOOLS/PB_Cabort.c PB_Cabort.c
-	$(CC) -c $(CCFLAGS) $(CDEFS) -DTestingPblas PB_Cabort.c
+	$(CC) -c $(CCFLAGS) -DTestingPblas PB_Cabort.c
 
 $(PBLASTSTdir)/PSBLAS1TIM.dat: PSBLAS1TIM.dat
 	cp PSBLAS1TIM.dat $(PBLASTSTdir)
@@ -170,4 +170,4 @@ clean :
 
 .f.o : ; $(F77) -c $(F77FLAGS) $*.f
 
-# .c.o : ; $(CC) -c $(CCFLAGS) $(CDEFS) -DTestingPblas $*.c
+# .c.o : ; $(CC) -c $(CCFLAGS) -DTestingPblas $*.c
