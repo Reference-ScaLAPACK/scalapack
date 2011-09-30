@@ -8,7 +8,7 @@
 #
 #  Creation date:   February 15, 2000
 #
-#  Modified:
+#  Modified:        September 29, 2011
 #
 #  Send bug reports, comments or suggestions to scalapack@cs.utk.edu
 #
@@ -16,31 +16,9 @@
 #
 SHELL         = /bin/sh
 #
-#  The complete path to the top level of ScaLAPACK directory, usually
-#  $(HOME)/SCALAPACK
+#  The complete path to your top level of ScaLAPACK directory
 #
 home          = $(HOME)/SCALAPACK
-#
-#  The platform identifier to suffix to the end of library names
-#
-PLAT          =
-#
-#  BLACS setup.  All version need the debug level (0 or 1),
-#  and the directory where the BLACS libraries are
-#
-BLACSDBGLVL   = 0
-
-#
-#  The directories to find the various pieces of ScaLapack
-#
-PBLASdir      = $(home)/PBLAS
-SRCdir        = $(home)/SRC
-TESTINGdir    = $(home)/TESTING
-PBLASTSTdir   = $(TESTINGdir)
-TOOLSdir      = $(home)/TOOLS
-REDISTdir     = $(home)/REDIST
-REDISTTSTdir  = $(TESTINGdir)
-BLACSdir      = $(home)/BLACS
 #
 #  C preprocessor defs for compilation 
 #  (-DNoChange, -DAdd_, -DUpCase, or -Df77IsF2C)
@@ -52,7 +30,7 @@ CDEFS         = -DAdd_
 F77           = mpif77
 CC            = mpicc
 NOOPT         = 
-F77FLAGS      =  -O3 $(NOOPT)
+F77FLAGS      = -O3 $(NOOPT)
 CCFLAGS       = -O3 $(CDEFS)
 SRCFLAG       =
 F77LOADER     = $(F77)
@@ -72,5 +50,15 @@ RANLIB        = ranlib
 SCALAPACKLIB  = $(home)/libscalapack.a
 BLASLIB       = -lblas
 LAPACKLIB     = -llapack
-#
 LIBS          = $(SCALAPACKLIB) $(LAPACKLIB) $(BLASLIB)
+#
+#  Internal ScaLAPACK Directories (normally not changed)
+#
+PBLASdir      = $(home)/PBLAS
+SRCdir        = $(home)/SRC
+TESTINGdir    = $(home)/TESTING
+PBLASTSTdir   = $(TESTINGdir)
+TOOLSdir      = $(home)/TOOLS
+REDISTdir     = $(home)/REDIST
+REDISTTSTdir  = $(TESTINGdir)
+BLACSdir      = $(home)/BLACS
