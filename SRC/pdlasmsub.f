@@ -146,11 +146,11 @@
       PARAMETER          ( ZERO = 0.0D+0 )
 *     ..
 *     .. Local Scalars ..
-      INTEGER            CONTXT, DOWN, HBL, IBUF1, IBUF2, ICOL1, ICOL2,
-     $                   II, III, IRCV1, IRCV2, IROW1, IROW2, ISRC,
-     $                   ISTR1, ISTR2, ITMP1, ITMP2, JJ, JJJ, JSRC, LDA,
-     $                   LEFT, MODKM1, MYCOL, MYROW, NPCOL, NPROW, NUM,
-     $                   RIGHT, UP
+      INTEGER            CONTXT, DOWN, HBL, IAFIRST, IBUF1, IBUF2,
+     $                   ICOL1, ICOL2, II, III, IRCV1, IRCV2, IROW1,
+     $                   IROW2, ISRC, ISTR1, ISTR2, ITMP1, ITMP2,
+     $                   JAFIRST, JJ, JJJ, JSRC, LDA, LEFT, MODKM1,
+     $                   MYCOL, MYROW, NPCOL, NPROW, NUM, RIGHT, UP
       DOUBLE PRECISION   H10, H11, H22, TST1, ULP
 *     ..
 *     .. External Functions ..
@@ -170,6 +170,8 @@
       HBL = DESCA( MB_ )
       CONTXT = DESCA( CTXT_ )
       LDA = DESCA( LLD_ )
+      IAFIRST = DESCA( RSRC_ )
+      JAFIRST = DESCA( CSRC_ )
       ULP = PDLAMCH( CONTXT, 'PRECISION' )
       CALL BLACS_GRIDINFO( CONTXT, NPROW, NPCOL, MYROW, MYCOL )
       LEFT = MOD( MYCOL+NPCOL-1, NPCOL )
@@ -333,10 +335,10 @@
 *
 *                 FIND SOME NORM OF THE LOCAL H(L:I,L:I)
 *
-               CALL INFOG1L( L, HBL, NPROW, MYROW, 0, ITMP1, III )
-               IROW2 = NUMROC( I, HBL, MYROW, 0, NPROW )
-               CALL INFOG1L( L, HBL, NPCOL, MYCOL, 0, ITMP2, III )
-               ICOL2 = NUMROC( I, HBL, MYCOL, 0, NPCOL )
+               CALL INFOG1L( L, HBL, NPROW, MYROW, IAFIRST, ITMP1, III )
+               IROW2 = NUMROC( I, HBL, MYROW, IAFIRST, NPROW )
+               CALL INFOG1L( L, HBL, NPCOL, MYCOL, JAFIRST, ITMP2, III )
+               ICOL2 = NUMROC( I, HBL, MYCOL, JAFIRST, NPCOL )
                DO 30 III = ITMP1, IROW2
                   DO 20 JJJ = ITMP2, ICOL2
                      TST1 = TST1 + ABS( A( ( JJJ-1 )*LDA+III ) )

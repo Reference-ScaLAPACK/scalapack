@@ -1,4 +1,4 @@
-      SUBROUTINE DLARRF2_CV( N, D, L, LD, CLSTRT, CLEND, 
+      SUBROUTINE SLARRF2( N, D, L, LD, CLSTRT, CLEND, 
      $                   CLMID1, CLMID2, W, WGAP, WERR, TRYMID,
      $                   SPDIAM, CLGAPL, CLGAPR, PIVMIN, SIGMA,
      $                   DPLUS, LPLUS, WORK, INFO )
@@ -12,11 +12,11 @@
 *
 *     .. Scalar Arguments ..
       INTEGER            CLSTRT, CLEND, CLMID1, CLMID2, INFO, N
-      DOUBLE PRECISION   CLGAPL, CLGAPR, PIVMIN, SIGMA, SPDIAM
+      REAL               CLGAPL, CLGAPR, PIVMIN, SIGMA, SPDIAM
       LOGICAL TRYMID
 *     ..
 *     .. Array Arguments ..
-      DOUBLE PRECISION   D( * ), DPLUS( * ), L( * ), LD( * ), 
+      REAL               D( * ), DPLUS( * ), L( * ), LD( * ), 
      $          LPLUS( * ), W( * ), WGAP( * ), WERR( * ), WORK( * )
 *     ..
 *
@@ -25,11 +25,11 @@
 *
 *  Given the initial representation L D L^T and its cluster of close
 *  eigenvalues (in a relative measure), W( CLSTRT ), W( CLSTRT+1 ), ...
-*  W( CLEND ), DLARRF2 finds a new relatively robust representation
+*  W( CLEND ), SLARRF2 finds a new relatively robust representation
 *  L D L^T - SIGMA I = L(+) D(+) L(+)^T such that at least one of the
 *  eigenvalues of L(+) D(+) L(+)^T is relatively isolated.
 *
-*  This is an enhanced version of DLARRF that also tries shifts in
+*  This is an enhanced version of SLARRF that also tries shifts in
 *  the middle of the cluster, should there be a large gap, in order to
 *  break large clusters into at least two pieces.
 *
@@ -39,14 +39,14 @@
 *  N       (input) INTEGER
 *          The order of the matrix (subblock, if the matrix splitted).
 *
-*  D       (input) DOUBLE PRECISION array, dimension (N)
+*  D       (input) REAL             array, dimension (N)
 *          The N diagonal elements of the diagonal matrix D.
 *
-*  L       (input) DOUBLE PRECISION array, dimension (N-1)
+*  L       (input) REAL             array, dimension (N-1)
 *          The (N-1) subdiagonal elements of the unit bidiagonal
 *          matrix L.
 *
-*  LD      (input) DOUBLE PRECISION array, dimension (N-1)
+*  LD      (input) REAL             array, dimension (N-1)
 *          The (N-1) elements L(i)*D(i).
 *
 *  CLSTRT  (input) INTEGER
@@ -58,15 +58,15 @@
 *  CLMID1,2(input) INTEGER
 *          The index of a middle eigenvalue pair with large gap
 *
-*  W       (input) DOUBLE PRECISION array, dimension >=  (CLEND-CLSTRT+1)
+*  W       (input) REAL             array, dimension >=  (CLEND-CLSTRT+1)
 *          The eigenvalue APPROXIMATIONS of L D L^T in ascending order.
 *          W( CLSTRT ) through W( CLEND ) form the cluster of relatively
 *          close eigenalues.
 *
-*  WGAP    (input/output) DOUBLE PRECISION array, dimension >=  (CLEND-CLSTRT+1)
+*  WGAP    (input/output) REAL             array, dimension >=  (CLEND-CLSTRT+1)
 *          The separation from the right neighbor eigenvalue in W.
 *
-*  WERR    (input) DOUBLE PRECISION array, dimension >=  (CLEND-CLSTRT+1)
+*  WERR    (input) REAL             array, dimension >=  (CLEND-CLSTRT+1)
 *          WERR contain the semiwidth of the uncertainty
 *          interval of the corresponding eigenvalue APPROXIMATION in W
 *
@@ -80,17 +80,17 @@
 *  PIVMIN  (input) DOUBLE PRECISION
 *          The minimum pivot allowed in the sturm sequence.
 *
-*  SIGMA   (output) DOUBLE PRECISION
+*  SIGMA   (output) REAL            
 *          The shift used to form L(+) D(+) L(+)^T.
 *
-*  DPLUS   (output) DOUBLE PRECISION array, dimension (N)
+*  DPLUS   (output) REAL             array, dimension (N)
 *          The N diagonal elements of the diagonal matrix D(+).
 *
-*  LPLUS   (output) DOUBLE PRECISION array, dimension (N-1)
+*  LPLUS   (output) REAL             array, dimension (N-1)
 *          The first (N-1) elements of LPLUS contain the subdiagonal
 *          elements of the unit bidiagonal matrix L(+).
 *
-*  WORK    (workspace) DOUBLE PRECISION array, dimension (2*N)
+*  WORK    (workspace) REAL             array, dimension (2*N)
 *          Workspace.
 *
 *  Further Details
@@ -106,11 +106,11 @@
 *  =====================================================================
 *
 *     .. Parameters ..
-      DOUBLE PRECISION   FOUR, MAXGROWTH1, MAXGROWTH2, ONE, QUART, TWO
-      PARAMETER          ( ONE = 1.0D0, TWO = 2.0D0,
-     $                     FOUR = 4.0D0, QUART = 0.25D0,
-     $                     MAXGROWTH1 = 8.D0,
-     $                     MAXGROWTH2 = 8.D0 )
+      REAL               FOUR, MAXGROWTH1, MAXGROWTH2, ONE, QUART, TWO
+      PARAMETER          ( ONE = 1.0E0, TWO = 2.0E0,
+     $                     FOUR = 4.0E0, QUART = 0.25E0,
+     $                     MAXGROWTH1 = 8.E0,
+     $                     MAXGROWTH2 = 8.E0 )
 *     ..
 *     .. Local Scalars ..
       LOGICAL   DORRR1, NOFAIL, SAWNAN1, SAWNAN2, TRYRRR1
@@ -122,19 +122,19 @@
       PARAMETER ( BLKLEN = 512 )
 
 
-      DOUBLE PRECISION   AVGAP, BESTSHIFT, CLWDTH, EPS, FACT, FAIL,
+      REAL               AVGAP, BESTSHIFT, CLWDTH, EPS, FACT, FAIL,
      $                   FAIL2, GROWTHBOUND, LDELTA, LDMAX, LEASTGROWTH,
      $                   LSIGMA, MAX1, MAX2, MINGAP, MSIGMA1, MSIGMA2,
      $                   OLDP, PROD, RDELTA, RDMAX, RRR1, RRR2, RSIGMA,
      $                   S, TMP, ZNM2
 *     ..
 *     .. External Functions ..
-      LOGICAL DISNAN
-      DOUBLE PRECISION   DLAMCH
-      EXTERNAL           DISNAN, DLAMCH
+      LOGICAL SISNAN
+      REAL               SLAMCH
+      EXTERNAL           SISNAN, SLAMCH
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           DCOPY
+      EXTERNAL           SCOPY
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS
@@ -142,8 +142,8 @@
 *     .. Executable Statements ..
 *
       INFO = 0
-      FACT = DBLE(2**KTRYMAX)
-      EPS = DLAMCH( 'Precision' )
+      FACT = REAL(2**KTRYMAX)
+      EPS = SLAMCH( 'Precision' )
       SHIFT = 0
       
 *     Decide whether the code should accept the best among all 
@@ -153,7 +153,7 @@
 
 *     Compute the average gap length of the cluster
       CLWDTH = ABS(W(CLEND)-W(CLSTRT)) + WERR(CLEND) + WERR(CLSTRT)
-      AVGAP = CLWDTH / DBLE(CLEND-CLSTRT)
+      AVGAP = CLWDTH / REAL(CLEND-CLSTRT)
       MINGAP = MIN(CLGAPL, CLGAPR)
 
 *     Initial values for shifts to both ends of cluster
@@ -163,8 +163,8 @@
       MSIGMA2 = W( CLMID2 ) - WERR( CLMID2 )
 
 *     Use a small fudge to make sure that we really shift to the outside
-      LSIGMA = LSIGMA - ABS(LSIGMA)* FOUR * EPS
-      RSIGMA = RSIGMA + ABS(RSIGMA)* FOUR * EPS
+      LSIGMA = LSIGMA - ABS(LSIGMA)* TWO * EPS
+      RSIGMA = RSIGMA + ABS(RSIGMA)* TWO * EPS
 
 *     Compute upper bounds for how much to back off the initial shifts
       LDMAX = QUART * MINGAP + TWO * PIVMIN
@@ -175,10 +175,10 @@
 *
 *     Initialize the record of the best representation found
 *
-      S = DLAMCH( 'S' )
+      S = SLAMCH( 'S' )
       LEASTGROWTH = ONE / S 
-      FAIL = DBLE(N-1)*MINGAP/(SPDIAM*EPS)
-      FAIL2 = DBLE(N-1)*MINGAP/(SPDIAM*SQRT(EPS))
+      FAIL = REAL(N-1)*MINGAP/(SPDIAM*EPS)
+      FAIL2 = REAL(N-1)*MINGAP/(SPDIAM*SQRT(EPS))
       GROWTHBOUND = MAXGROWTH1*SPDIAM
 
 *
@@ -213,7 +213,7 @@
                DPLUS( I+1 ) = D( I+1 ) + S
                MAX1 = MAX( MAX1,ABS(DPLUS(I+1)) )
  1          CONTINUE
-            SAWNAN1=SAWNAN1 .OR. DISNAN(MAX1)
+            SAWNAN1=SAWNAN1 .OR. SISNAN(MAX1)
             IF (SAWNAN1) GOTO 3
  2       CONTINUE
 
@@ -255,7 +255,7 @@
             DPLUS( I+1 ) = D( I+1 ) + S
             MAX1 = MAX( MAX1,ABS(DPLUS(I+1)) )
  11      CONTINUE
-         SAWNAN1=SAWNAN1 .OR. DISNAN(MAX1)
+         SAWNAN1=SAWNAN1 .OR. SISNAN(MAX1)
          IF (SAWNAN1) GOTO 13
  12   CONTINUE
       IF( .NOT.SAWNAN1 ) THEN
@@ -282,7 +282,7 @@
             WORK( I+1 ) = D( I+1 ) + S
             MAX2 = MAX( MAX2,ABS(WORK(I+1)) )
  21      CONTINUE
-         SAWNAN2=SAWNAN2 .OR. DISNAN(MAX2)
+         SAWNAN2=SAWNAN2 .OR. SISNAN(MAX2)
          IF (SAWNAN2) GOTO 23
  22   CONTINUE
       IF( .NOT.SAWNAN2 ) THEN
@@ -344,12 +344,12 @@
       IF (SHIFT.EQ.SLEFT .OR. SHIFT.EQ.SMID ) THEN
       ELSEIF (SHIFT.EQ.SRIGHT) THEN
 *        store new L and D back into DPLUS, LPLUS
-         CALL DCOPY( N, WORK, 1, DPLUS, 1 )
-         CALL DCOPY( N-1, WORK(N+1), 1, LPLUS, 1 )
+         CALL SCOPY( N, WORK, 1, DPLUS, 1 )
+         CALL SCOPY( N-1, WORK(N+1), 1, LPLUS, 1 )
       ENDIF
 
       RETURN
 *
-*     End of DLARRF2
+*     End of SLARRF2
 *
       END

@@ -1,4 +1,4 @@
-      SUBROUTINE SSTEGR2B_CV( JOBZ, N, D, E, 
+      SUBROUTINE SSTEGR2B( JOBZ, N, D, E, 
      $                   M, W, Z, LDZ, NZC, ISUPPZ, WORK, LWORK, IWORK,
      $                   LIWORK, DOL, DOU, NEEDIL, NEEDIU,
      $                   INDWLC, PIVMIN, SCALE, WL, WU,
@@ -220,7 +220,7 @@
       EXTERNAL           LSAME, SLAMCH, SLANST
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           SLARRV2_CV, SSCAL
+      EXTERNAL           SLARRV2, SSCAL
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          MAX, MIN, REAL, SQRT
@@ -283,7 +283,7 @@
 *        Compute the desired eigenvectors corresponding to the computed
 *        eigenvalues
 *
-         CALL SLARRV2_CV( N, WL, WU, D, E,
+         CALL SLARRV2( N, WL, WU, D, E,
      $                PIVMIN, IWORK( IINSPL ), M, 
      $                DOL, DOU, NEEDIL, NEEDIU, MINRGP, RTOL1, RTOL2, 
      $                W, WORK( INDERR ), WORK( INDGP ), IWORK( IINDBL ),

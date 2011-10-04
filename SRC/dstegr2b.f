@@ -1,4 +1,4 @@
-      SUBROUTINE DSTEGR2B_CV( JOBZ, N, D, E, 
+      SUBROUTINE DSTEGR2B( JOBZ, N, D, E, 
      $                   M, W, Z, LDZ, NZC, ISUPPZ, WORK, LWORK, IWORK,
      $                   LIWORK, DOL, DOU, NEEDIL, NEEDIU,
      $                   INDWLC, PIVMIN, SCALE, WL, WU,
@@ -220,7 +220,7 @@
       EXTERNAL           LSAME, DLAMCH, DLANST
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           DLARRV2_CV, DSCAL
+      EXTERNAL           DLARRV2, DSCAL
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          DBLE, MAX, MIN, SQRT
@@ -283,7 +283,7 @@
 *        Compute the desired eigenvectors corresponding to the computed
 *        eigenvalues
 *
-         CALL DLARRV2_CV( N, WL, WU, D, E,
+         CALL DLARRV2( N, WL, WU, D, E,
      $                PIVMIN, IWORK( IINSPL ), M, 
      $                DOL, DOU, NEEDIL, NEEDIU, MINRGP, RTOL1, RTOL2, 
      $                W, WORK( INDERR ), WORK( INDGP ), IWORK( IINDBL ),

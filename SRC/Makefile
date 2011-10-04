@@ -57,17 +57,15 @@ SCLAUX = \
    pslabad.o pslaed0.o pslaed1.o pslaed2.o pslaed3.o pslaedz.o pslaiect.o \
    pslamch.o pslared1d.o pslasrt.o psstebz.o psstedc.o slapst.o slasrt2.o \
    sstein2.o pbchkvect.o getpbbuf.o \
-   slar1v_cv.o slar1va_cv.o slarra_cv.o slarrb_cv.o slarrb2_cv.o slarrc_cv.o \
-   slarrd2.o slarre2_cv.o slarre2a_cv.o slarrf_cv.o slarrf2_cv.o \
-   slarrv_cv.o slarrv2_cv.o sstegr2_cv.o sstegr2a_cv.o sstegr2b_cv.o
+   slar1va.o slarrb2.o slarrd2.o slarre2.o slarre2a.o slarrf2.o \
+   slarrv2.o sstegr2.o sstegr2a.o sstegr2b.o
 
 DZLAUX = \
    pdlabad.o pdlaed0.o pdlaed1.o pdlaed2.o pdlaed3.o pdlaedz.o pdlaiect.o \
    pdlamch.o pdlared1d.o pdlasrt.o pdstebz.o pdstedc.o dlapst.o dlasrt2.o \
    dstein2.o pbchkvect.o getpbbuf.o \
-   dlar1v_cv.o dlar1va_cv.o dlarra_cv.o dlarrb_cv.o dlarrb2_cv.o dlarrc_cv.o \
-   dlarrd2.o dlarre2_cv.o dlarre2a_cv.o dlarrf_cv.o dlarrf2_cv.o dlarrv_cv.o \
-   dlarrv2_cv.o dstegr2_cv.o dstegr2a_cv.o dstegr2b_cv.o
+   dlar1va.o dlarrb2.o dlarrd2.o dlarre2.o dlarre2a.o dlarrf2.o \
+   dlarrv2.o dstegr2.o dstegr2a.o dstegr2b.o
 
 SLASRC = \
    psdbsv.o  psdbtrf.o psdbtrs.o psdbtrsv.o \
@@ -156,7 +154,10 @@ DLASRC = \
    pdlarzb.o pdlarzt.o pdlarz.o pdlatrz.o pdtzrzf.o pdormr3.o pdormrz.o \
    pdlahqr.o pdlaconsb.o pdlacp3.o pdlawil.o \
    pdlasmsub.o pdlared2d.o pdlamr1d.o dlaref.o dlamsh.o dlasorte.o dsteqr2.o \
-   ddbtf2.o  ddbtrf.o  ddttrf.o ddttrsv.o dpttrsv.o dtrmvt.o pdsyevr.o
+   ddbtf2.o  ddbtrf.o  ddttrf.o ddttrsv.o dpttrsv.o dtrmvt.o pdsyevr.o \
+   bdlaapp.o bdlaexc.o bdtrexc.o dgemx.o dlaqr6.o dlaref.o dtrmx.o pbdtrord.o \
+   pbdtrsen.o pdgebal.o pdgehrd.o pdhseqr.o pdlacp3.o pdlamve.o pdlaqr0.o pdlaqr1.o \
+   pdlaqr2.o pdlaqr3.o pdlaqr4.o pdlaqr5.o pdlasmsub.o pdrot.o pilaenvx.o piparmq.o
 
 ZLASRC = \
    pzdbsv.o  pzdbtrf.o pzdbtrs.o pzdbtrsv.o \
@@ -226,4 +227,4 @@ clean :
 
 .f.o : ; $(F77) -c $(F77FLAGS) $*.f
 
-.c.o : ; $(CC) -c $(CCFLAGS) $(SRCFLAG) $(CDEFS) $*.c
+.c.o : ; $(CC) -c $(CCFLAGS) $(SRCFLAG) $*.c

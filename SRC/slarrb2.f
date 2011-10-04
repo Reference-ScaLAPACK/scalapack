@@ -1,4 +1,4 @@
-      SUBROUTINE SLARRB2_CV( N, D, LLD, IFIRST, ILAST, RTOL1,
+      SUBROUTINE SLARRB2( N, D, LLD, IFIRST, ILAST, RTOL1,
      $                   RTOL2, OFFSET, W, WGAP, WERR, WORK, IWORK,
      $                   PIVMIN, LGPVMN, LGSPDM, TWIST, INFO )
 *
@@ -130,9 +130,9 @@
 *     .. External Functions ..
       LOGICAL            SISNAN
       REAL               SLAMCH
-      INTEGER            SLANEG2A_CV
+      INTEGER            SLANEG2A
       EXTERNAL           SISNAN, SLAMCH, 
-     $                   SLANEG2A_CV
+     $                   SLANEG2A
 *
 *     ..
 *     .. Intrinsic Functions ..
@@ -199,7 +199,7 @@
 *	 
          BACK = WERR( II )
  20      CONTINUE
-         NEGCNT = SLANEG2A_CV( N, WORK(INDLLD+1), LEFT, PIVMIN, R )
+         NEGCNT = SLANEG2A( N, WORK(INDLLD+1), LEFT, PIVMIN, R )
          IF( NEGCNT.GT.I-1 ) THEN
             LEFT = LEFT - BACK
             BACK = TWO*BACK
@@ -211,7 +211,7 @@
 *	 
          BACK = WERR( II )
  50      CONTINUE
-         NEGCNT = SLANEG2A_CV( N, WORK(INDLLD+1),RIGHT, PIVMIN, R )
+         NEGCNT = SLANEG2A( N, WORK(INDLLD+1),RIGHT, PIVMIN, R )
 
          IF( NEGCNT.LT.I ) THEN
              RIGHT = RIGHT + BACK
@@ -287,7 +287,7 @@
 *
 *        Perform one bisection step
 *
-         NEGCNT = SLANEG2A_CV( N, WORK(INDLLD+1), MID, PIVMIN, R )
+         NEGCNT = SLANEG2A( N, WORK(INDLLD+1), MID, PIVMIN, R )
          IF( NEGCNT.LE.I-1 ) THEN
             WORK( K-1 ) = MID
          ELSE
@@ -333,11 +333,11 @@
 *
 *
 *
-      FUNCTION SLANEG2_CV( N, D, LLD, SIGMA, PIVMIN, R )
+      FUNCTION SLANEG2( N, D, LLD, SIGMA, PIVMIN, R )
 *
       IMPLICIT NONE
 *
-      INTEGER SLANEG2_CV
+      INTEGER SLANEG2
 *
 *     .. Scalar Arguments ..
       INTEGER            N, R
@@ -482,16 +482,16 @@
       GAMMA = S + P
       IF( GAMMA.LT.ZERO ) NEGCNT = NEGCNT+1
 
-      SLANEG2_CV = NEGCNT
+      SLANEG2 = NEGCNT
       END
 *
 *
 *
-      FUNCTION SLANEG2A_CV( N, DLLD, SIGMA, PIVMIN, R )
+      FUNCTION SLANEG2A( N, DLLD, SIGMA, PIVMIN, R )
 *
       IMPLICIT NONE
 *
-      INTEGER SLANEG2A_CV
+      INTEGER SLANEG2A
 *
 *     .. Scalar Arguments ..
       INTEGER            N, R
@@ -657,6 +657,6 @@
       GAMMA = S + P
       IF( GAMMA.LT.ZERO ) NEGCNT = NEGCNT+1
 
-      SLANEG2A_CV = NEGCNT
+      SLANEG2A = NEGCNT
       END
 

@@ -1,4 +1,4 @@
-      SUBROUTINE DSTEGR2A_CV( JOBZ, RANGE, N, D, E, VL, VU, IL, IU,
+      SUBROUTINE SSTEGR2A( JOBZ, RANGE, N, D, E, VL, VU, IL, IU,
      $                   M, W, Z, LDZ, NZC, WORK, LWORK, IWORK,
      $                   LIWORK, DOL, DOU, NEEDIL, NEEDIU,
      $                   INDERR, NSPLIT, PIVMIN, SCALE, WL, WU,
@@ -14,43 +14,43 @@
       CHARACTER          JOBZ, RANGE
       INTEGER            DOL, DOU, IL, INDERR, INFO, IU, LDZ, LIWORK,
      $                   LWORK, M, N, NEEDIL, NEEDIU, NSPLIT, NZC
-      DOUBLE PRECISION PIVMIN, SCALE, VL, VU, WL, WU
+      REAL             PIVMIN, SCALE, VL, VU, WL, WU
 
 *     ..
 *     .. Array Arguments ..
       INTEGER            IWORK( * )
-      DOUBLE PRECISION   D( * ), E( * ), W( * ), WORK( * )
-      DOUBLE PRECISION   Z( LDZ, * )
+      REAL               D( * ), E( * ), W( * ), WORK( * )
+      REAL               Z( LDZ, * )
 *     ..
 *
 *  Purpose
 *  =======
 *
-*  DSTEGR2A computes selected eigenvalues and initial representations.
-*  needed for eigenvector computations in DSTEGR2B. It is invoked in the 
-*  ScaLAPACK MRRR driver PDSYEVR and the corresponding Hermitian
+*  SSTEGR2A computes selected eigenvalues and initial representations.
+*  needed for eigenvector computations in SSTEGR2B. It is invoked in the 
+*  ScaLAPACK MRRR driver PSSYEVR and the corresponding Hermitian
 *  version when both eigenvalues and eigenvectors are computed in parallel.
-*  on multiple processors. For this case, DSTEGR2A implements the FIRST 
+*  on multiple processors. For this case, SSTEGR2A implements the FIRST 
 *  part of the MRRR algorithm, parallel eigenvalue computation and finding
-*  the root RRR. At the end of DSTEGR2A,
+*  the root RRR. At the end of SSTEGR2A,
 *  other processors might have a part of the spectrum that is needed to
 *  continue the computation locally. Once this eigenvalue information has
 *  been received by the processor, the computation can then proceed by calling 
-*  the SECOND part of the parallel MRRR algorithm, DSTEGR2B.
+*  the SECOND part of the parallel MRRR algorithm, SSTEGR2B.
 *
 *  Please note:
 *  1. The calling sequence has two additional INTEGER parameters, 
-*     (compared to LAPACK's DSTEGR), these are
+*     (compared to LAPACK's SSTEGR), these are
 *     DOL and DOU and should satisfy M>=DOU>=DOL>=1. 
 *     These parameters are only relevant for the case JOBZ = 'V'.
 *
-*     Globally invoked over all processors, DSTEGR2A computes 
+*     Globally invoked over all processors, SSTEGR2A computes 
 *     ALL the eigenVALUES specified by RANGE. 
 *     RANGE= 'A': all eigenvalues will be found.
 *          = 'V': all eigenvalues in (VL,VU] will be found.
 *          = 'I': the IL-th through IU-th eigenvalues will be found.
 *
-*     DSTEGR2A LOCALLY only computes the eigenvalues 
+*     SSTEGR2A LOCALLY only computes the eigenvalues 
 *     corresponding to eigenvalues DOL through DOU in W. (That is,
 *     instead of computing the eigenvectors belonging to W(1) 
 *     through W(M), only the eigenvectors belonging to eigenvalues
@@ -61,10 +61,10 @@
 *     M = DOU - DOL + 1. Instead, M refers to the number of eigenvalues computed on 
 *     this processor.
 *
-*  3. While no eigenvectors are computed in DSTEGR2A itself (this is
-*     done later in DSTEGR2B), the interface
-*     If JOBZ = 'V' then, depending on RANGE and DOL, DOU, DSTEGR2A 
-*     might need more workspace in Z then the original DSTEGR. 
+*  3. While no eigenvectors are computed in SSTEGR2A itself (this is
+*     done later in SSTEGR2B), the interface
+*     If JOBZ = 'V' then, depending on RANGE and DOL, DOU, SSTEGR2A 
+*     might need more workspace in Z then the original SSTEGR. 
 *     In particular, the arrays W and Z might not contain all the wanted eigenpairs
 *     locally, instead this information is distributed over other 
 *     processors.
@@ -85,18 +85,18 @@
 *  N       (input) INTEGER
 *          The order of the matrix.  N >= 0.
 *
-*  D       (input/output) DOUBLE PRECISION array, dimension (N)
+*  D       (input/output) REAL array, dimension (N)
 *          On entry, the N diagonal elements of the tridiagonal matrix
 *          T. On exit, D is overwritten.
 *
-*  E       (input/output) DOUBLE PRECISION array, dimension (N)
+*  E       (input/output) REAL array, dimension (N)
 *          On entry, the (N-1) subdiagonal elements of the tridiagonal
 *          matrix T in elements 1 to N-1 of E. E(N) need not be set on
 *          input, but is used internally as workspace.
 *          On exit, E is overwritten.
 *
-*  VL      (input) DOUBLE PRECISION
-*  VU      (input) DOUBLE PRECISION
+*  VL      (input) REAL
+*  VU      (input) REAL
 *          If RANGE='V', the lower and upper bounds of the interval to
 *          be searched for eigenvalues. VL < VU.
 *          Not referenced if RANGE = 'A' or 'I'.
@@ -114,7 +114,7 @@
 *          If RANGE = 'A', M = N, and if RANGE = 'I', M = IU-IL+1.
 *          The local output equals M = DOU - DOL + 1.
 *
-*  W       (output) DOUBLE PRECISION array, dimension (N)
+*  W       (output) REAL array, dimension (N)
 *          The first M elements contain approximations to the selected 
 *          eigenvalues in ascending order. Note that immediately after 
 *          exiting this routine, only the eigenvalues from
@@ -125,9 +125,9 @@
 *          these other parts of the W array. 
 *          This information is communicated in the ScaLAPACK driver.
 *
-*  Z       (output) DOUBLE PRECISION array, dimension (LDZ, max(1,M) )
-*          DSTEGR2A does not compute eigenvectors, this is done 
-*          in DSTEGR2B. The argument Z as well as all related
+*  Z       (output) REAL array, dimension (LDZ, max(1,M) )
+*          SSTEGR2A does not compute eigenvectors, this is done 
+*          in SSTEGR2B. The argument Z as well as all related
 *          other arguments only appear to keep the interface consistent
 *          and to signal to the user that this subroutine is meant to 
 *          be used when eigenvectors are computed.
@@ -147,7 +147,7 @@
 *          This value is returned as the first entry of the Z array, and
 *          no error message related to NZC is issued.
 *
-*  WORK    (workspace/output) DOUBLE PRECISION array, dimension (LWORK)
+*  WORK    (workspace/output) REAL array, dimension (LWORK)
 *          On exit, if INFO = 0, WORK(1) returns the optimal
 *          (and minimal) LWORK.
 *
@@ -191,51 +191,51 @@
 *  NSPLIT  (output) INTEGER
 *          The number of blocks T splits into. 1 <= NSPLIT <= N.
 *
-*  PIVMIN  (output) DOUBLE PRECISION
+*  PIVMIN  (output) REAL
 *          The minimum pivot in the sturm sequence for T.
 *
-*  SCALE   (output) DOUBLE PRECISION 
+*  SCALE   (output) REAL 
 *          The scaling factor for the tridiagonal T.
 *
-*  WL      (output) DOUBLE PRECISION
-*  WU      (output) DOUBLE PRECISION
+*  WL      (output) REAL
+*  WU      (output) REAL
 *          The interval (WL, WU] contains all the wanted eigenvalues.         
-*          It is either given by the user or computed in DLARRE2A.
+*          It is either given by the user or computed in SLARRE2A.
 *
 *  INFO    (output) INTEGER
 *          On exit, INFO
 *          = 0:  successful exit
 *          other:if INFO = -i, the i-th argument had an illegal value
-*                if INFO = 10X, internal error in DLARRE2A,
+*                if INFO = 10X, internal error in SLARRE2A,
 *                Here, the digit X = ABS( IINFO ) < 10, where IINFO is 
-*                the nonzero error code returned by DLARRE2A.
+*                the nonzero error code returned by SLARRE2A.
 *
 *  =====================================================================
 *
 *     .. Parameters ..
-      DOUBLE PRECISION   ZERO, ONE, FOUR, MINRGP
-      PARAMETER          ( ZERO = 0.0D0, ONE = 1.0D0,
-     $                     FOUR = 4.0D0,
-     $                     MINRGP = 1.0D-3 )
+      REAL               ZERO, ONE, FOUR, MINRGP
+      PARAMETER          ( ZERO = 0.0E0, ONE = 1.0E0,
+     $                     FOUR = 4.0E0,
+     $                     MINRGP = 3.0E-3 )
 *     ..
 *     .. Local Scalars ..
       LOGICAL            ALLEIG, INDEIG, LQUERY, VALEIG, WANTZ, ZQUERY
       INTEGER            IIL, IINDBL, IINDW, IINDWK, IINFO, IINSPL, IIU,
      $                   INDE2, INDGP, INDGRS, INDSDM, INDWRK, ITMP,
      $                   ITMP2, J, LIWMIN, LWMIN, NZCMIN
-      DOUBLE PRECISION   BIGNUM, EPS, RMAX, RMIN, RTOL1, RTOL2, SAFMIN,
+      REAL               BIGNUM, EPS, RMAX, RMIN, RTOL1, RTOL2, SAFMIN,
      $                   SMLNUM, THRESH, TNRM
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
-      DOUBLE PRECISION   DLAMCH, DLANST
-      EXTERNAL           LSAME, DLAMCH, DLANST
+      REAL               SLAMCH, SLANST
+      EXTERNAL           LSAME, SLAMCH, SLANST
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           DLARRC_CV, DLARRE2A_CV, DSCAL
+      EXTERNAL           SLARRC, SLARRE2A, SSCAL
 *     ..
 *     .. Intrinsic Functions ..
-      INTRINSIC          DBLE, MAX, MIN, SQRT
+      INTRINSIC          MAX, MIN, REAL, SQRT
 *     ..
 *     .. Executable Statements ..
 *
@@ -249,11 +249,11 @@
       LQUERY = ( ( LWORK.EQ.-1 ).OR.( LIWORK.EQ.-1 ) )
       ZQUERY = ( NZC.EQ.-1 )
 
-*     DSTEGR2A needs WORK of size 6*N, IWORK of size 3*N.
-*     In addition, DLARRE2A needs WORK of size 6*N, IWORK of size 5*N.
-*     Furthermore, DLARRV2 needs WORK of size 12*N, IWORK of size 7*N.
-*     Workspace is kept consistent with DSTEGR2B even though 
-*     DLARRV2 is not called here.
+*     SSTEGR2A needs WORK of size 6*N, IWORK of size 3*N.
+*     In addition, SLARRE2A needs WORK of size 6*N, IWORK of size 5*N.
+*     Furthermore, SLARRV2 needs WORK of size 12*N, IWORK of size 7*N.
+*     Workspace is kept consistent with SSTEGR2B even though 
+*     SLARRV2 is not called here.
       IF( WANTZ ) THEN
          LWMIN = 18*N
          LIWMIN = 10*N
@@ -271,7 +271,7 @@
       IF( VALEIG ) THEN
 *        We do not reference VL, VU in the cases RANGE = 'I','A'
 *        The interval (WL, WU] contains all the wanted eigenvalues.         
-*        It is either given by the user or computed in DLARRE2A.
+*        It is either given by the user or computed in SLARRE2A.
          WL = VL
          WU = VU
       ELSEIF( INDEIG ) THEN
@@ -303,8 +303,8 @@
 *
 *     Get machine constants.
 *
-      SAFMIN = DLAMCH( 'Safe minimum' )
-      EPS = DLAMCH( 'Precision' )
+      SAFMIN = SLAMCH( 'Safe minimum' )
+      EPS = SLAMCH( 'Precision' )
       SMLNUM = SAFMIN / EPS
       BIGNUM = ONE / SMLNUM
       RMIN = SQRT( SMLNUM )
@@ -319,7 +319,7 @@
             IIL = 1
             IIU = N
          ELSE IF( WANTZ .AND. VALEIG ) THEN
-            CALL DLARRC_CV( 'T', N, VL, VU, D, E, SAFMIN, 
+            CALL SLARRC( 'T', N, VL, VU, D, E, SAFMIN, 
      $                            NZCMIN, ITMP, ITMP2, INFO )
             IIL = ITMP+1
             IIU = ITMP2
@@ -349,14 +349,14 @@
 *
 C         Disable sequential error handler
 C         for parallel case
-C         CALL XERBLA( 'DSTEGR2A', -INFO )
+C         CALL XERBLA( 'SSTEGR2A', -INFO )
 *
          RETURN
       ELSE IF( LQUERY .OR. ZQUERY ) THEN
          RETURN
       END IF
 
-*     Initialize NEEDIL and NEEDIU, these values are changed in DLARRE2A
+*     Initialize NEEDIL and NEEDIU, these values are changed in SLARRE2A
       NEEDIL = DOU
       NEEDIU = DOL
 *
@@ -396,15 +396,15 @@ C         CALL XERBLA( 'DSTEGR2A', -INFO )
 *     Scale matrix to allowable range, if necessary.
 *
       SCALE = ONE
-      TNRM = DLANST( 'M', N, D, E )
+      TNRM = SLANST( 'M', N, D, E )
       IF( TNRM.GT.ZERO .AND. TNRM.LT.RMIN ) THEN
          SCALE = RMIN / TNRM
       ELSE IF( TNRM.GT.RMAX ) THEN
          SCALE = RMAX / TNRM
       END IF
       IF( SCALE.NE.ONE ) THEN
-         CALL DSCAL( N, SCALE, D, 1 )
-         CALL DSCAL( N-1, SCALE, E, 1 )
+         CALL SSCAL( N, SCALE, D, 1 )
+         CALL SSCAL( N-1, SCALE, E, 1 )
          TNRM = TNRM*SCALE
          IF( VALEIG ) THEN
 *           If eigenvalues in interval have to be found, 
@@ -417,7 +417,7 @@ C         CALL XERBLA( 'DSTEGR2A', -INFO )
 *     Compute the desired eigenvalues of the tridiagonal after splitting
 *     into smaller subblocks if the corresponding off-diagonal elements
 *     are small
-*     THRESH is the splitting parameter for DLARRA in DLARRE2A      
+*     THRESH is the splitting parameter for SLARRA in SLARRE2A      
 *     A negative THRESH forces the old splitting criterion based on the
 *     size of the off-diagonal.
       THRESH = -EPS
@@ -430,17 +430,17 @@ C         CALL XERBLA( 'DSTEGR2A', -INFO )
 
 *     Set the tolerance parameters for bisection
       IF( .NOT.WANTZ ) THEN
-*        DLARRE2A computes the eigenvalues to full precision.   
+*        SLARRE2A computes the eigenvalues to full precision.   
          RTOL1 = FOUR * EPS
          RTOL2 = FOUR * EPS
       ELSE   
-*        DLARRE2A computes the eigenvalues to less than full precision.
-*        DLARRV2 will refine the eigenvalue approximations, and we can
-*        need less accurate initial bisection in DLARRE2A.
+*        SLARRE2A computes the eigenvalues to less than full precision.
+*        SLARRV2 will refine the eigenvalue approximations, and we can
+*        need less accurate initial bisection in SLARRE2A.
          RTOL1 = FOUR*SQRT(EPS)
-         RTOL2 = MAX( SQRT(EPS)*5.0D-3, FOUR * EPS )
+         RTOL2 = MAX( SQRT(EPS)*5.0E-3, FOUR * EPS )
       ENDIF
-      CALL DLARRE2A_CV( RANGE, N, WL, WU, IIL, IIU, D, E, 
+      CALL SLARRE2A( RANGE, N, WL, WU, IIL, IIU, D, E, 
      $             WORK(INDE2), RTOL1, RTOL2, THRESH, NSPLIT, 
      $             IWORK( IINSPL ), M, DOL, DOU, NEEDIL, NEEDIU,
      $             W, WORK( INDERR ),
@@ -453,13 +453,13 @@ C         CALL XERBLA( 'DSTEGR2A', -INFO )
          INFO = 100 + ABS( IINFO )
          RETURN
       END IF
-*     Note that if RANGE .NE. 'V', DLARRE2A computes bounds on the desired
+*     Note that if RANGE .NE. 'V', SLARRE2A computes bounds on the desired
 *     part of the spectrum. All desired eigenvalues are contained in
 *     (WL,WU]
 
 
       RETURN
 *
-*     End of DSTEGR2A
+*     End of SSTEGR2A
 *
       END
