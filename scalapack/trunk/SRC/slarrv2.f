@@ -1,4 +1,4 @@
-      SUBROUTINE SLARRV2_CV( N, VL, VU, D, L, PIVMIN,
+      SUBROUTINE SLARRV2( N, VL, VU, D, L, PIVMIN,
      $                   ISPLIT, M, DOL, DOU, NEEDIL, NEEDIU,
      $                   MINRGP, RTOL1, RTOL2, W, WERR, WGAP,
      $                   IBLOCK, INDEXW, GERS, SDIAM, 
@@ -29,7 +29,7 @@
 *  Purpose
 *  =======
 *
-*  SLARRV2_CV computes the eigenvectors of the tridiagonal matrix
+*  SLARRV2 computes the eigenvectors of the tridiagonal matrix
 *  T = L D L^T given L, D and APPROXIMATIONS to the eigenvalues of L D L^T.
 *  The input eigenvalues should have been computed by SLARRE2A
 *  or by precious calls to SLARRV2.
@@ -223,7 +223,7 @@
 *  INFO    (output) INTEGER
 *          = 0:  successful exit
 *
-*          > 0:  A problem occured in SLARRV2_CV.
+*          > 0:  A problem occured in SLARRV2.
 *          < 0:  One of the called subroutines signaled an internal problem. 
 *                Needs inspection of the corresponding parameter IINFO
 *                for further information.
@@ -280,8 +280,8 @@
       EXTERNAL           SDOT, SLAMCH, SNRM2
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           SAXPY, SCOPY, SLAR1VA_CV, SLARRB2_CV,
-     $                   SLARRF2_CV, SLASET, SSCAL
+      EXTERNAL           SAXPY, SCOPY, SLAR1VA, SLARRB2,
+     $                   SLARRF2, SLASET, SSCAL
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC ABS, REAL, MAX, MIN, SQRT
@@ -565,7 +565,7 @@ C                  OFFSET = P-OLDFST
                   OFFSET = INDEXW( WBEGIN ) - 1
 *                 perform limited bisection (if necessary) to get approximate 
 *                 eigenvalues to the precision needed.
-                  CALL SLARRB2_CV( IN, D( IBEGIN ), 
+                  CALL SLARRB2( IN, D( IBEGIN ), 
      $                         WORK(INDLLD+IBEGIN-1),
      $                         P, Q, RTOL1, RTOL2, OFFSET, 
      $                         WORK(WBEGIN),WGAP(WBEGIN),WERR(WBEGIN),
@@ -803,7 +803,7 @@ C                  OFFSET = P-OLDFST
                      DO 55 K =1,4
                         P = INDEXW( WBEGIN-1+SPLACE(K) )
                         OFFSET = INDEXW( WBEGIN ) - 1
-                        CALL SLARRB2_CV( IN, D(IBEGIN), 
+                        CALL SLARRB2( IN, D(IBEGIN), 
      $                       WORK( INDLLD+IBEGIN-1 ),P,P,
      $                       RQTOL, RQTOL, OFFSET, 
      $                       WORK(WBEGIN),WGAP(WBEGIN),
@@ -816,7 +816,7 @@ C                  OFFSET = P-OLDFST
 *                    Note that the new RRR is stored in Z                     
 *
 C                    SLARRF2 needs LWORK = 2*N
-                     CALL SLARRF2_CV( IN, D( IBEGIN ), L( IBEGIN ),
+                     CALL SLARRF2( IN, D( IBEGIN ), L( IBEGIN ),
      $                         WORK(INDLD+IBEGIN-1), 
      $                         SPLACE(1), SPLACE(2), 
      $                         SPLACE(3), SPLACE(4), WORK(WBEGIN),
@@ -874,7 +874,7 @@ C                    SLARRF2 needs LWORK = 2*N
                            OFFSET = INDEXW( WBEGIN ) - 1
 *                          perform limited bisection (if necessary) to get approximate 
 *                          eigenvalues to the precision needed.
-                           CALL SLARRB2_CV( IN, 
+                           CALL SLARRB2( IN, 
      $                         Z(IBEGIN, NEWFTT ),
      $                         WORK(INDWRK+IBEGIN-1),
      $                         P, Q, RTOL1, RTOL2, OFFSET, 
@@ -966,7 +966,7 @@ C                    SLARRF2 needs LWORK = 2*N
 *                       Temporary copy of twist index needed
                         ITMP1 = ITWIST
                         OFFSET = INDEXW( WBEGIN ) - 1
-                        CALL SLARRB2_CV( IN, D(IBEGIN), 
+                        CALL SLARRB2( IN, D(IBEGIN), 
      $                       WORK(INDLLD+IBEGIN-1),INDEIG,INDEIG,
      $                       ZERO, TWO*EPS, OFFSET, 
      $                       WORK(WBEGIN),WGAP(WBEGIN),
@@ -983,7 +983,7 @@ C                    SLARRF2 needs LWORK = 2*N
                         ITWIST = 0
                      ENDIF
 *                    Given LAMBDA, compute the eigenvector.
-                     CALL SLAR1VA_CV( IN, 1, IN, LAMBDA, D(IBEGIN),
+                     CALL SLAR1VA( IN, 1, IN, LAMBDA, D(IBEGIN),
      $                    L( IBEGIN ), WORK(INDLD+IBEGIN-1), 
      $                    WORK(INDLLD+IBEGIN-1),
      $                    PIVMIN, GAPTOL, Z( IBEGIN, ZINDEX),
@@ -1067,7 +1067,7 @@ C                    SLARRF2 needs LWORK = 2*N
                            STP2II = .TRUE.
                         ENDIF
                         IF (STP2II) THEN
-                           CALL SLAR1VA_CV( IN, 1, IN, LAMBDA,
+                           CALL SLAR1VA( IN, 1, IN, LAMBDA,
      $                          D( IBEGIN ), L( IBEGIN ), 
      $                          WORK(INDLD+IBEGIN-1), 
      $                          WORK(INDLLD+IBEGIN-1),
@@ -1161,6 +1161,6 @@ C                    SLARRF2 needs LWORK = 2*N
 
       RETURN
 *
-*     End of SLARRV2_CV
+*     End of SLARRV2
 *
       END

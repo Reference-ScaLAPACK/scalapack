@@ -1,4 +1,4 @@
-      SUBROUTINE SSTEGR2_CV( JOBZ, RANGE, N, D, E, VL, VU, IL, IU,
+      SUBROUTINE DSTEGR2( JOBZ, RANGE, N, D, E, VL, VU, IL, IU,
      $                   M, W, Z, LDZ, NZC, ISUPPZ, WORK, LWORK, IWORK,
      $                   LIWORK, DOL, DOU, ZOFFSET, INFO )
 *
@@ -10,30 +10,30 @@
       CHARACTER          JOBZ, RANGE
       INTEGER            DOL, DOU, IL, INFO, IU, 
      $                   LDZ, NZC, LIWORK, LWORK, M, N, ZOFFSET
-      REAL             VL, VU
+      DOUBLE PRECISION VL, VU
 
 *     ..
 *     .. Array Arguments ..
       INTEGER            ISUPPZ( * ), IWORK( * )
-      REAL               D( * ), E( * ), W( * ), WORK( * )
-      REAL               Z( LDZ, * )
+      DOUBLE PRECISION   D( * ), E( * ), W( * ), WORK( * )
+      DOUBLE PRECISION   Z( LDZ, * )
 *     ..
 *
 *  Purpose
 *  =======
 *
-*  SSTEGR2 computes selected eigenvalues and, optionally, eigenvectors
+*  DSTEGR2 computes selected eigenvalues and, optionally, eigenvectors
 *  of a real symmetric tridiagonal matrix T. It is invoked in the 
-*  ScaLAPACK MRRR driver PSSYEVR and the corresponding Hermitian
+*  ScaLAPACK MRRR driver PDSYEVR and the corresponding Hermitian
 *  version either when only eigenvalues are to be computed, or when only
 *  a single processor is used (the sequential-like case).
 *
-*  SSTEGR2 has been adapted from LAPACK's SSTEGR. Please note the
+*  DSTEGR2 has been adapted from LAPACK's DSTEGR. Please note the
 *  following crucial changes.
 *
 *  1. The calling sequence has two additional INTEGER parameters, 
 *     DOL and DOU, that should satisfy M>=DOU>=DOL>=1. 
-*     SSTEGR2  ONLY computes the eigenpairs
+*     DSTEGR2  ONLY computes the eigenpairs
 *     corresponding to eigenvalues DOL through DOU in W. (That is,
 *     instead of computing the eigenpairs belonging to W(1) 
 *     through W(M), only the eigenvectors belonging to eigenvalues
@@ -65,18 +65,18 @@
 *  N       (input) INTEGER
 *          The order of the matrix.  N >= 0.
 *
-*  D       (input/output) REAL array, dimension (N)
+*  D       (input/output) DOUBLE PRECISION array, dimension (N)
 *          On entry, the N diagonal elements of the tridiagonal matrix
 *          T. On exit, D is overwritten.
 *
-*  E       (input/output) REAL array, dimension (N)
+*  E       (input/output) DOUBLE PRECISION array, dimension (N)
 *          On entry, the (N-1) subdiagonal elements of the tridiagonal
 *          matrix T in elements 1 to N-1 of E. E(N) need not be set on
 *          input, but is used internally as workspace.
 *          On exit, E is overwritten.
 *
-*  VL      (input) REAL
-*  VU      (input) REAL
+*  VL      (input) DOUBLE PRECISION
+*  VU      (input) DOUBLE PRECISION
 *          If RANGE='V', the lower and upper bounds of the interval to
 *          be searched for eigenvalues. VL < VU.
 *          Not referenced if RANGE = 'A' or 'I'.
@@ -94,7 +94,7 @@
 *          If RANGE = 'A', M = N, and if RANGE = 'I', M = IU-IL+1.
 *          The local output equals M = DOU - DOL + 1.
 *
-*  W       (output) REAL array, dimension (N)
+*  W       (output) DOUBLE PRECISION array, dimension (N)
 *          The first M elements contain the selected eigenvalues in
 *          ascending order. Note that immediately after exiting this  
 *          routine, only the eigenvalues from
@@ -104,7 +104,7 @@
 *          parts of the W array. This information is communicated in
 *          the ScaLAPACK driver.
 *
-*  Z       (output) REAL array, dimension (LDZ, max(1,M) )
+*  Z       (output) DOUBLE PRECISION array, dimension (LDZ, max(1,M) )
 *          If JOBZ = 'V', and if INFO = 0, then the first M columns of Z
 *          contain some of the orthonormal eigenvectors of the matrix T
 *          corresponding to the selected eigenvalues, with the i-th
@@ -137,7 +137,7 @@
 *          ISUPPZ( 2*i ). This is relevant in the case when the matrix 
 *          is split. ISUPPZ is only set if N>2.
 *
-*  WORK    (workspace/output) REAL array, dimension (LWORK)
+*  WORK    (workspace/output) DOUBLE PRECISION array, dimension (LWORK)
 *          On exit, if INFO = 0, WORK(1) returns the optimal
 *          (and minimal) LWORK.
 *
@@ -176,19 +176,19 @@
 *          On exit, INFO
 *          = 0:  successful exit
 *          other:if INFO = -i, the i-th argument had an illegal value
-*                if INFO = 10X, internal error in SLARRE2,
-*                if INFO = 20X, internal error in SLARRV.
+*                if INFO = 10X, internal error in DLARRE2,
+*                if INFO = 20X, internal error in DLARRV.
 *                Here, the digit X = ABS( IINFO ) < 10, where IINFO is 
-*                the nonzero error code returned by SLARRE2 or 
-*                SLARRV, respectively.
+*                the nonzero error code returned by DLARRE2 or 
+*                DLARRV, respectively.
 *
 *  =====================================================================
 *
 *     .. Parameters ..
-      REAL               ZERO, ONE, FOUR, MINRGP
-      PARAMETER          ( ZERO = 0.0E0, ONE = 1.0E0,
-     $                     FOUR = 4.0E0,
-     $                     MINRGP = 3.0E-3 )
+      DOUBLE PRECISION   ZERO, ONE, FOUR, MINRGP
+      PARAMETER          ( ZERO = 0.0D0, ONE = 1.0D0,
+     $                     FOUR = 4.0D0,
+     $                     MINRGP = 1.0D-3 )
 *     ..
 *     .. Local Scalars ..
       LOGICAL            ALLEIG, INDEIG, LQUERY, VALEIG, WANTZ, ZQUERY
@@ -196,21 +196,21 @@
      $                   IIU, INDE2, INDERR, INDGP, INDGRS, INDWRK,
      $                   ITMP, ITMP2, J, JJ, LIWMIN, LWMIN, NSPLIT,
      $                   NZCMIN
-      REAL               BIGNUM, EPS, PIVMIN, RMAX, RMIN, RTOL1, RTOL2,
+      DOUBLE PRECISION   BIGNUM, EPS, PIVMIN, RMAX, RMIN, RTOL1, RTOL2,
      $                   SAFMIN, SCALE, SMLNUM, THRESH, TMP, TNRM, WL,
      $                   WU
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
-      REAL               SLAMCH, SLANST
-      EXTERNAL           LSAME, SLAMCH, SLANST
+      DOUBLE PRECISION   DLAMCH, DLANST
+      EXTERNAL           LSAME, DLAMCH, DLANST
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           SCOPY, SLAE2, SLAEV2, SLARRC_CV, SLARRE2_CV,
-     $                   SLARRV_CV, SLASRT, SSCAL, SSWAP
+      EXTERNAL           DCOPY, DLAE2, DLAEV2, DLARRC, DLARRE2,
+     $                   DLARRV, DLASRT, DSCAL, DSWAP
 *     ..
 *     .. Intrinsic Functions ..
-      INTRINSIC          MAX, MIN, REAL, SQRT
+      INTRINSIC          DBLE, MAX, MIN, SQRT
 *     ..
 *     .. Executable Statements ..
 *
@@ -224,9 +224,9 @@
       LQUERY = ( ( LWORK.EQ.-1 ).OR.( LIWORK.EQ.-1 ) )
       ZQUERY = ( NZC.EQ.-1 )
 
-*     SSTEGR2 needs WORK of size 6*N, IWORK of size 3*N.
-*     In addition, SLARRE2 needs WORK of size 6*N, IWORK of size 5*N.
-*     Furthermore, SLARRV needs WORK of size 12*N, IWORK of size 7*N.
+*     DSTEGR2 needs WORK of size 6*N, IWORK of size 3*N.
+*     In addition, DLARRE2 needs WORK of size 6*N, IWORK of size 5*N.
+*     Furthermore, DLARRV needs WORK of size 12*N, IWORK of size 7*N.
       IF( WANTZ ) THEN
          LWMIN = 18*N
          LIWMIN = 10*N
@@ -244,7 +244,7 @@
       IF( VALEIG ) THEN
 *        We do not reference VL, VU in the cases RANGE = 'I','A'
 *        The interval (WL, WU] contains all the wanted eigenvalues.         
-*        It is either given by the user or computed in SLARRE2.
+*        It is either given by the user or computed in DLARRE2.
          WL = VL
          WU = VU
       ELSEIF( INDEIG ) THEN
@@ -276,8 +276,8 @@
 *
 *     Get machine constants.
 *
-      SAFMIN = SLAMCH( 'Safe minimum' )
-      EPS = SLAMCH( 'Precision' )
+      SAFMIN = DLAMCH( 'Safe minimum' )
+      EPS = DLAMCH( 'Precision' )
       SMLNUM = SAFMIN / EPS
       BIGNUM = ONE / SMLNUM
       RMIN = SQRT( SMLNUM )
@@ -292,7 +292,7 @@
             IIL = 1
             IIU = N
          ELSE IF( WANTZ .AND. VALEIG ) THEN
-            CALL SLARRC_CV( 'T', N, VL, VU, D, E, SAFMIN, 
+            CALL DLARRC( 'T', N, VL, VU, D, E, SAFMIN, 
      $                            NZCMIN, ITMP, ITMP2, INFO )
             IIL = ITMP+1
             IIU = ITMP2
@@ -322,7 +322,7 @@
 *
 C         Disable sequential error handler
 C         for parallel case
-C         CALL XERBLA( 'SSTEGR2', -INFO )
+C         CALL XERBLA( 'DSTEGR2', -INFO )
 *
          RETURN
       ELSE IF( LQUERY .OR. ZQUERY ) THEN
@@ -364,15 +364,15 @@ C         CALL XERBLA( 'SSTEGR2', -INFO )
 *     Scale matrix to allowable range, if necessary.
 *
       SCALE = ONE
-      TNRM = SLANST( 'M', N, D, E )
+      TNRM = DLANST( 'M', N, D, E )
       IF( TNRM.GT.ZERO .AND. TNRM.LT.RMIN ) THEN
          SCALE = RMIN / TNRM
       ELSE IF( TNRM.GT.RMAX ) THEN
          SCALE = RMAX / TNRM
       END IF
       IF( SCALE.NE.ONE ) THEN
-         CALL SSCAL( N, SCALE, D, 1 )
-         CALL SSCAL( N-1, SCALE, E, 1 )
+         CALL DSCAL( N, SCALE, D, 1 )
+         CALL DSCAL( N-1, SCALE, E, 1 )
          TNRM = TNRM*SCALE
          IF( VALEIG ) THEN
 *           If eigenvalues in interval have to be found, 
@@ -385,7 +385,7 @@ C         CALL XERBLA( 'SSTEGR2', -INFO )
 *     Compute the desired eigenvalues of the tridiagonal after splitting
 *     into smaller subblocks if the corresponding off-diagonal elements
 *     are small
-*     THRESH is the splitting parameter for SLARRE2      
+*     THRESH is the splitting parameter for DLARRE2      
 *     A negative THRESH forces the old splitting criterion based on the
 *     size of the off-diagonal. A positive THRESH switches to splitting
 *     which preserves relative accuracy. 
@@ -405,18 +405,18 @@ C         CALL XERBLA( 'SSTEGR2', -INFO )
 
 *     Set the tolerance parameters for bisection
       IF( .NOT.WANTZ ) THEN
-*        SLARRE2 computes the eigenvalues to full precision.   
+*        DLARRE2 computes the eigenvalues to full precision.   
          RTOL1 = FOUR * EPS
          RTOL2 = FOUR * EPS
       ELSE   
-*        SLARRE2 computes the eigenvalues to less than full precision.
-*        SLARRV will refine the eigenvalue approximations, and we can
-*        need less accurate initial bisection in SLARRE2.
-*        Note: these settings do only affect the subset case and SLARRE2
+*        DLARRE2 computes the eigenvalues to less than full precision.
+*        DLARRV will refine the eigenvalue approximations, and we can
+*        need less accurate initial bisection in DLARRE2.
+*        Note: these settings do only affect the subset case and DLARRE2
          RTOL1 = SQRT(EPS)
-         RTOL2 = MAX( SQRT(EPS)*5.0E-3, FOUR * EPS )
+         RTOL2 = MAX( SQRT(EPS)*5.0D-3, FOUR * EPS )
       ENDIF
-      CALL SLARRE2_CV( RANGE, N, WL, WU, IIL, IIU, D, E, 
+      CALL DLARRE2( RANGE, N, WL, WU, IIL, IIU, D, E, 
      $             WORK(INDE2), RTOL1, RTOL2, THRESH, NSPLIT, 
      $             IWORK( IINSPL ), M, DOL, DOU,
      $             W, WORK( INDERR ),
@@ -427,7 +427,7 @@ C         CALL XERBLA( 'SSTEGR2', -INFO )
          INFO = 100 + ABS( IINFO )
          RETURN
       END IF
-*     Note that if RANGE .NE. 'V', SLARRE2 computes bounds on the desired
+*     Note that if RANGE .NE. 'V', DLARRE2 computes bounds on the desired
 *     part of the spectrum. All desired eigenvalues are contained in
 *     (WL,WU]
 
@@ -437,7 +437,7 @@ C         CALL XERBLA( 'SSTEGR2', -INFO )
 *        Compute the desired eigenvectors corresponding to the computed
 *        eigenvalues
 *
-         CALL SLARRV_CV( N, WL, WU, D, E,
+         CALL DLARRV( N, WL, WU, D, E,
      $                PIVMIN, IWORK( IINSPL ), M, 
      $                DOL, DOU, MINRGP, RTOL1, RTOL2, 
      $                W, WORK( INDERR ), WORK( INDGP ), IWORK( IINDBL ),
@@ -448,10 +448,10 @@ C         CALL XERBLA( 'SSTEGR2', -INFO )
             RETURN
          END IF
       ELSE
-*        SLARRE2 computes eigenvalues of the (shifted) root representation
-*        SLARRV returns the eigenvalues of the unshifted matrix.
+*        DLARRE2 computes eigenvalues of the (shifted) root representation
+*        DLARRV returns the eigenvalues of the unshifted matrix.
 *        However, if the eigenvectors are not desired by the user, we need
-*        to apply the corresponding shifts from SLARRE2 to obtain the 
+*        to apply the corresponding shifts from DLARRE2 to obtain the 
 *        eigenvalues of the original matrix. 
          DO 20 J = 1, M
             ITMP = IWORK( IINDBL+J-1 )
@@ -464,7 +464,7 @@ C         CALL XERBLA( 'SSTEGR2', -INFO )
 *     If matrix was scaled, then rescale eigenvalues appropriately.
 *
       IF( SCALE.NE.ONE ) THEN
-         CALL SSCAL( M, ONE / SCALE, W, 1 )
+         CALL DSCAL( M, ONE / SCALE, W, 1 )
       END IF
 *
 *     Correct M if needed 
@@ -480,7 +480,7 @@ C         CALL XERBLA( 'SSTEGR2', -INFO )
 *
       IF( NSPLIT.GT.1 ) THEN
          IF( .NOT. WANTZ ) THEN
-            CALL SLASRT( 'I', DOU - DOL +1, W(DOL), IINFO )
+            CALL DLASRT( 'I', DOU - DOL +1, W(DOL), IINFO )
             IF( IINFO.NE.0 ) THEN
                INFO = 3
                RETURN
@@ -499,7 +499,7 @@ C         CALL XERBLA( 'SSTEGR2', -INFO )
                   W( I ) = W( J )
                   W( J ) = TMP
                   IF( WANTZ ) THEN
-                     CALL SSWAP( N, Z( 1, I-ZOFFSET ), 
+                     CALL DSWAP( N, Z( 1, I-ZOFFSET ), 
      $                                 1, Z( 1, J-ZOFFSET ), 1 )
                      ITMP = ISUPPZ( 2*I-1 )
                      ISUPPZ( 2*I-1 ) = ISUPPZ( 2*J-1 )
@@ -517,6 +517,6 @@ C         CALL XERBLA( 'SSTEGR2', -INFO )
       IWORK( 1 ) = LIWMIN
       RETURN
 *
-*     End of SSTEGR2
+*     End of DSTEGR2
 *
       END

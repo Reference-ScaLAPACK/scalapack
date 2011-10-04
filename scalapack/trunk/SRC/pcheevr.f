@@ -361,8 +361,8 @@
      $                    IGERV2D, IGESD2D, IGSUM2D, PCELGET, PCHENTRD,
      $                    PCHK1MAT, PCHK2MAT, PCLAEVSWP, PCUNMTR,
      $                    PSLARED1D, PXERBLA, SCOPY, SGEBR2D, SGEBS2D,
-     $                    SGERV2D, SGESD2D, SLARRC_CV, SLASRT2,
-     $                    SSTEGR2A_CV, SSTEGR2B_CV, SSTEGR2_CV
+     $                    SGERV2D, SGESD2D, SLARRC, SLASRT2,
+     $                    SSTEGR2A, SSTEGR2B, SSTEGR2
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC           ABS, CMPLX, ICHAR, INT, MAX, MIN, MOD, REAL,
@@ -697,7 +697,7 @@
          IIL = IL
          IIU = IU
       ELSE IF ( VALEIG ) THEN
-         CALL SLARRC_CV('T', N, VLL, VUU, RWORK( INDD2 ), 
+         CALL SLARRC('T', N, VLL, VUU, RWORK( INDD2 ), 
      $    RWORK( INDE2 + OFFSET ), SAFMIN, EIGCNT, IIL, IIU, INFO)
 *        Refine upper bound N that was taken 
          MZ = EIGCNT
@@ -754,7 +754,7 @@
          IF ( MYIL.GT.0 ) THEN
             DOL = 1
             DOU = MYIU - MYIL + 1
-            CALL SSTEGR2_CV( JOBZ, 'I', N,  RWORK( INDD2 ),
+            CALL SSTEGR2( JOBZ, 'I', N,  RWORK( INDD2 ),
      $                  RWORK( INDE2+OFFSET ), VLL, VUU, MYIL, MYIU,
      $                  IM, W( 1 ), RWORK( INDRW ), N, 
      $                  MYIU - MYIL + 1,
@@ -782,7 +782,7 @@
          IF ( MYIL.GT.0 ) THEN
             DOL = MYIL - IIL + 1
             DOU = MYIU - IIL + 1
-            CALL SSTEGR2_CV( JOBZ, 'I', N,  RWORK( INDD2 ),
+            CALL SSTEGR2( JOBZ, 'I', N,  RWORK( INDD2 ),
      $                  RWORK( INDE2+OFFSET ), VLL, VUU, IIL, IIU,
      $                  IM, W( 1 ), RWORK( INDRW ), N, 
      $                  N,
@@ -803,7 +803,7 @@
          IF ( MYIL.GT.0 ) THEN
             DOL = MYIL - IIL + 1
             DOU = MYIU - IIL + 1
-            CALL SSTEGR2A_CV( JOBZ, 'I', N,  RWORK( INDD2 ),
+            CALL SSTEGR2A( JOBZ, 'I', N,  RWORK( INDD2 ),
      $                  RWORK( INDE2+OFFSET ), VLL, VUU, IIL, IIU,
      $                  IM, W( 1 ), RWORK( INDRW ), N, 
      $                  N, RWORK( INDRWORK ), SIZE1, 
@@ -988,7 +988,7 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
 *      
  100     CONTINUE
          IF ( MYIL.GT.0 ) THEN
-            CALL SSTEGR2B_CV( JOBZ, N,  RWORK( INDD2 ),
+            CALL SSTEGR2B( JOBZ, N,  RWORK( INDD2 ),
      $                  RWORK( INDE2+OFFSET ), 
      $                  IM, W( 1 ), RWORK( INDRW ), N, N,
      $                  IWORK( 1 ), RWORK( INDRWORK ), SIZE1, 

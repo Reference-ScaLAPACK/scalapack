@@ -1,4 +1,4 @@
-      SUBROUTINE SLARRE2A_CV( RANGE, N, VL, VU, IL, IU, D, E, E2,
+      SUBROUTINE DLARRE2A( RANGE, N, VL, VU, IL, IU, D, E, E2,
      $                    RTOL1, RTOL2, SPLTOL, NSPLIT, ISPLIT, 
      $                    M, DOL, DOU, NEEDIL, NEEDIU,
      $                    W, WERR, WGAP, IBLOCK, INDEXW, GERS, 
@@ -14,12 +14,12 @@
       CHARACTER          RANGE
       INTEGER            DOL, DOU, IL, INFO, IU, M, N, NSPLIT,
      $                   NEEDIL, NEEDIU
-      REAL               MINRGP, PIVMIN, RTOL1, RTOL2, SPLTOL, VL, VU
+      DOUBLE PRECISION   MINRGP, PIVMIN, RTOL1, RTOL2, SPLTOL, VL, VU
 *     ..
 *     .. Array Arguments ..
       INTEGER            IBLOCK( * ), ISPLIT( * ), IWORK( * ),
      $                   INDEXW( * )
-      REAL               D( * ), E( * ), E2( * ), GERS( * ), 
+      DOUBLE PRECISION   D( * ), E( * ), E2( * ), GERS( * ), 
      $                   SDIAM( * ), W( * ),WERR( * ), 
      $                   WGAP( * ), WORK( * )
 *
@@ -27,7 +27,7 @@
 *  =======
 *
 *  To find the desired eigenvalues of a given real symmetric
-*  tridiagonal matrix T, SLARRE2 sets any "small" off-diagonal
+*  tridiagonal matrix T, DLARRE2 sets any "small" off-diagonal
 *  elements to zero, and for each unreduced block T_i, it finds
 *  (a) a suitable shift at one end of the block's spectrum,
 *  (b) the base representation, T_i - sigma_i I = L_i D_i L_i^T, and
@@ -39,7 +39,7 @@
 *  only the eigenvalues DOL to DOU are refined. Furthermore, if the matrix 
 *  splits into blocks, RRRs for blocks that do not contain eigenvalues
 *  from DOL to DOU are skipped.
-*  The DQDS algorithm (subroutine SLASQ2) is not used, unlike in
+*  The DQDS algorithm (subroutine DLASQ2) is not used, unlike in
 *  the sequential case. Instead, eigenvalues are computed in parallel to some 
 *  figures using bisection.
 
@@ -57,12 +57,12 @@
 *  N       (input) INTEGER
 *          The order of the matrix. N > 0.
 *
-*  VL      (input/output) REAL            
-*  VU      (input/output) REAL            
+*  VL      (input/output) DOUBLE PRECISION
+*  VU      (input/output) DOUBLE PRECISION
 *          If RANGE='V', the lower and upper bounds for the eigenvalues.
 *          Eigenvalues less than or equal to VL, or greater than VU,
 *          will not be returned.  VL < VU.
-*          If RANGE='I' or ='A', SLARRE2A computes bounds on the desired 
+*          If RANGE='I' or ='A', DLARRE2A computes bounds on the desired 
 *          part of the spectrum.
 *
 *  IL      (input) INTEGER
@@ -71,33 +71,33 @@
 *          smallest and largest eigenvalues to be returned.
 *          1 <= IL <= IU <= N.
 *
-*  D       (input/output) REAL             array, dimension (N)
+*  D       (input/output) DOUBLE PRECISION array, dimension (N)
 *          On entry, the N diagonal elements of the tridiagonal
 *          matrix T.
 *          On exit, the N diagonal elements of the diagonal
 *          matrices D_i.
 *
-*  E       (input/output) REAL             array, dimension (N)
+*  E       (input/output) DOUBLE PRECISION array, dimension (N)
 *          On entry, the first (N-1) entries contain the subdiagonal
 *          elements of the tridiagonal matrix T; E(N) need not be set.
 *          On exit, E contains the subdiagonal elements of the unit
 *          bidiagonal matrices L_i. The entries E( ISPLIT( I ) ),
 *          1 <= I <= NSPLIT, contain the base points sigma_i on output.
 *
-*  E2      (input/output) REAL             array, dimension (N)
+*  E2      (input/output) DOUBLE PRECISION array, dimension (N)
 *          On entry, the first (N-1) entries contain the SQUARES of the 
 *          subdiagonal elements of the tridiagonal matrix T; 
 *          E2(N) need not be set.
 *          On exit, the entries E2( ISPLIT( I ) ),
 *          1 <= I <= NSPLIT, have been set to zero
 *
-*  RTOL1   (input) REAL            
-*  RTOL2   (input) REAL            
+*  RTOL1   (input) DOUBLE PRECISION
+*  RTOL2   (input) DOUBLE PRECISION
 *           Parameters for bisection.
 *           An interval [LEFT,RIGHT] has converged if
 *           RIGHT-LEFT.LT.MAX( RTOL1*GAP, RTOL2*MAX(|LEFT|,|RIGHT|) )
 *
-*  SPLTOL (input) REAL            
+*  SPLTOL (input) DOUBLE PRECISION
 *          The threshold for splitting.
 *
 *  NSPLIT  (output) INTEGER
@@ -129,24 +129,24 @@
 *          needed to accurately compute the relevant part of the 
 *          representation tree.
 *
-*  W       (output) REAL             array, dimension (N)
+*  W       (output) DOUBLE PRECISION array, dimension (N)
 *          The first M elements contain the eigenvalues. The
 *          eigenvalues of each of the blocks, L_i D_i L_i^T, are
-*          sorted in ascending order ( SLARRE2A may use the
+*          sorted in ascending order ( DLARRE2A may use the
 *          remaining N-M elements as workspace).
 *          Note that immediately after exiting this routine, only 
 *          the eigenvalues from position DOL:DOU in W are 
 *          reliable on this processor
 *          because the eigenvalue computation is done in parallel.
 *
-*  WERR    (output) REAL             array, dimension (N)
+*  WERR    (output) DOUBLE PRECISION array, dimension (N)
 *          The error bound on the corresponding eigenvalue in W.
 *          Note that immediately after exiting this routine, only 
 *          the uncertainties from position DOL:DOU in WERR are
 *          reliable on this processor
 *          because the eigenvalue computation is done in parallel.
 *
-*  WGAP    (output) REAL             array, dimension (N)
+*  WGAP    (output) DOUBLE PRECISION array, dimension (N)
 *          The separation from the right neighbor eigenvalue in W.
 *          The gap is only with respect to the eigenvalues of the same block
 *          as each block has its own representation tree.
@@ -167,36 +167,36 @@
 *          for example, INDEXW(i)= 10 and IBLOCK(i)=2 imply that the
 *          i-th eigenvalue W(i) is the 10-th eigenvalue in block 2
 *
-*  GERS    (output) REAL             array, dimension (2*N)
+*  GERS    (output) DOUBLE PRECISION array, dimension (2*N)
 *          The N Gerschgorin intervals (the i-th Gerschgorin interval
 *          is (GERS(2*i-1), GERS(2*i)).
 *
 *  PIVMIN  (output) DOUBLE PRECISION
 *          The minimum pivot in the sturm sequence for T.
 *
-*  WORK    (workspace) REAL             array, dimension (6*N)
+*  WORK    (workspace) DOUBLE PRECISION array, dimension (6*N)
 *          Workspace.
 *
 *  IWORK   (workspace) INTEGER array, dimension (5*N)
 *          Workspace.
 *
-*  MINRGP  (input) REAL            
+*  MINRGP  (input) DOUBLE PRECISION
 *          The minimum relativ gap threshold to decide whether an eigenvalue
 *          or a cluster boundary is reached.
 *
 *  INFO    (output) INTEGER
 *          = 0:  successful exit
-*          > 0:  A problem occured in SLARRE2A.
+*          > 0:  A problem occured in DLARRE2A.
 *          < 0:  One of the called subroutines signaled an internal problem. 
 *                Needs inspection of the corresponding parameter IINFO
 *                for further information.
 *
-*          =-1:  Problem in SLARRD2. 
+*          =-1:  Problem in DLARRD2. 
 *          = 2:  No base representation could be found in MAXTRY iterations.
 *                Increasing MAXTRY and recompilation might be a remedy.
-*          =-3:  Problem in SLARRB2 when computing the refined root 
+*          =-3:  Problem in DLARRB2 when computing the refined root 
 *                representation
-*          =-4:  Problem in SLARRB2 when preforming bisection on the 
+*          =-4:  Problem in DLARRB2 when preforming bisection on the 
 *                desired part of the spectrum.
 *          = -9  Problem: M < DOU-DOL+1, that is the code found fewer
 *                eigenvalues than it was supposed to
@@ -205,14 +205,14 @@
 *  =====================================================================
 *
 *     .. Parameters ..
-      REAL               FAC, FOUR, FOURTH, FUDGE, HALF, HNDRD,
+      DOUBLE PRECISION   FAC, FOUR, FOURTH, FUDGE, HALF, HNDRD,
      $                   MAXGROWTH, ONE, PERT, TWO, ZERO
-      PARAMETER          ( ZERO = 0.0E0, ONE = 1.0E0, 
-     $                     TWO = 2.0E0, FOUR=4.0E0,
-     $                     HNDRD = 100.0E0,
-     $                     PERT = 4.0E0,
+      PARAMETER          ( ZERO = 0.0D0, ONE = 1.0D0, 
+     $                     TWO = 2.0D0, FOUR=4.0D0,
+     $                     HNDRD = 100.0D0,
+     $                     PERT = 8.0D0,
      $                     HALF = ONE/TWO, FOURTH = ONE/FOUR, FAC= HALF,
-     $                     MAXGROWTH = 64.0E0, FUDGE = 2.0E0 )
+     $                     MAXGROWTH = 64.0D0, FUDGE = 2.0D0 )
       INTEGER            MAXTRY
       PARAMETER          ( MAXTRY = 6 )
 *     ..
@@ -221,7 +221,7 @@
       INTEGER            CNT, CNT1, CNT2, I, IBEGIN, IDUM, IEND, IINFO,
      $                   IN, INDL, INDU, IRANGE, J, JBLK, MB, MM,
      $                   MYINDL, MYINDU, MYWBEG, MYWEND, WBEGIN, WEND
-      REAL               AVGAP, BSRTOL, CLWDTH, DMAX, DPIVOT, EABS,
+      DOUBLE PRECISION   AVGAP, BSRTOL, CLWDTH, DMAX, DPIVOT, EABS,
      $                   EMAX, EOLD, EPS, GL, GU, ISLEFT, ISRGHT,
      $                   LGPVMN, LGSPDM, RTL, S1, S2, SAFMIN, SGNDEF,
      $                   SIGMA, SPDIAM, TAU, TMP, TMP1, TMP2
@@ -233,13 +233,13 @@
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
-      REAL                        SLAMCH
-      EXTERNAL           SLAMCH, LSAME
+      DOUBLE PRECISION            DLAMCH
+      EXTERNAL           DLAMCH, LSAME
 
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           SCOPY, SLARNV, SLARRA_CV, SLARRB2_CV,
-     $                   SLARRC_CV, SLARRD2
+      EXTERNAL           DCOPY, DLARNV, DLARRA, DLARRB2,
+     $                   DLARRC, DLARRD2
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, MAX, MIN
@@ -266,12 +266,12 @@
       M = 0
 
 *     Get machine constants
-      SAFMIN = SLAMCH( 'S' )
-      EPS = SLAMCH( 'P' )
+      SAFMIN = DLAMCH( 'S' )
+      EPS = DLAMCH( 'P' )
 
 *     Set parameters
-      RTL = HNDRD*EPS
-      BSRTOL =  1.0E-1
+      RTL = SQRT(EPS)
+      BSRTOL = 1.0D-1
 
 *     Treat case of 1x1 matrix for quick return
       IF( N.EQ.1 ) THEN
@@ -331,7 +331,7 @@
       SPDIAM = GU - GL
 
 *     Compute splitting points
-      CALL SLARRA_CV( N, D, E, E2, SPLTOL, SPDIAM, 
+      CALL DLARRA( N, D, E, E2, SPLTOL, SPDIAM, 
      $                    NSPLIT, ISPLIT, IINFO )
 
       IF( IRANGE.EQ.1 ) THEN
@@ -340,13 +340,13 @@
          VU = GU
       ENDIF
 
-*     We call SLARRD2 to find crude approximations to the eigenvalues
+*     We call DLARRD2 to find crude approximations to the eigenvalues
 *     in the desired range. In case IRANGE = 3, we also obtain the
 *     interval (VL,VU] that contains all the wanted eigenvalues.
 *     An interval [LEFT,RIGHT] has converged if
 *     RIGHT-LEFT.LT.RTOL*MAX(ABS(LEFT),ABS(RIGHT))
-*     SLARRD2 needs a WORK of size 4*N, IWORK of size 3*N
-      CALL SLARRD2( RANGE, 'B', N, VL, VU, IL, IU, GERS, 
+*     DLARRD2 needs a WORK of size 4*N, IWORK of size 3*N
+      CALL DLARRD2( RANGE, 'B', N, VL, VU, IL, IU, GERS, 
      $                 BSRTOL, D, E, E2, PIVMIN, NSPLIT, ISPLIT, 
      $                 MM, W, WERR, VL, VU, IBLOCK, INDEXW, 
      $                 WORK, IWORK, DOL, DOU, IINFO )
@@ -476,7 +476,7 @@
          SDIAM(JBLK) = SPDIAM
 
 *        Find approximations to the extremal eigenvalues of the block
-         CALL SLARRK( IN, 1, GL, GU, D(IBEGIN),
+         CALL DLARRK( IN, 1, GL, GU, D(IBEGIN),
      $               E2(IBEGIN), PIVMIN, RTL, TMP, TMP1, IINFO )
          IF( IINFO.NE.0 ) THEN
             INFO = -1
@@ -484,7 +484,7 @@
          ENDIF       
          ISLEFT = MAX(GL, TMP - TMP1
      $            - HNDRD * EPS* ABS(TMP - TMP1))
-         CALL SLARRK( IN, IN, GL, GU, D(IBEGIN),
+         CALL DLARRK( IN, IN, GL, GU, D(IBEGIN),
      $               E2(IBEGIN), PIVMIN, RTL, TMP, TMP1, IINFO )
          IF( IINFO.NE.0 ) THEN
             INFO = -1
@@ -523,7 +523,7 @@
             S1 = ISLEFT + FOURTH * SPDIAM
 	    S2 = ISRGHT - FOURTH * SPDIAM
          ELSE        
-*           SLARRD2 has computed IBLOCK and INDEXW for each eigenvalue 
+*           DLARRD2 has computed IBLOCK and INDEXW for each eigenvalue 
 *           approximation. 
 *           choose sigma
             IF( USEDQD ) THEN
@@ -538,7 +538,7 @@
 
 *        Compute the negcount at the 1/4 and 3/4 points
          IF(MB.GT.2) THEN
-	    CALL SLARRC_CV( 'T', IN, S1, S2, D(IBEGIN), 
+	    CALL DLARRC( 'T', IN, S1, S2, D(IBEGIN), 
      $                    E(IBEGIN), PIVMIN, CNT, CNT1, CNT2, IINFO)
          ENDIF
 
@@ -584,7 +584,7 @@
          ELSE
             IF(MB.GT.1) THEN        
                CLWDTH = W(WEND) + WERR(WEND) - W(WBEGIN) - WERR(WBEGIN)
-               AVGAP = ABS(CLWDTH / REAL(WEND-WBEGIN))
+               AVGAP = ABS(CLWDTH / DBLE(WEND-WBEGIN))
                IF( SGNDEF.EQ.ONE ) THEN
                   TAU = HALF*MAX(WGAP(WBEGIN),AVGAP)
                   TAU = MAX(TAU,WERR(WBEGIN))
@@ -653,8 +653,8 @@
 *        Store the shift.
          E( IEND ) = SIGMA
 *        Store D and L.         
-         CALL SCOPY( IN, WORK, 1, D( IBEGIN ), 1 )
-         CALL SCOPY( IN-1, WORK( IN+1 ), 1, E( IBEGIN ), 1 )
+         CALL DCOPY( IN, WORK, 1, D( IBEGIN ), 1 )
+         CALL DCOPY( IN-1, WORK( IN+1 ), 1, E( IBEGIN ), 1 )
 
 	
          IF(RNDPRT .AND. MB.GT.1 ) THEN
@@ -667,7 +667,7 @@
                ISEED( I ) = 1
  122        CONTINUE
 
-            CALL SLARNV(2, ISEED, 2*IN-1, WORK(1))
+            CALL DLARNV(2, ISEED, 2*IN-1, WORK(1))
             DO 125 I = 1,IN-1
                D(IBEGIN+I-1) = D(IBEGIN+I-1)*(ONE+EPS*PERT*WORK(2*I-1))
                E(IBEGIN+I-1) = E(IBEGIN+I-1)*(ONE+EPS*PERT*WORK(2*I))
@@ -683,8 +683,8 @@
             W(J) = W(J) - SIGMA
             WERR(J) = WERR(J) + ABS(W(J)) * EPS
  134     CONTINUE
-*        call SLARRB2 to reduce eigenvalue error of the approximations
-*        from SLARRD2
+*        call DLARRB2 to reduce eigenvalue error of the approximations
+*        from DLARRD2
          DO 135 I = IBEGIN, IEND-1
             WORK( I ) = D( I ) * E( I )**2
  135     CONTINUE
@@ -738,7 +738,7 @@
          LGPVMN = LOG( PIVMIN )
          LGSPDM = LOG( SPDIAM + PIVMIN )
 
-         CALL SLARRB2_CV(IN, D(IBEGIN), WORK(IBEGIN),
+         CALL DLARRB2(IN, D(IBEGIN), WORK(IBEGIN),
      $               MYINDL, MYINDU, RTOL1, RTOL2, MYINDL-1,
      $               W(MYWBEG), WGAP(MYWBEG), WERR(MYWBEG),
      $               WORK( 2*N+1 ), IWORK, PIVMIN, 
@@ -747,7 +747,7 @@
             INFO = -4
             RETURN
          END IF
-*        SLARRB2 computes all gaps correctly except for the last one
+*        DLARRB2 computes all gaps correctly except for the last one
 *        Record distance to VU/GU
          WGAP( WEND ) = MAX( ZERO, 
      $           ( VU-SIGMA ) - ( W( WEND ) + WERR( WEND ) ) )
@@ -769,6 +769,6 @@
 
       RETURN
 *     
-*     end of SLARRE2A
+*     end of DLARRE2A
 *
       END

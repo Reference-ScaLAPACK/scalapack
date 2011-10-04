@@ -1,4 +1,4 @@
-      SUBROUTINE DLAR1VA_CV(N, B1, BN, LAMBDA, D, L, LD, LLD, 
+      SUBROUTINE SLAR1VA(N, B1, BN, LAMBDA, D, L, LD, LLD, 
      $           PIVMIN, GAPTOL, Z, WANTNC, NEGCNT, ZTZ, MINGMA, 
      $           R, ISUPPZ, NRMINV, RESID, RQCORR, WORK )
 *
@@ -12,19 +12,19 @@
 *     .. Scalar Arguments ..
       LOGICAL            WANTNC
       INTEGER   B1, BN, N, NEGCNT, R
-      DOUBLE PRECISION   GAPTOL, LAMBDA, MINGMA, NRMINV, PIVMIN, RESID,
+      REAL               GAPTOL, LAMBDA, MINGMA, NRMINV, PIVMIN, RESID,
      $                   RQCORR, ZTZ
 *     ..
 *     .. Array Arguments ..
       INTEGER            ISUPPZ( * )
-      DOUBLE PRECISION   D( * ), L( * ), LD( * ), LLD( * ),
+      REAL               D( * ), L( * ), LD( * ), LLD( * ),
      $                  WORK( * )
-      DOUBLE PRECISION Z( * )
+      REAL             Z( * )
 *
 *  Purpose
 *  =======
 *
-*  DLAR1VA computes the (scaled) r-th column of the inverse of
+*  SLAR1VA computes the (scaled) r-th column of the inverse of
 *  the sumbmatrix in rows B1 through BN of the tridiagonal matrix
 *  L D L^T - sigma I. When sigma is close to an eigenvalue, the
 *  computed vector is an accurate eigenvector. Usually, r corresponds
@@ -52,32 +52,32 @@
 *  BN       (input) INTEGER
 *           Last index of the submatrix of L D L^T.
 *
-*  LAMBDA    (input) DOUBLE PRECISION
+*  LAMBDA    (input) REAL            
 *           The shift. In order to compute an accurate eigenvector,
 *           LAMBDA should be a good approximation to an eigenvalue
 *           of L D L^T.
 *
-*  L        (input) DOUBLE PRECISION array, dimension (N-1)
+*  L        (input) REAL             array, dimension (N-1)
 *           The (n-1) subdiagonal elements of the unit bidiagonal matrix
 *           L, in elements 1 to N-1.
 *
-*  D        (input) DOUBLE PRECISION array, dimension (N)
+*  D        (input) REAL             array, dimension (N)
 *           The n diagonal elements of the diagonal matrix D.
 *
-*  LD       (input) DOUBLE PRECISION array, dimension (N-1)
+*  LD       (input) REAL             array, dimension (N-1)
 *           The n-1 elements L(i)*D(i).
 *
-*  LLD      (input) DOUBLE PRECISION array, dimension (N-1)
+*  LLD      (input) REAL             array, dimension (N-1)
 *           The n-1 elements L(i)*L(i)*D(i).
 *
-*  PIVMIN   (input) DOUBLE PRECISION
+*  PIVMIN   (input) REAL            
 *           The minimum pivot in the Sturm sequence.
 *           
-*  GAPTOL   (input) DOUBLE PRECISION
+*  GAPTOL   (input) REAL            
 *           Tolerance that indicates when eigenvector entries are negligible
 *           w.r.t. their contribution to the residual.
 *
-*  Z        (input/output) DOUBLE PRECISION array, dimension (N)
+*  Z        (input/output) REAL             array, dimension (N)
 *           On input, all entries of Z must be set to 0.
 *           On output, Z contains the (scaled) r-th column of the
 *           inverse. The scaling is such that Z(R) equals 1.
@@ -89,10 +89,10 @@
 *           If WANTNC is .TRUE. then NEGCNT = the number of pivots < pivmin 
 *           in the  matrix factorization L D L^T, and NEGCNT = -1 otherwise.
 *
-*  ZTZ      (output) DOUBLE PRECISION
+*  ZTZ      (output) REAL            
 *           The square of the 2-norm of Z.
 *
-*  MINGMA   (output) DOUBLE PRECISION
+*  MINGMA   (output) REAL            
 *           The reciprocal of the largest (in magnitude) diagonal
 *           element of the inverse of L D L^T - sigma I.
 *
@@ -110,18 +110,18 @@
 *           The support of the vector in Z, i.e., the vector Z is
 *           nonzero only in elements ISUPPZ(1) through ISUPPZ( 2 ).
 *
-*  NRMINV   (output) DOUBLE PRECISION
+*  NRMINV   (output) REAL            
 *           NRMINV = 1/SQRT( ZTZ )
 *
-*  RESID    (output) DOUBLE PRECISION
+*  RESID    (output) REAL            
 *           The residual of the FP vector.
 *           RESID = ABS( MINGMA )/SQRT( ZTZ )
 *
-*  RQCORR   (output) DOUBLE PRECISION
+*  RQCORR   (output) REAL            
 *           The Rayleigh Quotient correction to LAMBDA.
 *           RQCORR = MINGMA*TMP
 *
-*  WORK     (workspace) DOUBLE PRECISION array, dimension (4*N)
+*  WORK     (workspace) REAL             array, dimension (4*N)
 *
 *  Further Details
 *  ===============
@@ -138,28 +138,28 @@
 *     .. Parameters ..
       INTEGER            BLKLEN
       PARAMETER          ( BLKLEN = 16 )
-       DOUBLE PRECISION   ZERO, ONE
-      PARAMETER          ( ZERO = 0.0D0, ONE = 1.0D0 )
+       REAL               ZERO, ONE
+      PARAMETER          ( ZERO = 0.0E0, ONE = 1.0E0 )
 
 *     ..
 *     .. Local Scalars ..
       LOGICAL            SAWNAN1, SAWNAN2
       INTEGER            BI, I, INDLPL, INDP, INDS, INDUMN, NB, NEG1,
      $                   NEG2, NX, R1, R2, TO
-      DOUBLE PRECISION            ABSZCUR, ABSZPREV, DMINUS, DPLUS, EPS,
+      REAL                        ABSZCUR, ABSZPREV, DMINUS, DPLUS, EPS,
      $                            S, TMP, ZPREV
 *     ..
 *     .. External Functions ..
-      LOGICAL DISNAN
-      DOUBLE PRECISION   DLAMCH
-      EXTERNAL           DISNAN, DLAMCH
+      LOGICAL SISNAN
+      REAL               SLAMCH
+      EXTERNAL           SISNAN, SLAMCH
 *     ..
 *     .. Intrinsic Functions ..
-      INTRINSIC          ABS, MAX, MIN, DBLE
+      INTRINSIC          ABS, MAX, MIN, REAL
 *     ..
 *     .. Executable Statements ..
 *
-      EPS = DLAMCH( 'Precision' )
+      EPS = SLAMCH( 'Precision' )
 
       
       IF( R.EQ.0 ) THEN
@@ -197,7 +197,7 @@
          WORK( INDS+I ) = S*WORK( INDLPL+I )*L( I )
          S = WORK( INDS+I ) - LAMBDA
  50   CONTINUE
-      SAWNAN1 = DISNAN( S )
+      SAWNAN1 = SISNAN( S )
       IF( SAWNAN1 ) GOTO 60     
       DO 51 I = R1, R2 - 1
          DPLUS = D( I ) + S
@@ -205,7 +205,7 @@
          WORK( INDS+I ) = S*WORK( INDLPL+I )*L( I )
          S = WORK( INDS+I ) - LAMBDA
  51   CONTINUE
-      SAWNAN1 = DISNAN( S )
+      SAWNAN1 = SISNAN( S )
 *
  60   CONTINUE
       IF( SAWNAN1 ) THEN
@@ -247,7 +247,7 @@
          WORK( INDP+I-1 ) = WORK( INDP+I )*TMP - LAMBDA
  80   CONTINUE
       TMP = WORK( INDP+R1-1 )
-      SAWNAN2 = DISNAN( TMP )	
+      SAWNAN2 = SISNAN( TMP )	
       IF( SAWNAN2 ) THEN
 *        Runs a slower version of the above loop if a NaN is detected
          NEG2 = 0
@@ -419,6 +419,6 @@
 *
       RETURN
 *
-*     End of DLAR1VA
+*     End of SLAR1VA
 *
       END

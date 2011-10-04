@@ -1,11 +1,12 @@
       SUBROUTINE DLAREF( TYPE, A, LDA, WANTZ, Z, LDZ, BLOCK, IROW1,
-     $                    ICOL1, ISTART, ISTOP, ITMP1, ITMP2, LILOZ,
-     $                    LIHIZ, VECS, V2, V3, T1, T2, T3 )
+     $                   ICOL1, ISTART, ISTOP, ITMP1, ITMP2, LILOZ,
+     $                   LIHIZ, VECS, V2, V3, T1, T2, T3 )
+      IMPLICIT NONE
 *
-*  -- ScaLAPACK routine (version 1.7) --
+*  -- ScaLAPACK auxiliary routine (version 1.5) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
 *     and University of California, Berkeley.
-*     December 31, 1998
+*     May 1, 1997
 *
 *     .. Scalar Arguments ..
       LOGICAL            BLOCK, WANTZ
@@ -104,14 +105,16 @@
 *              reflector and is read when BLOCK is .FALSE., and
 *              overwritten when BLOCK is .TRUE.
 *
-*  Implemented by:  G. Henry, November 17, 1996
+*  Implemented by:  G. Henry, May 1, 1997
 *
 *  =====================================================================
 *
 *     .. Local Scalars ..
       INTEGER            J, K
       DOUBLE PRECISION   H11, H22, SUM, T12, T13, T22, T23, T32, T33,
-     $                   V22, V23, V32, V33
+     $                   V22, V23, V32, V33, A1, A2, A3, A4, A5, B1,
+     $                   B2, B3, B4, B5, TMP1, TMP2, TMP3, SUM1, SUM2,
+     $                   SUM3, A11, A22
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
@@ -124,7 +127,7 @@
 *
       IF( LSAME( TYPE, 'R' ) ) THEN
          IF( BLOCK ) THEN
-            DO 20 K = ISTART, ISTOP - MOD( ISTOP-ISTART+1, 3 ), 3
+            DO 30 K = ISTART, ISTOP - MOD( ISTOP-ISTART+1, 3 ), 3
                V2 = VECS( ( K-1 )*3+1 )
                V3 = VECS( ( K-1 )*3+2 )
                T1 = VECS( ( K-1 )*3+3 )
@@ -140,7 +143,43 @@
                T32 = T12*V32
                T23 = T13*V23
                T33 = T13*V33
-               DO 10 J = ITMP1, ITMP2
+               DO 10 J = ITMP1, ITMP2-MOD(ITMP2-ITMP1+1,2), 2
+                  A1 = A ( IROW1  , J   )
+                  A2 = A ( IROW1+1, J   )
+                  A3 = A ( IROW1+2, J   )
+                  A4 = A ( IROW1+3, J   )
+                  A5 = A ( IROW1+4, J   )
+                  B1 = A ( IROW1  , J+1 )
+                  B2 = A ( IROW1+1, J+1 )
+                  B3 = A ( IROW1+2, J+1 )
+                  B4 = A ( IROW1+3, J+1 )
+                  B5 = A ( IROW1+4, J+1 )
+                  SUM1 = A1 + V2*A2 + V3*A3
+                  A( IROW1  , J   ) = A1 - SUM1 * T1
+                  H11               = A2 - SUM1 * T2
+                  H22               = A3 - SUM1 * T3
+                  TMP1 = B1 + V2*B2 + V3*B3
+                  A( IROW1  , J+1 ) = B1 - TMP1 * T1
+                  A11               = B2 - TMP1 * T2
+                  A22               = B3 - TMP1 * T3
+                  SUM2 = H11 + V22*H22 + V32*A4
+                  A( IROW1+1, J   ) = H11 - SUM2 * T12
+                  H11               = H22 - SUM2 * T22
+                  H22               = A4  - SUM2 * T32
+                  TMP2 = A11 + V22*A22 + V32*B4
+                  A( IROW1+1, J+1 ) = A11 - TMP2 * T12
+                  A11               = A22 - TMP2 * T22
+                  A22               = B4  - TMP2 * T32
+                  SUM3 = H11 + V23*H22 + V33*A5
+                  A( IROW1+2, J   ) = H11 - SUM3 * T13
+                  A( IROW1+3, J   ) = H22 - SUM3 * T23
+                  A( IROW1+4, J   ) = A5  - SUM3 * T33
+                  TMP3 = A11 + V23*A22 + V33*B5
+                  A( IROW1+2, J+1 ) = A11 - TMP3 * T13
+                  A( IROW1+3, J+1 ) = A22 - TMP3 * T23
+                  A( IROW1+4, J+1 ) = B5  - TMP3 * T33
+   10          CONTINUE
+               DO 20 J = ITMP2-MOD(ITMP2-ITMP1+1,2)+1, ITMP2
                   SUM = A( IROW1, J ) + V2*A( IROW1+1, J ) +
      $                  V3*A( IROW1+2, J )
                   A( IROW1, J ) = A( IROW1, J ) - SUM*T1
@@ -154,39 +193,39 @@
                   A( IROW1+2, J ) = H11 - SUM*T13
                   A( IROW1+3, J ) = H22 - SUM*T23
                   A( IROW1+4, J ) = A( IROW1+4, J ) - SUM*T33
-   10          CONTINUE
+   20          CONTINUE
                IROW1 = IROW1 + 3
-   20       CONTINUE
-            DO 40 K = ISTOP - MOD( ISTOP-ISTART+1, 3 ) + 1, ISTOP
+   30       CONTINUE
+            DO 50 K = ISTOP - MOD( ISTOP-ISTART+1, 3 ) + 1, ISTOP
                V2 = VECS( ( K-1 )*3+1 )
                V3 = VECS( ( K-1 )*3+2 )
                T1 = VECS( ( K-1 )*3+3 )
                T2 = T1*V2
                T3 = T1*V3
-               DO 30 J = ITMP1, ITMP2
+               DO 40 J = ITMP1, ITMP2
                   SUM = A( IROW1, J ) + V2*A( IROW1+1, J ) +
      $                  V3*A( IROW1+2, J )
                   A( IROW1, J ) = A( IROW1, J ) - SUM*T1
                   A( IROW1+1, J ) = A( IROW1+1, J ) - SUM*T2
                   A( IROW1+2, J ) = A( IROW1+2, J ) - SUM*T3
-   30          CONTINUE
+   40          CONTINUE
                IROW1 = IROW1 + 1
-   40       CONTINUE
+   50       CONTINUE
          ELSE
-            DO 50 J = ITMP1, ITMP2
+            DO 60 J = ITMP1, ITMP2
                SUM = A( IROW1, J ) + V2*A( IROW1+1, J ) +
      $               V3*A( IROW1+2, J )
                A( IROW1, J ) = A( IROW1, J ) - SUM*T1
                A( IROW1+1, J ) = A( IROW1+1, J ) - SUM*T2
                A( IROW1+2, J ) = A( IROW1+2, J ) - SUM*T3
-   50       CONTINUE
+   60       CONTINUE
          END IF
       ELSE
 *
 *        Do column transforms
 *
          IF( BLOCK ) THEN
-            DO 80 K = ISTART, ISTOP - MOD( ISTOP-ISTART+1, 3 ), 3
+            DO 90 K = ISTART, ISTOP - MOD( ISTOP-ISTART+1, 3 ), 3
                V2 = VECS( ( K-1 )*3+1 )
                V3 = VECS( ( K-1 )*3+2 )
                T1 = VECS( ( K-1 )*3+3 )
@@ -202,7 +241,7 @@
                T32 = T12*V32
                T23 = T13*V23
                T33 = T13*V33
-               DO 60 J = ITMP1, ITMP2
+               DO 70 J = ITMP1, ITMP2
                   SUM = A( J, ICOL1 ) + V2*A( J, ICOL1+1 ) +
      $                  V3*A( J, ICOL1+2 )
                   A( J, ICOL1 ) = A( J, ICOL1 ) - SUM*T1
@@ -216,9 +255,9 @@
                   A( J, ICOL1+2 ) = H11 - SUM*T13
                   A( J, ICOL1+3 ) = H22 - SUM*T23
                   A( J, ICOL1+4 ) = A( J, ICOL1+4 ) - SUM*T33
-   60          CONTINUE
+   70          CONTINUE
                IF( WANTZ ) THEN
-                  DO 70 J = LILOZ, LIHIZ
+                  DO 80 J = LILOZ, LIHIZ
                      SUM = Z( J, ICOL1 ) + V2*Z( J, ICOL1+1 ) +
      $                     V3*Z( J, ICOL1+2 )
                      Z( J, ICOL1 ) = Z( J, ICOL1 ) - SUM*T1
@@ -232,42 +271,42 @@
                      Z( J, ICOL1+2 ) = H11 - SUM*T13
                      Z( J, ICOL1+3 ) = H22 - SUM*T23
                      Z( J, ICOL1+4 ) = Z( J, ICOL1+4 ) - SUM*T33
-   70             CONTINUE
+   80             CONTINUE
                END IF
                ICOL1 = ICOL1 + 3
-   80       CONTINUE
-            DO 110 K = ISTOP - MOD( ISTOP-ISTART+1, 3 ) + 1, ISTOP
+   90       CONTINUE
+            DO 120 K = ISTOP - MOD( ISTOP-ISTART+1, 3 ) + 1, ISTOP
                V2 = VECS( ( K-1 )*3+1 )
                V3 = VECS( ( K-1 )*3+2 )
                T1 = VECS( ( K-1 )*3+3 )
                T2 = T1*V2
                T3 = T1*V3
-               DO 90 J = ITMP1, ITMP2
+               DO 100 J = ITMP1, ITMP2
                   SUM = A( J, ICOL1 ) + V2*A( J, ICOL1+1 ) +
      $                  V3*A( J, ICOL1+2 )
                   A( J, ICOL1 ) = A( J, ICOL1 ) - SUM*T1
                   A( J, ICOL1+1 ) = A( J, ICOL1+1 ) - SUM*T2
                   A( J, ICOL1+2 ) = A( J, ICOL1+2 ) - SUM*T3
-   90          CONTINUE
+  100          CONTINUE
                IF( WANTZ ) THEN
-                  DO 100 J = LILOZ, LIHIZ
+                  DO 110 J = LILOZ, LIHIZ
                      SUM = Z( J, ICOL1 ) + V2*Z( J, ICOL1+1 ) +
      $                     V3*Z( J, ICOL1+2 )
                      Z( J, ICOL1 ) = Z( J, ICOL1 ) - SUM*T1
                      Z( J, ICOL1+1 ) = Z( J, ICOL1+1 ) - SUM*T2
                      Z( J, ICOL1+2 ) = Z( J, ICOL1+2 ) - SUM*T3
-  100             CONTINUE
+  110             CONTINUE
                END IF
                ICOL1 = ICOL1 + 1
-  110       CONTINUE
+  120       CONTINUE
          ELSE
-            DO 120 J = ITMP1, ITMP2
+            DO 130 J = ITMP1, ITMP2
                SUM = A( J, ICOL1 ) + V2*A( J, ICOL1+1 ) +
      $               V3*A( J, ICOL1+2 )
                A( J, ICOL1 ) = A( J, ICOL1 ) - SUM*T1
                A( J, ICOL1+1 ) = A( J, ICOL1+1 ) - SUM*T2
                A( J, ICOL1+2 ) = A( J, ICOL1+2 ) - SUM*T3
-  120       CONTINUE
+  130       CONTINUE
          END IF
       END IF
       RETURN
@@ -275,4 +314,3 @@
 *     End of DLAREF
 *
       END
-*

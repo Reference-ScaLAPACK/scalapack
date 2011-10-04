@@ -1,4 +1,5 @@
       SUBROUTINE PDLACP3( M, I, A, DESCA, B, LDB, II, JJ, REV )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -141,9 +142,10 @@
       PARAMETER          ( ZERO = 0.0D+0 )
 *     ..
 *     .. Local Scalars ..
-      INTEGER            COL, CONTXT, HBL, ICOL1, ICOL2, IDI, IDJ, IFIN,
-     $                   III, IROW1, IROW2, ISTOP, ISTOPI, ISTOPJ, ITMP,
-     $                   JJJ, LDA, MYCOL, MYROW, NPCOL, NPROW, ROW
+      INTEGER            COL, CONTXT, HBL, IAFIRST, ICOL1, ICOL2, IDI,
+     $                   IDJ, IFIN, III, IROW1, IROW2, ISTOP, ISTOPI,
+     $                   ISTOPJ, ITMP, JAFIRST, JJJ, LDA, MYCOL, MYROW,
+     $                   NPCOL, NPROW, ROW
 *     ..
 *     .. External Functions ..
       INTEGER            NUMROC
@@ -164,6 +166,8 @@
       HBL = DESCA( MB_ )
       CONTXT = DESCA( CTXT_ )
       LDA = DESCA( LLD_ )
+      IAFIRST = DESCA( RSRC_ )
+      JAFIRST = DESCA( CSRC_ )
 *
       CALL BLACS_GRIDINFO( CONTXT, NPROW, NPCOL, MYROW, MYCOL )
 *
@@ -190,12 +194,12 @@
          ISTOPI = ISTOP
          IF( IDI.LE.IFIN ) THEN
    40       CONTINUE
-            ROW = MOD( ( IDI-1 ) / HBL, NPROW )
-            COL = MOD( ( IDJ-1 ) / HBL, NPCOL )
-            CALL INFOG1L( IDI, HBL, NPROW, ROW, 0, IROW1, ITMP )
-            IROW2 = NUMROC( ISTOPI, HBL, ROW, 0, NPROW )
-            CALL INFOG1L( IDJ, HBL, NPCOL, COL, 0, ICOL1, ITMP )
-            ICOL2 = NUMROC( ISTOPJ, HBL, COL, 0, NPCOL )
+            ROW = MOD( ( IDI-1 ) / HBL + IAFIRST, NPROW )
+            COL = MOD( ( IDJ-1 ) / HBL + JAFIRST, NPCOL )
+            CALL INFOG1L( IDI, HBL, NPROW, ROW, IAFIRST, IROW1, ITMP )
+            IROW2 = NUMROC( ISTOPI, HBL, ROW, IAFIRST, NPROW )
+            CALL INFOG1L( IDJ, HBL, NPCOL, COL, JAFIRST, ICOL1, ITMP )
+            ICOL2 = NUMROC( ISTOPJ, HBL, COL, JAFIRST, NPCOL )
             IF( ( MYROW.EQ.ROW ) .AND. ( MYCOL.EQ.COL ) ) THEN
                IF( ( II.EQ.-1 ) .AND. ( JJ.EQ.-1 ) ) THEN
 *

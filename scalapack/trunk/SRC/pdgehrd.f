@@ -263,7 +263,8 @@
                INFO = -2
             ELSE IF( IHI.LT.MIN( ILO, N ) .OR. IHI.GT.N ) THEN
                INFO = -3
-            ELSE IF( IROFFA.NE.ICOFFA .OR. IROFFA.NE.0 ) THEN
+C            ELSE IF( IROFFA.NE.ICOFFA .OR. IROFFA.NE.0 ) THEN
+            ELSE IF( IROFFA.NE.ICOFFA ) THEN
                INFO = -6
             ELSE IF( DESCA( MB_ ).NE.DESCA( NB_ ) ) THEN
                INFO = -(700+NB_)
