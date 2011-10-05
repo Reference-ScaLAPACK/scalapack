@@ -90,17 +90,13 @@ $(ALLTOOLS): $(FRC)
 #  The C PBLAS tools
 #---------------------------------------------------------------------------
 
-SCTOOLS = \
-    PB_Cstypeset.o
+SCTOOLS = PB_Cstypeset.o
 
-DCTOOLS = \
-    PB_Cdtypeset.o
+DCTOOLS = PB_Cdtypeset.o
 
-CCTOOLS = \
-    PB_Cctypeset.o
+CCTOOLS = PB_Cctypeset.o
 
-ZCTOOLS = \
-    PB_Cztypeset.o
+ZCTOOLS = PB_Cztypeset.o
 
 #---------------------------------------------------------------------------
 
@@ -122,20 +118,20 @@ DPTOOLS = $(ALLTOOLS) $(DTOOLS)
 ZPTOOLS = $(ALLTOOLS) $(ZTOOLS)
 
 single: $(SPTOOLS)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(SPTOOLS)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(SPTOOLS)
+	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 complex: $(CPTOOLS)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(CPTOOLS)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(CPTOOLS)
+	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 double: $(DPTOOLS)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(DPTOOLS)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(DPTOOLS)
+	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 complex16: $(ZPTOOLS)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(ZPTOOLS)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(ZPTOOLS)
+	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 FRC:
 	@FRC=$(FRC)

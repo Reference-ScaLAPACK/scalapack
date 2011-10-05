@@ -38,8 +38,8 @@ include ../../SLmake.inc
 #  Alternatively, the command
 #       make
 #  without any arguments creates a library of all four precisions.
-#  The name of the library is defined by $(SCALAPACKLIB) in
-#  ../../SLmake.inc and is created at the next higher directory level.
+#  The name of the library is defined by ../../$(SCALAPACKLIB) in
+#  ../../SLmake.inc.
 #
 #  To remove the object files after the library is created, enter
 #       make clean
@@ -49,46 +49,41 @@ include ../../SLmake.inc
 #
 #######################################################################
 
-ALLAUX = \
-   pgemraux.o
+ALLAUX = pgemraux.o
 
-IMRSRC = \
-   pigemr.o pigemr2.o pitrmr.o pitrmr2.o 
+IMRSRC = pigemr.o pigemr2.o pitrmr.o pitrmr2.o 
 
-SMRSRC = \
-   psgemr.o psgemr2.o pstrmr.o pstrmr2.o 
+SMRSRC = psgemr.o psgemr2.o pstrmr.o pstrmr2.o 
 
-CMRSRC = \
-   pcgemr.o pcgemr2.o pctrmr.o pctrmr2.o 
+CMRSRC = pcgemr.o pcgemr2.o pctrmr.o pctrmr2.o 
 
-DMRSRC = \
-   pdgemr.o pdgemr2.o pdtrmr.o pdtrmr2.o 
+DMRSRC = pdgemr.o pdgemr2.o pdtrmr.o pdtrmr2.o 
 
-ZMRSRC = \
-   pzgemr.o pzgemr2.o pztrmr.o pztrmr2.o 
+ZMRSRC = pzgemr.o pzgemr2.o pztrmr.o pztrmr2.o 
 
 all: integer single complex double complex16
+
 lib: all
 
 integer: $(IMRSRC) $(ALLAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(IMRSRC) $(ALLAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../$(SCALAPACKLIB) $(IMRSRC) $(ALLAUX)
+	$(RANLIB) ../../$(SCALAPACKLIB)
 
 single: $(SMRSRC) $(ALLAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(SMRSRC) $(ALLAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../$(SCALAPACKLIB) $(SMRSRC) $(ALLAUX)
+	$(RANLIB) ../../$(SCALAPACKLIB)
 
 complex: $(CMRSRC) $(ALLAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(CMRSRC) $(ALLAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../$(SCALAPACKLIB) $(CMRSRC) $(ALLAUX)
+	$(RANLIB) ../../$(SCALAPACKLIB)
 
 double: $(DMRSRC) $(ALLAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(DMRSRC) $(ALLAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../$(SCALAPACKLIB) $(DMRSRC) $(ALLAUX)
+	$(RANLIB) ../../$(SCALAPACKLIB)
 
 complex16: $(ZMRSRC) $(ALLAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(ZMRSRC) $(ALLAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../$(SCALAPACKLIB) $(ZMRSRC) $(ALLAUX)
+	$(RANLIB) ../../$(SCALAPACKLIB)
 
 $(ALLAUX): $(FRC)
 $(IMRSRC): $(FRC)

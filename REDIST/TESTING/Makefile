@@ -16,16 +16,16 @@
 
 include ../../SLmake.inc
 
-igemrexe = $(REDISTTSTdir)/xigemr
-sgemrexe = $(REDISTTSTdir)/xsgemr
-dgemrexe = $(REDISTTSTdir)/xdgemr
-cgemrexe = $(REDISTTSTdir)/xcgemr
-zgemrexe = $(REDISTTSTdir)/xzgemr
-itrmrexe = $(REDISTTSTdir)/xitrmr
-strmrexe = $(REDISTTSTdir)/xstrmr
-dtrmrexe = $(REDISTTSTdir)/xdtrmr
-ctrmrexe = $(REDISTTSTdir)/xctrmr
-ztrmrexe = $(REDISTTSTdir)/xztrmr
+igemrexe = xigemr
+sgemrexe = xsgemr
+dgemrexe = xdgemr
+cgemrexe = xcgemr
+zgemrexe = xzgemr
+itrmrexe = xitrmr
+strmrexe = xstrmr
+dtrmrexe = xdtrmr
+ctrmrexe = xctrmr
+ztrmrexe = xztrmr
 
 igemr = pigemrdrv.o
 sgemr = psgemrdrv.o
@@ -52,51 +52,35 @@ complex: $(cgemrexe) $(ctrmrexe)
 
 complex16: $(zgemrexe) $(ztrmrexe)
 
-$(TESTINGdir)/GEMR2D.dat: GEMR2D.dat
-	cp GEMR2D.dat $(TESTINGdir)
+$(igemrexe): ../../$(SCALAPACKLIB) $(igemr)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(igemrexe) $(igemr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(igemrexe): $(SCALAPACKLIB) $(igemr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(igemrexe) $(igemr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/GEMR2D.dat
+$(sgemrexe): ../../$(SCALAPACKLIB) $(sgemr)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(sgemrexe) $(sgemr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(sgemrexe): $(SCALAPACKLIB) $(sgemr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(sgemrexe) $(sgemr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/GEMR2D.dat
+$(dgemrexe): ../../$(SCALAPACKLIB) $(dgemr)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(dgemrexe) $(dgemr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(dgemrexe): $(SCALAPACKLIB) $(dgemr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(dgemrexe) $(dgemr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/GEMR2D.dat
+$(cgemrexe): ../../$(SCALAPACKLIB) $(cgemr)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(cgemrexe) $(cgemr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(cgemrexe): $(SCALAPACKLIB) $(cgemr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(cgemrexe) $(cgemr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/GEMR2D.dat
+$(zgemrexe): ../../$(SCALAPACKLIB) $(zgemr)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(zgemrexe) $(zgemr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(zgemrexe): $(SCALAPACKLIB) $(zgemr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(zgemrexe) $(zgemr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/GEMR2D.dat
+$(itrmrexe): ../../$(SCALAPACKLIB) $(itrmr)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(itrmrexe) $(itrmr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/TRMR2D.dat: TRMR2D.dat
-	cp TRMR2D.dat $(TESTINGdir)
+$(strmrexe): ../../$(SCALAPACKLIB) $(strmr)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(strmrexe) $(strmr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(itrmrexe): $(SCALAPACKLIB) $(itrmr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(itrmrexe) $(itrmr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/TRMR2D.dat
+$(dtrmrexe): ../../$(SCALAPACKLIB) $(dtrmr)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(dtrmrexe) $(dtrmr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(strmrexe): $(SCALAPACKLIB) $(strmr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(strmrexe) $(strmr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/TRMR2D.dat
+$(ctrmrexe): ../../$(SCALAPACKLIB) $(ctrmr)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(ctrmrexe) $(ctrmr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(dtrmrexe): $(SCALAPACKLIB) $(dtrmr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(dtrmrexe) $(dtrmr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/TRMR2D.dat
-
-$(ctrmrexe): $(SCALAPACKLIB) $(ctrmr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(ctrmrexe) $(ctrmr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/TRMR2D.dat
-
-$(ztrmrexe): $(SCALAPACKLIB) $(ztrmr)
-	$(CCLOADER) $(CCLOADFLAGS) -o $(ztrmrexe) $(ztrmr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/TRMR2D.dat
+$(ztrmrexe): ../../$(SCALAPACKLIB) $(ztrmr)
+	$(CCLOADER) $(CCLOADFLAGS) -o $(ztrmrexe) $(ztrmr) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(igemr): $(FRC)
 $(sgemr): $(FRC)

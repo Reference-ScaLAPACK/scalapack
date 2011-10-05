@@ -61,20 +61,20 @@ $(PBZBLASAUX) : $(FRC)
 #---------------------------------------------------------------------------
 
 single: $(PBSBLASAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(PBSBLASAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(PBSBLASAUX)
+	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 double: $(PBDBLASAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(PBDBLASAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(PBDBLASAUX)
+	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 complex: $(PBCBLASAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(PBCBLASAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(PBCBLASAUX)
+	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 complex16: $(PBZBLASAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(PBZBLASAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(PBZBLASAUX)
+	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 #---------------------------------------------------------------------------
 

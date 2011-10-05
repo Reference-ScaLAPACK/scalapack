@@ -40,7 +40,7 @@ include ../SLmake.inc
 #  Alternatively, the command
 #       make
 #  without any arguments creates a library of all four precisions.
-#  The name of the library is defined by $(SCALAPACKLIB) in
+#  The name of the library is defined by ../$(SCALAPACKLIB) in
 #  ../SLmake.inc and is created at the next higher directory level.
 #
 #  To remove the object files after the library is created, enter
@@ -193,24 +193,24 @@ ZLASRC = \
 all: single complex double complex16
 
 single: $(SLASRC) $(SCLAUX) $(ALLAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(SLASRC) $(SCLAUX) \
+	$(ARCH) $(ARCHFLAGS) ../$(SCALAPACKLIB) $(SLASRC) $(SCLAUX) \
 	$(ALLAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(RANLIB) ../$(SCALAPACKLIB)
 
 complex: $(CLASRC) $(SCLAUX) $(ALLAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(CLASRC) $(SCLAUX) \
+	$(ARCH) $(ARCHFLAGS) ../$(SCALAPACKLIB) $(CLASRC) $(SCLAUX) \
 	$(ALLAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(RANLIB) ../$(SCALAPACKLIB)
 
 double: $(DLASRC) $(DZLAUX) $(ALLAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(DLASRC) $(DZLAUX) \
+	$(ARCH) $(ARCHFLAGS) ../$(SCALAPACKLIB) $(DLASRC) $(DZLAUX) \
 	$(ALLAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(RANLIB) ../$(SCALAPACKLIB)
 
 complex16: $(ZLASRC) $(DZLAUX) $(ALLAUX)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(ZLASRC) $(DZLAUX) \
+	$(ARCH) $(ARCHFLAGS) ../$(SCALAPACKLIB) $(ZLASRC) $(DZLAUX) \
 	$(ALLAUX)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(RANLIB) ../$(SCALAPACKLIB)
 
 $(SCLAUX): $(FRC)
 $(DZLAUX): $(FRC)

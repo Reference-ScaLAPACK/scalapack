@@ -16,47 +16,47 @@
 
 include ../../SLmake.inc
 
-shrdexe = $(TESTINGdir)/xshrd
-dhrdexe = $(TESTINGdir)/xdhrd
-chrdexe = $(TESTINGdir)/xchrd
-zhrdexe = $(TESTINGdir)/xzhrd
+shrdexe = ../xshrd
+dhrdexe = ../xdhrd
+chrdexe = ../xchrd
+zhrdexe = ../xzhrd
 
-strdexe = $(TESTINGdir)/xstrd
-dtrdexe = $(TESTINGdir)/xdtrd
-ctrdexe = $(TESTINGdir)/xctrd
-ztrdexe = $(TESTINGdir)/xztrd
+strdexe = ../xstrd
+dtrdexe = ../xdtrd
+ctrdexe = ../xctrd
+ztrdexe = ../xztrd
 
-sbrdexe = $(TESTINGdir)/xsbrd
-dbrdexe = $(TESTINGdir)/xdbrd
-cbrdexe = $(TESTINGdir)/xcbrd
-zbrdexe = $(TESTINGdir)/xzbrd
+sbrdexe = ../xsbrd
+dbrdexe = ../xdbrd
+cbrdexe = ../xcbrd
+zbrdexe = ../xzbrd
 
 
-ssepexe = $(TESTINGdir)/xssep
-dsepexe = $(TESTINGdir)/xdsep
-csepexe = $(TESTINGdir)/xcsep
-zsepexe = $(TESTINGdir)/xzsep
+ssepexe = ../xssep
+dsepexe = ../xdsep
+csepexe = ../xcsep
+zsepexe = ../xzsep
 
-sgsepexe = $(TESTINGdir)/xsgsep
-dgsepexe = $(TESTINGdir)/xdgsep
-cgsepexe = $(TESTINGdir)/xcgsep
-zgsepexe = $(TESTINGdir)/xzgsep
+sgsepexe = ../xsgsep
+dgsepexe = ../xdgsep
+cgsepexe = ../xcgsep
+zgsepexe = ../xzgsep
 
-ssvdexe = $(TESTINGdir)/xssvd
-dsvdexe = $(TESTINGdir)/xdsvd
+ssvdexe = ../xssvd
+dsvdexe = ../xdsvd
 
-snepexe = $(TESTINGdir)/xsnep
-dnepexe = $(TESTINGdir)/xdnep
-cnepexe = $(TESTINGdir)/xcnep
-znepexe = $(TESTINGdir)/xznep
+snepexe = ../xsnep
+dnepexe = ../xdnep
+cnepexe = ../xcnep
+znepexe = ../xznep
 
-cevcexe = $(TESTINGdir)/xcevc
-zevcexe = $(TESTINGdir)/xzevc
+cevcexe = ../xcevc
+zevcexe = ../xzevc
 
-ssyevrexe = $(TESTINGdir)/xssyevr
-dsyevrexe = $(TESTINGdir)/xdsyevr
-cheevrexe = $(TESTINGdir)/xcheevr
-zheevrexe = $(TESTINGdir)/xzheevr
+ssyevrexe = ../xssyevr
+dsyevrexe = ../xdsyevr
+cheevrexe = ../xcheevr
+zheevrexe = ../xzheevr
 
 smatgen = psmatgen.o pmatgeninc.o
 dmatgen = pdmatgen.o pmatgeninc.o
@@ -132,147 +132,106 @@ pzsepchk.o pzsepqtq.o pzlatms.o pzseprtst.o pdsepinfo.o pzlagsy.o pzlasizesep.o 
 
 all : single double complex complex16
 
-single:    $(shrdexe) $(strdexe) $(sbrdexe) $(ssepexe) $(sgsepexe) \
-           $(snepexe) $(ssvdexe) $(ssyevrexe)
-double:    $(dhrdexe) $(dtrdexe) $(dbrdexe) $(dsepexe) $(dgsepexe) \
-           $(dnepexe) $(dsvdexe) $(dsyevrexe)
-complex:   $(chrdexe) $(ctrdexe) $(cbrdexe) $(csepexe) $(cgsepexe) \
-           $(cnepexe) $(cevcexe) $(cheevrexe)
-complex16: $(zhrdexe) $(ztrdexe) $(zbrdexe) $(zsepexe) $(zgsepexe) \
-           $(znepexe) $(zevcexe) $(zheevrexe)
+single:    $(shrdexe) $(strdexe) $(sbrdexe) $(ssepexe) $(sgsepexe) $(snepexe) $(ssvdexe) $(ssyevrexe)
+double:    $(dhrdexe) $(dtrdexe) $(dbrdexe) $(dsepexe) $(dgsepexe) $(dnepexe) $(dsvdexe) $(dsyevrexe)
+complex:   $(chrdexe) $(ctrdexe) $(cbrdexe) $(csepexe) $(cgsepexe) $(cnepexe) $(cevcexe) $(cheevrexe)
+complex16: $(zhrdexe) $(ztrdexe) $(zbrdexe) $(zsepexe) $(zgsepexe) $(znepexe) $(zevcexe) $(zheevrexe)
 
-$(TESTINGdir)/BRD.dat: ../BRD.dat
-	cp ../BRD.dat $(TESTINGdir)
+$(sbrdexe) : ../../$(SCALAPACKLIB) $(sbrd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(sbrdexe) $(sbrd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(sbrdexe) : $(SCALAPACKLIB) $(sbrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(sbrdexe) $(sbrd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BRD.dat
-$(dbrdexe) : $(SCALAPACKLIB) $(dbrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dbrdexe) $(dbrd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BRD.dat
-$(cbrdexe) : $(SCALAPACKLIB) $(cbrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cbrdexe) $(cbrd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BRD.dat
-$(zbrdexe) : $(SCALAPACKLIB) $(zbrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zbrdexe) $(zbrd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BRD.dat
+$(dbrdexe) : ../../$(SCALAPACKLIB) $(dbrd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dbrdexe) $(dbrd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/HRD.dat: ../HRD.dat
-	cp ../HRD.dat $(TESTINGdir)
+$(cbrdexe) : ../../$(SCALAPACKLIB) $(cbrd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cbrdexe) $(cbrd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(shrdexe) : $(SCALAPACKLIB) $(shrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(shrdexe) $(shrd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/HRD.dat
-$(dhrdexe) : $(SCALAPACKLIB) $(dhrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dhrdexe) $(dhrd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/HRD.dat
-$(chrdexe) : $(SCALAPACKLIB) $(chrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(chrdexe) $(chrd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/HRD.dat
-$(zhrdexe) : $(SCALAPACKLIB) $(zhrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zhrdexe) $(zhrd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/HRD.dat
+$(zbrdexe) : ../../$(SCALAPACKLIB) $(zbrd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zbrdexe) $(zbrd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/TRD.dat: ../TRD.dat
-	cp ../TRD.dat $(TESTINGdir)
+$(shrdexe) : ../../$(SCALAPACKLIB) $(shrd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(shrdexe) $(shrd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(strdexe) : $(SCALAPACKLIB) $(strd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(strdexe) $(strd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/TRD.dat
-$(dtrdexe) : $(SCALAPACKLIB) $(dtrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dtrdexe) $(dtrd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/TRD.dat
-$(ctrdexe) : $(SCALAPACKLIB) $(ctrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ctrdexe) $(ctrd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/TRD.dat
-$(ztrdexe) : $(SCALAPACKLIB) $(ztrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ztrdexe) $(ztrd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/TRD.dat
+$(dhrdexe) : ../../$(SCALAPACKLIB) $(dhrd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dhrdexe) $(dhrd) ../../$(SCALAPACKLIB) $(LIBS)
 
+$(chrdexe) : ../../$(SCALAPACKLIB) $(chrd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(chrdexe) $(chrd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/SVD.dat: ../SVD.dat
-	cp ../SVD.dat $(TESTINGdir)
+$(zhrdexe) : ../../$(SCALAPACKLIB) $(zhrd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zhrdexe) $(zhrd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(ssvdexe) : $(SCALAPACKLIB) $(ssvd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ssvdexe) $(ssvd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SVD.dat
-$(dsvdexe) : $(SCALAPACKLIB) $(dsvd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dsvdexe) $(dsvd) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SVD.dat
+$(strdexe) : ../../$(SCALAPACKLIB) $(strd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(strdexe) $(strd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/SEP.dat: ../SEP.dat
-	cp ../SEP.dat $(TESTINGdir)
+$(dtrdexe) : ../../$(SCALAPACKLIB) $(dtrd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dtrdexe) $(dtrd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(ssepexe) : $(SCALAPACKLIB) $(ssep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ssepexe) $(ssep) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SEP.dat
-$(dsepexe) : $(SCALAPACKLIB) $(dsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dsepexe) $(dsep) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SEP.dat
-$(csepexe) : $(SCALAPACKLIB) $(csep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(csepexe) $(csep) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SEP.dat
-$(zsepexe) : $(SCALAPACKLIB) $(zsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zsepexe) $(zsep) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SEP.dat
+$(ctrdexe) : ../../$(SCALAPACKLIB) $(ctrd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(ctrdexe) $(ctrd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(sgsepexe) : $(SCALAPACKLIB) $(sgsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(sgsepexe) $(sgsep) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SEP.dat
-$(dgsepexe) : $(SCALAPACKLIB) $(dgsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dgsepexe) $(dgsep) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SEP.dat
-$(cgsepexe) : $(SCALAPACKLIB) $(cgsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cgsepexe) $(cgsep) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SEP.dat
-$(zgsepexe) : $(SCALAPACKLIB) $(zgsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zgsepexe) $(zgsep) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SEP.dat
+$(ztrdexe) : ../../$(SCALAPACKLIB) $(ztrd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(ztrdexe) $(ztrd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/NEP.dat: ../NEP.dat
-	cp ../NEP.dat $(TESTINGdir)
+$(ssvdexe) : ../../$(SCALAPACKLIB) $(ssvd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(ssvdexe) $(ssvd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(snepexe) : $(SCALAPACKLIB) $(snep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(snepexe) $(snep) $(LIBS)
-	$(MAKE) $(TESTINGdir)/NEP.dat
-$(dnepexe) : $(SCALAPACKLIB) $(dnep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dnepexe) $(dnep) $(LIBS)
-	$(MAKE) $(TESTINGdir)/NEP.dat
-$(cnepexe) : $(SCALAPACKLIB) $(cnep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cnepexe) $(cnep) $(LIBS)
-	$(MAKE) $(TESTINGdir)/NEP.dat
-$(znepexe) : $(SCALAPACKLIB) $(znep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(znepexe) $(znep) $(LIBS)
-	$(MAKE) $(TESTINGdir)/NEP.dat
+$(dsvdexe) : ../../$(SCALAPACKLIB) $(dsvd)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dsvdexe) $(dsvd) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/EVC.dat: ../EVC.dat
-	cp ../EVC.dat $(TESTINGdir)
+$(ssepexe) : ../../$(SCALAPACKLIB) $(ssep)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(ssepexe) $(ssep) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(cevcexe) : $(SCALAPACKLIB) $(cevc)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cevcexe) $(cevc) $(LIBS)
-	$(MAKE) $(TESTINGdir)/EVC.dat
-$(zevcexe) : $(SCALAPACKLIB) $(zevc)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zevcexe) $(zevc) $(LIBS)
-	$(MAKE) $(TESTINGdir)/EVC.dat
+$(dsepexe) : ../../$(SCALAPACKLIB) $(dsep)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dsepexe) $(dsep) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/SEPR.dat: ../SEPR.dat
-	cp ../SEPR.dat $(TESTINGdir)
+$(csepexe) : ../../$(SCALAPACKLIB) $(csep)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(csepexe) $(csep) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(ssyevrexe): $(SCALAPACKLIB) $(ssyevr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ssyevrexe) $(ssyevr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SEPR.dat
+$(zsepexe) : ../../$(SCALAPACKLIB) $(zsep)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zsepexe) $(zsep) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(dsyevrexe): $(SCALAPACKLIB) $(dsyevr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dsyevrexe) $(dsyevr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SEPR.dat
+$(sgsepexe) : ../../$(SCALAPACKLIB) $(sgsep)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(sgsepexe) $(sgsep) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(cheevrexe): $(SCALAPACKLIB) $(cheevr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cheevrexe) $(cheevr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SEPR.dat
+$(dgsepexe) : ../../$(SCALAPACKLIB) $(dgsep)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dgsepexe) $(dgsep) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(zheevrexe): $(SCALAPACKLIB) $(zheevr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zheevrexe) $(zheevr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/SEPR.dat
+$(cgsepexe) : ../../$(SCALAPACKLIB) $(cgsep)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cgsepexe) $(cgsep) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(zgsepexe) : ../../$(SCALAPACKLIB) $(zgsep)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zgsepexe) $(zgsep) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(snepexe) : ../../$(SCALAPACKLIB) $(snep)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(snepexe) $(snep) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(dnepexe) : ../../$(SCALAPACKLIB) $(dnep)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dnepexe) $(dnep) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(cnepexe) : ../../$(SCALAPACKLIB) $(cnep)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cnepexe) $(cnep) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(znepexe) : ../../$(SCALAPACKLIB) $(znep)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(znepexe) $(znep) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(cevcexe) : ../../$(SCALAPACKLIB) $(cevc)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cevcexe) $(cevc) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(zevcexe) : ../../$(SCALAPACKLIB) $(zevc)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zevcexe) $(zevc) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(ssyevrexe): ../../$(SCALAPACKLIB) $(ssyevr)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(ssyevrexe) $(ssyevr) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(dsyevrexe): ../../$(SCALAPACKLIB) $(dsyevr)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dsyevrexe) $(dsyevr) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(cheevrexe): ../../$(SCALAPACKLIB) $(cheevr)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cheevrexe) $(cheevr) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(zheevrexe): ../../$(SCALAPACKLIB) $(zheevr)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zheevrexe) $(zheevr) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(sbrd): $(FRC)
 $(dbrd): $(FRC)
