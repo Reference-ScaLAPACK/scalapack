@@ -16,55 +16,55 @@
 
 include ../../SLmake.inc
 
-sluexe = $(TESTINGdir)/xslu
-dluexe = $(TESTINGdir)/xdlu
-cluexe = $(TESTINGdir)/xclu
-zluexe = $(TESTINGdir)/xzlu
+sluexe = ../xslu
+dluexe = ../xdlu
+cluexe = ../xclu
+zluexe = ../xzlu
 
-sdbluexe = $(TESTINGdir)/xsdblu
-ddbluexe = $(TESTINGdir)/xddblu
-cdbluexe = $(TESTINGdir)/xcdblu
-zdbluexe = $(TESTINGdir)/xzdblu
+sdbluexe = ../xsdblu
+ddbluexe = ../xddblu
+cdbluexe = ../xcdblu
+zdbluexe = ../xzdblu
 
-sdtluexe = $(TESTINGdir)/xsdtlu
-ddtluexe = $(TESTINGdir)/xddtlu
-cdtluexe = $(TESTINGdir)/xcdtlu
-zdtluexe = $(TESTINGdir)/xzdtlu
+sdtluexe = ../xsdtlu
+ddtluexe = ../xddtlu
+cdtluexe = ../xcdtlu
+zdtluexe = ../xzdtlu
 
-sgbluexe = $(TESTINGdir)/xsgblu
-dgbluexe = $(TESTINGdir)/xdgblu
-cgbluexe = $(TESTINGdir)/xcgblu
-zgbluexe = $(TESTINGdir)/xzgblu
+sgbluexe = ../xsgblu
+dgbluexe = ../xdgblu
+cgbluexe = ../xcgblu
+zgbluexe = ../xzgblu
 
-slltexe = $(TESTINGdir)/xsllt
-dlltexe = $(TESTINGdir)/xdllt
-clltexe = $(TESTINGdir)/xcllt
-zlltexe = $(TESTINGdir)/xzllt
+slltexe = ../xsllt
+dlltexe = ../xdllt
+clltexe = ../xcllt
+zlltexe = ../xzllt
 
-spblltexe = $(TESTINGdir)/xspbllt
-dpblltexe = $(TESTINGdir)/xdpbllt
-cpblltexe = $(TESTINGdir)/xcpbllt
-zpblltexe = $(TESTINGdir)/xzpbllt
+spblltexe = ../xspbllt
+dpblltexe = ../xdpbllt
+cpblltexe = ../xcpbllt
+zpblltexe = ../xzpbllt
 
-sptlltexe = $(TESTINGdir)/xsptllt
-dptlltexe = $(TESTINGdir)/xdptllt
-cptlltexe = $(TESTINGdir)/xcptllt
-zptlltexe = $(TESTINGdir)/xzptllt
+sptlltexe = ../xsptllt
+dptlltexe = ../xdptllt
+cptlltexe = ../xcptllt
+zptlltexe = ../xzptllt
 
-sinvexe = $(TESTINGdir)/xsinv
-dinvexe = $(TESTINGdir)/xdinv
-cinvexe = $(TESTINGdir)/xcinv
-zinvexe = $(TESTINGdir)/xzinv
+sinvexe = ../xsinv
+dinvexe = ../xdinv
+cinvexe = ../xcinv
+zinvexe = ../xzinv
 
-sqrexe = $(TESTINGdir)/xsqr
-dqrexe = $(TESTINGdir)/xdqr
-cqrexe = $(TESTINGdir)/xcqr
-zqrexe = $(TESTINGdir)/xzqr
+sqrexe = ../xsqr
+dqrexe = ../xdqr
+cqrexe = ../xcqr
+zqrexe = ../xzqr
 
-slsexe = $(TESTINGdir)/xsls
-dlsexe = $(TESTINGdir)/xdls
-clsexe = $(TESTINGdir)/xcls
-zlsexe = $(TESTINGdir)/xzls
+slsexe = ../xsls
+dlsexe = ../xdls
+clsexe = ../xcls
+zlsexe = ../xzls
 
 smatgen = psmatgen.o pmatgeninc.o
 dmatgen = pdmatgen.o pmatgeninc.o
@@ -149,157 +149,125 @@ complex: $(cluexe) $(cdbluexe) $(cdtluexe) $(cgbluexe) $(clltexe) \
 complex16: $(zluexe) $(zdbluexe) $(zdtluexe) $(zgbluexe) $(zlltexe) \
            $(zpblltexe) $(zptlltexe) $(zinvexe) $(zqrexe) $(zlsexe)
 
-$(TESTINGdir)/LU.dat: ../LU.dat
-	cp ../LU.dat $(TESTINGdir)
+$(sluexe): ../../$(SCALAPACKLIB) $(slu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(sluexe) $(slu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(sluexe): $(SCALAPACKLIB) $(slu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(sluexe) $(slu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/LU.dat
-$(dluexe): $(SCALAPACKLIB) $(dlu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dluexe) $(dlu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/LU.dat
-$(cluexe): $(SCALAPACKLIB) $(clu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cluexe) $(clu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/LU.dat
-$(zluexe): $(SCALAPACKLIB) $(zlu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zluexe) $(zlu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/LU.dat
+$(dluexe): ../../$(SCALAPACKLIB) $(dlu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dluexe) $(dlu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/BLU.dat: ../BLU.dat
-	cp ../BLU.dat $(TESTINGdir)
+$(cluexe): ../../$(SCALAPACKLIB) $(clu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cluexe) $(clu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(sdbluexe): $(SCALAPACKLIB) $(sdblu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(sdbluexe) $(sdblu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLU.dat
-$(ddbluexe): $(SCALAPACKLIB) $(ddblu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ddbluexe) $(ddblu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLU.dat
-$(cdbluexe): $(SCALAPACKLIB) $(cdblu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cdbluexe) $(cdblu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLU.dat
-$(zdbluexe): $(SCALAPACKLIB) $(zdblu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zdbluexe) $(zdblu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLU.dat
+$(zluexe): ../../$(SCALAPACKLIB) $(zlu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zluexe) $(zlu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(sdtluexe): $(SCALAPACKLIB) $(sdtlu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(sdtluexe) $(sdtlu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLU.dat
-$(ddtluexe): $(SCALAPACKLIB) $(ddtlu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ddtluexe) $(ddtlu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLU.dat
-$(cdtluexe): $(SCALAPACKLIB) $(cdtlu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cdtluexe) $(cdtlu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLU.dat
-$(zdtluexe): $(SCALAPACKLIB) $(zdtlu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zdtluexe) $(zdtlu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLU.dat
+$(sdbluexe): ../../$(SCALAPACKLIB) $(sdblu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(sdbluexe) $(sdblu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(sgbluexe): $(SCALAPACKLIB) $(sgblu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(sgbluexe) $(sgblu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLU.dat
-$(dgbluexe): $(SCALAPACKLIB) $(dgblu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dgbluexe) $(dgblu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLU.dat
-$(cgbluexe): $(SCALAPACKLIB) $(cgblu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cgbluexe) $(cgblu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLU.dat
-$(zgbluexe): $(SCALAPACKLIB) $(zgblu)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zgbluexe) $(zgblu) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLU.dat
+$(ddbluexe): ../../$(SCALAPACKLIB) $(ddblu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(ddbluexe) $(ddblu) ../../$(SCALAPACKLIB) $(LIBS)
 
+$(cdbluexe): ../../$(SCALAPACKLIB) $(cdblu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cdbluexe) $(cdblu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/LLT.dat: ../LLT.dat
-	cp ../LLT.dat $(TESTINGdir)
+$(zdbluexe): ../../$(SCALAPACKLIB) $(zdblu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zdbluexe) $(zdblu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(slltexe): $(SCALAPACKLIB) $(sllt)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(slltexe) $(sllt) $(LIBS)
-	$(MAKE) $(TESTINGdir)/LLT.dat
-$(dlltexe): $(SCALAPACKLIB) $(dllt)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dlltexe) $(dllt) $(LIBS)
-	$(MAKE) $(TESTINGdir)/LLT.dat
-$(clltexe): $(SCALAPACKLIB) $(cllt)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(clltexe) $(cllt) $(LIBS)
-	$(MAKE) $(TESTINGdir)/LLT.dat
-$(zlltexe): $(SCALAPACKLIB) $(zllt)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zlltexe) $(zllt) $(LIBS)
-	$(MAKE) $(TESTINGdir)/LLT.dat
+$(sdtluexe): ../../$(SCALAPACKLIB) $(sdtlu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(sdtluexe) $(sdtlu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/BLLT.dat: ../BLLT.dat
-	cp ../BLLT.dat $(TESTINGdir)
+$(ddtluexe): ../../$(SCALAPACKLIB) $(ddtlu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(ddtluexe) $(ddtlu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(spblltexe): $(SCALAPACKLIB) $(spbllt)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(spblltexe) $(spbllt) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLLT.dat
-$(dpblltexe): $(SCALAPACKLIB) $(dpbllt)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dpblltexe) $(dpbllt) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLLT.dat
-$(cpblltexe): $(SCALAPACKLIB) $(cpbllt)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cpblltexe) $(cpbllt) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLLT.dat
-$(zpblltexe): $(SCALAPACKLIB) $(zpbllt)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zpblltexe) $(zpbllt) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLLT.dat
+$(cdtluexe): ../../$(SCALAPACKLIB) $(cdtlu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cdtluexe) $(cdtlu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(sptlltexe): $(SCALAPACKLIB) $(sptllt)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(sptlltexe) $(sptllt) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLLT.dat
-$(dptlltexe): $(SCALAPACKLIB) $(dptllt)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dptlltexe) $(dptllt) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLLT.dat
-$(cptlltexe): $(SCALAPACKLIB) $(cptllt)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cptlltexe) $(cptllt) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLLT.dat
-$(zptlltexe): $(SCALAPACKLIB) $(zptllt)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zptlltexe) $(zptllt) $(LIBS)
-	$(MAKE) $(TESTINGdir)/BLLT.dat
+$(zdtluexe): ../../$(SCALAPACKLIB) $(zdtlu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zdtluexe) $(zdtlu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/INV.dat: ../INV.dat
-	cp ../INV.dat $(TESTINGdir)
+$(sgbluexe): ../../$(SCALAPACKLIB) $(sgblu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(sgbluexe) $(sgblu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(sinvexe): $(SCALAPACKLIB) $(sinv)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(sinvexe) $(sinv) $(LIBS)
-	$(MAKE) $(TESTINGdir)/INV.dat
-$(dinvexe): $(SCALAPACKLIB) $(dinv)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dinvexe) $(dinv) $(LIBS)
-	$(MAKE) $(TESTINGdir)/INV.dat
-$(cinvexe): $(SCALAPACKLIB) $(cinv)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cinvexe) $(cinv) $(LIBS)
-	$(MAKE) $(TESTINGdir)/INV.dat
-$(zinvexe): $(SCALAPACKLIB) $(zinv)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zinvexe) $(zinv) $(LIBS)
-	$(MAKE) $(TESTINGdir)/INV.dat
+$(dgbluexe): ../../$(SCALAPACKLIB) $(dgblu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dgbluexe) $(dgblu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/QR.dat: ../QR.dat
-	cp ../QR.dat $(TESTINGdir)
+$(cgbluexe): ../../$(SCALAPACKLIB) $(cgblu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cgbluexe) $(cgblu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(sqrexe): $(SCALAPACKLIB) $(sqr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(sqrexe) $(sqr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/QR.dat
-$(dqrexe): $(SCALAPACKLIB) $(dqr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dqrexe) $(dqr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/QR.dat
-$(cqrexe): $(SCALAPACKLIB) $(cqr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cqrexe) $(cqr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/QR.dat
-$(zqrexe): $(SCALAPACKLIB) $(zqr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zqrexe) $(zqr) $(LIBS)
-	$(MAKE) $(TESTINGdir)/QR.dat
+$(zgbluexe): ../../$(SCALAPACKLIB) $(zgblu)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zgbluexe) $(zgblu) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(TESTINGdir)/LS.dat: ../LS.dat
-	cp ../LS.dat $(TESTINGdir)
+$(slltexe): ../../$(SCALAPACKLIB) $(sllt)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(slltexe) $(sllt) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(slsexe): $(SCALAPACKLIB) $(sls)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(slsexe) $(sls) $(LIBS)
-	$(MAKE) $(TESTINGdir)/LS.dat
-$(dlsexe): $(SCALAPACKLIB) $(dls)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dlsexe) $(dls) $(LIBS)
-	$(MAKE) $(TESTINGdir)/LS.dat
-$(clsexe): $(SCALAPACKLIB) $(cls)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(clsexe) $(cls) $(LIBS)
-	$(MAKE) $(TESTINGdir)/LS.dat
-$(zlsexe): $(SCALAPACKLIB) $(zls)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zlsexe) $(zls) $(LIBS)
-	$(MAKE) $(TESTINGdir)/LS.dat
+$(dlltexe): ../../$(SCALAPACKLIB) $(dllt)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dlltexe) $(dllt) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(clltexe): ../../$(SCALAPACKLIB) $(cllt)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(clltexe) $(cllt) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(zlltexe): ../../$(SCALAPACKLIB) $(zllt)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zlltexe) $(zllt) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(spblltexe): ../../$(SCALAPACKLIB) $(spbllt)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(spblltexe) $(spbllt) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(dpblltexe): ../../$(SCALAPACKLIB) $(dpbllt)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dpblltexe) $(dpbllt) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(cpblltexe): ../../$(SCALAPACKLIB) $(cpbllt)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cpblltexe) $(cpbllt) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(zpblltexe): ../../$(SCALAPACKLIB) $(zpbllt)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zpblltexe) $(zpbllt) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(sptlltexe): ../../$(SCALAPACKLIB) $(sptllt)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(sptlltexe) $(sptllt) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(dptlltexe): ../../$(SCALAPACKLIB) $(dptllt)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dptlltexe) $(dptllt) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(cptlltexe): ../../$(SCALAPACKLIB) $(cptllt)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cptlltexe) $(cptllt) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(zptlltexe): ../../$(SCALAPACKLIB) $(zptllt)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zptlltexe) $(zptllt) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(sinvexe): ../../$(SCALAPACKLIB) $(sinv)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(sinvexe) $(sinv) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(dinvexe): ../../$(SCALAPACKLIB) $(dinv)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dinvexe) $(dinv) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(cinvexe): ../../$(SCALAPACKLIB) $(cinv)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cinvexe) $(cinv) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(zinvexe): ../../$(SCALAPACKLIB) $(zinv)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zinvexe) $(zinv) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(sqrexe): ../../$(SCALAPACKLIB) $(sqr)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(sqrexe) $(sqr) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(dqrexe): ../../$(SCALAPACKLIB) $(dqr)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dqrexe) $(dqr) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(cqrexe): ../../$(SCALAPACKLIB) $(cqr)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cqrexe) $(cqr) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(zqrexe): ../../$(SCALAPACKLIB) $(zqr)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zqrexe) $(zqr) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(slsexe): ../../$(SCALAPACKLIB) $(sls)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(slsexe) $(sls) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(dlsexe): ../../$(SCALAPACKLIB) $(dls)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dlsexe) $(dls) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(clsexe): ../../$(SCALAPACKLIB) $(cls)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(clsexe) $(cls) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(zlsexe): ../../$(SCALAPACKLIB) $(zls)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zlsexe) $(zls) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(slu): $(FRC)
 $(dlu): $(FRC)

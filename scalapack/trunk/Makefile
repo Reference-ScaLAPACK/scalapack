@@ -57,52 +57,52 @@ exe: blacsexe pblasexe redistexe scalapackexe
 clean: cleanlib cleanexe cleanexample
 
 blacslib:
-	( cd $(BLACSdir); $(MAKE) lib )
+	( cd BLACS; $(MAKE) lib )
 
 pblaslib:
-	( cd $(PBLASdir)/SRC; $(MAKE) $(PRECISIONS) )
+	( cd PBLAS/SRC; $(MAKE) $(PRECISIONS) )
 
 redistlib:
-	( cd $(REDISTdir)/SRC; $(MAKE) integer $(PRECISIONS) )
+	( cd REDIST/SRC; $(MAKE) integer $(PRECISIONS) )
 
 scalapacklib:
-	( cd $(SRCdir); $(MAKE) $(PRECISIONS) )
+	( cd SRC; $(MAKE) $(PRECISIONS) )
 
 toolslib:
-	( cd $(TOOLSdir); $(MAKE) $(PRECISIONS) )
+	( cd TOOLS; $(MAKE) $(PRECISIONS) )
 
 blacsexe:
-	( cd $(BLACSdir); $(MAKE) tester )
+	( cd BLACS; $(MAKE) tester )
 
 pblasexe:
-	( cd $(PBLASdir)/TESTING; $(MAKE) $(PRECISIONS) )
-	( cd $(PBLASdir)/TIMING; $(MAKE) $(PRECISIONS) )
+	( cd PBLAS/TESTING; $(MAKE) $(PRECISIONS) )
+	( cd PBLAS/TIMING; $(MAKE) $(PRECISIONS) )
 
 scalapackexe:
-	( cd $(TESTINGdir)/LIN; $(MAKE) $(PRECISIONS) )
-	( cd $(TESTINGdir)/EIG; $(MAKE) $(PRECISIONS) )
+	( cd TESTING/LIN; $(MAKE) $(PRECISIONS) )
+	( cd TESTING/EIG; $(MAKE) $(PRECISIONS) )
 
 redistexe:
-	( cd $(REDISTdir)/TESTING; $(MAKE) integer $(PRECISIONS) )
+	( cd REDIST/TESTING; $(MAKE) integer $(PRECISIONS) )
 
 example:
 	( cd EXAMPLE; $(MAKE) $(PRECISIONS) )
 
 cleanexe:
-	( cd $(PBLASdir)/TESTING; $(MAKE) clean )
-	( cd $(PBLASdir)/TIMING; $(MAKE) clean )
-	( cd $(TESTINGdir)/LIN; $(MAKE) clean )
-	( cd $(TESTINGdir)/EIG; $(MAKE) clean )
-	( cd $(REDISTdir)/TESTING; $(MAKE) clean )
-	( cd $(BLACSdir)/TESTING; $(MAKE) clean )
-	( cd $(TESTINGdir); rm -f x* )
+	( cd PBLAS/TESTING; $(MAKE) clean )
+	( cd PBLAS/TIMING; $(MAKE) clean )
+	( cd TESTING/LIN; $(MAKE) clean )
+	( cd TESTING/EIG; $(MAKE) clean )
+	( cd REDIST/TESTING; $(MAKE) clean )
+	( cd BLACS/TESTING; $(MAKE) clean )
+	( cd TESTING; rm -f x* )
 
 cleanlib:
-	( cd $(BLACSdir); $(MAKE) clean )
-	( cd $(PBLASdir)/SRC; $(MAKE) clean )
-	( cd $(SRCdir); $(MAKE) clean )
-	( cd $(TOOLSdir); $(MAKE) clean )
-	( cd $(REDISTdir)/SRC; $(MAKE) clean )
+	( cd BLACS; $(MAKE) clean )
+	( cd PBLAS/SRC; $(MAKE) clean )
+	( cd SRC; $(MAKE) clean )
+	( cd TOOLS; $(MAKE) clean )
+	( cd REDIST/SRC; $(MAKE) clean )
 	( rm -f $(SCALAPACKLIB) )
 
 cleanexample:

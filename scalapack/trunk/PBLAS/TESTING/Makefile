@@ -31,20 +31,20 @@ dPBLAS3exe    = xdpblas3tst
 cPBLAS3exe    = xcpblas3tst
 zPBLAS3exe    = xzpblas3tst
 
-spb1tst       = $(PBLASTSTdir)/$(sPBLAS1exe)
-dpb1tst       = $(PBLASTSTdir)/$(dPBLAS1exe)
-cpb1tst       = $(PBLASTSTdir)/$(cPBLAS1exe)
-zpb1tst       = $(PBLASTSTdir)/$(zPBLAS1exe)
+spb1tst       = $(sPBLAS1exe)
+dpb1tst       = $(dPBLAS1exe)
+cpb1tst       = $(cPBLAS1exe)
+zpb1tst       = $(zPBLAS1exe)
 
-spb2tst       = $(PBLASTSTdir)/$(sPBLAS2exe)
-dpb2tst       = $(PBLASTSTdir)/$(dPBLAS2exe)
-cpb2tst       = $(PBLASTSTdir)/$(cPBLAS2exe)
-zpb2tst       = $(PBLASTSTdir)/$(zPBLAS2exe)
+spb2tst       = $(sPBLAS2exe)
+dpb2tst       = $(dPBLAS2exe)
+cpb2tst       = $(cPBLAS2exe)
+zpb2tst       = $(zPBLAS2exe)
 
-spb3tst       = $(PBLASTSTdir)/$(sPBLAS3exe)
-dpb3tst       = $(PBLASTSTdir)/$(dPBLAS3exe)
-cpb3tst       = $(PBLASTSTdir)/$(cPBLAS3exe)
-zpb3tst       = $(PBLASTSTdir)/$(zPBLAS3exe)
+spb3tst       = $(sPBLAS3exe)
+dpb3tst       = $(dPBLAS3exe)
+cpb3tst       = $(cPBLAS3exe)
+zpb3tst       = $(zPBLAS3exe)
 
 pbtcom        = pblastst.o PB_Cwarn.o PB_Cabort.o
 
@@ -78,79 +78,49 @@ complex:   PblasErrorHandler $(cpb1tst) $(cpb2tst) $(cpb3tst)
 
 complex16: PblasErrorHandler $(zpb1tst) $(zpb2tst) $(zpb3tst)
 
-PblasErrorHandler:
-	rm -f PB_Cwarn.c  PB_Cwarn.o
-	ln -s $(PBLASdir)/SRC/PTOOLS/PB_Cwarn.c  PB_Cwarn.c
-	$(CC) -c $(CCFLAGS)  -DTestingPblas PB_Cwarn.c
-	rm -f PB_Cabort.c PB_Cabort.o
-	ln -s $(PBLASdir)/SRC/PTOOLS/PB_Cabort.c PB_Cabort.c
-	$(CC) -c $(CCFLAGS)  -DTestingPblas PB_Cabort.c
+PB_Cwarn.o:
+	$(CC) -c $(CCFLAGS) -I../SRC -o PB_Cwarn.o -DTestingPblas ../SRC/PTOOLS/PB_Cwarn.c
 
-$(PBLASTSTdir)/PSBLAS1TST.dat: PSBLAS1TST.dat
-	cp PSBLAS1TST.dat $(PBLASTSTdir)
-$(PBLASTSTdir)/PDBLAS1TST.dat: PDBLAS1TST.dat
-	cp PDBLAS1TST.dat $(PBLASTSTdir)
-$(PBLASTSTdir)/PCBLAS1TST.dat: PCBLAS1TST.dat
-	cp PCBLAS1TST.dat $(PBLASTSTdir)
-$(PBLASTSTdir)/PZBLAS1TST.dat: PZBLAS1TST.dat
-	cp PZBLAS1TST.dat $(PBLASTSTdir)
+PB_Cabort.o:
+	$(CC) -c $(CCFLAGS) -I../SRC -o PB_Cabort.o -DTestingPblas ../SRC/PTOOLS/PB_Cabort.c
 
-$(spb1tst) : $(SCALAPACKLIB) $(spb1t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(spb1tst) $(spb1t) $(LIBS)
-	$(MAKE) $(PBLASTSTdir)/PSBLAS1TST.dat
-$(dpb1tst) : $(SCALAPACKLIB) $(dpb1t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dpb1tst) $(dpb1t) $(LIBS)
-	$(MAKE) $(PBLASTSTdir)/PDBLAS1TST.dat
-$(cpb1tst) : $(SCALAPACKLIB) $(cpb1t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cpb1tst) $(cpb1t) $(LIBS)
-	$(MAKE) $(PBLASTSTdir)/PCBLAS1TST.dat
-$(zpb1tst) : $(SCALAPACKLIB) $(zpb1t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zpb1tst) $(zpb1t) $(LIBS)
-	$(MAKE) $(PBLASTSTdir)/PZBLAS1TST.dat
+PblasErrorHandler:  PB_Cwarn.o  PB_Cwarn.o
 
-$(PBLASTSTdir)/PSBLAS2TST.dat: PSBLAS2TST.dat
-	cp PSBLAS2TST.dat $(PBLASTSTdir)
-$(PBLASTSTdir)/PDBLAS2TST.dat: PDBLAS2TST.dat
-	cp PDBLAS2TST.dat $(PBLASTSTdir)
-$(PBLASTSTdir)/PCBLAS2TST.dat: PCBLAS2TST.dat
-	cp PCBLAS2TST.dat $(PBLASTSTdir)
-$(PBLASTSTdir)/PZBLAS2TST.dat: PZBLAS2TST.dat
-	cp PZBLAS2TST.dat $(PBLASTSTdir)
+$(spb1tst) : ../../$(SCALAPACKLIB) $(spb1t)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(spb1tst) $(spb1t) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(spb2tst) : $(SCALAPACKLIB) $(spb2t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(spb2tst) $(spb2t) $(LIBS)
-	$(MAKE) $(PBLASTSTdir)/PSBLAS2TST.dat
-$(dpb2tst) : $(SCALAPACKLIB) $(dpb2t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dpb2tst) $(dpb2t) $(LIBS)
-	$(MAKE) $(PBLASTSTdir)/PDBLAS2TST.dat
-$(cpb2tst) : $(SCALAPACKLIB) $(cpb2t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cpb2tst) $(cpb2t) $(LIBS)
-	$(MAKE) $(PBLASTSTdir)/PCBLAS2TST.dat
-$(zpb2tst) : $(SCALAPACKLIB) $(zpb2t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zpb2tst) $(zpb2t) $(LIBS)
-	$(MAKE) $(PBLASTSTdir)/PZBLAS2TST.dat
+$(dpb1tst) : ../../$(SCALAPACKLIB) $(dpb1t)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dpb1tst) $(dpb1t) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(PBLASTSTdir)/PSBLAS3TST.dat: PSBLAS3TST.dat
-	cp PSBLAS3TST.dat $(PBLASTSTdir)
-$(PBLASTSTdir)/PDBLAS3TST.dat: PDBLAS3TST.dat
-	cp PDBLAS3TST.dat $(PBLASTSTdir)
-$(PBLASTSTdir)/PCBLAS3TST.dat: PCBLAS3TST.dat
-	cp PCBLAS3TST.dat $(PBLASTSTdir)
-$(PBLASTSTdir)/PZBLAS3TST.dat: PZBLAS3TST.dat
-	cp PZBLAS3TST.dat $(PBLASTSTdir)
+$(cpb1tst) : ../../$(SCALAPACKLIB) $(cpb1t)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cpb1tst) $(cpb1t) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(spb3tst) : $(SCALAPACKLIB) $(spb3t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(spb3tst) $(spb3t) $(LIBS)
-	$(MAKE) $(PBLASTSTdir)/PSBLAS3TST.dat
-$(dpb3tst) : $(SCALAPACKLIB) $(dpb3t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dpb3tst) $(dpb3t) $(LIBS)
-	$(MAKE) $(PBLASTSTdir)/PDBLAS3TST.dat
-$(cpb3tst) : $(SCALAPACKLIB) $(cpb3t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cpb3tst) $(cpb3t) $(LIBS)
-	$(MAKE) $(PBLASTSTdir)/PCBLAS3TST.dat
-$(zpb3tst) : $(SCALAPACKLIB) $(zpb3t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zpb3tst) $(zpb3t) $(LIBS)
-	$(MAKE) $(PBLASTSTdir)/PZBLAS3TST.dat
+$(zpb1tst) : ../../$(SCALAPACKLIB) $(zpb1t)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zpb1tst) $(zpb1t) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(spb2tst) : ../../$(SCALAPACKLIB) $(spb2t)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(spb2tst) $(spb2t) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(dpb2tst) : ../../$(SCALAPACKLIB) $(dpb2t)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dpb2tst) $(dpb2t) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(cpb2tst) : ../../$(SCALAPACKLIB) $(cpb2t)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cpb2tst) $(cpb2t) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(zpb2tst) : ../../$(SCALAPACKLIB) $(zpb2t)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zpb2tst) $(zpb2t) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(spb3tst) : ../../$(SCALAPACKLIB) $(spb3t)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(spb3tst) $(spb3t) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(dpb3tst) : ../../$(SCALAPACKLIB) $(dpb3t)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(dpb3tst) $(dpb3t) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(cpb3tst) : ../../$(SCALAPACKLIB) $(cpb3t)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(cpb3tst) $(cpb3t) ../../$(SCALAPACKLIB) $(LIBS)
+
+$(zpb3tst) : ../../$(SCALAPACKLIB) $(zpb3t)
+	$(F77LOADER) $(F77LOADFLAGS) -o $(zpb3tst) $(zpb3t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(spb1t): $(FRC)
 $(dpb1t): $(FRC)
@@ -171,7 +141,7 @@ FRC:
 	@FRC=$(FRC)
 
 clean :
-	rm -f *.o
+	rm -f *.o x*
 
 slamch.o:
 	$(F77) -c $(NOOPT) slamch.f

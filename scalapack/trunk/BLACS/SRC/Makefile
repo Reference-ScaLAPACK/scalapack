@@ -69,8 +69,8 @@ $(Fintobj): Bdef.h Bconfig.h
 #  Make both C and fortran interface BLACS
 #  ---------------------------------------
 all : $(internal) $(Fintobj) $(Cintobj)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(internal) $(Fintobj) $(Cintobj)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../$(SCALAPACKLIB) $(internal) $(Fintobj) $(Cintobj)
+	$(RANLIB) ../../$(SCALAPACKLIB)
 
 #  -----------------------
 #  Delete the object files

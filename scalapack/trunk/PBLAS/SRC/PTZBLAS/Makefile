@@ -110,24 +110,20 @@ $(ZPBTZ):  $(FRC)
 #---------------------------------------------------------------------------
 
 single:    $(APBTZ) $(IPBTZ) $(SPBTZ) $(SCPBTZ)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(APBTZ) $(IPBTZ) $(SPBTZ) \
-	$(SCPBTZ)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(APBTZ) $(IPBTZ) $(SPBTZ) $(SCPBTZ)
+	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 complex:   $(APBTZ) $(IPBTZ) $(CPBTZ) $(SCPBTZ)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(APBTZ) $(IPBTZ) $(CPBTZ) \
-	$(SCPBTZ)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(APBTZ) $(IPBTZ) $(CPBTZ) $(SCPBTZ)
+	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 double:    $(APBTZ) $(IPBTZ) $(DPBTZ) $(DZPBTZ)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(APBTZ) $(IPBTZ) $(DPBTZ) \
-	$(DZPBTZ)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(APBTZ) $(IPBTZ) $(DPBTZ) $(DZPBTZ)
+	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 complex16: $(APBTZ) $(IPBTZ) $(ZPBTZ) $(DZPBTZ)
-	$(ARCH) $(ARCHFLAGS) $(SCALAPACKLIB) $(APBTZ) $(IPBTZ) $(ZPBTZ) \
-	$(DZPBTZ)
-	$(RANLIB) $(SCALAPACKLIB)
+	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(APBTZ) $(IPBTZ) $(ZPBTZ) $(DZPBTZ)
+	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 #---------------------------------------------------------------------------
 
