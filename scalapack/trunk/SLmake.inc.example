@@ -14,25 +14,23 @@
 #
 ############################################################################
 #
-
-SHELL         = /bin/sh
-
-#
-#  C preprocessor defs for compilation 
-#  (-DNoChange, -DAdd_, -DUpCase, or -Df77IsF2C)
+#  C preprocessor defs for FORTRAN bindings, choose one of the following:
 #
 
+#CDEFS         = -DNoChange
+#CDEFS         = -DUpCase
+#CDEFS         = -Df77IsF2C
 CDEFS         = -DAdd_
 
 #
 #  The fortran and C compilers, loaders, and their flags
 #
 
-F77           = mpif77
-CC            = mpicc
+F77           = /usr/local/bin/mpif77
+CC            = /usr/local/bin/mpicc
 NOOPT         = 
 F77FLAGS      = -O3
-CCFLAGS       = -O3 $(CDEFS)
+CCFLAGS       = -O3
 SRCFLAG       =
 F77LOADER     = $(F77)
 CCLOADER      = $(CC)
