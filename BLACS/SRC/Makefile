@@ -86,8 +86,8 @@ clean :
 
 .SUFFIXES: .o .oo
 .c.oo:
-	$(CC) -o C$*.o -c $(CCFLAGS) -DCallFromC $<
+	$(CC) -o C$*.o -c $(CDEFS) $(CCFLAGS) -DCallFromC $<
 	mv C$*.o $*.oo
 .c.o:
-	$(CC) -c $(CCFLAGS) $<
+	$(CC) -c $(CDEFS) $(CCFLAGS) $<
 

@@ -98,4 +98,4 @@ FRC:
 clean :
 	rm -f *.o
 
-.c.o : ; $(CC) -c $(CCFLAGS) $*.c
+.c.o : ; $(CC) -c $(CDEFS) $(CCFLAGS) $*.c

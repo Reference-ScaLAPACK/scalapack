@@ -98,6 +98,6 @@ FRC:
 	@FRC=$(FRC)
 
 clean :
-	rm -f *.o
+	rm -f *.o x*
 
-.c.o : ; $(CC) -c $(CCFLAGS) $*.c
+.c.o : ; $(CC) -c $(CDEFS) $(CCFLAGS) $*.c
