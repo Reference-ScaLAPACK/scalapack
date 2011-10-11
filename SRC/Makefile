@@ -154,10 +154,7 @@ DLASRC = \
    pdlarzb.o pdlarzt.o pdlarz.o pdlatrz.o pdtzrzf.o pdormr3.o pdormrz.o \
    pdlahqr.o pdlaconsb.o pdlacp3.o pdlawil.o \
    pdlasmsub.o pdlared2d.o pdlamr1d.o dlaref.o dlamsh.o dlasorte.o dsteqr2.o \
-   ddbtf2.o  ddbtrf.o  ddttrf.o ddttrsv.o dpttrsv.o dtrmvt.o pdsyevr.o \
-   bdlaapp.o bdlaexc.o bdtrexc.o dgemx.o dlaqr6.o dlaref.o dtrmx.o pbdtrord.o \
-   pbdtrsen.o pdgebal.o pdgehrd.o pdhseqr.o pdlacp3.o pdlamve.o pdlaqr0.o pdlaqr1.o \
-   pdlaqr2.o pdlaqr3.o pdlaqr4.o pdlaqr5.o pdlasmsub.o pdrot.o pilaenvx.o piparmq.o
+   ddbtf2.o  ddbtrf.o  ddttrf.o ddttrsv.o dpttrsv.o dtrmvt.o pdsyevr.o 
 
 ZLASRC = \
    pzdbsv.o  pzdbtrf.o pzdbtrs.o pzdbtrsv.o \
