@@ -147,10 +147,10 @@
 500                             Matrix sizes
 1				number of uplo choices
 'U'	         		uplo choices
-8				number of processor configurations (P, Q, NB)
-1 2 1 2 2 2 4 4                 values of P (NPROW)
-1 1 2 2 2 4 4 4                 values of Q (NPCOL)
-1 1 1 1 2 4 4 8                 values of NB 
+7				number of processor configurations (P, Q, NB)
+1 2 1 2 2 1 4                   values of P (NPROW)
+1 1 2 2 2 4 1                   values of Q (NPCOL)
+1 1 1 1 2 4 4                   values of NB 
 1				number of matrix types
 8			 	matrix types (see pdseprtst.f)
 'Y'				perform subset tests?

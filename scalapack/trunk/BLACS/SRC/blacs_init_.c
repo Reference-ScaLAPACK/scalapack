@@ -1,7 +1,7 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-int Cblacs_gridinit(int *ConTxt, char *order, int nprow, int npcol)
+void Cblacs_gridinit(int *ConTxt, char *order, int nprow, int npcol)
 #else
 F_VOID_FUNC blacs_gridinit_(int *ConTxt, F_CHAR order, int *nprow, int *npcol)
 #endif

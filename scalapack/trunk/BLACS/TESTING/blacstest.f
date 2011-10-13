@@ -8363,20 +8363,20 @@
  1000 FORMAT('PROCESS {',I4,',',I4,'} REPORTS ERRORS IN TEST#',I6,':')
  2000 FORMAT('   Buffer overwrite ',I4,
      $       ' elements before the start of A:',/,
-     $       '   Expected=',G15.9,
-     $       '; Received=',G15.9)
+     $       '   Expected=',G15.8,
+     $       '; Received=',G15.8)
  3000 FORMAT('   Buffer overwrite ',I4,' elements after the end of A:',
-     $       /,'   Expected=',G15.9,
-     $       '; Received=',G15.9)
+     $       /,'   Expected=',G15.8,
+     $       '; Received=',G15.8)
  4000 FORMAT('   LDA-M gap overwrite at postion (',I4,',',I4,'):',/,
-     $       '   Expected=',G15.9,
-     $       '; Received=',G15.9)
+     $       '   Expected=',G15.8,
+     $       '; Received=',G15.8)
  5000 FORMAT('   Complementory triangle overwrite at A(',I4,',',I4,
-     $       '):',/,'   Expected=',G15.9,
-     $       '; Received=',G15.9)
+     $       '):',/,'   Expected=',G15.8,
+     $       '; Received=',G15.8)
  6000 FORMAT('   Invalid element at A(',I4,',',I4,'):',/,
-     $       '   Expected=',G15.9,
-     $       '; Received=',G15.9)
+     $       '   Expected=',G15.8,
+     $       '; Received=',G15.8)
  7000 FORMAT('   Buffer overwrite ',I4,' elements before the start of ',
      $       A1,'A:',/,'   Expected=',I12,'; Received=',I12)
  8000 FORMAT('   Buffer overwrite ',I4,' elements after the end of ',
@@ -9427,20 +9427,20 @@
  1000 FORMAT('PROCESS {',I4,',',I4,'} REPORTS ERRORS IN TEST#',I6,':')
  2000 FORMAT('   Buffer overwrite ',I4,
      $       ' elements before the start of A:',/,
-     $       '   Expected=',G22.16,
-     $       '; Received=',G22.16)
+     $       '   Expected=',G22.15,
+     $       '; Received=',G22.15)
  3000 FORMAT('   Buffer overwrite ',I4,' elements after the end of A:',
-     $       /,'   Expected=',G22.16,
-     $       '; Received=',G22.16)
+     $       /,'   Expected=',G22.15,
+     $       '; Received=',G22.15)
  4000 FORMAT('   LDA-M gap overwrite at postion (',I4,',',I4,'):',/,
-     $       '   Expected=',G22.16,
-     $       '; Received=',G22.16)
+     $       '   Expected=',G22.15,
+     $       '; Received=',G22.15)
  5000 FORMAT('   Complementory triangle overwrite at A(',I4,',',I4,
-     $       '):',/,'   Expected=',G22.16,
-     $       '; Received=',G22.16)
+     $       '):',/,'   Expected=',G22.15,
+     $       '; Received=',G22.15)
  6000 FORMAT('   Invalid element at A(',I4,',',I4,'):',/,
-     $       '   Expected=',G22.16,
-     $       '; Received=',G22.16)
+     $       '   Expected=',G22.15,
+     $       '; Received=',G22.15)
  7000 FORMAT('   Buffer overwrite ',I4,' elements before the start of ',
      $       A1,'A:',/,'   Expected=',I12,'; Received=',I12)
  8000 FORMAT('   Buffer overwrite ',I4,' elements after the end of ',
@@ -10495,20 +10495,20 @@
  1000 FORMAT('PROCESS {',I4,',',I4,'} REPORTS ERRORS IN TEST#',I6,':')
  2000 FORMAT('   Buffer overwrite ',I4,
      $       ' elements before the start of A:',/,
-     $       '   Expected=','[',G15.9,',',G15.9,']',
-     $       '; Received=','[',G15.9,',',G15.9,']')
+     $       '   Expected=','[',G15.8,',',G15.8,']',
+     $       '; Received=','[',G15.8,',',G15.8,']')
  3000 FORMAT('   Buffer overwrite ',I4,' elements after the end of A:',
-     $       /,'   Expected=','[',G15.9,',',G15.9,']',
-     $       '; Received=','[',G15.9,',',G15.9,']')
+     $       /,'   Expected=','[',G15.8,',',G15.8,']',
+     $       '; Received=','[',G15.8,',',G15.8,']')
  4000 FORMAT('   LDA-M gap overwrite at postion (',I4,',',I4,'):',/,
-     $       '   Expected=','[',G15.9,',',G15.9,']',
-     $       '; Received=','[',G15.9,',',G15.9,']')
+     $       '   Expected=','[',G15.8,',',G15.8,']',
+     $       '; Received=','[',G15.8,',',G15.8,']')
  5000 FORMAT('   Complementory triangle overwrite at A(',I4,',',I4,
-     $       '):',/,'   Expected=','[',G15.9,',',G15.9,']',
-     $       '; Received=','[',G15.9,',',G15.9,']')
+     $       '):',/,'   Expected=','[',G15.8,',',G15.8,']',
+     $       '; Received=','[',G15.8,',',G15.8,']')
  6000 FORMAT('   Invalid element at A(',I4,',',I4,'):',/,
-     $       '   Expected=','[',G15.9,',',G15.9,']',
-     $       '; Received=','[',G15.9,',',G15.9,']')
+     $       '   Expected=','[',G15.8,',',G15.8,']',
+     $       '; Received=','[',G15.8,',',G15.8,']')
  7000 FORMAT('   Buffer overwrite ',I4,' elements before the start of ',
      $       A1,'A:',/,'   Expected=',I12,'; Received=',I12)
  8000 FORMAT('   Buffer overwrite ',I4,' elements after the end of ',
@@ -11563,20 +11563,20 @@
  1000 FORMAT('PROCESS {',I4,',',I4,'} REPORTS ERRORS IN TEST#',I6,':')
  2000 FORMAT('   Buffer overwrite ',I4,
      $       ' elements before the start of A:',/,
-     $       '   Expected=','[',G22.16,',',G22.16,']',
-     $       '; Received=','[',G22.16,',',G22.16,']')
+     $       '   Expected=','[',G22.15,',',G22.15,']',
+     $       '; Received=','[',G22.15,',',G22.15,']')
  3000 FORMAT('   Buffer overwrite ',I4,' elements after the end of A:',
-     $       /,'   Expected=','[',G22.16,',',G22.16,']',
-     $       '; Received=','[',G22.16,',',G22.16,']')
+     $       /,'   Expected=','[',G22.15,',',G22.15,']',
+     $       '; Received=','[',G22.15,',',G22.15,']')
  4000 FORMAT('   LDA-M gap overwrite at postion (',I4,',',I4,'):',/,
-     $       '   Expected=','[',G22.16,',',G22.16,']',
-     $       '; Received=','[',G22.16,',',G22.16,']')
+     $       '   Expected=','[',G22.15,',',G22.15,']',
+     $       '; Received=','[',G22.15,',',G22.15,']')
  5000 FORMAT('   Complementory triangle overwrite at A(',I4,',',I4,
-     $       '):',/,'   Expected=','[',G22.16,',',G22.16,']',
-     $       '; Received=','[',G22.16,',',G22.16,']')
+     $       '):',/,'   Expected=','[',G22.15,',',G22.15,']',
+     $       '; Received=','[',G22.15,',',G22.15,']')
  6000 FORMAT('   Invalid element at A(',I4,',',I4,'):',/,
-     $       '   Expected=','[',G22.16,',',G22.16,']',
-     $       '; Received=','[',G22.16,',',G22.16,']')
+     $       '   Expected=','[',G22.15,',',G22.15,']',
+     $       '; Received=','[',G22.15,',',G22.15,']')
  7000 FORMAT('   Buffer overwrite ',I4,' elements before the start of ',
      $       A1,'A:',/,'   Expected=',I12,'; Received=',I12)
  8000 FORMAT('   Buffer overwrite ',I4,' elements after the end of ',
