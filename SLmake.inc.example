@@ -8,34 +8,34 @@
 #
 #  Creation date:   February 15, 2000
 #
-#  Modified:        September 29, 2011
+#  Modified:        October 13, 2011
 #
 #  Send bug reports, comments or suggestions to scalapack@cs.utk.edu
 #
 ############################################################################
 #
-#  C preprocessor defs for FORTRAN bindings, choose one of the following:
+#  C preprocessor definitions:  set CDEFS to one of the following:
 #
+#     -DNoChange (fortran subprogram names are lower case without any suffix)
+#     -DUpCase   (fortran subprogram names are upper case without any suffix)
+#     -DAdd_     (fortran subprogram names are lower case with "_" appended)
 
-#CDEFS         = -DNoChange
-#CDEFS         = -DUpCase
-#CDEFS         = -Df77IsF2C
 CDEFS         = -DAdd_
 
 #
 #  The fortran and C compilers, loaders, and their flags
 #
 
-F77           = /usr/local/bin/mpif77
-CC            = /usr/local/bin/mpicc
-NOOPT         = 
+F77           = mpif77
+CC            = mpicc 
+NOOPT         = -O0
 F77FLAGS      = -O3
 CCFLAGS       = -O3
 SRCFLAG       =
 F77LOADER     = $(F77)
 CCLOADER      = $(CC)
-F77LOADFLAGS  = 
-CCLOADFLAGS   = 
+F77LOADFLAGS  = $(F77FLAGS)
+CCLOADFLAGS   = $(CCFLAGS)
 
 #
 #  The archiver and the flag(s) to use when building archive (library)

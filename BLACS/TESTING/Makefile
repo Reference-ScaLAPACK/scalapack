@@ -31,10 +31,10 @@ xFbtest: $(obj) $(tools)
 #  also not be optimized.
 #  --------------------------------------------------------------------
 tools.o : tools.f
-	$(F77) $(F77NO_OPTFLAGS) -c $*.f
+	$(F77) $(NOOPT) -c $*.f
 
 blacstest.o : blacstest.f
-	$(F77) $(F77NO_OPTFLAGS) -c $*.f
+	$(F77) $(NOOPT) -c $*.f
 
 btprim.o : btprim.f
 	$(F77) -c $(F77FLAGS) $*.f

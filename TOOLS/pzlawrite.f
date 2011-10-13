@@ -223,7 +223,7 @@
          CLOSE( NOUT )
       END IF
 *
- 9999 FORMAT( E15.9,E15.9 )
+ 9999 FORMAT( E15.8,E15.8 )
 *
       RETURN
 *
