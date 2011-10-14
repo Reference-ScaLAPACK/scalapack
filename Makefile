@@ -57,6 +57,7 @@ exe: blacsexe pblasexe redistexe scalapackexe
 clean: cleanlib cleanexe cleanexample
 
 blacslib:
+	rm $(SCALAPACKLIB)
 	( cd BLACS; $(MAKE) lib )
 
 pblaslib:
