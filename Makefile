@@ -16,7 +16,6 @@
 
 include SLmake.inc
 
-#PRECISIONS = single double complex complex16 FRC=FRC
 PRECISIONS = single double complex complex16
 
 ############################################################################
@@ -57,7 +56,6 @@ exe: blacsexe pblasexe redistexe scalapackexe
 clean: cleanlib cleanexe cleanexample
 
 blacslib:
-	rm $(SCALAPACKLIB)
 	( cd BLACS; $(MAKE) lib )
 
 pblaslib:

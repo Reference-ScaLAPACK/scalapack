@@ -23,16 +23,17 @@ ScaLAPACK README FILE
 
   VERSION 1.8 : April 2007
 
+ VERSION 2.0  :  November, 2011
+
 ScaLAPACK, or Scalable LAPACK, is a library of high performance linear
-algebra routines for distributed memory message-passing MIMD computers
-and networks of workstations supporting MPI and/or PVM.
+algebra routines for distributed memory computers supporting MPI.
 
 The complete ScaLAPACK package is freely available on netlib and
 can be obtained via the World Wide Web or anonymous ftp.
 
     http://www.netlib.org/scalapack/
 
-ScaLAPACK, version 1.8, includes routines for the solution of dense,
+ScaLAPACK, version 2.0, includes routines for the solution of dense,
 band, and tridiagonal linear systems of equations, condition estimation and
 iterative refinement, for LU and Cholesky factorization, matrix inversion,
 full-rank linear least squares problems, orthogonal and generalized orthogonal
@@ -42,8 +43,23 @@ Hermitian-definite generalized eigenproblem to standard form, the
 symmetric/Hermitian, divide-and-conquer symmetric/Hermitian, generalized
 symmetric/Hermitian and the nonsymmetric eigenproblem, and the singular value
 decomposition.  With the exception of the singular value decomposition,
-all routines are available in four types: single precision real, double
+most routines are available in four types: single precision real, double
 precision real, single precision complex, and double precision complex.
+
+New in version 2.0:
+
+- ScaLAPACK now only supports MPI.
+
+- The BLACS is now part of ScaLAPACK, and is compiled into the ScaLAPACK
+  library.
+
+- Building ScaLAPACK and linking to the library has been simplified.
+
+- New MRRR Symmetric Eigenvalue Problem routines are included:
+  pssyevr, pdsyevr, pcheevr and pzheevr.
+
+- New Nonsymmetric Eigenvalue Problem QR routines for computing
+  eigenvalues of a Hessenberg matrix are included:  pshseqr and pdhseqr.
 
 Unless otherwise noted, the current scalapack.tgz on netlib contains
 all available updates.
@@ -103,32 +119,27 @@ directory structure below:
 /   |        |        | <library.a> | SLmake.inc  |           |           |    \
     |        |        |             |             |           |           |
     |        |        |             |             |           |           |
- INSTALL/  EXAMPLE/ PBLAS/       REDIST/         SRC/      TESTING/     TOOLS/
+  BLACS/   EXAMPLE/ PBLAS/       REDIST/         SRC/      TESTING/     TOOLS/
                                                            / Input \                
                                                           / Files & \
                                                          /Executables\
                                    
 
-NOTE:  It is assumed that the BLAS, BLACSi and LAPACK libraries (and possibly
-       MPI or PVM) are available on your machine.  These libraries
-       are NOT included with this distribution.  They can be obtained
-       from the respective blas, blacs, mpi, or pvm directory on netlib.
+NOTE:  It is assumed that the BLAS and LAPACK libraries (and MPI)
+       are available on your machine.  These libraries are NOT included 
+       with this distribution, and may be obtained at the sites below.
+
        http://www.netlib.org/blas/
        http://www.netlib.org/lapack/
-       http://www.netlib.org/blacs/
        http://www.mcs.anl.gov/mpi/mpich/
        http://www.lam-mpi.org/
        http://www.open-mpi.org/
-       http://www.netlib.org/pvm3/
 
 All ScaLAPACK routines -- driver, computational, and auxiliary -- can be
 found in the SRC/ directory.  Testing routines and input files can be found
 in the TESTING/ directory.  All machine-specific parameters and the locations
-of BLAS, BLACSi and LAPACK libraries are specified in the SCALAPACK/SLmake.inc file.
+of BLAS and LAPACK libraries are specified in the SCALAPACK/SLmake.inc file.
 This include file is then referenced in all subdirectory Makefiles.  Once 
 the include file has been modified, the entire installation process (including
 the building of testing executables) can be performed by typing ``make''
-in the top-level ScaLAPACK directory.  For detailed information on the
-installation and testing process, please refer to the "Installation Guide
-for ScaLAPACK" (scalapack_install.ps) in the INSTALL/ directory, or the
-scalapack directory on netlib.
+in the top-level ScaLAPACK directory.
