@@ -30,7 +30,7 @@ include ../SLmake.inc
 #
 #  The library can be set up to include routines for any combination
 #  of the four precisions.  First, modify the ARCH, ARCHFLAGS, RANLIB,
-#  F77 and F77FLAGS definitions in ../SLmake.inc to match your library
+#  FC and FCFLAGS definitions in ../SLmake.inc to match your library
 #  archiver, compiler and the options to be used.
 #  Then to create or add to the library, enter make followed by one or
 #  more of the precisions desired.  Some examples:
@@ -222,6 +222,6 @@ FRC:
 clean :
 	rm -f *.o
 
-.f.o : ; $(F77) -c $(F77FLAGS) $*.f
+.f.o : ; $(FC) -c $(FCFLAGS) $*.f
 
 .c.o : ; $(CC) -c $(CDEFS) $(CCFLAGS) $*.c

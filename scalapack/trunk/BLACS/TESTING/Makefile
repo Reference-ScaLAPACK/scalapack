@@ -16,10 +16,10 @@ obj = blacstest.o btprim.o
 
 xCbtest: $(obj) $(tools)
 	$(CC) -c $(CCFLAGS) -DBTCINTFACE Cbt.c
-	$(F77LOADER) $(F77LOADFLAGS) -o $@ $(obj) $(tools) Cbt.o ../../$(SCALAPACKLIB)
+	$(FCLOADER) $(FCLOADFLAGS) -o $@ $(obj) $(tools) Cbt.o ../../$(SCALAPACKLIB)
 
 xFbtest: $(obj) $(tools)
-	$(F77LOADER) $(F77LOADFLAGS) -o $@ $(obj) $(tools) ../../$(SCALAPACKLIB)
+	$(FCLOADER) $(FCLOADFLAGS) -o $@ $(obj) $(tools) ../../$(SCALAPACKLIB)
 
 #  --------------------------------------------------------------------
 #  The files tools.f and blacstest.f are compiled without optimization.
@@ -31,18 +31,18 @@ xFbtest: $(obj) $(tools)
 #  also not be optimized.
 #  --------------------------------------------------------------------
 tools.o : tools.f
-	$(F77) $(NOOPT) -c $*.f
+	$(FC) $(NOOPT) -c $*.f
 
 blacstest.o : blacstest.f
-	$(F77) $(NOOPT) -c $*.f
+	$(FC) $(NOOPT) -c $*.f
 
 btprim.o : btprim.f
-	$(F77) -c $(F77FLAGS) $*.f
+	$(FC) -c $(FCFLAGS) $*.f
 
 clean :
 	rm -f $(obj) tools.o Cbt.o xCbtest xFbtest
 
-.f.o: ; $(F77) -c $(F77FLAGS) $*.f
+.f.o: ; $(FC) -c $(FCFLAGS) $*.f
 
 .c.o:
 	$(CC) -c $(CDEFS) $(CCFLAGS) $<

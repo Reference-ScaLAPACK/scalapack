@@ -26,15 +26,15 @@ CDEFS         = -DAdd_
 #  The fortran and C compilers, loaders, and their flags
 #
 
-F77           = mpif77
+FC            = mpif90
 CC            = mpicc 
 NOOPT         = -O0
-F77FLAGS      = -O3
+FCFLAGS       = -O3
 CCFLAGS       = -O3
 SRCFLAG       =
-F77LOADER     = $(F77)
+FCLOADER      = $(FC)
 CCLOADER      = $(CC)
-F77LOADFLAGS  = $(F77FLAGS)
+FCLOADFLAGS   = $(FCFLAGS)
 CCLOADFLAGS   = $(CCFLAGS)
 
 #

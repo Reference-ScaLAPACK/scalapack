@@ -15,13 +15,13 @@ xsize : size.o
 	$(CCLOADER) $(CCLOADFLAGS) -o $@ size.o
 
 xintface : Fintface.o Cintface.o
-	$(F77LOADER) $(F77LOADFLAGS) -o $@ Fintface.o Cintface.o
+	$(FCLOADER) $(FCLOADFLAGS) -o $@ Fintface.o Cintface.o
 
 xsyserrors : syserrors.o
 	$(CCLOADER) $(CCLOADFLAGS) -o $@ syserrors.o
 
-xtc_CsameF77 : tc_fCsameF77.o tc_cCsameF77.o
-	$(F77LOADER) $(F77LOADFLAGS) -o $@ tc_fCsameF77.o tc_cCsameF77.o
+xtc_CsameFC : tc_fCsameF77.o tc_cCsameF77.o
+	$(FCLOADER) $(FCLOADFLAGS) -o $@ tc_fCsameF77.o tc_cCsameF77.o
 
 xtc_UseMpich : tc_UseMpich.o
 	$(CCLOADER) $(CCLOADFLAGS) -o $@ tc_UseMpich.o
@@ -30,13 +30,13 @@ xcmpi_sane : cmpi_sane.o
 	$(CCLOADER) $(CCLOADFLAGS) -o $@ cmpi_sane.o
 
 xfmpi_sane : mpif.h fmpi_sane.o
-	$(F77LOADER) $(F77LOADFLAGS) -o $@ fmpi_sane.o
+	$(FCLOADER) $(FCLOADFLAGS) -o $@ fmpi_sane.o
 
 clean:
 	rm -f size.o Fintface.o Cintface.o syserrors.o transcomm.o \
               mpi_sane.o fmpi_sane.o tc_UseMpich.o tc_fCsameF77.o tc_cCsameF77.o
 
-.f.o: ; $(F77) -c $(F77FLAGS) $*.f
+.f.o: ; $(FC) -c $(FCFLAGS) $*.f
 
 .c.o:
 	$(CC) -c $(CCFLAGS) $(CDEFS) $<

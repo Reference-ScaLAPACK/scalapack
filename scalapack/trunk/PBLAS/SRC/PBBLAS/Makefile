@@ -84,4 +84,4 @@ FRC:
 clean :
 	rm -f *.o
 
-.f.o : ; $(F77) -c $(F77FLAGS) $*.f
+.f.o : ; $(FC) -c $(FCFLAGS) $*.f
