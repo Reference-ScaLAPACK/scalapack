@@ -138,100 +138,100 @@ complex:   $(chrdexe) $(ctrdexe) $(cbrdexe) $(csepexe) $(cgsepexe) $(cnepexe) $(
 complex16: $(zhrdexe) $(ztrdexe) $(zbrdexe) $(zsepexe) $(zgsepexe) $(znepexe) $(zevcexe) $(zheevrexe)
 
 $(sbrdexe) : ../../$(SCALAPACKLIB) $(sbrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(sbrdexe) $(sbrd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(sbrdexe) $(sbrd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(dbrdexe) : ../../$(SCALAPACKLIB) $(dbrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dbrdexe) $(dbrd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dbrdexe) $(dbrd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(cbrdexe) : ../../$(SCALAPACKLIB) $(cbrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cbrdexe) $(cbrd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cbrdexe) $(cbrd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(zbrdexe) : ../../$(SCALAPACKLIB) $(zbrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zbrdexe) $(zbrd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zbrdexe) $(zbrd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(shrdexe) : ../../$(SCALAPACKLIB) $(shrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(shrdexe) $(shrd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(shrdexe) $(shrd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(dhrdexe) : ../../$(SCALAPACKLIB) $(dhrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dhrdexe) $(dhrd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dhrdexe) $(dhrd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(chrdexe) : ../../$(SCALAPACKLIB) $(chrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(chrdexe) $(chrd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(chrdexe) $(chrd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(zhrdexe) : ../../$(SCALAPACKLIB) $(zhrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zhrdexe) $(zhrd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zhrdexe) $(zhrd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(strdexe) : ../../$(SCALAPACKLIB) $(strd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(strdexe) $(strd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(strdexe) $(strd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(dtrdexe) : ../../$(SCALAPACKLIB) $(dtrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dtrdexe) $(dtrd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dtrdexe) $(dtrd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(ctrdexe) : ../../$(SCALAPACKLIB) $(ctrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ctrdexe) $(ctrd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(ctrdexe) $(ctrd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(ztrdexe) : ../../$(SCALAPACKLIB) $(ztrd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ztrdexe) $(ztrd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(ztrdexe) $(ztrd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(ssvdexe) : ../../$(SCALAPACKLIB) $(ssvd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ssvdexe) $(ssvd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(ssvdexe) $(ssvd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(dsvdexe) : ../../$(SCALAPACKLIB) $(dsvd)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dsvdexe) $(dsvd) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dsvdexe) $(dsvd) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(ssepexe) : ../../$(SCALAPACKLIB) $(ssep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ssepexe) $(ssep) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(ssepexe) $(ssep) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(dsepexe) : ../../$(SCALAPACKLIB) $(dsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dsepexe) $(dsep) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dsepexe) $(dsep) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(csepexe) : ../../$(SCALAPACKLIB) $(csep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(csepexe) $(csep) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(csepexe) $(csep) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(zsepexe) : ../../$(SCALAPACKLIB) $(zsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zsepexe) $(zsep) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zsepexe) $(zsep) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(sgsepexe) : ../../$(SCALAPACKLIB) $(sgsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(sgsepexe) $(sgsep) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(sgsepexe) $(sgsep) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(dgsepexe) : ../../$(SCALAPACKLIB) $(dgsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dgsepexe) $(dgsep) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dgsepexe) $(dgsep) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(cgsepexe) : ../../$(SCALAPACKLIB) $(cgsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cgsepexe) $(cgsep) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cgsepexe) $(cgsep) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(zgsepexe) : ../../$(SCALAPACKLIB) $(zgsep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zgsepexe) $(zgsep) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zgsepexe) $(zgsep) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(snepexe) : ../../$(SCALAPACKLIB) $(snep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(snepexe) $(snep) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(snepexe) $(snep) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(dnepexe) : ../../$(SCALAPACKLIB) $(dnep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dnepexe) $(dnep) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dnepexe) $(dnep) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(cnepexe) : ../../$(SCALAPACKLIB) $(cnep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cnepexe) $(cnep) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cnepexe) $(cnep) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(znepexe) : ../../$(SCALAPACKLIB) $(znep)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(znepexe) $(znep) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(znepexe) $(znep) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(cevcexe) : ../../$(SCALAPACKLIB) $(cevc)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cevcexe) $(cevc) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cevcexe) $(cevc) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(zevcexe) : ../../$(SCALAPACKLIB) $(zevc)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zevcexe) $(zevc) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zevcexe) $(zevc) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(ssyevrexe): ../../$(SCALAPACKLIB) $(ssyevr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(ssyevrexe) $(ssyevr) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(ssyevrexe) $(ssyevr) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(dsyevrexe): ../../$(SCALAPACKLIB) $(dsyevr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dsyevrexe) $(dsyevr) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dsyevrexe) $(dsyevr) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(cheevrexe): ../../$(SCALAPACKLIB) $(cheevr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cheevrexe) $(cheevr) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cheevrexe) $(cheevr) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(zheevrexe): ../../$(SCALAPACKLIB) $(zheevr)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zheevrexe) $(zheevr) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zheevrexe) $(zheevr) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(sbrd): $(FRC)
 $(dbrd): $(FRC)
@@ -276,67 +276,67 @@ clean :
 	rm -f *.o
 
 psbrddriver.o: psbrddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pdbrddriver.o: pdbrddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pcbrddriver.o: pcbrddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pzbrddriver.o: pzbrddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 
 pshrddriver.o: pshrddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pdhrddriver.o: pdhrddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pchrddriver.o: pchrddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pzhrddriver.o: pzhrddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 
 pstrddriver.o: pstrddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pdtrddriver.o: pdtrddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pctrddriver.o: pctrddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pztrddriver.o: pztrddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 
 pssvddriver.o: pssvddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pdsvddriver.o: pdsvddriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 
 pssepdriver.o: pssepdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pdsepdriver.o: pdsepdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pcsepdriver.o: pcsepdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pzsepdriver.o: pzsepdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 
 psgsepdriver.o: psgsepdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pdgsepdriver.o: pdgsepdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pcgsepdriver.o: pcgsepdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pzgsepdriver.o: pzgsepdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 
 psnepdriver.o: psnepdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pdnepdriver.o: pdnepdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pcnepdriver.o: pcnepdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pznepdriver.o: pznepdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 
 pcevcdriver.o: pcevcdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 pzevcdriver.o: pzevcdriver.f
-	$(F77) $(DRVOPTS) -c $<
+	$(FC) $(DRVOPTS) -c $<
 
-.f.o : ; $(F77) -c $(F77FLAGS) $*.f
+.f.o : ; $(FC) -c $(FCFLAGS) $*.f

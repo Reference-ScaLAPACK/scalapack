@@ -87,40 +87,40 @@ PB_Cabort.o:
 PblasErrorHandler:  PB_Cwarn.o  PB_Cwarn.o
 
 $(spb1tst) : ../../$(SCALAPACKLIB) $(spb1t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(spb1tst) $(spb1t) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(spb1tst) $(spb1t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(dpb1tst) : ../../$(SCALAPACKLIB) $(dpb1t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dpb1tst) $(dpb1t) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dpb1tst) $(dpb1t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(cpb1tst) : ../../$(SCALAPACKLIB) $(cpb1t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cpb1tst) $(cpb1t) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cpb1tst) $(cpb1t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(zpb1tst) : ../../$(SCALAPACKLIB) $(zpb1t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zpb1tst) $(zpb1t) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zpb1tst) $(zpb1t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(spb2tst) : ../../$(SCALAPACKLIB) $(spb2t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(spb2tst) $(spb2t) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(spb2tst) $(spb2t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(dpb2tst) : ../../$(SCALAPACKLIB) $(dpb2t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dpb2tst) $(dpb2t) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dpb2tst) $(dpb2t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(cpb2tst) : ../../$(SCALAPACKLIB) $(cpb2t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cpb2tst) $(cpb2t) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cpb2tst) $(cpb2t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(zpb2tst) : ../../$(SCALAPACKLIB) $(zpb2t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zpb2tst) $(zpb2t) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zpb2tst) $(zpb2t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(spb3tst) : ../../$(SCALAPACKLIB) $(spb3t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(spb3tst) $(spb3t) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(spb3tst) $(spb3t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(dpb3tst) : ../../$(SCALAPACKLIB) $(dpb3t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(dpb3tst) $(dpb3t) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dpb3tst) $(dpb3t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(cpb3tst) : ../../$(SCALAPACKLIB) $(cpb3t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(cpb3tst) $(cpb3t) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cpb3tst) $(cpb3t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(zpb3tst) : ../../$(SCALAPACKLIB) $(zpb3t)
-	$(F77LOADER) $(F77LOADFLAGS) -o $(zpb3tst) $(zpb3t) ../../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zpb3tst) $(zpb3t) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(spb1t): $(FRC)
 $(dpb1t): $(FRC)
@@ -144,11 +144,11 @@ clean :
 	rm -f *.o x*
 
 slamch.o:
-	$(F77) -c $(NOOPT) slamch.f
+	$(FC) -c $(NOOPT) slamch.f
 
 dlamch.o:
-	$(F77) -c $(NOOPT) dlamch.f
+	$(FC) -c $(NOOPT) dlamch.f
 
-.f.o : ; $(F77) -c $(F77FLAGS) $*.f
+.f.o : ; $(FC) -c $(FCFLAGS) $*.f
 
 .c.o : ; $(CC) -c $(CDEFS) $(CCFLAGS) -DTestingPblas $*.c

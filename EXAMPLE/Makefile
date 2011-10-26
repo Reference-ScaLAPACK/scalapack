@@ -16,21 +16,21 @@ complex: pcscaex
 complex16: pzscaex
 
 psscaex: $(TESTOBJS)
-	$(F77LOADER) $(F77LOADFLAGS) -o xsscaex $(TESTOBJS) ../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o xsscaex $(TESTOBJS) ../$(SCALAPACKLIB) $(LIBS)
 
 pzscaex: $(TESTOBJZ)
-	$(F77LOADER) $(F77LOADFLAGS) -o xzscaex $(TESTOBJZ) ../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o xzscaex $(TESTOBJZ) ../$(SCALAPACKLIB) $(LIBS)
 
 pcscaex: $(TESTOBJC)
-	$(F77LOADER) $(F77LOADFLAGS) -o xcscaex $(TESTOBJC) ../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o xcscaex $(TESTOBJC) ../$(SCALAPACKLIB) $(LIBS)
 
 pdscaex: $(TESTOBJD)
-	$(F77LOADER) $(F77LOADFLAGS) -o xdscaex $(TESTOBJD) ../$(SCALAPACKLIB) $(LIBS)
+	$(FCLOADER) $(FCLOADFLAGS) -o xdscaex $(TESTOBJD) ../$(SCALAPACKLIB) $(LIBS)
 
 clean :
 	rm -f $(TESTOBJS) $(TESTOBJD) $(TESTOBJZ) $(TESTOBJC) xsscaex xzscaex xcscaex xdscaex
 
-.f.o : ; $(F77) -c $(F77FLAGS) $*.f
+.f.o : ; $(FC) -c $(FCFLAGS) $*.f
 
 .c.o : ; $(CC) -c $(CDEFS) $(CCFLAGS) $*.c
 

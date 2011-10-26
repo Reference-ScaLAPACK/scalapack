@@ -179,7 +179,7 @@ clean :
 	( cd PTZBLAS; $(MAKE) clean )
 	( cd PTOOLS;  $(MAKE) clean )
 
-.f.o : ; $(F77) -c $(F77FLAGS) $*.f
+.f.o : ; $(FC) -c $(FCFLAGS) $*.f
 
 .c.o : ; $(CC) -c $(CDEFS) $(CCFLAGS) $*.c
 #

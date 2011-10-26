@@ -72,10 +72,10 @@ clean :
 	rm -f *.o
 
 slamch.o:
-	$(F77) -c $(NOOPT) slamch.f
+	$(FC) -c $(NOOPT) slamch.f
 
 dlamch.o:
-	$(F77) -c $(NOOPT) dlamch.f
+	$(FC) -c $(NOOPT) dlamch.f
 
-.f.o : ; $(F77) -c $(F77FLAGS) $*.f
+.f.o : ; $(FC) -c $(FCFLAGS) $*.f
 
