@@ -42,8 +42,6 @@ include ../../../SLmake.inc
 #
 #  To remove the object files after the library is created, enter
 #       make clean
-#  To force the source files to be recompiled, enter, for example,
-#       make single FRC=FRC
 #
 ############################################################################
 
@@ -84,8 +82,6 @@ ALLCTOOLS = \
 
 ALLTOOLS = $(ALLCTOOLS)
 
-$(ALLTOOLS): $(FRC)
-
 #---------------------------------------------------------------------------
 #  The C PBLAS tools
 #---------------------------------------------------------------------------
@@ -104,11 +100,6 @@ STOOLS = $(SCTOOLS)
 CTOOLS = $(CCTOOLS) $(SCTOOLS)
 DTOOLS = $(DCTOOLS)
 ZTOOLS = $(ZCTOOLS) $(DCTOOLS)
-
-$(STOOLS): $(FRC)
-$(CTOOLS): $(FRC)
-$(DTOOLS): $(FRC)
-$(ZTOOLS): $(FRC)
 
 #---------------------------------------------------------------------------
 
@@ -132,9 +123,6 @@ double: $(DPTOOLS)
 complex16: $(ZPTOOLS)
 	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(ZPTOOLS)
 	$(RANLIB) ../../../$(SCALAPACKLIB)
-
-FRC:
-	@FRC=$(FRC)
 
 clean:
 	rm -f *.o

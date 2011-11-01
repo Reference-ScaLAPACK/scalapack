@@ -43,9 +43,6 @@ include ../../SLmake.inc
 #
 #  To remove the object files after the library is created, enter
 #       make clean
-#  On some systems, you can force the source files to be recompiled by
-#  entering (for example)
-#       make single FRC=FRC
 #
 #######################################################################
 
@@ -84,16 +81,6 @@ double: $(DMRSRC) $(ALLAUX)
 complex16: $(ZMRSRC) $(ALLAUX)
 	$(ARCH) $(ARCHFLAGS) ../../$(SCALAPACKLIB) $(ZMRSRC) $(ALLAUX)
 	$(RANLIB) ../../$(SCALAPACKLIB)
-
-$(ALLAUX): $(FRC)
-$(IMRSRC): $(FRC)
-$(SMRSRC): $(FRC)
-$(CMRSRC): $(FRC)
-$(DMRSRC): $(FRC)
-$(ZMRSRC): $(FRC)
-
-FRC:
-	@FRC=$(FRC)
 
 clean :
 	rm -f *.o

@@ -122,24 +122,6 @@ $(cpb3tst) : ../../$(SCALAPACKLIB) $(cpb3t)
 $(zpb3tst) : ../../$(SCALAPACKLIB) $(zpb3t)
 	$(FCLOADER) $(FCLOADFLAGS) -o $(zpb3tst) $(zpb3t) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(spb1t): $(FRC)
-$(dpb1t): $(FRC)
-$(cpb1t): $(FRC)
-$(zpb1t): $(FRC)
-
-$(spb2t): $(FRC)
-$(dpb2t): $(FRC)
-$(cpb2t): $(FRC)
-$(zpb2t): $(FRC)
-
-$(spb3t): $(FRC)
-$(dpb3t): $(FRC)
-$(cpb3t): $(FRC)
-$(zpb3t): $(FRC)
-
-FRC:
-	@FRC=$(FRC)
-
 clean :
 	rm -f *.o x*
 

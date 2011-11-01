@@ -150,7 +150,7 @@ void pslaiect_( sigma, n, d, count )
    }
 }
 
-pslachkieee_( isieee, rmax, rmin )
+void pslachkieee_( isieee, rmax, rmin )
 /*
 *  .. Scalar Arguments ..
 */

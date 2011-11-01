@@ -31,7 +31,6 @@ CC            = mpicc
 NOOPT         = -O0
 FCFLAGS       = -O3
 CCFLAGS       = -O3
-SRCFLAG       =
 FCLOADER      = $(FC)
 CCLOADER      = $(CC)
 FCLOADFLAGS   = $(FCFLAGS)

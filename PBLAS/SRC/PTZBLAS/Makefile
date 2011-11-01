@@ -45,8 +45,6 @@ include ../../../SLmake.inc
 #
 #  To remove the object files after the library is created, enter
 #       make clean
-#  To force the source files to be recompiled, enter, for example,
-#       make single FRC=FRC
 #
 ############################################################################
 
@@ -98,17 +96,6 @@ ZPBTZ = \
 
 #---------------------------------------------------------------------------
 
-$(APBTZ):  $(FRC)
-$(IPBTZ):  $(FRC)
-$(SPBTZ):  $(FRC)
-$(SCPBTZ): $(FRC)
-$(CPBTZ):  $(FRC)
-$(DPBTZ):  $(FRC)
-$(DZPBTZ): $(FRC)
-$(ZPBTZ):  $(FRC)
-
-#---------------------------------------------------------------------------
-
 single:    $(APBTZ) $(IPBTZ) $(SPBTZ) $(SCPBTZ)
 	$(ARCH) $(ARCHFLAGS) ../../../$(SCALAPACKLIB) $(APBTZ) $(IPBTZ) $(SPBTZ) $(SCPBTZ)
 	$(RANLIB) ../../../$(SCALAPACKLIB)
@@ -126,9 +113,6 @@ complex16: $(APBTZ) $(IPBTZ) $(ZPBTZ) $(DZPBTZ)
 	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 #---------------------------------------------------------------------------
-
-FRC:
-	@FRC=$(FRC)
 
 clean:
 	rm -f *.o

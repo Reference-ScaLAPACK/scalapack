@@ -45,13 +45,10 @@ include ../SLmake.inc
 #
 #  To remove the object files after the library is created, enter
 #       make clean
-#  On some systems, you can force the source files to be recompiled by
-#  entering (for example)
-#       make single FRC=FRC
 #
 #######################################################################
 
-ALLAUX = pjlaenv.o
+ALLAUX = pjlaenv.o pilaenvx.o piparmq.o
 
 SCLAUX = \
    pslabad.o pslaed0.o pslaed1.o pslaed2.o pslaed3.o pslaedz.o pslaiect.o \
@@ -94,7 +91,10 @@ SLASRC = \
    pslarzb.o pslarzt.o pslarz.o pslatrz.o pstzrzf.o psormr3.o psormrz.o \
    pslahqr.o pslaconsb.o pslacp3.o pslawil.o \
    pslasmsub.o pslared2d.o pslamr1d.o slaref.o slamsh.o slasorte.o ssteqr2.o \
-   sdbtf2.o  sdbtrf.o  sdttrf.o sdttrsv.o spttrsv.o strmvt.o pssyevr.o
+   sdbtf2.o  sdbtrf.o  sdttrf.o sdttrsv.o spttrsv.o strmvt.o pssyevr.o \
+   bslaapp.o bslaexc.o bstrexc.o pbstrord.o pbstrsen.o psgebal.o pshseqr.o \
+   pslamve.o pslaqr0.o pslaqr1.o pslaqr2.o pslaqr3.o pslaqr4.o pslaqr5.o \
+   psrot.o sgemx.o slaqr6.o strmx.o pschkresi.o
 
 CLASRC = \
    pcdbsv.o  pcdbtrf.o pcdbtrs.o pcdbtrsv.o \
@@ -154,7 +154,10 @@ DLASRC = \
    pdlarzb.o pdlarzt.o pdlarz.o pdlatrz.o pdtzrzf.o pdormr3.o pdormrz.o \
    pdlahqr.o pdlaconsb.o pdlacp3.o pdlawil.o \
    pdlasmsub.o pdlared2d.o pdlamr1d.o dlaref.o dlamsh.o dlasorte.o dsteqr2.o \
-   ddbtf2.o  ddbtrf.o  ddttrf.o ddttrsv.o dpttrsv.o dtrmvt.o pdsyevr.o 
+   ddbtf2.o  ddbtrf.o  ddttrf.o ddttrsv.o dpttrsv.o dtrmvt.o pdsyevr.o \
+   bdlaapp.o bdlaexc.o bdtrexc.o dgemx.o dlaqr6.o dtrmx.o pbdtrord.o \
+   pbdtrsen.o pdgebal.o pdhseqr.o pdlamve.o pdlaqr0.o pdlaqr1.o pdlaqr2.o \
+   pdlaqr3.o pdlaqr4.o pdlaqr5.o pdrot.o pdchkresi.o
 
 ZLASRC = \
    pzdbsv.o  pzdbtrf.o pzdbtrs.o pzdbtrsv.o \
@@ -209,19 +212,11 @@ complex16: $(ZLASRC) $(DZLAUX) $(ALLAUX)
 	$(ALLAUX)
 	$(RANLIB) ../$(SCALAPACKLIB)
 
-$(SCLAUX): $(FRC)
-$(DZLAUX): $(FRC)
-$(SLASRC): $(FRC)
-$(CLASRC): $(FRC)
-$(DLASRC): $(FRC)
-$(ZLASRC): $(FRC)
-
-FRC:
-	@FRC=$(FRC)
-
 clean :
 	rm -f *.o
 
-.f.o : ; $(FC) -c $(FCFLAGS) $*.f
+.f.o : 
+	$(FC) -c $(FCFLAGS) $*.f
 
-.c.o : ; $(CC) -c $(CDEFS) $(CCFLAGS) $*.c
+.c.o : 
+	$(CC) -c $(CDEFS) $(CCFLAGS) $*.c

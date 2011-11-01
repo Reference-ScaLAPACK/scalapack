@@ -50,8 +50,6 @@ include ../../SLmake.inc
 #
 #  To remove the object files after the library is created, enter
 #       make clean
-#  To force the source files to be recompiled, enter, for example,
-#       make single FRC=FRC
 #
 ############################################################################
 
@@ -113,25 +111,6 @@ PZBLAS3 = pzgeadd_.o pzgemm_.o pzhemm_.o  pzher2k_.o pzherk_.o  pzsymm_.o  \
 
 #---------------------------------------------------------------------------
 
-$(APPBLAS): $(FRC)
-
-$(PIBLAS1): $(FRC)
-
-$(PSBLAS1): $(FRC)
-$(PCBLAS1): $(FRC)
-$(PDBLAS1): $(FRC)
-$(PZBLAS1): $(FRC)
-
-$(PSBLAS2): $(FRC)
-$(PCBLAS2): $(FRC)
-$(PDBLAS2): $(FRC)
-$(PZBLAS2): $(FRC)
-
-$(PSBLAS3): $(FRC)
-$(PCBLAS3): $(FRC)
-$(PDBLAS3): $(FRC)
-$(PZBLAS3): $(FRC)
-
 PIBLAS = $(PIBLAS1) $(APPBLAS)
 PSBLAS = $(PSBLAS1) $(PSBLAS2) $(PSBLAS3) $(APPBLAS)
 PCBLAS = $(PCBLAS1) $(PCBLAS2) $(PCBLAS3) $(APPBLAS)
@@ -169,9 +148,6 @@ complex16: integer $(PZBLAS)
 	( cd PTOOLS;  $(MAKE) complex16 )
 	$(ARCH) $(ARCHFLAGS) ../../$(SCALAPACKLIB) $(PZBLAS)
 	$(RANLIB) ../../$(SCALAPACKLIB)
-
-FRC:
-	@FRC=$(FRC)
 
 clean :
 	rm -f *.o
