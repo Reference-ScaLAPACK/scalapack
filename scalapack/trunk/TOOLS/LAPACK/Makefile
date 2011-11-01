@@ -54,20 +54,6 @@ complex16: $(ALLAUX) $(ZMATGEN) $(DZATGEN)
 	$(ZMATGEN) $(DZATGEN)
 	$(RANLIB) ../../$(SCALAPACKLIB)
 
-$(ALLAUX): $(FRC)
-$(SCLAUX): $(FRC)
-$(DZLAUX): $(FRC)
-
-$(SCATGEN): $(FRC)
-$(SMATGEN): $(FRC)
-$(CMATGEN): $(FRC)
-$(DZATGEN): $(FRC)
-$(DMATGEN): $(FRC)
-$(ZMATGEN): $(FRC)
-
-FRC:
-	@FRC=$(FRC)
-
 clean :
 	rm -f *.o
 

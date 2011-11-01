@@ -82,21 +82,6 @@ $(ctrmrexe): ../../$(SCALAPACKLIB) $(ctrmr)
 $(ztrmrexe): ../../$(SCALAPACKLIB) $(ztrmr)
 	$(CCLOADER) $(CCLOADFLAGS) -o $(ztrmrexe) $(ztrmr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(igemr): $(FRC)
-$(sgemr): $(FRC)
-$(dgemr): $(FRC)
-$(cgemr): $(FRC)
-$(zgemr): $(FRC)
-
-$(itrmr): $(FRC)
-$(strmr): $(FRC)
-$(dtrmr): $(FRC)
-$(ctrmr): $(FRC)
-$(ztrmr): $(FRC)
-
-FRC:
-	@FRC=$(FRC)
-
 clean :
 	rm -f *.o x*
 

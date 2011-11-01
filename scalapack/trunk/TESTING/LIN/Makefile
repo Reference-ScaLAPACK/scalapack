@@ -269,55 +269,6 @@ $(clsexe): ../../$(SCALAPACKLIB) $(cls)
 $(zlsexe): ../../$(SCALAPACKLIB) $(zls)
 	$(FCLOADER) $(FCLOADFLAGS) -o $(zlsexe) $(zls) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(slu): $(FRC)
-$(dlu): $(FRC)
-$(clu): $(FRC)
-$(zlu): $(FRC)
-
-$(sdblu): $(FRC)
-$(ddblu): $(FRC)
-$(cdblu): $(FRC)
-$(zdblu): $(FRC)
-
-$(sdtlu): $(FRC)
-$(ddtlu): $(FRC)
-$(cdtlu): $(FRC)
-$(zdtlu): $(FRC)
-
-
-$(sllt): $(FRC)
-$(dllt): $(FRC)
-$(cllt): $(FRC)
-$(zllt): $(FRC)
-
-$(spbllt): $(FRC)
-$(dpbllt): $(FRC)
-$(cpbllt): $(FRC)
-$(zpbllt): $(FRC)
-
-$(sptllt): $(FRC)
-$(dptllt): $(FRC)
-$(cptllt): $(FRC)
-$(zptllt): $(FRC)
-
-$(sinv): $(FRC)
-$(dinv): $(FRC)
-$(cinv): $(FRC)
-$(zinv): $(FRC)
-
-$(sqr): $(FRC)
-$(dqr): $(FRC)
-$(cqr): $(FRC)
-$(zqr): $(FRC)
-
-$(sls): $(FRC)
-$(dls): $(FRC)
-$(cls): $(FRC)
-$(zls): $(FRC)
-
-FRC:
-	@FRC=$(FRC)
-
 clean :
 	rm -f *.o
 

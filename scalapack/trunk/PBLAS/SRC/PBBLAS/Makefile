@@ -32,8 +32,6 @@ include ../../../SLmake.inc
 #
 #  To remove the object files after the library is created, enter
 #       make clean
-#  To force the source files to be recompiled, enter, for example,
-#       make single FRC=FRC
 #
 ############################################################################
 
@@ -50,13 +48,6 @@ PBDBLASAUX = pbdtran.o pbdmatadd.o pbdtrsrt.o pbdtrget.o \
 
 PBZBLASAUX = pbztran.o pbzmatadd.o pbztrsrt.o pbztrget.o \
              pbztrnv.o pbzvecadd.o pbztrst1.o
-
-#---------------------------------------------------------------------------
-
-$(PBSBLASAUX) : $(FRC)
-$(PBCBLASAUX) : $(FRC)
-$(PBDBLASAUX) : $(FRC)
-$(PBZBLASAUX) : $(FRC)
 
 #---------------------------------------------------------------------------
 
@@ -77,9 +68,6 @@ complex16: $(PBZBLASAUX)
 	$(RANLIB) ../../../$(SCALAPACKLIB)
 
 #---------------------------------------------------------------------------
-
-FRC:
-	@FRC=$(FRC)
 
 clean :
 	rm -f *.o

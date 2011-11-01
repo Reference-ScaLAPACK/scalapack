@@ -8,7 +8,7 @@
 #
 #  Creation date:   February 20, 2000
 #
-#  Modified:
+#  Modified:        November, 2011
 #
 #  Send bug reports, comments or suggestions to scalapack@cs.utk.edu
 #
@@ -57,6 +57,9 @@ ssyevrexe = ../xssyevr
 dsyevrexe = ../xdsyevr
 cheevrexe = ../xcheevr
 zheevrexe = ../xzheevr
+
+shseqrexe = ../xshseqr
+dhseqrexe = ../xdhseqr
 
 smatgen = psmatgen.o pmatgeninc.o
 dmatgen = pdmatgen.o pmatgeninc.o
@@ -130,10 +133,13 @@ pcsepchk.o pcsepqtq.o pclatms.o pcseprtst.o pssepinfo.o pclagsy.o pclasizesep.o 
 zheevr =  pzlasizesepr.o pzlasizeheevr.o pzseprdriver.o pzseprreq.o pzseprsubtst.o \
 pzsepchk.o pzsepqtq.o pzlatms.o pzseprtst.o pdsepinfo.o pzlagsy.o pzlasizesep.o $(zmatgen)
 
+shseqr = pshseqrdriver.o psmatgen2.o $(smatgen)
+dhseqr = pdhseqrdriver.o pdmatgen2.o $(dmatgen)
+
 all : single double complex complex16
 
-single:    $(shrdexe) $(strdexe) $(sbrdexe) $(ssepexe) $(sgsepexe) $(snepexe) $(ssvdexe) $(ssyevrexe)
-double:    $(dhrdexe) $(dtrdexe) $(dbrdexe) $(dsepexe) $(dgsepexe) $(dnepexe) $(dsvdexe) $(dsyevrexe)
+single:    $(shrdexe) $(strdexe) $(sbrdexe) $(ssepexe) $(sgsepexe) $(snepexe) $(ssvdexe) $(ssyevrexe) $(shseqrexe)
+double:    $(dhrdexe) $(dtrdexe) $(dbrdexe) $(dsepexe) $(dgsepexe) $(dnepexe) $(dsvdexe) $(dsyevrexe) $(dhseqrexe)
 complex:   $(chrdexe) $(ctrdexe) $(cbrdexe) $(csepexe) $(cgsepexe) $(cnepexe) $(cevcexe) $(cheevrexe)
 complex16: $(zhrdexe) $(ztrdexe) $(zbrdexe) $(zsepexe) $(zgsepexe) $(znepexe) $(zevcexe) $(zheevrexe)
 
@@ -215,10 +221,10 @@ $(cnepexe) : ../../$(SCALAPACKLIB) $(cnep)
 $(znepexe) : ../../$(SCALAPACKLIB) $(znep)
 	$(FCLOADER) $(FCLOADFLAGS) -o $(znepexe) $(znep) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(cevcexe) : ../../$(SCALAPACKLIB) $(cevc)
+$(cevcexe): ../../$(SCALAPACKLIB) $(cevc)
 	$(FCLOADER) $(FCLOADFLAGS) -o $(cevcexe) $(cevc) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(zevcexe) : ../../$(SCALAPACKLIB) $(zevc)
+$(zevcexe): ../../$(SCALAPACKLIB) $(zevc)
 	$(FCLOADER) $(FCLOADFLAGS) -o $(zevcexe) $(zevc) ../../$(SCALAPACKLIB) $(LIBS)
 
 $(ssyevrexe): ../../$(SCALAPACKLIB) $(ssyevr)
@@ -233,110 +239,14 @@ $(cheevrexe): ../../$(SCALAPACKLIB) $(cheevr)
 $(zheevrexe): ../../$(SCALAPACKLIB) $(zheevr)
 	$(FCLOADER) $(FCLOADFLAGS) -o $(zheevrexe) $(zheevr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(sbrd): $(FRC)
-$(dbrd): $(FRC)
-$(cbrd): $(FRC)
-$(zbrd): $(FRC)
+$(shseqrexe): ../../$(SCALAPACKLIB) $(shseqr)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(shseqrexe) $(shseqr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(shrd): $(FRC)
-$(dhrd): $(FRC)
-$(chrd): $(FRC)
-$(zhrd): $(FRC)
+$(dhseqrexe): ../../$(SCALAPACKLIB) $(dhseqr)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dhseqrexe) $(dhseqr) ../../$(SCALAPACKLIB) $(LIBS)
 
-$(strd): $(FRC)
-$(dtrd): $(FRC)
-$(ctrd): $(FRC)
-$(ztrd): $(FRC)
-
-$(ssvd): $(FRC)
-$(dsvd): $(FRC)
-
-$(ssep): $(FRC)
-$(dsep): $(FRC)
-$(csep): $(FRC)
-$(zsep): $(FRC)
-
-$(sgsep): $(FRC)
-$(dgsep): $(FRC)
-$(cgsep): $(FRC)
-$(zgsep): $(FRC)
-
-$(snep): $(FRC)
-$(dnep): $(FRC)
-$(cnep): $(FRC)
-$(znep): $(FRC)
-
-$(cevc): $(FRC)
-$(zevc): $(FRC)
-
-FRC:
-	@FRC=$(FRC)
-
-clean :
+clean:
 	rm -f *.o
 
-psbrddriver.o: psbrddriver.f
-	$(FC) $(DRVOPTS) -c $<
-pdbrddriver.o: pdbrddriver.f
-	$(FC) $(DRVOPTS) -c $<
-pcbrddriver.o: pcbrddriver.f
-	$(FC) $(DRVOPTS) -c $<
-pzbrddriver.o: pzbrddriver.f
-	$(FC) $(DRVOPTS) -c $<
-
-pshrddriver.o: pshrddriver.f
-	$(FC) $(DRVOPTS) -c $<
-pdhrddriver.o: pdhrddriver.f
-	$(FC) $(DRVOPTS) -c $<
-pchrddriver.o: pchrddriver.f
-	$(FC) $(DRVOPTS) -c $<
-pzhrddriver.o: pzhrddriver.f
-	$(FC) $(DRVOPTS) -c $<
-
-pstrddriver.o: pstrddriver.f
-	$(FC) $(DRVOPTS) -c $<
-pdtrddriver.o: pdtrddriver.f
-	$(FC) $(DRVOPTS) -c $<
-pctrddriver.o: pctrddriver.f
-	$(FC) $(DRVOPTS) -c $<
-pztrddriver.o: pztrddriver.f
-	$(FC) $(DRVOPTS) -c $<
-
-pssvddriver.o: pssvddriver.f
-	$(FC) $(DRVOPTS) -c $<
-pdsvddriver.o: pdsvddriver.f
-	$(FC) $(DRVOPTS) -c $<
-
-pssepdriver.o: pssepdriver.f
-	$(FC) $(DRVOPTS) -c $<
-pdsepdriver.o: pdsepdriver.f
-	$(FC) $(DRVOPTS) -c $<
-pcsepdriver.o: pcsepdriver.f
-	$(FC) $(DRVOPTS) -c $<
-pzsepdriver.o: pzsepdriver.f
-	$(FC) $(DRVOPTS) -c $<
-
-psgsepdriver.o: psgsepdriver.f
-	$(FC) $(DRVOPTS) -c $<
-pdgsepdriver.o: pdgsepdriver.f
-	$(FC) $(DRVOPTS) -c $<
-pcgsepdriver.o: pcgsepdriver.f
-	$(FC) $(DRVOPTS) -c $<
-pzgsepdriver.o: pzgsepdriver.f
-	$(FC) $(DRVOPTS) -c $<
-
-psnepdriver.o: psnepdriver.f
-	$(FC) $(DRVOPTS) -c $<
-pdnepdriver.o: pdnepdriver.f
-	$(FC) $(DRVOPTS) -c $<
-pcnepdriver.o: pcnepdriver.f
-	$(FC) $(DRVOPTS) -c $<
-pznepdriver.o: pznepdriver.f
-	$(FC) $(DRVOPTS) -c $<
-
-pcevcdriver.o: pcevcdriver.f
-	$(FC) $(DRVOPTS) -c $<
-pzevcdriver.o: pzevcdriver.f
-	$(FC) $(DRVOPTS) -c $<
-
-.f.o : ; $(FC) -c $(FCFLAGS) $*.f
+.f.o:
+	$(FC) -c $(FCFLAGS) $<
