@@ -471,7 +471,7 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
             ANORM = PSLANGE( 'Frobenius', N, N, MEM(IPACPY), 1, 1,
      $           DESCA, DPDUM )
             IF( ANORM.GT.ZERO )THEN
-               RNORM = R1 / (ANORM + EPS)
+               RNORM = R1 / (ANORM*EPS*SQRT(FLOAT(N)))
             ELSE
                RNORM = R1
             END IF
