@@ -22,7 +22,7 @@
      $                    COMPHESS = .TRUE.,
      $                    COMPRESI = .TRUE.,
      $                    COMPORTH = .TRUE.,
-     $                    TEST_CHKRESI = .TRUE.,
+     $                    TEST_CHKRESI = .FALSE.,
      $                    BALANCE = .TRUE.,
      $                    BARR = .FALSE.,
 *     Solver: 1-PDLAQR1, 2-PDHSEQR.
@@ -470,7 +470,7 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
             ANORM = PDLANGE( 'Frobenius', N, N, MEM(IPACPY), 1, 1,
      $           DESCA, DPDUM )
             IF( ANORM.GT.ZERO )THEN
-               RNORM = R1 / (ANORM + EPS)
+               RNORM = R1 / (ANORM*EPS*SQRT(DBLE(N)))
             ELSE
                RNORM = R1
             END IF
@@ -481,7 +481,6 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
          ELSE
             RNORM = 0.0D0
          END IF
-         RNORM = RNORM / (EPS*DBLE(N))
 *
          IF( COMPORTH ) THEN
             IF( DEBUG ) WRITE(*,*) '% #', IAM, ': Compute residuals 2'
