@@ -3,10 +3,10 @@
      $                              DESCZ, WORK, LWORK, IWORK,
      $                              ILWORK, INFO )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
+*  -- ScaLAPACK auxiliary routine (version 2.0) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     January 2010
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -30,7 +30,7 @@
 *  The following modifications were made:
 *    o Recently removed workspace query functionality was added.
 *    o Aggressive early deflation is implemented.
-*    o Aggressive defaltion (looking for two consecutive small
+*    o Aggressive deflation (looking for two consecutive small
 *      subdiagonal elements by PDLACONSB) is abandoned.
 *    o The returned Schur form is now in canonical form, i.e., the
 *      returned 2-by-2 blocks really correspond to complex conjugate
@@ -201,14 +201,12 @@
 *
 *  Subroutines:
 *       This routine calls:
-*           PDLACONSB   -> To determine where to start each iteration
 *           PDLAWIL   -> Given the shift, get the transformation
-*           DLASORTE   -> Pair up eigenvalues so that reals are paired.
+*           DLASORTE  -> Pair up eigenvalues so that reals are paired.
 *           PDLACP3   -> Parallel array to local replicated array copy &
 *                        back.
-*           DLAREF   -> Row/column reflector applier.  Core routine
-*                        here.
-*           PDLASMSUB   -> Finds negligible subdiagonal elements.
+*           DLAREF    -> Row/column reflector applier. Core routine here.
+*           PDLASMSUB -> Finds negligible subdiagonal elements.
 *
 *  Current Notes and/or Restrictions:
 *       1.) This code requires the distributed block size to be square
@@ -242,6 +240,9 @@
 *       9.) The internals of this routine are subject to change.
 *
 *  Implemented by:  G. Henry, November 17, 1996
+*
+*  Modified by Robert Granat and Meiyue Shao, Department of Computing
+*  Science and HPC2N, Umea University, Sweden
 *
 *  =====================================================================
 *
@@ -293,7 +294,7 @@
       EXTERNAL           BLACS_GRIDINFO, DCOPY, DGEBR2D, DGEBS2D,
      $                   DGERV2D, DGESD2D, DGSUM2D, DLAHQR, DLAREF,
      $                   DLARFG, DLASORTE, IGAMN2D, INFOG1L, INFOG2L,
-     $                   PDLABAD, PDLACONSB, PDLACP3, PDLASMSUB,
+     $                   PDLABAD, PDLACP3, PDLASMSUB,
      $                   PDLAWIL, PXERBLA, DLANV2, PDLAQR2, PDLAQR4
 *     ..
 *     .. Intrinsic Functions ..
@@ -532,7 +533,7 @@
      $                       LDS, S2, DBLK, WORK( IRBUF+1 ),
      $                       WORK( ICBUF+1 ), S3, 4*DBLK*DBLK )
 *
-*              Skip a QR sweep if enough eigenvalues are deflated
+*              Skip a QR sweep if enough eigenvalues are deflated.
 *
                NIBBLE = ILAENV( 14, 'DLAQR0', 'SV', N, L, I, 4*LDS*LDS )
                NIBBLE = MAX( 0, NIBBLE )
@@ -540,8 +541,9 @@
                DBLK = DBLK - ND
                IF( 100*ND .GT. NIBBLE*NH .OR. DBLK .LT. 2*JBLK ) GOTO 10
 *
-*              Use unconverged eigenvalues as shifts for the QR sweep
-*              (This option is temporarily turned off.)
+*              Use unconverged eigenvalues as shifts for the QR sweep.
+*              (This option is turned off because of the quality of
+*              these shifts are not so good.)
 *
 *               IF( ND.GE.0 .AND. ND+DBLK.GE.64 ) THEN
                IF( .FALSE. ) THEN
@@ -552,7 +554,7 @@
 *
 *                 Shuffle shifts into pairs of real shifts and pairs of
 *                 complex conjugate shifts assuming complex conjugate
-*                 shifts are already adjacent to one another
+*                 shifts are already adjacent to one another.
 *
                   DO 21 II = DBLK, 3, -2
                      IF( WORK( ICBUF+II ).NE.-WORK( ICBUF+II-1 ) ) THEN
@@ -567,7 +569,7 @@
                      END IF
    21             CONTINUE
 *
-*                 Copy undeflatable eigenvalues to the diagonal of S1
+*                 Copy undeflatable eigenvalues to the diagonal of S1.
 *
                   II = 2
    22             CONTINUE

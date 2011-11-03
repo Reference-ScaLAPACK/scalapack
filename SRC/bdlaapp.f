@@ -162,6 +162,6 @@
 *
       RETURN
 *
-*     End of DLAAPP
+*     End of BDLAAPP
 *
       END

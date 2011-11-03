@@ -1,8 +1,9 @@
       SUBROUTINE PSGEBAL( JOB, N, A, DESCA, ILO, IHI, SCALE, INFO )
 *
-*  -- ScaLAPACK routine (version 1.8.x) --
-*     Umea University and HPC2N, Umea, Sweden
-*     February, 2008
+*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
+*     Deptartment of Computing Science and HPC2N,
+*     Umea University, Sweden
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -12,7 +13,7 @@
 *     ..
 *     .. Array Arguments ..
       INTEGER            DESCA( * )
-      REAL   A( * ), SCALE( * )
+      REAL               A( * ), SCALE( * )
 *     ..
 *
 *  Purpose
@@ -97,7 +98,7 @@
 *  N       (global input) INTEGER
 *          The order of the matrix A.  N >= 0.
 *
-*  A       (local input/output) REAL array, dimension
+*  A       (local input/output) REAL             array, dimension
 *          (DESCA(LLD_,LOCc(N))
 *          On entry, the input matrix A.
 *          On exit,  A is overwritten by the balanced matrix.
@@ -113,7 +114,7 @@
 *          A(i,j) = 0 if i > j and j = 1,...,ILO-1 or I = IHI+1,...,N.
 *          If JOB = 'N' or 'S', ILO = 1 and IHI = N.
 *
-*  SCALE   (global output) REAL array, dimension (N)
+*  SCALE   (global output) REAL             array, dimension (N)
 *          Details of the permutations and scaling factors applied to
 *          A.  If P(j) is the index of the row and column interchanged
 *          with row and column j and D(j) is the scaling factor
@@ -170,11 +171,11 @@
       PARAMETER          ( BLOCK_CYCLIC_2D = 1, DLEN_ = 9, DTYPE_ = 1,
      $                     CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9 )
-      REAL   ZERO, ONE
+      REAL               ZERO, ONE
       PARAMETER          ( ZERO = 0.0E+0, ONE = 1.0E+0 )
-      REAL   SCLFAC
+      REAL               SCLFAC
       PARAMETER          ( SCLFAC = 2.0E+0 )
-      REAL   FACTOR
+      REAL               FACTOR
       PARAMETER          ( FACTOR = 0.95E+0 )
 *     ..
 *     .. Local Scalars ..
@@ -182,11 +183,11 @@
       INTEGER            I, ICA, IEXC, IRA, J, K, L, M, LLDA,
      $                   ICTXT, NPROW, NPCOL, MYROW, MYCOL, II, JJ,
      $                   ARSRC, ACSRC
-      REAL   C, CA, F, G, R, RA, S, SFMAX1, SFMAX2, SFMIN1,
+      REAL               C, CA, F, G, R, RA, S, SFMAX1, SFMAX2, SFMIN1,
      $                   SFMIN2, ELEM
 *     ..
 *     .. Local Arrays ..
-      REAL   CR( 2 )
+      REAL               CR( 2 )
 *     ..
 *     .. External Functions ..
       LOGICAL            SISNAN, LSAME

@@ -1,10 +1,10 @@
       INTEGER FUNCTION PIPARMQ( ICTXT, ISPEC, NAME, OPTS, N, ILO, IHI,
      $                          LWORKNB )
 *
-*  -- ScaLAPACK auxuliary routine (version 1.8.x) --
+*  -- ScaLAPACK auxiliary routine (version 2.0) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     February, 2008
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -80,11 +80,6 @@
 *                        PIPARMQ(ISPEC=16)=2 despite the greater level of
 *                        arithmetic work implied by the latter choice. )
 *
-*              ISPEC=24: (IACC22) PIPARMQ is set to 0 or 1 with the
-*                        following meanings.
-*                        0:  PDLAQR0 is called for large matrices.
-*                        1:  PDLAQR1 is called for small matrices.
-*
 *       NAME    (global input) character string
 *               Name of the calling subroutine
 *
@@ -112,7 +107,7 @@
 *
 *       It is probably best to choose different parameters for
 *       different matrices and different parameters at different
-*       times during the iteration, but this has not been
+*       times during the iteration, but this has not been fully
 *       implemented --- yet.
 *
 *
@@ -137,7 +132,10 @@
 *                         (IHI-ILO+1).LE.500 is NS.  The default
 *                         for (IHI-ILO+1).GT.500 is 3*NS/2.
 *
-*       PIPARMQ(ISPEC=14) Nibble crossover point.  Default: 75.
+*       PIPARMQ(ISPEC=14) Nibble crossover point.
+*                         The default for the serial case is 14.
+*                         The default for the parallel case is
+*                         335 * N**(-0.44) * NPROCS.
 *
 *       PIPARMQ(ISPEC=15) Number of simultaneous shifts, NS.
 *                         a multi-shift QR iteration.
@@ -172,11 +170,6 @@
 *                         (See ISPEC=16 above for details.)
 *                         Default: 3.
 *
-*       PIPARMQ(ISPEC=24) The recommended routine for computing Schur
-*                         decomposition.
-*                         The crossover point here is
-*                         N**3 / NPROCS = 500 000 000
-*
 *     ================================================================
 *     .. Parameters ..
       INTEGER            INMIN, INWIN, INIBL, ISHFTS, IACC22
@@ -184,12 +177,12 @@
      $                   ISHFTS = 15, IACC22 = 16 )
       INTEGER            NMIN, NMIN2, K22MIN, KACMIN, NIBBLE, KNWSWP
       PARAMETER          ( NMIN = 220, K22MIN = 14, KACMIN = 14,
-     $                   NIBBLE = 75, KNWSWP = 500, NMIN2 = 770 )
+     $                   NIBBLE = 14, KNWSWP = 500, NMIN2 = 770 )
       REAL               TWO
       PARAMETER          ( TWO = 2.0 )
 *     ..
 *     .. Local Scalars ..
-      INTEGER            NH, NS, MYROW, MYCOL, NPROW, NPCOL
+      INTEGER            NH, NS, MYROW, MYCOL, NPROW, NPCOL, NP
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          LOG, MAX, MOD, NINT, REAL
@@ -251,8 +244,6 @@
 *        .     This must be at least 11. ====
 *
          PIPARMQ = NMIN * MIN( NPROW, NPCOL )
-*        New crossover point:  N = 770 * NPROCS ** (1/3)
-*         PIPARMQ = INT( NMIN2 * MIN( NPROW, NPCOL ) ** 0.6667 )
 *
       ELSE IF( ISPEC.EQ.INIBL ) THEN
 *
@@ -260,8 +251,14 @@
 *        .    whenever aggressive early deflation finds
 *        .    at least (NIBBLE*(window size)/100) deflations. ====
 *
-         PIPARMQ = NIBBLE
-
+         NP = MIN( NPROW, NPCOL )
+         IF( NP.EQ.1 ) THEN
+            PIPARMQ = NIBBLE
+         ELSE
+            NH = IHI - ILO + 1
+            PIPARMQ = MIN( 100,
+     $           CEILING( 335.0D+0 * NH**(-0.44D+0) * NP ) )
+         END IF
 *
       ELSE IF( ISPEC.EQ.ISHFTS ) THEN
 *
@@ -281,9 +278,7 @@
 *
       ELSE IF( ISPEC.EQ.IACC22 ) THEN
 *
-*        ==== IACC22: Whether to accumulate reflections
-*        .     before updating the far-from-diagonal elements
-*        .     and whether to use 2-by-2 block structure while
+*        ==== IACC22: Whether to use 2-by-2 block structure while
 *        .     doing it.  A small amount of work could be saved
 *        .     by making this choice dependent also upon the
 *        .     NH=IHI-ILO+1.

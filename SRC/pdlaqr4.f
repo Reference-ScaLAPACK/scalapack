@@ -2,10 +2,10 @@
      $                    ILOZ, IHIZ, Z, DESCZ, T, LDT, V, LDV, WORK,
      $                    LWORK, INFO )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
+*  -- ScaLAPACK auxiliary routine (version 2.0) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     February 2010
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -27,7 +27,7 @@
 *  ILO to IHI.  This routine requires that the active block is small
 *  enough, i.e. IHI-ILO+1 .LE. LDT, so that it can be solved by LAPACK.
 *  Normally, it is called by PDLAQR1.  All the inputs are assumed to be
-*  valid without a check.
+*  valid without checking.
 *
 *  Notes
 *  =====
@@ -181,6 +181,13 @@
 *  Implemented by
 *        Meiyue Shao, Department of Computing Science and HPC2N,
 *        Umea University, Sweden
+*
+*  ================================================================
+*  References:
+*        B. Kagstrom, D. Kressner, and M. Shao,
+*        On Aggressive Early Deflation in Parallel Variants of the QR
+*        Algorithm.
+*        Para 2010, to appear.
 *
 *  ================================================================
 *     .. Parameters ..

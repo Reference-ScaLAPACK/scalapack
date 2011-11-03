@@ -12,7 +12,7 @@
 *     ..
 *     .. Array Arguments ..
       INTEGER            ITRAF( * )
-      REAL   DTRAF( * ), T( LDT, * ), WORK( * )
+      REAL               DTRAF( * ), T( LDT, * ), WORK( * )
 *     ..
 *
 *  Purpose
@@ -22,7 +22,7 @@
 *  an upper quasi-triangular matrix T by an orthogonal similarity
 *  transformation.
 *
-*  In contrast to the LAPACK routine SLAEXC, the orthogonal
+*  In contrast to the LAPACK routine DLAEXC, the orthogonal
 *  transformation matrix Q is not explicitly constructed but
 *  represented by paramaters contained in the arrays ITRAF and DTRAF,
 *  see the description of BSTREXC for more details.
@@ -38,7 +38,7 @@
 *  N       (input) INTEGER
 *          The order of the matrix T. N >= 0.
 *
-*  T       (input/output) REAL array, dimension (LDT,N)
+*  T       (input/output) REAL             array, dimension (LDT,N)
 *          On entry, the upper quasi-triangular matrix T, in Schur
 *          canonical form.
 *          On exit, the updated matrix T, again in Schur canonical form.
@@ -62,14 +62,14 @@
 *          List of parameters for representing the transformation
 *          matrix Q, see BSTREXC.
 *
-*  DTRAF   (output) REAL array, length k, where
+*  DTRAF   (output) REAL             array, length k, where
 *             k =  2, if N1+N2 = 2;
 *             k =  5, if N1+N2 = 3;
 *             k = 10, if N1+N2 = 4.
 *          List of parameters for representing the transformation
 *          matrix Q, see BSTREXC.
 *
-*  WORK    (workspace) REAL array, dimension (N)
+*  WORK    (workspace) REAL             array, dimension (N)
 *
 *  INFO    (output) INTEGER
 *          = 0: successful exit
@@ -80,24 +80,24 @@
 *  =====================================================================
 *
 *     .. Parameters ..
-      REAL   ZERO, ONE
+      REAL               ZERO, ONE
       PARAMETER          ( ZERO = 0.0E+0, ONE = 1.0E+0 )
-      REAL   TEN
-      PARAMETER          ( TEN = 1.0D+1 )
+      REAL               TEN
+      PARAMETER          ( TEN = 10.0 )
       INTEGER            LDD, LDX
       PARAMETER          ( LDD = 4, LDX = 2 )
 *     ..
 *     .. Local Scalars ..
       INTEGER            IERR, J2, J3, J4, K, LD, LI, ND
-      REAL   CS, DNORM, EPS, SCALE, SMLNUM, SN, T11, T22,
+      REAL               CS, DNORM, EPS, SCALE, SMLNUM, SN, T11, T22,
      $                   T33, TAU, TAU1, TAU2, TEMP, THRESH, WI1, WI2,
      $                   WR1, WR2, XNORM
 *     ..
 *     .. Local Arrays ..
-      REAL   D( LDD, 4 ), X( LDX, 2 )
+      REAL               D( LDD, 4 ), X( LDX, 2 )
 *     ..
 *     .. External Functions ..
-      REAL   SLAMCH, SLANGE
+      REAL               SLAMCH, SLANGE
       EXTERNAL           SLAMCH, SLANGE
 *     ..
 *     .. External Subroutines ..

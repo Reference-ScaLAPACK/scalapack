@@ -2,9 +2,9 @@
      $                    DESCB, DWORK )
 
 *  -- ScaLAPACK/PSLICOT-style routine --
-*     Preliminary version.
-*     Dept. Computing Science and HPC2N, Umea Univ., Sweden
-*     December 7, 2007.
+*     Deptartment of Computing Science and HPC2N,
+*     Umea University, Sweden
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -184,19 +184,20 @@
 *
       IF( NPROCS.EQ.1 ) THEN
          CALL DLACPY( UPLO, M, N, A((JA-1)*DESCA(LLD_)+IA),
-     $                DESCA(LLD_), B((JB-1)*DESCB(LLD_)+IB),
-     $                DESCB(LLD_) )
+     $        DESCA(LLD_), B((JB-1)*DESCB(LLD_)+IB),
+     $        DESCB(LLD_) )
       ELSEIF( FULL ) THEN
          CALL PDGEMR2D( M, N, A, IA, JA, DESCA, B, IB, JB, DESCB,
-     $                  ICTXT )
+     $        ICTXT )
       ELSE
          CALL PDGEMR2D( M, N, A, IA, JA, DESCA, DWORK, IB, JB, DESCB,
-     $                  ICTXT )
+     $        ICTXT )
          CALL PDLACPY( UPLO, M, N, DWORK, IB, JB, DESCB, B, IB, JB,
-     $                 DESCB )
+     $        DESCB )
       END IF
 *
       RETURN
 *
 *     End of PDLAMVE
+*
       END

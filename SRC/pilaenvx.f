@@ -1,10 +1,10 @@
       INTEGER FUNCTION PILAENVX( ICTXT, ISPEC, NAME, OPTS, N1, N2, N3,
      $                           N4 )
 *
-*  -- ScaLAPACK auxuliary routine (version 1.8.x) --
+*  -- ScaLAPACK auxiliary routine (version 2.0) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     February, 2008
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -64,7 +64,7 @@
 *               (used by xGELSD and xGESDD)
 *          =10: ieee NaN arithmetic can be trusted not to trap
 *          =11: infinity arithmetic can be trusted not to trap
-*          12 <= ISPEC <= 16 or ISPEC = 24:
+*          12 <= ISPEC <= 16:
 *               PxHSEQR or one of its subroutines,
 *               see PIPARMQ for detailed explanation
 *          17 <= ISPEC <= 22:
@@ -620,7 +620,7 @@
 *
   220 CONTINUE
 *
-*     ISPEC = 22: maximum number of shifts to bring over
+*     ISPEC = 22: maximum number of eigenvalues to bring over
 *                 the block border
 *
 *

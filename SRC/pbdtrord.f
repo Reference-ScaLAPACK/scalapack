@@ -2,10 +2,10 @@
      $     DESCT, Q, IQ, JQ, DESCQ, WR, WI, M, WORK, LWORK,
      $     IWORK, LIWORK, INFO )
 *
-*  -- ScaLAPACK-style routine --
-*     Preliminary version.
-*     Dept. Computing Science and HPC2N, Univ. of Umea, Sweden
-*     March 7, 2006.
+*  -- ScaLAPACK driver routine (version 2.0) --
+*     Deptartment of Computing Science and HPC2N,
+*     Umea University, Sweden
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -24,7 +24,7 @@
 *  =======
 *
 *  PBDTRORD reorders the real Schur factorization of a real matrix
-*  A = Q * T * Q**T, so that a selected cluster of eigenvalues appears
+*  A = Q*T*Q**T, so that a selected cluster of eigenvalues appears
 *  in the leading diagonal blocks of the upper quasi-triangular matrix
 *  T, and the leading columns of Q form an orthonormal basis of the
 *  corresponding right invariant subspace.
@@ -278,8 +278,10 @@
 *  Contributors
 *  ============
 *
-*  Implemented by Robert Granat, Umea University and HPC2N, March 2007,
+*  Implemented by Robert Granat, Dept. of Computing Science and HPC2N,
+*  Umea University, Sweden, March 2007,
 *  in collaboration with Bo Kagstrom and Daniel Kressner.
+*  Modified by Meiyue Shao, October 2011.
 *
 *  Revisions
 *  =========
@@ -345,7 +347,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           PDLACPY, PXERBLA, PCHK1MAT, PCHK2MAT,
-     $                   DGEMX, DLACPY, ILACPY, CHK1MAT,
+     $                   DGEMM, DLACPY, ILACPY, CHK1MAT,
      $                   INFOG2L, DGSUM2D, DGESD2D, DGERV2D, DGEBS2D,
      $                   DGEBR2D, IGSUM2D, BLACS_GRIDINFO, IGEBS2D,
      $                   IGEBR2D, IGAMX2D, IGAMN2D, BDLAAPP, BDTREXC
@@ -1114,7 +1116,7 @@
                            IF( MYROW.EQ.RSRC1 .AND. MYCOL.EQ.CSRC1 )
      $                          THEN
                               LROWS = MIN(NB,I-INDX)
-                              CALL DGEMX( 'No transpose',
+                              CALL DGEMM( 'No transpose',
      $                             'No transpose', LROWS, NWIN, NWIN,
      $                             ONE, T((JLOC-1)*LLDT+ILOC), LLDT,
      $                             WORK( PDW ), NWIN, ZERO,
@@ -1132,7 +1134,7 @@
                               IF( MYROW.EQ.RSRC1.AND.MYCOL.EQ.CSRC1 )
      $                             THEN
                                  LROWS = MIN(NB,N-INDX+1)
-                                 CALL DGEMX( 'No transpose',
+                                 CALL DGEMM( 'No transpose',
      $                                'No transpose', LROWS, NWIN, NWIN,
      $                                ONE, Q((JLOC-1)*LLDQ+ILOC), LLDQ,
      $                                WORK( PDW ), NWIN, ZERO,
@@ -1158,7 +1160,7 @@
      $                             THEN
                                  LCOLS = MOD( MIN( NB-MOD(LIHI,NB),
      $                                N-LIHI ), NB )
-                                 CALL DGEMX( 'Transpose',
+                                 CALL DGEMM( 'Transpose',
      $                                'No Transpose', NWIN, LCOLS, NWIN,
      $                                ONE, WORK( PDW ), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT, ZERO,
@@ -1176,7 +1178,7 @@
                               IF( MYROW.EQ.RSRC1.AND.MYCOL.EQ.CSRC1 )
      $                             THEN
                                  LCOLS = MIN( NB, N-INDX+1 )
-                                 CALL DGEMX( 'Transpose',
+                                 CALL DGEMM( 'Transpose',
      $                                'No Transpose', NWIN, LCOLS, NWIN,
      $                                ONE, WORK( PDW ), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT, ZERO,
@@ -1218,12 +1220,12 @@
                               CALL DLACPY( 'All', LROWS, KS,
      $                             T((JLOC1-1)*LLDT+ILOC ), LLDT,
      $                             WORK(IPW3), LROWS )
-                              CALL DTRMX( 'Right', 'Upper',
+                              CALL DTRMM( 'Right', 'Upper',
      $                              'No transpose',
      $                             'Non-unit', LROWS, KS, ONE,
      $                             WORK( PDW+NWIN-KS ), NWIN,
      $                             WORK(IPW3), LROWS )
-                              CALL DGEMX( 'No transpose',
+                              CALL DGEMM( 'No transpose',
      $                             'No transpose', LROWS, KS, NWIN-KS,
      $                             ONE, T((JLOC-1)*LLDT+ILOC), LLDT,
      $                             WORK( PDW ), NWIN, ONE, WORK(IPW3),
@@ -1234,12 +1236,12 @@
                               CALL DLACPY( 'All', LROWS, NWIN-KS,
      $                             T((JLOC-1)*LLDT+ILOC), LLDT,
      $                             WORK( IPW3+KS*LROWS ), LROWS )
-                              CALL DTRMX( 'Right', 'Lower',
+                              CALL DTRMM( 'Right', 'Lower',
      $                             'No transpose', 'Non-unit',
      $                             LROWS, NWIN-KS, ONE,
      $                             WORK( PDW+NWIN*KS ), NWIN,
      $                             WORK( IPW3+KS*LROWS ), LROWS )
-                              CALL DGEMX( 'No transpose',
+                              CALL DGEMM( 'No transpose',
      $                             'No transpose', LROWS, NWIN-KS, KS,
      $                             ONE, T((JLOC1-1)*LLDT+ILOC), LLDT,
      $                             WORK( PDW+NWIN*KS+NWIN-KS ), NWIN,
@@ -1268,12 +1270,12 @@
                                  CALL DLACPY( 'All', LROWS, KS,
      $                                Q((JLOC1-1)*LLDQ+ILOC ), LLDQ,
      $                                WORK(IPW3), LROWS )
-                                 CALL DTRMX( 'Right', 'Upper',
+                                 CALL DTRMM( 'Right', 'Upper',
      $                                'No transpose', 'Non-unit',
      $                                LROWS, KS, ONE,
      $                                WORK( PDW+NWIN-KS ), NWIN,
      $                                WORK(IPW3), LROWS )
-                                 CALL DGEMX( 'No transpose',
+                                 CALL DGEMM( 'No transpose',
      $                                'No transpose', LROWS, KS,
      $                                NWIN-KS, ONE,
      $                                Q((JLOC-1)*LLDQ+ILOC), LLDQ,
@@ -1285,12 +1287,12 @@
                                  CALL DLACPY( 'All', LROWS, NWIN-KS,
      $                                Q((JLOC-1)*LLDQ+ILOC), LLDQ,
      $                                WORK( IPW3+KS*LROWS ), LROWS)
-                                 CALL DTRMX( 'Right', 'Lower',
+                                 CALL DTRMM( 'Right', 'Lower',
      $                                'No transpose', 'Non-unit',
      $                                LROWS, NWIN-KS, ONE,
      $                                WORK( PDW+NWIN*KS ), NWIN,
      $                                WORK( IPW3+KS*LROWS ), LROWS)
-                                 CALL DGEMX( 'No transpose',
+                                 CALL DGEMM( 'No transpose',
      $                                'No transpose', LROWS, NWIN-KS,
      $                                KS, ONE, Q((JLOC1-1)*LLDQ+ILOC),
      $                                LLDQ, WORK(PDW+NWIN*KS+NWIN-KS),
@@ -1326,11 +1328,11 @@
                                  CALL DLACPY( 'All', KS, LCOLS,
      $                                T((JLOC-1)*LLDT+ILOC1), LLDT,
      $                                WORK(IPW3), NWIN )
-                                 CALL DTRMX( 'Left', 'Upper',
+                                 CALL DTRMM( 'Left', 'Upper',
      $                                'Transpose', 'Non-unit', KS,
      $                                LCOLS, ONE, WORK( PDW+NWIN-KS ),
      $                                NWIN, WORK(IPW3), NWIN )
-                                 CALL DGEMX( 'Transpose',
+                                 CALL DGEMM( 'Transpose',
      $                                'No transpose', KS, LCOLS,
      $                                NWIN-KS, ONE, WORK(PDW), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT, ONE,
@@ -1342,12 +1344,12 @@
                                  CALL DLACPY( 'All', NWIN-KS, LCOLS,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT,
      $                                WORK( IPW3+KS ), NWIN )
-                                 CALL DTRMX( 'Left', 'Lower',
+                                 CALL DTRMM( 'Left', 'Lower',
      $                                'Transpose', 'Non-unit',
      $                                NWIN-KS, LCOLS, ONE,
      $                                WORK( PDW+NWIN*KS ), NWIN,
      $                                WORK( IPW3+KS ), NWIN )
-                                 CALL DGEMX( 'Transpose',
+                                 CALL DGEMM( 'Transpose',
      $                                'No Transpose', NWIN-KS, LCOLS,
      $                                KS, ONE,
      $                                WORK( PDW+NWIN*KS+NWIN-KS ),
@@ -1379,12 +1381,12 @@
                                  CALL DLACPY( 'All', KS, LCOLS,
      $                                T((JLOC-1)*LLDT+ILOC1), LLDT,
      $                                WORK(IPW3), NWIN )
-                                 CALL DTRMX( 'Left', 'Upper',
+                                 CALL DTRMM( 'Left', 'Upper',
      $                                'Transpose', 'Non-unit', KS,
      $                                LCOLS, ONE,
      $                                WORK( PDW+NWIN-KS ), NWIN,
      $                                WORK(IPW3), NWIN )
-                                 CALL DGEMX( 'Transpose',
+                                 CALL DGEMM( 'Transpose',
      $                                'No transpose', KS, LCOLS,
      $                                NWIN-KS, ONE, WORK(PDW), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT, ONE,
@@ -1396,12 +1398,12 @@
                                  CALL DLACPY( 'All', NWIN-KS, LCOLS,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT,
      $                                WORK( IPW3+KS ), NWIN )
-                                 CALL DTRMX( 'Left', 'Lower',
+                                 CALL DTRMM( 'Left', 'Lower',
      $                                'Transpose', 'Non-unit',
      $                                NWIN-KS, LCOLS, ONE,
      $                                WORK( PDW+NWIN*KS ), NWIN,
      $                                WORK( IPW3+KS ), NWIN )
-                                 CALL DGEMX( 'Transpose',
+                                 CALL DGEMM( 'Transpose',
      $                                'No Transpose', NWIN-KS, LCOLS,
      $                                KS, ONE,
      $                                WORK( PDW+NWIN*KS+NWIN-KS ),
@@ -1601,7 +1603,7 @@
 *        window over the border. The processes are numbered as follows
 *
 *                1 | 2
-*                -----
+*                --+--
 *                3 | 4
 *
 *        where '|' and '-' denotes the process (and block) borders.
@@ -2635,7 +2637,7 @@
      $                                   NPCOL, MYROW, MYCOL, ILOC,
      $                                   JLOC, RSRC, CSRC1 )
                                     IF( MYROW.EQ.RSRC ) THEN
-                                       CALL DGEMX( 'No transpose',
+                                       CALL DGEMM( 'No transpose',
      $                                      'No transpose', TROWS, DIM1,
      $                                      NWIN, ONE, WORK( IPW5 ),
      $                                      TROWS, WORK( IPW4 ), NWIN,
@@ -2651,7 +2653,7 @@
      $                                   NPROW, NPCOL, MYROW, MYCOL,
      $                                   ILOC, JLOC, RSRC, CSRC4 )
                                     IF( MYROW.EQ.RSRC ) THEN
-                                       CALL DGEMX( 'No transpose',
+                                       CALL DGEMM( 'No transpose',
      $                                      'No transpose', TROWS, DIM4,
      $                                      NWIN, ONE, WORK( IPW5 ),
      $                                      TROWS,
@@ -2674,7 +2676,7 @@
      $                                      NPROW, NPCOL, MYROW, MYCOL,
      $                                      ILOC, JLOC, RSRC, CSRC1 )
                                        IF( MYROW.EQ.RSRC ) THEN
-                                          CALL DGEMX( 'No transpose',
+                                          CALL DGEMM( 'No transpose',
      $                                         'No transpose', QROWS,
      $                                         DIM1, NWIN, ONE,
      $                                         WORK( IPW7 ), QROWS,
@@ -2693,7 +2695,7 @@
      $                                      MYCOL, ILOC, JLOC, RSRC,
      $                                      CSRC4 )
                                        IF( MYROW.EQ.RSRC ) THEN
-                                          CALL DGEMX( 'No transpose',
+                                          CALL DGEMM( 'No transpose',
      $                                         'No transpose', QROWS,
      $                                         DIM4, NWIN, ONE,
      $                                         WORK( IPW7 ), QROWS,
@@ -2721,7 +2723,7 @@
                                     CALL INFOG2L( I, INDX, DESCT, NPROW,
      $                                   NPCOL, MYROW, MYCOL, ILOC,
      $                                   JLOC, RSRC1, CSRC4 )
-                                    CALL DGEMX( 'Transpose',
+                                    CALL DGEMM( 'Transpose',
      $                                   'No Transpose', DIM1, TCOLS,
      $                                   NWIN, ONE, WORK(IPW4), NWIN,
      $                                   WORK( IPW6 ), NWIN, ZERO,
@@ -2736,7 +2738,7 @@
                                     CALL INFOG2L( I+DIM1, INDX, DESCT,
      $                                   NPROW, NPCOL, MYROW, MYCOL,
      $                                   ILOC, JLOC, RSRC4, CSRC4 )
-                                    CALL DGEMX( 'Transpose',
+                                    CALL DGEMM( 'Transpose',
      $                                  'No Transpose', DIM4, TCOLS,
      $                                   NWIN, ONE,
      $                                   WORK( IPW4+DIM1*NWIN ), NWIN,
@@ -2754,7 +2756,7 @@
      $                                      NPROW, NPCOL, MYROW, MYCOL,
      $                                      ILOC, JLOC, RSRC1, CSRC )
                                        IF( MYCOL.EQ.CSRC ) THEN
-                                          CALL DGEMX( 'Transpose',
+                                          CALL DGEMM( 'Transpose',
      $                                         'No Transpose', DIM1,
      $                                         TCOLS, NWIN, ONE,
      $                                         WORK( IPW4 ), NWIN,
@@ -2772,7 +2774,7 @@
      $                                      MYCOL, ILOC, JLOC, RSRC4,
      $                                      CSRC )
                                        IF( MYCOL.EQ.CSRC ) THEN
-                                          CALL DGEMX( 'Transpose',
+                                          CALL DGEMM( 'Transpose',
      $                                         'No Transpose', DIM4,
      $                                         TCOLS, NWIN, ONE,
      $                                         WORK( IPW4+NWIN*DIM1 ),
@@ -2832,12 +2834,12 @@
                                        CALL DLACPY( 'All', TROWS, KS,
      $                                      WORK( IPW5+TROWS*DIM4),
      $                                      TROWS, WORK(IPW8), TROWS )
-                                       CALL DTRMX( 'Right', 'Upper',
+                                       CALL DTRMM( 'Right', 'Upper',
      $                                      'No transpose',
      $                                      'Non-unit', TROWS, KS,
      $                                      ONE, WORK( IPW4+DIM4 ),
      $                                      NWIN, WORK(IPW8), TROWS )
-                                       CALL DGEMX( 'No transpose',
+                                       CALL DGEMM( 'No transpose',
      $                                      'No transpose', TROWS, KS,
      $                                      DIM4, ONE, WORK( IPW5 ),
      $                                      TROWS, WORK( IPW4 ), NWIN,
@@ -2860,12 +2862,12 @@
                                        CALL DLACPY( 'All', TROWS, DIM4,
      $                                      WORK(IPW5), TROWS,
      $                                      WORK( IPW8 ), TROWS )
-                                       CALL DTRMX( 'Right', 'Lower',
+                                       CALL DTRMM( 'Right', 'Lower',
      $                                      'No transpose',
      $                                      'Non-unit', TROWS, DIM4,
      $                                      ONE, WORK( IPW4+NWIN*KS ),
      $                                      NWIN, WORK( IPW8 ), TROWS )
-                                       CALL DGEMX( 'No transpose',
+                                       CALL DGEMM( 'No transpose',
      $                                      'No transpose', TROWS, DIM4,
      $                                      KS, ONE,
      $                                      WORK( IPW5+TROWS*DIM4),
@@ -2896,13 +2898,13 @@
      $                                         WORK( IPW7+QROWS*DIM4),
      $                                         QROWS, WORK(IPW8),
      $                                         QROWS )
-                                          CALL DTRMX( 'Right', 'Upper',
+                                          CALL DTRMM( 'Right', 'Upper',
      $                                         'No transpose',
      $                                         'Non-unit', QROWS,
      $                                         KS, ONE,
      $                                         WORK( IPW4+DIM4 ), NWIN,
      $                                         WORK(IPW8), QROWS )
-                                          CALL DGEMX( 'No transpose',
+                                          CALL DGEMM( 'No transpose',
      $                                         'No transpose', QROWS,
      $                                         KS, DIM4, ONE,
      $                                         WORK( IPW7 ), QROWS,
@@ -2927,14 +2929,14 @@
                                           CALL DLACPY( 'All', QROWS,
      $                                         DIM4, WORK(IPW7), QROWS,
      $                                         WORK( IPW8 ), QROWS )
-                                          CALL DTRMX( 'Right', 'Lower',
+                                          CALL DTRMM( 'Right', 'Lower',
      $                                         'No transpose',
      $                                         'Non-unit', QROWS,
      $                                         DIM4, ONE,
      $                                         WORK( IPW4+NWIN*KS ),
      $                                         NWIN, WORK( IPW8 ),
      $                                         QROWS )
-                                          CALL DGEMX( 'No transpose',
+                                          CALL DGEMM( 'No transpose',
      $                                         'No transpose', QROWS,
      $                                         DIM4, KS, ONE,
      $                                         WORK(IPW7+QROWS*(DIM4)),
@@ -2967,12 +2969,12 @@
                                     CALL DLACPY( 'All', KS, TCOLS,
      $                                   WORK( IPW6+DIM4 ), NWIN,
      $                                   WORK(IPW8), KS )
-                                    CALL DTRMX( 'Left', 'Upper',
+                                    CALL DTRMM( 'Left', 'Upper',
      $                                   'Transpose', 'Non-unit',
      $                                   KS, TCOLS, ONE,
      $                                   WORK( IPW4+DIM4 ), NWIN,
      $                                   WORK(IPW8), KS )
-                                    CALL DGEMX( 'Transpose',
+                                    CALL DGEMM( 'Transpose',
      $                                   'No transpose', KS, TCOLS,
      $                                   DIM4, ONE, WORK(IPW4), NWIN,
      $                                   WORK(IPW6), NWIN, ONE,
@@ -2994,12 +2996,12 @@
                                     CALL DLACPY( 'All', DIM4, TCOLS,
      $                                   WORK( IPW6 ), NWIN,
      $                                   WORK( IPW8 ), DIM4 )
-                                    CALL DTRMX( 'Left', 'Lower',
+                                    CALL DTRMM( 'Left', 'Lower',
      $                                   'Transpose', 'Non-unit',
      $                                   DIM4, TCOLS, ONE,
      $                                   WORK( IPW4+NWIN*KS ), NWIN,
      $                                   WORK( IPW8 ), DIM4 )
-                                    CALL DGEMX( 'Transpose',
+                                    CALL DGEMM( 'Transpose',
      $                                   'No Transpose', DIM4, TCOLS,
      $                                   KS, ONE,
      $                                   WORK( IPW4+NWIN*KS+DIM4 ),
@@ -3024,13 +3026,13 @@
                                           CALL DLACPY( 'All', KS, TCOLS,
      $                                         WORK( IPW6+DIM4 ), NWIN,
      $                                         WORK(IPW8), KS )
-                                          CALL DTRMX( 'Left', 'Upper',
+                                          CALL DTRMM( 'Left', 'Upper',
      $                                         'Transpose',
      $                                         'Non-unit', KS,
      $                                         TCOLS, ONE,
      $                                         WORK( IPW4+DIM4 ), NWIN,
      $                                         WORK(IPW8), KS )
-                                          CALL DGEMX( 'Transpose',
+                                          CALL DGEMM( 'Transpose',
      $                                         'No transpose', KS,
      $                                         TCOLS, DIM4, ONE,
      $                                         WORK(IPW4), NWIN,
@@ -3056,14 +3058,14 @@
      $                                         TCOLS, WORK( IPW6 ),
      $                                         NWIN, WORK( IPW8 ),
      $                                         DIM4 )
-                                          CALL DTRMX( 'Left', 'Lower',
+                                          CALL DTRMM( 'Left', 'Lower',
      $                                         'Transpose',
      $                                         'Non-unit', DIM4,
      $                                         TCOLS, ONE,
      $                                         WORK( IPW4+NWIN*KS ),
      $                                         NWIN, WORK( IPW8 ),
      $                                         DIM4 )
-                                          CALL DGEMX( 'Transpose',
+                                          CALL DGEMM( 'Transpose',
      $                                         'No Transpose', DIM4,
      $                                         TCOLS, KS, ONE,
      $                                         WORK(IPW4+NWIN*KS+DIM4),
@@ -3326,55 +3328,66 @@
          WR( K ) = ZERO
          WI( K ) = ZERO
  550  CONTINUE
+*
+*     Loop 560: extract eigenvalues from the blocks which are not laid
+*     out across a border of the processor mesh, except for those 1x1
+*     blocks on the border.
+*
       PAIR = .FALSE.
       DO 560 K = 1, N
          IF( .NOT. PAIR ) THEN
-            IF( K.LT.N ) THEN
-               BORDER = MOD( K, NB ).EQ.0 .OR. ( K.NE.1 .AND.
-     $              MOD( K, NB ).EQ.1 )
-               IF( .NOT. BORDER ) THEN
-                  CALL INFOG2L( K, K, DESCT, NPROW, NPCOL, MYROW, MYCOL,
-     $                 ILOC1, JLOC1, TRSRC1, TCSRC1 )
-                  IF( MYROW.EQ.TRSRC1 .AND. MYCOL.EQ.TCSRC1 ) THEN
-                     ELEM1 = T((JLOC1-1)*LLDT+ILOC1)
+            BORDER = MOD( K, NB ).EQ.0 .OR. ( K.NE.1 .AND.
+     $           MOD( K, NB ).EQ.1 )
+            IF( .NOT. BORDER ) THEN
+               CALL INFOG2L( K, K, DESCT, NPROW, NPCOL, MYROW, MYCOL,
+     $              ILOC1, JLOC1, TRSRC1, TCSRC1 )
+               IF( MYROW.EQ.TRSRC1 .AND. MYCOL.EQ.TCSRC1 ) THEN
+                  ELEM1 = T((JLOC1-1)*LLDT+ILOC1)
+                  IF( K.LT.N ) THEN
                      ELEM3 = T((JLOC1-1)*LLDT+ILOC1+1)
-                     IF( ELEM3.NE.ZERO ) THEN
-                        ELEM2 = T((JLOC1)*LLDT+ILOC1)
-                        ELEM4 = T((JLOC1)*LLDT+ILOC1+1)
-                        CALL DLANV2( ELEM1, ELEM2, ELEM3, ELEM4,
-     $                       WR( K ), WI( K ), WR( K+1 ), WI( K+1 ), SN,
-     $                       CS )
-                        PAIR = .TRUE.
-                     ELSE
-                        IF( K.GT.1 ) THEN
-                           TMP = T((JLOC1-2)*LLDT+ILOC1)
-                           IF( TMP.NE.ZERO ) THEN
-                              ELEM1 = T((JLOC1-2)*LLDT+ILOC1-1)
-                              ELEM2 = T((JLOC1-1)*LLDT+ILOC1-1)
-                              ELEM3 = T((JLOC1-2)*LLDT+ILOC1)
-                              ELEM4 = T((JLOC1-1)*LLDT+ILOC1)
-                              CALL DLANV2( ELEM1, ELEM2, ELEM3, ELEM4,
-     $                             WR( K-1 ), WI( K-1 ), WR( K ),
-     $                             WI( K ), SN, CS )
-                           ELSE
-                              WR( K ) = ELEM1
-                           END IF
+                  ELSE
+                     ELEM3 = ZERO
+                  END IF
+                  IF( ELEM3.NE.ZERO ) THEN
+                     ELEM2 = T((JLOC1)*LLDT+ILOC1)
+                     ELEM4 = T((JLOC1)*LLDT+ILOC1+1)
+                     CALL DLANV2( ELEM1, ELEM2, ELEM3, ELEM4,
+     $                    WR( K ), WI( K ), WR( K+1 ), WI( K+1 ), SN,
+     $                    CS )
+                     PAIR = .TRUE.
+                  ELSE
+                     IF( K.GT.1 ) THEN
+                        TMP = T((JLOC1-2)*LLDT+ILOC1)
+                        IF( TMP.NE.ZERO ) THEN
+                           ELEM1 = T((JLOC1-2)*LLDT+ILOC1-1)
+                           ELEM2 = T((JLOC1-1)*LLDT+ILOC1-1)
+                           ELEM3 = T((JLOC1-2)*LLDT+ILOC1)
+                           ELEM4 = T((JLOC1-1)*LLDT+ILOC1)
+                           CALL DLANV2( ELEM1, ELEM2, ELEM3, ELEM4,
+     $                          WR( K-1 ), WI( K-1 ), WR( K ),
+     $                          WI( K ), SN, CS )
                         ELSE
                            WR( K ) = ELEM1
                         END IF
+                     ELSE
+                        WR( K ) = ELEM1
                      END IF
                   END IF
                END IF
-            ELSE
-               CALL INFOG2L( K, K, DESCT, NPROW, NPCOL, MYROW, MYCOL,
-     $              ILOC1, JLOC1, TRSRC1, TCSRC1 )
-               IF( MYROW.EQ.TRSRC1 .AND. MYCOL.EQ.TCSRC1 )
-     $            WR( K ) = T((JLOC1-1)*LLDT+ILOC1)
             END IF
          ELSE
             PAIR = .FALSE.
          END IF
  560  CONTINUE
+*
+*     Loop 570: extract eigenvalues from the blocks which are laid
+*     out across a border of the processor mesh. The processors are
+*     numbered as below:
+*
+*                1 | 2
+*                --+--
+*                3 | 4
+*
       DO 570 K = NB, N-1, NB
          CALL INFOG2L( K, K, DESCT, NPROW, NPCOL, MYROW, MYCOL,
      $        ILOC1, JLOC1, TRSRC1, TCSRC1 )

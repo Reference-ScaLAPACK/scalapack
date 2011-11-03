@@ -90,7 +90,7 @@
 *          and JA+IHI:JA+N-1. See Further Details. If N > 0,
 *          1 <= ILO <= IHI <= N; otherwise set ILO = 1, IHI = N.
 *
-*  A       (local input/local output) REAL pointer into the
+*  A       (local input/local output) REAL             pointer into the
 *          local memory to an array of dimension (LLD_A,LOCc(JA+N-1)).
 *          On entry, this array contains the local pieces of the N-by-N
 *          general distributed matrix sub( A ) to be reduced. On exit,
@@ -111,12 +111,12 @@
 *  DESCA   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the distributed matrix A.
 *
-*  TAU     (local output) REAL array, dimension LOCc(JA+N-2)
+*  TAU     (local output) REAL             array, dimension LOCc(JA+N-2)
 *          The scalar factors of the elementary reflectors (see Further
 *          Details). Elements JA:JA+ILO-2 and JA+IHI:JA+N-2 of TAU are
 *          set to zero. TAU is tied to the distributed matrix A.
 *
-*  WORK    (local workspace/local output) REAL array,
+*  WORK    (local workspace/local output) REAL             array,
 *                                                    dimension (LWORK)
 *          On exit, WORK( 1 ) returns the minimal and optimal LWORK.
 *
@@ -225,7 +225,7 @@
       EXTERNAL           INDXG2P, NUMROC
 *     ..
 *     .. Intrinsic Functions ..
-      INTRINSIC          MAX, MIN, MOD, REAL
+      INTRINSIC          FLOAT, MAX, MIN, MOD
 *     ..
 *     .. Executable Statements ..
 *
@@ -257,7 +257,7 @@
             INLQ = NUMROC( N-ILO+IOFF+1, NB, MYCOL, ILCOL, NPCOL )
             LWMIN = NB*( NB + MAX( IHIP+1, IHLP+INLQ ) )
 *
-            WORK( 1 ) = REAL( LWMIN )
+            WORK( 1 ) = FLOAT( LWMIN )
             LQUERY = ( LWORK.EQ.-1 )
             IF( ILO.LT.1 .OR. ILO.GT.MAX( 1, N ) ) THEN
                INFO = -2
@@ -373,7 +373,7 @@ C            ELSE IF( IROFFA.NE.ICOFFA .OR. IROFFA.NE.0 ) THEN
       CALL PB_TOPSET( ICTXT, 'Combine', 'Columnwise', COLCTOP )
       CALL PB_TOPSET( ICTXT, 'Combine', 'Rowwise',    ROWCTOP )
 *
-      WORK( 1 ) = REAL( LWMIN )
+      WORK( 1 ) = FLOAT( LWMIN )
 *
       RETURN
 *

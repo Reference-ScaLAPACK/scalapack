@@ -2,10 +2,10 @@
      $     DESCT, Q, IQ, JQ, DESCQ, WR, WI, M, S, SEP, WORK, LWORK,
      $     IWORK, LIWORK, INFO )
 *
-*  -- ScaLAPACK-style routine --
-*     Preliminary version.
-*     Dept. Computing Science and HPC2N, Univ. of Umea, Sweden
-*     March 7, 2006.
+*  -- ScaLAPACK driver routine (version 1.8.x) --
+*     Deptartment of Computing Science and HPC2N,
+*     Umea University, Sweden
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -25,7 +25,7 @@
 *  =======
 *
 *  PBDTRSEN reorders the real Schur factorization of a real matrix
-*  A = Q * T * Q**T, so that a selected cluster of eigenvalues appears
+*  A = Q*T*Q**T, so that a selected cluster of eigenvalues appears
 *  in the leading diagonal blocks of the upper quasi-triangular matrix
 *  T, and the leading columns of Q form an orthonormal basis of the
 *  corresponding right invariant subspace. The reordering is performed
@@ -323,8 +323,10 @@
 *  Contributors
 *  ============
 *
-*  Implemented by Robert Granat, Umea University and HPC2N, March 2007,
+*  Implemented by Robert Granat, Dept. of Computing Science and HPC2N,
+*  Umea University, Sweden, March 2007,
 *  in collaboration with Bo Kagstrom and Daniel Kressner.
+*  Modified by Meiyue Shao, October 2011.
 *
 *  Revisions
 *  =========
@@ -365,9 +367,8 @@
 *     .. External Functions ..
       LOGICAL            LSAME
       INTEGER            NUMROC
-      DOUBLE PRECISION   PDLANGE, MPI_WTIME
+      DOUBLE PRECISION   PDLANGE
       EXTERNAL           LSAME, NUMROC, PDLANGE
-     $                   , MPI_TIME
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, CHK1MAT, DESCINIT,
@@ -638,7 +639,6 @@ c     $              IERR )
      $     IWORK(N+1), LIWORK-N, INFO )
 *
       IF( WANTS ) THEN
-         TIME = MPI_WTIME()
 *
 *        Solve Sylvester equation T11*R - R*T2 = scale*T12 for R in
 *        parallel.
@@ -681,11 +681,9 @@ c     $        SCALE, IERR )
             S = SCALE / ( SQRT( SCALE*SCALE / RNORM+RNORM )*
      $           SQRT( RNORM ) )
          END IF
-         TIME3 = MPI_WTIME() - TIME
       END IF
 *
       IF( WANTSP ) THEN
-         TIME = MPI_WTIME()
 *
 *        Estimate sep(T11,T21) in parallel.
 *
@@ -699,7 +697,6 @@ c     $        LWORK, IWORK(N+1), LIWORK-N, EST, ITER, IERR )
          ELSE
             INFO = N+2
          END IF
-         TIME4 = MPI_WTIME() - TIME
       END IF
 *
 *     Return to calling program.
