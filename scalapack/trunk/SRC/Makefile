@@ -94,7 +94,7 @@ SLASRC = \
    sdbtf2.o  sdbtrf.o  sdttrf.o sdttrsv.o spttrsv.o strmvt.o pssyevr.o \
    bslaapp.o bslaexc.o bstrexc.o pbstrord.o pbstrsen.o psgebal.o pshseqr.o \
    pslamve.o pslaqr0.o pslaqr1.o pslaqr2.o pslaqr3.o pslaqr4.o pslaqr5.o \
-   psrot.o sgemx.o slaqr6.o strmx.o pschkresi.o
+   psrot.o slaqr6.o
 
 CLASRC = \
    pcdbsv.o  pcdbtrf.o pcdbtrs.o pcdbtrsv.o \
@@ -155,9 +155,9 @@ DLASRC = \
    pdlahqr.o pdlaconsb.o pdlacp3.o pdlawil.o \
    pdlasmsub.o pdlared2d.o pdlamr1d.o dlaref.o dlamsh.o dlasorte.o dsteqr2.o \
    ddbtf2.o  ddbtrf.o  ddttrf.o ddttrsv.o dpttrsv.o dtrmvt.o pdsyevr.o \
-   bdlaapp.o bdlaexc.o bdtrexc.o dgemx.o dlaqr6.o dtrmx.o pbdtrord.o \
+   bdlaapp.o bdlaexc.o bdtrexc.o dlaqr6.o pbdtrord.o \
    pbdtrsen.o pdgebal.o pdhseqr.o pdlamve.o pdlaqr0.o pdlaqr1.o pdlaqr2.o \
-   pdlaqr3.o pdlaqr4.o pdlaqr5.o pdrot.o pdchkresi.o
+   pdlaqr3.o pdlaqr4.o pdlaqr5.o pdrot.o
 
 ZLASRC = \
    pzdbsv.o  pzdbtrf.o pzdbtrs.o pzdbtrsv.o \

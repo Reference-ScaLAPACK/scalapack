@@ -1,9 +1,10 @@
       SUBROUTINE PSHSEQR( JOB, COMPZ, N, ILO, IHI, H, DESCH, WR, WI, Z,
      $                    DESCZ, WORK, LWORK, IWORK, LIWORK, INFO )
 *
-*  -- ScaLAPACK driver routine (version 1.8.x) --
-*     University of Umea and HPC2N, Umea, Sweden
-*     February, 2008
+*  -- ScaLAPACK driver routine (version 2.0) --
+*     Deptartment of Computing Science and HPC2N,
+*     Umea University, Sweden
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -18,9 +19,9 @@
 *  Purpose
 *  =======
 *
-*  PSHSEQR computes the eigenvalues of a Hessenberg matrix H
+*  PSHSEQR computes the eigenvalues of an upper Hessenberg matrix H
 *  and, optionally, the matrices T and Z from the Schur decomposition
-*  H = Z T Z**T, where T is an upper quasi-triangular matrix (the
+*  H = Z*T*Z**T, where T is an upper quasi-triangular matrix (the
 *  Schur form), and Z is the orthogonal matrix of Schur vectors.
 *
 *  Optionally Z may be postmultiplied into an input orthogonal
@@ -104,8 +105,8 @@
 *  IHI     (global input) INTEGER
 *          It is assumed that H is already upper triangular in rows
 *          and columns 1:ILO-1 and IHI+1:N. ILO and IHI are normally
-*          set by a previous call to PDGEBAL, and then passed to PDGEHRD
-*          when the matrix output by PDGEBAL is reduced to Hessenberg
+*          set by a previous call to PSGEBAL, and then passed to PSGEHRD
+*          when the matrix output by PSGEBAL is reduced to Hessenberg
 *          form. Otherwise ILO and IHI should be set to 1 and N
 *          respectively.  If N.GT.0, then 1.LE.ILO.LE.IHI.LE.N.
 *          If N = 0, then ILO = 1 and IHI = 0.
@@ -115,7 +116,7 @@
 *          On entry, the upper Hessenberg matrix H.
 *          On exit, if JOB = 'S', H is upper quasi-triangular in
 *          rows and columns ILO:IHI, with 1-by-1 and 2-by-2 blocks on
-*          the main diagonal.  The 2-by-2 diagonal blocks (corresponding 
+*          the main diagonal.  The 2-by-2 diagonal blocks (corresponding
 *          to complex conjugate pairs of eigenvalues) are returned in
 *          standard form, with H(i,i) = H(i+1,i+1) and
 *          H(i+1,i)*H(i,i+1).LT.0. If INFO = 0 and JOB = 'E', the
@@ -137,31 +138,31 @@
 *
 *  Z       (global input/output) REAL             array.
 *          If COMPZ = 'V', on entry Z must contain the current
-*          matrix Z of accumulated transformations from, e.g., PDGEHRD,
+*          matrix Z of accumulated transformations from, e.g., PSGEHRD,
 *          and on exit Z has been updated; transformations are applied
 *          only to the submatrix Z(ILO:IHI,ILO:IHI).
 *          If COMPZ = 'N', Z is not referenced.
 *          If COMPZ = 'I', on entry Z need not be set and on exit,
 *          if INFO = 0, Z contains the orthogonal matrix Z of the Schur
-*           vectors of H.
+*          vectors of H.
 *
 *  DESCZ   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the distributed matrix Z.
 *
-*  WORK    (local workspace) REAL             array, dimension(DWORK)
+*  WORK    (local workspace) REAL             array, dimension(LWORK)
 *
 *  LWORK   (local input) INTEGER
 *          The length of the workspace array WORK.
 *
-*  IWORK   (local workspace) INTEGER array, dimension (ILWORK)
+*  IWORK   (local workspace) INTEGER array, dimension (LIWORK)
 *
-*  ILWORK  (local input) INTEGER
-*          The length of the workspace array IWORK
+*  LIWORK  (local input) INTEGER
+*          The length of the workspace array IWORK.
 *
 *  INFO    (output) INTEGER
 *          =    0:  successful exit
 *          .LT. 0:  if INFO = -i, the i-th argument had an illegal
-*                   value (see also below for -777 and -888).
+*                   value (see also below for -7777 and -8888).
 *          .GT. 0:  if INFO = i, PSHSEQR failed to compute all of
 *                   the eigenvalues.  Elements 1:ilo-1 and i+1:n of WR
 *                   and WI contain those eigenvalues which have been
@@ -196,35 +197,39 @@
 *                If INFO .GT. 0 and COMPZ = 'N', then Z is not
 *                accessed.
 *
-*          = -777: PSLAQR0 failed to converge and PSLAQR1 was called
-*                  instead. This could happen. Mostly due to a bug.
-*                  Please, send a bug report to the authors.
-*          = -888: PSLAQR1 failed to converge and PSLAQR0 was called
-*                  instead. This should not happen.
+*          = -7777: PSLAQR0 failed to converge and PSLAQR1 was called
+*                   instead. This could happen. Mostly due to a bug.
+*                   Please, send a bug report to the authors.
+*          = -8888: PSLAQR1 failed to converge and PSLAQR0 was called
+*                   instead. This should not happen.
 *
 *     ================================================================
 *     Based on contributions by
 *        Robert Granat, Department of Computing Science and HPC2N,
-*        University of Umea, Sweden.
+*        Umea University, Sweden.
 *     ================================================================
 *
-*     Restrictions: The block size in H and Z must be larger than or
-*     equal to six (6) due to restrictions in PSLAQR5 and SLAQR6.
+*     Restrictions: The block size in H and Z must be square and larger
+*     than or equal to six (6) due to restrictions in PSLAQR1, PSLAQR5
+*     and SLAQR6. Moreover, H and Z need to be distributed identically
+*     with the same context.
 *
 *     ================================================================
 *     References:
-*       K. Braman, R. Byers and R. Mathias, The Multi-Shift QR
-*       Algorithm Part I: Maintaining Well Focused Shifts, and Level 3
-*       Performance, SIAM Journal of Matrix Analysis, volume 23, pages
-*       929--947, 2002.
+*       K. Braman, R. Byers, and R. Mathias,
+*       The Multi-Shift QR Algorithm Part I: Maintaining Well Focused
+*       Shifts, and Level 3 Performance.
+*       SIAM J. Matrix Anal. Appl., 23(4):929--947, 2002.
 *
-*       K. Braman, R. Byers and R. Mathias, The Multi-Shift QR
-*       Algorithm Part II: Aggressive Early Deflation, SIAM Journal
-*       of Matrix Analysis, volume 23, pages 948--973, 2002.
+*       K. Braman, R. Byers, and R. Mathias,
+*       The Multi-Shift QR Algorithm Part II: Aggressive Early
+*       Deflation.
+*       SIAM J. Matrix Anal. Appl., 23(4):948--973, 2002.
 *
-*       R. Granat and D. Kressner. A new implementation of the
-*       unsymmetric QR-algorithm for ScaLAPACK. Lapack Working
-*       Note XYZ, 2008.
+*       R. Granat, B. Kagstrom, and D. Kressner,
+*       A Novel Parallel QR Algorithm for Hybrid Distributed Momory HPC
+*       Systems.
+*       SIAM J. Sci. Comput., 32(4):2345--2378, 2010.
 *
 *     ================================================================
 *     .. Parameters ..
@@ -234,18 +239,18 @@
       PARAMETER          ( BLOCK_CYCLIC_2D = 1, DLEN_ = 9, DTYPE_ = 1,
      $                     CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9,
-     $                     CRSOVER = .FALSE. )
+     $                     CRSOVER = .TRUE. )
       INTEGER            NTINY
       PARAMETER          ( NTINY = 11 )
       INTEGER            NL
       PARAMETER          ( NL = 49 )
       REAL               ZERO, ONE
-      PARAMETER          ( ZERO = 0.0, ONE = 1.0 )
+      PARAMETER          ( ZERO = 0.0e0, ONE = 1.0e0 )
 *     ..
 *     .. Local Scalars ..
       INTEGER            I, KBOT, NMIN, LLDH, LLDZ, ICTXT, NPROW, NPCOL,
-     $                   MYROW, MYCOL, HROWS, HCOLS, IPW, NB, II, JJ,
-     $                   HRSRC, HCSRC, NPROCS, ILOC1, JLOC1,
+     $                   MYROW, MYCOL, HROWS, HCOLS, IPW, NH, NB,
+     $                   II, JJ, HRSRC, HCSRC, NPROCS, ILOC1, JLOC1,
      $                   HRSRC1, HCSRC1, K, ILOC2, JLOC2, ILOC3, JLOC3,
      $                   ILOC4, JLOC4, HRSRC2, HCSRC2, HRSRC3, HCSRC3,
      $                   HRSRC4, HCSRC4, LIWKOPT
@@ -363,7 +368,7 @@
 *
       ELSE
 *
-*        Copy eigenvalues isolated by PDGEBAL.
+*        Copy eigenvalues isolated by PSGEBAL.
 *
          DO 10 I = 1, ILO - 1
             CALL INFOG2L( I, I, DESCH, NPROW, NPCOL, MYROW, MYCOL, II,
@@ -418,13 +423,14 @@
 *
 *        PSLAQR1/PSLAQR0 crossover point.
 *
+         NH = IHI-ILO+1
          NMIN = PILAENVX( ICTXT, 12, 'PSHSEQR',
      $        JOB( : 1 ) // COMPZ( : 1 ), N, ILO, IHI, LWORK )
          NMIN = MAX( NTINY, NMIN )
 *
 *        PSLAQR0 for big matrices; PSLAQR1 for small ones.
 *
-         IF( (.NOT. CRSOVER .AND. N.GT.NTINY) .OR. N.GT.NMIN .OR.
+         IF( (.NOT. CRSOVER .AND. NH.GT.NTINY) .OR. NH.GT.NMIN .OR.
      $        DESCH(RSRC_).NE.0 .OR. DESCH(CSRC_).NE.0 ) THEN
             CALL PSLAQR0( WANTT, WANTZ, N, ILO, IHI, H, DESCH, WR, WI,
      $           ILO, IHI, Z, DESCZ, WORK, LWORK, IWORK, LIWORK, INFO,
@@ -439,7 +445,7 @@
                CALL PSLAQR1( WANTT, WANTZ, N, ILO, IHI, H, DESCH, WR,
      $              WI, ILO, IHI, Z, DESCZ, WORK, LWORK, IWORK,
      $              LIWORK, INFO )
-               INFO = -777
+               INFO = -7777
             END IF
          ELSE
 *
@@ -458,7 +464,7 @@
                IF( N.GE.NL ) THEN
 *
 *                 Larger matrices have enough subdiagonal scratch
-*                 space to CALL PSLAQR0 directly.
+*                 space to call PSLAQR0 directly.
 *
                   CALL PSLAQR0( WANTT, WANTZ, N, ILO, KBOT, H, DESCH,
      $                 WR, WI, ILO, IHI, Z, DESCZ, WORK, LWORK,
@@ -488,7 +494,7 @@
      $               CALL PSLACPY( 'All', N, N, WORK, 1, 1, DESCH2,
      $                    H, 1, 1, DESCH )
                END IF
-               INFO = -888
+               INFO = -8888
             END IF
          END IF
 *
@@ -502,13 +508,13 @@
 *
          DO 30 I = ILO, IHI-1
             CALL PSELGET( 'All', ' ', TMP3, H, I+1, I, DESCH )
-            IF( TMP3.NE.0.00 ) THEN
+            IF( TMP3.NE.0.0E+00 ) THEN
                CALL PSELGET( 'All', ' ', TMP1, H, I, I, DESCH )
                CALL PSELGET( 'All', ' ', TMP2, H, I, I+1, DESCH )
                CALL PSELGET( 'All', ' ', TMP4, H, I+1, I+1, DESCH )
                CALL SLANV2( TMP1, TMP2, TMP3, TMP4, DUM1, DUM2, DUM3,
      $              DUM4, CS, SN )
-               IF( TMP3.EQ.0.00 ) THEN
+               IF( TMP3.EQ.0.0E+00 ) THEN
                   IF( WANTT ) THEN
                      IF( I+2.LE.N )
      $                  CALL PSROT( N-I-1, H, I, I+2, DESCH,
@@ -529,62 +535,78 @@
             END IF
  30      CONTINUE
 *
-*        Read out eigenvalues (correctly this time).
+*        Read out eigenvalues: first let all the processes compute the
+*        eigenvalue inside their diagonal blocks in parallel, except for
+*        the eigenvalue located next to a block border. After that,
+*        compute all eigenvalues located next to the block borders.
+*        Finally, do a global summation over WR and WI so that all
+*        processors receive the result.
 *
          DO 40 K = ILO, IHI
             WR( K ) = ZERO
             WI( K ) = ZERO
  40      CONTINUE
          NB = DESCH( MB_ )
+*
+*        Loop 50: extract eigenvalues from the blocks which are not laid
+*        out across a border of the processor mesh, except for those 1x1
+*        blocks on the border.
+*
          PAIR = .FALSE.
          DO 50 K = ILO, IHI
             IF( .NOT. PAIR ) THEN
-               IF( K.LT.N ) THEN
-                  BORDER = MOD( K, NB ).EQ.0 .OR. ( K.NE.1 .AND.
-     $                 MOD( K, NB ).EQ.1 )
-                  IF( .NOT. BORDER ) THEN
-                     CALL INFOG2L( K, K, DESCH, NPROW, NPCOL, MYROW,
-     $                    MYCOL, ILOC1, JLOC1, HRSRC1, HCSRC1 )
-                     IF( MYROW.EQ.HRSRC1 .AND. MYCOL.EQ.HCSRC1 ) THEN
-                        ELEM1 = H((JLOC1-1)*LLDH+ILOC1)
+               BORDER = MOD( K, NB ).EQ.0 .OR. ( K.NE.1 .AND.
+     $              MOD( K, NB ).EQ.1 )
+               IF( .NOT. BORDER ) THEN
+                  CALL INFOG2L( K, K, DESCH, NPROW, NPCOL, MYROW,
+     $                 MYCOL, ILOC1, JLOC1, HRSRC1, HCSRC1 )
+                  IF( MYROW.EQ.HRSRC1 .AND. MYCOL.EQ.HCSRC1 ) THEN
+                     ELEM1 = H((JLOC1-1)*LLDH+ILOC1)
+                     IF( K.LT.N ) THEN
                         ELEM3 = H((JLOC1-1)*LLDH+ILOC1+1)
-                        IF( ELEM3.NE.ZERO ) THEN
-                           ELEM2 = H((JLOC1)*LLDH+ILOC1)
-                           ELEM4 = H((JLOC1)*LLDH+ILOC1+1)
-                           CALL SLANV2( ELEM1, ELEM2, ELEM3, ELEM4,
-     $                          WR( K ), WI( K ), WR( K+1 ), WI( K+1 ),
-     $                          SN, CS )
-                           PAIR = .TRUE.
-                        ELSE
-                           IF( K.GT.1 ) THEN
-                              TMP = H((JLOC1-2)*LLDH+ILOC1)
-                              IF( TMP.NE.ZERO ) THEN
-                                 ELEM1 = H((JLOC1-2)*LLDH+ILOC1-1)
-                                 ELEM2 = H((JLOC1-1)*LLDH+ILOC1-1)
-                                 ELEM3 = H((JLOC1-2)*LLDH+ILOC1)
-                                 ELEM4 = H((JLOC1-1)*LLDH+ILOC1)
-                                 CALL SLANV2( ELEM1, ELEM2, ELEM3,
-     $                                ELEM4, WR( K-1 ), WI( K-1 ),
-     $                                WR( K ), WI( K ), SN, CS )
-                              ELSE
-                                 WR( K ) = ELEM1
-                              END IF
+                     ELSE
+                        ELEM3 = ZERO
+                     END IF
+                     IF( ELEM3.NE.ZERO ) THEN
+                        ELEM2 = H((JLOC1)*LLDH+ILOC1)
+                        ELEM4 = H((JLOC1)*LLDH+ILOC1+1)
+                        CALL SLANV2( ELEM1, ELEM2, ELEM3, ELEM4,
+     $                       WR( K ), WI( K ), WR( K+1 ), WI( K+1 ),
+     $                       SN, CS )
+                        PAIR = .TRUE.
+                     ELSE
+                        IF( K.GT.1 ) THEN
+                           TMP = H((JLOC1-2)*LLDH+ILOC1)
+                           IF( TMP.NE.ZERO ) THEN
+                              ELEM1 = H((JLOC1-2)*LLDH+ILOC1-1)
+                              ELEM2 = H((JLOC1-1)*LLDH+ILOC1-1)
+                              ELEM3 = H((JLOC1-2)*LLDH+ILOC1)
+                              ELEM4 = H((JLOC1-1)*LLDH+ILOC1)
+                              CALL SLANV2( ELEM1, ELEM2, ELEM3,
+     $                             ELEM4, WR( K-1 ), WI( K-1 ),
+     $                             WR( K ), WI( K ), SN, CS )
                            ELSE
                               WR( K ) = ELEM1
                            END IF
+                        ELSE
+                           WR( K ) = ELEM1
                         END IF
                      END IF
                   END IF
-               ELSE
-                  CALL INFOG2L( K, K, DESCH, NPROW, NPCOL, MYROW, MYCOL,
-     $                 ILOC1, JLOC1, HRSRC1, HCSRC1 )
-                  IF( MYROW.EQ.HRSRC1 .AND. MYCOL.EQ.HCSRC1 )
-     $                 WR( K ) = H((JLOC1-1)*LLDH+ILOC1)
                END IF
             ELSE
                PAIR = .FALSE.
             END IF
  50      CONTINUE
+*
+*        Loop 60: extract eigenvalues from the blocks which are laid
+*        out across a border of the processor mesh. The processors are
+*        numbered as below:
+*
+*                        1 | 2
+*                        --+--
+*                        3 | 4
+*
          DO 60 K = ICEIL(ILO,NB)*NB, IHI-1, NB
             CALL INFOG2L( K, K, DESCH, NPROW, NPCOL, MYROW, MYCOL,
      $           ILOC1, JLOC1, HRSRC1, HCSRC1 )

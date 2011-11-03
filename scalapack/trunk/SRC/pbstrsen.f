@@ -2,10 +2,10 @@
      $     DESCT, Q, IQ, JQ, DESCQ, WR, WI, M, S, SEP, WORK, LWORK,
      $     IWORK, LIWORK, INFO )
 *
-*  -- ScaLAPACK-style routine --
-*     Preliminary version.
-*     Dept. Computing Science and HPC2N, Univ. of Umea, Sweden
-*     March 7, 2006.
+*  -- ScaLAPACK driver routine (version 1.8.x) --
+*     Deptartment of Computing Science and HPC2N,
+*     Umea University, Sweden
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -13,19 +13,19 @@
       CHARACTER          COMPQ, JOB
       INTEGER            INFO, LIWORK, LWORK, M, N,
      $                   IT, JT, IQ, JQ
-      REAL   S, SEP
+      REAL               S, SEP
 *     ..
 *     .. Array Arguments ..
       LOGICAL            SELECT( N )
       INTEGER            PARA( 6 ), DESCT( * ), DESCQ( * ), IWORK( * )
-      REAL   Q( * ), T( * ), WI( * ), WORK( * ), WR( * )
+      REAL               Q( * ), T( * ), WI( * ), WORK( * ), WR( * )
 *     ..
 *
 *  Purpose
 *  =======
 *
 *  PBSTRSEN reorders the real Schur factorization of a real matrix
-*  A = Q * T * Q**T, so that a selected cluster of eigenvalues appears
+*  A = Q*T*Q**T, so that a selected cluster of eigenvalues appears
 *  in the leading diagonal blocks of the upper quasi-triangular matrix
 *  T, and the leading columns of Q form an orthonormal basis of the
 *  corresponding right invariant subspace. The reordering is performed
@@ -35,7 +35,7 @@
 *  the cluster of eigenvalues and/or the invariant subspace. SCASY
 *  library is needed for condition estimation.
 *
-*  T must be in Schur form (as returned by PDLAHQR), that is, block
+*  T must be in Schur form (as returned by PSLAHQR), that is, block
 *  upper triangular with 1-by-1 and 2-by-2 diagonal blocks.
 *
 *  Notes
@@ -143,7 +143,7 @@
 *  N       (global input) INTEGER
 *          The order of the globally distributed matrix T. N >= 0.
 *
-*  T       (local input/output) REAL array,
+*  T       (local input/output) REAL             array,
 *          dimension (LLD_T,LOCc(N)).
 *          On entry, the local pieces of the global distributed
 *          upper quasi-triangular matrix T, in Schur form. On exit, T is
@@ -159,7 +159,7 @@
 *  DESCT   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the global distributed matrix T.
 *
-*  Q       (local input/output) REAL array,
+*  Q       (local input/output) REAL             array,
 *          dimension (LLD_Q,LOCc(N)).
 *          On entry, if COMPQ = 'V', the local pieces of the global
 *          distributed matrix Q of Schur vectors.
@@ -177,8 +177,8 @@
 *  DESCQ   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the global distributed matrix Q.
 *
-*  WR      (global output) REAL array, dimension (N)
-*  WI      (global output) REAL array, dimension (N)
+*  WR      (global output) REAL             array, dimension (N)
+*  WI      (global output) REAL             array, dimension (N)
 *          The real and imaginary parts, respectively, of the reordered
 *          eigenvalues of T. The eigenvalues are in principle stored in
 *          the same order as on the diagonal of T, with WR(i) = T(i,i)
@@ -192,20 +192,20 @@
 *          The dimension of the specified invariant subspace.
 *          0 <= M <= N.
 *
-*  S       (global output) REAL
+*  S       (global output) REAL            
 *          If JOB = 'E' or 'B', S is a lower bound on the reciprocal
 *          condition number for the selected cluster of eigenvalues.
 *          S cannot underestimate the true reciprocal condition number
 *          by more than a factor of sqrt(N). If M = 0 or N, S = 1.
 *          If JOB = 'N' or 'V', S is not referenced.
 *
-*  SEP     (global output) REAL
+*  SEP     (global output) REAL            
 *          If JOB = 'V' or 'B', SEP is the estimated reciprocal
 *          condition number of the specified invariant subspace. If
 *          M = 0 or N, SEP = norm(T).
 *          If JOB = 'N' or 'E', SEP is not referenced.
 *
-*  WORK    (local workspace/output) REAL array,
+*  WORK    (local workspace/output) REAL             array,
 *          dimension (LWORK)
 *          On exit, if INFO = 0, WORK(1) returns the optimal LWORK.
 *
@@ -285,7 +285,7 @@
 *
 *  This algorithm cannot work on submatrices of T and Q, i.e.,
 *  IT = JT = IQ = JQ = 1 must hold. This is however no limitation
-*  since PDLAHQR does not compute Schur forms of submatrices anyway.
+*  since PSLAHQR does not compute Schur forms of submatrices anyway.
 *
 *  References
 *  ==========
@@ -323,8 +323,10 @@
 *  Contributors
 *  ============
 *
-*  Implemented by Robert Granat, Umea University and HPC2N, March 2007,
+*  Implemented by Robert Granat, Dept. of Computing Science and HPC2N,
+*  Umea University, Sweden, March 2007,
 *  in collaboration with Bo Kagstrom and Daniel Kressner.
+*  Modified by Meiyue Shao, October 2011.
 *
 *  Revisions
 *  =========
@@ -342,7 +344,7 @@
       CHARACTER          TOP
       INTEGER            BLOCK_CYCLIC_2D, CSRC_, CTXT_, DLEN_, DTYPE_,
      $                   LLD_, MB_, M_, NB_, N_, RSRC_
-      REAL   ZERO, ONE
+      REAL               ZERO, ONE
       PARAMETER          ( TOP = '1-Tree',
      $                     BLOCK_CYCLIC_2D = 1, DLEN_ = 9, DTYPE_ = 1,
      $                     CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
@@ -357,7 +359,7 @@
      $                   NB, NOEXSY, NPCOL, NPROCS, NPROW, SPACE,
      $                   T12ROWS, T12COLS, TCOLS, TCSRC, TROWS, TRSRC,
      $                   WRK1, IWRK1, WRK2, IWRK2, WRK3, IWRK3
-      REAL   DPDUM1, ELEM, EST, SCALE, RNORM
+      REAL               DPDUM1, ELEM, EST, SCALE, RNORM
      $                   , TIME, TIME3, TIME4
 *     .. Local Arrays ..
       INTEGER            DESCT12( DLEN_ ), MBNB2( 2 )
@@ -365,9 +367,8 @@
 *     .. External Functions ..
       LOGICAL            LSAME
       INTEGER            NUMROC
-      REAL   PSLANGE, MPI_WTIME
+      REAL               PSLANGE
       EXTERNAL           LSAME, NUMROC, PSLANGE
-     $                   , MPI_TIME
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, CHK1MAT, DESCINIT,
@@ -616,7 +617,7 @@ c     $              IERR )
          CALL PXERBLA( ICTXT, 'PBSTRSEN', -INFO )
          RETURN
       ELSEIF( LQUERY ) THEN
-         WORK( 1 ) = REAL(LWMIN)
+         WORK( 1 ) = FLOAT(LWMIN)
          IWORK( 1 ) = LIWMIN
          RETURN
       END IF
@@ -638,7 +639,6 @@ c     $              IERR )
      $     IWORK(N+1), LIWORK-N, INFO )
 *
       IF( WANTS ) THEN
-         TIME = MPI_WTIME()
 *
 *        Solve Sylvester equation T11*R - R*T2 = scale*T12 for R in
 *        parallel.
@@ -650,7 +650,7 @@ c     $              IERR )
          ICOFFT12 = MOD( N1, NB )
          T12ROWS = NUMROC( N1, NB, MYROW, TRSRC, NPROW )
          T12COLS = NUMROC( N2+ICOFFT12, NB, MYCOL, TCSRC, NPCOL )
-         CALL SESCINIT( DESCT12, N1, N2+ICOFFT12, NB, NB, TRSRC,
+         CALL DESCINIT( DESCT12, N1, N2+ICOFFT12, NB, NB, TRSRC,
      $        TCSRC, ICTXT, MAX(1,T12ROWS), IERR )
          CALL PSLACPY( 'All', N1, N2, T, 1, N1+1, DESCT, WORK,
      $        1, 1+ICOFFT12, DESCT12 )
@@ -681,25 +681,22 @@ c     $        SCALE, IERR )
             S = SCALE / ( SQRT( SCALE*SCALE / RNORM+RNORM )*
      $           SQRT( RNORM ) )
          END IF
-         TIME3 = MPI_WTIME() - TIME
       END IF
 *
       IF( WANTSP ) THEN
-         TIME = MPI_WTIME()
 *
 *        Estimate sep(T11,T21) in parallel.
 *
 c         CALL PSYCTCON( 'Notranspose', 'Notranspose', -1, 'Demand', N1,
 c     $        N2, T, 1, 1, DESCT, T, N1+1, N1+1, DESCT, MBNB2, WORK,
 c     $        LWORK, IWORK(N+1), LIWORK-N, EST, ITER, IERR )
-         EST = EST * SQRT(REAL(N1*N2))
+         EST = EST * SQRT(FLOAT(N1*N2))
          SEP = ONE / EST
          IF( IERR.LT.0 ) THEN
             INFO = N+4
          ELSE
             INFO = N+2
          END IF
-         TIME4 = MPI_WTIME() - TIME
       END IF
 *
 *     Return to calling program.

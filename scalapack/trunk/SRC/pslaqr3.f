@@ -4,10 +4,10 @@
      $                              WV, DESCW, WORK, LWORK, IWORK,
      $                              LIWORK, RECLEVEL )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
+*  -- ScaLAPACK driver routine (version 2.0) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     February 2008
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -20,7 +20,8 @@
       INTEGER            DESCH( * ), DESCZ( * ), DESCT( * ), DESCV( * ),
      $                   DESCW( * ), IWORK( * )
       REAL               H( * ), SI( KBOT ), SR( KBOT ), T( * ),
-     $                   V( * ), WORK( * ), WV( * ), Z( * )
+     $                   V( * ), WORK( * ), WV( * ),
+     $                   Z( * )
 *     ..
 *
 *  Purpose
@@ -218,7 +219,8 @@
 *
 *  ================================================================
 *  Based on contributions by
-*        Robert Granat, Department of Computing Science and HPC2N,
+*        Robert Granat and Meiyue Shao,
+*        Department of Computing Science and HPC2N,
 *        Umea University, Sweden
 *
 *  ================================================================
@@ -232,7 +234,7 @@
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9, RECMAX = 3,
      $                     SORTGRAD = .FALSE. )
       REAL               ZERO, ONE
-      PARAMETER          ( ZERO = 0.0, ONE = 1.0 )
+      PARAMETER          ( ZERO = 0.0e0, ONE = 1.0e0 )
 *     ..
 *     .. Local Scalars ..
       REAL               AA, BB, BETA, CC, CS, DD, EVI, EVK, FOO, S,
@@ -262,15 +264,15 @@
       REAL               DDUM( 1 )
 *     ..
 *     .. External Functions ..
-      REAL               SLAMCH, PSLANGE, PSCHKRESI
+      REAL               SLAMCH, PSLANGE
       INTEGER            PILAENVX, NUMROC, INDXG2P, ICEIL, BLACS_PNUM
       EXTERNAL           SLAMCH, PILAENVX, NUMROC, INDXG2P, PSLANGE,
-     $                   ICEIL, PSCHKRESI, BLACS_PNUM
+     $                   ICEIL, BLACS_PNUM
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           PSCOPY, PSGEHRD, PSGEMM, SLABAD, PSLACPY,
      $                   PSLAQR1, SLANV2, PSLAQR0, PSLARF, PSLARFG,
-     $                   PSLASET, PBSTRORD, PDELGET, PSELSET,
+     $                   PSLASET, PBSTRORD, PSELGET, PSELSET,
      $                   PSLAMVE, BLACS_GRIDINFO, BLACS_GRIDMAP,
      $                   BLACS_GRIDEXIT, PSGEMR2D
 *     ..
@@ -314,7 +316,7 @@
          LWKOPT = 1
       ELSE
 *
-*        Workspace query calls to PDGEHRD and PDORMHR.
+*        Workspace query calls to PSGEHRD and PSORMHR.
 *
          TAUROWS = NUMROC( 1, 1, MYCOL, DESCV(RSRC_), NPROW )
          TAUCOLS = NUMROC( JW+IROFFH, NB, MYCOL, DESCV(CSRC_),
@@ -323,7 +325,7 @@
      $        INFO )
          LWK1 = INT( WORK( 1 ) ) + TAUROWS*TAUCOLS
 *
-*        Workspace query call to PDORMHR.
+*        Workspace query call to PSORMHR.
 *
          CALL PSORMHR( 'Right', 'No', JW, JW, 1, JW, T, 1, 1, DESCT,
      $        WORK, V, 1, 1, DESCV, WORK, -1, INFO )
@@ -369,7 +371,7 @@
          IWRK2 = IWORK( 1 )
 *
 *        Extra workspace for reflecting back spike
-*        (workspace for PDLARF approximated for simplicity).
+*        (workspace for PSLARF approximated for simplicity).
 *
          RROWS =  NUMROC( N+IROFFH, NB, MYROW, DESCV(RSRC_), NPROW )
          RCOLS =  NUMROC( 1, 1, MYCOL, DESCV(CSRC_), NPCOL )
@@ -389,13 +391,7 @@
 *
 *        Residual check workspace.
 *
-c#ifdef USE_AED_RES
-         TZROWS = NUMROC( JW+IROFFH, NB, MYROW, DESCT(RSRC_), NPROW )
-         TZCOLS = NUMROC( JW+IROFFH, NB, MYCOL, DESCT(CSRC_), NPCOL )
-         LWK8 = 2*TZROWS*TZCOLS
-c#else
-c         LWK8 = 0
-c#endif
+         LWK8 = 0
 *
 *        Optimal workspace.
 *
@@ -407,7 +403,7 @@ c#endif
 *
       WORK( 1 ) = FLOAT( LWKOPT )
 *
-*     IWORK(1:NSEL) is used as the array SELECT for PBDTRORD.
+*     IWORK(1:NSEL) is used as the array SELECT for PBSTRORD.
 *
       IWORK( 1 ) = ILWKOPT + NSEL
       IF( LQUERY )
@@ -678,7 +674,7 @@ c#endif
       IF( INFQR.NE.0 )
      $   INFQR = INFQR - IROFFH
 *
-*     PBDTRORD needs a clean margin near the diagonal.
+*     PBSTRORD needs a clean margin near the diagonal.
 *
       DO 50 J = 1, JW - 3
          CALL PSELSET( T, J+2, J, DESCT, ZERO )
@@ -689,15 +685,9 @@ c#endif
 *
 *     Check local residual for AED Schur decomposition.
 *
-c#ifdef USE_AED_RES
-      RESAED = PSCHKRESI( JW, H, KWTOP, KWTOP, DESCH, T,
-     $                   1+IROFFH, 1+IROFFH, DESCT, V, 1+IROFFH,
-     $                   1+IROFFH, DESCV, WORK, LWORK )
-c#else
-c      RESAED = 0.00
-c#endif
+      RESAED = 0.0E+00
 *
-*     Clean up the array SELECT for PBDTRORD.
+*     Clean up the array SELECT for PBSTRORD.
 *
       DO 60 J = 1, NSEL
          IWORK( J ) = 0
@@ -791,7 +781,7 @@ c#endif
      $                 IWORK(NSEL+1), LIWORK-NSEL, INFO )
 *
 *                 Adjust the array SELECT explicitly so that it does not
-*                 rely on the output of PBDTRORD.
+*                 rely on the output of PBSTRORD.
 *
                   IWORK( IFST+IROFFH ) = 0
                   IWORK( LILST ) = 1
@@ -847,7 +837,7 @@ c#endif
      $                 IWORK(NSEL+1), LIWORK-NSEL, INFO )
 *
 *                 Adjust the array SELECT explicitly so that it does not
-*                 rely on the output of PBDTRORD.
+*                 rely on the output of PBSTRORD.
 *
                   IWORK( IFST+IROFFH ) = 0
                   IWORK( IFST+IROFFH-1 ) = 0
@@ -902,13 +892,7 @@ c#endif
 *
 *     Check local residual for reordered AED Schur decomposition.
 *
-c#ifdef USE_AED_RES
-      RESAED = PSCHKRESI( JW, H, KWTOP, KWTOP, DESCH, T,
-     $                   1+IROFFH, 1+IROFFH, DESCT, V, 1+IROFFH,
-     $                   1+IROFFH, DESCV, WORK, LWORK )
-c#else
-c      RESAED = 0.00
-c#endif
+      RESAED = 0.0E+00
 *
 *     Return to Hessenberg form.
 *

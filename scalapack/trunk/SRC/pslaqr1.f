@@ -3,10 +3,10 @@
      $                              DESCZ, WORK, LWORK, IWORK,
      $                              ILWORK, INFO )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
+*  -- ScaLAPACK auxiliary routine (version 2.0) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     January 2010
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -26,16 +26,16 @@
 *    and or eigenvalues of a matrix already in Hessenberg form from
 *    cols ILO to IHI.
 *
-*  This is a modified version of PDLAHQR from ScaLAPACK version 1.7.3.
+*  This is a modified version of PSLAHQR from ScaLAPACK version 1.7.3.
 *  The following modifications were made:
 *    o Recently removed workspace query functionality was added.
 *    o Aggressive early deflation is implemented.
-*    o Aggressive defaltion (looking for two consecutive small
+*    o Aggressive deflation (looking for two consecutive small
 *      subdiagonal elements by PDLACONSB) is abandoned.
 *    o The returned Schur form is now in canonical form, i.e., the
 *      returned 2-by-2 blocks really correspond to complex conjugate
 *      pairs of eigenvalues.
-*    o For some reason, the original version of PDLAHQR sometimes did
+*    o For some reason, the original version of PSLAHQR sometimes did
 *      not read out the converged eigenvalues correclty. This is now
 *      fixed.
 *
@@ -201,14 +201,12 @@
 *
 *  Subroutines:
 *       This routine calls:
-*           PDLACONSB   -> To determine where to start each iteration
-*           PDLAWIL   -> Given the shift, get the transformation
-*           DLASORTE   -> Pair up eigenvalues so that reals are paired.
-*           PDLACP3   -> Parallel array to local replicated array copy &
+*           PSLAWIL   -> Given the shift, get the transformation
+*           SLASORTE  -> Pair up eigenvalues so that reals are paired.
+*           PSLACP3   -> Parallel array to local replicated array copy &
 *                        back.
-*           DLAREF   -> Row/column reflector applier.  Core routine
-*                        here.
-*           PDLASMSUB   -> Finds negligible subdiagonal elements.
+*           SLAREF    -> Row/column reflector applier. Core routine here.
+*           PSLASMSUB -> Finds negligible subdiagonal elements.
 *
 *  Current Notes and/or Restrictions:
 *       1.) This code requires the distributed block size to be square
@@ -243,6 +241,9 @@
 *
 *  Implemented by:  G. Henry, November 17, 1996
 *
+*  Modified by Robert Granat and Meiyue Shao, Department of Computing
+*  Science and HPC2N, Umea University, Sweden
+*
 *  =====================================================================
 *
 *     .. Parameters ..
@@ -252,9 +253,9 @@
      $                     CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9 )
       REAL               ZERO, ONE, HALF
-      PARAMETER          ( ZERO = 0.0, ONE = 1.0, HALF = 0.5D+0 )
+      PARAMETER          ( ZERO = 0.0E+0, ONE = 1.0E+0, HALF = 0.5E+0 )
       REAL               CONST
-      PARAMETER          ( CONST = 1.50D+0 )
+      PARAMETER          ( CONST = 1.5 )
       INTEGER            IBLK, LDS
       PARAMETER          ( IBLK = 32, LDS = 12*IBLK+1 )
 *     ..
@@ -293,7 +294,7 @@
       EXTERNAL           BLACS_GRIDINFO, SCOPY, SGEBR2D, SGEBS2D,
      $                   SGERV2D, SGESD2D, SGSUM2D, SLAHQR, SLAREF,
      $                   SLARFG, SLASORTE, IGAMN2D, INFOG1L, INFOG2L,
-     $                   PSLABAD, PSLACONSB, PSLACP3, PSLASMSUB,
+     $                   PSLABAD, PSLACP3, PSLASMSUB,
      $                   PSLAWIL, PXERBLA, SLANV2, PSLAQR2, PSLAQR4
 *     ..
 *     .. Intrinsic Functions ..
@@ -403,7 +404,7 @@
       NZ = IHIZ - ILOZ + 1
 *
 *     If the diagonal block is small enough, copy it to local memory and
-*     CALL SLAHQR directly.
+*     call SLAHQR directly.
 *
       IF( NH .LE. LDS ) THEN
          CALL PSLAQR4( WANTT, WANTZ, N, ILO, IHI, A, DESCA, WR, WI,
@@ -532,7 +533,7 @@
      $                       LDS, S2, DBLK, WORK( IRBUF+1 ),
      $                       WORK( ICBUF+1 ), S3, 4*DBLK*DBLK )
 *
-*              Skip a QR sweep if enough eigenvalues are deflated
+*              Skip a QR sweep if enough eigenvalues are deflated.
 *
                NIBBLE = ILAENV( 14, 'SLAQR0', 'SV', N, L, I, 4*LDS*LDS )
                NIBBLE = MAX( 0, NIBBLE )
@@ -540,8 +541,9 @@
                DBLK = DBLK - ND
                IF( 100*ND .GT. NIBBLE*NH .OR. DBLK .LT. 2*JBLK ) GOTO 10
 *
-*              Use unconverged eigenvalues as shifts for the QR sweep
-*              (This option is temporarily turned off.)
+*              Use unconverged eigenvalues as shifts for the QR sweep.
+*              (This option is turned off because of the quality of
+*              these shifts are not so good.)
 *
 *               IF( ND.GE.0 .AND. ND+DBLK.GE.64 ) THEN
                IF( .FALSE. ) THEN
@@ -552,7 +554,7 @@
 *
 *                 Shuffle shifts into pairs of real shifts and pairs of
 *                 complex conjugate shifts assuming complex conjugate
-*                 shifts are already adjacent to one another
+*                 shifts are already adjacent to one another.
 *
                   DO 21 II = DBLK, 3, -2
                      IF( WORK( ICBUF+II ).NE.-WORK( ICBUF+II-1 ) ) THEN
@@ -567,7 +569,7 @@
                      END IF
    21             CONTINUE
 *
-*                 Copy undeflatable eigenvalues to the diagonal of S1
+*                 Copy undeflatable eigenvalues to the diagonal of S1.
 *
                   II = 2
    22             CONTINUE
@@ -823,7 +825,7 @@
                   END IF
                END IF
 *
-*           DLAHQR used to have a single row application and a single
+*           SLAHQR used to have a single row application and a single
 *              column application to H.  Here we do something a little
 *              more clever.  We break each transformation down into 3
 *              parts:

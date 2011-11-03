@@ -1,8 +1,9 @@
       SUBROUTINE PDGEBAL( JOB, N, A, DESCA, ILO, IHI, SCALE, INFO )
 *
-*  -- ScaLAPACK routine (version 1.8.x) --
-*     Umea University and HPC2N, Umea, Sweden
-*     February, 2008
+*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
+*     Deptartment of Computing Science and HPC2N,
+*     Umea University, Sweden
+*     October, 2011
 *
       IMPLICIT NONE
 *

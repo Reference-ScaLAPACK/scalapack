@@ -2,10 +2,9 @@
      $                  INCY, CS, SN, WORK, LWORK, INFO )
 *
 *  -- ScaLAPACK-style routine --
-*     Preliminary version.
-*     Written by Robert Granat, May 15, 2007.
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -167,6 +166,9 @@
 *  (c) DESCX( CSRC_ ) = DESCY( CSRC_ )
 *
 *  =====================================================================
+*
+*     Written by Robert Granat, May 15, 2007.
+*
 *     .. Parameters ..
       INTEGER            BLOCK_CYCLIC_2D, CSRC_, CTXT_, DLEN_, DTYPE_,
      $                   LLD_, MB_, M_, NB_, N_, RSRC_

@@ -2,10 +2,10 @@
      $                    ILOZ, IHIZ, Z, DESCZ, T, LDT, V, LDV, WORK,
      $                    LWORK, INFO )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
+*  -- ScaLAPACK auxiliary routine (version 2.0) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     February 2010
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -27,7 +27,7 @@
 *  ILO to IHI.  This routine requires that the active block is small
 *  enough, i.e. IHI-ILO+1 .LE. LDT, so that it can be solved by LAPACK.
 *  Normally, it is called by PSLAQR1.  All the inputs are assumed to be
-*  valid without a check.
+*  valid without checking.
 *
 *  Notes
 *  =====
@@ -183,6 +183,13 @@
 *        Umea University, Sweden
 *
 *  ================================================================
+*  References:
+*        B. Kagstrom, D. Kressner, and M. Shao,
+*        On Aggressive Early Deflation in Parallel Variants of the QR
+*        Algorithm.
+*        Para 2010, to appear.
+*
+*  ================================================================
 *     .. Parameters ..
       INTEGER            BLOCK_CYCLIC_2D, CSRC_, CTXT_, DLEN_, DTYPE_,
      $                   LLD_, MB_, M_, NB_, N_, RSRC_
@@ -190,7 +197,7 @@
      $                     CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9 )
       REAL               ZERO, ONE
-      PARAMETER          ( ZERO = 0.0, ONE = 1.0 )
+      PARAMETER          ( ZERO = 0.0E+0, ONE = 1.0E+0 )
 *     ..
 *     .. Local Scalars ..
       INTEGER            CONTXT, HBL, I, I1, I2, IAFIRST, ICOL, ICOL1,
@@ -208,7 +215,7 @@
       EXTERNAL           NUMROC, ILAENV
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           BLACS_GRIDINFO, INFOG2L, PSLACP3, PSLASET,
+      EXTERNAL           BLACS_GRIDINFO, INFOG2L, PSLACP3, SLASET,
      $                   SLAHQR, SLAQR4, DESCINIT, PSGEMM, PSGEMR2D,
      $                   SGEMM, SLACPY, SGESD2D, SGERV2D
 *     ..
@@ -278,7 +285,7 @@
       IF( MOD( ILO-1, HBL )+NH .LE. HBL ) THEN
 *
 *        Simplest case: the diagonal block is located on one processor.
-*        CALL SGEMM directly to perform the update.
+*        Call SGEMM directly to perform the update.
 *
          HSTEP = LWORK / NH
          VSTEP = HSTEP
@@ -344,7 +351,7 @@
 *
 *        More complicated case: the diagonal block lay on a 2x2
 *        processor mesh.
-*        CALL SGEMM locally and communicate by pair.
+*        Call SGEMM locally and communicate by pair.
 *
          D1 = HBL - MOD( ILO-1, HBL )
          D2 = NH - D1
@@ -536,7 +543,7 @@
 *
 *        Most complicated case: the diagonal block lay across the border
 *        of the processor mesh.
-*        Treat V as a distributed matrix and CALL PSGEMM.
+*        Treat V as a distributed matrix and call PSGEMM.
 *
          HSTEP = LWORK / NH * NPCOL
          VSTEP = LWORK / NH * NPROW

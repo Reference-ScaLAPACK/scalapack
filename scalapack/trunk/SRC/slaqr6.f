@@ -2,10 +2,10 @@
      $                   NSHFTS, SR, SI, H, LDH, ILOZ, IHIZ, Z, LDZ,
      $                   V, LDV, U, LDU, NV, WV, LDWV, NH, WH, LDWH )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
-*     Department of Computing Science and HPC2N,
+*  -- ScaLAPACK driver routine (version 2.0) --
+*     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     February 2008
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -16,7 +16,7 @@
       LOGICAL            WANTT, WANTZ
 *     ..
 *     .. Array Arguments ..
-      REAL   H( LDH, * ), SI( * ), SR( * ), U( LDU, * ),
+      REAL               H( LDH, * ), SI( * ), SR( * ), U( LDU, * ),
      $                   V( LDV, * ), WH( LDWH, * ), WV( LDWV, * ),
      $                   Z( LDZ, * )
 *     ..
@@ -76,13 +76,13 @@
 *             NSHFTS gives the number of simultaneous shifts.  NSHFTS
 *             must be positive and even.
 *
-*      SR     (input) REAL array of size (NSHFTS)
-*      SI     (input) REAL array of size (NSHFTS)
+*      SR     (input) REAL             array of size (NSHFTS)
+*      SI     (input) REAL             array of size (NSHFTS)
 *             SR contains the real parts and SI contains the imaginary
 *             parts of the NSHFTS shifts of origin that define the
 *             multi-shift QR sweep.
 *
-*      H      (input/output) REAL array of size (LDH,N)
+*      H      (input/output) REAL             array of size (LDH,N)
 *             On input H contains a Hessenberg matrix.  On output a
 *             multi-shift QR sweep with shifts SR(J)+i*SI(J) is applied
 *             to the isolated diagonal block in rows and columns KTOP
@@ -97,7 +97,7 @@
 *             Specify the rows of Z to which transformations must be
 *             applied if WANTZ is .TRUE.. 1 .LE. ILOZ .LE. IHIZ .LE. N
 *
-*      Z      (input/output) REAL array of size (LDZ,IHI)
+*      Z      (input/output) REAL             array of size (LDZ,IHI)
 *             If WANTZ = .TRUE., then the QR Sweep orthogonal
 *             similarity transformation is accumulated into
 *             Z(ILOZ:IHIZ,ILO:IHI) from the right.
@@ -107,13 +107,13 @@
 *             LDA is the leading dimension of Z just as declared in
 *             the calling procedure. LDZ.GE.N.
 *
-*      V      (workspace) REAL array of size (LDV,NSHFTS/2)
+*      V      (workspace) REAL             array of size (LDV,NSHFTS/2)
 *
 *      LDV    (input) integer scalar
 *             LDV is the leading dimension of V as declared in the
 *             calling procedure.  LDV.GE.3.
 *
-*      U      (workspace) REAL array of size
+*      U      (workspace) REAL             array of size
 *             (LDU,3*NSHFTS-3)
 *
 *      LDU    (input) integer scalar
@@ -126,7 +126,7 @@
 *             workspace, otherwise the updates of the far-from-diagonal
 *             elements will be updated without level 3 BLAS.
 *
-*      WH     (workspace) REAL array of size (LDWH,NH)
+*      WH     (workspace) REAL             array of size (LDWH,NH)
 *
 *      LDWH   (input) integer scalar
 *             Leading dimension of WH just as declared in the
@@ -138,7 +138,7 @@
 *             workspace, otherwise the updates of the far-from-diagonal
 *             elements will be updated without level 3 BLAS.
 *
-*      WV     (workspace) REAL array of size
+*      WV     (workspace) REAL             array of size
 *             (LDWV,3*NSHFTS-3)
 *
 *      LDWV   (input) integer scalar
@@ -164,32 +164,32 @@
 *
 *     ============================================================
 *     .. Parameters ..
-      REAL   ZERO, ONE
-      PARAMETER          ( ZERO = 0.0d0, ONE = 1.0d0 )
+      REAL               ZERO, ONE
+      PARAMETER          ( ZERO = 0.0e0, ONE = 1.0e0 )
 *     ..
 *     .. Local Scalars ..
-      REAL   ALPHA, BETA, H11, H12, H21, H22, REFSUM,
+      REAL               ALPHA, BETA, H11, H12, H21, H22, REFSUM,
      $                   SAFMAX, SAFMIN, SCL, SMLNUM, SWAP, TST1, TST2,
      $                   ULP
       INTEGER            I, I2, I4, INCOL, J, J2, J4, JBOT, JCOL, JLEN,
      $                   JROW, JTOP, K, K1, KDU, KMS, KNZ, KRCOL, KZS,
      $                   M, M22, MBOT, MEND, MSTART, MTOP, NBMPS, NDCOL,
      $                   NS, NU, SINCOL, EINCOL, UINCOL, IPHV, CHUNK,
-     $                   JLEN2, JCOL2, GCHUNK, JROW2, MAXCHUNK
+     $                   THREADS, JLEN2, JCOL2, GCHUNK, JROW2, MAXCHUNK
       LOGICAL            ACCUM, BLK22, BMP22, INTRO, CHASE, OFF, ALL
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
       INTEGER            PILAENVX
-      REAL   SLAMCH
+      REAL               SLAMCH
       EXTERNAL           LSAME, SLAMCH, PILAENVX
 *     ..
 *     .. Intrinsic Functions ..
 *
-      INTRINSIC          ABS, REAL, MAX, MIN, MOD
+      INTRINSIC          ABS, FLOAT, MAX, MIN, MOD
 *     ..
 *     .. Local Arrays ..
-      REAL   VT( 3 )
+      REAL               VT( 3 )
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           SGEMM, SLABAD, SLACPY, SLAQR1, SLARFG, SLASET,
@@ -207,6 +207,7 @@
 *
       IF( KTOP.GE.KBOT )
      $   RETURN
+      THREADS = 1
 *
 *     ==== Shuffle shifts into pairs of real shifts and pairs
 *     .    of complex conjugate shifts assuming complex
@@ -241,7 +242,7 @@
       SAFMAX = ONE / SAFMIN
       CALL SLABAD( SAFMIN, SAFMAX )
       ULP = SLAMCH( 'PRECISION' )
-      SMLNUM = SAFMIN*( REAL( N ) / ULP )
+      SMLNUM = SAFMIN*( FLOAT( N ) / ULP )
 *
 *     ==== Use accumulated reflections to update far-from-diagonal
 *     .    entries ? This is only performed if both NH and NV is 
@@ -540,7 +541,6 @@
                         U( J, KMS+2 ) = U( J, KMS+2 ) -
      $                                  REFSUM*V( 2, M22 )
   110                CONTINUE
-
                   ELSE IF( WANTZ ) THEN
                      DO 120 J = ILOZ, IHIZ
                         REFSUM = V( 1, M22 )*( Z( J, K+1 )+V( 2, M22 )*

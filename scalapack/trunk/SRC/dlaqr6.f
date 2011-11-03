@@ -2,10 +2,10 @@
      $                   NSHFTS, SR, SI, H, LDH, ILOZ, IHIZ, Z, LDZ,
      $                   V, LDV, U, LDU, NV, WV, LDWV, NH, WH, LDWH )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
-*     Department of Computing Science and HPC2N,
+*  -- ScaLAPACK driver routine (version 2.0) --
+*     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     February 2008
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -175,7 +175,7 @@
      $                   JROW, JTOP, K, K1, KDU, KMS, KNZ, KRCOL, KZS,
      $                   M, M22, MBOT, MEND, MSTART, MTOP, NBMPS, NDCOL,
      $                   NS, NU, SINCOL, EINCOL, UINCOL, IPHV, CHUNK,
-     $                   JLEN2, JCOL2, GCHUNK, JROW2, MAXCHUNK
+     $                   THREADS, JLEN2, JCOL2, GCHUNK, JROW2, MAXCHUNK
       LOGICAL            ACCUM, BLK22, BMP22, INTRO, CHASE, OFF, ALL
 *     ..
 *     .. External Functions ..
@@ -207,6 +207,7 @@
 *
       IF( KTOP.GE.KBOT )
      $   RETURN
+      THREADS = 1
 *
 *     ==== Shuffle shifts into pairs of real shifts and pairs
 *     .    of complex conjugate shifts assuming complex
@@ -540,7 +541,6 @@
                         U( J, KMS+2 ) = U( J, KMS+2 ) -
      $                                  REFSUM*V( 2, M22 )
   110                CONTINUE
-
                   ELSE IF( WANTZ ) THEN
                      DO 120 J = ILOZ, IHIZ
                         REFSUM = V( 1, M22 )*( Z( J, K+1 )+V( 2, M22 )*

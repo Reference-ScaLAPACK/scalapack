@@ -2,9 +2,9 @@
      $                    DESCB, DWORK )
 
 *  -- ScaLAPACK/PSLICOT-style routine --
-*     Preliminary version.
-*     Dept. Computing Science and HPC2N, Umea Univ., Sweden
-*     December 7, 2007.
+*     Deptartment of Computing Science and HPC2N,
+*     Umea University, Sweden
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -14,7 +14,7 @@
 *     ..
 *     .. Array Arguments ..
       INTEGER            DESCA( * ), DESCB( * )
-      REAL   A( * ), B( * ), DWORK( * )
+      REAL               A( * ), B( * ), DWORK( * )
 *     ..
 *
 *  Purpose
@@ -98,7 +98,7 @@
 *          The number of columns to be operated on i.e the number of
 *          columns of the distributed submatrix sub( A ). N >= 0.
 *
-*  A       (local input) REAL pointer into the local memory
+*  A       (local input) REAL             pointer into the local memory
 *          to an array of dimension (LLD_A, LOCc(JA+N-1) ). This array
 *          contains the local pieces of the distributed matrix sub( A )
 *          to be copied from.
@@ -114,7 +114,7 @@
 *  DESCA   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the distributed matrix A.
 *
-*  B       (local output) REAL pointer into the local memory
+*  B       (local output) REAL             pointer into the local memory
 *          to an array of dimension (LLD_B, LOCc(JB+N-1) ). This array
 *          contains on exit the local pieces of the distributed matrix
 *          sub( B ).
@@ -130,7 +130,7 @@
 *  DESCB   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the distributed matrix B.
 *
-*  DWORK   (local workspace) REAL array
+*  DWORK   (local workspace) REAL             array
 *          If UPLO = 'U' or UPLO = 'L' and number of processors > 1,
 *          the length of DWORK is at least as large as the length of B.
 *          Otherwise, DWORK is not referenced.
@@ -184,19 +184,20 @@
 *
       IF( NPROCS.EQ.1 ) THEN
          CALL SLACPY( UPLO, M, N, A((JA-1)*DESCA(LLD_)+IA),
-     $                DESCA(LLD_), B((JB-1)*DESCB(LLD_)+IB),
-     $                DESCB(LLD_) )
+     $        DESCA(LLD_), B((JB-1)*DESCB(LLD_)+IB),
+     $        DESCB(LLD_) )
       ELSEIF( FULL ) THEN
          CALL PSGEMR2D( M, N, A, IA, JA, DESCA, B, IB, JB, DESCB,
-     $                  ICTXT )
+     $        ICTXT )
       ELSE
          CALL PSGEMR2D( M, N, A, IA, JA, DESCA, DWORK, IB, JB, DESCB,
-     $                  ICTXT )
+     $        ICTXT )
          CALL PSLACPY( UPLO, M, N, DWORK, IB, JB, DESCB, B, IB, JB,
-     $                 DESCB )
+     $        DESCB )
       END IF
 *
       RETURN
 *
 *     End of PSLAMVE
+*
       END

@@ -7,7 +7,7 @@
 *     ..
 *     .. Array Arguments ..
       INTEGER            ITRAF( * )
-      REAL   A( LDA, * ), DTRAF( * ), WORK( * )
+      REAL               A( LDA, * ), DTRAF( * ), WORK( * )
 *
 *
 *  Purpose
@@ -21,7 +21,7 @@
 *  by the parameters in the arrays ITRAF and DTRAF as described in
 *  BSTREXC.
 *
-*  This is an auxiliary routine called by BSTRSEN.
+*  This is an auxiliary routine called by BDTRSEN.
 *
 *  Arguments
 *  =========
@@ -43,7 +43,7 @@
 *          of A and NB specifies the maximal width of the block columns.
 *          If ISIDE = 1, this variable is not referenced.
 *
-*  A       (input/output) REAL array, dimension (LDA,N)
+*  A       (input/output) REAL             array, dimension (LDA,N)
 *          On entry, the matrix A.
 *          On exit, A is overwritten by B.
 *
@@ -57,22 +57,22 @@
 *          List of parameters for representing the transformation
 *          matrix Q, see BSTREXC.
 *
-*  DTRAF   (output) REAL array, length k, where
+*  DTRAF   (output) REAL             array, length k, where
 *          List of parameters for representing the transformation
 *          matrix Q, see BSTREXC.
 *
-*  WORK    (workspace) REAL array, dimension (N)
+*  WORK    (workspace) REAL             array, dimension (N)
 *
 *  =====================================================================
 *
 
 *     .. Parameters ..
-      REAL   ZERO, ONE
+      REAL               ZERO, ONE
       PARAMETER          ( ZERO = 0.0E+0, ONE = 1.0E+0 )
 *     ..
 *     .. Local Scalars ..
       INTEGER            I, IT, J, NNB, PD
-      REAL   TAU
+      REAL               TAU
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           SLARFX, SROT

@@ -11,7 +11,7 @@
 *     ..
 *     .. Array Arguments ..
       INTEGER            DESCA( * )
-      REAL   A( * ), B( LDB, * )
+      REAL               A( * ), B( LDB, * )
 *     ..
 *
 *  Purpose
@@ -89,7 +89,7 @@
 *          A(I,I) is the global location that the copying starts from.
 *          Unchanged on exit.
 *
-*  A       (global input/output) REAL array, dimension
+*  A       (global input/output) REAL             array, dimension
 *          (DESCA(LLD_),*)
 *          On entry, the parallel matrix to be copied into or from.
 *          On exit, if REV=1, the copied data.
@@ -98,7 +98,7 @@
 *  DESCA   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the distributed matrix A.
 *
-*  B       (local input/output) REAL array of size (LDB,M)
+*  B       (local input/output) REAL             array of size (LDB,M)
 *          If REV=0, this is the global portion of the array
 *             A(I:I+M-1,I:I+M-1).
 *          If REV=1, this is the unchanged on exit.
@@ -138,8 +138,8 @@
       PARAMETER          ( BLOCK_CYCLIC_2D = 1, DLEN_ = 9, DTYPE_ = 1,
      $                     CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9 )
-      REAL   ZERO
-      PARAMETER          ( ZERO = 0.0E+0 )
+      REAL               ZERO
+      PARAMETER          ( ZERO = 0.0 )
 *     ..
 *     .. Local Scalars ..
       INTEGER            COL, CONTXT, HBL, IAFIRST, ICOL1, ICOL2, IDI,

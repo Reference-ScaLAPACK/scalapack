@@ -13,10 +13,10 @@
       CHARACTER          TYPE
       INTEGER            ICOL1, IROW1, ISTART, ISTOP, ITMP1, ITMP2, LDA,
      $                   LDZ, LIHIZ, LILOZ
-      REAL   T1, T2, T3, V2, V3
+      REAL               T1, T2, T3, V2, V3
 *     ..
 *     .. Array Arguments ..
-      REAL   A( LDA, * ), VECS( * ), Z( LDZ, * )
+      REAL               A( LDA, * ), VECS( * ), Z( LDZ, * )
 *     ..
 *
 *  Purpose
@@ -35,7 +35,7 @@
 *          Otherwise: Apply reflectors to the columns of the matrix
 *          Unchanged on exit.
 *
-*  A       (global input/output) REAL array, (LDA,*)
+*  A       (global input/output) REAL             array, (LDA,*)
 *          On entry, the matrix to receive the reflections.
 *          The updated matrix on exit.
 *
@@ -46,7 +46,7 @@
 *          If .TRUE., then apply any column reflections to Z as well.
 *          If .FALSE., then do no additional work on Z.
 *
-*  Z       (global input/output) REAL array, (LDZ,*)
+*  Z       (global input/output) REAL             array, (LDZ,*)
 *          On entry, the second matrix to receive column reflections.
 *          This is changed only if WANTZ is set.
 *
@@ -91,7 +91,7 @@
 *          These serve the same purpose as ITMP1,ITMP2 but for Z
 *              when WANTZ is set.
 *
-*  VECS    (global input) REAL array of size 3*N (matrix
+*  VECS    (global input) REAL             array of size 3*N (matrix
 *                                                             size)
 *          This holds the size 3 reflectors one after another and this
 *              is only accessed when BLOCK is .TRUE.
@@ -100,7 +100,7 @@
 *  V3
 *  T1
 *  T2
-*  T3      (global input/output) REAL
+*  T3      (global input/output) REAL            
 *          This holds information on a single size 3 Householder
 *              reflector and is read when BLOCK is .FALSE., and
 *              overwritten when BLOCK is .TRUE.
@@ -111,7 +111,7 @@
 *
 *     .. Local Scalars ..
       INTEGER            J, K
-      REAL   H11, H22, SUM, T12, T13, T22, T23, T32, T33,
+      REAL               H11, H22, SUM, T12, T13, T22, T23, T32, T33,
      $                   V22, V23, V32, V33, A1, A2, A3, A4, A5, B1,
      $                   B2, B3, B4, B5, TMP1, TMP2, TMP3, SUM1, SUM2,
      $                   SUM3, A11, A22

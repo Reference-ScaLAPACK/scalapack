@@ -2,9 +2,10 @@
      $                    SR, SI, H, DESCH, ILOZ, IHIZ, Z, DESCZ, WORK,
      $                    LWORK, IWORK, LIWORK )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
-*     University of Umea and HPC2N, Umea, Sweden
-*     February 2008
+*  -- ScaLAPACK driver routine (version 2.0) --
+*     Deptartment of Computing Science and HPC2N,
+*     Umea University, Sweden
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -36,9 +37,6 @@
 *   KACC22 (global input) integer with value 0, 1, or 2.
 *          Specifies the computation mode of far-from-diagonal
 *          orthogonal updates.
-*     = 0: PDLAQR5 does not accumulate reflections and does not
-*          use matrix-matrix multiply to update far-from-diagonal
-*          matrix entries.
 *     = 1: PDLAQR5 accumulates reflections and uses matrix-matrix
 *          multiply to update the far-from-diagonal matrix entries.
 *     = 2: PDLAQR5 accumulates reflections, uses matrix-matrix
@@ -110,16 +108,16 @@
 *        University of Umea, Sweden.
 *
 *     ============================================================
-*     Reference:
+*     References:
+*       K. Braman, R. Byers, and R. Mathias,
+*       The Multi-Shift QR Algorithm Part I: Maintaining Well Focused
+*       Shifts, and Level 3 Performance.
+*       SIAM J. Matrix Anal. Appl., 23(4):929--947, 2002.
 *
-*     K. Braman, R. Byers and R. Mathias, The Multi-Shift QR
-*     Algorithm Part I: Maintaining Well Focused Shifts, and
-*     Level 3 Performance, SIAM Journal of Matrix Analysis,
-*     volume 23, pages 929--947, 2002.
-*
-*     R. Granat and D. Kressner. A new implementation of the
-*     unsymmetric QR-algorithm for ScaLAPACK. Lapack Working
-*     Note XYZ, 2008.
+*       R. Granat, B. Kagstrom, and D. Kressner,
+*       A Novel Parallel QR Algorithm for Hybrid Distributed Momory HPC
+*       Systems.
+*       SIAM J. Sci. Comput., 32(4):2345--2378, 2010.
 *
 *     ============================================================
 *     .. Parameters ..
@@ -156,7 +154,7 @@
      $                   WEST, CSRC, SOUTH, NORHT, INDXE, NORTH,
      $                   IHH, IPIW, LKBOT1, NPROCS, LIROFFH,
      $                   WINFIN, RWS3, CLS3, INDX2, HROWS2,
-     $                   ZROWS2, HCOLS2, THREADS, MYTHREAD, MNRBUF,
+     $                   ZROWS2, HCOLS2, MNRBUF,
      $                   MXRBUF, MNCBUF, MXCBUF, LWKOPT
       LOGICAL            BLK22, BMP22, INTRO, DONEJOB, ODDNPROW,
      $                   ODDNPCOL, LQUERY, BCDONE
@@ -653,10 +651,10 @@
      $                             LROWS, LNWIN, LNWIN, ONE,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH,
      $                             WORK( IPU ), LNWIN, ZERO,
-     $                             WORK(IPW+MYTHREAD*NB**2),
+     $                             WORK(IPW),
      $                             LROWS )
                               CALL DLACPY( 'All', LROWS, LNWIN,
-     $                             WORK(IPW+MYTHREAD*NB**2), LROWS,
+     $                             WORK(IPW), LROWS,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH )
                            END IF
  80                     CONTINUE
@@ -672,9 +670,9 @@
      $                             'No transpose', LROWS, LNWIN, LNWIN,
      $                             ONE, Z((JLOC-1)*LLDZ+ILOC), LLDZ,
      $                             WORK( IPU ), LNWIN, ZERO,
-     $                             WORK(IPW+MYTHREAD*NB**2), LROWS )
+     $                             WORK(IPW), LROWS )
                               CALL DLACPY( 'All', LROWS, LNWIN,
-     $                             WORK(IPW+MYTHREAD*NB**2), LROWS,
+     $                             WORK(IPW), LROWS,
      $                             Z((JLOC-1)*LLDZ+ILOC), LLDZ )
                            END IF
  90                     CONTINUE
@@ -717,10 +715,10 @@
                               CALL DGEMM( 'Transpose', 'No Transpose',
      $                             LNWIN, LCOLS, LNWIN, ONE, WORK(IPU),
      $                             LNWIN, H((JLOC-1)*LLDH+ILOC), LLDH,
-     $                             ZERO, WORK(IPW+MYTHREAD*NB**2),
+     $                             ZERO, WORK(IPW),
      $                             LNWIN )
                               CALL DLACPY( 'All', LNWIN, LCOLS,
-     $                             WORK(IPW+MYTHREAD*NB**2), LNWIN,
+     $                             WORK(IPW), LNWIN,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH )
                            END IF
  95                     CONTINUE
@@ -989,10 +987,10 @@
 *        diagonal of H) and take the odd windows first followed by the
 *        even ones. To not get into hang-problems on processor meshes
 *        with at least one odd dimension, the windows will in such a case
-*        be processed in chunks of {the minumum odd process dimension}-1
+*        be processed in chunks of {the minimum odd process dimension}-1
 *        windows to avoid overlapping processor scopes in forming the
 *        cross border computational windows and the cross border update
-*        regions
+*        regions.
 *
          WCHUNK = MAX( 1, MIN( ANMWIN, NPROW-1, NPCOL-1 ) )
          NUMCHUNK = ICEIL( ANMWIN, WCHUNK )
@@ -1046,7 +1044,7 @@
 *              as below:
 *
 *                        1 | 2
-*                        -----
+*                        --+--
 *                        3 | 4
 *
                RSRC1 = IWORK( 3+(WIN-1)*5 )
@@ -1208,11 +1206,11 @@
 *
 *                 Prepare for call to DLAQR6 - it could happen that no
 *                 bulges where introduced in the pre-cross border step
-*                 since the chain was to long to fit in the top-left
+*                 since the chain was too long to fit in the top-left
 *                 part of the cross border window. In such a case, the
 *                 bulges are introduced here instead.  It could also
-*                 happen that the bottom-right part is to small to hold
-*                 the whole chain - in such a case, the bulges are
+*                 happen that the bottom-right part is too small to hold
+*                 the whole chain -- in such a case, the bulges are
 *                 chasen off immediately, as well.
 *
                   IF( (MYROW.EQ.RSRC1 .AND. MYCOL.EQ.CSRC1) .OR.
@@ -1247,8 +1245,7 @@
      $                    WORK(IPUU), LNWIN, WORK(IPU), 3,
      $                    WORK( IPH+KU-1 ), LNWIN, NVE,
      $                    WORK( IPH+KWV-1 ), LNWIN, NHO,
-     $                    WORK( IPH-1+KU+(KWH-1)*LNWIN ),
-     $                    LNWIN )
+     $                    WORK( IPH-1+KU+(KWH-1)*LNWIN ), LNWIN )
 *
 *                    Copy local submatrices of H back to global matrix.
 *
@@ -1268,8 +1265,7 @@
      $                       DESCH( CSRC_ ), NPCOL )
                         CALL DLACPY( 'All', DIM4, DIM4,
      $                       WORK(IPH+DIM1*LNWIN+DIM1),
-     $                       LNWIN, H((JLOC-1)*LLDH+ILOC),
-     $                       LLDH )
+     $                       LNWIN, H((JLOC-1)*LLDH+ILOC), LLDH )
                      END IF
 *
 *                    Copy actual submatrix of U to the correct place of
@@ -1364,7 +1360,7 @@
 *
  160        CONTINUE
 *
-*           Broadcast orthogonal transformations - this will only happen
+*           Broadcast orthogonal transformations -- this will only happen
 *           if the buffer associated with the orthogonal transformations
 *           is not empty (controlled by LENRBUF, for row-wise
 *           broadcasts, and LENCBUF, for column-wise broadcasts).

@@ -2,10 +2,10 @@
      $                    ILOZ, IHIZ, Z, DESCZ, NS, ND, SR, SI, T, LDT,
      $                    V, LDV, WR, WI, WORK, LWORK )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
+*  -- ScaLAPACK auxiliary routine (version 2.0) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     February 2010
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -36,7 +36,7 @@
 *
 *  This routine handles small deflation windows which is affordable by
 *  one processor. Normally, it is called by PDLAQR1. All the inputs are
-*  assumed to be valid without a check.
+*  assumed to be valid without checking.
 *
 *  Notes
 *  =====
@@ -197,6 +197,13 @@
 *  Implemented by
 *        Meiyue Shao, Department of Computing Science and HPC2N,
 *        Umea University, Sweden
+*
+*  ================================================================
+*  References:
+*        B. Kagstrom, D. Kressner, and M. Shao,
+*        On Aggressive Early Deflation in Parallel Variants of the QR
+*        Algorithm.
+*        Para 2010, to appear.
 *
 *  ================================================================
 *     .. Parameters ..

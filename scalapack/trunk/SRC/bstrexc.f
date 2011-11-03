@@ -13,7 +13,7 @@
 *     ..
 *     .. Array Arguments ..
       INTEGER            ITRAF( * )
-      REAL   DTRAF( * ), T( LDT, * ), WORK( * )
+      REAL               DTRAF( * ), T( LDT, * ), WORK( * )
 *     ..
 *
 *  Purpose
@@ -24,12 +24,12 @@
 *  moved to row ILST.
 *
 *  The real Schur form T is reordered by an orthogonal similarity
-*  transformation Z**T*T*Z. In contrast to the LAPACK routine STREXC,
+*  transformation Z**T*T*Z. In contrast to the LAPACK routine DTREXC,
 *  the orthogonal matrix Z is not explicitly constructed but
 *  represented by paramaters contained in the arrays ITRAF and DTRAF,
 *  see further details.
 *
-*  T must be in Schur canonical form (as returned by SHSEQR), that is,
+*  T must be in Schur canonical form (as returned by DHSEQR), that is,
 *  block upper triangular with 1-by-1 and 2-by-2 diagonal blocks; each
 *  2-by-2 diagonal block has its diagonal elements equal and its
 *  off-diagonal elements of opposite sign.
@@ -40,7 +40,7 @@
 *  N       (input) INTEGER
 *          The order of the matrix T. N >= 0.
 *
-*  T       (input/output) REAL array, dimension (LDT,N)
+*  T       (input/output) REAL             array, dimension (LDT,N)
 *          On entry, the upper quasi-triangular matrix T, in Schur
 *          Schur canonical form.
 *          On exit, the reordered upper quasi-triangular matrix, again
@@ -78,11 +78,11 @@
 *          a safe choice is NDTRAF >= max(1,5*|ILST-IFST|).
 *          On exit, actual length of the array DTRAF.
 *
-*  DTRAF   (output) REAL array, length NDTRAF
+*  DTRAF   (output) REAL             array, length NDTRAF
 *          List of parameters for representing the transformation
 *          matrix Z, see further details.
 *
-*  WORK    (workspace) REAL array, dimension (N)
+*  WORK    (workspace) REAL             array, dimension (N)
 *
 *  INFO    (output) INTEGER
 *          = 0:  successful exit
@@ -128,7 +128,7 @@
 *  =====================================================================
 *
 *     .. Parameters ..
-      REAL   ZERO
+      REAL               ZERO
       PARAMETER          ( ZERO = 0.0E+0 )
       INTEGER            DLNGTH(3), ILNGTH(3)
 *     ..
@@ -169,10 +169,10 @@ c      DATA ( DLNGTH(I), I = 1, 3 ) / 2, 5, 10 /
       ELSE IF ( NDTRAF.LT.MAX( 1, 2*ABS( ILST-IFST ) ) ) THEN
          INFO = -8
       END IF
-c      IF( INFO.NE.0 ) THEN
-c         CALL XERBLA( 'BSTREXC', -INFO )
-c         RETURN
-c      END IF
+      IF( INFO.NE.0 ) THEN
+         CALL XERBLA( 'DTREXC', -INFO )
+         RETURN
+      END IF
 *
 *     Quick return if possible
 *

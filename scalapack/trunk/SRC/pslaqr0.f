@@ -2,9 +2,10 @@
      $     DESCH, WR, WI, ILOZ, IHIZ, Z, DESCZ, WORK, LWORK,
      $     IWORK, LIWORK, INFO, RECLEVEL )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
-*     University of Umea and HPC2N, Umea, Sweden
-*     February 2008
+*  -- ScaLAPACK auxiliary routine (version 2.0) --
+*     Deptartment of Computing Science and HPC2N,
+*     Umea University, Sweden
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -15,7 +16,8 @@
 *     ..
 *     .. Array Arguments ..
       INTEGER            DESCH( * ), DESCZ( * ), IWORK( * )
-      REAL               H( * ), WI( N ), WORK( * ), WR( N ), Z( * )
+      REAL               H( * ), WI( N ), WORK( * ), WR( N ),
+     $                   Z( * )
 *     ..
 *
 *  Purpose
@@ -23,7 +25,7 @@
 *
 *  PSLAQR0 computes the eigenvalues of a Hessenberg matrix H
 *  and, optionally, the matrices T and Z from the Schur decomposition
-*  H = Z T Z**T, where T is an upper quasi-triangular matrix (the
+*  H = Z*T*Z**T, where T is an upper quasi-triangular matrix (the
 *  Schur form), and Z is the orthogonal matrix of Schur vectors.
 *
 *  Optionally Z may be postmultiplied into an input orthogonal
@@ -105,8 +107,8 @@
 *  IHI     (global input) INTEGER
 *          It is assumed that H is already upper triangular in rows
 *          and columns 1:ILO-1 and IHI+1:N. ILO and IHI are normally
-*          set by a previous call to PDGEBAL, and then passed to PDGEHRD
-*          when the matrix output by PDGEBAL is reduced to Hessenberg
+*          set by a previous call to PSGEBAL, and then passed to PSGEHRD
+*          when the matrix output by PSGEBAL is reduced to Hessenberg
 *          form. Otherwise ILO and IHI should be set to 1 and N
 *          respectively.  If N.GT.0, then 1.LE.ILO.LE.IHI.LE.N.
 *          If N = 0, then ILO = 1 and IHI = 0.
@@ -138,7 +140,7 @@
 *
 *  Z       (global input/output) REAL             array.
 *          If COMPZ = 'V', on entry Z must contain the current
-*          matrix Z of accumulated transformations from, e.g., PDGEHRD,
+*          matrix Z of accumulated transformations from, e.g., PSGEHRD,
 *          and on exit Z has been updated; transformations are applied
 *          only to the submatrix Z(ILO:IHI,ILO:IHI).
 *          If COMPZ = 'N', Z is not referenced.
@@ -154,10 +156,10 @@
 *  LWORK   (local input) INTEGER
 *          The length of the workspace array WORK.
 *
-*  IWORK   (local workspace) INTEGER array, dimension (ILWORK)
+*  IWORK   (local workspace) INTEGER array, dimension (LIWORK)
 *
-*  ILWORK  (local input) INTEGER
-*          The length of the workspace array IWORK
+*  LIWORK  (local input) INTEGER
+*          The length of the workspace array IWORK.
 *
 *  INFO    (output) INTEGER
 *          =    0:  successful exit
@@ -200,22 +202,30 @@
 *     ================================================================
 *     Based on contributions by
 *        Robert Granat, Department of Computing Science and HPC2N,
-*        University of Umea, Sweden.
+*        Umea University, Sweden.
+*     ================================================================
+*
+*     Restrictions: The block size in H and Z must be square and larger
+*     than or equal to six (6) due to restrictions in PSLAQR1, PSLAQR5
+*     and SLAQR6. Moreover, H and Z need to be distributed identically
+*     with the same context.
 *
 *     ================================================================
 *     References:
-*       K. Braman, R. Byers and R. Mathias, The Multi-Shift QR
-*       Algorithm Part I: Maintaining Well Focused Shifts, and Level 3
-*       Performance, SIAM Journal of Matrix Analysis, volume 23, pages
-*       929--947, 2002.
+*       K. Braman, R. Byers, and R. Mathias,
+*       The Multi-Shift QR Algorithm Part I: Maintaining Well Focused
+*       Shifts, and Level 3 Performance.
+*       SIAM J. Matrix Anal. Appl., 23(4):929--947, 2002.
 *
-*       K. Braman, R. Byers and R. Mathias, The Multi-Shift QR
-*       Algorithm Part II: Aggressive Early Deflation, SIAM Journal
-*       of Matrix Analysis, volume 23, pages 948--973, 2002.
+*       K. Braman, R. Byers, and R. Mathias,
+*       The Multi-Shift QR Algorithm Part II: Aggressive Early
+*       Deflation.
+*       SIAM J. Matrix Anal. Appl., 23(4):948--973, 2002.
 *
-*       R. Granat and D. Kressner. A new implementation of the
-*       unsymmetric QR-algorithm for ScaLAPACK. Lapack Working
-*       Note XYZ, 2008.
+*       R. Granat, B. Kagstrom, and D. Kressner,
+*       A Novel Parallel QR Algorithm for Hybrid Distributed Momory HPC
+*       Systems.
+*       SIAM J. Sci. Comput., 32(4):2345--2378, 2010.
 *
 *     ================================================================
 *
@@ -241,13 +251,13 @@
       INTEGER            KEXNW, KEXSH
       PARAMETER          ( KEXNW = 5, KEXSH = 6 )
       REAL               WILK1, WILK2
-      PARAMETER          ( WILK1 = 0.75D0, WILK2 = -0.4375D0 )
+      PARAMETER          ( WILK1 = 0.75E0, WILK2 = -0.4375E0 )
       REAL               ZERO, ONE
-      PARAMETER          ( ZERO = 0.0, ONE = 1.0 )
+      PARAMETER          ( ZERO = 0.0e0, ONE = 1.0e0 )
 *     ..
 *     .. Local Scalars ..
-      REAL               AA, BB, CC, CS, DD, SN, SS, SWAP, ELEM,
-     $                   ELEM1, ELEM2, ELEM3, ALPHA, SDSUM
+      REAL               AA, BB, CC, CS, DD, SN, SS, SWAP, ELEM, T0,
+     $                   ELEM1, ELEM2, ELEM3, ALPHA, SDSUM, STAMP
       INTEGER            I, J, INF, IT, ITMAX, K, KACC22, KBOT, KDU, KS,
      $                   KT, KTOP, KU, KV, KWH, KWTOP, KWV, LD, LS,
      $                   LWKOPT, NDFL, NH, NHO, NIBBLE, NMIN, NS, NSMAX,
@@ -460,13 +470,13 @@
 *
 *        Main Loop.
 *
-         DO 80 IT = 1, ITMAX
+         DO 110 IT = 1, ITMAX
             TOTIT = TOTIT + 1
 *
 *           Done when KBOT falls below ILO.
 *
             IF( KBOT.LT.ILO )
-     $         GO TO 90
+     $         GO TO 120
 *
 *           Locate active block.
 *
@@ -477,9 +487,9 @@
                   IF( H( II + (JJ-1)*LLDH ).EQ.ZERO )
      $               GO TO 20
                END IF
-   10       CONTINUE
+ 10         CONTINUE
             K = ILO
-   20       CONTINUE
+ 20         CONTINUE
             KTOP = K
             IF( NPROCS.GT.1 )
      $         CALL IGAMX2D( ICTXT, 'All', '1-Tree', 1, 1, KTOP, 1,
@@ -537,7 +547,7 @@
 *
 *           Aggressive early deflation:
 *           split workspace into
-*             - an nw-by-nw work array V for orthogonal matrix
+*             - an NW-by-NW work array V for orthogonal matrix
 *             - an NW-by-at-least-NW-but-more-is-better
 *               (NW-by-NHO) horizontal work array for Schur factor
 *             - an at-least-NW-but-more-is-better (NVE-by-NW)
@@ -631,7 +641,7 @@
                      DD = AA
                      CALL SLANV2( AA, BB, CC, DD, WR( I-1 ), WI( I-1 ),
      $                    WR( I ), WI( I ), CS, SN )
-   30             CONTINUE
+ 30               CONTINUE
                   IF( KS.EQ.KTOP ) THEN
                      CALL PSELGET( 'All', '1-Tree', ELEM1, H, KS+1,
      $                    KS+1, DESCH )
@@ -702,8 +712,7 @@ c
      $                          DESCT, WR( KS-IROFFH ),
      $                          WI( KS-IROFFH ), 1+IROFFH, IROFFH+NS,
      $                          ZDUM, DESCZ, WORK( IPWRK ),
-     $                          LWORK-IPWRK+1, IWORK, LIWORK,
-     $                          INF )
+     $                          LWORK-IPWRK+1, IWORK, LIWORK, INF )
                         END IF
                      ELSE
 *
@@ -712,12 +721,12 @@ c
 *                       the subgrid.
 *
                         ICTXT_NEW = ICTXT
-                        DO 32 I = 0, NPMIN-1
-                           DO 31 J = 0, NPMIN-1
+                        DO 50 I = 0, NPMIN-1
+                           DO 40 J = 0, NPMIN-1
                               PMAP( J+1+I*NPMIN ) =
      $                             BLACS_PNUM( ICTXT, I, J )
- 31                        CONTINUE
- 32                     CONTINUE
+ 40                        CONTINUE
+ 50                     CONTINUE
                         CALL BLACS_GRIDMAP( ICTXT_NEW, PMAP, NPMIN,
      $                       NPMIN, NPMIN )
                         CALL BLACS_GRIDINFO( ICTXT_NEW, NPMIN, NPMIN,
@@ -764,10 +773,10 @@ c                           END IF
                            CALL BLACS_GRIDEXIT( ICTXT_NEW )
                         END IF
                         IF( MYROW+MYCOL.GT.0 ) THEN
-                           DO 35 J = 0, NS-1
+                           DO 60 J = 0, NS-1
                               WR( KS+J ) = ZERO
                               WI( KS+J ) = ZERO
- 35                        CONTINUE
+ 60                        CONTINUE
                         END IF
                         CALL IGAMN2D( ICTXT, 'All', '1-Tree', 1, 1, INF,
      $                       1, -1, -1, -1, -1, -1 )
@@ -805,11 +814,11 @@ c                           END IF
 *                    pairs together.
 *
                      SORTED = .FALSE.
-                     DO 50 K = KBOT, KS + 1, -1
+                     DO 80 K = KBOT, KS + 1, -1
                         IF( SORTED )
-     $                     GO TO 60
+     $                     GO TO 90
                         SORTED = .TRUE.
-                        DO 40 I = KS, K - 1
+                        DO 70 I = KS, K - 1
                            IF( ABS( WR( I ) )+ABS( WI( I ) ).LT.
      $                          ABS( WR( I+1 ) )+ABS( WI( I+1 ) ) ) THEN
                               SORTED = .FALSE.
@@ -822,9 +831,9 @@ c                           END IF
                               WI( I ) = WI( I+1 )
                               WI( I+1 ) = SWAP
                            END IF
-   40                   CONTINUE
-   50                CONTINUE
-   60                CONTINUE
+ 70                     CONTINUE
+ 80                  CONTINUE
+ 90                  CONTINUE
                   END IF
 *
 *                 Shuffle shifts into pairs of real shifts
@@ -833,7 +842,7 @@ c                           END IF
 *                 already adjacent to one another. (Yes,
 *                 they are.)
 *
-                  DO 70 I = KBOT, KS + 2, -2
+                  DO 100 I = KBOT, KS + 2, -2
                      IF( WI( I ).NE.-WI( I-1 ) ) THEN
 *
                         SWAP = WR( I )
@@ -846,7 +855,7 @@ c                           END IF
                         WI( I-1 ) = WI( I-2 )
                         WI( I-2 ) = SWAP
                      END IF
-   70             CONTINUE
+ 100              CONTINUE
                END IF
 *
 *              If there are only two shifts and both are
@@ -892,13 +901,13 @@ c                           END IF
             END IF
 *
 *           End of main loop.
-   80    CONTINUE
+ 110     CONTINUE
 *
 *        Iteration limit exceeded.  Set INFO to show where
 *        the problem occurred and exit.
 *
          INFO = KBOT
-   90    CONTINUE
+ 120     CONTINUE
       END IF
 *
 *     Return the optimal value of LWORK.

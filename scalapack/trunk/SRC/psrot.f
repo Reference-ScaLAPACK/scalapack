@@ -1,20 +1,20 @@
       SUBROUTINE PSROT( N, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY,
      $                  INCY, CS, SN, WORK, LWORK, INFO )
 *
-*     ScaLAPACK 2.0
-*     Written by Robert Granat, May 15, 2007.
+*  -- ScaLAPACK-style routine --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
+*     October, 2011
 *
       IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       INTEGER            N, IX, JX, INCX, IY, JY, INCY, LWORK, INFO
-      REAL   CS, SN
+      REAL               CS, SN
 *     ..
 *     .. Array Arguments ..
       INTEGER            DESCX( * ), DESCY( * )
-      REAL   X( * ), Y( * ), WORK( * )
+      REAL               X( * ), Y( * ), WORK( * )
 *     ..
 *
 *  Purpose
@@ -83,7 +83,7 @@
 *          The number of elements to operate on when applying the planar
 *          rotation to X and Y. N>=0.
 *
-*  X       (local input/local output) REAL array of dimension
+*  X       (local input/local output) DOUBLE PRECSION array of dimension
 *          ( (JX-1)*M_X + IX + ( N - 1 )*abs( INCX ) )
 *          This array contains the entries of the distributed vector
 *          sub( X ).
@@ -107,7 +107,7 @@
 *          Moreover, it must hold that INCX = M_X if INCY = M_Y and
 *          that INCX = 1 if INCY = 1.
 *
-*  Y       (local input/local output) REAL array of dimension
+*  Y       (local input/local output) DOUBLE PRECSION array of dimension
 *          ( (JY-1)*M_Y + IY + ( N - 1 )*abs( INCY ) )
 *          This array contains the entries of the distributed vector
 *          sub( Y ).
@@ -131,14 +131,14 @@
 *          Moreover, it must hold that INCY = M_Y if INCX = M_X and
 *          that INCY = 1 if INCX = 1.
 *
-*  CS      (global input) REAL
-*  SN      (global input) REAL
+*  CS      (global input) REAL            
+*  SN      (global input) REAL            
 *          The parameters defining the properties of the planar
 *          rotation. It must hold that 0 <= CS,SN <= 1 and that
 *          SN**2 + CS**2 = 1. The latter is hardly checked in
 *          finite precision arithmetics.
 *
-*  WORK    (local input) REAL array of dimension LWORK
+*  WORK    (local input) REAL             array of dimension LWORK
 *          Local workspace area.
 *
 *  LWORK   (local input) INTEGER
@@ -166,6 +166,9 @@
 *  (c) DESCX( CSRC_ ) = DESCY( CSRC_ )
 *
 *  =====================================================================
+*
+*     Written by Robert Granat, May 15, 2007.
+*
 *     .. Parameters ..
       INTEGER            BLOCK_CYCLIC_2D, CSRC_, CTXT_, DLEN_, DTYPE_,
      $                   LLD_, MB_, M_, NB_, N_, RSRC_
@@ -296,7 +299,7 @@
          CALL PXERBLA( ICTXT, 'PSROT', -INFO )
          RETURN
       ELSEIF( LQUERY ) THEN
-         WORK( 1 ) = REAL(MNWRK)
+         WORK( 1 ) = FLOAT(MNWRK)
          RETURN
       END IF
 *
@@ -428,7 +431,7 @@
 *
 *     Store minimum workspace requirements in WORK-array and return
 *
-      WORK( 1 ) = REAL(MNWRK)
+      WORK( 1 ) = FLOAT(MNWRK)
       RETURN
 *
 *     End of PSROT

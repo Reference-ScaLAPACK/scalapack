@@ -4,10 +4,10 @@
      $                              WV, DESCW, WORK, LWORK, IWORK,
      $                              LIWORK, RECLEVEL )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.8.x) --
+*  -- ScaLAPACK driver routine (version 2.0) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     February 2008
+*     October, 2011
 *
       IMPLICIT NONE
 *
@@ -20,7 +20,8 @@
       INTEGER            DESCH( * ), DESCZ( * ), DESCT( * ), DESCV( * ),
      $                   DESCW( * ), IWORK( * )
       DOUBLE PRECISION   H( * ), SI( KBOT ), SR( KBOT ), T( * ),
-     $                   V( * ), WORK( * ), WV( * ), Z( * )
+     $                   V( * ), WORK( * ), WV( * ),
+     $                   Z( * )
 *     ..
 *
 *  Purpose
@@ -218,7 +219,8 @@
 *
 *  ================================================================
 *  Based on contributions by
-*        Robert Granat, Department of Computing Science and HPC2N,
+*        Robert Granat and Meiyue Shao,
+*        Department of Computing Science and HPC2N,
 *        Umea University, Sweden
 *
 *  ================================================================
@@ -262,10 +264,10 @@
       DOUBLE PRECISION   DDUM( 1 )
 *     ..
 *     .. External Functions ..
-      DOUBLE PRECISION   DLAMCH, PDLANGE, PDCHKRESI
+      DOUBLE PRECISION   DLAMCH, PDLANGE
       INTEGER            PILAENVX, NUMROC, INDXG2P, ICEIL, BLACS_PNUM
       EXTERNAL           DLAMCH, PILAENVX, NUMROC, INDXG2P, PDLANGE,
-     $                   ICEIL, PDCHKRESI, BLACS_PNUM
+     $                   ICEIL, BLACS_PNUM
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           PDCOPY, PDGEHRD, PDGEMM, DLABAD, PDLACPY,
@@ -389,13 +391,7 @@
 *
 *        Residual check workspace.
 *
-c#ifdef USE_AED_RES
-         TZROWS = NUMROC( JW+IROFFH, NB, MYROW, DESCT(RSRC_), NPROW )
-         TZCOLS = NUMROC( JW+IROFFH, NB, MYCOL, DESCT(CSRC_), NPCOL )
-         LWK8 = 2*TZROWS*TZCOLS
-c#else
-c         LWK8 = 0
-c#endif
+         LWK8 = 0
 *
 *        Optimal workspace.
 *
@@ -689,13 +685,7 @@ c#endif
 *
 *     Check local residual for AED Schur decomposition.
 *
-c#ifdef USE_AED_RES
-      RESAED = PDCHKRESI( JW, H, KWTOP, KWTOP, DESCH, T,
-     $                   1+IROFFH, 1+IROFFH, DESCT, V, 1+IROFFH,
-     $                   1+IROFFH, DESCV, WORK, LWORK )
-c#else
-c      RESAED = 0.0D+00
-c#endif
+      RESAED = 0.0D+00
 *
 *     Clean up the array SELECT for PBDTRORD.
 *
@@ -902,13 +892,7 @@ c#endif
 *
 *     Check local residual for reordered AED Schur decomposition.
 *
-c#ifdef USE_AED_RES
-      RESAED = PDCHKRESI( JW, H, KWTOP, KWTOP, DESCH, T,
-     $                   1+IROFFH, 1+IROFFH, DESCT, V, 1+IROFFH,
-     $                   1+IROFFH, DESCV, WORK, LWORK )
-c#else
-c      RESAED = 0.0D+00
-c#endif
+      RESAED = 0.0D+00
 *
 *     Return to Hessenberg form.
 *
