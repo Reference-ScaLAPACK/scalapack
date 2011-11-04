@@ -92,6 +92,8 @@
 *        uniform distribution on the unit circle abs(z) = 1
 *
          ZLARND = EXP( DCMPLX( ZERO, TWOPI*T2 ) )
+      ELSE
+         ZLARND = DCMPLX(ZERO,ZERO)
       END IF
       RETURN
 *

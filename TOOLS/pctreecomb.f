@@ -78,6 +78,8 @@
 *     ..
 *     .. Executable Statements ..
 *
+	DEST = 0
+*	
 *     See if everyone wants the answer (need to broadcast the answer)
 *
       BCAST = ( ( RDEST0.EQ.-1 ).OR.( CDEST0.EQ.-1 ) )

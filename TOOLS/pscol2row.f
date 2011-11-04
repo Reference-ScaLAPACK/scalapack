@@ -107,6 +107,11 @@
 *     ..
 *     .. Executable Statements ..
 *
+*
+*     .. Initialize Variables ..
+*
+      ICPY = 0
+*      
 *     Get grid parameters.
 *
       CALL BLACS_GRIDINFO( ICTXT, NPROW, NPCOL, MYROW, MYCOL )

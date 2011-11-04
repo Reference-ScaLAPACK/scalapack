@@ -106,6 +106,11 @@
 *     ..
 *     .. Executable Statements ..
 *
+*
+*     .. Initialize Variables ..
+*
+      ICPY = 0
+*      
       CALL BLACS_GRIDINFO( ICTXT, NPROW, NPCOL, MYROW, MYCOL )
 *
 *     If we are not in special case for NPROW = NPCOL where there is no

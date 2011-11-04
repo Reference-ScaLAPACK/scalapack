@@ -116,6 +116,7 @@
 *
 *     Set the start point in X if the increment is not unity.
 *
+	KX = 1
       IF( INCX.LE.0 ) THEN
          KX = 1 - ( N-1 )*INCX
       ELSE IF( INCX.NE.1 ) THEN
