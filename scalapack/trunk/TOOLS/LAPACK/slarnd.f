@@ -79,6 +79,8 @@
 *
          T2 = SLARAN( ISEED )
          SLARND = SQRT( -TWO*LOG( T1 ) )*COS( TWOPI*T2 )
+      ELSE
+         SLARND = ONE
       END IF
       RETURN
 *

@@ -376,6 +376,9 @@
       UUB = MIN( KU, N-1 )
       MR = MIN( M, N+LLB )
       NC = MIN( N, M+UUB )
+      IROW = 1
+      ICOL = 1
+      ZSYM = .FALSE.
 *
       IF( IPACK.EQ.5 .OR. IPACK.EQ.6 ) THEN
          MINLDA = UUB + 1

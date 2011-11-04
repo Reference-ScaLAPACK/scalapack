@@ -48,6 +48,16 @@
 *
       DESC_TYPE_IN = DESC_IN( 1 )
 *
+*     .. Initialize Variables ..
+*
+	RSRC = 0
+	NB = 0
+	N = 0
+	MB = 0
+	M = 0
+	LLDA = 0
+	CSRC = 0
+*	
       IF( DESC_TYPE_IN .EQ. BLOCK_CYCLIC_2D ) THEN
          ICTXT = DESC_IN( CTXT_ )
          RSRC = DESC_IN( RSRC_ )

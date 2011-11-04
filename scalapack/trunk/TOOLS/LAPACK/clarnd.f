@@ -92,6 +92,8 @@
 *        uniform distribution on the unit circle abs(z) = 1
 *
          CLARND = EXP( CMPLX( ZERO, TWOPI*T2 ) )
+      ELSE
+         CLARND = CMPLX(ZERO,ZERO)         
       END IF
       RETURN
 *

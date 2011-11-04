@@ -239,6 +239,8 @@
          NT = NT + 1
          XT( NT ) = XRIGHT
          YT( NT ) = A( IYT )
+      ELSE
+         IYT = 1
       END IF
 *
 *     Check for errors
