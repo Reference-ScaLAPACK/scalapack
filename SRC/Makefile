@@ -48,7 +48,7 @@ include ../SLmake.inc
 #
 #######################################################################
 
-ALLAUX = pjlaenv.o pilaenvx.o piparmq.o
+ALLAUX = pjlaenv.o pilaenvx.o piparmq.o pilaver.o
 
 SCLAUX = \
    pslabad.o pslaed0.o pslaed1.o pslaed2.o pslaed3.o pslaedz.o pslaiect.o \
