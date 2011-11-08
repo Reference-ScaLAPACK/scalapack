@@ -11,7 +11,7 @@
 *
       IMPLICIT NONE
 *     ...Parameters...
-      LOGICAL           BALANCE, COMPHESS, COMPRESI, TEST_CHKRESI,
+      LOGICAL           BALANCE, COMPHESS, COMPRESI,
      $                  COMPORTH
       LOGICAL           DEBUG, PRN, TIMESTEPS, BARR,
      $                  UNI_LAPACK
@@ -22,7 +22,6 @@
      $                    COMPHESS = .TRUE.,
      $                    COMPRESI = .TRUE.,
      $                    COMPORTH = .TRUE.,
-     $                    TEST_CHKRESI = .FALSE.,
      $                    BALANCE = .TRUE.,
      $                    BARR = .FALSE.,
 *     Solver: 1-PDLAQR1, 2-PDHSEQR.
@@ -31,7 +30,7 @@
       INTEGER           N, NB, ARSRC, ACSRC
       PARAMETER         (
 *     Problem size.
-     $                    N = 2000, NB = 50,
+     $                    N = 500, NB = 50,
 *     What processor should hold the first element in A?
      $                    ARSRC = 0, ACSRC = 0 )
       INTEGER           BLOCK_CYCLIC_2D, CSRC_, CTXT_, DLEN_, DT_,
@@ -41,8 +40,8 @@
      $                    RSRC_ = 7, CSRC_ = 8, LLD_ = 9 )
       INTEGER           DPALLOC, INTALLC
       INTEGER           DPSIZ, INTSZ, NOUT, IZERO
-      PARAMETER         ( DPSIZ = 8, DPALLOC = 105 000 000,
-     $                    INTSZ = 4, INTALLC = 80 000 000,
+      PARAMETER         ( DPSIZ = 8, DPALLOC = 8 000 000,
+     $                    INTSZ = 4, INTALLC = 8 000 000,
      $                    NOUT = 6, IZERO = 0)
       DOUBLE PRECISION  ZERO, ONE, TWO
       PARAMETER         ( ZERO = 0.0D+00, ONE = 1.0D+00, TWO = 2.0D+00 )
@@ -55,13 +54,14 @@
       INTEGER           IPA, IPACPY, IPQ, WR1, WI1, WR2, WI2, IPW1,
      $                  IPW2, IPIW
       INTEGER           TOTIT, SWEEPS, TOTNS, HESS
-      DOUBLE PRECISION  EPS
+      DOUBLE PRECISION  EPS, THRESH
       DOUBLE PRECISION  STAMP, TOTTIME, T_BA, T_GEN, T_HS, T_SCH, T_QR,
      $                  T_RES, ITPEREIG, SWPSPEIG, NSPEIG, SPEEDUP, 
      $                  EFFICIENCY
       DOUBLE PRECISION  RNORM, ANORM, R1, ORTH, O1, O2, DPDUM, ELEM1,
      $                  ELEM2, ELEM3, EDIFF
       INTEGER           SOLVER
+      CHARACTER*6       PASSED
 *
 *     ...Local Arrays...
       INTEGER           DESCA( DLEN_ ), DESCQ( DLEN_ ), DESCVEC( DLEN_ )
@@ -74,14 +74,14 @@
 *
 *     ...External Functions...
       INTEGER           NUMROC
-      DOUBLE PRECISION  PDLAMCH, PDLANGE, MPI_WTIME, PDCHKRESI
+      DOUBLE PRECISION  PDLAMCH, PDLANGE, MPI_WTIME
       EXTERNAL          BLACS_PINFO, BLACS_GET, BLACS_GRIDINIT,
      $                  BLACS_GRIDINFO, BLACS_GRIDEXIT, BLACS_EXIT
       EXTERNAL          NUMROC, PDLAMCH, PDLASET, PDGEHRD, PDLANGE
       EXTERNAL          DGEBAL, DGEHRD
       EXTERNAL          MPI_WTIME
       EXTERNAL          PDGEBAL
-      EXTERNAL          PDMATGEN2, PDCHKRESI
+      EXTERNAL          PDMATGEN2
 *
 *     ...Executable statements...
 *
@@ -98,6 +98,7 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
 *     Read out the number of underlying threads and set stack size in
 *     kilobytes.
 *
+	THRESH = 30.0
       TOTTIME = MPI_WTIME()
       T_GEN = 0.0D+00
       T_RES = 0.0D+00
@@ -119,20 +120,34 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
       MEM( 1:DPALLOC ) = ZERO
       IMEM( 1:INTALLC ) = IZERO
 *
+*     Get machine epsilon.
+*
+      EPS = PDLAMCH( ICTXT, 'Epsilon' )      
+*
 *     Print welcoming message.
 *
       IF( IAM.EQ.0 ) THEN
          WRITE(*,*)
-         WRITE(*,*) '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
-         WRITE(*,*) '%%         TESTPROGRAM FOR PDHSEQR          %%'
-         WRITE(*,*) '%% Contributor: Robert Granat & Meiyue Shao %%'
-         WRITE(*,*) '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+         WRITE(*,*) 'ScaLAPACK Test for PDHSEQR'
+         WRITE(*,*) 
+         WRITE(*,*) 'epsilon   = ', EPS
+         WRITE(*,*) 'threshold = ', THRESH
          WRITE(*,*)
+         WRITE(*,*) 'Residual and Orthogonality Residual computed by:'
+         WRITE(*,*)
+         WRITE(*,*) 'Residual      = ',
+     $   ' || T - Q^T*A*Q ||_F / ( ||A||_F * eps * sqrt(N) )'
+     	   WRITE(*,*)
+         WRITE(*,*) 'Orthogonality = ',
+     $   ' MAX( || I - Q^T*Q ||_F, || I - Q*Q^T ||_F ) / ',
+     $   ' (eps * N)'
+     	   WRITE(*,*) 
+     	   WRITE(*,*) 
+     $  'Test passes if both residuals are less then threshold'        
+	   WRITE( NOUT, * )
+	   WRITE( NOUT, FMT = 9995 )
+	   WRITE( NOUT, FMT = 9994 )
       END IF
-*
-*     Get machine epsilon.
-*
-      EPS = PDLAMCH( ICTXT, 'Epsilon' )
 *
 *     Loop over problem parameters.
 *
@@ -250,8 +265,8 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
             IHI = KBOT
          END IF
          T_BA = MPI_WTIME() - T_BA
-         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
-     $      ' %%% Balancing took in seconds:',T_BA
+c         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
+c     $      ' %%% Balancing took in seconds:',T_BA
          IF( DEBUG ) WRITE(*,*) '% #', IAM, ': ILO,IHI=',ILO,IHI
 *
 *        Make a copy of A.
@@ -267,8 +282,8 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
      $      CALL PDLAPRNT( N, N, MEM(IPACPY), 1, 1, DESCA, 0, 0,
      $           'A', NOUT, MEM(IPW1) )
          T_GEN = T_GEN + MPI_WTIME() - STAMP - T_BA
-         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
-     $      ' %%% Generation took in seconds:',T_GEN
+c         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
+c     $      ' %%% Generation took in seconds:',T_GEN
 *
 *        Only compute the Hessenberg form if necessary.
 *
@@ -348,8 +363,8 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
 *
  30      CONTINUE
          T_HS = MPI_WTIME() - T_HS
-         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
-     $      ' %%% Hessenberg took in seconds:',T_HS
+c         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
+c     $      ' %%% Hessenberg took in seconds:',T_HS
 *
 *        Compute the real Schur form of the Hessenberg matrix A.
 *
@@ -403,8 +418,8 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
              GO TO 999
          END IF
          T_QR = MPI_WTIME() - T_QR
-         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
-     $      ' %%% QR-algorithm took in seconds:',T_QR
+c         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
+c     $      ' %%% QR-algorithm took in seconds:',T_QR
          T_SCH = T_SCH + T_QR + T_HS + T_BA
 *         TOTIT = IMEM(1)
 *         SWEEPS = IMEM(2)
@@ -452,7 +467,7 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
 *                  (epsilon*N)
 *
          STAMP = MPI_WTIME()
-         IF( COMPRESI .AND. .NOT. TEST_CHKRESI ) THEN
+         IF( COMPRESI ) THEN
             IF( DEBUG ) WRITE(*,*) '% #', IAM, ': Compute residuals 1'
             IF( DEBUG ) WRITE(*,*) '% #', IAM, ': pdgemm 3'
             CALL PDGEMM( 'N', 'N', N, N, N, ONE, MEM(IPACPY), 1, 1,
@@ -474,10 +489,6 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
             ELSE
                RNORM = R1
             END IF
-         ELSEIF( COMPRESI .AND. TEST_CHKRESI ) THEN
-            RNORM = PDCHKRESI( N, MEM(IPACPY), 1, 1, DESCA, MEM(IPA),
-     $           1, 1, DESCA, MEM(IPQ), 1, 1, DESCQ, MEM(IPW1),
-     $           DPALLOC-IPW1+1 )
          ELSE
             RNORM = 0.0D0
          END IF
@@ -504,27 +515,23 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
          END IF
 *
          T_RES = T_RES + MPI_WTIME() - STAMP
-         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
-     $      ' %%% Residuals took in seconds:',T_RES
+c         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
+c     $      ' %%% Residuals took in seconds:',T_RES
          TOTTIME = MPI_WTIME() - TOTTIME
-         IF( IAM.EQ.0 ) WRITE(*,*)
-     $      ' %%% Total execution time in seconds:', TOTTIME
+c         IF( IAM.EQ.0 ) WRITE(*,*)
+c     $      ' %%% Total execution time in seconds:', TOTTIME
 *
 *
 *        Print results to screen.
 *
+	   IF( (ORTH.GT.THRESH).OR.(RNORM.GT.THRESH) ) THEN
+	      PASSED = 'FAILED'
+	   ELSE
+	      PASSED = 'PASSED'
+	   END IF
          IF( DEBUG ) WRITE(*,*) '% #', IAM, ': Print results...'
          IF( IAM.EQ.0 ) THEN
-            WRITE(*,*) ' %%% QR:',SOLVER
-            WRITE(*,*) ' %%% N:',N
-            WRITE(*,*) ' %%% NB:',NB
-            WRITE(*,*) ' %%% Ilo:',ILO
-            WRITE(*,*) ' %%% Ihi:',IHI
-            WRITE(*,*) ' %%% Pr:',NPROW
-            WRITE(*,*) ' %%% Pc:',NPCOL
-            WRITE(*,*) ' %%% Res1:',RNORM
-            WRITE(*,*) ' %%% Orth1:',ORTH
-            WRITE(*,*) ' %%% INFO:',INFO
+            WRITE( NOUT, FMT = 9993 ) N, NB, NPROW, NPCOL, T_QR, PASSED
          END IF
          CALL BLACS_BARRIER( ICTXT, 'All' )
       END DO
@@ -549,5 +556,9 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
  7777 FORMAT(A2,I3,I6,I4,I5,I6,I3,I3,I3,F9.2,F9.2,F9.2,F8.2,F8.2,F9.2,
      $       F9.2,F9.2,F9.2,F9.2,F9.2,F9.2,F9.2,E9.2,E9.2,E9.2,I5,I5,
      $       F8.4,I5,I5,A2)
+ 9995 FORMAT( '    N  NB    P    Q  QR Time  CHECK' )
+ 9994 FORMAT( '----- --- ---- ---- -------- ------' )
+ 9993 FORMAT( I5, 1X, I3, 1X, I4, 1X, I4, 1X, F8.2, 1X, A6 )
+          
 *
       END
