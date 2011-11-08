@@ -6,7 +6,7 @@ clean:
 	( cd INSTALL; make clean )
 
 tester :
-	( cd TESTING ; make $(what) )
+	( cd TESTING ; make )
 
 lib :
-	( cd SRC ; make $(what) )
+	( cd SRC ; make )
