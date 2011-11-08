@@ -11,7 +11,7 @@
 *
       IMPLICIT NONE
 *     ...Parameters...
-      LOGICAL           BALANCE, COMPHESS, COMPRESI, TEST_CHKRESI,
+      LOGICAL           BALANCE, COMPHESS, COMPRESI,
      $                  COMPORTH
       LOGICAL           DEBUG, PRN, TIMESTEPS, BARR,
      $                  UNI_LAPACK
@@ -22,7 +22,6 @@
      $                    COMPHESS = .TRUE.,
      $                    COMPRESI = .TRUE.,
      $                    COMPORTH = .TRUE.,
-     $                    TEST_CHKRESI = .FALSE.,
      $                    BALANCE = .TRUE.,
      $                    BARR = .FALSE.,
 *     Solver: 1-PSLAQR1, 2-PSHSEQR.
@@ -31,7 +30,7 @@
       INTEGER           N, NB, ARSRC, ACSRC
       PARAMETER         (
 *     Problem size.
-     $                    N = 2000, NB = 50,
+     $                    N = 500, NB = 50,
 *     What processor should hold the first element in A?
      $                    ARSRC = 0, ACSRC = 0 )
       INTEGER           BLOCK_CYCLIC_2D, CSRC_, CTXT_, DLEN_, DT_,
@@ -39,10 +38,10 @@
       PARAMETER         ( BLOCK_CYCLIC_2D = 1, DLEN_ = 9, DT_ = 1,
      $                    CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
      $                    RSRC_ = 7, CSRC_ = 8, LLD_ = 9 )
-      INTEGER           SPALLOC, INTALLC
-      INTEGER           SPSIZ, INTSZ, NOUT, IZERO
-      PARAMETER         ( SPSIZ = 4, SPALLOC = 52 500 000,
-     $                    INTSZ = 4, INTALLC = 80 000 000,
+      INTEGER           DPALLOC, INTALLC
+      INTEGER           DPSIZ, INTSZ, NOUT, IZERO
+      PARAMETER         ( DPSIZ = 8, DPALLOC = 8 000 000,
+     $                    INTSZ = 4, INTALLC = 8 000 000,
      $                    NOUT = 6, IZERO = 0)
       REAL              ZERO, ONE, TWO
       PARAMETER         ( ZERO = 0.0, ONE = 1.0, TWO = 2.0 )
@@ -55,13 +54,14 @@
       INTEGER           IPA, IPACPY, IPQ, WR1, WI1, WR2, WI2, IPW1,
      $                  IPW2, IPIW
       INTEGER           TOTIT, SWEEPS, TOTNS, HESS
-      REAL              EPS
+      REAL              EPS, THRESH
       DOUBLE PRECISION  STAMP, TOTTIME, T_BA, T_GEN, T_HS, T_SCH, T_QR,
      $                  T_RES, ITPEREIG, SWPSPEIG, NSPEIG, SPEEDUP, 
      $                  EFFICIENCY
       REAL              RNORM, ANORM, R1, ORTH, O1, O2, DPDUM, ELEM1,
      $                  ELEM2, ELEM3, EDIFF
       INTEGER           SOLVER
+      CHARACTER*6       PASSED
 *
 *     ...Local Arrays...
       INTEGER           DESCA( DLEN_ ), DESCQ( DLEN_ ), DESCVEC( DLEN_ )
@@ -74,15 +74,15 @@
 *
 *     ...External Functions...
       INTEGER           NUMROC
+      REAL              PSLAMCH, PSLANGE
       DOUBLE PRECISION  MPI_WTIME
-      REAL              PSLAMCH, PSLANGE, PSCHKRESI
       EXTERNAL          BLACS_PINFO, BLACS_GET, BLACS_GRIDINIT,
      $                  BLACS_GRIDINFO, BLACS_GRIDEXIT, BLACS_EXIT
       EXTERNAL          NUMROC, PSLAMCH, PSLASET, PSGEHRD, PSLANGE
       EXTERNAL          SGEBAL, SGEHRD
       EXTERNAL          MPI_WTIME
       EXTERNAL          PSGEBAL
-      EXTERNAL          PSMATGEN2, PSCHKRESI
+      EXTERNAL          PSMATGEN2
 *
 *     ...Executable statements...
 *
@@ -99,6 +99,7 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
 *     Read out the number of underlying threads and set stack size in
 *     kilobytes.
 *
+	THRESH = 30.0
       TOTTIME = MPI_WTIME()
       T_GEN = 0.0D+00
       T_RES = 0.0D+00
@@ -107,7 +108,7 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
 *     Allocate and Init memory with zeros.
 *
       INFO = 0
-      ALLOCATE ( MEM( SPALLOC ), STAT = INFO )
+      ALLOCATE ( MEM( DPALLOC ), STAT = INFO )
       IF( INFO.NE.0 ) THEN
          WRITE(*,*) '% Could not allocate MEM. INFO = ', INFO
          GO TO 777
@@ -117,23 +118,37 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
          WRITE(*,*) '% Could not allocate IMEM. INFO = ', INFO
          GO TO 777
       END IF
-      MEM( 1:SPALLOC ) = ZERO
+      MEM( 1:DPALLOC ) = ZERO
       IMEM( 1:INTALLC ) = IZERO
+*
+*     Get machine epsilon.
+*
+      EPS = PSLAMCH( ICTXT, 'Epsilon' )      
 *
 *     Print welcoming message.
 *
       IF( IAM.EQ.0 ) THEN
          WRITE(*,*)
-         WRITE(*,*) '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
-         WRITE(*,*) '%%         TESTPROGRAM FOR PSHSEQR          %%'
-         WRITE(*,*) '%% Contributor: Robert Granat & Meiyue Shao %%'
-         WRITE(*,*) '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+         WRITE(*,*) 'ScaLAPACK Test for PSHSEQR'
+         WRITE(*,*) 
+         WRITE(*,*) 'epsilon   = ', EPS
+         WRITE(*,*) 'threshold = ', THRESH
          WRITE(*,*)
+         WRITE(*,*) 'Residual and Orthogonality Residual computed by:'
+         WRITE(*,*)
+         WRITE(*,*) 'Residual      = ',
+     $   ' || T - Q^T*A*Q ||_F / ( ||A||_F * eps * sqrt(N) )'
+     	   WRITE(*,*)
+         WRITE(*,*) 'Orthogonality = ',
+     $   ' MAX( || I - Q^T*Q ||_F, || I - Q*Q^T ||_F ) / ',
+     $   ' (eps * N)'
+     	   WRITE(*,*) 
+     	   WRITE(*,*) 
+     $  'Test passes if both residuals are less then threshold'        
+	   WRITE( NOUT, * )
+	   WRITE( NOUT, FMT = 9995 )
+	   WRITE( NOUT, FMT = 9994 )
       END IF
-*
-*     Get machine epsilon.
-*
-      EPS = PSLAMCH( ICTXT, 'Epsilon' )
 *
 *     Loop over problem parameters.
 *
@@ -189,10 +204,10 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
          WI2    = WR2 + N
          IPW1   = WI2 + N
          IPW2   = IPW1 + DESCA( LLD_ ) * ACOLS
-         IF( DEBUG ) WRITE(*,*) '% (IPW2,SPALLOC):', IPW2, SPALLOC
+         IF( DEBUG ) WRITE(*,*) '% (IPW2,DPALLOC):', IPW2, DPALLOC
 *         PRINT*, '%', IPA, IPACPY, IPQ, WR1, WI1, WR2, WI2, IPW1, IPW2
-         IF( IPW2+DESCA(LLD_)*ACOLS .GT. SPALLOC+1 ) THEN
-            WRITE(*,*) '% Not enough SP memory!'
+         IF( IPW2+DESCA(LLD_)*ACOLS .GT. DPALLOC+1 ) THEN
+            WRITE(*,*) '% Not enough DP memory!'
             GO TO 999
          END IF
 *
@@ -227,7 +242,7 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
          T_BA = MPI_WTIME()
          IF( COMPHESS .AND. BALANCE ) THEN
             IF( NPROCS.EQ.1 .AND. SOLVER.NE.2 .AND. UNI_LAPACK ) THEN
-               IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == SGEBAL =='
+               IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == dgebal =='
                CALL SGEBAL( 'Both', N, MEM(IPA), DESCA(LLD_), ILO,
      $              IHI, SCALE, INFO )
                IF ( INFO.NE.0 ) THEN
@@ -235,7 +250,7 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
                   GO TO 999
                END IF
             ELSE
-               IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == pSGEBAL =='
+               IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == pdgebal =='
                CALL PSGEBAL( 'Both', N, MEM(IPA), DESCA, ILO, IHI,
      $              SCALE, INFO )
                IF ( INFO.NE.0 ) THEN
@@ -251,8 +266,8 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
             IHI = KBOT
          END IF
          T_BA = MPI_WTIME() - T_BA
-         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
-     $      ' %%% Balancing took in seconds:',T_BA
+c         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
+c     $      ' %%% Balancing took in seconds:',T_BA
          IF( DEBUG ) WRITE(*,*) '% #', IAM, ': ILO,IHI=',ILO,IHI
 *
 *        Make a copy of A.
@@ -268,8 +283,8 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
      $      CALL PSLAPRNT( N, N, MEM(IPACPY), 1, 1, DESCA, 0, 0,
      $           'A', NOUT, MEM(IPW1) )
          T_GEN = T_GEN + MPI_WTIME() - STAMP - T_BA
-         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
-     $      ' %%% Generation took in seconds:',T_GEN
+c         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
+c     $      ' %%% Generation took in seconds:',T_GEN
 *
 *        Only compute the Hessenberg form if necessary.
 *
@@ -283,29 +298,29 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
      $      ': Reduce to Hessenberg form...N=',N, ILO,IHI
 *         PRINT*, '% PSGEHRD: IPW2,MEM(IPW2)', IPW2, MEM(IPW2)
          IF( NPROCS.EQ.1 .AND. SOLVER.NE.2 .AND. UNI_LAPACK ) THEN
-            IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == SGEHRD =='
+            IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == dgehrd =='
             CALL SGEHRD( N, ILO, IHI, MEM(IPA), DESCA(LLD_),
      $           MEM(IPW1), MEM(IPW2), -1, INFO )
-            IF (SPALLOC-IPW2.LT.MEM(IPW2)) THEN
+            IF (DPALLOC-IPW2.LT.MEM(IPW2)) THEN
                WRITE(*,*) "% Not enough memory for SGEHRD"
                GO TO 999
             END IF
             CALL SGEHRD( N, ILO, IHI, MEM(IPA), DESCA(LLD_),
-     $           MEM(IPW1), MEM(IPW2), SPALLOC-IPW2, INFO )
+     $           MEM(IPW1), MEM(IPW2), DPALLOC-IPW2, INFO )
             IF ( INFO.NE.0 ) THEN
                WRITE(*,*) "% SGEHRD failed, INFO =", INFO
                GO TO 999
             END IF
          ELSE
-            IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == PSGEHRD =='
+            IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == pdgehrd =='
             CALL PSGEHRD( N, ILO, IHI, MEM(IPA), 1, 1, DESCA, MEM(IPW1),
      $           MEM(IPW2), -1, INFO )
-            IF (SPALLOC-IPW2.LT.MEM(IPW2)) THEN
+            IF (DPALLOC-IPW2.LT.MEM(IPW2)) THEN
                WRITE(*,*) "% Not enough memory for PSGEHRD"
                GO TO 999
             END IF
             CALL PSGEHRD( N, ILO, IHI, MEM(IPA), 1, 1, DESCA, MEM(IPW1),
-     $           MEM(IPW2), SPALLOC-IPW2, INFO )
+     $           MEM(IPW2), DPALLOC-IPW2, INFO )
             IF ( INFO.NE.0 ) THEN
                WRITE(*,*) "% PSGEHRD failed, INFO =", INFO
                GO TO 999
@@ -316,20 +331,20 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
 *
          IF( BARR ) CALL BLACS_BARRIER(ICTXT, 'A')
          IF( DEBUG ) WRITE(*,*) '% #', IAM, ':Form Q explicitly'
-*         PRINT*, '% PDORMHR: IPW2,MEM(IPW2)', IPW2, MEM(IPW2)
+*         PRINT*, '% PSORMHR: IPW2,MEM(IPW2)', IPW2, MEM(IPW2)
          IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == pdormhr =='
          CALL PSORMHR( 'L', 'N', N, N, ILO, IHI, MEM(IPA), 1, 1,
      $        DESCA, MEM(IPW1), MEM(IPQ), 1, 1, DESCQ, MEM(IPW2),
      $        -1, INFO )
-         IF (SPALLOC-IPW2.LT.MEM(IPW2)) THEN
+         IF (DPALLOC-IPW2.LT.MEM(IPW2)) THEN
             WRITE(*,*) "% Not enough memory for PSORMHR"
             GO TO 999
          END IF
          CALL PSORMHR( 'L', 'N', N, N, ILO, IHI, MEM(IPA), 1, 1,
      $        DESCA, MEM(IPW1), MEM(IPQ), 1, 1, DESCQ, MEM(IPW2),
-     $        SPALLOC-IPW2, INFO )
+     $        DPALLOC-IPW2, INFO )
          IF ( INFO.NE.0 ) THEN
-            WRITE(*,*) "% PDORMHR failed, INFO =", INFO
+            WRITE(*,*) "% PSORMHR failed, INFO =", INFO
             GO TO 999
          END IF
 *
@@ -349,20 +364,20 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
 *
  30      CONTINUE
          T_HS = MPI_WTIME() - T_HS
-         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
-     $      ' %%% Hessenberg took in seconds:',T_HS
+c         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
+c     $      ' %%% Hessenberg took in seconds:',T_HS
 *
 *        Compute the real Schur form of the Hessenberg matrix A.
 *
          IF( BARR ) CALL BLACS_BARRIER(ICTXT, 'A')
          T_QR = MPI_WTIME()
          IF( SOLVER.EQ.1 ) THEN
-            IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == PSLAQR1 =='
+            IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == pdlaqr1 =='
 *            PRINT*, '% PSLAQR1: IPW1,MEM(IPW1)', IPW1, MEM(IPW1)
             CALL PSLAQR1( .TRUE., .TRUE., N, ILO, IHI, MEM(IPA), DESCA,
      $           MEM(WR1), MEM(WI1), ILO, IHI, MEM(IPQ), DESCQ,
      $           MEM(IPW1), -1, IMEM, -1, INFO )
-            IF (SPALLOC-IPW1.LT.MEM(IPW1)) THEN
+            IF (DPALLOC-IPW1.LT.MEM(IPW1)) THEN
                WRITE(*,*) "% Not enough DP memory for PSLAQR1"
                GO TO 999
             END IF
@@ -372,19 +387,19 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
             END IF
             CALL PSLAQR1( .TRUE., .TRUE., N, ILO, IHI, MEM(IPA), DESCA,
      $           MEM(WR1), MEM(WI1), ILO, IHI, MEM(IPQ), DESCQ,
-     $           MEM(IPW1), SPALLOC-IPW1+1, IMEM, INTALLC, INFO )
+     $           MEM(IPW1), DPALLOC-IPW1+1, IMEM, INTALLC, INFO )
             IF (INFO.NE.0) THEN
                WRITE(*,*) "% PSLAQR1: INFO =", INFO
             END IF
          ELSEIF( SOLVER.EQ.2 ) THEN
-            IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == PSHSEQR =='
+            IF( DEBUG ) WRITE(*,*) '% #', IAM, ': == pdhseqr =='
 *            PRINT*, '% PSHSEQR: IPW1,MEM(IPW1)', IPW1, MEM(IPW1)
          IF( BARR ) CALL BLACS_BARRIER(ICTXT, 'A')
             CALL PSHSEQR( 'Schur', 'Vectors', N, ILO, IHI, MEM(IPA),
      $           DESCA, MEM(WR2), MEM(WI2), MEM(IPQ), DESCQ, MEM(IPW1),
      $           -1, IMEM, -1, INFO )
          IF( BARR ) CALL BLACS_BARRIER(ICTXT, 'A')
-            IF (SPALLOC-IPW1.LT.MEM(IPW1)) THEN
+            IF (DPALLOC-IPW1.LT.MEM(IPW1)) THEN
                WRITE(*,*) "% Not enough DP memory for PSHSEQR"
                GO TO 999
             END IF
@@ -395,7 +410,7 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
          IF( BARR ) CALL BLACS_BARRIER(ICTXT, 'A')
             CALL PSHSEQR( 'Schur', 'Vectors', N, ILO, IHI, MEM(IPA),
      $           DESCA, MEM(WR2), MEM(WI2), MEM(IPQ), DESCQ, MEM(IPW1),
-     $           SPALLOC-IPW1+1, IMEM, INTALLC, INFO )
+     $           DPALLOC-IPW1+1, IMEM, INTALLC, INFO )
             IF (INFO.NE.0) THEN
                WRITE(*,*) "% PSHSEQR: INFO =", INFO
             END IF
@@ -404,8 +419,8 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
              GO TO 999
          END IF
          T_QR = MPI_WTIME() - T_QR
-         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
-     $      ' %%% QR-algorithm took in seconds:',T_QR
+c         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
+c     $      ' %%% QR-algorithm took in seconds:',T_QR
          T_SCH = T_SCH + T_QR + T_HS + T_BA
 *         TOTIT = IMEM(1)
 *         SWEEPS = IMEM(2)
@@ -453,7 +468,7 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
 *                  (epsilon*N)
 *
          STAMP = MPI_WTIME()
-         IF( COMPRESI .AND. .NOT. TEST_CHKRESI ) THEN
+         IF( COMPRESI ) THEN
             IF( DEBUG ) WRITE(*,*) '% #', IAM, ': Compute residuals 1'
             IF( DEBUG ) WRITE(*,*) '% #', IAM, ': pdgemm 3'
             CALL PSGEMM( 'N', 'N', N, N, N, ONE, MEM(IPACPY), 1, 1,
@@ -475,10 +490,6 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
             ELSE
                RNORM = R1
             END IF
-         ELSEIF( COMPRESI .AND. TEST_CHKRESI ) THEN
-            RNORM = PSCHKRESI( N, MEM(IPACPY), 1, 1, DESCA, MEM(IPA),
-     $           1, 1, DESCA, MEM(IPQ), 1, 1, DESCQ, MEM(IPW1),
-     $           SPALLOC-IPW1+1 )
          ELSE
             RNORM = 0.0D0
          END IF
@@ -505,27 +516,23 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
          END IF
 *
          T_RES = T_RES + MPI_WTIME() - STAMP
-         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
-     $      ' %%% Residuals took in seconds:',T_RES
+c         IF( TIMESTEPS.AND.IAM.EQ.0 ) WRITE(*,*)
+c     $      ' %%% Residuals took in seconds:',T_RES
          TOTTIME = MPI_WTIME() - TOTTIME
-         IF( IAM.EQ.0 ) WRITE(*,*)
-     $      ' %%% Total execution time in seconds:', TOTTIME
+c         IF( IAM.EQ.0 ) WRITE(*,*)
+c     $      ' %%% Total execution time in seconds:', TOTTIME
 *
 *
 *        Print results to screen.
 *
+	   IF( (ORTH.GT.THRESH).OR.(RNORM.GT.THRESH) ) THEN
+	      PASSED = 'FAILED'
+	   ELSE
+	      PASSED = 'PASSED'
+	   END IF
          IF( DEBUG ) WRITE(*,*) '% #', IAM, ': Print results...'
          IF( IAM.EQ.0 ) THEN
-            WRITE(*,*) ' %%% QR:',SOLVER
-            WRITE(*,*) ' %%% N:',N
-            WRITE(*,*) ' %%% NB:',NB
-            WRITE(*,*) ' %%% Ilo:',ILO
-            WRITE(*,*) ' %%% Ihi:',IHI
-            WRITE(*,*) ' %%% Pr:',NPROW
-            WRITE(*,*) ' %%% Pc:',NPCOL
-            WRITE(*,*) ' %%% Res1:',RNORM
-            WRITE(*,*) ' %%% Orth1:',ORTH
-            WRITE(*,*) ' %%% INFO:',INFO
+            WRITE( NOUT, FMT = 9993 ) N, NB, NPROW, NPCOL, T_QR, PASSED
          END IF
          CALL BLACS_BARRIER( ICTXT, 'All' )
       END DO
@@ -550,5 +557,9 @@ c      IF ( ( MYROW.GE.NPROW ) .OR. ( MYCOL.GE.NPCOL ) ) GO TO 777
  7777 FORMAT(A2,I3,I6,I4,I5,I6,I3,I3,I3,F9.2,F9.2,F9.2,F8.2,F8.2,F9.2,
      $       F9.2,F9.2,F9.2,F9.2,F9.2,F9.2,F9.2,E9.2,E9.2,E9.2,I5,I5,
      $       F8.4,I5,I5,A2)
+ 9995 FORMAT( '    N  NB    P    Q  QR Time  CHECK' )
+ 9994 FORMAT( '----- --- ---- ---- -------- ------' )
+ 9993 FORMAT( I5, 1X, I3, 1X, I4, 1X, I4, 1X, F8.2, 1X, A6 )
+          
 *
       END
