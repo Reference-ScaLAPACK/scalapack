@@ -91,7 +91,7 @@ endmacro()
 
 # --------------------------------------------------
 # Testing
-SET(DART_TESTING_TIMEOUT 30)
+SET(DART_TESTING_TIMEOUT 600)
 
 enable_testing()
 include(CTest)
@@ -188,7 +188,6 @@ endmacro()
 #
 add_subdirectory(BLACS)
 append_subdir_files(blacs "BLACS/SRC")
-MESSAGE(STATUS "== BLACS DONE ==")
 
 #
 # TOOLS
@@ -196,7 +195,6 @@ MESSAGE(STATUS "== BLACS DONE ==")
 add_subdirectory(TOOLS)
 append_subdir_files(tools TOOLS)
 append_subdir_files(extra_lapack "TOOLS/LAPACK")
-MESSAGE(STATUS "== TOOLS DONE ==")
 
 #
 # PBLAS
@@ -206,7 +204,6 @@ append_subdir_files(pblas "PBLAS/SRC")
 append_subdir_files(pbblas "PBLAS/SRC/PBBLAS")
 append_subdir_files(ptzblas "PBLAS/SRC/PTZBLAS")
 append_subdir_files(ptools "PBLAS/SRC/PTOOLS")
-MESSAGE(STATUS "== PBLAS DONE ==")
 
 #
 # REDIST
