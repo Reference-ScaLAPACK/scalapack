@@ -1,0 +1,1 @@
+include("@SCALAPACK_BINARY_DIR@/scalapack-targets.cmake")
