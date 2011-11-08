@@ -1,5 +1,5 @@
 set(FTestObj  
-   BLACStest.f btprim.f tools.f)
+   blacstest.f btprim.f tools.f)
 
 add_executable(xFbtest ${FTestObj})
 target_link_libraries(xFbtest scalapack)
