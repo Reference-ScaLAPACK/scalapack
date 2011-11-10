@@ -2,28 +2,25 @@
 ScaLAPACK README FILE
 =====================
 
- VERSION 1.0  :  February 28, 1995
+ VERSION 1.0 :  February 28, 1995
 
- UPDATES:
-  VERSION 1.1 :  March 20, 1995
+ VERSION 1.1 :  March 20, 1995
 
- VERSION 1.2  :  May 10, 1996
+ VERSION 1.2 :  May 10, 1996
 
- UPDATES:
-  VERSION 1.3 :  June 5, 1996
+ VERSION 1.3 :  June 5, 1996
 
- VERSION 1.4  :  November 17, 1996
+ VERSION 1.4 :  November 17, 1996
 
- VERSION 1.5  :  May 1, 1997
+ VERSION 1.5 :  May 1, 1997
 
- UPDATES:
-  VERSION 1.6 :  November 15, 1997
+ VERSION 1.6 :  November 15, 1997
 
-  VERSION 1.7 :  August, 2001
+ VERSION 1.7 :  August, 2001
 
-  VERSION 1.8 : April 2007
+ VERSION 1.8 :  April 2007
 
- VERSION 2.0  :  November, 2011
+ VERSION 2.0 :  November, 2011
 
 ScaLAPACK, or Scalable LAPACK, is a library of high performance linear
 algebra routines for distributed memory computers supporting MPI.
@@ -51,61 +48,44 @@ New in version 2.0:
 - ScaLAPACK now only supports MPI.
 
 - The BLACS is now part of ScaLAPACK, and is compiled into the ScaLAPACK
-  library.
+  library.  It is no longer necessary to link against BLACS libraries.
 
-- Building ScaLAPACK and linking to the library has been simplified.
+- Building ScaLAPACK using cmake is now supported.
 
 - New MRRR Symmetric Eigenvalue Problem routines are included:
   pssyevr, pdsyevr, pcheevr and pzheevr.
 
 - New Nonsymmetric Eigenvalue Problem QR routines for computing
-  eigenvalues of a Hessenberg matrix are included:  pshseqr and pdhseqr.
+  eigenvalues of a Hessenberg matrix are included for real matrices:  
+  pshseqr and pdhseqr.
 
 Unless otherwise noted, the current scalapack.tgz on netlib contains
 all available updates.
 
 Errata for ScaLAPACK (source code and documentation) can be found at:
+
   http://www.netlib.org/scalapack/errata.html
 
 ScaLAPACK example programs can be found at:
-  http://www.netlib.org/scalapack/examples/
-Since ScaLAPACK 1.8, a basic example is include in the EXAMPLE directory.
- 
-Prototype versions of ScaLAPACK routines using packed storage are
-now available in the scalapack/prototype directory on netlib:
-   http://www.netlib.org/scalapack/prototype/packed.tgz
- 
-It is highly recommended that you obtain a copy of the ScaLAPACK
-Users' Guide published by SIAM.  This Users' Guide gives a detailed
-description of the philosophy behind ScaLAPACK as well as an explanation
-of its usage.  Each Users' Guide includes a CD-ROM containing the HTML
-version of the ScaLAPACK Users' Guide, the source code for the package,
-testing and timing programs, prebuilt versions of the library for a number
-of computers, example programs, and a full set of LAPACK Working Notes.
-The ScaLAPACK Users' Guide can be purchased from:
-SIAM; 3600 University City Science Center; Philadelphia, PA 19104-2688;
-215-382-9800, FAX 215-386-7999.  It will also be available from
-booksellers.
 
-To order by email, send email to service@siam.org.  The book is also
-available via SIAM's World Wide Web URL at http://www.siam.org.  The
-ISBN number is 0-89871-397-8, and SIAM order code is SE04.  The list
-price for SIAM members is $39.60; the cost for nonmembers is $49.50.
+  http://www.netlib.org/scalapack/examples/
+
+A basic example is included in the EXAMPLE directory.
+
+The ScaLAPACK User's Guide for ScaLAPACK version 1.5 is available
+from SIAM at:
+
+ http://www.ec-securehost.com/SIAM/SE04.html
  
-To view an HTML version of the Users' Guide please refer to the URL
+To view an HTML version of the Users' Guide for version 1.5, see:
  
  http://www.netlib.org/scalapack/slug/
-
-Prebuilt ScaLAPACK libraries are available for a variety of
-architectures.
- http://www.netlib.org/scalapack/archives/
-
+ 
 A number of technical reports were written during the development of
 ScaLAPACK and published as LAPACK Working Notes by the University
-of Tennessee.  These working notes are available in postscript and
-pdf format.
+of Tennessee.  These working notes are available at:
+
  http://www.netlib.org/lapack/lawns/
- http://www.netlib.org/lapack/lawnspdf/
 
 All questions/comments should be directed to scalapack@cs.utk.edu.
 
