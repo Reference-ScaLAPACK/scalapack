@@ -76,7 +76,7 @@
       REAL               ZERO
       COMPLEX            PADVAL
       PARAMETER          ( CPLXSZ = 8, INTGSZ = 4, REALSZ = 4,
-     $                     TOTMEM = 2000000,
+     $                     TOTMEM = 4000000,
      $                     MEMSIZ = TOTMEM / CPLXSZ, NTESTS = 20,
      $                     PADVAL = ( -9923.0E+0, -9923.0E+0 ),
      $                     ZERO = 0.0E+0 )
