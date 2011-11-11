@@ -73,7 +73,7 @@
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9 )
       INTEGER            DBLESZ, INTGSZ, MEMSIZ, NTESTS, TOTMEM
       DOUBLE PRECISION   PADVAL, ZERO
-      PARAMETER          ( DBLESZ = 8, INTGSZ = 4, TOTMEM = 2000000,
+      PARAMETER          ( DBLESZ = 8, INTGSZ = 4, TOTMEM = 4000000,
      $                     MEMSIZ = TOTMEM / DBLESZ, NTESTS = 20,
      $                     PADVAL = -9923.0D+0, ZERO = 0.0D+0 )
 *     ..

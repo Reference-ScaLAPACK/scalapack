@@ -75,7 +75,7 @@
       INTEGER            INTGSZ, DBLESZ, MEMSIZ, NTESTS, TOTMEM, ZPLXSZ
       DOUBLE PRECISION   ZERO
       COMPLEX*16         PADVAL
-      PARAMETER          ( INTGSZ = 4, DBLESZ = 8, TOTMEM = 2000000,
+      PARAMETER          ( INTGSZ = 4, DBLESZ = 8, TOTMEM = 8000000,
      $                     ZPLXSZ = 16, MEMSIZ = TOTMEM / ZPLXSZ,
      $                     NTESTS = 20,
      $                     PADVAL = ( -9923.0D+0, -9923.0D+0 ),
