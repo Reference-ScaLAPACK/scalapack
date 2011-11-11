@@ -1,5 +1,8 @@
       SUBROUTINE DDBTRF( M, N, KL, KU, AB, LDAB, INFO )
 *
+*  -- ScaLAPACK auxiliary routine (version 2.0) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
+*
 *     Written by Andrew J. Cleary, University of Tennessee.
 *     August, 1996.
 *     Modified from DGBTRF:

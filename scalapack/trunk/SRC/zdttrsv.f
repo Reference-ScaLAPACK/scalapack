@@ -1,6 +1,9 @@
       SUBROUTINE ZDTTRSV( UPLO, TRANS, N, NRHS, DL, D, DU,
      $                   B, LDB, INFO )
 *
+*  -- ScaLAPACK auxiliary routine (version 2.0) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
+*
 *     Written by Andrew J. Cleary, University of Tennessee.
 *     August, 1996.
 *     Modified from ZGTTRS:

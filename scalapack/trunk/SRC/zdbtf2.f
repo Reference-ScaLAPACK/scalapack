@@ -1,5 +1,8 @@
       SUBROUTINE ZDBTF2( M, N, KL, KU, AB, LDAB, INFO )
 *
+*  -- ScaLAPACK auxiliary routine (version 2.0) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
+*
 *     Modified by Andrew J. Cleary in November, 96 from:
 *  -- LAPACK auxiliary routine (preliminary version) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,

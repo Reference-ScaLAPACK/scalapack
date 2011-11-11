@@ -5,9 +5,8 @@
 
       IMPLICIT NONE
 *
-*  -- ScaLAPACK routine (@(MODE)version *TBA*) --
-*     University of California, Berkeley and
-*     University of Tennessee, Knoxville. 
+*  -- ScaLAPACK routine (version 2.0) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
 *     December 6, 2008
 *
 *     .. Scalar Arguments ..
