@@ -4,9 +4,8 @@
 *
       IMPLICIT NONE
 *
-*  -- LAPACK computational routine (version *TBA*) --
-*     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
-*     Courant Institute, Argonne National Lab, and Rice University
+*  -- ScaLAPACK computational routine (version 2.0) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
 *     July 4, 2010
 *
 *     .. Scalar Arguments ..

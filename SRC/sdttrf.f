@@ -1,5 +1,8 @@
       SUBROUTINE SDTTRF( N, DL, D, DU, INFO )
 *
+*  -- ScaLAPACK auxiliary routine (version 2.0) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
+*
 *     Written by Andrew J. Cleary, November 1996.
 *     Modified from SGTTRF:
 *  -- LAPACK routine (preliminary version) --
