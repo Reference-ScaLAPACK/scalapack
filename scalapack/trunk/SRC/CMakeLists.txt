@@ -1,14 +1,15 @@
-set (ALLAUX  pjlaenv.f  pilaenvx.f piparmq.f pbchkvect.c getpbbuf.c pilaver.f)
+set (ALLAUX  pjlaenv.f  pilaenvx.f piparmq.f pilaver.f)
+set (ALLAUX-C  pbchkvect.c getpbbuf.c pcrot.c pslaiect.c pdlaiect.c pzrot.c )
 
 set (SCLAUX  
-   pslabad.f pslaed0.f pslaed1.f pslaed2.f pslaed3.f pslaedz.f pslaiect.c
+   pslabad.f pslaed0.f pslaed1.f pslaed2.f pslaed3.f pslaedz.f 
    pslamch.f pslared1d.f pslasrt.f psstebz.f psstedc.f slapst.f slasrt2.f 
    sstein2.f
    slar1va.f slarrb2.f slarrd2.f slarre2.f slarre2a.f slarrf2.f
    slarrv2.f sstegr2.f sstegr2a.f sstegr2b.f)
 
 set (DZLAUX  
-   pdlabad.f pdlaed0.f pdlaed1.f pdlaed2.f pdlaed3.f pdlaedz.f pdlaiect.c
+   pdlabad.f pdlaed0.f pdlaed1.f pdlaed2.f pdlaed3.f pdlaedz.f 
    pdlamch.f pdlared1d.f pdlasrt.f pdstebz.f pdstedc.f dlapst.f dlasrt2.f 
    dstein2.f
    dlar1va.f dlarrb2.f dlarrd2.f dlarre2.f dlarre2a.f dlarrf2.f
@@ -58,7 +59,7 @@ set (CLASRC
    pcggrqf.f pcheev.f  pcheevd.f pcheevx.f pchegs2.f pchegst.f pchegvx.f 
    pchengst.f pchentrd.f pchettrd.f pchetd2.f 
    pchetrd.f pclabrd.f pclacon.f pclacgv.f pclacp2.f pclacpy.f pclahrd.f 
-   pclahqr.f pclaconsb.f pclasmsub.f pclacp3.f pclawil.f pcrot.c 
+   pclahqr.f pclaconsb.f pclasmsub.f pclacp3.f pclawil.f
    pclange.f pclanhe.f pclanhs.f pclansy.f pclantr.f pclapiv.f pclapv2.f 
    pclaqge.f pclaqsy.f pclarf.f  pclarfb.f pclarfc.f pclarfg.f pclarft.f 
    pclascl.f pclase2.f pclaset.f pclassq.f pclaswp.f pclatra.f pclatrd.f 
@@ -121,7 +122,7 @@ set (ZLASRC
    pzggrqf.f pzheev.f  pzheevd.f pzheevx.f pzhegs2.f pzhegst.f pzhegvx.f 
    pzhengst.f pzhentrd.f pzhettrd.f pzhetd2.f 
    pzhetrd.f pzlabrd.f pzlacon.f pzlacgv.f pzlacp2.f pzlacpy.f pzlahrd.f 
-   pzlahqr.f pzlaconsb.f pzlasmsub.f pzlacp3.f pzlawil.f pzrot.c 
+   pzlahqr.f pzlaconsb.f pzlasmsub.f pzlacp3.f pzlawil.f 
    pzlange.f pzlanhe.f pzlanhs.f pzlansy.f pzlantr.f pzlapiv.f pzlapv2.f 
    pzlaqge.f pzlaqsy.f pzlarf.f  pzlarfb.f pzlarfc.f pzlarfg.f pzlarft.f 
    pzlascl.f pzlase2.f pzlaset.f pzlassq.f pzlaswp.f pzlatra.f pzlatrd.f 
@@ -143,3 +144,5 @@ set (ZLASRC
 set(src 
       ${ALLAUX} ${SCLAUX} ${DZLAUX}
       ${SLASRC} ${CLASRC} ${DLASRC} ${ZLASRC} )
+set(src-C 
+      ${ALLAUX-C} )
