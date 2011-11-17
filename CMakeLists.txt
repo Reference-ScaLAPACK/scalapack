@@ -162,8 +162,13 @@ else(LAPACK_FOUND)
 		CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${SCALAPACK_BINARY_DIR}
         PREFIX ${SCALAPACK_BINARY_DIR}/dependencies
       )
-      SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/liblapack.a CACHE STRING "LAPACK library" FORCE)
-      SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/libblas.a CACHE STRING "BLAS library" FORCE)
+	  if (UNIX)
+         SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/liblapack.a CACHE STRING "LAPACK library" FORCE)
+         SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/libblas.a CACHE STRING "BLAS library" FORCE)
+	  else (UNIX) # On Windows
+         SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/liblapack.lib CACHE STRING "LAPACK library" FORCE)
+         SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/libblas.lib CACHE STRING "BLAS library" FORCE)
+      endif (UNIX)
    ENDIF()
 ENDIF()
 
@@ -171,6 +176,11 @@ message(STATUS "BLAS library: ${BLAS_LIBRARIES}")
 message(STATUS "LAPACK library: ${LAPACK_LIBRARIES}")
 
 MESSAGE(STATUS "=========")
+
+# --------------------------------------------------
+# By default static library
+OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF )
+OPTION(BUILD_STATIC_LIBS "Build static libraries" ON )
 
 # --------------------------------------------------
 # Subdirectories that need to be processed
@@ -194,6 +204,7 @@ append_subdir_files(blacs "BLACS/SRC")
 #
 add_subdirectory(TOOLS)
 append_subdir_files(tools TOOLS)
+append_subdir_files(tools-C TOOLS)
 append_subdir_files(extra_lapack "TOOLS/LAPACK")
 
 #
@@ -201,6 +212,7 @@ append_subdir_files(extra_lapack "TOOLS/LAPACK")
 #
 add_subdirectory(PBLAS)
 append_subdir_files(pblas "PBLAS/SRC")
+append_subdir_files(pblas-F "PBLAS/SRC")
 append_subdir_files(pbblas "PBLAS/SRC/PBBLAS")
 append_subdir_files(ptzblas "PBLAS/SRC/PTZBLAS")
 append_subdir_files(ptools "PBLAS/SRC/PTOOLS")
@@ -216,9 +228,18 @@ append_subdir_files(redist "REDIST/SRC")
 #
 add_subdirectory(SRC)
 append_subdir_files(src "SRC")
+append_subdir_files(src-C "SRC")
 
-add_library(scalapack ${blacs} ${tools} ${extra_lapack} ${pblas} ${ptzblas} ${ptools} ${pbblas} ${redist} ${src})
-scalapack_install_library(scalapack)
+if (UNIX)
+   add_library(scalapack ${blacs} ${tools} ${tools-C} ${extra_lapack} ${pblas} ${pblas-F} ${ptzblas} ${ptools} ${pbblas} ${redist} ${src} ${src-C})
+   scalapack_install_library(scalapack)
+else (UNIX) # Need to separate Fortran and C Code
+   OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON )
+   add_library(scalapack ${blacs} ${tools-C} ${pblas} ${ptools} ${redist} ${src-C})
+   add_library(scalapack-F ${pblas-F} ${pbblas} ${ptzblas} ${tools} ${src} ${extra_lapack} )
+   scalapack_install_library(scalapack)
+   scalapack_install_library(scalapack-F)
+endif (UNIX)
 add_subdirectory(TESTING)
 
 # --------------------------------------------------
@@ -252,10 +273,6 @@ INCLUDE(CPack)
 
 
 # --------------------------------------------------
-# By default static library
-OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF )
-OPTION(BUILD_STATIC_LIBS "Build static libraries" ON )
-
 
 
 export(TARGETS scalapack FILE scalapack-targets.cmake)

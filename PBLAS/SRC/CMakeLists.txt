@@ -59,7 +59,9 @@ set (PZBLAS3  pzgeadd_.c pzgemm_.c pzhemm_.c  pzher2k_.c pzherk_.c  pzsymm_.c
 #---------------------------------------------------------------------------
 
 set (pblas 
-      ${APPBLAS} ${PIBLAS1}
+      ${PIBLAS1}
       ${PSBLAS1} ${PCBLAS1} ${PDBLAS1} ${PZBLAS1}
       ${PSBLAS2} ${PCBLAS2} ${PDBLAS2} ${PZBLAS2}
       ${PSBLAS3} ${PCBLAS3} ${PDBLAS3} ${PZBLAS3})
+
+set (pblas-F ${APPBLAS} )

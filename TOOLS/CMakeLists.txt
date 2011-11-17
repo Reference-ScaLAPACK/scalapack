@@ -4,7 +4,7 @@ set (ATOOLS
          iceil.f      ilacpy.f     ilcm.f       indxg2p.f    indxg2l.f    
          indxl2g.f    infog1l.f    infog2l.f    npreroc.f    numroc.f     
          chk1mat.f    pchkxmat.f   sltimer.f    desc_convert.f 
-         descinit.f   descset.f    reshape.c    SL_gridreshape.c 
+         descinit.f   descset.f    
          SL_init.f)
 
 set (ITOOLS
@@ -38,3 +38,7 @@ set (ZTOOLS
 
 set(tools 
      ${ATOOLS} ${ITOOLS} ${STOOLS} ${DTOOLS} ${CTOOLS} ${ZTOOLS})
+     
+set(tools-C 
+    reshape.c  SL_gridreshape.c )
+     
