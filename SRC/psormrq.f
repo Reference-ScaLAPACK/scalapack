@@ -223,7 +223,7 @@
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9 )
 *     ..
 *     .. Local Scalars ..
-      LOGICAL            LEFT, LQUERY, NOTRAN
+      LOGICAL            LEFT, LQUERY, NOTRAN, RIGHT, TRAN
       CHARACTER          COLBTOP, ROWBTOP, TRANST
       INTEGER            I, I1, I2, I3, IACOL, IB, ICCOL, ICOFFA,
      $                   ICOFFC, ICROW, ICTXT, IINFO, IPW, IROFFC, LCM,
@@ -258,8 +258,20 @@
       IF( NPROW.EQ.-1 ) THEN
          INFO = -(900+CTXT_)
       ELSE
-         LEFT = LSAME( SIDE, 'L' )
-         NOTRAN = LSAME( TRANS, 'N' )
+         IF( LSAME( SIDE, 'L' ) ) THEN
+            LEFT = .TRUE.
+            RIGHT = .FALSE.
+         ELSE
+            LEFT = .FALSE.
+            RIGHT = .TRUE.
+         END IF
+         IF( LSAME( TRANS, 'N' ) ) THEN
+            NOTRAN = .TRUE.
+            TRAN = .FALSE.
+         ELSE
+            NOTRAN = .FALSE.
+            TRAN = .TRUE.
+         END IF
 *
 *        NQ is the order of Q
 *
@@ -439,8 +451,8 @@
      $                WORK( IPW ) )
    10 CONTINUE
 *
-      IF( ( LEFT .AND. .NOT.NOTRAN ) .OR.
-     $    ( .NOT.LEFT .AND. NOTRAN ) ) THEN
+      IF( ( RIGHT .AND. TRAN ) .OR.
+     $    ( LEFT .AND. NOTRAN ) ) THEN
          IB = I2 - IA
          IF( LEFT ) THEN
             MI = M - K + IB
