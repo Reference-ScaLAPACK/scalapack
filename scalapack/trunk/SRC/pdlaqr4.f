@@ -2,10 +2,10 @@
      $                    ILOZ, IHIZ, Z, DESCZ, T, LDT, V, LDV, WORK,
      $                    LWORK, INFO )
 *
-*  -- ScaLAPACK auxiliary routine (version 2.0) --
+*  -- ScaLAPACK auxiliary routine (version 2.0.1) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     October, 2011
+*     December, 2011
 *
       IMPLICIT NONE
 *
@@ -166,8 +166,8 @@
 *          The dimension of the work array WORK.
 *          LWORK >= IHI-ILO+1.
 *          WORK(LWORK) is a local array and LWORK is assumed big enough.
-*          Typically LWORK >= 36*IBLK*IBLK if this routine is called by
-*          PDLAQR1. (IBLK = 32, see PDLAQR1)
+*          Typically LWORK >= 4*LDS*LDS if this routine is called by
+*          PDLAQR1. (LDS = 385, see PDLAQR1)
 *
 *  INFO    (global output) INTEGER
 *          < 0: parameter number -INFO incorrect or inconsistent;
@@ -208,16 +208,18 @@
      $                   RIGHT, UP, DOWN, D1, D2
 *     ..
 *     .. Local Arrays ..
-      INTEGER            DESCV( 9 ), DESCWH( 9 ), DESCWV( 9 )
+      INTEGER            DESCT( 9 ), DESCV( 9 ), DESCWH( 9 ),
+     $                   DESCWV( 9 )
 *     ..
 *     .. External Functions ..
       INTEGER            NUMROC, ILAENV
       EXTERNAL           NUMROC, ILAENV
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           BLACS_GRIDINFO, INFOG2L, PDLACP3, DLASET,
+      EXTERNAL           BLACS_GRIDINFO, INFOG2L, DLASET,
      $                   DLAHQR, DLAQR4, DESCINIT, PDGEMM, PDGEMR2D,
-     $                   DGEMM, DLACPY, DGESD2D, DGERV2D
+     $                   DGEMM, DLACPY, DGESD2D, DGERV2D,
+     $                   DGEBS2D, DGEBR2D, IGEBS2D, IGEBR2D
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          MAX, MIN, MOD
@@ -263,22 +265,45 @@
 *
 *     Copy the diagonal block to local and call LAPACK.
 *
-      CALL PDLACP3( NH, ILO, A, DESCA, T, LDT, -1, -1, 0 )
-      CALL DLASET( 'All', NH, NH, ZERO, ONE, V, LDV )
-      NMIN = ILAENV( 12, 'DLAQR3', 'SV', NH, 1, NH, LWORK )
-      IF( NH .GT. NMIN ) THEN
-         CALL DLAQR4( .TRUE., .TRUE., NH, 1, NH, T, LDT, WR( ILO ),
-     $        WI( ILO ), 1, NH, V, LDV, WORK, LWORK, INFO )
-*        Clean up the scratch used by DLAQR4.
-         CALL DLASET( 'L', NH-2, NH-2, ZERO, ZERO, T( 3, 1 ), LDT )
+      CALL INFOG2L( ILO, ILO, DESCA, NPROW, NPCOL, MYROW, MYCOL,
+     $     IROW, ICOL, II, JJ )
+      IF ( MYROW .EQ. II ) THEN
+         CALL DESCINIT( DESCT, NH, NH, NH, NH, II, JJ, CONTXT,
+     $        LDT, IERR )
+         CALL DESCINIT( DESCV, NH, NH, NH, NH, II, JJ, CONTXT,
+     $        LDV, IERR )
       ELSE
-         CALL DLAHQR( .TRUE., .TRUE., NH, 1, NH, T, LDT, WR( ILO ),
-     $        WI( ILO ), 1, NH, V, LDV, INFO )
+         CALL DESCINIT( DESCT, NH, NH, NH, NH, II, JJ, CONTXT,
+     $        1, IERR )
+         CALL DESCINIT( DESCV, NH, NH, NH, NH, II, JJ, CONTXT,
+     $        1, IERR )
       END IF
+      CALL PDGEMR2D( NH, NH, A, ILO, ILO, DESCA, T, 1, 1, DESCT,
+     $     CONTXT )
+      IF ( MYROW .EQ. II .AND. MYCOL .EQ. JJ ) THEN
+         CALL DLASET( 'All', NH, NH, ZERO, ONE, V, LDV )
+         NMIN = ILAENV( 12, 'DLAQR3', 'SV', NH, 1, NH, LWORK )
+         IF( NH .GT. NMIN ) THEN
+            CALL DLAQR4( .TRUE., .TRUE., NH, 1, NH, T, LDT, WR( ILO ),
+     $           WI( ILO ), 1, NH, V, LDV, WORK, LWORK, INFO )
+*           Clean up the scratch used by DLAQR4.
+            CALL DLASET( 'L', NH-2, NH-2, ZERO, ZERO, T( 3, 1 ), LDT )
+         ELSE
+            CALL DLAHQR( .TRUE., .TRUE., NH, 1, NH, T, LDT, WR( ILO ),
+     $           WI( ILO ), 1, NH, V, LDV, INFO )
+         END IF
+         CALL DGEBS2D( CONTXT, 'All', ' ', NH, NH, V, LDV )
+         CALL IGEBS2D( CONTXT, 'All', ' ', 1, 1, INFO, 1 )
+      ELSE
+         CALL DGEBR2D( CONTXT, 'All', ' ', NH, NH, V, LDV, II, JJ )
+         CALL IGEBR2D( CONTXT, 'All', ' ', 1, 1, INFO, 1, II, JJ )
+      END IF
+      IF( INFO .NE. 0 ) INFO = INFO+ILO-1
 *
 *     Copy the local matrix back to the diagonal block.
 *
-      CALL PDLACP3( NH, ILO, A, DESCA, T, LDT, 0, 0, 1 )
+      CALL PDGEMR2D( NH, NH, T, 1, 1, DESCT, A, ILO, ILO, DESCA,
+     $     CONTXT )
 *
 *     Update T and Z.
 *
@@ -330,10 +355,10 @@
 *        Update vertical slab in Z.
 *
          IF( WANTZ ) THEN
-            CALL INFOG2L( ILOZ, ILO, DESCA, NPROW, NPCOL, MYROW,
+            CALL INFOG2L( ILOZ, ILO, DESCZ, NPROW, NPCOL, MYROW,
      $           MYCOL, IROW, ICOL, II, JJ )
             IF( MYCOL .EQ. JJ ) THEN
-               CALL INFOG2L( IHIZ, ILO, DESCA, NPROW, NPCOL,
+               CALL INFOG2L( IHIZ, ILO, DESCZ, NPROW, NPCOL,
      $              MYROW, MYCOL, IROW1, ICOL1, ITMP1, ITMP2 )
                IF( MYROW .NE. ITMP1 ) IROW1 = IROW1-1
                DO 30 KKROW = IROW, IROW1, VSTEP
@@ -479,11 +504,11 @@
 *        Update vertical slab in Z.
 *
          IF( WANTZ ) THEN
-            CALL INFOG2L( ILOZ, ILO, DESCA, NPROW, NPCOL, MYROW,
+            CALL INFOG2L( ILOZ, ILO, DESCZ, NPROW, NPCOL, MYROW,
      $           MYCOL, IROW, ICOL, II, JJ )
             IF( MYCOL .EQ. LEFT ) THEN
                IF( MYCOL .EQ. JJ ) THEN
-                  CALL INFOG2L( IHIZ, ILO, DESCA, NPROW, NPCOL,
+                  CALL INFOG2L( IHIZ, ILO, DESCZ, NPROW, NPCOL,
      $                 MYROW, MYCOL, IROW1, ICOL1, ITMP1, ITMP2 )
                   IF( MYROW .NE. ITMP1 ) IROW1 = IROW1-1
                   DO 100 KKROW = IROW, IROW1, VSTEP
@@ -497,7 +522,7 @@
                END IF
             ELSE
                IF( MYCOL .EQ. JJ ) THEN
-                  CALL INFOG2L( IHIZ, ILO, DESCA, NPROW, NPCOL,
+                  CALL INFOG2L( IHIZ, ILO, DESCZ, NPROW, NPCOL,
      $                 MYROW, MYCOL, IROW1, ICOL1, ITMP1, ITMP2 )
                   IF( MYROW .NE. ITMP1 ) IROW1 = IROW1-1
                   DO 110 KKROW = IROW, IROW1, VSTEP
@@ -516,7 +541,7 @@
      $                    Z( KKROW+(ICOL-1)*LDZ ), LDZ )
   110             CONTINUE
                ELSE IF( LEFT .EQ. JJ ) THEN
-                  CALL INFOG2L( IHIZ, ILO, DESCA, NPROW, NPCOL,
+                  CALL INFOG2L( IHIZ, ILO, DESCZ, NPROW, NPCOL,
      $                 MYROW, MYCOL, IROW1, ICOL1, ITMP1, ITMP2 )
                   IF( MYROW .NE. ITMP1 ) IROW1 = IROW1-1
                   DO 120 KKROW = IROW, IROW1, VSTEP
@@ -574,7 +599,7 @@
                LLDTMP = NUMROC( KLN, LWORK / NH, MYROW, 0, NPROW )
                LLDTMP = MAX( 1, LLDTMP )
                CALL DESCINIT( DESCWV, KLN, NH, LWORK / NH, NH, 0, 0,
-     $              CONTXT, LLDTMP, INFO )
+     $              CONTXT, LLDTMP, IERR )
                CALL PDGEMM( 'N', 'N', KLN, NH, NH, ONE, A, KKROW,
      $              ILO, DESCA, V, 1, 1, DESCV, ZERO, WORK, 1, 1,
      $              DESCWV )
@@ -591,7 +616,7 @@
                LLDTMP = NUMROC( KLN, LWORK / NH, MYROW, 0, NPROW )
                LLDTMP = MAX( 1, LLDTMP )
                CALL DESCINIT( DESCWV, KLN, NH, LWORK / NH, NH, 0, 0,
-     $              CONTXT, LLDTMP, INFO )
+     $              CONTXT, LLDTMP, IERR )
                CALL PDGEMM( 'N', 'N', KLN, NH, NH, ONE, Z, KKROW,
      $              ILO, DESCZ, V, 1, 1, DESCV, ZERO, WORK, 1, 1,
      $              DESCWV )

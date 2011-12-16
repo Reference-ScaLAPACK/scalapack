@@ -3,10 +3,10 @@
      $                              DESCZ, WORK, LWORK, IWORK,
      $                              ILWORK, INFO )
 *
-*  -- ScaLAPACK auxiliary routine (version 2.0) --
+*  -- ScaLAPACK auxiliary routine (version 2.0.1) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     October, 2011
+*     December, 2011
 *
       IMPLICIT NONE
 *
@@ -16,7 +16,7 @@
 *     ..
 *     .. Array Arguments ..
       INTEGER            DESCA( * ), DESCZ( * ), IWORK( * )
-      REAL               A( * ), WI( * ), WORK( * ), WR( * ), Z( * )
+      REAL   A( * ), WI( * ), WORK( * ), WR( * ), Z( * )
 *     ..
 *
 *  Purpose
@@ -26,7 +26,7 @@
 *    and or eigenvalues of a matrix already in Hessenberg form from
 *    cols ILO to IHI.
 *
-*  This is a modified version of PSLAHQR from ScaLAPACK version 1.7.3.
+*  This is a modified version of PDLAHQR from ScaLAPACK version 1.7.3.
 *  The following modifications were made:
 *    o Recently removed workspace query functionality was added.
 *    o Aggressive early deflation is implemented.
@@ -35,7 +35,7 @@
 *    o The returned Schur form is now in canonical form, i.e., the
 *      returned 2-by-2 blocks really correspond to complex conjugate
 *      pairs of eigenvalues.
-*    o For some reason, the original version of PSLAHQR sometimes did
+*    o For some reason, the original version of PDLAHQR sometimes did
 *      not read out the converged eigenvalues correclty. This is now
 *      fixed.
 *
@@ -117,7 +117,7 @@
 *          transformations to all of H if WANTT is .TRUE..
 *          1 <= ILO <= max(1,IHI); IHI <= N.
 *
-*  A       (global input/output) REAL             array, dimension
+*  A       (global input/output) REAL array, dimension
 *          (DESCA(LLD_),*)
 *          On entry, the upper Hessenberg matrix A.
 *          On exit, if WANTT is .TRUE., A is upper quasi-triangular in
@@ -128,9 +128,9 @@
 *  DESCA   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the distributed matrix A.
 *
-*  WR      (global replicated output) REAL             array,
+*  WR      (global replicated output) REAL array,
 *                                                         dimension (N)
-*  WI      (global replicated output) REAL             array,
+*  WI      (global replicated output) REAL array,
 *                                                         dimension (N)
 *          The real and imaginary parts, respectively, of the computed
 *          eigenvalues ILO to IHI are stored in the corresponding
@@ -148,9 +148,9 @@
 *          applied if WANTZ is .TRUE..
 *          1 <= ILOZ <= ILO; IHI <= IHIZ <= N.
 *
-*  Z       (global input/output) REAL             array.
+*  Z       (global input/output) REAL array.
 *          If WANTZ is .TRUE., on entry Z must contain the current
-*          matrix Z of transformations accumulated by PSHSEQR, and on
+*          matrix Z of transformations accumulated by PDHSEQR, and on
 *          exit Z has been updated; transformations are applied only to
 *          the submatrix Z(ILOZ:IHIZ,ILO:IHI).
 *          If WANTZ is .FALSE., Z is not referenced.
@@ -158,11 +158,11 @@
 *  DESCZ   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the distributed matrix Z.
 *
-*  WORK    (local output) REAL             array of size LWORK
+*  WORK    (local output) REAL array of size LWORK
 *
 *  LWORK   (local input) INTEGER
 *          WORK(LWORK) is a local array and LWORK is assumed big enough
-*          so that LWORK >= 3*N +
+*          so that LWORK >= 6*N + 6*385*385 +
 *                MAX( 2*MAX(DESCZ(LLD_),DESCA(LLD_)) + 2*LOCc(N),
 *                     7*Ceil(N/HBL)/LCM(NPROW,NPCOL)) )
 *
@@ -201,12 +201,12 @@
 *
 *  Subroutines:
 *       This routine calls:
-*           PSLAWIL   -> Given the shift, get the transformation
-*           SLASORTE  -> Pair up eigenvalues so that reals are paired.
-*           PSLACP3   -> Parallel array to local replicated array copy &
+*           PDLAWIL   -> Given the shift, get the transformation
+*           DLASORTE  -> Pair up eigenvalues so that reals are paired.
+*           PDLACP3   -> Parallel array to local replicated array copy &
 *                        back.
-*           SLAREF    -> Row/column reflector applier. Core routine here.
-*           PSLASMSUB -> Finds negligible subdiagonal elements.
+*           DLAREF    -> Row/column reflector applier. Core routine here.
+*           PDLASMSUB -> Finds negligible subdiagonal elements.
 *
 *  Current Notes and/or Restrictions:
 *       1.) This code requires the distributed block size to be square
@@ -253,24 +253,24 @@
      $                     CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9 )
       REAL               ZERO, ONE, HALF
-      PARAMETER          ( ZERO = 0.0E+0, ONE = 1.0E+0, HALF = 0.5E+0 )
+      PARAMETER          ( ZERO = 0.0, ONE = 1.0, HALF = 0.5 )
       REAL               CONST
-      PARAMETER          ( CONST = 1.5 )
+      PARAMETER          ( CONST = 1.50 )
       INTEGER            IBLK, LDS
       PARAMETER          ( IBLK = 32, LDS = 12*IBLK+1 )
 *     ..
 *     .. Local Scalars ..
       INTEGER            CONTXT, DOWN, HBL, I, I1, I2, IAFIRST, IBULGE,
-     $                   ICBUF, ICOL, ICOL1, ICOL2, IDIA, IERR, II,
+     $                   ICBUF, ICOL, ICOL1, ICOL2, IERR, II,
      $                   IRBUF, IROW, IROW1, IROW2, ISPEC, ISTART,
-     $                   ISTARTCOL, ISTARTROW, ISTOP, ISUB, ISUP,
+     $                   ISTARTCOL, ISTARTROW, ISTOP, ISUB,
      $                   ITERMAX, ITMP1, ITMP2, ITN, ITS, J, JAFIRST,
      $                   JBLK, JJ, K, KI, L, LCMRC, LDA, LDZ, LEFT,
      $                   LIHIH, LIHIZ, LILOH, LILOZ, LOCALI1, LOCALI2,
      $                   LOCALK, LOCALM, M, MODKM1, MYCOL, MYROW,
      $                   NBULGE, NH, NODE, NPCOL, NPROW, NR, NUM, NZ,
      $                   RIGHT, ROTN, UP, VECSIDX, TOTIT, TOTNS, TOTSW,
-     $                   DBLK, NIBBLE, ND, NS, LTOP, LWKOPT
+     $                   DBLK, NIBBLE, ND, NS, LTOP, LWKOPT, S1, S2, S3
       REAL               AVE, DISC, H00, H10, H11, H12, H21, H22, H33,
      $                   H43H34, H44, OVFL, S, SMLNUM, SUM, T1, T1COPY,
      $                   T2, T3, ULP, UNFL, V1SAVE, V2, V2SAVE, V3,
@@ -281,9 +281,7 @@
       INTEGER            ICURCOL( IBLK ), ICURROW( IBLK ), K1( IBLK ),
      $                   K2( IBLK ), KCOL( IBLK ), KP2COL( IBLK ),
      $                   KP2ROW( IBLK ), KROW( IBLK ), LOCALK2( IBLK )
-      REAL               S1( LDS, LDS ), S2( LDS, LDS ),
-     $                   S3( 4*LDS*LDS ),
-     $                   SMALLA( 6, 6, IBLK ), VCOPY( 3 )
+      REAL               SMALLA( 6, 6, IBLK ), VCOPY( 3 )
 *     ..
 *     .. External Functions ..
       INTEGER            ILCM, NUMROC, ILAENV
@@ -335,12 +333,13 @@
       IF( JJ*HBL.LT.N )
      $   JJ = JJ + 1
       JJ = 7*JJ / LCMRC
-      LWKOPT = INT( 3*N+LDS+MAX( 3*MAX( LDA, LDZ )+2*LOCALK, JJ ) )
+      LWKOPT = INT( 6*N+MAX( 3*MAX( LDA, LDZ )+2*LOCALK, JJ )
+     $             +6*LDS*LDS )
       IF( LWORK.EQ.-1 .OR. ILWORK.EQ.-1 ) THEN
          WORK( 1 ) = FLOAT( LWKOPT )
          RETURN
       ELSEIF( LWORK.LT.3*N+LDS+MAX( 3*MAX( LDA, LDZ )+2*LOCALK,
-     $     JJ )) THEN
+     $     JJ )+6*LDS*LDS ) THEN
          INFO = -15
       END IF
       IF( DESCZ( CTXT_ ).NE.DESCA( CTXT_ ) ) THEN
@@ -374,12 +373,13 @@
 *
 *     Set work array indices
 *
-      VECSIDX = 0
-      IDIA = 3*N
-      ISUB = 3*N
-      ISUP = 3*N
-      IRBUF = 3*N
-      ICBUF = IRBUF+LDS
+      S1 = 0
+      S2 = S1+LDS*LDS
+      S3 = S2+LDS*LDS
+      VECSIDX = S3+4*LDS*LDS
+      ISUB = VECSIDX+3*N
+      IRBUF = ISUB+N
+      ICBUF = IRBUF+N
 *
 *     Find a value for ROTN
 *
@@ -408,8 +408,9 @@
 *
       IF( NH .LE. LDS ) THEN
          CALL PSLAQR4( WANTT, WANTZ, N, ILO, IHI, A, DESCA, WR, WI,
-     $                 ILOZ, IHIZ, Z, DESCZ, S1, NH, S2, NH, S3,
-     $                 4*NH*NH, INFO )
+     $                 ILOZ, IHIZ, Z, DESCZ, WORK( S1+1 ), NH,
+     $                 WORK( S2+1 ), NH, WORK( S3+1 ), 4*LDS*LDS,
+     $                 INFO )
          WORK( 1 ) = FLOAT( LWKOPT )
          RETURN
       END IF
@@ -511,15 +512,16 @@
 *
 *           Exceptional shift.
 *
-            CALL PSLACP3( 2*JBLK, I-2*JBLK+1, A, DESCA, S1, LDS, -1, -1,
-     $                    0 )
+            CALL PSLACP3( 2*JBLK, I-2*JBLK+1, A, DESCA, WORK( S1+1 ),
+     $                    LDS, -1, -1, 0 )
             DO 20 II = 2*JBLK, 2, -1
-               S1( II, II ) = CONST*( ABS( S1( II, II ) )+
-     $                        ABS( S1( II, II-1 ) ) )
-               S1( II, II-1 ) = ZERO
-               S1( II-1, II ) = ZERO
+               WORK( S1+II+(II-1)*LDS ) = CONST*(
+     $              ABS( WORK( S1+II+(II-1)*LDS ) )+
+     $              ABS( WORK( S1+II+(II-2)*LDS ) ) )
+               WORK( S1+II+(II-2)*LDS ) = ZERO
+               WORK( S1+II-1+(II-1)*LDS ) = ZERO
    20       CONTINUE
-            S1( 1, 1 ) = CONST*ABS( S1( 1, 1 ) )
+            WORK( S1+1 ) = CONST*ABS( WORK( S1+1 ) )
          ELSE
 *
 *           Aggressive early deflation.
@@ -529,9 +531,10 @@
                DBLK = MAX( 2*JBLK, DBLK ) + 1
                DBLK = MIN( NH, LDS, DBLK )
                CALL PSLAQR2( WANTT, WANTZ, N, L, I, DBLK, A, DESCA,
-     $                       ILOZ, IHIZ, Z, DESCZ, NS, ND, WR, WI, S1,
-     $                       LDS, S2, DBLK, WORK( IRBUF+1 ),
-     $                       WORK( ICBUF+1 ), S3, 4*DBLK*DBLK )
+     $                       ILOZ, IHIZ, Z, DESCZ, NS, ND, WR, WI,
+     $                       WORK( S1+1 ), LDS, WORK( S2+1 ), DBLK,
+     $                       WORK( IRBUF+1 ), WORK( ICBUF+1 ),
+     $                       WORK( S3+1 ), 4*LDS*LDS )
 *
 *              Skip a QR sweep if enough eigenvalues are deflated.
 *
@@ -548,8 +551,8 @@
 *               IF( ND.GE.0 .AND. ND+DBLK.GE.64 ) THEN
                IF( .FALSE. ) THEN
                   CALL SLASET( 'L', DBLK-1, DBLK-1, ZERO, ZERO,
-     $                         S1( 2, 1 ), LDS )
-                  WORK( IRBUF+1 ) = S1(1,1)
+     $                         WORK( S1+2 ), LDS )
+                  WORK( IRBUF+1 ) = WORK( S1+1 )
                   WORK( ICBUF+1 ) = ZERO
 *
 *                 Shuffle shifts into pairs of real shifts and pairs of
@@ -574,39 +577,40 @@
                   II = 2
    22             CONTINUE
                      IF( WORK( ICBUF+II ) .EQ. ZERO ) THEN
-                        S1( II, II ) = WORK( IRBUF+II )
-                        S1( II, II-1 ) = ZERO
+                        WORK( S1+II+(II-1)*LDS ) = WORK( IRBUF+II )
+                        WORK( S1+II+(II-2)*LDS ) = ZERO
                         II = II + 1
                      ELSE
-                        S1( II, II ) = WORK( IRBUF+II )
-                        S1( II+1, II+1 ) = WORK( IRBUF+II )
-                        S1( II+1, II ) = WORK( ICBUF+II )
-                        S1( II, II+1 ) = -WORK( ICBUF+II )
+                        WORK( S1+II+(II-1)*LDS ) = WORK( IRBUF+II )
+                        WORK( S1+II+1+II*LDS ) = WORK( IRBUF+II )
+                        WORK( S1+II+1+(II-1)*LDS ) = WORK( ICBUF+II )
+                        WORK( S1+II+II*LDS ) = -WORK( ICBUF+II )
                         II = II + 2
                      END IF
                   IF( II .LE. DBLK ) GOTO 22
                ELSE
-                  CALL SLAHQR( .FALSE., .FALSE., DBLK, 1, DBLK, S1, LDS,
-     $                         WORK( IRBUF+1 ), WORK( ICBUF+1 ), 1,
-     $                         DBLK, Z, LDZ, IERR )
+                  CALL SLAHQR( .FALSE., .FALSE., DBLK, 1, DBLK,
+     $                         WORK( S1+1 ), LDS, WORK( IRBUF+1 ),
+     $                         WORK( ICBUF+1 ), 1, DBLK, Z, LDZ, IERR )
                END IF
             ELSE
                DBLK = 2*JBLK
-               CALL PSLACP3( DBLK, I-DBLK+1, A, DESCA, S1, LDS, -1, -1,
-     $                       0 )
-               CALL SLAHQR( .FALSE., .FALSE., DBLK, 1, DBLK, S1, LDS,
-     $                      WORK( IRBUF+1 ), WORK( ICBUF+1 ), 1, DBLK,
-     $                      Z, LDZ, IERR )
+               CALL PSLACP3( DBLK, I-DBLK+1, A, DESCA, WORK( S1+1 ),
+     $                       LDS, -1, -1, 0 )
+               CALL SLAHQR( .FALSE., .FALSE., DBLK, 1, DBLK,
+     $                      WORK( S1+1 ), LDS, WORK( IRBUF+1 ),
+     $                      WORK( ICBUF+1 ), 1, DBLK, Z, LDZ, IERR )
             END IF
             TOTSW = TOTSW + 1
 *
 *           Prepare to use Wilkinson's double shift
 *
-            H44 = S1( DBLK, DBLK )
-            H33 = S1( DBLK-1, DBLK-1 )
-            H43H34 = S1( DBLK-1, DBLK )*S1( DBLK, DBLK-1 )
+            H44 = WORK( S1+DBLK+(DBLK-1)*LDS )
+            H33 = WORK( S1+DBLK-1+(DBLK-2)*LDS )
+            H43H34 = WORK( S1+DBLK-1+(DBLK-1)*LDS )*
+     $               WORK( S1+DBLK+(DBLK-2)*LDS )
             IF( ( JBLK.GT.1 ) .AND. ( ITS.GT.30 ) ) THEN
-               S = S1( DBLK-1, DBLK-2 )
+               S = WORK( S1+DBLK-1+(DBLK-3)*LDS )
                DISC = ( H33-H44 )*HALF
                DISC = DISC*DISC + H43H34
                IF( DISC.GT.ZERO ) THEN
@@ -628,7 +632,7 @@
          END IF
 *
 *        Look for two consecutive small subdiagonal elements:
-*           PDLACONSB is the routine that does this.
+*           PSLACONSB is the routine that does this.
 *
 *         CALL PSLACONSB( A, DESCA, I, L, M, H44, H33, H43H34,
 *     $                   WORK( IRBUF+1 ), LWORK-IRBUF )
@@ -638,7 +642,7 @@
 *        IF ( M .GE. I - 5 )
 *    $      GO TO 80
 *
-*        In principle PDLACONSB needs to check all shifts to decide
+*        In principle PSLACONSB needs to check all shifts to decide
 *        whether two consecutive small subdiagonal entries are suitable
 *        as the starting position of the bulge chasing phase. It can be
 *        dangerous to check the first pair of shifts only. Moreover it
@@ -681,7 +685,7 @@
 *            CALL SLASORTE( S1( 2*( JBLK-NBULGE )+1,
 *     $                     2*( JBLK-NBULGE )+1 ), 3*IBLK, 2*NBULGE,
 *     $                     WORK( IRBUF+1 ), IERR )
-            CALL SLASORTE( S1( DBLK-2*NBULGE+1, DBLK-2*NBULGE+1 ),
+            CALL SLASORTE( WORK(S1+DBLK-2*NBULGE+1+(DBLK-2*NBULGE)*LDS),
      $                     LDS, 2*NBULGE, WORK( IRBUF+1 ), IERR )
          END IF
 *
@@ -769,10 +773,11 @@
      $           THEN
                IF( ( MOD( K2( IBULGE )+2, HBL ).EQ.MOD( K2( IBULGE+1 )+
      $             2, HBL ) ) .AND. ( K1( 1 ).LE.I-1 ) ) THEN
-                  H44 = S1( DBLK-2*IBULGE, DBLK-2*IBULGE )
-                  H33 = S1( DBLK-2*IBULGE-1, DBLK-2*IBULGE-1 )
-                  H43H34 = S1( DBLK-2*IBULGE-1, DBLK-2*IBULGE )*
-     $                     S1( DBLK-2*IBULGE, DBLK-2*IBULGE-1 )
+                  H44 = WORK( S1+DBLK-2*IBULGE+(DBLK-2*IBULGE-1)*LDS )
+                  H33 = WORK( S1+DBLK-2*IBULGE-1+(DBLK-2*IBULGE-2)*LDS )
+                  H43H34 = WORK( S1+DBLK-2*IBULGE-1+
+     $                          (DBLK-2*IBULGE-1)*LDS )
+     $                    *WORK(S1+DBLK-2*IBULGE+(DBLK-2*IBULGE-2)*LDS)
                   ITMP1 = ISTARTROW
                   ITMP2 = ISTARTCOL
                   CALL PSLAWIL( ITMP1, ITMP2, M, A, DESCA, H44, H33,
@@ -2159,17 +2164,20 @@
          IF( WANTT ) THEN
             IF(I .LT. N) CALL PSROT( N-I, A, L, I+1, DESCA, DESCA( M_ ),
      $                               A, I, I+1, DESCA, DESCA( M_ ), CS,
-     $                               SN, WORK, LWORK, IERR )
+     $                               SN, WORK( VECSIDX+1 ),
+     $                               LWORK-VECSIDX, IERR )
             LTOP = 1
          ELSE
             LTOP = I1
          END IF
          IF (L .GT. LTOP) CALL PSROT( L-LTOP, A, LTOP, L, DESCA, 1, A,
-     $                                LTOP, I, DESCA, 1, CS, SN, WORK,
-     $                                LWORK, IERR )
+     $                                LTOP, I, DESCA, 1, CS, SN,
+     $                                WORK( VECSIDX+1 ), LWORK-VECSIDX,
+     $                                IERR )
          IF( WANTZ ) THEN
             CALL PSROT( IHIZ-ILOZ+1, Z, ILOZ, L, DESCZ, 1, Z, ILOZ, I,
-     $                  DESCZ, 1, CS, SN, WORK, LWORK, IERR )
+     $                  DESCZ, 1, CS, SN, WORK( VECSIDX+1 ),
+     $                  LWORK-VECSIDX, IERR )
          END IF
          IF( NODE .NE. 0 ) THEN
             WR( L ) = ZERO
@@ -2184,8 +2192,13 @@
          NH = I - L + 1
          IF( NH .LE. LDS ) THEN
             CALL PSLAQR4( WANTT, WANTZ, N, L, I, A, DESCA, WR, WI,
-     $                    ILOZ, IHIZ, Z, DESCZ, S1, NH, S2, NH, S3,
-     $                    4*NH*NH, IERR )
+     $                    ILOZ, IHIZ, Z, DESCZ, WORK( S1+1 ), NH,
+     $                    WORK( S2+1 ), NH, WORK( S3+1 ), 4*LDS*LDS,
+     $                    INFO )
+            IF( INFO.NE.0 ) THEN
+               WORK( 1 ) = FLOAT( LWKOPT )
+               RETURN
+            END IF
             IF( NODE.NE.0 ) THEN
 *
 *           Erase the eigenvalues
