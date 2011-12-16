@@ -2,10 +2,10 @@
      $                    ILOZ, IHIZ, Z, DESCZ, NS, ND, SR, SI, T, LDT,
      $                    V, LDV, WR, WI, WORK, LWORK )
 *
-*  -- ScaLAPACK auxiliary routine (version 2.0) --
+*  -- ScaLAPACK auxiliary routine (version 2.0.1) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     October, 2011
+*     December, 2011
 *
       IMPLICIT NONE
 *
@@ -190,8 +190,7 @@
 *
 *  LWORK   (local input) INTEGER
 *          WORK(LWORK) is a local array and LWORK is assumed big enough
-*          so that LWORK >= 36*IBLK*IBLK.
-*          (IBLK = 32, see PSLAQR1)
+*          so that LWORK >= NW*NW.
 *
 *  ================================================================
 *  Implemented by
@@ -213,7 +212,7 @@
      $                     CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9 )
       REAL               ZERO, ONE
-      PARAMETER          ( ZERO = 0.0E+0, ONE = 1.0E+0 )
+      PARAMETER          ( ZERO = 0.0, ONE = 1.0 )
 *     ..
 *     .. Local Scalars ..
       INTEGER            CONTXT, HBL, I, I1, I2, IAFIRST, ICOL, ICOL1,
@@ -224,16 +223,18 @@
      $                   RIGHT, UP, DOWN, D1, D2
 *     ..
 *     .. Local Arrays ..
-      INTEGER            DESCV( 9 ), DESCWH( 9 ), DESCWV( 9 )
+      INTEGER            DESCT( 9 ), DESCV( 9 ), DESCWH( 9 ),
+     $                   DESCWV( 9 )
 *     ..
 *     .. External Functions ..
       INTEGER            NUMROC
       EXTERNAL           NUMROC
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           BLACS_GRIDINFO, INFOG2L, PSLACP3, SLASET,
+      EXTERNAL           BLACS_GRIDINFO, INFOG2L, SLASET,
      $                   SLAQR3, DESCINIT, PSGEMM, PSGEMR2D, SGEMM,
-     $                   SLACPY, SGESD2D, SGERV2D
+     $                   SLACPY, SGESD2D, SGERV2D, SGEBS2D, SGEBR2D
+     $                   IGEBS2D, IGEBR2D
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          MAX, MIN, MOD
@@ -278,18 +279,40 @@
 *     Begin Aggressive Early Deflation.
 *
       DBLK = NW
-      CALL PSLACP3( DBLK, I-DBLK+1, A, DESCA, T, LDT, -1, -1, 0 )
-      CALL SLASET( 'All', DBLK, DBLK, ZERO, ONE, V, LDV )
-      CALL SLAQR3( .TRUE., .TRUE., DBLK, 1, DBLK, DBLK-1, T, LDT, 1,
-     $     DBLK, V, LDV, NS, ND, WR, WI, WORK, DBLK, DBLK,
-     $     WORK( DBLK*DBLK+1 ), DBLK, DBLK, WORK( 2*DBLK*DBLK+1 ), DBLK,
-     $     WORK( 3*DBLK*DBLK+1 ), LWORK/4 )
+      CALL INFOG2L( I-DBLK+1, I-DBLK+1, DESCA, NPROW, NPCOL, MYROW,
+     $     MYCOL, IROW, ICOL, II, JJ )
+      IF ( MYROW .EQ. II ) THEN
+         CALL DESCINIT( DESCT, DBLK, DBLK, DBLK, DBLK, II, JJ, CONTXT,
+     $        LDT, INFO )
+         CALL DESCINIT( DESCV, DBLK, DBLK, DBLK, DBLK, II, JJ, CONTXT,
+     $        LDV, INFO )
+      ELSE
+         CALL DESCINIT( DESCT, DBLK, DBLK, DBLK, DBLK, II, JJ, CONTXT,
+     $        1, INFO )
+         CALL DESCINIT( DESCV, DBLK, DBLK, DBLK, DBLK, II, JJ, CONTXT,
+     $        1, INFO )
+      END IF
+      CALL PSGEMR2D( DBLK, DBLK, A, I-DBLK+1, I-DBLK+1, DESCA, T, 1, 1,
+     $     DESCT, CONTXT )
+      IF ( MYROW .EQ. II .AND. MYCOL .EQ. JJ ) THEN
+         CALL SLASET( 'All', DBLK, DBLK, ZERO, ONE, V, LDV )
+         CALL SLAQR3( .TRUE., .TRUE., DBLK, 1, DBLK, DBLK-1, T, LDT, 1,
+     $        DBLK, V, LDV, NS, ND, WR, WI, WORK, DBLK, DBLK,
+     $        WORK( DBLK*DBLK+1 ), DBLK, DBLK, WORK( 2*DBLK*DBLK+1 ),
+     $        DBLK, WORK( 3*DBLK*DBLK+1 ), LWORK-3*DBLK*DBLK )
+         CALL SGEBS2D( CONTXT, 'All', ' ', DBLK, DBLK, V, LDV )
+         CALL IGEBS2D( CONTXT, 'All', ' ', 1, 1, ND, 1 )
+      ELSE
+         CALL SGEBR2D( CONTXT, 'All', ' ', DBLK, DBLK, V, LDV, II, JJ )
+         CALL IGEBR2D( CONTXT, 'All', ' ', 1, 1, ND, 1, II, JJ )
+      END IF
 *
       IF( ND .GT. 0 ) THEN
 *
 *        Copy the local matrix back to the diagonal block.
 *
-         CALL PSLACP3( DBLK, I-DBLK+1, A, DESCA, T, LDT, 0, 0, 1 )
+         CALL PSGEMR2D( DBLK, DBLK, T, 1, 1, DESCT, A, I-DBLK+1,
+     $        I-DBLK+1, DESCA, CONTXT )
 *
 *        Update T and Z.
 *
@@ -341,10 +364,10 @@
 *           Update vertical slab in Z.
 *
             IF( WANTZ ) THEN
-               CALL INFOG2L( ILOZ, I-DBLK+1, DESCA, NPROW, NPCOL, MYROW,
+               CALL INFOG2L( ILOZ, I-DBLK+1, DESCZ, NPROW, NPCOL, MYROW,
      $              MYCOL, IROW, ICOL, II, JJ )
                IF( MYCOL .EQ. JJ ) THEN
-                  CALL INFOG2L( IHIZ, I-DBLK+1, DESCA, NPROW, NPCOL,
+                  CALL INFOG2L( IHIZ, I-DBLK+1, DESCZ, NPROW, NPCOL,
      $                 MYROW, MYCOL, IROW1, ICOL1, ITMP1, ITMP2 )
                   IF( MYROW .NE. ITMP1 ) IROW1 = IROW1-1
                   DO 30 KKROW = IROW, IROW1, VSTEP
@@ -490,11 +513,11 @@
 *           Update vertical slab in Z.
 *
             IF( WANTZ ) THEN
-               CALL INFOG2L( ILOZ, I-DBLK+1, DESCA, NPROW, NPCOL, MYROW,
+               CALL INFOG2L( ILOZ, I-DBLK+1, DESCZ, NPROW, NPCOL, MYROW,
      $              MYCOL, IROW, ICOL, II, JJ )
                IF( MYCOL .EQ. LEFT ) THEN
                   IF( MYCOL .EQ. JJ ) THEN
-                     CALL INFOG2L( IHIZ, I-DBLK+1, DESCA, NPROW, NPCOL,
+                     CALL INFOG2L( IHIZ, I-DBLK+1, DESCZ, NPROW, NPCOL,
      $                    MYROW, MYCOL, IROW1, ICOL1, ITMP1, ITMP2 )
                      IF( MYROW .NE. ITMP1 ) IROW1 = IROW1-1
                      DO 100 KKROW = IROW, IROW1, VSTEP
@@ -508,7 +531,7 @@
                   END IF
                ELSE
                   IF( MYCOL .EQ. JJ ) THEN
-                     CALL INFOG2L( IHIZ, I-DBLK+1, DESCA, NPROW, NPCOL,
+                     CALL INFOG2L( IHIZ, I-DBLK+1, DESCZ, NPROW, NPCOL,
      $                    MYROW, MYCOL, IROW1, ICOL1, ITMP1, ITMP2 )
                      IF( MYROW .NE. ITMP1 ) IROW1 = IROW1-1
                      DO 110 KKROW = IROW, IROW1, VSTEP
@@ -528,7 +551,7 @@
      $                       Z( KKROW+(ICOL-1)*LDZ ), LDZ )
   110                CONTINUE
                   ELSE IF( LEFT .EQ. JJ ) THEN
-                     CALL INFOG2L( IHIZ, I-DBLK+1, DESCA, NPROW, NPCOL,
+                     CALL INFOG2L( IHIZ, I-DBLK+1, DESCZ, NPROW, NPCOL,
      $                    MYROW, MYCOL, IROW1, ICOL1, ITMP1, ITMP2 )
                      IF( MYROW .NE. ITMP1 ) IROW1 = IROW1-1
                      DO 120 KKROW = IROW, IROW1, VSTEP
