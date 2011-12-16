@@ -22,7 +22,7 @@ endif ()
 #set(MPI_BASE_DIR "/Users/julie/opt/openmpi/" CACHE PATH "MPI Path")
 #set(MPI_BASE_DIR "/Users/julie/opt/mpich2/" CACHE PATH "MPI Path")
 set(CMAKE_PREFIX_PATH "${MPI_BASE_DIR};${CMAKE_PREFIX_PATH}")
-set(MPI_COMPILER ${MPI_BASE_DIR}/bin/mpicc)
+#set(MPI_COMPILER ${MPI_BASE_DIR}/bin/mpicc)
 
 find_package(MPI)
 if (MPI_FOUND)
