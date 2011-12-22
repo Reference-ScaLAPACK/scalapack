@@ -290,7 +290,7 @@
          END IF
       END IF
       IF( INFO.EQ.0 ) THEN
-         IF( LWORK.LT.MNWRK ) INFO = -15
+         IF( .NOT.LQUERY . AND. LWORK.LT.MNWRK ) INFO = -15
       END IF
 *
 *     Return if some argument is incorrect
@@ -333,7 +333,7 @@
 *
       IF( LEFT ) THEN
          DO 10 INDX = 1, NPCOL
-            IF( MYROW.EQ.RSRC1 ) THEN
+            IF( MYROW.EQ.RSRC1 .AND. XYCOLS.GT.0 ) THEN
                IF( INDX.EQ.1 ) THEN
                   JXX = JX
                ELSE
@@ -345,9 +345,9 @@
                   IF( RSRC1.NE.RSRC2 ) THEN
                      CALL DGESD2D( ICTXT, 1, XYCOLS,
      $                             X((XLOC2-1)*LLDX+XLOC1), LLDX,
-     $                             MOD(RSRC+1,NPROW), CSRC )
+     $                             RSRC2, CSRC )
                      CALL DGERV2D( ICTXT, 1, XYCOLS, WORK, 1,
-     $                             MOD(RSRC+1,NPROW), CSRC )
+     $                             RSRC2, CSRC )
                      CALL DROT( XYCOLS, X((XLOC2-1)*LLDX+XLOC1),
      $                          LLDX, WORK, 1, CS, SN )
                   ELSE
@@ -371,9 +371,9 @@
                IF( MYROW.EQ.RSRC .AND. MYCOL.EQ.CSRC ) THEN
                   CALL DGESD2D( ICTXT, 1, XYCOLS,
      $                          Y((YLOC2-1)*LLDY+YLOC1), LLDY,
-     $                          MOD(RSRC-1+NPROW,NPROW), CSRC )
+     $                          RSRC1, CSRC )
                   CALL DGERV2D( ICTXT, 1, XYCOLS, WORK, 1,
-     $                          MOD(RSRC-1+NPROW,NPROW), CSRC )
+     $                          RSRC1, CSRC )
                   CALL DROT( XYCOLS, WORK, 1, Y((YLOC2-1)*LLDY+YLOC1),
      $                       LLDY, CS, SN )
                END IF
@@ -381,7 +381,7 @@
  10      CONTINUE
       ELSEIF( RIGHT ) THEN
          DO 20 INDX = 1, NPROW
-            IF( MYCOL.EQ.CSRC1 ) THEN
+            IF( MYCOL.EQ.CSRC1 .AND. XYROWS.GT.0 ) THEN
                IF( INDX.EQ.1 ) THEN
                   IXX = IX
                ELSE
@@ -393,9 +393,9 @@
                   IF( CSRC1.NE.CSRC2 ) THEN
                      CALL DGESD2D( ICTXT, XYROWS, 1,
      $                             X((XLOC2-1)*LLDX+XLOC1), LLDX,
-     $                             RSRC, MOD(CSRC+1,NPCOL) )
+     $                             RSRC, CSRC2 )
                      CALL DGERV2D( ICTXT, XYROWS, 1, WORK, XYROWS,
-     $                             RSRC, MOD(CSRC+1,NPCOL) )
+     $                             RSRC, CSRC2 )
                      CALL DROT( XYROWS, X((XLOC2-1)*LLDX+XLOC1),
      $                          1, WORK, 1, CS, SN )
                   ELSE
@@ -419,9 +419,9 @@
                IF( MYROW.EQ.RSRC .AND. MYCOL.EQ.CSRC ) THEN
                   CALL DGESD2D( ICTXT, XYROWS, 1,
      $                          Y((YLOC2-1)*LLDY+YLOC1), LLDY,
-     $                          RSRC, MOD(CSRC-1+NPCOL,NPCOL) )
+     $                          RSRC, CSRC1 )
                   CALL DGERV2D( ICTXT, XYROWS, 1, WORK, XYROWS,
-     $                          RSRC, MOD(CSRC-1+NPCOL,NPCOL) )
+     $                          RSRC, CSRC1 )
                   CALL DROT( XYROWS, WORK, 1, Y((YLOC2-1)*LLDY+YLOC1),
      $                       1, CS, SN )
                END IF

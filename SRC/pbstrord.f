@@ -748,6 +748,7 @@
 *        Exclude all processors that are not involved in any
 *        computational window right now.
 *
+         IERR = 0
          IF( LILO.EQ.IHI .AND. LIHI.EQ.ILO .AND. LSEL.EQ.M )
      $      GO TO 114
 *
