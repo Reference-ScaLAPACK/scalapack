@@ -338,8 +338,7 @@
       IF( LWORK.EQ.-1 .OR. ILWORK.EQ.-1 ) THEN
          WORK( 1 ) = DBLE( LWKOPT )
          RETURN
-      ELSEIF( LWORK.LT.3*N+LDS+MAX( 3*MAX( LDA, LDZ )+2*LOCALK,
-     $     JJ )+6*LDS*LDS ) THEN
+      ELSEIF( LWORK.LT.LWKOPT ) THEN
          INFO = -15
       END IF
       IF( DESCZ( CTXT_ ).NE.DESCA( CTXT_ ) ) THEN

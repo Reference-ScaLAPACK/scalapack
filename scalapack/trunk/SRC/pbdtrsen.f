@@ -2,7 +2,7 @@
      $     DESCT, Q, IQ, JQ, DESCQ, WR, WI, M, S, SEP, WORK, LWORK,
      $     IWORK, LIWORK, INFO )
 *
-*  -- ScaLAPACK driver routine (version 2.0) --
+*  -- ScaLAPACK driver routine (version 2.0.1) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
 *     October, 2011
@@ -237,16 +237,12 @@
 *            *) Reordering of T failed because some eigenvalues are too
 *               close to separate (the problem is very ill-conditioned);
 *               T may have been partially reordered, and WR and WI
-*               contain the eigenvalues in the same order as in T; S and
-*               SEP (if requested) are set to zero. The process that
-*               failed in the reordering will return INFO = {the index
-*               of T where the swap failed}; all others will return
-*               INFO = 1.
+*               contain the eigenvalues in the same order as in T.
+*               On exit, INFO = {the index of T where the swap failed}.
 *            *) A 2-by-2 block to be reordered split into two 1-by-1
 *               blocks and the second block failed to swap with an
-*               adjacent block. The process that failed in the
-*               reordering will return INFO = {the index of T where the
-*               swap failed}; all others will return INFO = 1.
+*               adjacent block.
+*               On exit, INFO = {the index of T where the swap failed}.
 *            *) If INFO = N+1, there is no valid BLACS context (see the
 *               BLACS documentation for details).
 *            *) If INFO = N+2, the routines used in the calculation of
@@ -360,7 +356,6 @@
      $                   T12ROWS, T12COLS, TCOLS, TCSRC, TROWS, TRSRC,
      $                   WRK1, IWRK1, WRK2, IWRK2, WRK3, IWRK3
       DOUBLE PRECISION   DPDUM1, ELEM, EST, SCALE, RNORM
-     $                   , TIME, TIME3, TIME4
 *     .. Local Arrays ..
       INTEGER            DESCT12( DLEN_ ), MBNB2( 2 )
 *     ..
@@ -701,8 +696,6 @@ c     $        LWORK, IWORK(N+1), LIWORK-N, EST, ITER, IERR )
 *
 *     Return to calling program.
 *
-      WORK(4) = TIME3
-      WORK(5) = TIME4
  50   CONTINUE
 *
       RETURN

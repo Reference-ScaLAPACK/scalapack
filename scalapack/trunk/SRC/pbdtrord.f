@@ -2,10 +2,10 @@
      $     DESCT, Q, IQ, JQ, DESCQ, WR, WI, M, WORK, LWORK,
      $     IWORK, LIWORK, INFO )
 *
-*  -- ScaLAPACK driver routine (version 2.0) --
+*  -- ScaLAPACK driver routine (version 2.0.1) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     October, 2011
+*     December, 2011
 *
       IMPLICIT NONE
 *
@@ -214,15 +214,12 @@
 *            *) Reordering of T failed because some eigenvalues are too
 *               close to separate (the problem is very ill-conditioned);
 *               T may have been partially reordered, and WR and WI
-*               contain the eigenvalues in the same order as in T; The
-*               process that failed in the reordering will return
-*               INFO = {the index of T where the swap failed}; all
-*               others will return INFO = 1.
+*               contain the eigenvalues in the same order as in T.
+*               On exit, INFO = {the index of T where the swap failed}.
 *            *) A 2-by-2 block to be reordered split into two 1-by-1
 *               blocks and the second block failed to swap with an
-*               adjacent block. The process that failed in the
-*               reordering will return INFO = {the index of T where the
-*               swap failed}; all others will return INFO = 1.
+*               adjacent block.
+*               On exit, INFO = {the index of T where the swap failed}.
 *            *) If INFO = N+1, there is no valid BLACS context (see the
 *               BLACS documentation for details).
 *          In a future release this subroutine may distinguish between
@@ -308,13 +305,10 @@
 *     ..
 *     .. Local Scalars ..
       LOGICAL            LQUERY, PAIR, SWAP, WANTQ,
-     $                   ISHH, FIRST, SKIP1CR, BORDER,
-     $                   LASTWAIT
+     $                   ISHH, FIRST, SKIP1CR, BORDER, LASTWAIT
       INTEGER            NPROW, NPCOL, MYROW, MYCOL, NB, NPROCS,
-     $                   IERR, DIM1, INDX,
-     $                   LLDT, TRSRC, TCSRC, ILOC1, JLOC1,
-     $                   MYIERR,
-     $                   ICTXT,
+     $                   IERR, DIM1, INDX, LLDT, TRSRC, TCSRC, ILOC1,
+     $                   JLOC1, MYIERR, ICTXT,
      $                   RSRC1, CSRC1, ILOC3, JLOC3, TRSRC3,
      $                   TCSRC3, ILOC, JLOC, TRSRC4, TCSRC4,
      $                   FLOPS, I, ILO, IHI, J, K, KK, KKS,
@@ -331,9 +325,8 @@
      $                   TCOLS, IPW5, IPW6, IPW7, IPW8, JLOC4,
      $                   EAST, WEST, ILOC4, SOUTH, NORTH, INDXS,
      $                   ITT, JTT, ILEN, DLEN, INDXE, TRSRC1, TCSRC1,
-     $                   TRSRC2, TCSRC2, ILOS, DIR,
-     $                   TLIHI, TLILO, TLSEL, ROUND, LAST, WIN0S,
-     $                   WIN0E, WINE, MMAX, MMIN
+     $                   TRSRC2, TCSRC2, ILOS, DIR, TLIHI, TLILO, TLSEL,
+     $                   ROUND, LAST, WIN0S, WIN0E, WINE, MMAX, MMIN
       DOUBLE PRECISION   ELEM, ELEM1, ELEM2, ELEM3, ELEM4, SN, CS, TMP,
      $                   ELEM5
 *     ..
@@ -1584,16 +1577,15 @@
      $      CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, IERR, 1, -1,
      $           -1, -1, -1, -1 )
 *
-         IF( IERR.EQ.1 .OR. IERR.EQ.2 ) THEN
+         IF( IERR.NE.0 ) THEN
 *
 *           When calling BDTREXC, the block at position I+KKS-1 failed
 *           to swap.
 *
-            IF( IERR.EQ.1 .OR. IERR.EQ.2 ) THEN
-               INFO = MAX(1,I+KKS-1)
-            ELSE
-               INFO = 1
-            END IF
+            IF( MYIERR.NE.0 ) INFO = MAX(1,I+KKS-1)
+            IF( NPROCS.GT.1 )
+     $         CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFO, 1, -1,
+     $              -1, -1, -1, -1 )
             GO TO 300
          END IF
 *
@@ -3254,16 +3246,15 @@
      $      CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, IERR, 1, -1,
      $           -1, -1, -1, -1 )
 *
-         IF( IERR.EQ.1 .OR. IERR.EQ.2 ) THEN
+         IF( IERR.NE.0 ) THEN
 *
 *           When calling BDTREXC, the block at position I+KKS-1 failed
 *           to swap.
 *
-            IF( IERR.EQ.1 .OR. IERR.EQ.2 ) THEN
-               INFO = MAX(1,I+KKS-1)
-            ELSE
-               INFO = 1
-            END IF
+            IF( MYIERR.NE.0 ) INFO = MAX(1,I+KKS-1)
+            IF( NPROCS.GT.1 )
+     $         CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFO, 1, -1,
+     $              -1, -1, -1, -1 )
             GO TO 300
          END IF
 *
@@ -3336,8 +3327,8 @@
       PAIR = .FALSE.
       DO 560 K = 1, N
          IF( .NOT. PAIR ) THEN
-            BORDER = MOD( K, NB ).EQ.0 .OR. ( K.NE.1 .AND.
-     $           MOD( K, NB ).EQ.1 )
+            BORDER = ( K.NE.N .AND. MOD( K, NB ).EQ.0 ) .OR.
+     %           ( K.NE.1 .AND. MOD( K, NB ).EQ.1 )
             IF( .NOT. BORDER ) THEN
                CALL INFOG2L( K, K, DESCT, NPROW, NPCOL, MYROW, MYCOL,
      $              ILOC1, JLOC1, TRSRC1, TCSRC1 )
