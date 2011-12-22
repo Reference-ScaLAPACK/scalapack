@@ -16,7 +16,7 @@
 *     ..
 *     .. Array Arguments ..
       INTEGER            DESCA( * ), DESCZ( * ), IWORK( * )
-      REAL   A( * ), WI( * ), WORK( * ), WR( * ), Z( * )
+      REAL               A( * ), WI( * ), WORK( * ), WR( * ), Z( * )
 *     ..
 *
 *  Purpose
@@ -26,16 +26,16 @@
 *    and or eigenvalues of a matrix already in Hessenberg form from
 *    cols ILO to IHI.
 *
-*  This is a modified version of PDLAHQR from ScaLAPACK version 1.7.3.
+*  This is a modified version of PSLAHQR from ScaLAPACK version 1.7.3.
 *  The following modifications were made:
 *    o Recently removed workspace query functionality was added.
 *    o Aggressive early deflation is implemented.
 *    o Aggressive deflation (looking for two consecutive small
-*      subdiagonal elements by PDLACONSB) is abandoned.
+*      subdiagonal elements by PSLACONSB) is abandoned.
 *    o The returned Schur form is now in canonical form, i.e., the
 *      returned 2-by-2 blocks really correspond to complex conjugate
 *      pairs of eigenvalues.
-*    o For some reason, the original version of PDLAHQR sometimes did
+*    o For some reason, the original version of PSLAHQR sometimes did
 *      not read out the converged eigenvalues correclty. This is now
 *      fixed.
 *
@@ -150,7 +150,7 @@
 *
 *  Z       (global input/output) REAL array.
 *          If WANTZ is .TRUE., on entry Z must contain the current
-*          matrix Z of transformations accumulated by PDHSEQR, and on
+*          matrix Z of transformations accumulated by PSHSEQR, and on
 *          exit Z has been updated; transformations are applied only to
 *          the submatrix Z(ILOZ:IHIZ,ILO:IHI).
 *          If WANTZ is .FALSE., Z is not referenced.
@@ -201,12 +201,12 @@
 *
 *  Subroutines:
 *       This routine calls:
-*           PDLAWIL   -> Given the shift, get the transformation
-*           DLASORTE  -> Pair up eigenvalues so that reals are paired.
-*           PDLACP3   -> Parallel array to local replicated array copy &
+*           PSLAWIL   -> Given the shift, get the transformation
+*           SLASORTE  -> Pair up eigenvalues so that reals are paired.
+*           PSLACP3   -> Parallel array to local replicated array copy &
 *                        back.
-*           DLAREF    -> Row/column reflector applier. Core routine here.
-*           PDLASMSUB -> Finds negligible subdiagonal elements.
+*           SLAREF    -> Row/column reflector applier. Core routine here.
+*           PSLASMSUB -> Finds negligible subdiagonal elements.
 *
 *  Current Notes and/or Restrictions:
 *       1.) This code requires the distributed block size to be square
@@ -338,8 +338,7 @@
       IF( LWORK.EQ.-1 .OR. ILWORK.EQ.-1 ) THEN
          WORK( 1 ) = FLOAT( LWKOPT )
          RETURN
-      ELSEIF( LWORK.LT.3*N+LDS+MAX( 3*MAX( LDA, LDZ )+2*LOCALK,
-     $     JJ )+6*LDS*LDS ) THEN
+      ELSEIF( LWORK.LT.LWKOPT ) THEN
          INFO = -15
       END IF
       IF( DESCZ( CTXT_ ).NE.DESCA( CTXT_ ) ) THEN
@@ -527,7 +526,7 @@
 *           Aggressive early deflation.
 *
             IF( AED ) THEN
-               DBLK = ILAENV( 13, 'SLAQR0', 'SV', N, L, I, 4*LDS*LDS )
+               DBLK = ILAENV( 13, 'DLAQR0', 'SV', N, L, I, 4*LDS*LDS )
                DBLK = MAX( 2*JBLK, DBLK ) + 1
                DBLK = MIN( NH, LDS, DBLK )
                CALL PSLAQR2( WANTT, WANTZ, N, L, I, DBLK, A, DESCA,
@@ -538,7 +537,7 @@
 *
 *              Skip a QR sweep if enough eigenvalues are deflated.
 *
-               NIBBLE = ILAENV( 14, 'SLAQR0', 'SV', N, L, I, 4*LDS*LDS )
+               NIBBLE = ILAENV( 14, 'DLAQR0', 'SV', N, L, I, 4*LDS*LDS )
                NIBBLE = MAX( 0, NIBBLE )
                I = I - ND
                DBLK = DBLK - ND

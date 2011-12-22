@@ -2,10 +2,10 @@
      $     DESCT, Q, IQ, JQ, DESCQ, WR, WI, M, WORK, LWORK,
      $     IWORK, LIWORK, INFO )
 *
-*  -- ScaLAPACK driver routine (version 2.0) --
+*  -- ScaLAPACK driver routine (version 2.0.1) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     October, 2011
+*     December, 2011
 *
       IMPLICIT NONE
 *
@@ -133,7 +133,7 @@
 *  N       (global input) INTEGER
 *          The order of the globally distributed matrix T. N >= 0.
 *
-*  T       (local input/output) REAL             array,
+*  T       (local input/output) REAL array,
 *          dimension (LLD_T,LOCc(N)).
 *          On entry, the local pieces of the global distributed
 *          upper quasi-triangular matrix T, in Schur form. On exit, T is
@@ -149,7 +149,7 @@
 *  DESCT   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the global distributed matrix T.
 *
-*  Q       (local input/output) REAL             array,
+*  Q       (local input/output) REAL array,
 *          dimension (LLD_Q,LOCc(N)).
 *          On entry, if COMPQ = 'V', the local pieces of the global
 *          distributed matrix Q of Schur vectors.
@@ -167,8 +167,8 @@
 *  DESCQ   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the global distributed matrix Q.
 *
-*  WR      (global output) REAL             array, dimension (N)
-*  WI      (global output) REAL             array, dimension (N)
+*  WR      (global output) REAL array, dimension (N)
+*  WI      (global output) REAL array, dimension (N)
 *          The real and imaginary parts, respectively, of the reordered
 *          eigenvalues of T. The eigenvalues are in principle stored in
 *          the same order as on the diagonal of T, with WR(i) = T(i,i)
@@ -182,7 +182,7 @@
 *          The dimension of the specified invariant subspace.
 *          0 <= M <= N.
 *
-*  WORK    (local workspace/output) REAL             array,
+*  WORK    (local workspace/output) REAL array,
 *          dimension (LWORK)
 *          On exit, if INFO = 0, WORK(1) returns the optimal LWORK.
 *
@@ -214,15 +214,12 @@
 *            *) Reordering of T failed because some eigenvalues are too
 *               close to separate (the problem is very ill-conditioned);
 *               T may have been partially reordered, and WR and WI
-*               contain the eigenvalues in the same order as in T; The
-*               process that failed in the reordering will return
-*               INFO = {the index of T where the swap failed}; all
-*               others will return INFO = 1.
+*               contain the eigenvalues in the same order as in T.
+*               On exit, INFO = {the index of T where the swap failed}.
 *            *) A 2-by-2 block to be reordered split into two 1-by-1
 *               blocks and the second block failed to swap with an
-*               adjacent block. The process that failed in the
-*               reordering will return INFO = {the index of T where the
-*               swap failed}; all others will return INFO = 1.
+*               adjacent block.
+*               On exit, INFO = {the index of T where the swap failed}.
 *            *) If INFO = N+1, there is no valid BLACS context (see the
 *               BLACS documentation for details).
 *          In a future release this subroutine may distinguish between
@@ -245,7 +242,7 @@
 *
 *  This algorithm cannot work on submatrices of T and Q, i.e.,
 *  IT = JT = IQ = JQ = 1 must hold. This is however no limitation
-*  since PSLAHQR does not compute Schur forms of submatrices anyway.
+*  since PDLAHQR does not compute Schur forms of submatrices anyway.
 *
 *  References
 *  ==========
@@ -304,17 +301,14 @@
      $                     BLOCK_CYCLIC_2D = 1, DLEN_ = 9, DTYPE_ = 1,
      $                     CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9,
-     $                     ZERO = 0.0E+0, ONE = 1.0E+0 )
+     $                     ZERO = 0.0, ONE = 1.0 )
 *     ..
 *     .. Local Scalars ..
       LOGICAL            LQUERY, PAIR, SWAP, WANTQ,
-     $                   ISHH, FIRST, SKIP1CR, BORDER,
-     $                   LASTWAIT
+     $                   ISHH, FIRST, SKIP1CR, BORDER, LASTWAIT
       INTEGER            NPROW, NPCOL, MYROW, MYCOL, NB, NPROCS,
-     $                   IERR, DIM1, INDX,
-     $                   LLDT, TRSRC, TCSRC, ILOC1, JLOC1,
-     $                   MYIERR,
-     $                   ICTXT,
+     $                   IERR, DIM1, INDX, LLDT, TRSRC, TCSRC, ILOC1,
+     $                   JLOC1, MYIERR, ICTXT,
      $                   RSRC1, CSRC1, ILOC3, JLOC3, TRSRC3,
      $                   TCSRC3, ILOC, JLOC, TRSRC4, TCSRC4,
      $                   FLOPS, I, ILO, IHI, J, K, KK, KKS,
@@ -331,9 +325,8 @@
      $                   TCOLS, IPW5, IPW6, IPW7, IPW8, JLOC4,
      $                   EAST, WEST, ILOC4, SOUTH, NORTH, INDXS,
      $                   ITT, JTT, ILEN, DLEN, INDXE, TRSRC1, TCSRC1,
-     $                   TRSRC2, TCSRC2, ILOS, DIR,
-     $                   TLIHI, TLILO, TLSEL, ROUND, LAST, WIN0S,
-     $                   WIN0E, WINE, MMAX, MMIN
+     $                   TRSRC2, TCSRC2, ILOS, DIR, TLIHI, TLILO, TLSEL,
+     $                   ROUND, LAST, WIN0S, WIN0E, WINE, MMAX, MMIN
       REAL               ELEM, ELEM1, ELEM2, ELEM3, ELEM4, SN, CS, TMP,
      $                   ELEM5
 *     ..
@@ -348,9 +341,9 @@
 *     .. External Subroutines ..
       EXTERNAL           PSLACPY, PXERBLA, PCHK1MAT, PCHK2MAT,
      $                   SGEMM, SLACPY, ILACPY, CHK1MAT,
-     $                   INFOG2L, SGSUM2D, SGESD2D, SGERV2D, SGEBS2D,
+     $                   INFOG2L, DGSUM2D, SGESD2D, SGERV2D, SGEBS2D,
      $                   SGEBR2D, IGSUM2D, BLACS_GRIDINFO, IGEBS2D,
-     $                   IGEBR2D, IGAMX2D, IGAMN2D, BSLAAPP, BSTREXC
+     $                   IGEBR2D, IGAMX2D, IGAMN2D, BSLAAPP, BDTREXC
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, MAX, SQRT, MIN
@@ -572,7 +565,7 @@
       ICSRC = IRSRC + NUMWIN
       IPIW  = ICSRC + NUMWIN
 *
-*     Insert some pointers into REAL             workspace - for now we
+*     Insert some pointers into REAL workspace - for now we
 *     only need two pointers.
 *
       IPW1 = 1
@@ -1584,16 +1577,15 @@
      $      CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, IERR, 1, -1,
      $           -1, -1, -1, -1 )
 *
-         IF( IERR.EQ.1 .OR. IERR.EQ.2 ) THEN
+         IF( IERR.NE.0 ) THEN
 *
-*           When calling BSTREXC, the block at position I+KKS-1 failed
+*           When calling BDTREXC, the block at position I+KKS-1 failed
 *           to swap.
 *
-            IF( IERR.EQ.1 .OR. IERR.EQ.2 ) THEN
-               INFO = MAX(1,I+KKS-1)
-            ELSE
-               INFO = 1
-            END IF
+            IF( MYIERR.NE.0 ) INFO = MAX(1,I+KKS-1)
+            IF( NPROCS.GT.1 )
+     $         CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFO, 1, -1,
+     $              -1, -1, -1, -1 )
             GO TO 300
          END IF
 *
@@ -3254,16 +3246,15 @@
      $      CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, IERR, 1, -1,
      $           -1, -1, -1, -1 )
 *
-         IF( IERR.EQ.1 .OR. IERR.EQ.2 ) THEN
+         IF( IERR.NE.0 ) THEN
 *
-*           When calling BSTREXC, the block at position I+KKS-1 failed
+*           When calling BDTREXC, the block at position I+KKS-1 failed
 *           to swap.
 *
-            IF( IERR.EQ.1 .OR. IERR.EQ.2 ) THEN
-               INFO = MAX(1,I+KKS-1)
-            ELSE
-               INFO = 1
-            END IF
+            IF( MYIERR.NE.0 ) INFO = MAX(1,I+KKS-1)
+            IF( NPROCS.GT.1 )
+     $         CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFO, 1, -1,
+     $              -1, -1, -1, -1 )
             GO TO 300
          END IF
 *
@@ -3336,8 +3327,8 @@
       PAIR = .FALSE.
       DO 560 K = 1, N
          IF( .NOT. PAIR ) THEN
-            BORDER = MOD( K, NB ).EQ.0 .OR. ( K.NE.1 .AND.
-     $           MOD( K, NB ).EQ.1 )
+            BORDER = ( K.NE.N .AND. MOD( K, NB ).EQ.0 ) .OR.
+     %           ( K.NE.1 .AND. MOD( K, NB ).EQ.1 )
             IF( .NOT. BORDER ) THEN
                CALL INFOG2L( K, K, DESCT, NPROW, NPCOL, MYROW, MYCOL,
      $              ILOC1, JLOC1, TRSRC1, TCSRC1 )

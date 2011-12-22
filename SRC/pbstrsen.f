@@ -2,7 +2,7 @@
      $     DESCT, Q, IQ, JQ, DESCQ, WR, WI, M, S, SEP, WORK, LWORK,
      $     IWORK, LIWORK, INFO )
 *
-*  -- ScaLAPACK driver routine (version 2.0) --
+*  -- ScaLAPACK driver routine (version 2.0.1) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
 *     October, 2011
@@ -13,7 +13,7 @@
       CHARACTER          COMPQ, JOB
       INTEGER            INFO, LIWORK, LWORK, M, N,
      $                   IT, JT, IQ, JQ
-      REAL               S, SEP
+      REAL   S, SEP
 *     ..
 *     .. Array Arguments ..
       LOGICAL            SELECT( N )
@@ -143,7 +143,7 @@
 *  N       (global input) INTEGER
 *          The order of the globally distributed matrix T. N >= 0.
 *
-*  T       (local input/output) REAL             array,
+*  T       (local input/output) REAL array,
 *          dimension (LLD_T,LOCc(N)).
 *          On entry, the local pieces of the global distributed
 *          upper quasi-triangular matrix T, in Schur form. On exit, T is
@@ -159,7 +159,7 @@
 *  DESCT   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the global distributed matrix T.
 *
-*  Q       (local input/output) REAL             array,
+*  Q       (local input/output) REAL array,
 *          dimension (LLD_Q,LOCc(N)).
 *          On entry, if COMPQ = 'V', the local pieces of the global
 *          distributed matrix Q of Schur vectors.
@@ -177,8 +177,8 @@
 *  DESCQ   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the global distributed matrix Q.
 *
-*  WR      (global output) REAL             array, dimension (N)
-*  WI      (global output) REAL             array, dimension (N)
+*  WR      (global output) REAL array, dimension (N)
+*  WI      (global output) REAL array, dimension (N)
 *          The real and imaginary parts, respectively, of the reordered
 *          eigenvalues of T. The eigenvalues are in principle stored in
 *          the same order as on the diagonal of T, with WR(i) = T(i,i)
@@ -192,20 +192,20 @@
 *          The dimension of the specified invariant subspace.
 *          0 <= M <= N.
 *
-*  S       (global output) REAL            
+*  S       (global output) REAL
 *          If JOB = 'E' or 'B', S is a lower bound on the reciprocal
 *          condition number for the selected cluster of eigenvalues.
 *          S cannot underestimate the true reciprocal condition number
 *          by more than a factor of sqrt(N). If M = 0 or N, S = 1.
 *          If JOB = 'N' or 'V', S is not referenced.
 *
-*  SEP     (global output) REAL            
+*  SEP     (global output) REAL
 *          If JOB = 'V' or 'B', SEP is the estimated reciprocal
 *          condition number of the specified invariant subspace. If
 *          M = 0 or N, SEP = norm(T).
 *          If JOB = 'N' or 'E', SEP is not referenced.
 *
-*  WORK    (local workspace/output) REAL             array,
+*  WORK    (local workspace/output) REAL array,
 *          dimension (LWORK)
 *          On exit, if INFO = 0, WORK(1) returns the optimal LWORK.
 *
@@ -237,16 +237,12 @@
 *            *) Reordering of T failed because some eigenvalues are too
 *               close to separate (the problem is very ill-conditioned);
 *               T may have been partially reordered, and WR and WI
-*               contain the eigenvalues in the same order as in T; S and
-*               SEP (if requested) are set to zero. The process that
-*               failed in the reordering will return INFO = {the index
-*               of T where the swap failed}; all others will return
-*               INFO = 1.
+*               contain the eigenvalues in the same order as in T.
+*               On exit, INFO = {the index of T where the swap failed}.
 *            *) A 2-by-2 block to be reordered split into two 1-by-1
 *               blocks and the second block failed to swap with an
-*               adjacent block. The process that failed in the
-*               reordering will return INFO = {the index of T where the
-*               swap failed}; all others will return INFO = 1.
+*               adjacent block.
+*               On exit, INFO = {the index of T where the swap failed}.
 *            *) If INFO = N+1, there is no valid BLACS context (see the
 *               BLACS documentation for details).
 *            *) If INFO = N+2, the routines used in the calculation of
@@ -349,7 +345,7 @@
      $                     BLOCK_CYCLIC_2D = 1, DLEN_ = 9, DTYPE_ = 1,
      $                     CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9,
-     $                     ZERO = 0.0E+0, ONE = 1.0E+0 )
+     $                     ZERO = 0.0, ONE = 1.0 )
 *     ..
 *     .. Local Scalars ..
       LOGICAL            LQUERY, WANTBH, WANTQ, WANTS, WANTSP
@@ -360,7 +356,6 @@
      $                   T12ROWS, T12COLS, TCOLS, TCSRC, TROWS, TRSRC,
      $                   WRK1, IWRK1, WRK2, IWRK2, WRK3, IWRK3
       REAL               DPDUM1, ELEM, EST, SCALE, RNORM
-     $                   , TIME, TIME3, TIME4
 *     .. Local Arrays ..
       INTEGER            DESCT12( DLEN_ ), MBNB2( 2 )
 *     ..
@@ -701,8 +696,6 @@ c     $        LWORK, IWORK(N+1), LIWORK-N, EST, ITER, IERR )
 *
 *     Return to calling program.
 *
-      WORK(4) = TIME3
-      WORK(5) = TIME4
  50   CONTINUE
 *
       RETURN

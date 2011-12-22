@@ -4,10 +4,10 @@
      $                              WV, DESCW, WORK, LWORK, IWORK,
      $                              LIWORK, RECLEVEL )
 *
-*  -- ScaLAPACK driver routine (version 2.0) --
+*  -- ScaLAPACK driver routine (version 2.0.1) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     October, 2011
+*     December, 2011
 *
       IMPLICIT NONE
 *
@@ -125,7 +125,7 @@
 *  NW      (global input) INTEGER
 *          Deflation window size.  1 .LE. NW .LE. (KBOT-KTOP+1).
 *
-*  H       (local input/output) REAL             array, dimension
+*  H       (local input/output) REAL array, dimension
 *             (DESCH(LLD_),*)
 *          On input the initial N-by-N section of H stores the
 *          Hessenberg matrix undergoing aggressive early deflation.
@@ -142,7 +142,7 @@
 *          Specify the rows of Z to which transformations must be
 *          applied if WANTZ is .TRUE.. 1 .LE. ILOZ .LE. IHIZ .LE. N.
 *
-*  Z       (input/output) REAL             array, dimension
+*  Z       (input/output) REAL array, dimension
 *             (DESCH(LLD_),*)
 *          IF WANTZ is .TRUE., then on output, the orthogonal
 *          similarity transformation mentioned above has been
@@ -161,8 +161,8 @@
 *          The number of converged eigenvalues uncovered by this
 *          subroutine.
 *
-*  SR      (global output) REAL             array, dimension KBOT
-*  SI      (global output) REAL             array, dimension KBOT
+*  SR      (global output) REAL array, dimension KBOT
+*  SI      (global output) REAL array, dimension KBOT
 *          On output, the real and imaginary parts of approximate
 *          eigenvalues that may be used for shifts are stored in
 *          SR(KBOT-ND-NS+1) through SR(KBOT-ND) and
@@ -171,7 +171,7 @@
 *          are stored in SR(KBOT-ND+1) through SR(KBOT) and
 *          SI(KBOT-ND+1) through SI(KBOT), respectively.
 *
-*  V       (global workspace) REAL             array, dimension 
+*  V       (global workspace) REAL array, dimension 
 *             (DESCV(LLD_),*)
 *          An NW-by-NW distributed work array.
 *
@@ -181,7 +181,7 @@
 *  NH      (input) INTEGER scalar
 *          The number of columns of T.  NH.GE.NW.
 *
-*  T       (global workspace) REAL             array, dimension 
+*  T       (global workspace) REAL array, dimension 
 *             (DESCV(LLD_),*)
 *
 *  DESCT   (global and local input) INTEGER array of dimension DLEN_.
@@ -191,13 +191,13 @@
 *          The number of rows of work array WV available for
 *          workspace.  NV.GE.NW.
 *
-*  WV      (global workspace) REAL             array, dimension 
+*  WV      (global workspace) REAL array, dimension 
 *             (DESCW(LLD_),*)
 *
 *  DESCW   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the distributed matrix WV.
 *
-*  WORK    (local workspace) REAL             array, dimension LWORK.
+*  WORK    (local workspace) REAL array, dimension LWORK.
 *          On exit, WORK(1) is set to an estimate of the optimal value
 *          of LWORK for the given values of N, NW, KTOP and KBOT.
 *
@@ -234,13 +234,13 @@
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9, RECMAX = 3,
      $                     SORTGRAD = .FALSE. )
       REAL               ZERO, ONE
-      PARAMETER          ( ZERO = 0.0e0, ONE = 1.0e0 )
+      PARAMETER          ( ZERO = 0.0, ONE = 1.0 )
 *     ..
 *     .. Local Scalars ..
       REAL               AA, BB, BETA, CC, CS, DD, EVI, EVK, FOO, S,
      $                   SAFMAX, SAFMIN, SMLNUM, SN, TAU, ULP,
      $                   ELEM, ELEM1, ELEM2, ELEM3, R1, ANORM, RNORM,
-     $                   STAMP, RESAED
+     $                   RESAED
       INTEGER            I, IFST, ILST, INFO, INFQR, J, JW, K, KCOL,
      $                   KEND, KLN, KROW, KWTOP, LTOP, LWK1, LWK2, LWK3,
      $                   LWKOPT, NMIN, LLDH, LLDZ, LLDT, LLDV, LLDWV,
@@ -339,7 +339,8 @@
      $        .AND. RECLEVEL.LT.RECMAX ) THEN
             CALL PSLAQR0( .TRUE., .TRUE., JW+IROFFH, 1+IROFFH,
      $           JW+IROFFH, T, DESCT, SR, SI, 1, JW, V, DESCV,
-     $           WORK, -1, IWORK, LIWORK-NSEL, INFQR, RECLEVEL+1 )
+     $           WORK, -1, IWORK, LIWORK-NSEL, INFQR,
+     $           RECLEVEL+1 )
             LWK3 = INT( WORK( 1 ) )
             IWRK1 = IWORK( 1 )
          ELSE
@@ -391,7 +392,9 @@
 *
 *        Residual check workspace.
 *
-         LWK8 = 0
+         TZROWS = NUMROC( JW+IROFFH, NB, MYROW, DESCT(RSRC_), NPROW )
+         TZCOLS = NUMROC( JW+IROFFH, NB, MYCOL, DESCT(CSRC_), NPCOL )
+         LWK8 = 2*TZROWS*TZCOLS
 *
 *        Optimal workspace.
 *
@@ -643,7 +646,8 @@
                CALL PSLAQR0( .TRUE., .TRUE., JW, 1, JW, WORK(IPT0),
      $              DESCTZ0, SR( KWTOP ), SI( KWTOP ), 1, JW,
      $              WORK(IPZ0), DESCTZ0, WORK(IPW0), LWORK-IPW0+1,
-     $              IWORK(NSEL+1), LIWORK-NSEL, INFQR, RECLEVEL+1 )
+     $              IWORK(NSEL+1), LIWORK-NSEL, INFQR,
+     $              RECLEVEL+1 )
             ELSE
                CALL PSLAQR1( .TRUE., .TRUE., JW, 1, JW, WORK(IPT0),
      $              DESCTZ0, SR( KWTOP ), SI( KWTOP ), 1, JW,
@@ -685,7 +689,7 @@
 *
 *     Check local residual for AED Schur decomposition.
 *
-      RESAED = 0.0E+00
+      RESAED = 0.0
 *
 *     Clean up the array SELECT for PBSTRORD.
 *
@@ -892,7 +896,7 @@
 *
 *     Check local residual for reordered AED Schur decomposition.
 *
-      RESAED = 0.0E+00
+      RESAED = 0.0
 *
 *     Return to Hessenberg form.
 *
@@ -1068,7 +1072,7 @@
             CALL PSORMHR( 'Right', 'No', JW+IROFFH, NS+IROFFH, 1+IROFFH,
      $           NS+IROFFH, T, 1, 1, DESCT, WORK(ITAU), V, 1,
      $           1, DESCV, WORK( IPW ), LWORK-IPW+1, INFO )
-        END IF
+         END IF
 *
 *        Update vertical slab in H.
 *

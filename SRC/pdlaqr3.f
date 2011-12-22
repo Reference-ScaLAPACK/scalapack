@@ -4,10 +4,10 @@
      $                              WV, DESCW, WORK, LWORK, IWORK,
      $                              LIWORK, RECLEVEL )
 *
-*  -- ScaLAPACK driver routine (version 2.0) --
+*  -- ScaLAPACK driver routine (version 2.0.1) --
 *     Deptartment of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     October, 2011
+*     December, 2011
 *
       IMPLICIT NONE
 *
@@ -240,7 +240,7 @@
       DOUBLE PRECISION   AA, BB, BETA, CC, CS, DD, EVI, EVK, FOO, S,
      $                   SAFMAX, SAFMIN, SMLNUM, SN, TAU, ULP,
      $                   ELEM, ELEM1, ELEM2, ELEM3, R1, ANORM, RNORM,
-     $                   STAMP, RESAED
+     $                   RESAED
       INTEGER            I, IFST, ILST, INFO, INFQR, J, JW, K, KCOL,
      $                   KEND, KLN, KROW, KWTOP, LTOP, LWK1, LWK2, LWK3,
      $                   LWKOPT, NMIN, LLDH, LLDZ, LLDT, LLDV, LLDWV,
@@ -267,7 +267,7 @@
       DOUBLE PRECISION   DLAMCH, PDLANGE
       INTEGER            PILAENVX, NUMROC, INDXG2P, ICEIL, BLACS_PNUM
       EXTERNAL           DLAMCH, PILAENVX, NUMROC, INDXG2P, PDLANGE,
-     $                   ICEIL, BLACS_PNUM
+     $                   MPI_WTIME, ICEIL, BLACS_PNUM
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           PDCOPY, PDGEHRD, PDGEMM, DLABAD, PDLACPY,
@@ -339,7 +339,8 @@
      $        .AND. RECLEVEL.LT.RECMAX ) THEN
             CALL PDLAQR0( .TRUE., .TRUE., JW+IROFFH, 1+IROFFH,
      $           JW+IROFFH, T, DESCT, SR, SI, 1, JW, V, DESCV,
-     $           WORK, -1, IWORK, LIWORK-NSEL, INFQR, RECLEVEL+1 )
+     $           WORK, -1, IWORK, LIWORK-NSEL, INFQR, 
+     $           RECLEVEL+1 )
             LWK3 = INT( WORK( 1 ) )
             IWRK1 = IWORK( 1 )
          ELSE
@@ -643,7 +644,8 @@
                CALL PDLAQR0( .TRUE., .TRUE., JW, 1, JW, WORK(IPT0),
      $              DESCTZ0, SR( KWTOP ), SI( KWTOP ), 1, JW,
      $              WORK(IPZ0), DESCTZ0, WORK(IPW0), LWORK-IPW0+1,
-     $              IWORK(NSEL+1), LIWORK-NSEL, INFQR, RECLEVEL+1 )
+     $              IWORK(NSEL+1), LIWORK-NSEL, INFQR,
+     $              RECLEVEL+1 )
             ELSE
                CALL PDLAQR1( .TRUE., .TRUE., JW, 1, JW, WORK(IPT0),
      $              DESCTZ0, SR( KWTOP ), SI( KWTOP ), 1, JW,
@@ -1068,7 +1070,7 @@
             CALL PDORMHR( 'Right', 'No', JW+IROFFH, NS+IROFFH, 1+IROFFH,
      $           NS+IROFFH, T, 1, 1, DESCT, WORK(ITAU), V, 1,
      $           1, DESCV, WORK( IPW ), LWORK-IPW+1, INFO )
-        END IF
+         END IF
 *
 *        Update vertical slab in H.
 *
