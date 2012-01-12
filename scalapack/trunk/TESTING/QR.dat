@@ -13,4 +13,4 @@
 4				number of process grids (ordered pairs P & Q)
 1 2 1 4 2 3 8			values of P
 1 2 4 1 3 2 1			values of Q
-30.0				threshold
+5.0				threshold
