@@ -2,7 +2,7 @@
      $                  INCY, CS, SN, WORK, LWORK, INFO )
 *
 *  -- ScaLAPACK-style routine --
-*     Deptartment of Computing Science and HPC2N,
+*     Department of Computing Science and HPC2N,
 *     Umea University, Sweden
 *     October, 2011
 *
