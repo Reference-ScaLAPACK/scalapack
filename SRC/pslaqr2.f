@@ -3,7 +3,7 @@
      $                    V, LDV, WR, WI, WORK, LWORK )
 *
 *  -- ScaLAPACK auxiliary routine (version 2.0.1) --
-*     Deptartment of Computing Science and HPC2N,
+*     Department of Computing Science and HPC2N,
 *     Umea University, Sweden
 *     December, 2011
 *

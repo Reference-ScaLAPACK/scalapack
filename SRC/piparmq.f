@@ -2,7 +2,7 @@
      $                          LWORKNB )
 *
 *  -- ScaLAPACK auxiliary routine (version 2.0) --
-*     Deptartment of Computing Science and HPC2N,
+*     Department of Computing Science and HPC2N,
 *     Umea University, Sweden
 *     October, 2011
 *
