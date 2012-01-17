@@ -5,7 +5,7 @@
 *     Contribution from the Department of Computing Science and HPC2N,
 *     Umea University, Sweden
 *
-*  -- ScaLAPACK driver routine (version 2.0.1) --
+*  -- ScaLAPACK computational routine (version 2.0.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
 *     Univ. of Colorado Denver and University of California, Berkeley.
 *     January, 2012
