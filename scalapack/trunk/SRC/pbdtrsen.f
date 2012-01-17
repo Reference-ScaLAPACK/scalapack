@@ -2,10 +2,13 @@
      $     DESCT, Q, IQ, JQ, DESCQ, WR, WI, M, S, SEP, WORK, LWORK,
      $     IWORK, LIWORK, INFO )
 *
-*  -- ScaLAPACK driver routine (version 2.0.1) --
-*     Department of Computing Science and HPC2N,
+*     Contribution from the Department of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     October, 2011
+*
+*  -- ScaLAPACK driver routine (version 2.0.1) --
+*     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
+*     Univ. of Colorado Denver and University of California, Berkeley.
+*     January, 2012
 *
       IMPLICIT NONE
 *

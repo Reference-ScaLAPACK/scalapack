@@ -1,10 +1,13 @@
       INTEGER FUNCTION PIPARMQ( ICTXT, ISPEC, NAME, OPTS, N, ILO, IHI,
      $                          LWORKNB )
 *
-*  -- ScaLAPACK auxiliary routine (version 2.0) --
-*     Department of Computing Science and HPC2N,
+*     Contribution from the Department of Computing Science and HPC2N,
 *     Umea University, Sweden
-*     October, 2011
+*
+*  -- ScaLAPACK auxiliary routine (version 2.0.1) --
+*     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
+*     Univ. of Colorado Denver and University of California, Berkeley.
+*     January, 2012
 *
       IMPLICIT NONE
 *
