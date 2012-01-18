@@ -275,7 +275,7 @@
 *     .. External Subroutines ..
       EXTERNAL           PSCOPY, PSGEHRD, PSGEMM, SLABAD, PSLACPY,
      $                   PSLAQR1, SLANV2, PSLAQR0, PSLARF, PSLARFG,
-     $                   PSLASET, PBSTRORD, PSELGET, PSELSET,
+     $                   PSLASET, PSTRORD, PSELGET, PSELSET,
      $                   PSLAMVE, BLACS_GRIDINFO, BLACS_GRIDMAP,
      $                   BLACS_GRIDEXIT, PSGEMR2D
 *     ..
@@ -368,7 +368,7 @@
 *
 *        Workspace check for reordering.
 *
-         CALL PBSTRORD( 'Vectors', IWORK, PAR, JW+IROFFH, T, 1, 1,
+         CALL PSTRORD( 'Vectors', IWORK, PAR, JW+IROFFH, T, 1, 1,
      $        DESCT, V, 1, 1, DESCV, DDUM, DDUM, MLOC, WORK, -1,
      $        IWORK, LIWORK-NSEL, INFO )
          LWK5 = INT( WORK( 1 ) )
@@ -409,7 +409,7 @@
 *
       WORK( 1 ) = FLOAT( LWKOPT )
 *
-*     IWORK(1:NSEL) is used as the array SELECT for PBSTRORD.
+*     IWORK(1:NSEL) is used as the array SELECT for PSTRORD.
 *
       IWORK( 1 ) = ILWKOPT + NSEL
       IF( LQUERY )
@@ -681,7 +681,7 @@
       IF( INFQR.NE.0 )
      $   INFQR = INFQR - IROFFH
 *
-*     PBSTRORD needs a clean margin near the diagonal.
+*     PSTRORD needs a clean margin near the diagonal.
 *
       DO 50 J = 1, JW - 3
          CALL PSELSET( T, J+2, J, DESCT, ZERO )
@@ -694,7 +694,7 @@
 *
       RESAED = 0.0
 *
-*     Clean up the array SELECT for PBSTRORD.
+*     Clean up the array SELECT for PSTRORD.
 *
       DO 60 J = 1, NSEL
          IWORK( J ) = 0
@@ -781,14 +781,14 @@
                      IWORK( J ) = 0
  110              CONTINUE
                   IWORK( IFST+IROFFH ) = 1
-                  CALL PBSTRORD( 'Vectors', IWORK, PAR, JW+IROFFH, T, 1,
+                  CALL PSTRORD( 'Vectors', IWORK, PAR, JW+IROFFH, T, 1,
      $                 1, DESCT, V, 1, 1, DESCV, WORK,
      $                 WORK(JW+IROFFH+1), MLOC,
      $                 WORK(2*(JW+IROFFH)+1), LWORK-2*(JW+IROFFH),
      $                 IWORK(NSEL+1), LIWORK-NSEL, INFO )
 *
 *                 Adjust the array SELECT explicitly so that it does not
-*                 rely on the output of PBSTRORD.
+*                 rely on the output of PSTRORD.
 *
                   IWORK( IFST+IROFFH ) = 0
                   IWORK( LILST ) = 1
@@ -837,14 +837,14 @@
  120              CONTINUE
                   IWORK( IFST+IROFFH ) = 1
                   IWORK( IFST+IROFFH-1 ) = 1
-                  CALL PBSTRORD( 'Vectors', IWORK, PAR, JW+IROFFH, T, 1,
+                  CALL PSTRORD( 'Vectors', IWORK, PAR, JW+IROFFH, T, 1,
      $                 1, DESCT, V, 1, 1, DESCV, WORK,
      $                 WORK(JW+IROFFH+1), MLOC,
      $                 WORK(2*(JW+IROFFH)+1), LWORK-2*(JW+IROFFH),
      $                 IWORK(NSEL+1), LIWORK-NSEL, INFO )
 *
 *                 Adjust the array SELECT explicitly so that it does not
-*                 rely on the output of PBSTRORD.
+*                 rely on the output of PSTRORD.
 *
                   IWORK( IFST+IROFFH ) = 0
                   IWORK( IFST+IROFFH-1 ) = 0
@@ -874,7 +874,7 @@
          DO 130 J = ILST, LILST0-1
             IWORK( J ) = 0
  130     CONTINUE
-         CALL PBSTRORD( 'Vectors', IWORK, PAR, JW+IROFFH, T, 1, 1,
+         CALL PSTRORD( 'Vectors', IWORK, PAR, JW+IROFFH, T, 1, 1,
      $        DESCT, V, 1, 1, DESCV, WORK, WORK(JW+IROFFH+1),
      $        M, WORK(2*(JW+IROFFH)+1), LWORK-2*(JW+IROFFH),
      $        IWORK(NSEL+1), LIWORK-NSEL, INFO )
@@ -977,7 +977,7 @@
                DO 170 J = K+2, JW+IROFFH
                   IWORK( J ) = 0
  170           CONTINUE
-               CALL PBSTRORD( 'Vectors', IWORK, PAR, JW+IROFFH, T, 1, 1,
+               CALL PSTRORD( 'Vectors', IWORK, PAR, JW+IROFFH, T, 1, 1,
      $              DESCT, V, 1, 1, DESCV, WORK, WORK(JW+IROFFH+1), M,
      $              WORK(2*(JW+IROFFH)+1), LWORK-2*(JW+IROFFH),
      $              IWORK(NSEL+1), LIWORK-NSEL, IERR )
