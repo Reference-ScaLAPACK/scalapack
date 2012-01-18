@@ -1,4 +1,4 @@
-      SUBROUTINE PBSTRORD( COMPQ, SELECT, PARA, N, T, IT, JT,
+      SUBROUTINE PDTRORD( COMPQ, SELECT, PARA, N, T, IT, JT,
      $     DESCT, Q, IQ, JQ, DESCQ, WR, WI, M, WORK, LWORK,
      $     IWORK, LIWORK, INFO )
 *
@@ -20,19 +20,19 @@
 *     .. Array Arguments ..
       INTEGER            SELECT( * )
       INTEGER            PARA( 6 ), DESCT( * ), DESCQ( * ), IWORK( * )
-      REAL               Q( * ), T( * ), WI( * ), WORK( * ), WR( * )
+      DOUBLE PRECISION   Q( * ), T( * ), WI( * ), WORK( * ), WR( * )
 *     ..
 *
 *  Purpose
 *  =======
 *
-*  PBSTRORD reorders the real Schur factorization of a real matrix
+*  PDTRORD reorders the real Schur factorization of a real matrix
 *  A = Q*T*Q**T, so that a selected cluster of eigenvalues appears
 *  in the leading diagonal blocks of the upper quasi-triangular matrix
 *  T, and the leading columns of Q form an orthonormal basis of the
 *  corresponding right invariant subspace.
 *
-*  T must be in Schur form (as returned by PSLAHQR), that is, block
+*  T must be in Schur form (as returned by PDLAHQR), that is, block
 *  upper triangular with 1-by-1 and 2-by-2 diagonal blocks.
 *
 *  This subroutine uses a delay and accumulate procedure for performing
@@ -136,7 +136,7 @@
 *  N       (global input) INTEGER
 *          The order of the globally distributed matrix T. N >= 0.
 *
-*  T       (local input/output) REAL array,
+*  T       (local input/output) DOUBLE PRECISION array,
 *          dimension (LLD_T,LOCc(N)).
 *          On entry, the local pieces of the global distributed
 *          upper quasi-triangular matrix T, in Schur form. On exit, T is
@@ -152,7 +152,7 @@
 *  DESCT   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the global distributed matrix T.
 *
-*  Q       (local input/output) REAL array,
+*  Q       (local input/output) DOUBLE PRECISION array,
 *          dimension (LLD_Q,LOCc(N)).
 *          On entry, if COMPQ = 'V', the local pieces of the global
 *          distributed matrix Q of Schur vectors.
@@ -170,8 +170,8 @@
 *  DESCQ   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the global distributed matrix Q.
 *
-*  WR      (global output) REAL array, dimension (N)
-*  WI      (global output) REAL array, dimension (N)
+*  WR      (global output) DOUBLE PRECISION array, dimension (N)
+*  WI      (global output) DOUBLE PRECISION array, dimension (N)
 *          The real and imaginary parts, respectively, of the reordered
 *          eigenvalues of T. The eigenvalues are in principle stored in
 *          the same order as on the diagonal of T, with WR(i) = T(i,i)
@@ -185,7 +185,7 @@
 *          The dimension of the specified invariant subspace.
 *          0 <= M <= N.
 *
-*  WORK    (local workspace/output) REAL array,
+*  WORK    (local workspace/output) DOUBLE PRECISION array,
 *          dimension (LWORK)
 *          On exit, if INFO = 0, WORK(1) returns the optimal LWORK.
 *
@@ -299,12 +299,12 @@
       CHARACTER          TOP
       INTEGER            BLOCK_CYCLIC_2D, CSRC_, CTXT_, DLEN_, DTYPE_,
      $                   LLD_, MB_, M_, NB_, N_, RSRC_
-      REAL               ZERO, ONE
+      DOUBLE PRECISION   ZERO, ONE
       PARAMETER          ( TOP = '1-Tree',
      $                     BLOCK_CYCLIC_2D = 1, DLEN_ = 9, DTYPE_ = 1,
      $                     CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9,
-     $                     ZERO = 0.0, ONE = 1.0 )
+     $                     ZERO = 0.0D+0, ONE = 1.0D+0 )
 *     ..
 *     .. Local Scalars ..
       LOGICAL            LQUERY, PAIR, SWAP, WANTQ,
@@ -330,7 +330,7 @@
      $                   ITT, JTT, ILEN, DLEN, INDXE, TRSRC1, TCSRC1,
      $                   TRSRC2, TCSRC2, ILOS, DIR, TLIHI, TLILO, TLSEL,
      $                   ROUND, LAST, WIN0S, WIN0E, WINE, MMAX, MMIN
-      REAL               ELEM, ELEM1, ELEM2, ELEM3, ELEM4, SN, CS, TMP,
+      DOUBLE PRECISION   ELEM, ELEM1, ELEM2, ELEM3, ELEM4, SN, CS, TMP,
      $                   ELEM5
 *     ..
 *     .. Local Arrays ..
@@ -342,11 +342,11 @@
       EXTERNAL           LSAME, NUMROC, INDXG2P, INDXG2L
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           PSLACPY, PXERBLA, PCHK1MAT, PCHK2MAT,
-     $                   SGEMM, SLACPY, ILACPY, CHK1MAT,
-     $                   INFOG2L, DGSUM2D, SGESD2D, SGERV2D, SGEBS2D,
-     $                   SGEBR2D, IGSUM2D, BLACS_GRIDINFO, IGEBS2D,
-     $                   IGEBR2D, IGAMX2D, IGAMN2D, BSLAAPP, BDTREXC
+      EXTERNAL           PDLACPY, PXERBLA, PCHK1MAT, PCHK2MAT,
+     $                   DGEMM, DLACPY, ILACPY, CHK1MAT,
+     $                   INFOG2L, DGSUM2D, DGESD2D, DGERV2D, DGEBS2D,
+     $                   DGEBR2D, IGSUM2D, BLACS_GRIDINFO, IGEBS2D,
+     $                   IGEBR2D, IGAMX2D, IGAMN2D, BDLAAPP, BDTREXC
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, MAX, SQRT, MIN
@@ -529,10 +529,10 @@
 *
       IF( INFO.NE.0 .AND. .NOT.LQUERY ) THEN
          M = 0
-         CALL PXERBLA( ICTXT, 'PBSTRORD', -INFO )
+         CALL PXERBLA( ICTXT, 'PDTRORD', -INFO )
          RETURN
       ELSEIF( LQUERY ) THEN
-         WORK( 1 ) = FLOAT(LWMIN)
+         WORK( 1 ) = DBLE(LWMIN)
          IWORK( 1 ) = LIWMIN
          RETURN
       END IF
@@ -568,7 +568,7 @@
       ICSRC = IRSRC + NUMWIN
       IPIW  = ICSRC + NUMWIN
 *
-*     Insert some pointers into REAL workspace - for now we
+*     Insert some pointers into DOUBLE PRECISION workspace - for now we
 *     only need two pointers.
 *
       IPW1 = 1
@@ -610,7 +610,7 @@
          IF( SELECT(ILOS).EQ.0 ) GO TO 52
          IF( ILOS.LT.N ) THEN
             IF( SELECT(ILOS+1).NE.0 .AND. MOD(ILOS,NB).EQ.0 ) THEN
-               CALL PSELGET( 'All', TOP, ELEM, T, ILOS+1, ILOS, DESCT )
+               CALL PDELGET( 'All', TOP, ELEM, T, ILOS+1, ILOS, DESCT )
                IF( ELEM.NE.ZERO ) GO TO 52
             END IF
          END IF
@@ -649,7 +649,7 @@
 *
             LILO = IWORK(ILILO+K-1)
             IF( LILO.GT.NB ) THEN
-               CALL PSELGET( 'All', TOP, ELEM, T, LILO, LILO-1, DESCT )
+               CALL PDELGET( 'All', TOP, ELEM, T, LILO, LILO-1, DESCT )
                IF( ELEM.NE.ZERO ) THEN
                   IF( LILO.LT.(J+K-1)*NB ) THEN
                      IWORK(ILILO+K-1) = IWORK(ILILO+K-1) + 1
@@ -690,7 +690,7 @@
 *
             LIHI = IWORK(ILIHI+K-1)
             IF( LIHI.LT.N ) THEN
-               CALL PSELGET( 'All', TOP, ELEM, T, LIHI+1, LIHI, DESCT )
+               CALL PDELGET( 'All', TOP, ELEM, T, LIHI+1, LIHI, DESCT )
                IF( ELEM.NE.ZERO ) THEN
                   IF( ICEIL( LIHI, NB ) .NE. ICEIL( LIHI+1, NB ) .OR.
      $                 IWORK( ILSEL+K-1 ).EQ.WINEIG ) THEN
@@ -834,7 +834,7 @@
                            IF( KK.NE.KS ) THEN
                               NITRAF = LIWORK - PITRAF + 1
                               NDTRAF = LWORK - PDTRAF + 1
-                              CALL BSTREXC( NWIN,
+                              CALL BDTREXC( NWIN,
      $                             T(LLDT*(JLOC1-1) + ILOC1), LLDT, KK,
      $                             KKS, NITRAF, IWORK( PITRAF ), NDTRAF,
      $                             WORK( PDTRAF ), WORK(IPW1), IERR )
@@ -991,16 +991,16 @@
                   IF( BUFFLEN.NE.0 ) THEN
                      DO 180 INDX = 1, ILEN
                         WORK( BUFFER+INDX-1 ) =
-     $                       FLOAT( IWORK(IPIW+INDX-1) )
+     $                       DBLE( IWORK(IPIW+INDX-1) )
  180                 CONTINUE
-                     CALL SLACPY( 'All', DLEN, 1, WORK( IPW2 ),
+                     CALL DLACPY( 'All', DLEN, 1, WORK( IPW2 ),
      $                    DLEN, WORK(BUFFER+ILEN), DLEN )
                      IF( NPCOL.GT.1 .AND. DIR.EQ.1 ) THEN
-                        CALL SGEBS2D( ICTXT, 'Row', TOP, BUFFLEN, 1,
+                        CALL DGEBS2D( ICTXT, 'Row', TOP, BUFFLEN, 1,
      $                       WORK(BUFFER), BUFFLEN )
                      END IF
                      IF( NPROW.GT.1 .AND. DIR.EQ.2 ) THEN
-                        CALL SGEBS2D( ICTXT, 'Col', TOP, BUFFLEN, 1,
+                        CALL DGEBS2D( ICTXT, 'Col', TOP, BUFFLEN, 1,
      $                       WORK(BUFFER), BUFFLEN )
                      END IF
                   END IF
@@ -1010,7 +1010,7 @@
                      BUFFER = PDTRAF
                      BUFFLEN = DLEN + ILEN
                      IF( BUFFLEN.NE.0 ) THEN
-                        CALL SGEBR2D( ICTXT, 'Row', TOP, BUFFLEN, 1,
+                        CALL DGEBR2D( ICTXT, 'Row', TOP, BUFFLEN, 1,
      $                       WORK(BUFFER), BUFFLEN, RSRC, CSRC )
                      END IF
                   END IF
@@ -1019,7 +1019,7 @@
                      BUFFER = PDTRAF
                      BUFFLEN = DLEN + ILEN
                      IF( BUFFLEN.NE.0 ) THEN
-                        CALL SGEBR2D( ICTXT, 'Col', TOP, BUFFLEN, 1,
+                        CALL DGEBR2D( ICTXT, 'Col', TOP, BUFFLEN, 1,
      $                       WORK(BUFFER), BUFFLEN, RSRC, CSRC )
                      END IF
                   END IF
@@ -1031,7 +1031,7 @@
                            IWORK(IPIW+INDX-1) =
      $                          INT(WORK( BUFFER+INDX-1 ))
  190                    CONTINUE
-                        CALL SLACPY( 'All', DLEN, 1,
+                        CALL DLACPY( 'All', DLEN, 1,
      $                       WORK( BUFFER+ILEN ), DLEN,
      $                       WORK( IPW2 ), DLEN )
                      END IF
@@ -1092,9 +1092,9 @@
 *                 block structure of the transformation matrix into
 *                 account.
 *
-                  CALL SLASET( 'All', NWIN, NWIN, ZERO, ONE,
+                  CALL DLASET( 'All', NWIN, NWIN, ZERO, ONE,
      $                 WORK( PDW ), NWIN )
-                  CALL BSLAAPP( 1, NWIN, NWIN, NCB, WORK( PDW ), NWIN,
+                  CALL BDLAAPP( 1, NWIN, NWIN, NCB, WORK( PDW ), NWIN,
      $                 NITRAF, IWORK(IPIW), WORK( IPW2 ), WORK(IPW3) )
 *
                   IF( ISHH ) THEN
@@ -1113,12 +1113,12 @@
                            IF( MYROW.EQ.RSRC1 .AND. MYCOL.EQ.CSRC1 )
      $                          THEN
                               LROWS = MIN(NB,I-INDX)
-                              CALL SGEMM( 'No transpose',
+                              CALL DGEMM( 'No transpose',
      $                             'No transpose', LROWS, NWIN, NWIN,
      $                             ONE, T((JLOC-1)*LLDT+ILOC), LLDT,
      $                             WORK( PDW ), NWIN, ZERO,
      $                             WORK(IPW3), LROWS )
-                              CALL SLACPY( 'All', LROWS, NWIN,
+                              CALL DLACPY( 'All', LROWS, NWIN,
      $                             WORK(IPW3), LROWS,
      $                             T((JLOC-1)*LLDT+ILOC), LLDT )
                            END IF
@@ -1131,12 +1131,12 @@
                               IF( MYROW.EQ.RSRC1.AND.MYCOL.EQ.CSRC1 )
      $                             THEN
                                  LROWS = MIN(NB,N-INDX+1)
-                                 CALL SGEMM( 'No transpose',
+                                 CALL DGEMM( 'No transpose',
      $                                'No transpose', LROWS, NWIN, NWIN,
      $                                ONE, Q((JLOC-1)*LLDQ+ILOC), LLDQ,
      $                                WORK( PDW ), NWIN, ZERO,
      $                                WORK(IPW3), LROWS )
-                                 CALL SLACPY( 'All', LROWS, NWIN,
+                                 CALL DLACPY( 'All', LROWS, NWIN,
      $                                WORK(IPW3), LROWS,
      $                                Q((JLOC-1)*LLDQ+ILOC), LLDQ )
                               END IF
@@ -1157,12 +1157,12 @@
      $                             THEN
                                  LCOLS = MOD( MIN( NB-MOD(LIHI,NB),
      $                                N-LIHI ), NB )
-                                 CALL SGEMM( 'Transpose',
+                                 CALL DGEMM( 'Transpose',
      $                                'No Transpose', NWIN, LCOLS, NWIN,
      $                                ONE, WORK( PDW ), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT, ZERO,
      $                                WORK(IPW3), NWIN )
-                                 CALL SLACPY( 'All', NWIN, LCOLS,
+                                 CALL DLACPY( 'All', NWIN, LCOLS,
      $                                WORK(IPW3), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT )
                               END IF
@@ -1175,12 +1175,12 @@
                               IF( MYROW.EQ.RSRC1.AND.MYCOL.EQ.CSRC1 )
      $                             THEN
                                  LCOLS = MIN( NB, N-INDX+1 )
-                                 CALL SGEMM( 'Transpose',
+                                 CALL DGEMM( 'Transpose',
      $                                'No Transpose', NWIN, LCOLS, NWIN,
      $                                ONE, WORK( PDW ), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT, ZERO,
      $                                WORK(IPW3), NWIN )
-                                 CALL SLACPY( 'All', NWIN, LCOLS,
+                                 CALL DLACPY( 'All', NWIN, LCOLS,
      $                                WORK(IPW3), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT )
                               END IF
@@ -1214,15 +1214,15 @@
                               JLOC1 = INDXG2L( I+NWIN-KS, NB, MYCOL,
      $                             DESCT( CSRC_ ), NPCOL )
                               LROWS = MIN(NB,I-INDX)
-                              CALL SLACPY( 'All', LROWS, KS,
+                              CALL DLACPY( 'All', LROWS, KS,
      $                             T((JLOC1-1)*LLDT+ILOC ), LLDT,
      $                             WORK(IPW3), LROWS )
-                              CALL STRMM( 'Right', 'Upper',
+                              CALL DTRMM( 'Right', 'Upper',
      $                              'No transpose',
      $                             'Non-unit', LROWS, KS, ONE,
      $                             WORK( PDW+NWIN-KS ), NWIN,
      $                             WORK(IPW3), LROWS )
-                              CALL SGEMM( 'No transpose',
+                              CALL DGEMM( 'No transpose',
      $                             'No transpose', LROWS, KS, NWIN-KS,
      $                             ONE, T((JLOC-1)*LLDT+ILOC), LLDT,
      $                             WORK( PDW ), NWIN, ONE, WORK(IPW3),
@@ -1230,15 +1230,15 @@
 *
 *                             Compute T1*U12 + T2*U22 in workspace.
 *
-                              CALL SLACPY( 'All', LROWS, NWIN-KS,
+                              CALL DLACPY( 'All', LROWS, NWIN-KS,
      $                             T((JLOC-1)*LLDT+ILOC), LLDT,
      $                             WORK( IPW3+KS*LROWS ), LROWS )
-                              CALL STRMM( 'Right', 'Lower',
+                              CALL DTRMM( 'Right', 'Lower',
      $                             'No transpose', 'Non-unit',
      $                             LROWS, NWIN-KS, ONE,
      $                             WORK( PDW+NWIN*KS ), NWIN,
      $                             WORK( IPW3+KS*LROWS ), LROWS )
-                              CALL SGEMM( 'No transpose',
+                              CALL DGEMM( 'No transpose',
      $                             'No transpose', LROWS, NWIN-KS, KS,
      $                             ONE, T((JLOC1-1)*LLDT+ILOC), LLDT,
      $                             WORK( PDW+NWIN*KS+NWIN-KS ), NWIN,
@@ -1246,7 +1246,7 @@
 *
 *                             Copy workspace to T.
 *
-                              CALL SLACPY( 'All', LROWS, NWIN,
+                              CALL DLACPY( 'All', LROWS, NWIN,
      $                             WORK(IPW3), LROWS,
      $                             T((JLOC-1)*LLDT+ILOC), LLDT )
                            END IF
@@ -1264,15 +1264,15 @@
                                  JLOC1 = INDXG2L( I+NWIN-KS, NB,
      $                                MYCOL, DESCQ( CSRC_ ), NPCOL )
                                  LROWS = MIN(NB,N-INDX+1)
-                                 CALL SLACPY( 'All', LROWS, KS,
+                                 CALL DLACPY( 'All', LROWS, KS,
      $                                Q((JLOC1-1)*LLDQ+ILOC ), LLDQ,
      $                                WORK(IPW3), LROWS )
-                                 CALL STRMM( 'Right', 'Upper',
+                                 CALL DTRMM( 'Right', 'Upper',
      $                                'No transpose', 'Non-unit',
      $                                LROWS, KS, ONE,
      $                                WORK( PDW+NWIN-KS ), NWIN,
      $                                WORK(IPW3), LROWS )
-                                 CALL SGEMM( 'No transpose',
+                                 CALL DGEMM( 'No transpose',
      $                                'No transpose', LROWS, KS,
      $                                NWIN-KS, ONE,
      $                                Q((JLOC-1)*LLDQ+ILOC), LLDQ,
@@ -1281,15 +1281,15 @@
 *
 *                                Compute Q1*U12 + Q2*U22 in workspace.
 *
-                                 CALL SLACPY( 'All', LROWS, NWIN-KS,
+                                 CALL DLACPY( 'All', LROWS, NWIN-KS,
      $                                Q((JLOC-1)*LLDQ+ILOC), LLDQ,
      $                                WORK( IPW3+KS*LROWS ), LROWS)
-                                 CALL STRMM( 'Right', 'Lower',
+                                 CALL DTRMM( 'Right', 'Lower',
      $                                'No transpose', 'Non-unit',
      $                                LROWS, NWIN-KS, ONE,
      $                                WORK( PDW+NWIN*KS ), NWIN,
      $                                WORK( IPW3+KS*LROWS ), LROWS)
-                                 CALL SGEMM( 'No transpose',
+                                 CALL DGEMM( 'No transpose',
      $                                'No transpose', LROWS, NWIN-KS,
      $                                KS, ONE, Q((JLOC1-1)*LLDQ+ILOC),
      $                                LLDQ, WORK(PDW+NWIN*KS+NWIN-KS),
@@ -1298,7 +1298,7 @@
 *
 *                                Copy workspace to Q.
 *
-                                 CALL SLACPY( 'All', LROWS, NWIN,
+                                 CALL DLACPY( 'All', LROWS, NWIN,
      $                                WORK(IPW3), LROWS,
      $                                Q((JLOC-1)*LLDQ+ILOC), LLDQ )
                               END IF
@@ -1322,14 +1322,14 @@
      $                                DESCT( RSRC_ ), NPROW )
                                  LCOLS = MOD( MIN( NB-MOD(LIHI,NB),
      $                                N-LIHI ), NB )
-                                 CALL SLACPY( 'All', KS, LCOLS,
+                                 CALL DLACPY( 'All', KS, LCOLS,
      $                                T((JLOC-1)*LLDT+ILOC1), LLDT,
      $                                WORK(IPW3), NWIN )
-                                 CALL STRMM( 'Left', 'Upper',
+                                 CALL DTRMM( 'Left', 'Upper',
      $                                'Transpose', 'Non-unit', KS,
      $                                LCOLS, ONE, WORK( PDW+NWIN-KS ),
      $                                NWIN, WORK(IPW3), NWIN )
-                                 CALL SGEMM( 'Transpose',
+                                 CALL DGEMM( 'Transpose',
      $                                'No transpose', KS, LCOLS,
      $                                NWIN-KS, ONE, WORK(PDW), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT, ONE,
@@ -1338,15 +1338,15 @@
 *                                Compute U12**T*T1 + U22**T*T2 in
 *                                workspace.
 *
-                                 CALL SLACPY( 'All', NWIN-KS, LCOLS,
+                                 CALL DLACPY( 'All', NWIN-KS, LCOLS,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT,
      $                                WORK( IPW3+KS ), NWIN )
-                                 CALL STRMM( 'Left', 'Lower',
+                                 CALL DTRMM( 'Left', 'Lower',
      $                                'Transpose', 'Non-unit',
      $                                NWIN-KS, LCOLS, ONE,
      $                                WORK( PDW+NWIN*KS ), NWIN,
      $                                WORK( IPW3+KS ), NWIN )
-                                 CALL SGEMM( 'Transpose',
+                                 CALL DGEMM( 'Transpose',
      $                                'No Transpose', NWIN-KS, LCOLS,
      $                                KS, ONE,
      $                                WORK( PDW+NWIN*KS+NWIN-KS ),
@@ -1356,7 +1356,7 @@
 *
 *                                Copy workspace to T.
 *
-                                 CALL SLACPY( 'All', NWIN, LCOLS,
+                                 CALL DLACPY( 'All', NWIN, LCOLS,
      $                                WORK(IPW3), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT )
                               END IF
@@ -1375,15 +1375,15 @@
                                  ILOC1 = INDXG2L( I+NWIN-KS, NB,
      $                                MYROW, DESCT( RSRC_ ), NPROW )
                                  LCOLS = MIN( NB, N-INDX+1 )
-                                 CALL SLACPY( 'All', KS, LCOLS,
+                                 CALL DLACPY( 'All', KS, LCOLS,
      $                                T((JLOC-1)*LLDT+ILOC1), LLDT,
      $                                WORK(IPW3), NWIN )
-                                 CALL STRMM( 'Left', 'Upper',
+                                 CALL DTRMM( 'Left', 'Upper',
      $                                'Transpose', 'Non-unit', KS,
      $                                LCOLS, ONE,
      $                                WORK( PDW+NWIN-KS ), NWIN,
      $                                WORK(IPW3), NWIN )
-                                 CALL SGEMM( 'Transpose',
+                                 CALL DGEMM( 'Transpose',
      $                                'No transpose', KS, LCOLS,
      $                                NWIN-KS, ONE, WORK(PDW), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT, ONE,
@@ -1392,15 +1392,15 @@
 *                                Compute U12**T*T1 + U22**T*T2 in
 *                                workspace.
 *
-                                 CALL SLACPY( 'All', NWIN-KS, LCOLS,
+                                 CALL DLACPY( 'All', NWIN-KS, LCOLS,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT,
      $                                WORK( IPW3+KS ), NWIN )
-                                 CALL STRMM( 'Left', 'Lower',
+                                 CALL DTRMM( 'Left', 'Lower',
      $                                'Transpose', 'Non-unit',
      $                                NWIN-KS, LCOLS, ONE,
      $                                WORK( PDW+NWIN*KS ), NWIN,
      $                                WORK( IPW3+KS ), NWIN )
-                                 CALL SGEMM( 'Transpose',
+                                 CALL DGEMM( 'Transpose',
      $                                'No Transpose', NWIN-KS, LCOLS,
      $                                KS, ONE,
      $                                WORK( PDW+NWIN*KS+NWIN-KS ),
@@ -1409,7 +1409,7 @@
 *
 *                                Copy workspace to T.
 *
-                                 CALL SLACPY( 'All', NWIN, LCOLS,
+                                 CALL DLACPY( 'All', NWIN, LCOLS,
      $                                WORK(IPW3), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT )
                               END IF
@@ -1428,7 +1428,7 @@
      $                       MYROW, MYCOL, ILOC, JLOC, RSRC1, CSRC1 )
                         IF( MYROW.EQ.RSRC1 .AND. MYCOL.EQ.CSRC1 ) THEN
                            LROWS = MIN(NB,I-INDX)
-                           CALL BSLAAPP( 1, LROWS, NWIN, NCB,
+                           CALL BDLAAPP( 1, LROWS, NWIN, NCB,
      $                          T((JLOC-1)*LLDT+ILOC ), LLDT, NITRAF,
      $                          IWORK(IPIW), WORK( IPW2 ),
      $                          WORK(IPW3) )
@@ -1441,7 +1441,7 @@
                            IF( MYROW.EQ.RSRC1 .AND. MYCOL.EQ.CSRC1 )
      $                          THEN
                               LROWS = MIN(NB,N-INDX+1)
-                              CALL BSLAAPP( 1, LROWS, NWIN, NCB,
+                              CALL BDLAAPP( 1, LROWS, NWIN, NCB,
      $                             Q((JLOC-1)*LLDQ+ILOC), LLDQ, NITRAF,
      $                             IWORK(IPIW), WORK( IPW2 ),
      $                             WORK(IPW3) )
@@ -1459,7 +1459,7 @@
      $                          THEN
                               LCOLS = MOD( MIN( NB-MOD(LIHI,NB),
      $                             N-LIHI ), NB )
-                              CALL BSLAAPP( 0, NWIN, LCOLS, NCB,
+                              CALL BDLAAPP( 0, NWIN, LCOLS, NCB,
      $                             T((JLOC-1)*LLDT+ILOC), LLDT, NITRAF,
      $                             IWORK(IPIW), WORK( IPW2 ),
      $                             WORK(IPW3) )
@@ -1472,7 +1472,7 @@
                            IF( MYROW.EQ.RSRC1 .AND. MYCOL.EQ.CSRC1 )
      $                          THEN
                               LCOLS = MIN( NB, N-INDX+1 )
-                              CALL BSLAAPP( 0, NWIN, LCOLS, NCB,
+                              CALL BDLAAPP( 0, NWIN, LCOLS, NCB,
      $                             T((JLOC-1)*LLDT+ILOC), LLDT, NITRAF,
      $                             IWORK(IPIW), WORK( IPW2 ),
      $                             WORK(IPW3) )
@@ -1828,7 +1828,7 @@
 *                 WORK(IPW2:IPW2+NWIN**2-1) and orthogonal
 *                 transformations in WORK(IPW3:...).
 *
-                  CALL SLASET( 'All', NWIN, NWIN, ZERO, ZERO,
+                  CALL DLASET( 'All', NWIN, NWIN, ZERO, ZERO,
      $                 WORK( IPW2 ), NWIN )
 *
                   PITRAF = IPIW
@@ -1867,13 +1867,13 @@
      $                    NPROW )
                      JLOC = INDXG2L( I, NB, MYCOL, DESCT( CSRC_ ),
      $                    NPCOL )
-                     CALL SLACPY( 'All', DIM1, DIM1,
+                     CALL DLACPY( 'All', DIM1, DIM1,
      $                    T((JLOC-1)*LLDT+ILOC), LLDT, WORK(IPW2),
      $                    NWIN )
                      IF( RSRC1.NE.RSRC4 .OR. CSRC1.NE.CSRC4 ) THEN
-                        CALL SGESD2D( ICTXT, DIM1, DIM1,
+                        CALL DGESD2D( ICTXT, DIM1, DIM1,
      $                       WORK(IPW2), NWIN, RSRC4, CSRC4 )
-                        CALL SGERV2D( ICTXT, DIM4, DIM4,
+                        CALL DGERV2D( ICTXT, DIM4, DIM4,
      $                       WORK(IPW2+DIM1*NWIN+DIM1), NWIN, RSRC4,
      $                       CSRC4 )
                      END IF
@@ -1883,14 +1883,14 @@
      $                    NPROW )
                      JLOC = INDXG2L( I+DIM1, NB, MYCOL, DESCT( CSRC_ ),
      $                    NPCOL )
-                     CALL SLACPY( 'All', DIM4, DIM4,
+                     CALL DLACPY( 'All', DIM4, DIM4,
      $                    T((JLOC-1)*LLDT+ILOC), LLDT,
      $                    WORK(IPW2+DIM1*NWIN+DIM1), NWIN )
                      IF( RSRC4.NE.RSRC1 .OR. CSRC4.NE.CSRC1 ) THEN
-                        CALL SGESD2D( ICTXT, DIM4, DIM4,
+                        CALL DGESD2D( ICTXT, DIM4, DIM4,
      $                       WORK(IPW2+DIM1*NWIN+DIM1), NWIN, RSRC1,
      $                       CSRC1 )
-                        CALL SGERV2D( ICTXT, DIM1, DIM1,
+                        CALL DGERV2D( ICTXT, DIM1, DIM1,
      $                       WORK(IPW2), NWIN, RSRC1, CSRC1 )
                      END IF
                   END IF
@@ -1899,17 +1899,17 @@
      $                    NPROW )
                      JLOC = INDXG2L( I+DIM1, NB, MYCOL, DESCT( CSRC_ ),
      $                    NPCOL )
-                     CALL SLACPY( 'All', DIM1, DIM4,
+                     CALL DLACPY( 'All', DIM1, DIM4,
      $                    T((JLOC-1)*LLDT+ILOC), LLDT,
      $                    WORK(IPW2+DIM1*NWIN), NWIN )
                      IF( RSRC2.NE.RSRC1 .OR. CSRC2.NE.CSRC1 ) THEN
-                        CALL SGESD2D( ICTXT, DIM1, DIM4,
+                        CALL DGESD2D( ICTXT, DIM1, DIM4,
      $                       WORK(IPW2+DIM1*NWIN), NWIN, RSRC1, CSRC1 )
                      END IF
                   END IF
                   IF( MYROW.EQ.RSRC2 .AND. MYCOL.EQ.CSRC2 ) THEN
                      IF( RSRC2.NE.RSRC4 .OR. CSRC2.NE.CSRC4 ) THEN
-                        CALL SGESD2D( ICTXT, DIM1, DIM4,
+                        CALL DGESD2D( ICTXT, DIM1, DIM4,
      $                       WORK(IPW2+DIM1*NWIN), NWIN, RSRC4, CSRC4 )
                      END IF
                   END IF
@@ -1918,42 +1918,42 @@
      $                    NPROW )
                      JLOC = INDXG2L( I+DIM1-1, NB, MYCOL,
      $                    DESCT( CSRC_ ), NPCOL )
-                     CALL SLACPY( 'All', 1, 1,
+                     CALL DLACPY( 'All', 1, 1,
      $                    T((JLOC-1)*LLDT+ILOC), LLDT,
      $                    WORK(IPW2+(DIM1-1)*NWIN+DIM1), NWIN )
                      IF( RSRC3.NE.RSRC1 .OR. CSRC3.NE.CSRC1 ) THEN
-                        CALL SGESD2D( ICTXT, 1, 1,
+                        CALL DGESD2D( ICTXT, 1, 1,
      $                       WORK(IPW2+(DIM1-1)*NWIN+DIM1), NWIN,
      $                       RSRC1, CSRC1 )
                      END IF
                   END IF
                   IF( MYROW.EQ.RSRC3 .AND. MYCOL.EQ.CSRC3 ) THEN
                      IF( RSRC3.NE.RSRC4 .OR. CSRC3.NE.CSRC4 ) THEN
-                        CALL SGESD2D( ICTXT, 1, 1,
+                        CALL DGESD2D( ICTXT, 1, 1,
      $                       WORK(IPW2+(DIM1-1)*NWIN+DIM1), NWIN,
      $                       RSRC4, CSRC4 )
                      END IF
                   END IF
                   IF( MYROW.EQ.RSRC1 .AND. MYCOL.EQ.CSRC1 ) THEN
                      IF( RSRC1.NE.RSRC2 .OR. CSRC1.NE.CSRC2 ) THEN
-                        CALL SGERV2D( ICTXT, DIM1, DIM4,
+                        CALL DGERV2D( ICTXT, DIM1, DIM4,
      $                       WORK(IPW2+DIM1*NWIN), NWIN, RSRC2,
      $                       CSRC2 )
                      END IF
                      IF( RSRC1.NE.RSRC3 .OR. CSRC1.NE.CSRC3 ) THEN
-                        CALL SGERV2D( ICTXT, 1, 1,
+                        CALL DGERV2D( ICTXT, 1, 1,
      $                       WORK(IPW2+(DIM1-1)*NWIN+DIM1), NWIN,
      $                       RSRC3, CSRC3 )
                      END IF
                   END IF
                   IF( MYROW.EQ.RSRC4 .AND. MYCOL.EQ.CSRC4 ) THEN
                      IF( RSRC4.NE.RSRC2 .OR. CSRC4.NE.CSRC2 ) THEN
-                        CALL SGERV2D( ICTXT, DIM1, DIM4,
+                        CALL DGERV2D( ICTXT, DIM1, DIM4,
      $                       WORK(IPW2+DIM1*NWIN), NWIN, RSRC2,
      $                       CSRC2 )
                      END IF
                      IF( RSRC4.NE.RSRC3 .OR. CSRC4.NE.CSRC3 ) THEN
-                        CALL SGERV2D( ICTXT, 1, 1,
+                        CALL DGERV2D( ICTXT, 1, 1,
      $                       WORK(IPW2+(DIM1-1)*NWIN+DIM1), NWIN,
      $                       RSRC3, CSRC3 )
                      END IF
@@ -1987,7 +1987,7 @@
                               IF( KK.NE.KS ) THEN
                                  NITRAF = LIWORK - PITRAF + 1
                                  NDTRAF = LWORK - PDTRAF + 1
-                                 CALL BSTREXC( NWIN, WORK(IPW2), NWIN,
+                                 CALL BDTREXC( NWIN, WORK(IPW2), NWIN,
      $                                KK, KKS, NITRAF, IWORK( PITRAF ),
      $                                NDTRAF, WORK( PDTRAF ),
      $                                WORK(IPW1), IERR )
@@ -2053,7 +2053,7 @@
      $                          NPROW )
                            JLOC = INDXG2L( I, NB, MYCOL, DESCT( CSRC_ ),
      $                          NPCOL )
-                           CALL SLACPY( 'All', DIM1, DIM1, WORK(IPW2),
+                           CALL DLACPY( 'All', DIM1, DIM1, WORK(IPW2),
      $                          NWIN, T((JLOC-1)*LLDT+ILOC), LLDT )
                         END IF
                         IF( MYROW.EQ.RSRC4 .AND. MYCOL.EQ.CSRC4 ) THEN
@@ -2061,7 +2061,7 @@
      $                          DESCT( RSRC_ ), NPROW )
                            JLOC = INDXG2L( I+DIM1, NB, MYCOL,
      $                          DESCT( CSRC_ ), NPCOL )
-                           CALL SLACPY( 'All', DIM4, DIM4,
+                           CALL DLACPY( 'All', DIM4, DIM4,
      $                          WORK(IPW2+DIM1*NWIN+DIM1), NWIN,
      $                          T((JLOC-1)*LLDT+ILOC), LLDT )
                         END IF
@@ -2080,14 +2080,14 @@
 *
                   IF( MYROW.EQ.RSRC1 .AND. MYCOL.EQ.CSRC1 ) THEN
                      IF( RSRC1.NE.RSRC3 .OR. CSRC1.NE.CSRC3 ) THEN
-                        CALL SGESD2D( ICTXT, 1, 1,
+                        CALL DGESD2D( ICTXT, 1, 1,
      $                       WORK( IPW2+(DIM1-1)*NWIN+DIM1 ), NWIN,
      $                       RSRC3, CSRC3 )
                      END IF
                   END IF
                   IF( MYROW.EQ.RSRC4 .AND. MYCOL.EQ.CSRC4 ) THEN
                      IF( RSRC4.NE.RSRC2 .OR. CSRC4.NE.CSRC2 ) THEN
-                        CALL SGESD2D( ICTXT, DIM1, DIM4,
+                        CALL DGESD2D( ICTXT, DIM1, DIM4,
      $                       WORK( IPW2+DIM1*NWIN), NWIN, RSRC2,
      $                       CSRC2 )
                      END IF
@@ -2098,10 +2098,10 @@
                      JLOC = INDXG2L( I+DIM1, NB, MYCOL,
      $                    DESCT( CSRC_ ), NPCOL )
                      IF( RSRC2.NE.RSRC4 .OR. CSRC2.NE.CSRC4 ) THEN
-                        CALL SGERV2D( ICTXT, DIM1, DIM4,
+                        CALL DGERV2D( ICTXT, DIM1, DIM4,
      $                       WORK(IPW2+DIM1*NWIN), NWIN, RSRC4, CSRC4 )
                      END IF
-                     CALL SLACPY( 'All', DIM1, DIM4,
+                     CALL DLACPY( 'All', DIM1, DIM4,
      $                    WORK( IPW2+DIM1*NWIN ), NWIN,
      $                    T((JLOC-1)*LLDT+ILOC), LLDT )
                   END IF
@@ -2111,7 +2111,7 @@
                      JLOC = INDXG2L( I+DIM1-1, NB, MYCOL,
      $                    DESCT( CSRC_ ), NPCOL )
                      IF( RSRC3.NE.RSRC1 .OR. CSRC3.NE.CSRC1 ) THEN
-                        CALL SGERV2D( ICTXT, 1, 1,
+                        CALL DGERV2D( ICTXT, 1, 1,
      $                       WORK( IPW2+(DIM1-1)*NWIN+DIM1 ), NWIN,
      $                       RSRC1, CSRC1 )
                      END IF
@@ -2259,17 +2259,17 @@
      $                   (NPCOL.GT.1 .AND. DIR.EQ.1) ) THEN
                         DO 370 INDX = 1, ILEN
                            WORK( BUFFER+INDX-1 ) =
-     $                          FLOAT( IWORK(IPIW+INDX-1) )
+     $                          DBLE( IWORK(IPIW+INDX-1) )
  370                    CONTINUE
-                        CALL SLACPY( 'All', DLEN, 1, WORK( IPW3 ),
+                        CALL DLACPY( 'All', DLEN, 1, WORK( IPW3 ),
      $                       DLEN, WORK(BUFFER+ILEN), DLEN )
                      END IF
                      IF( NPCOL.GT.1 .AND. DIR.EQ.1 ) THEN
-                        CALL SGEBS2D( ICTXT, 'Row', TOP, BUFFLEN, 1,
+                        CALL DGEBS2D( ICTXT, 'Row', TOP, BUFFLEN, 1,
      $                       WORK(BUFFER), BUFFLEN )
                      END IF
                      IF( NPROW.GT.1 .AND. DIR.EQ.2 ) THEN
-                        CALL SGEBS2D( ICTXT, 'Col', TOP, BUFFLEN, 1,
+                        CALL DGEBS2D( ICTXT, 'Col', TOP, BUFFLEN, 1,
      $                       WORK(BUFFER), BUFFLEN )
                      END IF
                   ELSEIF( MYROW.EQ.RSRC1 .OR. MYCOL.EQ.CSRC1 ) THEN
@@ -2277,14 +2277,14 @@
      $                    MYROW.EQ.RSRC1 ) THEN
                         BUFFER = PDTRAF
                         BUFFLEN = DLEN + ILEN
-                        CALL SGEBR2D( ICTXT, 'Row', TOP, BUFFLEN, 1,
+                        CALL DGEBR2D( ICTXT, 'Row', TOP, BUFFLEN, 1,
      $                       WORK(BUFFER), BUFFLEN, RSRC1, CSRC1 )
                      END IF
                      IF( NPROW.GT.1 .AND. DIR.EQ.2 .AND.
      $                    MYCOL.EQ.CSRC1 ) THEN
                         BUFFER = PDTRAF
                         BUFFLEN = DLEN + ILEN
-                        CALL SGEBR2D( ICTXT, 'Col', TOP, BUFFLEN, 1,
+                        CALL DGEBR2D( ICTXT, 'Col', TOP, BUFFLEN, 1,
      $                       WORK(BUFFER), BUFFLEN, RSRC1, CSRC1 )
                      END IF
                      IF( (NPCOL.GT.1.AND.DIR.EQ.1.AND.MYROW.EQ.RSRC1)
@@ -2294,7 +2294,7 @@
                            IWORK(IPIW+INDX-1) =
      $                          INT( WORK( BUFFER+INDX-1 ) )
  380                    CONTINUE
-                        CALL SLACPY( 'All', DLEN, 1,
+                        CALL DLACPY( 'All', DLEN, 1,
      $                       WORK( BUFFER+ILEN ), DLEN,
      $                       WORK( IPW3 ), DLEN )
                      END IF
@@ -2306,24 +2306,24 @@
                         IF( NPCOL.GT.1 .AND. DIR.EQ.1 ) THEN
                            DO 390 INDX = 1, ILEN
                               WORK( BUFFER+INDX-1 ) =
-     $                             FLOAT( IWORK(IPIW+INDX-1) )
+     $                             DBLE( IWORK(IPIW+INDX-1) )
  390                       CONTINUE
-                           CALL SLACPY( 'All', DLEN, 1, WORK( IPW3 ),
+                           CALL DLACPY( 'All', DLEN, 1, WORK( IPW3 ),
      $                          DLEN, WORK(BUFFER+ILEN), DLEN )
-                           CALL SGEBS2D( ICTXT, 'Row', TOP, BUFFLEN,
+                           CALL DGEBS2D( ICTXT, 'Row', TOP, BUFFLEN,
      $                          1, WORK(BUFFER), BUFFLEN )
                         END IF
                      ELSEIF( MYROW.EQ.RSRC4 .AND. DIR.EQ.1 .AND.
      $                    NPCOL.GT.1 ) THEN
                         BUFFER = PDTRAF
                         BUFFLEN = DLEN + ILEN
-                        CALL SGEBR2D( ICTXT, 'Row', TOP, BUFFLEN,
+                        CALL DGEBR2D( ICTXT, 'Row', TOP, BUFFLEN,
      $                       1, WORK(BUFFER), BUFFLEN, RSRC4, CSRC4 )
                         DO 400 INDX = 1, ILEN
                            IWORK(IPIW+INDX-1) =
      $                          INT( WORK( BUFFER+INDX-1 ) )
  400                    CONTINUE
-                        CALL SLACPY( 'All', DLEN, 1,
+                        CALL DLACPY( 'All', DLEN, 1,
      $                       WORK( BUFFER+ILEN ), DLEN,
      $                       WORK( IPW3 ), DLEN )
                      END IF
@@ -2335,24 +2335,24 @@
                         IF( NPROW.GT.1 .AND. DIR.EQ.2 ) THEN
                            DO 395 INDX = 1, ILEN
                               WORK( BUFFER+INDX-1 ) =
-     $                             FLOAT( IWORK(IPIW+INDX-1) )
+     $                             DBLE( IWORK(IPIW+INDX-1) )
  395                       CONTINUE
-                           CALL SLACPY( 'All', DLEN, 1, WORK( IPW3 ),
+                           CALL DLACPY( 'All', DLEN, 1, WORK( IPW3 ),
      $                          DLEN, WORK(BUFFER+ILEN), DLEN )
-                           CALL SGEBS2D( ICTXT, 'Col', TOP, BUFFLEN,
+                           CALL DGEBS2D( ICTXT, 'Col', TOP, BUFFLEN,
      $                          1, WORK(BUFFER), BUFFLEN )
                         END IF
                      ELSEIF( MYCOL.EQ.CSRC4 .AND. DIR.EQ.2 .AND.
      $                    NPROW.GT.1 ) THEN
                         BUFFER = PDTRAF
                         BUFFLEN = DLEN + ILEN
-                        CALL SGEBR2D( ICTXT, 'Col', TOP, BUFFLEN, 1,
+                        CALL DGEBR2D( ICTXT, 'Col', TOP, BUFFLEN, 1,
      $                       WORK(BUFFER), BUFFLEN, RSRC4, CSRC4 )
                         DO 402 INDX = 1, ILEN
                            IWORK(IPIW+INDX-1) =
      $                          INT( WORK( BUFFER+INDX-1 ) )
  402                    CONTINUE
-                        CALL SLACPY( 'All', DLEN, 1,
+                        CALL DLACPY( 'All', DLEN, 1,
      $                       WORK( BUFFER+ILEN ), DLEN,
      $                       WORK( IPW3 ), DLEN )
                      END IF
@@ -2426,15 +2426,15 @@
      $                             NPROW, NPCOL, MYROW, MYCOL, ILOC,
      $                             JLOC1, RSRC, CSRC1 )
                               IF( MYROW.EQ.RSRC ) THEN
-                                 CALL SLACPY( 'All', TROWS, DIM1,
+                                 CALL DLACPY( 'All', TROWS, DIM1,
      $                                T((JLOC1-1)*LLDT+ILOC), LLDT,
      $                                WORK(IPW5), TROWS )
                                  IF( NPCOL.GT.1 ) THEN
                                     EAST = MOD( MYCOL + 1, NPCOL )
-                                    CALL SGESD2D( ICTXT, TROWS, DIM1,
+                                    CALL DGESD2D( ICTXT, TROWS, DIM1,
      $                                   WORK(IPW5), TROWS, RSRC,
      $                                   EAST )
-                                    CALL SGERV2D( ICTXT, TROWS, DIM4,
+                                    CALL DGERV2D( ICTXT, TROWS, DIM4,
      $                                   WORK(IPW5+TROWS*DIM1), TROWS,
      $                                   RSRC, EAST )
                                  END IF
@@ -2445,15 +2445,15 @@
      $                             DESCT, NPROW, NPCOL, MYROW, MYCOL,
      $                             ILOC, JLOC4, RSRC, CSRC4 )
                               IF( MYROW.EQ.RSRC ) THEN
-                                 CALL SLACPY( 'All', TROWS, DIM4,
+                                 CALL DLACPY( 'All', TROWS, DIM4,
      $                                T((JLOC4-1)*LLDT+ILOC), LLDT,
      $                                WORK(IPW5+TROWS*DIM1), TROWS )
                                  IF( NPCOL.GT.1 ) THEN
                                     WEST = MOD( MYCOL-1+NPCOL, NPCOL )
-                                    CALL SGESD2D( ICTXT, TROWS, DIM4,
+                                    CALL DGESD2D( ICTXT, TROWS, DIM4,
      $                                   WORK(IPW5+TROWS*DIM1), TROWS,
      $                                   RSRC, WEST )
-                                    CALL SGERV2D( ICTXT, TROWS, DIM1,
+                                    CALL DGERV2D( ICTXT, TROWS, DIM1,
      $                                   WORK(IPW5), TROWS, RSRC,
      $                                   WEST )
                                  END IF
@@ -2478,15 +2478,15 @@
      $                                ILOC1, JLOC, RSRC1, CSRC )
                               END IF
                               IF( MYCOL.EQ.CSRC ) THEN
-                                 CALL SLACPY( 'All', DIM1, TCOLS,
+                                 CALL DLACPY( 'All', DIM1, TCOLS,
      $                                T((JLOC-1)*LLDT+ILOC1), LLDT,
      $                                WORK(IPW6), NWIN )
                                  IF( NPROW.GT.1 ) THEN
                                     SOUTH = MOD( MYROW + 1, NPROW )
-                                    CALL SGESD2D( ICTXT, DIM1, TCOLS,
+                                    CALL DGESD2D( ICTXT, DIM1, TCOLS,
      $                                   WORK(IPW6), NWIN, SOUTH,
      $                                   CSRC )
-                                    CALL SGERV2D( ICTXT, DIM4, TCOLS,
+                                    CALL DGERV2D( ICTXT, DIM4, TCOLS,
      $                                   WORK(IPW6+DIM1), NWIN, SOUTH,
      $                                   CSRC )
                                  END IF
@@ -2504,15 +2504,15 @@
      $                                ILOC4, JLOC, RSRC4, CSRC )
                               END IF
                               IF( MYCOL.EQ.CSRC ) THEN
-                                 CALL SLACPY( 'All', DIM4, TCOLS,
+                                 CALL DLACPY( 'All', DIM4, TCOLS,
      $                                T((JLOC-1)*LLDT+ILOC4), LLDT,
      $                                WORK(IPW6+DIM1), NWIN )
                                  IF( NPROW.GT.1 ) THEN
                                     NORTH = MOD( MYROW-1+NPROW, NPROW )
-                                    CALL SGESD2D( ICTXT, DIM4, TCOLS,
+                                    CALL DGESD2D( ICTXT, DIM4, TCOLS,
      $                                   WORK(IPW6+DIM1), NWIN, NORTH,
      $                                   CSRC )
-                                    CALL SGERV2D( ICTXT, DIM1, TCOLS,
+                                    CALL DGERV2D( ICTXT, DIM1, TCOLS,
      $                                   WORK(IPW6), NWIN, NORTH,
      $                                   CSRC )
                                  END IF
@@ -2531,15 +2531,15 @@
      $                                NPROW, NPCOL, MYROW, MYCOL, ILOC,
      $                                JLOC1, RSRC, CSRC1 )
                                  IF( MYROW.EQ.RSRC ) THEN
-                                    CALL SLACPY( 'All', QROWS, DIM1,
+                                    CALL DLACPY( 'All', QROWS, DIM1,
      $                                   Q((JLOC1-1)*LLDQ+ILOC), LLDQ,
      $                                   WORK(IPW7), QROWS )
                                     IF( NPCOL.GT.1 ) THEN
                                        EAST = MOD( MYCOL + 1, NPCOL )
-                                       CALL SGESD2D( ICTXT, QROWS, DIM1,
+                                       CALL DGESD2D( ICTXT, QROWS, DIM1,
      $                                      WORK(IPW7), QROWS, RSRC,
      $                                      EAST )
-                                       CALL SGERV2D( ICTXT, QROWS, DIM4,
+                                       CALL DGERV2D( ICTXT, QROWS, DIM4,
      $                                      WORK(IPW7+QROWS*DIM1),
      $                                      QROWS, RSRC, EAST )
                                     END IF
@@ -2550,16 +2550,16 @@
      $                                DESCQ, NPROW, NPCOL, MYROW, MYCOL,
      $                                ILOC, JLOC4, RSRC, CSRC4 )
                                  IF( MYROW.EQ.RSRC ) THEN
-                                    CALL SLACPY( 'All', QROWS, DIM4,
+                                    CALL DLACPY( 'All', QROWS, DIM4,
      $                                   Q((JLOC4-1)*LLDQ+ILOC), LLDQ,
      $                                   WORK(IPW7+QROWS*DIM1), QROWS )
                                     IF( NPCOL.GT.1 ) THEN
                                        WEST = MOD( MYCOL-1+NPCOL,
      $                                      NPCOL )
-                                       CALL SGESD2D( ICTXT, QROWS, DIM4,
+                                       CALL DGESD2D( ICTXT, QROWS, DIM4,
      $                                      WORK(IPW7+QROWS*DIM1),
      $                                      QROWS, RSRC, WEST )
-                                       CALL SGERV2D( ICTXT, QROWS, DIM1,
+                                       CALL DGERV2D( ICTXT, QROWS, DIM1,
      $                                      WORK(IPW7), QROWS, RSRC,
      $                                      WEST )
                                     END IF
@@ -2609,11 +2609,11 @@
      $                    ( 2*FLOPS*100 )/( 2*NWIN*NWIN ) .GE. MMULT )
      $                    THEN
 *
-                        CALL SLASET( 'All', NWIN, NWIN, ZERO, ONE,
+                        CALL DLASET( 'All', NWIN, NWIN, ZERO, ONE,
      $                       WORK( IPW4 ), NWIN )
-                        WORK(IPW8) = FLOAT(MYROW)
-                        WORK(IPW8+1) = FLOAT(MYCOL)
-                        CALL BSLAAPP( 1, NWIN, NWIN, NCB, WORK( IPW4 ),
+                        WORK(IPW8) = DBLE(MYROW)
+                        WORK(IPW8+1) = DBLE(MYCOL)
+                        CALL BDLAAPP( 1, NWIN, NWIN, NCB, WORK( IPW4 ),
      $                       NWIN, NITRAF, IWORK(IPIW), WORK( IPW3 ),
      $                       WORK(IPW8) )
 *
@@ -2633,12 +2633,12 @@
      $                                   NPCOL, MYROW, MYCOL, ILOC,
      $                                   JLOC, RSRC, CSRC1 )
                                     IF( MYROW.EQ.RSRC ) THEN
-                                       CALL SGEMM( 'No transpose',
+                                       CALL DGEMM( 'No transpose',
      $                                      'No transpose', TROWS, DIM1,
      $                                      NWIN, ONE, WORK( IPW5 ),
      $                                      TROWS, WORK( IPW4 ), NWIN,
      $                                      ZERO, WORK(IPW8), TROWS )
-                                       CALL SLACPY( 'All', TROWS, DIM1,
+                                       CALL DLACPY( 'All', TROWS, DIM1,
      $                                      WORK(IPW8), TROWS,
      $                                      T((JLOC-1)*LLDT+ILOC),
      $                                      LLDT )
@@ -2649,14 +2649,14 @@
      $                                   NPROW, NPCOL, MYROW, MYCOL,
      $                                   ILOC, JLOC, RSRC, CSRC4 )
                                     IF( MYROW.EQ.RSRC ) THEN
-                                       CALL SGEMM( 'No transpose',
+                                       CALL DGEMM( 'No transpose',
      $                                      'No transpose', TROWS, DIM4,
      $                                      NWIN, ONE, WORK( IPW5 ),
      $                                      TROWS,
      $                                      WORK( IPW4+NWIN*DIM1 ),
      $                                      NWIN, ZERO, WORK(IPW8),
      $                                      TROWS )
-                                       CALL SLACPY( 'All', TROWS, DIM4,
+                                       CALL DLACPY( 'All', TROWS, DIM4,
      $                                      WORK(IPW8), TROWS,
      $                                      T((JLOC-1)*LLDT+ILOC),
      $                                      LLDT )
@@ -2672,14 +2672,14 @@
      $                                      NPROW, NPCOL, MYROW, MYCOL,
      $                                      ILOC, JLOC, RSRC, CSRC1 )
                                        IF( MYROW.EQ.RSRC ) THEN
-                                          CALL SGEMM( 'No transpose',
+                                          CALL DGEMM( 'No transpose',
      $                                         'No transpose', QROWS,
      $                                         DIM1, NWIN, ONE,
      $                                         WORK( IPW7 ), QROWS,
      $                                         WORK( IPW4 ), NWIN,
      $                                         ZERO, WORK(IPW8),
      $                                         QROWS )
-                                          CALL SLACPY( 'All', QROWS,
+                                          CALL DLACPY( 'All', QROWS,
      $                                         DIM1, WORK(IPW8), QROWS,
      $                                         Q((JLOC-1)*LLDQ+ILOC),
      $                                         LLDQ )
@@ -2691,14 +2691,14 @@
      $                                      MYCOL, ILOC, JLOC, RSRC,
      $                                      CSRC4 )
                                        IF( MYROW.EQ.RSRC ) THEN
-                                          CALL SGEMM( 'No transpose',
+                                          CALL DGEMM( 'No transpose',
      $                                         'No transpose', QROWS,
      $                                         DIM4, NWIN, ONE,
      $                                         WORK( IPW7 ), QROWS,
      $                                         WORK( IPW4+NWIN*DIM1 ),
      $                                         NWIN, ZERO, WORK(IPW8),
      $                                         QROWS )
-                                          CALL SLACPY( 'All', QROWS,
+                                          CALL DLACPY( 'All', QROWS,
      $                                         DIM4, WORK(IPW8), QROWS,
      $                                         Q((JLOC-1)*LLDQ+ILOC),
      $                                         LLDQ )
@@ -2719,12 +2719,12 @@
                                     CALL INFOG2L( I, INDX, DESCT, NPROW,
      $                                   NPCOL, MYROW, MYCOL, ILOC,
      $                                   JLOC, RSRC1, CSRC4 )
-                                    CALL SGEMM( 'Transpose',
+                                    CALL DGEMM( 'Transpose',
      $                                   'No Transpose', DIM1, TCOLS,
      $                                   NWIN, ONE, WORK(IPW4), NWIN,
      $                                   WORK( IPW6 ), NWIN, ZERO,
      $                                   WORK(IPW8), DIM1 )
-                                    CALL SLACPY( 'All', DIM1, TCOLS,
+                                    CALL DLACPY( 'All', DIM1, TCOLS,
      $                                   WORK(IPW8), DIM1,
      $                                   T((JLOC-1)*LLDT+ILOC), LLDT )
                                  END IF
@@ -2734,13 +2734,13 @@
                                     CALL INFOG2L( I+DIM1, INDX, DESCT,
      $                                   NPROW, NPCOL, MYROW, MYCOL,
      $                                   ILOC, JLOC, RSRC4, CSRC4 )
-                                    CALL SGEMM( 'Transpose',
+                                    CALL DGEMM( 'Transpose',
      $                                  'No Transpose', DIM4, TCOLS,
      $                                   NWIN, ONE,
      $                                   WORK( IPW4+DIM1*NWIN ), NWIN,
      $                                   WORK( IPW6), NWIN, ZERO,
      $                                   WORK(IPW8), DIM4 )
-                                    CALL SLACPY( 'All', DIM4, TCOLS,
+                                    CALL DLACPY( 'All', DIM4, TCOLS,
      $                                   WORK(IPW8), DIM4,
      $                                   T((JLOC-1)*LLDT+ILOC), LLDT )
                                  END IF
@@ -2752,13 +2752,13 @@
      $                                      NPROW, NPCOL, MYROW, MYCOL,
      $                                      ILOC, JLOC, RSRC1, CSRC )
                                        IF( MYCOL.EQ.CSRC ) THEN
-                                          CALL SGEMM( 'Transpose',
+                                          CALL DGEMM( 'Transpose',
      $                                         'No Transpose', DIM1,
      $                                         TCOLS, NWIN, ONE,
      $                                         WORK( IPW4 ), NWIN,
      $                                         WORK( IPW6 ), NWIN,
      $                                         ZERO, WORK(IPW8), DIM1 )
-                                          CALL SLACPY( 'All', DIM1,
+                                          CALL DLACPY( 'All', DIM1,
      $                                         TCOLS, WORK(IPW8), DIM1,
      $                                         T((JLOC-1)*LLDT+ILOC),
      $                                         LLDT )
@@ -2770,14 +2770,14 @@
      $                                      MYCOL, ILOC, JLOC, RSRC4,
      $                                      CSRC )
                                        IF( MYCOL.EQ.CSRC ) THEN
-                                          CALL SGEMM( 'Transpose',
+                                          CALL DGEMM( 'Transpose',
      $                                         'No Transpose', DIM4,
      $                                         TCOLS, NWIN, ONE,
      $                                         WORK( IPW4+NWIN*DIM1 ),
      $                                         NWIN, WORK( IPW6 ),
      $                                         NWIN, ZERO, WORK(IPW8),
      $                                         DIM4 )
-                                          CALL SLACPY( 'All', DIM4,
+                                          CALL DLACPY( 'All', DIM4,
      $                                         TCOLS, WORK(IPW8), DIM4,
      $                                         T((JLOC-1)*LLDT+ILOC),
      $                                         LLDT )
@@ -2827,20 +2827,20 @@
      $                                   NPCOL, MYROW, MYCOL, ILOC,
      $                                   JLOC, RSRC, CSRC1 )
                                     IF( MYROW.EQ.RSRC ) THEN
-                                       CALL SLACPY( 'All', TROWS, KS,
+                                       CALL DLACPY( 'All', TROWS, KS,
      $                                      WORK( IPW5+TROWS*DIM4),
      $                                      TROWS, WORK(IPW8), TROWS )
-                                       CALL STRMM( 'Right', 'Upper',
+                                       CALL DTRMM( 'Right', 'Upper',
      $                                      'No transpose',
      $                                      'Non-unit', TROWS, KS,
      $                                      ONE, WORK( IPW4+DIM4 ),
      $                                      NWIN, WORK(IPW8), TROWS )
-                                       CALL SGEMM( 'No transpose',
+                                       CALL DGEMM( 'No transpose',
      $                                      'No transpose', TROWS, KS,
      $                                      DIM4, ONE, WORK( IPW5 ),
      $                                      TROWS, WORK( IPW4 ), NWIN,
      $                                      ONE, WORK(IPW8), TROWS )
-                                       CALL SLACPY( 'All', TROWS, KS,
+                                       CALL DLACPY( 'All', TROWS, KS,
      $                                      WORK(IPW8), TROWS,
      $                                      T((JLOC-1)*LLDT+ILOC),
      $                                      LLDT )
@@ -2855,15 +2855,15 @@
      $                                   NPROW, NPCOL, MYROW, MYCOL,
      $                                   ILOC, JLOC, RSRC, CSRC4 )
                                     IF( MYROW.EQ.RSRC ) THEN
-                                       CALL SLACPY( 'All', TROWS, DIM4,
+                                       CALL DLACPY( 'All', TROWS, DIM4,
      $                                      WORK(IPW5), TROWS,
      $                                      WORK( IPW8 ), TROWS )
-                                       CALL STRMM( 'Right', 'Lower',
+                                       CALL DTRMM( 'Right', 'Lower',
      $                                      'No transpose',
      $                                      'Non-unit', TROWS, DIM4,
      $                                      ONE, WORK( IPW4+NWIN*KS ),
      $                                      NWIN, WORK( IPW8 ), TROWS )
-                                       CALL SGEMM( 'No transpose',
+                                       CALL DGEMM( 'No transpose',
      $                                      'No transpose', TROWS, DIM4,
      $                                      KS, ONE,
      $                                      WORK( IPW5+TROWS*DIM4),
@@ -2871,7 +2871,7 @@
      $                                      WORK( IPW4+NWIN*KS+DIM4 ),
      $                                      NWIN, ONE, WORK( IPW8 ),
      $                                      TROWS )
-                                       CALL SLACPY( 'All', TROWS, DIM4,
+                                       CALL DLACPY( 'All', TROWS, DIM4,
      $                                      WORK(IPW8), TROWS,
      $                                      T((JLOC-1)*LLDT+ILOC),
      $                                      LLDT )
@@ -2890,23 +2890,23 @@
      $                                      NPROW, NPCOL, MYROW, MYCOL,
      $                                      ILOC, JLOC, RSRC, CSRC1 )
                                        IF( MYROW.EQ.RSRC ) THEN
-                                          CALL SLACPY( 'All', QROWS, KS,
+                                          CALL DLACPY( 'All', QROWS, KS,
      $                                         WORK( IPW7+QROWS*DIM4),
      $                                         QROWS, WORK(IPW8),
      $                                         QROWS )
-                                          CALL STRMM( 'Right', 'Upper',
+                                          CALL DTRMM( 'Right', 'Upper',
      $                                         'No transpose',
      $                                         'Non-unit', QROWS,
      $                                         KS, ONE,
      $                                         WORK( IPW4+DIM4 ), NWIN,
      $                                         WORK(IPW8), QROWS )
-                                          CALL SGEMM( 'No transpose',
+                                          CALL DGEMM( 'No transpose',
      $                                         'No transpose', QROWS,
      $                                         KS, DIM4, ONE,
      $                                         WORK( IPW7 ), QROWS,
      $                                         WORK( IPW4 ), NWIN, ONE,
      $                                         WORK(IPW8), QROWS )
-                                          CALL SLACPY( 'All', QROWS, KS,
+                                          CALL DLACPY( 'All', QROWS, KS,
      $                                         WORK(IPW8), QROWS,
      $                                         Q((JLOC-1)*LLDQ+ILOC),
      $                                         LLDQ )
@@ -2922,17 +2922,17 @@
      $                                      MYCOL, ILOC, JLOC, RSRC,
      $                                      CSRC4 )
                                        IF( MYROW.EQ.RSRC ) THEN
-                                          CALL SLACPY( 'All', QROWS,
+                                          CALL DLACPY( 'All', QROWS,
      $                                         DIM4, WORK(IPW7), QROWS,
      $                                         WORK( IPW8 ), QROWS )
-                                          CALL STRMM( 'Right', 'Lower',
+                                          CALL DTRMM( 'Right', 'Lower',
      $                                         'No transpose',
      $                                         'Non-unit', QROWS,
      $                                         DIM4, ONE,
      $                                         WORK( IPW4+NWIN*KS ),
      $                                         NWIN, WORK( IPW8 ),
      $                                         QROWS )
-                                          CALL SGEMM( 'No transpose',
+                                          CALL DGEMM( 'No transpose',
      $                                         'No transpose', QROWS,
      $                                         DIM4, KS, ONE,
      $                                         WORK(IPW7+QROWS*(DIM4)),
@@ -2940,7 +2940,7 @@
      $                                         WORK(IPW4+NWIN*KS+DIM4),
      $                                         NWIN, ONE, WORK( IPW8 ),
      $                                         QROWS )
-                                          CALL SLACPY( 'All', QROWS,
+                                          CALL DLACPY( 'All', QROWS,
      $                                         DIM4, WORK(IPW8), QROWS,
      $                                         Q((JLOC-1)*LLDQ+ILOC),
      $                                         LLDQ )
@@ -2962,20 +2962,20 @@
                                     CALL INFOG2L( I, INDX, DESCT, NPROW,
      $                                   NPCOL, MYROW, MYCOL, ILOC,
      $                                   JLOC, RSRC1, CSRC4 )
-                                    CALL SLACPY( 'All', KS, TCOLS,
+                                    CALL DLACPY( 'All', KS, TCOLS,
      $                                   WORK( IPW6+DIM4 ), NWIN,
      $                                   WORK(IPW8), KS )
-                                    CALL STRMM( 'Left', 'Upper',
+                                    CALL DTRMM( 'Left', 'Upper',
      $                                   'Transpose', 'Non-unit',
      $                                   KS, TCOLS, ONE,
      $                                   WORK( IPW4+DIM4 ), NWIN,
      $                                   WORK(IPW8), KS )
-                                    CALL SGEMM( 'Transpose',
+                                    CALL DGEMM( 'Transpose',
      $                                   'No transpose', KS, TCOLS,
      $                                   DIM4, ONE, WORK(IPW4), NWIN,
      $                                   WORK(IPW6), NWIN, ONE,
      $                                   WORK(IPW8), KS )
-                                    CALL SLACPY( 'All', KS, TCOLS,
+                                    CALL DLACPY( 'All', KS, TCOLS,
      $                                   WORK(IPW8), KS,
      $                                   T((JLOC-1)*LLDT+ILOC), LLDT )
                                  END IF
@@ -2989,21 +2989,21 @@
                                     CALL INFOG2L( I+DIM1, INDX, DESCT,
      $                                   NPROW, NPCOL, MYROW, MYCOL,
      $                                   ILOC, JLOC, RSRC4, CSRC4 )
-                                    CALL SLACPY( 'All', DIM4, TCOLS,
+                                    CALL DLACPY( 'All', DIM4, TCOLS,
      $                                   WORK( IPW6 ), NWIN,
      $                                   WORK( IPW8 ), DIM4 )
-                                    CALL STRMM( 'Left', 'Lower',
+                                    CALL DTRMM( 'Left', 'Lower',
      $                                   'Transpose', 'Non-unit',
      $                                   DIM4, TCOLS, ONE,
      $                                   WORK( IPW4+NWIN*KS ), NWIN,
      $                                   WORK( IPW8 ), DIM4 )
-                                    CALL SGEMM( 'Transpose',
+                                    CALL DGEMM( 'Transpose',
      $                                   'No Transpose', DIM4, TCOLS,
      $                                   KS, ONE,
      $                                   WORK( IPW4+NWIN*KS+DIM4 ),
      $                                   NWIN, WORK( IPW6+DIM1 ), NWIN,
      $                                   ONE, WORK( IPW8), DIM4 )
-                                    CALL SLACPY( 'All', DIM4, TCOLS,
+                                    CALL DLACPY( 'All', DIM4, TCOLS,
      $                                   WORK(IPW8), DIM4,
      $                                   T((JLOC-1)*LLDT+ILOC), LLDT )
                                  END IF
@@ -3019,22 +3019,22 @@
      $                                      NPROW, NPCOL, MYROW, MYCOL,
      $                                      ILOC, JLOC, RSRC1, CSRC )
                                        IF( MYCOL.EQ.CSRC ) THEN
-                                          CALL SLACPY( 'All', KS, TCOLS,
+                                          CALL DLACPY( 'All', KS, TCOLS,
      $                                         WORK( IPW6+DIM4 ), NWIN,
      $                                         WORK(IPW8), KS )
-                                          CALL STRMM( 'Left', 'Upper',
+                                          CALL DTRMM( 'Left', 'Upper',
      $                                         'Transpose',
      $                                         'Non-unit', KS,
      $                                         TCOLS, ONE,
      $                                         WORK( IPW4+DIM4 ), NWIN,
      $                                         WORK(IPW8), KS )
-                                          CALL SGEMM( 'Transpose',
+                                          CALL DGEMM( 'Transpose',
      $                                         'No transpose', KS,
      $                                         TCOLS, DIM4, ONE,
      $                                         WORK(IPW4), NWIN,
      $                                         WORK(IPW6), NWIN, ONE,
      $                                         WORK(IPW8), KS )
-                                          CALL SLACPY( 'All', KS, TCOLS,
+                                          CALL DLACPY( 'All', KS, TCOLS,
      $                                         WORK(IPW8), KS,
      $                                         T((JLOC-1)*LLDT+ILOC),
      $                                         LLDT )
@@ -3050,25 +3050,25 @@
      $                                      MYCOL, ILOC, JLOC, RSRC4,
      $                                      CSRC )
                                        IF( MYCOL.EQ.CSRC ) THEN
-                                          CALL SLACPY( 'All', DIM4,
+                                          CALL DLACPY( 'All', DIM4,
      $                                         TCOLS, WORK( IPW6 ),
      $                                         NWIN, WORK( IPW8 ),
      $                                         DIM4 )
-                                          CALL STRMM( 'Left', 'Lower',
+                                          CALL DTRMM( 'Left', 'Lower',
      $                                         'Transpose',
      $                                         'Non-unit', DIM4,
      $                                         TCOLS, ONE,
      $                                         WORK( IPW4+NWIN*KS ),
      $                                         NWIN, WORK( IPW8 ),
      $                                         DIM4 )
-                                          CALL SGEMM( 'Transpose',
+                                          CALL DGEMM( 'Transpose',
      $                                         'No Transpose', DIM4,
      $                                         TCOLS, KS, ONE,
      $                                         WORK(IPW4+NWIN*KS+DIM4),
      $                                         NWIN, WORK( IPW6+DIM1 ),
      $                                         NWIN, ONE, WORK( IPW8),
      $                                         DIM4 )
-                                          CALL SLACPY( 'All', DIM4,
+                                          CALL DLACPY( 'All', DIM4,
      $                                         TCOLS, WORK(IPW8), DIM4,
      $                                         T((JLOC-1)*LLDT+ILOC),
      $                                         LLDT )
@@ -3100,11 +3100,11 @@
      $                             RSRC, CSRC )
                               IF( MYROW.EQ.RSRC .AND. MYCOL.EQ.CSRC )
      $                             THEN
-                                 CALL BSLAAPP( 1, TROWS, NWIN, NCB,
+                                 CALL BDLAAPP( 1, TROWS, NWIN, NCB,
      $                                WORK(IPW5), TROWS, NITRAF,
      $                                IWORK(IPIW), WORK( IPW3 ),
      $                                WORK(IPW8) )
-                                 CALL SLACPY( 'All', TROWS, DIM1,
+                                 CALL DLACPY( 'All', TROWS, DIM1,
      $                                WORK(IPW5), TROWS,
      $                                T((JLOC-1)*LLDT+ILOC ), LLDT )
                               END IF
@@ -3114,11 +3114,11 @@
                               IF( MYROW.EQ.RSRC .AND. MYCOL.EQ.CSRC )
      $                             THEN
                                  IF( NPCOL.GT.1 )
-     $                                CALL BSLAAPP( 1, TROWS, NWIN, NCB,
+     $                                CALL BDLAAPP( 1, TROWS, NWIN, NCB,
      $                                WORK(IPW5), TROWS, NITRAF,
      $                                IWORK(IPIW), WORK( IPW3 ),
      $                                WORK(IPW8) )
-                                 CALL SLACPY( 'All', TROWS, DIM4,
+                                 CALL DLACPY( 'All', TROWS, DIM4,
      $                                WORK(IPW5+TROWS*DIM1), TROWS,
      $                                T((JLOC-1)*LLDT+ILOC ), LLDT )
                               END IF
@@ -3131,11 +3131,11 @@
      $                                RSRC, CSRC )
                                  IF( MYROW.EQ.RSRC .AND. MYCOL.EQ.CSRC )
      $                                THEN
-                                    CALL BSLAAPP( 1, QROWS, NWIN, NCB,
+                                    CALL BDLAAPP( 1, QROWS, NWIN, NCB,
      $                                   WORK(IPW7), QROWS, NITRAF,
      $                                   IWORK(IPIW), WORK( IPW3 ),
      $                                   WORK(IPW8) )
-                                    CALL SLACPY( 'All', QROWS, DIM1,
+                                    CALL DLACPY( 'All', QROWS, DIM1,
      $                                   WORK(IPW7), QROWS,
      $                                   Q((JLOC-1)*LLDQ+ILOC ), LLDQ )
                                  END IF
@@ -3145,11 +3145,11 @@
                                  IF( MYROW.EQ.RSRC .AND. MYCOL.EQ.CSRC )
      $                                THEN
                                     IF( NPCOL.GT.1 )
-     $                                   CALL BSLAAPP( 1, QROWS, NWIN,
+     $                                   CALL BDLAAPP( 1, QROWS, NWIN,
      $                                   NCB, WORK(IPW7), QROWS,
      $                                   NITRAF, IWORK(IPIW),
      $                                   WORK( IPW3 ), WORK(IPW8) )
-                                    CALL SLACPY( 'All', QROWS, DIM4,
+                                    CALL DLACPY( 'All', QROWS, DIM4,
      $                                   WORK(IPW7+QROWS*DIM1), QROWS,
      $                                   Q((JLOC-1)*LLDQ+ILOC ), LLDQ )
                                  END IF
@@ -3165,11 +3165,11 @@
      $                             RSRC, CSRC )
                               IF( MYROW.EQ.RSRC .AND. MYCOL.EQ.CSRC.AND.
      $                            MOD(LIHIC,NB).NE.0 ) THEN
-                                 CALL BSLAAPP( 0, NWIN, TCOLS, NCB,
+                                 CALL BDLAAPP( 0, NWIN, TCOLS, NCB,
      $                                WORK( IPW6 ), NWIN, NITRAF,
      $                                IWORK(IPIW), WORK( IPW3 ),
      $                                WORK(IPW8) )
-                                 CALL SLACPY( 'All', DIM1, TCOLS,
+                                 CALL DLACPY( 'All', DIM1, TCOLS,
      $                                WORK( IPW6 ), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT )
                               END IF
@@ -3179,11 +3179,11 @@
                               IF( MYROW.EQ.RSRC .AND. MYCOL.EQ.CSRC.AND.
      $                             MOD(LIHIC,NB).NE.0 ) THEN
                                  IF( NPROW.GT.1 )
-     $                                CALL BSLAAPP( 0, NWIN, TCOLS, NCB,
+     $                                CALL BDLAAPP( 0, NWIN, TCOLS, NCB,
      $                                WORK( IPW6 ), NWIN, NITRAF,
      $                                IWORK(IPIW), WORK( IPW3 ),
      $                                WORK(IPW8) )
-                                 CALL SLACPY( 'All', DIM4, TCOLS,
+                                 CALL DLACPY( 'All', DIM4, TCOLS,
      $                                WORK( IPW6+DIM1 ), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT )
                               END IF
@@ -3195,11 +3195,11 @@
      $                                RSRC, CSRC )
                                  IF( MYROW.EQ.RSRC .AND. MYCOL.EQ.CSRC )
      $                                THEN
-                                    CALL BSLAAPP( 0, NWIN, TCOLS, NCB,
+                                    CALL BDLAAPP( 0, NWIN, TCOLS, NCB,
      $                                   WORK(IPW6), NWIN, NITRAF,
      $                                   IWORK(IPIW), WORK( IPW3 ),
      $                                   WORK(IPW8) )
-                                    CALL SLACPY( 'All', DIM1, TCOLS,
+                                    CALL DLACPY( 'All', DIM1, TCOLS,
      $                                   WORK( IPW6 ), NWIN,
      $                                   T((JLOC-1)*LLDT+ILOC), LLDT )
                                  END IF
@@ -3209,11 +3209,11 @@
                                  IF( MYROW.EQ.RSRC .AND. MYCOL.EQ.CSRC )
      $                                THEN
                                     IF( NPROW.GT.1 )
-     $                                   CALL BSLAAPP( 0, NWIN, TCOLS,
+     $                                   CALL BDLAAPP( 0, NWIN, TCOLS,
      $                                   NCB, WORK(IPW6), NWIN, NITRAF,
      $                                   IWORK(IPIW), WORK( IPW3 ),
      $                                   WORK(IPW8) )
-                                    CALL SLACPY( 'All', DIM4, TCOLS,
+                                    CALL DLACPY( 'All', DIM4, TCOLS,
      $                                   WORK( IPW6+DIM1 ), NWIN,
      $                                   T((JLOC-1)*LLDT+ILOC), LLDT )
                                  END IF
@@ -3346,7 +3346,7 @@
                   IF( ELEM3.NE.ZERO ) THEN
                      ELEM2 = T((JLOC1)*LLDT+ILOC1)
                      ELEM4 = T((JLOC1)*LLDT+ILOC1+1)
-                     CALL SLANV2( ELEM1, ELEM2, ELEM3, ELEM4,
+                     CALL DLANV2( ELEM1, ELEM2, ELEM3, ELEM4,
      $                    WR( K ), WI( K ), WR( K+1 ), WI( K+1 ), SN,
      $                    CS )
                      PAIR = .TRUE.
@@ -3358,7 +3358,7 @@
                            ELEM2 = T((JLOC1-1)*LLDT+ILOC1-1)
                            ELEM3 = T((JLOC1-2)*LLDT+ILOC1)
                            ELEM4 = T((JLOC1-1)*LLDT+ILOC1)
-                           CALL SLANV2( ELEM1, ELEM2, ELEM3, ELEM4,
+                           CALL DLANV2( ELEM1, ELEM2, ELEM3, ELEM4,
      $                          WR( K-1 ), WI( K-1 ), WR( K ),
      $                          WI( K ), SN, CS )
                         ELSE
@@ -3395,12 +3395,12 @@
          IF( MYROW.EQ.TRSRC2 .AND. MYCOL.EQ.TCSRC2 ) THEN
             ELEM2 = T((JLOC2-1)*LLDT+ILOC2)
             IF( TRSRC1.NE.TRSRC2 .OR. TCSRC1.NE.TCSRC2 )
-     $         CALL SGESD2D( ICTXT, 1, 1, ELEM2, 1, TRSRC1, TCSRC1 )
+     $         CALL DGESD2D( ICTXT, 1, 1, ELEM2, 1, TRSRC1, TCSRC1 )
          END IF
          IF( MYROW.EQ.TRSRC3 .AND. MYCOL.EQ.TCSRC3 ) THEN
             ELEM3 = T((JLOC3-1)*LLDT+ILOC3)
             IF( TRSRC1.NE.TRSRC3 .OR. TCSRC1.NE.TCSRC3 )
-     $         CALL SGESD2D( ICTXT, 1, 1, ELEM3, 1, TRSRC1, TCSRC1 )
+     $         CALL DGESD2D( ICTXT, 1, 1, ELEM3, 1, TRSRC1, TCSRC1 )
          END IF
          IF( MYROW.EQ.TRSRC4 .AND. MYCOL.EQ.TCSRC4 ) THEN
             WORK(1) = T((JLOC4-1)*LLDT+ILOC4)
@@ -3410,21 +3410,21 @@
                WORK(2) = ZERO
             END IF
             IF( TRSRC1.NE.TRSRC4 .OR. TCSRC1.NE.TCSRC4 )
-     $         CALL SGESD2D( ICTXT, 2, 1, WORK, 2, TRSRC1, TCSRC1 )
+     $         CALL DGESD2D( ICTXT, 2, 1, WORK, 2, TRSRC1, TCSRC1 )
          END IF
          IF( MYROW.EQ.TRSRC1 .AND. MYCOL.EQ.TCSRC1 ) THEN
             ELEM1 = T((JLOC1-1)*LLDT+ILOC1)
             IF( TRSRC1.NE.TRSRC2 .OR. TCSRC1.NE.TCSRC2 )
-     $         CALL SGERV2D( ICTXT, 1, 1, ELEM2, 1, TRSRC2, TCSRC2 )
+     $         CALL DGERV2D( ICTXT, 1, 1, ELEM2, 1, TRSRC2, TCSRC2 )
             IF( TRSRC1.NE.TRSRC3 .OR. TCSRC1.NE.TCSRC3 )
-     $         CALL SGERV2D( ICTXT, 1, 1, ELEM3, 1, TRSRC3, TCSRC3 )
+     $         CALL DGERV2D( ICTXT, 1, 1, ELEM3, 1, TRSRC3, TCSRC3 )
             IF( TRSRC1.NE.TRSRC4 .OR. TCSRC1.NE.TCSRC4 )
-     $         CALL SGERV2D( ICTXT, 2, 1, WORK, 2, TRSRC4, TCSRC4 )
+     $         CALL DGERV2D( ICTXT, 2, 1, WORK, 2, TRSRC4, TCSRC4 )
             ELEM4 = WORK(1)
             ELEM5 = WORK(2)
             IF( ELEM5.EQ.ZERO ) THEN
                IF( WR( K ).EQ.ZERO .AND. WI( K ).EQ.ZERO ) THEN
-                  CALL SLANV2( ELEM1, ELEM2, ELEM3, ELEM4, WR( K ),
+                  CALL DLANV2( ELEM1, ELEM2, ELEM3, ELEM4, WR( K ),
      $                 WI( K ), WR( K+1 ), WI( K+1 ), SN, CS )
                ELSEIF( WR( K+1 ).EQ.ZERO .AND. WI( K+1 ).EQ.ZERO ) THEN
                   WR( K+1 ) = ELEM4
@@ -3436,20 +3436,20 @@
  570  CONTINUE
 *
       IF( NPROCS.GT.1 ) THEN
-         CALL SGSUM2D( ICTXT, 'All', TOP, N, 1, WR, N, -1, -1 )
-         CALL SGSUM2D( ICTXT, 'All', TOP, N, 1, WI, N, -1, -1 )
+         CALL DGSUM2D( ICTXT, 'All', TOP, N, 1, WR, N, -1, -1 )
+         CALL DGSUM2D( ICTXT, 'All', TOP, N, 1, WI, N, -1, -1 )
       END IF
 *
 *     Store storage requirements in workspaces.
 *
-      WORK( 1 ) = FLOAT(LWMIN)
+      WORK( 1 ) = DBLE(LWMIN)
       IWORK( 1 ) = LIWMIN
 *
 *     Return to calling program.
 *
       RETURN
 *
-*     End of PBSTRORD
+*     End of PDTRORD
 *
       END
 *

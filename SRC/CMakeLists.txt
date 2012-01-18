@@ -43,7 +43,7 @@ set (SLASRC
    pslahqr.f pslaconsb.f pslacp3.f pslawil.f 
    pslasmsub.f pslared2d.f pslamr1d.f slaref.f slamsh.f slasorte.f ssteqr2.f 
    sdbtf2.f  sdbtrf.f  sdttrf.f sdttrsv.f spttrsv.f strmvt.f pssyevr.f
-   bslaapp.f bslaexc.f bstrexc.f pbstrord.f pbstrsen.f psgebal.f pshseqr.f
+   bslaapp.f bslaexc.f bstrexc.f pstrord.f pstrsen.f psgebal.f pshseqr.f
    pslamve.f pslaqr0.f pslaqr1.f pslaqr2.f pslaqr3.f pslaqr4.f pslaqr5.f
    psrot.f slaqr6.f)
    
@@ -106,8 +106,8 @@ set (DLASRC
    pdlahqr.f pdlaconsb.f pdlacp3.f pdlawil.f 
    pdlasmsub.f pdlared2d.f pdlamr1d.f dlaref.f dlamsh.f dlasorte.f dsteqr2.f 
    ddbtf2.f  ddbtrf.f  ddttrf.f ddttrsv.f dpttrsv.f dtrmvt.f  pdsyevr.f
-   bdlaapp.f bdlaexc.f bdtrexc.f dlaqr6.f pbdtrord.f
-   pbdtrsen.f pdgebal.f pdhseqr.f pdlamve.f pdlaqr0.f pdlaqr1.f pdlaqr2.f
+   bdlaapp.f bdlaexc.f bdtrexc.f dlaqr6.f pdtrord.f
+   pdtrsen.f pdgebal.f pdhseqr.f pdlamve.f pdlaqr0.f pdlaqr1.f pdlaqr2.f
    pdlaqr3.f pdlaqr4.f pdlaqr5.f pdrot.f)
 
 set (ZLASRC  

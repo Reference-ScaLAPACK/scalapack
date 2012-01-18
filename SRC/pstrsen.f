@@ -1,4 +1,4 @@
-      SUBROUTINE PBDTRSEN( JOB, COMPQ, SELECT, PARA, N, T, IT, JT,
+      SUBROUTINE PSTRSEN( JOB, COMPQ, SELECT, PARA, N, T, IT, JT,
      $     DESCT, Q, IQ, JQ, DESCQ, WR, WI, M, S, SEP, WORK, LWORK,
      $     IWORK, LIWORK, INFO )
 *
@@ -16,29 +16,29 @@
       CHARACTER          COMPQ, JOB
       INTEGER            INFO, LIWORK, LWORK, M, N,
      $                   IT, JT, IQ, JQ
-      DOUBLE PRECISION   S, SEP
+      REAL   S, SEP
 *     ..
 *     .. Array Arguments ..
       LOGICAL            SELECT( N )
       INTEGER            PARA( 6 ), DESCT( * ), DESCQ( * ), IWORK( * )
-      DOUBLE PRECISION   Q( * ), T( * ), WI( * ), WORK( * ), WR( * )
+      REAL               Q( * ), T( * ), WI( * ), WORK( * ), WR( * )
 *     ..
 *
 *  Purpose
 *  =======
 *
-*  PBDTRSEN reorders the real Schur factorization of a real matrix
+*  PSTRSEN reorders the real Schur factorization of a real matrix
 *  A = Q*T*Q**T, so that a selected cluster of eigenvalues appears
 *  in the leading diagonal blocks of the upper quasi-triangular matrix
 *  T, and the leading columns of Q form an orthonormal basis of the
 *  corresponding right invariant subspace. The reordering is performed
-*  by PBDTRORD.
+*  by PSTRORD.
 *
 *  Optionally the routine computes the reciprocal condition numbers of
 *  the cluster of eigenvalues and/or the invariant subspace. SCASY
 *  library is needed for condition estimation.
 *
-*  T must be in Schur form (as returned by PDLAHQR), that is, block
+*  T must be in Schur form (as returned by PSLAHQR), that is, block
 *  upper triangular with 1-by-1 and 2-by-2 diagonal blocks.
 *
 *  Notes
@@ -146,7 +146,7 @@
 *  N       (global input) INTEGER
 *          The order of the globally distributed matrix T. N >= 0.
 *
-*  T       (local input/output) DOUBLE PRECISION array,
+*  T       (local input/output) REAL array,
 *          dimension (LLD_T,LOCc(N)).
 *          On entry, the local pieces of the global distributed
 *          upper quasi-triangular matrix T, in Schur form. On exit, T is
@@ -162,7 +162,7 @@
 *  DESCT   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the global distributed matrix T.
 *
-*  Q       (local input/output) DOUBLE PRECISION array,
+*  Q       (local input/output) REAL array,
 *          dimension (LLD_Q,LOCc(N)).
 *          On entry, if COMPQ = 'V', the local pieces of the global
 *          distributed matrix Q of Schur vectors.
@@ -180,8 +180,8 @@
 *  DESCQ   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the global distributed matrix Q.
 *
-*  WR      (global output) DOUBLE PRECISION array, dimension (N)
-*  WI      (global output) DOUBLE PRECISION array, dimension (N)
+*  WR      (global output) REAL array, dimension (N)
+*  WI      (global output) REAL array, dimension (N)
 *          The real and imaginary parts, respectively, of the reordered
 *          eigenvalues of T. The eigenvalues are in principle stored in
 *          the same order as on the diagonal of T, with WR(i) = T(i,i)
@@ -195,20 +195,20 @@
 *          The dimension of the specified invariant subspace.
 *          0 <= M <= N.
 *
-*  S       (global output) DOUBLE PRECISION
+*  S       (global output) REAL
 *          If JOB = 'E' or 'B', S is a lower bound on the reciprocal
 *          condition number for the selected cluster of eigenvalues.
 *          S cannot underestimate the true reciprocal condition number
 *          by more than a factor of sqrt(N). If M = 0 or N, S = 1.
 *          If JOB = 'N' or 'V', S is not referenced.
 *
-*  SEP     (global output) DOUBLE PRECISION
+*  SEP     (global output) REAL
 *          If JOB = 'V' or 'B', SEP is the estimated reciprocal
 *          condition number of the specified invariant subspace. If
 *          M = 0 or N, SEP = norm(T).
 *          If JOB = 'N' or 'E', SEP is not referenced.
 *
-*  WORK    (local workspace/output) DOUBLE PRECISION array,
+*  WORK    (local workspace/output) REAL array,
 *          dimension (LWORK)
 *          On exit, if INFO = 0, WORK(1) returns the optimal LWORK.
 *
@@ -284,7 +284,7 @@
 *
 *  This algorithm cannot work on submatrices of T and Q, i.e.,
 *  IT = JT = IQ = JQ = 1 must hold. This is however no limitation
-*  since PDLAHQR does not compute Schur forms of submatrices anyway.
+*  since PSLAHQR does not compute Schur forms of submatrices anyway.
 *
 *  References
 *  ==========
@@ -343,12 +343,12 @@
       CHARACTER          TOP
       INTEGER            BLOCK_CYCLIC_2D, CSRC_, CTXT_, DLEN_, DTYPE_,
      $                   LLD_, MB_, M_, NB_, N_, RSRC_
-      DOUBLE PRECISION   ZERO, ONE
+      REAL               ZERO, ONE
       PARAMETER          ( TOP = '1-Tree',
      $                     BLOCK_CYCLIC_2D = 1, DLEN_ = 9, DTYPE_ = 1,
      $                     CTXT_ = 2, M_ = 3, N_ = 4, MB_ = 5, NB_ = 6,
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9,
-     $                     ZERO = 0.0D+0, ONE = 1.0D+0 )
+     $                     ZERO = 0.0, ONE = 1.0 )
 *     ..
 *     .. Local Scalars ..
       LOGICAL            LQUERY, WANTBH, WANTQ, WANTS, WANTSP
@@ -358,19 +358,19 @@
      $                   NB, NOEXSY, NPCOL, NPROCS, NPROW, SPACE,
      $                   T12ROWS, T12COLS, TCOLS, TCSRC, TROWS, TRSRC,
      $                   WRK1, IWRK1, WRK2, IWRK2, WRK3, IWRK3
-      DOUBLE PRECISION   DPDUM1, ELEM, EST, SCALE, RNORM
+      REAL               DPDUM1, ELEM, EST, SCALE, RNORM
 *     .. Local Arrays ..
       INTEGER            DESCT12( DLEN_ ), MBNB2( 2 )
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
       INTEGER            NUMROC
-      DOUBLE PRECISION   PDLANGE
-      EXTERNAL           LSAME, NUMROC, PDLANGE
+      REAL               PSLANGE
+      EXTERNAL           LSAME, NUMROC, PSLANGE
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, CHK1MAT, DESCINIT,
-     $                   IGAMX2D, INFOG2L, PDLACPY, PBDTRORD, PXERBLA,
+     $                   IGAMX2D, INFOG2L, PSLACPY, PSTRORD, PXERBLA,
      $                   PCHK1MAT, PCHK2MAT
 *     $                   , PGESYCTD, PSYCTCON
 *     ..
@@ -612,10 +612,10 @@ c     $              IERR )
          M = 0
          S = ONE
          SEP = ZERO
-         CALL PXERBLA( ICTXT, 'PBDTRSEN', -INFO )
+         CALL PXERBLA( ICTXT, 'PSTRSEN', -INFO )
          RETURN
       ELSEIF( LQUERY ) THEN
-         WORK( 1 ) = DBLE(LWMIN)
+         WORK( 1 ) = FLOAT(LWMIN)
          IWORK( 1 ) = LIWMIN
          RETURN
       END IF
@@ -626,13 +626,13 @@ c     $              IERR )
          IF( WANTS )
      $        S = ONE
          IF( WANTSP )
-     $        SEP = PDLANGE( '1', N, N, T, IT, JT, DESCT, WORK )
+     $        SEP = PSLANGE( '1', N, N, T, IT, JT, DESCT, WORK )
          GO TO 50
       END IF
 *
 *     Reorder the eigenvalues.
 *
-      CALL PBDTRORD( COMPQ, IWORK, PARA, N, T, IT, JT,
+      CALL PSTRORD( COMPQ, IWORK, PARA, N, T, IT, JT,
      $     DESCT, Q, IQ, JQ, DESCQ, WR, WI, M, WORK, LWORK,
      $     IWORK(N+1), LIWORK-N, INFO )
 *
@@ -650,7 +650,7 @@ c     $              IERR )
          T12COLS = NUMROC( N2+ICOFFT12, NB, MYCOL, TCSRC, NPCOL )
          CALL DESCINIT( DESCT12, N1, N2+ICOFFT12, NB, NB, TRSRC,
      $        TCSRC, ICTXT, MAX(1,T12ROWS), IERR )
-         CALL PDLACPY( 'All', N1, N2, T, 1, N1+1, DESCT, WORK,
+         CALL PSLACPY( 'All', N1, N2, T, 1, N1+1, DESCT, WORK,
      $        1, 1+ICOFFT12, DESCT12 )
 *
 *        Solve the equation to get the solution in workspace.
@@ -671,7 +671,7 @@ c     $        SCALE, IERR )
 *        Estimate the reciprocal of the condition number of the cluster
 *        of eigenvalues.
 *
-         RNORM = PDLANGE( 'Frobenius', N1, N2, WORK, 1, 1+ICOFFT12,
+         RNORM = PSLANGE( 'Frobenius', N1, N2, WORK, 1, 1+ICOFFT12,
      $        DESCT12, DPDUM1 )
          IF( RNORM.EQ.ZERO ) THEN
             S = ONE
@@ -688,7 +688,7 @@ c     $        SCALE, IERR )
 c         CALL PSYCTCON( 'Notranspose', 'Notranspose', -1, 'Demand', N1,
 c     $        N2, T, 1, 1, DESCT, T, N1+1, N1+1, DESCT, MBNB2, WORK,
 c     $        LWORK, IWORK(N+1), LIWORK-N, EST, ITER, IERR )
-         EST = EST * SQRT(DBLE(N1*N2))
+         EST = EST * SQRT(FLOAT(N1*N2))
          SEP = ONE / EST
          IF( IERR.LT.0 ) THEN
             INFO = N+4
@@ -703,7 +703,7 @@ c     $        LWORK, IWORK(N+1), LIWORK-N, EST, ITER, IERR )
 *
       RETURN
 *
-*     End of PBDTRSEN
+*     End of PSTRSEN
 *
       END
 *
