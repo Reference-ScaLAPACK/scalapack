@@ -2,13 +2,9 @@
      $                    ILOZ, IHIZ, Z, DESCZ, WORK, LWORK, IWORK,
      $                    ILWORK, INFO )
 *
-*  -- ScaLAPACK routine (version 1.7.3) --
+*  -- ScaLAPACK routine (version 2.0.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
 *     and University of California, Berkeley.
-*     1.7.3: March    22, 2006
-*            modification suggested by Mark Fahey and Greg Henry
-*     1.7.1: January  30, 2006
-*     1.7.0: December 31, 1998
 *
 *     .. Scalar Arguments ..
       LOGICAL            WANTT, WANTZ
@@ -278,7 +274,7 @@
      $                   DGERV2D, DGESD2D, DGSUM2D, DLAHQR, DLAREF,
      $                   DLARFG, DLASORTE, IGAMN2D, INFOG1L, INFOG2L,
      $                   PDLABAD, PDLACONSB, PDLACP3, PDLASMSUB,
-     $                   PDLAWIL, PXERBLA
+     $                   PDLAWIL, PXERBLA, DLANV2
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, MAX, MIN, MOD, SIGN, SQRT
@@ -523,14 +519,24 @@
 *        Look for two consecutive small subdiagonal elements:
 *           PDLACONSB is the routine that does this.
 *
-         CALL PDLACONSB( A, DESCA, I, L, M, H44, H33, H43H34,
-     $                   WORK( IRBUF+1 ), LWORK-IRBUF )
+c         CALL PDLACONSB( A, DESCA, I, L, M, H44, H33, H43H34,
+c     $                   WORK( IRBUF+1 ), LWORK-IRBUF )
 *
 *        Skip small submatrices
 *
 *        IF ( M .GE. I - 5 )
 *    $      GO TO 80
 *
+*        In principle PDLACONSB needs to check all shifts to decide
+*        whether two consecutive small subdiagonal entries are suitable
+*        as the starting position of the bulge chasing phase. It can be
+*        dangerous to check the first pair of shifts only. Moreover it
+*        is quite rare to obtain an M which is much larger than L. This
+*        process is a bit expensive compared with the benefit.
+*        Therefore it is sensible to abandon this routine. Total amount
+*        of communications is saved in average.
+*
+         M = L
 *        Double-shift QR step
 *
 *        NBULGE is the number of bulges that will be attempted
@@ -2016,79 +2022,18 @@
 *
 *        H(I-1,I-2) is negligible: a pair of eigenvalues have converged.
 *
-         WR( I-1 ) = ZERO
-         WR( I ) = ZERO
-         WI( I-1 ) = ZERO
-         WI( I ) = ZERO
-         MODKM1 = MOD( I-1+HBL, HBL )
-         CALL INFOG2L( I-1, I-1, DESCA, NPROW, NPCOL, MYROW, MYCOL,
-     $                 IROW1, ICOL1, II, JJ )
-         IF( ( MYROW.EQ.II ) .AND. ( MYCOL.EQ.JJ ) ) THEN
-            H11 = A( ( ICOL1-1 )*LDA+IROW1 )
-            IF( MODKM1.NE.0 ) THEN
-               H21 = A( ( ICOL1-1 )*LDA+IROW1+1 )
-               H12 = A( ICOL1*LDA+IROW1 )
-               H22 = A( ICOL1*LDA+IROW1+1 )
-            ELSE
-               IF( NPROW.GT.1 ) THEN
-                  CALL DGERV2D( CONTXT, 1, 1, H21, 1, DOWN, MYCOL )
-               ELSE
-                  H21 = A( ( ICOL1-1 )*LDA+IROW1+1 )
-               END IF
-               IF( NPCOL.GT.1 ) THEN
-                  CALL DGERV2D( CONTXT, 1, 1, H12, 1, MYROW, RIGHT )
-               ELSE
-                  H12 = A( ICOL1*LDA+IROW1 )
-               END IF
-               IF( NUM.GT.1 ) THEN
-                  CALL DGERV2D( CONTXT, 1, 1, H22, 1, DOWN, RIGHT )
-               ELSE
-                  H22 = A( ICOL1*LDA+IROW1+1 )
-               END IF
-            END IF
-            H00 = HALF*( H11+H22 )
-            H10 = H11*H22 - H12*H21
-         ELSE
-            IF( MODKM1.EQ.0 ) THEN
-               IF( ( NPROW.GT.1 ) .AND. ( MYCOL.EQ.JJ ) .AND.
-     $             ( UP.EQ.II ) ) THEN
-                  CALL INFOG2L( I, I-1, DESCA, NPROW, NPCOL, MYROW,
-     $                          MYCOL, IROW1, ICOL1, ITMP1, ITMP2 )
-                  CALL DGESD2D( CONTXT, 1, 1,
-     $                          A( ( ICOL1-1 )*LDA+IROW1 ), 1, II, JJ )
-               END IF
-               IF( ( NPCOL.GT.1 ) .AND. ( LEFT.EQ.JJ ) .AND.
-     $             ( MYROW.EQ.II ) ) THEN
-                  CALL INFOG2L( I-1, I, DESCA, NPROW, NPCOL, MYROW,
-     $                          MYCOL, IROW1, ICOL1, ITMP1, ITMP2 )
-                  CALL DGESD2D( CONTXT, 1, 1,
-     $                          A( ( ICOL1-1 )*LDA+IROW1 ), 1, II, JJ )
-               END IF
-               IF( ( NUM.GT.1 ) .AND. ( LEFT.EQ.JJ ) .AND.
-     $             ( UP.EQ.II ) ) THEN
-                  CALL INFOG2L( I, I, DESCA, NPROW, NPCOL, MYROW, MYCOL,
-     $                          IROW1, ICOL1, ITMP1, ITMP2 )
-                  CALL DGESD2D( CONTXT, 1, 1,
-     $                          A( ( ICOL1-1 )*LDA+IROW1 ), 1, II, JJ )
-               END IF
-            END IF
-            H00 = ZERO
-            H10 = ZERO
-         END IF
-         H21 = H00*H00 - H10
-         IF( H21.GE.ZERO ) THEN
-            H21 = SQRT( H21 )
-            WR( I-1 ) = H00 + H21
-            WI( I-1 ) = ZERO
-            WR( I ) = H00 - H21
+         CALL PDELGET( 'All', ' ', H11, A, L, L, DESCA )
+         CALL PDELGET( 'All', ' ', H21, A, I, L, DESCA )
+         CALL PDELGET( 'All', ' ', H12, A, L, I, DESCA )
+         CALL PDELGET( 'All', ' ', H22, A, I, I, DESCA )
+         CALL DLANV2( H11, H12, H21, H22, WR( L ), WI( L ), WR( I ),
+     $                WI( I ), CS, SN )
+         IF( NODE .NE. 0 ) THEN
+            WR( L ) = ZERO
+            WR( I ) = ZERO
+            WI( L ) = ZERO
             WI( I ) = ZERO
-         ELSE
-            H21 = SQRT( ABS( H21 ) )
-            WR( I-1 ) = H00
-            WI( I-1 ) = H21
-            WR( I ) = H00
-            WI( I ) = -H21
-         END IF
+         ENDIF
       ELSE
 *
 *        Find the eigenvalues in H(L:I,L:I), L < I-1
