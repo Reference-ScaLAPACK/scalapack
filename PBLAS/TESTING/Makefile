@@ -79,10 +79,10 @@ complex:   PblasErrorHandler $(cpb1tst) $(cpb2tst) $(cpb3tst)
 complex16: PblasErrorHandler $(zpb1tst) $(zpb2tst) $(zpb3tst)
 
 PB_Cwarn.o:
-	$(CC) -c $(CCFLAGS) -I../SRC -o PB_Cwarn.o -DTestingPblas ../SRC/PTOOLS/PB_Cwarn.c
+	$(CC) -c $(CDEFS) $(CCFLAGS) -I../SRC -o PB_Cwarn.o -DTestingPblas ../SRC/PTOOLS/PB_Cwarn.c
 
 PB_Cabort.o:
-	$(CC) -c $(CCFLAGS) -I../SRC -o PB_Cabort.o -DTestingPblas ../SRC/PTOOLS/PB_Cabort.c
+	$(CC) -c $(CDEFS) $(CCFLAGS) -I../SRC -o PB_Cabort.o -DTestingPblas ../SRC/PTOOLS/PB_Cabort.c
 
 PblasErrorHandler:  PB_Cwarn.o  PB_Cwarn.o
 
