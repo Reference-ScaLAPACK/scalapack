@@ -273,93 +273,93 @@ clean :
 	rm -f *.o
 
 psludriver.o: psludriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pdludriver.o: pdludriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pcludriver.o: pcludriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pzludriver.o: pzludriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 
 psdbdriver.o: psdbdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pddbdriver.o: pddbdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pcdbdriver.o: pcdbdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pzdbdriver.o: pzdbdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 
 psdtdriver.o: psdtdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pddtdriver.o: pddtdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pcdtdriver.o: pcdtdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pzdtdriver.o: pzdtdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 
 psgbdriver.o: psgbdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pdgbdriver.o: pdgbdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pcgbdriver.o: pcgbdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pzgbdriver.o: pzgbdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 
 pslltdriver.o: pslltdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pdlltdriver.o: pdlltdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pclltdriver.o: pclltdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pzlltdriver.o: pzlltdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 
 pspbdriver.o: pspbdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pdpbdriver.o: pdpbdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pcpbdriver.o: pcpbdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pzpbdriver.o: pzpbdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 
 psptdriver.o: psptdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pdptdriver.o: pdptdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pcptdriver.o: pcptdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pzptdriver.o: pzptdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 
 psinvdriver.o: psinvdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pdinvdriver.o: pdinvdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pcinvdriver.o: pcinvdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pzinvdriver.o: pzinvdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 
 psqrdriver.o: psqrdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pdqrdriver.o: pdqrdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pcqrdriver.o: pcqrdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pzqrdriver.o: pzqrdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 
 pslsdriver.o: pslsdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pdlsdriver.o: pdlsdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pclsdriver.o: pclsdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 pzlsdriver.o: pzlsdriver.f
-	$(FC) $(DRVOPTS) -c $<
+	$(FC) $(FCFLAGS) -c $<
 
 .f.o : ; $(FC) -c $(FCFLAGS) $*.f
