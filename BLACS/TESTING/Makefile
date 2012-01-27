@@ -15,7 +15,7 @@ all : xCbtest xFbtest
 obj = blacstest.o btprim.o
 
 xCbtest: $(obj) $(tools)
-	$(CC) -c $(CCFLAGS) -DBTCINTFACE Cbt.c
+	$(CC) -c $(CDEFS) $(CCFLAGS) -DBTCINTFACE Cbt.c
 	$(FCLOADER) $(FCLOADFLAGS) -o $@ $(obj) $(tools) Cbt.o ../../$(SCALAPACKLIB)
 
 xFbtest: $(obj) $(tools)
