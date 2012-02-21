@@ -675,7 +675,7 @@
 *
 *     Each processor computes the work assignments for all processors
 *
-      CALL CMPIM2( IIL, IIU, NPROCS,
+      CALL SMPIM2( IIL, IIU, NPROCS,
      $             IWORK(INDILU), IWORK(INDILU+NPROCS) )
 *
 *     Find local work assignment
@@ -1116,7 +1116,7 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
          IWORK( 1 ) = 0
          DO 180 I = 1, NPROCS
 *           Find IL and IU for processor i-1
-*           Has already been computed by CMPIM2 and stored
+*           Has already been computed by SMPIM2 and stored
             IPIL = IWORK(INDILU+I-1)
             IPIU = IWORK(INDILU+NPROCS+I-1)
             IF (IPIL .EQ. 0) THEN
@@ -1172,7 +1172,7 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
 *     
 *
 ***********************************************************************
-      SUBROUTINE CMPIM2( IL, IU, NPROCS, PMYILS, PMYIUS )
+      SUBROUTINE SMPIM2( IL, IU, NPROCS, PMYILS, PMYIUS )
 
       IMPLICIT NONE
 
@@ -1182,7 +1182,7 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
 *     Purpose
 *     =======
 *
-*     CMPIM2 is the scheduling subroutine.
+*     SMPIM2 is the scheduling subroutine.
 *     It computes for all processors the eigenpair range assignments.
 *
 *     Arguments
@@ -1248,7 +1248,7 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
 *     Purpose
 *     =======
 *
-*     Using the output from CMPIM2 and given the information on
+*     Using the output from SMPIM2 and given the information on
 *     eigenvalue clusters, CMPCOL finds the collaborators of MYPROC.
 *
 *     Arguments
