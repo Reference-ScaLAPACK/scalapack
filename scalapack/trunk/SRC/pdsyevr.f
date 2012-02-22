@@ -863,7 +863,7 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
 *
 *           Find collaborators of MYPROC            
             IF( (NPROCS.GT.1).AND.(MYIL.GT.0) ) THEN
-               CALL CMPCOL( MYPROC, NPROCS, IIL, NEEDIL, NEEDIU, 
+               CALL DMPCOL( MYPROC, NPROCS, IIL, NEEDIL, NEEDIU, 
      $                   IWORK(INDILU), IWORK(INDILU+NPROCS),
      $                   COLBRT, FRSTCL, LASTCL )
             ELSE
@@ -949,7 +949,7 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
             IINDWLC = INDWORK + INDWLC - 1
             IF(.NOT.FINISH) THEN
                IF((NEEDIL.LT.DOL).OR.(NEEDIU.GT.DOU)) THEN
-                  CALL CMPCOL( MYPROC, NPROCS, IIL, NEEDIL, NEEDIU,
+                  CALL DMPCOL( MYPROC, NPROCS, IIL, NEEDIL, NEEDIU,
      $                 IWORK(INDILU), IWORK(INDILU+NPROCS),
      $                   COLBRT, FRSTCL, LASTCL )
                ELSE
@@ -1234,7 +1234,7 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
       END
 
 
-      SUBROUTINE CMPCOL( MYPROC, NPROCS, IIL, NEEDIL, NEEDIU, 
+      SUBROUTINE DMPCOL( MYPROC, NPROCS, IIL, NEEDIL, NEEDIU, 
      $                   PMYILS, PMYIUS,
      $                   COLBRT, FRSTCL, LASTCL )
 
@@ -1249,7 +1249,7 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
 *     =======
 *
 *     Using the output from DMPIM2 and given the information on
-*     eigenvalue clusters, CMPCOL finds the collaborators of MYPROC.
+*     eigenvalue clusters, DMPCOL finds the collaborators of MYPROC.
 *
 *     Arguments
 *     =========
