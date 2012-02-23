@@ -455,7 +455,7 @@
                   DO 70 KKROW = IROW, IROW1, VSTEP
                      KLN = MIN( VSTEP, IROW1-KKROW+1 )
                      CALL SGEMM( 'N', 'N', KLN, NH, NH, ONE,
-     $                    A( KKROW+(ICOL-1)*LDA ), LDA, V, LDV, ZERO,
+     $                    A( KKROW+(ICOL-1)*LDA ), LDA, V, LDV,
      $                    ZERO, WORK, KLN )
                      CALL SLACPY( 'A', KLN, NH, WORK, KLN,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA )
