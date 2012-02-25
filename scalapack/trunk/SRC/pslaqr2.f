@@ -236,7 +236,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, INFOG2L, SLASET,
      $                   SLAQR3, DESCINIT, PSGEMM, PSGEMR2D, SGEMM,
-     $                   SLACPY, SGESD2D, SGERV2D, SGEBS2D, SGEBR2D
+     $                   SLACPY, SGESD2D, SGERV2D, SGEBS2D, SGEBR2D,
      $                   IGEBS2D, IGEBR2D
 *     ..
 *     .. Intrinsic Functions ..
