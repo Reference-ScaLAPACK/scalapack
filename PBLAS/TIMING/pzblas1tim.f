@@ -1,3 +1,14 @@
+      BLOCK DATA
+      INTEGER NSUBS
+      PARAMETER (NSUBS = 10)
+      CHARACTER*7        SNAMES( NSUBS )
+      COMMON             /SNAMEC/SNAMES
+      DATA               SNAMES/'PZSWAP ', 'PZSCAL ',
+     $                   'PZDSCAL', 'PZCOPY', 'PZAXPY ',
+     $                   'PZDOTU ', 'PZDOTC' , 'PDZNRM2',
+     $                   'PDZASUM', 'PZAMAX '/
+      END BLOCK DATA
+
       PROGRAM PZBLA1TIM
 *
 *  -- PBLAS timing driver (version 2.0) --
@@ -156,10 +167,6 @@
       COMMON             /PBERRORC/NOUT, ABRTFLG
 *     ..
 *     .. Data Statements ..
-      DATA               SNAMES/'PZSWAP ', 'PZSCAL ',
-     $                   'PZDSCAL ', 'PZCOPY', 'PZAXPY ',
-     $                   'PZDOTU ', 'PZDOTC' , 'PDZNRM2',
-     $                   'PDZASUM', 'PZAMAX '/
       DATA               YCHECK/.TRUE., .FALSE., .FALSE., .TRUE.,
      $                   .TRUE., .TRUE., .TRUE., .FALSE., .FALSE.,
      $                   .FALSE./

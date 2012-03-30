@@ -1,3 +1,13 @@
+      BLOCK DATA
+      INTEGER NSUBS
+      PARAMETER (NSUBS = 8)
+      CHARACTER*7        SNAMES( NSUBS )
+      COMMON             /SNAMEC/SNAMES
+      DATA               SNAMES/'PDSWAP ', 'PDSCAL ', 'PDCOPY ',
+     $                   'PDAXPY ', 'PDDOT  ', 'PDNRM2 ',
+     $                   'PDASUM ', 'PDAMAX '/
+      END BLOCK DATA
+      
       PROGRAM PDBLA1TIM
 *
 *  -- PBLAS timing driver (version 2.0) --
@@ -150,9 +160,6 @@
       COMMON             /PBERRORC/NOUT, ABRTFLG
 *     ..
 *     .. Data Statements ..
-      DATA               SNAMES/'PDSWAP ', 'PDSCAL ', 'PDCOPY ',
-     $                   'PDAXPY ', 'PDDOT  ', 'PDNRM2 ',
-     $                   'PDASUM ', 'PDAMAX '/
       DATA               YCHECK/.TRUE., .FALSE., .TRUE., .TRUE., .TRUE.,
      $                   .FALSE., .FALSE., .FALSE./
 *     ..

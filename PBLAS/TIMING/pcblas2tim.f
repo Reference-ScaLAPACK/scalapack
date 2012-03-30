@@ -1,3 +1,13 @@
+      BLOCK DATA
+      INTEGER NSUBS
+      PARAMETER (NSUBS = 8)
+      CHARACTER*7        SNAMES( 8 )
+      COMMON             /SNAMEC/SNAMES
+      DATA               SNAMES/'PCGEMV ', 'PCHEMV ', 'PCTRMV ',
+     $                   'PCTRSV ', 'PCGERU ', 'PCGERC ',
+     $                   'PCHER  ', 'PCHER2 '/
+      END BLOCK DATA
+      
       PROGRAM PCBLA2TIM
 *
 *  -- PBLAS timing driver (version 2.0) --
@@ -188,9 +198,6 @@
       COMMON             /PBERRORC/NOUT, ABRTFLG
 *     ..
 *     .. Data Statements ..
-      DATA               SNAMES/'PCGEMV ', 'PCHEMV ', 'PCTRMV ',
-     $                   'PCTRSV ', 'PCGERU ', 'PCGERC ',
-     $                   'PCHER  ', 'PCHER2 '/
       DATA               YCHECK/.TRUE., .TRUE., .FALSE., .FALSE.,
      $                   .TRUE., .TRUE., .FALSE., .TRUE./
 *     ..

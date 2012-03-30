@@ -1,3 +1,14 @@
+      BLOCK DATA
+      INTEGER NSUBS
+      PARAMETER (NSUBS = 10)
+      CHARACTER*7        SNAMES( NSUBS )
+      COMMON             /SNAMEC/SNAMES
+      DATA               SNAMES/'PCSWAP ', 'PCSCAL ',
+     $                   'PCSSCAL', 'PCCOPY', 'PCAXPY ',
+     $                   'PCDOTU ', 'PCDOTC' , 'PSCNRM2',
+     $                   'PSCASUM', 'PCAMAX '/
+      END BLOCK DATA
+
       PROGRAM PCBLA1TIM
 *
 *  -- PBLAS timing driver (version 2.0) --
@@ -157,10 +168,6 @@
       COMMON             /PBERRORC/NOUT, ABRTFLG
 *     ..
 *     .. Data Statements ..
-      DATA               SNAMES/'PCSWAP ', 'PCSCAL ',
-     $                   'PCSSCAL ', 'PCCOPY', 'PCAXPY ',
-     $                   'PCDOTU ', 'PCDOTC' , 'PSCNRM2',
-     $                   'PSCASUM', 'PCAMAX '/
       DATA               YCHECK/.TRUE., .FALSE., .FALSE., .TRUE.,
      $                   .TRUE., .TRUE., .TRUE., .FALSE., .FALSE.,
      $                   .FALSE./
