@@ -1,3 +1,14 @@
+      BLOCK DATA
+      INTEGER NSUBS
+      PARAMETER (NSUBS = 11)
+      CHARACTER*7        SNAMES( NSUBS )
+      COMMON             /SNAMEC/SNAMES
+      DATA               SNAMES/'PZGEMM ', 'PZSYMM ', 'PZHEMM ',
+     $                   'PZSYRK ', 'PZHERK ', 'PZSYR2K',
+     $                   'PZHER2K', 'PZTRMM ', 'PZTRSM ',
+     $                   'PZGEADD', 'PZTRADD'/
+      END BLOCK DATA
+                   
       PROGRAM PZBLA3TST
 *
 *  -- PBLAS testing driver (version 2.0) --
@@ -212,10 +223,6 @@
       COMMON             /PBERRORC/NOUT, ABRTFLG
 *     ..
 *     .. Data Statements ..
-      DATA               SNAMES/'PZGEMM ', 'PZSYMM ', 'PZHEMM ',
-     $                   'PZSYRK ', 'PZHERK ', 'PZSYR2K',
-     $                   'PZHER2K', 'PZTRMM ', 'PZTRSM ',
-     $                   'PZGEADD', 'PZTRADD'/
       DATA               BCHECK/.TRUE., .TRUE., .TRUE., .FALSE.,
      $                   .FALSE., .TRUE., .TRUE., .TRUE., .TRUE.,
      $                   .FALSE., .FALSE./

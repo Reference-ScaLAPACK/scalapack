@@ -1,3 +1,13 @@
+      BLOCK DATA
+      INTEGER NSUBS
+      PARAMETER (NSUBS = 8)
+      CHARACTER*7        SNAMES( NSUBS )
+      COMMON             /SNAMEC/SNAMES
+      DATA               SNAMES/'PSGEMM ', 'PSSYMM ', 'PSSYRK ',
+     $                   'PSSYR2K', 'PSTRMM ', 'PSTRSM ',
+     $                   'PSGEADD', 'PSTRADD'/
+      END BLOCK DATA
+
       PROGRAM PSBLA3TIM
 *
 *  -- PBLAS timing driver (version 2.0) --
@@ -189,9 +199,6 @@
       COMMON             /PBERRORC/NOUT, ABRTFLG
 *     ..
 *     .. Data Statements ..
-      DATA               SNAMES/'PSGEMM ', 'PSSYMM ', 'PSSYRK ',
-     $                   'PSSYR2K', 'PSTRMM ', 'PSTRSM ',
-     $                   'PSGEADD', 'PSTRADD'/
       DATA               BCHECK/.TRUE., .TRUE., .FALSE., .TRUE., .TRUE.,
      $                   .TRUE., .FALSE., .FALSE./
       DATA               CCHECK/.TRUE., .TRUE., .TRUE., .TRUE., .FALSE.,

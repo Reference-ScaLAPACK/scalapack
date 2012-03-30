@@ -19,11 +19,7 @@
 #define  proto(x)	()
 
 
-void pdlasnbt_( ieflag )
-/*
-*  .. Scalar Arguments ..
-*/
-   int         *ieflag;
+void pdlasnbt_( int *ieflag )
 {
 /* 
 *
@@ -85,12 +81,7 @@ void pdlasnbt_( ieflag )
 #endif
 }
 
-void pdlaiectb_( sigma, n, d, count )
-/*
-*  .. Scalar Arguments ..
-*/
-   double      *sigma, *d;
-   int         *n, *count;
+void pdlaiectb_( double *sigma, int *n, double *d, int *count )
 {
 /* 
 *
@@ -156,12 +147,7 @@ void pdlaiectb_( sigma, n, d, count )
    }
 }
 
-void pdlaiectl_( sigma, n, d, count )
-/*
-*  .. Scalar Arguments ..
-*/
-   double      *sigma, *d;
-   int         *n, *count;
+void pdlaiectl_( double *sigma, int *n, double *d, int *count )
 {
 /* 
 *
@@ -227,12 +213,7 @@ void pdlaiectl_( sigma, n, d, count )
    }
 }
 
-pdlachkieee_( isieee, rmax, rmin )
-/*
-*  .. Scalar Arguments ..
-*/
-   double *rmax, *rmin;
-   int         *isieee;
+void pdlachkieee_( int *isieee, double *rmax, double *rmin )
 {
 /* 
 *

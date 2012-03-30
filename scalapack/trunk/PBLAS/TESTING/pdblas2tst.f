@@ -1,3 +1,13 @@
+      BLOCK DATA
+      INTEGER NSUBS
+      PARAMETER (NSUBS = 7)
+      CHARACTER*7        SNAMES( NSUBS )
+      COMMON             /SNAMEC/SNAMES
+      DATA               SNAMES/'PDGEMV ', 'PDSYMV ', 'PDTRMV ',
+     $                   'PDTRSV ', 'PDGER  ', 'PDSYR  ',
+     $                   'PDSYR2 '/
+      END BLOCK DATA
+      
       PROGRAM PDBLA2TST
 *
 *  -- PBLAS testing driver (version 2.0) --
@@ -197,9 +207,6 @@
       COMMON             /PBERRORC/NOUT, ABRTFLG
 *     ..
 *     .. Data Statements ..
-      DATA               SNAMES/'PDGEMV ', 'PDSYMV ', 'PDTRMV ',
-     $                   'PDTRSV ', 'PDGER  ', 'PDSYR  ',
-     $                   'PDSYR2 '/
       DATA               YCHECK/.TRUE., .TRUE., .FALSE., .FALSE.,
      $                   .TRUE., .FALSE., .TRUE./
 *     ..
