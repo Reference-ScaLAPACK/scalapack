@@ -675,7 +675,7 @@
 *
 *     Each processor computes the work assignments for all processors
 *
-      CALL DMPIM2( IIL, IIU, NPROCS,
+      CALL PMPIM2( IIL, IIU, NPROCS,
      $             IWORK(INDILU), IWORK(INDILU+NPROCS) )
 *
 *     Find local work assignment
@@ -863,7 +863,7 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
 *
 *           Find collaborators of MYPROC            
             IF( (NPROCS.GT.1).AND.(MYIL.GT.0) ) THEN
-               CALL DMPCOL( MYPROC, NPROCS, IIL, NEEDIL, NEEDIU, 
+               CALL PMPCOL( MYPROC, NPROCS, IIL, NEEDIL, NEEDIU, 
      $                   IWORK(INDILU), IWORK(INDILU+NPROCS),
      $                   COLBRT, FRSTCL, LASTCL )
             ELSE
@@ -949,7 +949,7 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
             IINDWLC = INDWORK + INDWLC - 1
             IF(.NOT.FINISH) THEN
                IF((NEEDIL.LT.DOL).OR.(NEEDIU.GT.DOU)) THEN
-                  CALL DMPCOL( MYPROC, NPROCS, IIL, NEEDIL, NEEDIU,
+                  CALL PMPCOL( MYPROC, NPROCS, IIL, NEEDIL, NEEDIU,
      $                 IWORK(INDILU), IWORK(INDILU+NPROCS),
      $                   COLBRT, FRSTCL, LASTCL )
                ELSE
@@ -1116,7 +1116,7 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
          IWORK( 1 ) = 0
          DO 180 I = 1, NPROCS
 *           Find IL and IU for processor i-1
-*           Has already been computed by DMPIM2 and stored
+*           Has already been computed by PMPIM2 and stored
             IPIL = IWORK(INDILU+I-1)
             IPIU = IWORK(INDILU+NPROCS+I-1)
             IF (IPIL .EQ. 0) THEN
@@ -1164,167 +1164,4 @@ C        Part 2. Share eigenvalues and uncertainties between all processors
 *
 *     End of PDSYEVR
 *
-      END
-
-***********************************************************************
-*
-*     Below are auxiliary subroutines for eigenpair assignments.
-*     
-*
-***********************************************************************
-      SUBROUTINE DMPIM2( IL, IU, NPROCS, PMYILS, PMYIUS )
-
-      IMPLICIT NONE
-
-      INTEGER IL, IU, M, NPROCS, PRCCTR
-      INTEGER PMYILS( * ), PMYIUS( * )
-*
-*     Purpose
-*     =======
-*
-*     DMPIM2 is the scheduling subroutine.
-*     It computes for all processors the eigenpair range assignments.
-*
-*     Arguments
-*     =========
-*
-*     IL, IU  (input) INTEGER
-*             The range of eigenpairs to be computed
-*
-*     NPROCS  (input) INTEGER
-*             The total number of processors available
-*
-*     PMYILS  (output) INTEGER array
-*             For each processor p,  PMYILS(p) is the index 
-*             of the first eigenvalue in W to be computed
-*             PMYILS(p) equals zero if p stays idle
-*
-*     PMYIUS  (output) INTEGER array
-*             For each processor p,  PMYIUS(p) is the index
-*             of the last eigenvalue in W to be computed
-*             PMYIUS(p) equals zero if p stays idle
-*
-
-      M = IU - IL + 1
-
-      IF ( NPROCS.GT.M ) THEN
-         DO 10 PRCCTR = 0, NPROCS-1
-            IF ( PRCCTR.LT.M ) THEN
-               PMYILS(PRCCTR+1) = PRCCTR + IL
-               PMYIUS(PRCCTR+1) = PRCCTR + IL
-            ELSE
-               PMYILS(PRCCTR+1) = 0
-               PMYIUS(PRCCTR+1) = 0
-            END IF
- 10      CONTINUE
-      ELSE
-         DO 20 PRCCTR = 0, NPROCS-1
-            PMYILS(PRCCTR+1) = (PRCCTR * (M / NPROCS)) + IL
-            IF (PRCCTR.LT.MOD(M, NPROCS)) THEN
-               PMYILS(PRCCTR+1) = PMYILS(PRCCTR+1) + PRCCTR
-               PMYIUS(PRCCTR+1) = PMYILS(PRCCTR+1) + M / NPROCS
-            ELSE
-               PMYILS(PRCCTR+1) = PMYILS(PRCCTR+1) + MOD(M, NPROCS)
-               PMYIUS(PRCCTR+1) = PMYILS(PRCCTR+1) + M / NPROCS - 1
-            END IF
- 20      CONTINUE
-      END IF
-
-      RETURN
-      END
-
-
-      SUBROUTINE DMPCOL( MYPROC, NPROCS, IIL, NEEDIL, NEEDIU, 
-     $                   PMYILS, PMYIUS,
-     $                   COLBRT, FRSTCL, LASTCL )
-
-      IMPLICIT NONE
-
-      INTEGER            FRSTCL, IIL, LASTCL, MYPROC, NEEDIL, NEEDIU,
-     $                   NPROCS
-      INTEGER PMYILS( * ), PMYIUS( * )
-      LOGICAL COLBRT
-*
-*     Purpose
-*     =======
-*
-*     Using the output from DMPIM2 and given the information on
-*     eigenvalue clusters, DMPCOL finds the collaborators of MYPROC.
-*
-*     Arguments
-*     =========
-*
-*     MYPROC  (input) INTEGER
-*             The processor number, 0 <= MYPROC < NPROCS
-*
-*     NPROCS  (input) INTEGER
-*             The total number of processors available
-*
-*     IIL     (input) INTEGER
-*             The index of the leftmost eigenvalue in W
-*
-*     NEEDIL  (input) INTEGER
-*             The leftmost position in W needed by MYPROC
-*
-*     NEEDIU  (input) INTEGER
-*             The rightmost position in W needed by MYPROC
-*
-*     PMYILS  (input) INTEGER array
-*             For each processor p,  PMYILS(p) is the index
-*             of the first eigenvalue in W to be computed
-*             PMYILS(p) equals zero if p stays idle
-*
-*     PMYIUS  (input) INTEGER array
-*             For each processor p,  PMYIUS(p) is the index
-*             of the last eigenvalue in W to be computed
-*             PMYIUS(p) equals zero if p stays idle
-*
-*     COLBRT  (output) LOGICAL
-*             TRUE if MYPROC collaborates.
-*
-*     FRSTCL  (output) INTEGER
-*     LASTCL  FIRST and LAST collaborator of MYPROC   
-*             MYPROC collaborates with
-*             FRSTCL, ..., MYPROC-1, MYPROC+1, ...,LASTCL 
-*             If MYPROC == FRSTCL, there are no collaborators 
-*             on the left. IF MYPROC == LASTCL, there are no
-*             collaborators on the right.
-*             If FRSTCL == 0 and LASTCL = NPROCS-1, then
-*             MYPROC collaborates with everybody
-*
-      INTEGER I, NEEDIIL, NEEDIIU
-
-*     Compute global eigenvalue index from position in W
-      NEEDIIL = NEEDIL + IIL - 1
-      NEEDIIU = NEEDIU + IIL - 1
-
-
-*     Find processor responsible for NEEDIL, this is the first
-*     collaborator
-      DO 1 I = 1, NPROCS
-         IF( PMYILS(I).GT.NEEDIIL) GOTO 2
-         FRSTCL = I-1
- 1    CONTINUE
- 2    CONTINUE
-
-*     Find processor responsible for NEEDIU, this is the last
-*     collaborator
-      DO 3 I = NPROCS,1,-1
-         IF( PMYIUS(I).LT.NEEDIIU ) THEN  
-*          Need to check special case: does this proc work at all?
-           IF( PMYIUS(I).GT.0 )
-     $        GOTO 4
-         ENDIF
-         LASTCL = I-1
- 3    CONTINUE
- 4    CONTINUE
-
-*     Decide if there is a collaboration
-      IF( (FRSTCL.LT.MYPROC).OR.(LASTCL.GT.MYPROC) ) THEN
-         COLBRT = .TRUE.
-      ELSE
-         COLBRT = .FALSE.
-      ENDIF
-
-      RETURN
       END

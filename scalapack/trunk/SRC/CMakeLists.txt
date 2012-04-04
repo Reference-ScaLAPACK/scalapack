@@ -1,4 +1,4 @@
-set (ALLAUX  pjlaenv.f  pilaenvx.f piparmq.f pilaver.f)
+set (ALLAUX  pjlaenv.f  pilaenvx.f piparmq.f pilaver.f pmpim2.f pmpcol.f)
 set (ALLAUX-C  pbchkvect.c getpbbuf.c pcrot.c pslaiect.c pdlaiect.c pzrot.c )
 
 set (SCLAUX  
