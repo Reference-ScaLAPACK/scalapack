@@ -945,8 +945,11 @@
             CALL DGESD2D( ICTXT, BM, 2*BW, AF( BBPTR+BW*LDBB ), LDBB, 0,
      $                    NEICOL )
 *
-            CALL DLACPY( 'G', BM, 2*BW, AF( BBPTR+BW*LDBB ), LDBB,
-     $                   AF( BBPTR+BMN ), LDBB )
+            DO J=0,2*BW-1
+               DO I=0,BM-1
+                  AF(BBPTR+BMN+I+J*LDBB) = AF(BBPTR+BW*LDBB+I+J*LDBB)
+               END DO
+            END DO
 *
             DO 130 J = BBPTR + 2*BW*LDBB, BBPTR + 3*BW*LDBB - 1, LDBB
                DO 120 I = 0, LDBB - 1
