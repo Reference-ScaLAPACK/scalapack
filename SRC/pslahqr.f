@@ -255,7 +255,7 @@
       REAL               AVE, DISC, H00, H10, H11, H12, H21, H22, H33,
      $                   H43H34, H44, OVFL, S, SMLNUM, SUM, T1, T1COPY,
      $                   T2, T3, ULP, UNFL, V1SAVE, V2, V2SAVE, V3,
-     $                   V3SAVE
+     $                   V3SAVE, CS, SN
 *     ..
 *     .. Local Arrays ..
       INTEGER            ICURCOL( IBLK ), ICURROW( IBLK ), K1( IBLK ),
