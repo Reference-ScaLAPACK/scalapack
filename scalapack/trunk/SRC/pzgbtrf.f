@@ -857,8 +857,12 @@
 *        ODPTR = Pointer to offdiagonal blocks in A
 *
          ODPTR = LM-BM+1
-         CALL ZLACPY('G',BM,BW, AF(ODPTR),LM,
-     $        AF(BBPTR +2*BW*LDBB),LDBB)
+         DO J=0,BW-1
+            DO I=0,BM-1
+               AF(BBPTR +2*BW*LDBB+I+J*LDBB) = 
+     $              AF(ODPTR+I+J*LM)
+            END DO
+         END DO
       ENDIF
 *
       IF (NPCOL.EQ.1) THEN
@@ -924,8 +928,12 @@
 *
 *                     Copy diagonal block to align whole system
 *
-                      CALL ZLACPY( 'G', BMN, BW, AF( BBPTR+BM ),
-     $                  LDBB, AF( BBPTR+2*BW*LDBB+BM ), LDBB )
+                      DO J=0,BW-1
+                         DO I=0,BMN-1
+                            AF(BBPTR+2*BW*LDBB+BM+I+J*LDBB) =
+     $                           AF(BBPTR+BM+I+J*LDBB)
+                         END DO
+                      END DO
                    ENDIF
 *
                 ENDIF
@@ -950,8 +958,12 @@
                 CALL ZGESD2D( ICTXT, BM, 2*BW, AF(BBPTR+BW*LDBB),
      $               LDBB, 0, NEICOL )
 *
-                CALL ZLACPY('G',BM, 2*BW, AF(BBPTR+BW*LDBB),LDBB,
-     $               AF(BBPTR+BMN),LDBB)
+                DO J=0,2*BW-1
+                   DO I=0,BM-1
+                      AF(BBPTR+BMN+I+J*LDBB) =
+     $                     AF(BBPTR+BW*LDBB+I+J*LDBB)
+                   END DO
+                END DO
 *
                 DO 31 J=BBPTR+2*BW*LDBB, BBPTR+3*BW*LDBB-1, LDBB
                    DO 32 I=0, LDBB-1
@@ -966,8 +978,12 @@
 *
 *                  Copy diagonal block to align whole system
 *
-                   CALL ZLACPY( 'G', BM, BW, AF( BBPTR+BMN ),
-     $               LDBB, AF( BBPTR+2*BW*LDBB+BMN ), LDBB )
+                   DO J=0,BW-1
+                      DO I=0,BM-1
+                         AF(BBPTR+2*BW*LDBB+BMN+I+J*LDBB) =
+     $                        AF(BBPTR+BMN+I+J*LDBB)
+                      END DO
+                   END DO
                 ENDIF
 *
              ENDIF
@@ -1029,12 +1045,18 @@
 *                  Local copying in the block bidiagonal area
 *
 *
-                   CALL ZLACPY('G',BM,BW,
-     $                  AF(BBPTR+BW),
-     $                  LDBB, AF(BBPTR+BW*LDBB), LDBB)
-                   CALL ZLACPY('G',BM,BW,
-     $                  AF(BBPTR+2*BW*LDBB+BW),
-     $                  LDBB, AF(BBPTR+2*BW*LDBB), LDBB)
+                   DO J=0,BW-1
+                      DO I=0,BM-1
+                         AF(BBPTR+BW*LDBB+I+J*LDBB) = 
+     $                        AF(BBPTR+BW+I+J*LDBB)
+                      END DO
+                   END DO
+                   DO J=0,BW-1
+                      DO I=0,BM-1
+                         AF(BBPTR+2*BW*LDBB+I+J*LDBB) = 
+     $                        AF(BBPTR+2*BW*LDBB+BW+I+J*LDBB)
+                      END DO
+                   END DO
 *
 *                  Zero out space that held original copy
 *

@@ -919,8 +919,12 @@
 *
 *                     Copy diagonal block to align whole system
 *
-                  CALL DLACPY( 'G', BMN, BW, AF( BBPTR+BM ), LDBB,
-     $                         AF( BBPTR+2*BW*LDBB+BM ), LDBB )
+                  DO J=0,BW-1
+                     DO I=0,BMN
+                        AF(BBPTR+2*BW*LDBB+BM+I+J*LDBB) = 
+     $                       AF(BBPTR+BM+I+J*LDBB)
+                     END DO
+                  END DO
                END IF
 *
             END IF
@@ -964,8 +968,12 @@
 *
 *                  Copy diagonal block to align whole system
 *
-               CALL DLACPY( 'G', BM, BW, AF( BBPTR+BMN ), LDBB,
-     $                      AF( BBPTR+2*BW*LDBB+BMN ), LDBB )
+               DO J=0,BW-1
+                  DO I=0,BM-1
+                     AF(BBPTR+2*BW*LDBB+BMN+I+J*LDBB) = 
+     $                    AF(BBPTR+BMN+I+J*LDBB)
+                  END DO
+               END DO
             END IF
 *
          END IF
@@ -1026,18 +1034,26 @@
 *                  Local copying in the block bidiagonal area
 *
 *
-               CALL DLACPY( 'G', BM, BW, AF( BBPTR+BW ), LDBB,
-     $                      AF( BBPTR+BW*LDBB ), LDBB )
-               CALL DLACPY( 'G', BM, BW, AF( BBPTR+2*BW*LDBB+BW ), LDBB,
-     $                      AF( BBPTR+2*BW*LDBB ), LDBB )
+               DO J=0,BW-1
+                  DO I=0,BM-1
+                     AF(BBPTR+BW*LDBB+I+J*LDBB) = 
+     $                    AF(BBPTR+BW+I+J*LDBB)
+                  END DO
+               END DO
+               DO J=0,BW-1
+                  DO I=0,BM-1
+                     AF(BBPTR+2*BW*LDBB+I+J*LDBB) = 
+     $                    AF(BBPTR+2*BW*LDBB+BW+I+J*LDBB)
+                  END DO
+               END DO
 *
 *                  Zero out space that held original copy
 *
-               DO 170 J = 0, BW - 1
-                  DO 160 I = 0, BM - 1
+               DO J = 0, BW - 1
+                  DO I = 0, BM - 1
                      AF( BBPTR+2*BW*LDBB+BW+J*LDBB+I ) = ZERO
-  160             CONTINUE
-  170          CONTINUE
+                  END DO
+               END DO
 *
             END IF
 *
