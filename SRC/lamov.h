@@ -7,7 +7,7 @@
 #include "pblas.h"
 #include <ctype.h>
 
-extern void _xerbla(const char *, const F_INTG_FCT *, size_t);
+extern void xerbla_(const char *, const F_INTG_FCT *, size_t);
 
 void LACPY(const char *UPLO,
            const F_INTG_FCT *M,
