@@ -101,7 +101,7 @@
       EXTERNAL           SLAMCH, SLANGE
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           SLACPY, SLANV2, SLARFG, SLARFX, SLARTG, SLASY2,
+      EXTERNAL           SLAMOV, SLANV2, SLARFG, SLARFX, SLARTG, SLASY2,
      $                   SROT
 *     ..
 *     .. Intrinsic Functions ..
@@ -155,7 +155,7 @@
 *        and compute its norm.
 *
          ND = N1 + N2
-         CALL SLACPY( 'Full', ND, ND, T( J1, J1 ), LDT, D, LDD )
+         CALL SLAMOV( 'Full', ND, ND, T( J1, J1 ), LDT, D, LDD )
          DNORM = SLANGE( 'Max', ND, ND, D, LDD, WORK )
 *
 *        Compute machine-dependent threshold for test for accepting

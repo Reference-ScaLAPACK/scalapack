@@ -381,7 +381,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GET, BLACS_GRIDEXIT, BLACS_GRIDINFO,
      $                   DESC_CONVERT, GLOBCHK, PXERBLA, RESHAPE, ZAXPY,
-     $                   ZGEMM, ZGERV2D, ZGESD2D, ZLACPY, ZLATCPY,
+     $                   ZGEMM, ZGERV2D, ZGESD2D, ZLAMOV, ZLATCPY,
      $                   ZPBTRF, ZPOTRF, ZSYRK, ZTBTRS, ZTRMM, ZTRRV2D,
      $                   ZTRSD2D, ZTRSM, ZTRTRS
 *     ..
@@ -743,7 +743,7 @@
      $                  A(( OFST+(BWL+BWU+1)+(ODD_SIZE-BWL)*LLDA )),
      $                  LLDA-1, AF( ODD_SIZE*BWU+2*MBW2+1+MAX_BW-BWL ),
      $                  MAX_BW )
-          CALL ZLACPY( 'L', BWU, BWU, A( ( OFST+1+ODD_SIZE*LLDA ) ),
+          CALL ZLAMOV( 'L', BWU, BWU, A( ( OFST+1+ODD_SIZE*LLDA ) ),
      $                 LLDA-1,
      $                 AF( WORK_U+ODD_SIZE*BWL+2*MBW2+1+MAX_BW-BWU ),
      $                 MAX_BW )
@@ -772,7 +772,7 @@
 *
 *         Move the resulting block back to its location in main storage.
 *
-          CALL ZLACPY( 'L', BWU, BWU,
+          CALL ZLAMOV( 'L', BWU, BWU,
      $                 AF( WORK_U+ODD_SIZE*BWL+2*MBW2+1+MAX_BW-BWU ),
      $                 MAX_BW, A(( OFST+1+ODD_SIZE*LLDA )), LLDA-1 )
 *
@@ -952,7 +952,7 @@
 *       Copy last diagonal block into AF storage for subsequent
 *         operations.
 *
-        CALL ZLACPY( 'N', MAX_BW, MAX_BW,
+        CALL ZLAMOV( 'N', MAX_BW, MAX_BW,
      $                    A( OFST+ODD_SIZE*LLDA+BWU+1 ),
      $                    LLDA-1, AF( ODD_SIZE*BWU+MBW2+1 ),
      $                    MAX_BW )
@@ -1040,11 +1040,11 @@
 *           Move block into place that it will be expected to be for
 *             calcs.
 *
-          CALL ZLACPY( 'N', MAX_BW, MAX_BW, AF( ODD_SIZE*BWU+1 ),
+          CALL ZLAMOV( 'N', MAX_BW, MAX_BW, AF( ODD_SIZE*BWU+1 ),
      $                 MAX_BW, AF( WORK_U+ODD_SIZE*BWL+2*MBW2+1 ),
      $                 MAX_BW )
 *
-          CALL ZLACPY( 'N', MAX_BW, MAX_BW, AF( WORK_U+ODD_SIZE*BWL+1 ),
+          CALL ZLAMOV( 'N', MAX_BW, MAX_BW, AF( WORK_U+ODD_SIZE*BWL+1 ),
      $                 MAX_BW, AF( ODD_SIZE*BWU+2*MBW2+1 ), MAX_BW )
 *
         ELSE

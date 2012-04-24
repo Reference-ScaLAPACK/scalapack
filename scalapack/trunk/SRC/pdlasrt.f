@@ -97,7 +97,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, CHK1MAT, PXERBLA, DCOPY,
-     $                   DGERV2D, DGESD2D, DLACPY, DLAPST
+     $                   DGERV2D, DGESD2D, DLAMOV, DLAPST
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          MAX, MIN, MOD
@@ -247,7 +247,7 @@
          ND = ND + NB
          GO TO 20
       END IF
-      CALL DLACPY( 'Full', NP, NQ, WORK, NP, Q( IIQ ), LDQ )
+      CALL DLAMOV( 'Full', NP, NQ, WORK, NP, Q( IIQ ), LDQ )
 *
 *     End of PDLASRT
 *

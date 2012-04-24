@@ -195,7 +195,7 @@
       DOUBLE PRECISION   VT( 3 )
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           DGEMM, DLABAD, DLACPY, DLAQR1, DLARFG, DLASET,
+      EXTERNAL           DGEMM, DLABAD, DLAMOV, DLAQR1, DLARFG, DLASET,
      $                   DTRMM
 *     ..
 *     .. Executable Statements ..
@@ -659,7 +659,7 @@
                   CALL DGEMM( 'C', 'N', NU, JLEN, NU, ONE, U( K1, K1 ),
      $                        LDU, H( INCOL+K1, JCOL ), LDH, ZERO, WH,
      $                        LDWH )
-                  CALL DLACPY( 'ALL', NU, JLEN, WH, LDWH,
+                  CALL DLAMOV( 'ALL', NU, JLEN, WH, LDWH,
      $                         H( INCOL+K1, JCOL ), LDH )
   160          CONTINUE
 *
@@ -670,7 +670,7 @@
                   CALL DGEMM( 'N', 'N', JLEN, NU, NU, ONE,
      $                        H( JROW, INCOL+K1 ), LDH, U( K1, K1 ),
      $                        LDU, ZERO, WV, LDWV )
-                  CALL DLACPY( 'ALL', JLEN, NU, WV, LDWV,
+                  CALL DLAMOV( 'ALL', JLEN, NU, WV, LDWV,
      $                         H( JROW, INCOL+K1 ), LDH )
   170          CONTINUE
 *
@@ -682,7 +682,7 @@
                      CALL DGEMM( 'N', 'N', JLEN, NU, NU, ONE,
      $                           Z( JROW, INCOL+K1 ), LDZ, U( K1, K1 ),
      $                           LDU, ZERO, WV, LDWV )
-                     CALL DLACPY( 'ALL', JLEN, NU, WV, LDWV,
+                     CALL DLAMOV( 'ALL', JLEN, NU, WV, LDWV,
      $                            Z( JROW, INCOL+K1 ), LDZ )
   180             CONTINUE
                END IF
@@ -712,7 +712,7 @@
 *                 ==== Copy bottom of H to top+KZS of scratch ====
 *                  (The first KZS rows get multiplied by zero.) ====
 *
-                  CALL DLACPY( 'ALL', KNZ, JLEN, H( INCOL+1+J2, JCOL ),
+                  CALL DLAMOV( 'ALL', KNZ, JLEN, H( INCOL+1+J2, JCOL ),
      $                 LDH, WH( KZS+1, 1 ), LDWH )
                   CALL DLASET( 'ALL', KZS, JLEN, ZERO, ZERO, WH, LDWH )
 *
@@ -729,7 +729,7 @@
 *
 *                 ==== Copy top of H to bottom of WH ====
 *
-                  CALL DLACPY( 'ALL', J2, JLEN, H( INCOL+1, JCOL ), LDH,
+                  CALL DLAMOV( 'ALL', J2, JLEN, H( INCOL+1, JCOL ), LDH,
      $                         WH( I2+1, 1 ), LDWH )
 *
 *                 ==== Multiply by U21' ====
@@ -746,7 +746,7 @@
 *
 *                 ==== Copy it back ====
 *
-                  CALL DLACPY( 'ALL', KDU, JLEN, WH, LDWH,
+                  CALL DLAMOV( 'ALL', KDU, JLEN, WH, LDWH,
      $                         H( INCOL+1, JCOL ), LDH )
   190          CONTINUE
 *
@@ -758,7 +758,7 @@
 *                 ==== Copy right of H to scratch (the first KZS
 *                 .    columns get multiplied by zero) ====
 *
-                  CALL DLACPY( 'ALL', JLEN, KNZ, H( JROW, INCOL+1+J2 ),
+                  CALL DLAMOV( 'ALL', JLEN, KNZ, H( JROW, INCOL+1+J2 ),
      $                         LDH, WV( 1, 1+KZS ), LDWV )
                   CALL DLASET( 'ALL', JLEN, KZS, ZERO, ZERO, WV, LDWV )
 *
@@ -776,7 +776,7 @@
 *
 *                 ==== Copy left of H to right of scratch ====
 *
-                  CALL DLACPY( 'ALL', JLEN, J2, H( JROW, INCOL+1 ), LDH,
+                  CALL DLAMOV( 'ALL', JLEN, J2, H( JROW, INCOL+1 ), LDH,
      $                         WV( 1, 1+I2 ), LDWV )
 *
 *                 ==== Multiply by U21 ====
@@ -793,7 +793,7 @@
 *
 *                 ==== Copy it back ====
 *
-                  CALL DLACPY( 'ALL', JLEN, KDU, WV, LDWV,
+                  CALL DLAMOV( 'ALL', JLEN, KDU, WV, LDWV,
      $                         H( JROW, INCOL+1 ), LDH )
   200          CONTINUE
 *
@@ -806,7 +806,7 @@
 *                    ==== Copy right of Z to left of scratch (first
 *                    .     KZS columns get multiplied by zero) ====
 *
-                     CALL DLACPY( 'ALL', JLEN, KNZ,
+                     CALL DLAMOV( 'ALL', JLEN, KNZ,
      $                            Z( JROW, INCOL+1+J2 ), LDZ,
      $                            WV( 1, 1+KZS ), LDWV )
 *
@@ -826,7 +826,7 @@
 *
 *                    ==== Copy left of Z to right of scratch ====
 *
-                     CALL DLACPY( 'ALL', JLEN, J2, Z( JROW, INCOL+1 ),
+                     CALL DLAMOV( 'ALL', JLEN, J2, Z( JROW, INCOL+1 ),
      $                            LDZ, WV( 1, 1+I2 ), LDWV )
 *
 *                    ==== Multiply by U21 ====
@@ -844,7 +844,7 @@
 *
 *                    ==== Copy the result back to Z ====
 *
-                     CALL DLACPY( 'ALL', JLEN, KDU, WV, LDWV,
+                     CALL DLAMOV( 'ALL', JLEN, KDU, WV, LDWV,
      $                            Z( JROW, INCOL+1 ), LDZ )
   210             CONTINUE
                END IF

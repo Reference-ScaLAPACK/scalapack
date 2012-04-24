@@ -441,7 +441,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, CHK1MAT, PCHK1MAT, PSTREECOMB,
      $                   PXERBLA, SCOMBNRM2, SGEBR2D, SGEBS2D, SGEMM,
-     $                   SGEMV, SGERV2D, SGESD2D, SGSUM2D, SLACPY,
+     $                   SGEMV, SGERV2D, SGESD2D, SGSUM2D, SLAMOV,
      $                   SSCAL, STRMVT
 *     ..
 *     .. External Functions ..
@@ -1127,10 +1127,10 @@
                IF( INTERLEAVE ) THEN
                   LDZG = LDV / 2
                ELSE
-                  CALL SLACPY( 'A', LTNM1, ANB, WORK( INHT+LIJP1-1 ),
+                  CALL SLAMOV( 'A', LTNM1, ANB, WORK( INHT+LIJP1-1 ),
      $                         LDV, WORK( INVT+LIJP1-1+ANB*LDV ), LDV )
 *
-                  CALL SLACPY( 'A', LTNM1, ANB, WORK( INV+LTLIP1-1 ),
+                  CALL SLAMOV( 'A', LTNM1, ANB, WORK( INV+LTLIP1-1 ),
      $                         LDV, WORK( INH+LTLIP1-1+ANB*LDV ), LDV )
                   LDZG = LDV
                END IF

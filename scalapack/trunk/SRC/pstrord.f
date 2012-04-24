@@ -343,7 +343,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           PSLACPY, PXERBLA, PCHK1MAT, PCHK2MAT,
-     $                   SGEMM, SLACPY, ILACPY, CHK1MAT,
+     $                   SGEMM, SLAMOV, ILACPY, CHK1MAT,
      $                   INFOG2L, DGSUM2D, SGESD2D, SGERV2D, SGEBS2D,
      $                   SGEBR2D, IGSUM2D, BLACS_GRIDINFO, IGEBS2D,
      $                   IGEBR2D, IGAMX2D, IGAMN2D, BSLAAPP, BDTREXC
@@ -993,7 +993,7 @@
                         WORK( BUFFER+INDX-1 ) =
      $                       FLOAT( IWORK(IPIW+INDX-1) )
  180                 CONTINUE
-                     CALL SLACPY( 'All', DLEN, 1, WORK( IPW2 ),
+                     CALL SLAMOV( 'All', DLEN, 1, WORK( IPW2 ),
      $                    DLEN, WORK(BUFFER+ILEN), DLEN )
                      IF( NPCOL.GT.1 .AND. DIR.EQ.1 ) THEN
                         CALL SGEBS2D( ICTXT, 'Row', TOP, BUFFLEN, 1,
@@ -1031,7 +1031,7 @@
                            IWORK(IPIW+INDX-1) =
      $                          INT(WORK( BUFFER+INDX-1 ))
  190                    CONTINUE
-                        CALL SLACPY( 'All', DLEN, 1,
+                        CALL SLAMOV( 'All', DLEN, 1,
      $                       WORK( BUFFER+ILEN ), DLEN,
      $                       WORK( IPW2 ), DLEN )
                      END IF
@@ -1118,7 +1118,7 @@
      $                             ONE, T((JLOC-1)*LLDT+ILOC), LLDT,
      $                             WORK( PDW ), NWIN, ZERO,
      $                             WORK(IPW3), LROWS )
-                              CALL SLACPY( 'All', LROWS, NWIN,
+                              CALL SLAMOV( 'All', LROWS, NWIN,
      $                             WORK(IPW3), LROWS,
      $                             T((JLOC-1)*LLDT+ILOC), LLDT )
                            END IF
@@ -1136,7 +1136,7 @@
      $                                ONE, Q((JLOC-1)*LLDQ+ILOC), LLDQ,
      $                                WORK( PDW ), NWIN, ZERO,
      $                                WORK(IPW3), LROWS )
-                                 CALL SLACPY( 'All', LROWS, NWIN,
+                                 CALL SLAMOV( 'All', LROWS, NWIN,
      $                                WORK(IPW3), LROWS,
      $                                Q((JLOC-1)*LLDQ+ILOC), LLDQ )
                               END IF
@@ -1162,7 +1162,7 @@
      $                                ONE, WORK( PDW ), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT, ZERO,
      $                                WORK(IPW3), NWIN )
-                                 CALL SLACPY( 'All', NWIN, LCOLS,
+                                 CALL SLAMOV( 'All', NWIN, LCOLS,
      $                                WORK(IPW3), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT )
                               END IF
@@ -1180,7 +1180,7 @@
      $                                ONE, WORK( PDW ), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT, ZERO,
      $                                WORK(IPW3), NWIN )
-                                 CALL SLACPY( 'All', NWIN, LCOLS,
+                                 CALL SLAMOV( 'All', NWIN, LCOLS,
      $                                WORK(IPW3), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT )
                               END IF
@@ -1214,7 +1214,7 @@
                               JLOC1 = INDXG2L( I+NWIN-KS, NB, MYCOL,
      $                             DESCT( CSRC_ ), NPCOL )
                               LROWS = MIN(NB,I-INDX)
-                              CALL SLACPY( 'All', LROWS, KS,
+                              CALL SLAMOV( 'All', LROWS, KS,
      $                             T((JLOC1-1)*LLDT+ILOC ), LLDT,
      $                             WORK(IPW3), LROWS )
                               CALL STRMM( 'Right', 'Upper',
@@ -1230,7 +1230,7 @@
 *
 *                             Compute T1*U12 + T2*U22 in workspace.
 *
-                              CALL SLACPY( 'All', LROWS, NWIN-KS,
+                              CALL SLAMOV( 'All', LROWS, NWIN-KS,
      $                             T((JLOC-1)*LLDT+ILOC), LLDT,
      $                             WORK( IPW3+KS*LROWS ), LROWS )
                               CALL STRMM( 'Right', 'Lower',
@@ -1246,7 +1246,7 @@
 *
 *                             Copy workspace to T.
 *
-                              CALL SLACPY( 'All', LROWS, NWIN,
+                              CALL SLAMOV( 'All', LROWS, NWIN,
      $                             WORK(IPW3), LROWS,
      $                             T((JLOC-1)*LLDT+ILOC), LLDT )
                            END IF
@@ -1264,7 +1264,7 @@
                                  JLOC1 = INDXG2L( I+NWIN-KS, NB,
      $                                MYCOL, DESCQ( CSRC_ ), NPCOL )
                                  LROWS = MIN(NB,N-INDX+1)
-                                 CALL SLACPY( 'All', LROWS, KS,
+                                 CALL SLAMOV( 'All', LROWS, KS,
      $                                Q((JLOC1-1)*LLDQ+ILOC ), LLDQ,
      $                                WORK(IPW3), LROWS )
                                  CALL STRMM( 'Right', 'Upper',
@@ -1281,7 +1281,7 @@
 *
 *                                Compute Q1*U12 + Q2*U22 in workspace.
 *
-                                 CALL SLACPY( 'All', LROWS, NWIN-KS,
+                                 CALL SLAMOV( 'All', LROWS, NWIN-KS,
      $                                Q((JLOC-1)*LLDQ+ILOC), LLDQ,
      $                                WORK( IPW3+KS*LROWS ), LROWS)
                                  CALL STRMM( 'Right', 'Lower',
@@ -1298,7 +1298,7 @@
 *
 *                                Copy workspace to Q.
 *
-                                 CALL SLACPY( 'All', LROWS, NWIN,
+                                 CALL SLAMOV( 'All', LROWS, NWIN,
      $                                WORK(IPW3), LROWS,
      $                                Q((JLOC-1)*LLDQ+ILOC), LLDQ )
                               END IF
@@ -1322,7 +1322,7 @@
      $                                DESCT( RSRC_ ), NPROW )
                                  LCOLS = MOD( MIN( NB-MOD(LIHI,NB),
      $                                N-LIHI ), NB )
-                                 CALL SLACPY( 'All', KS, LCOLS,
+                                 CALL SLAMOV( 'All', KS, LCOLS,
      $                                T((JLOC-1)*LLDT+ILOC1), LLDT,
      $                                WORK(IPW3), NWIN )
                                  CALL STRMM( 'Left', 'Upper',
@@ -1338,7 +1338,7 @@
 *                                Compute U12**T*T1 + U22**T*T2 in
 *                                workspace.
 *
-                                 CALL SLACPY( 'All', NWIN-KS, LCOLS,
+                                 CALL SLAMOV( 'All', NWIN-KS, LCOLS,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT,
      $                                WORK( IPW3+KS ), NWIN )
                                  CALL STRMM( 'Left', 'Lower',
@@ -1356,7 +1356,7 @@
 *
 *                                Copy workspace to T.
 *
-                                 CALL SLACPY( 'All', NWIN, LCOLS,
+                                 CALL SLAMOV( 'All', NWIN, LCOLS,
      $                                WORK(IPW3), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT )
                               END IF
@@ -1375,7 +1375,7 @@
                                  ILOC1 = INDXG2L( I+NWIN-KS, NB,
      $                                MYROW, DESCT( RSRC_ ), NPROW )
                                  LCOLS = MIN( NB, N-INDX+1 )
-                                 CALL SLACPY( 'All', KS, LCOLS,
+                                 CALL SLAMOV( 'All', KS, LCOLS,
      $                                T((JLOC-1)*LLDT+ILOC1), LLDT,
      $                                WORK(IPW3), NWIN )
                                  CALL STRMM( 'Left', 'Upper',
@@ -1392,7 +1392,7 @@
 *                                Compute U12**T*T1 + U22**T*T2 in
 *                                workspace.
 *
-                                 CALL SLACPY( 'All', NWIN-KS, LCOLS,
+                                 CALL SLAMOV( 'All', NWIN-KS, LCOLS,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT,
      $                                WORK( IPW3+KS ), NWIN )
                                  CALL STRMM( 'Left', 'Lower',
@@ -1409,7 +1409,7 @@
 *
 *                                Copy workspace to T.
 *
-                                 CALL SLACPY( 'All', NWIN, LCOLS,
+                                 CALL SLAMOV( 'All', NWIN, LCOLS,
      $                                WORK(IPW3), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT )
                               END IF
@@ -1867,7 +1867,7 @@
      $                    NPROW )
                      JLOC = INDXG2L( I, NB, MYCOL, DESCT( CSRC_ ),
      $                    NPCOL )
-                     CALL SLACPY( 'All', DIM1, DIM1,
+                     CALL SLAMOV( 'All', DIM1, DIM1,
      $                    T((JLOC-1)*LLDT+ILOC), LLDT, WORK(IPW2),
      $                    NWIN )
                      IF( RSRC1.NE.RSRC4 .OR. CSRC1.NE.CSRC4 ) THEN
@@ -1883,7 +1883,7 @@
      $                    NPROW )
                      JLOC = INDXG2L( I+DIM1, NB, MYCOL, DESCT( CSRC_ ),
      $                    NPCOL )
-                     CALL SLACPY( 'All', DIM4, DIM4,
+                     CALL SLAMOV( 'All', DIM4, DIM4,
      $                    T((JLOC-1)*LLDT+ILOC), LLDT,
      $                    WORK(IPW2+DIM1*NWIN+DIM1), NWIN )
                      IF( RSRC4.NE.RSRC1 .OR. CSRC4.NE.CSRC1 ) THEN
@@ -1899,7 +1899,7 @@
      $                    NPROW )
                      JLOC = INDXG2L( I+DIM1, NB, MYCOL, DESCT( CSRC_ ),
      $                    NPCOL )
-                     CALL SLACPY( 'All', DIM1, DIM4,
+                     CALL SLAMOV( 'All', DIM1, DIM4,
      $                    T((JLOC-1)*LLDT+ILOC), LLDT,
      $                    WORK(IPW2+DIM1*NWIN), NWIN )
                      IF( RSRC2.NE.RSRC1 .OR. CSRC2.NE.CSRC1 ) THEN
@@ -1918,7 +1918,7 @@
      $                    NPROW )
                      JLOC = INDXG2L( I+DIM1-1, NB, MYCOL,
      $                    DESCT( CSRC_ ), NPCOL )
-                     CALL SLACPY( 'All', 1, 1,
+                     CALL SLAMOV( 'All', 1, 1,
      $                    T((JLOC-1)*LLDT+ILOC), LLDT,
      $                    WORK(IPW2+(DIM1-1)*NWIN+DIM1), NWIN )
                      IF( RSRC3.NE.RSRC1 .OR. CSRC3.NE.CSRC1 ) THEN
@@ -2053,7 +2053,7 @@
      $                          NPROW )
                            JLOC = INDXG2L( I, NB, MYCOL, DESCT( CSRC_ ),
      $                          NPCOL )
-                           CALL SLACPY( 'All', DIM1, DIM1, WORK(IPW2),
+                           CALL SLAMOV( 'All', DIM1, DIM1, WORK(IPW2),
      $                          NWIN, T((JLOC-1)*LLDT+ILOC), LLDT )
                         END IF
                         IF( MYROW.EQ.RSRC4 .AND. MYCOL.EQ.CSRC4 ) THEN
@@ -2061,7 +2061,7 @@
      $                          DESCT( RSRC_ ), NPROW )
                            JLOC = INDXG2L( I+DIM1, NB, MYCOL,
      $                          DESCT( CSRC_ ), NPCOL )
-                           CALL SLACPY( 'All', DIM4, DIM4,
+                           CALL SLAMOV( 'All', DIM4, DIM4,
      $                          WORK(IPW2+DIM1*NWIN+DIM1), NWIN,
      $                          T((JLOC-1)*LLDT+ILOC), LLDT )
                         END IF
@@ -2101,7 +2101,7 @@
                         CALL SGERV2D( ICTXT, DIM1, DIM4,
      $                       WORK(IPW2+DIM1*NWIN), NWIN, RSRC4, CSRC4 )
                      END IF
-                     CALL SLACPY( 'All', DIM1, DIM4,
+                     CALL SLAMOV( 'All', DIM1, DIM4,
      $                    WORK( IPW2+DIM1*NWIN ), NWIN,
      $                    T((JLOC-1)*LLDT+ILOC), LLDT )
                   END IF
@@ -2261,7 +2261,7 @@
                            WORK( BUFFER+INDX-1 ) =
      $                          FLOAT( IWORK(IPIW+INDX-1) )
  370                    CONTINUE
-                        CALL SLACPY( 'All', DLEN, 1, WORK( IPW3 ),
+                        CALL SLAMOV( 'All', DLEN, 1, WORK( IPW3 ),
      $                       DLEN, WORK(BUFFER+ILEN), DLEN )
                      END IF
                      IF( NPCOL.GT.1 .AND. DIR.EQ.1 ) THEN
@@ -2294,7 +2294,7 @@
                            IWORK(IPIW+INDX-1) =
      $                          INT( WORK( BUFFER+INDX-1 ) )
  380                    CONTINUE
-                        CALL SLACPY( 'All', DLEN, 1,
+                        CALL SLAMOV( 'All', DLEN, 1,
      $                       WORK( BUFFER+ILEN ), DLEN,
      $                       WORK( IPW3 ), DLEN )
                      END IF
@@ -2308,7 +2308,7 @@
                               WORK( BUFFER+INDX-1 ) =
      $                             FLOAT( IWORK(IPIW+INDX-1) )
  390                       CONTINUE
-                           CALL SLACPY( 'All', DLEN, 1, WORK( IPW3 ),
+                           CALL SLAMOV( 'All', DLEN, 1, WORK( IPW3 ),
      $                          DLEN, WORK(BUFFER+ILEN), DLEN )
                            CALL SGEBS2D( ICTXT, 'Row', TOP, BUFFLEN,
      $                          1, WORK(BUFFER), BUFFLEN )
@@ -2323,7 +2323,7 @@
                            IWORK(IPIW+INDX-1) =
      $                          INT( WORK( BUFFER+INDX-1 ) )
  400                    CONTINUE
-                        CALL SLACPY( 'All', DLEN, 1,
+                        CALL SLAMOV( 'All', DLEN, 1,
      $                       WORK( BUFFER+ILEN ), DLEN,
      $                       WORK( IPW3 ), DLEN )
                      END IF
@@ -2337,7 +2337,7 @@
                               WORK( BUFFER+INDX-1 ) =
      $                             FLOAT( IWORK(IPIW+INDX-1) )
  395                       CONTINUE
-                           CALL SLACPY( 'All', DLEN, 1, WORK( IPW3 ),
+                           CALL SLAMOV( 'All', DLEN, 1, WORK( IPW3 ),
      $                          DLEN, WORK(BUFFER+ILEN), DLEN )
                            CALL SGEBS2D( ICTXT, 'Col', TOP, BUFFLEN,
      $                          1, WORK(BUFFER), BUFFLEN )
@@ -2352,7 +2352,7 @@
                            IWORK(IPIW+INDX-1) =
      $                          INT( WORK( BUFFER+INDX-1 ) )
  402                    CONTINUE
-                        CALL SLACPY( 'All', DLEN, 1,
+                        CALL SLAMOV( 'All', DLEN, 1,
      $                       WORK( BUFFER+ILEN ), DLEN,
      $                       WORK( IPW3 ), DLEN )
                      END IF
@@ -2426,7 +2426,7 @@
      $                             NPROW, NPCOL, MYROW, MYCOL, ILOC,
      $                             JLOC1, RSRC, CSRC1 )
                               IF( MYROW.EQ.RSRC ) THEN
-                                 CALL SLACPY( 'All', TROWS, DIM1,
+                                 CALL SLAMOV( 'All', TROWS, DIM1,
      $                                T((JLOC1-1)*LLDT+ILOC), LLDT,
      $                                WORK(IPW5), TROWS )
                                  IF( NPCOL.GT.1 ) THEN
@@ -2445,7 +2445,7 @@
      $                             DESCT, NPROW, NPCOL, MYROW, MYCOL,
      $                             ILOC, JLOC4, RSRC, CSRC4 )
                               IF( MYROW.EQ.RSRC ) THEN
-                                 CALL SLACPY( 'All', TROWS, DIM4,
+                                 CALL SLAMOV( 'All', TROWS, DIM4,
      $                                T((JLOC4-1)*LLDT+ILOC), LLDT,
      $                                WORK(IPW5+TROWS*DIM1), TROWS )
                                  IF( NPCOL.GT.1 ) THEN
@@ -2478,7 +2478,7 @@
      $                                ILOC1, JLOC, RSRC1, CSRC )
                               END IF
                               IF( MYCOL.EQ.CSRC ) THEN
-                                 CALL SLACPY( 'All', DIM1, TCOLS,
+                                 CALL SLAMOV( 'All', DIM1, TCOLS,
      $                                T((JLOC-1)*LLDT+ILOC1), LLDT,
      $                                WORK(IPW6), NWIN )
                                  IF( NPROW.GT.1 ) THEN
@@ -2504,7 +2504,7 @@
      $                                ILOC4, JLOC, RSRC4, CSRC )
                               END IF
                               IF( MYCOL.EQ.CSRC ) THEN
-                                 CALL SLACPY( 'All', DIM4, TCOLS,
+                                 CALL SLAMOV( 'All', DIM4, TCOLS,
      $                                T((JLOC-1)*LLDT+ILOC4), LLDT,
      $                                WORK(IPW6+DIM1), NWIN )
                                  IF( NPROW.GT.1 ) THEN
@@ -2531,7 +2531,7 @@
      $                                NPROW, NPCOL, MYROW, MYCOL, ILOC,
      $                                JLOC1, RSRC, CSRC1 )
                                  IF( MYROW.EQ.RSRC ) THEN
-                                    CALL SLACPY( 'All', QROWS, DIM1,
+                                    CALL SLAMOV( 'All', QROWS, DIM1,
      $                                   Q((JLOC1-1)*LLDQ+ILOC), LLDQ,
      $                                   WORK(IPW7), QROWS )
                                     IF( NPCOL.GT.1 ) THEN
@@ -2550,7 +2550,7 @@
      $                                DESCQ, NPROW, NPCOL, MYROW, MYCOL,
      $                                ILOC, JLOC4, RSRC, CSRC4 )
                                  IF( MYROW.EQ.RSRC ) THEN
-                                    CALL SLACPY( 'All', QROWS, DIM4,
+                                    CALL SLAMOV( 'All', QROWS, DIM4,
      $                                   Q((JLOC4-1)*LLDQ+ILOC), LLDQ,
      $                                   WORK(IPW7+QROWS*DIM1), QROWS )
                                     IF( NPCOL.GT.1 ) THEN
@@ -2638,7 +2638,7 @@
      $                                      NWIN, ONE, WORK( IPW5 ),
      $                                      TROWS, WORK( IPW4 ), NWIN,
      $                                      ZERO, WORK(IPW8), TROWS )
-                                       CALL SLACPY( 'All', TROWS, DIM1,
+                                       CALL SLAMOV( 'All', TROWS, DIM1,
      $                                      WORK(IPW8), TROWS,
      $                                      T((JLOC-1)*LLDT+ILOC),
      $                                      LLDT )
@@ -2656,7 +2656,7 @@
      $                                      WORK( IPW4+NWIN*DIM1 ),
      $                                      NWIN, ZERO, WORK(IPW8),
      $                                      TROWS )
-                                       CALL SLACPY( 'All', TROWS, DIM4,
+                                       CALL SLAMOV( 'All', TROWS, DIM4,
      $                                      WORK(IPW8), TROWS,
      $                                      T((JLOC-1)*LLDT+ILOC),
      $                                      LLDT )
@@ -2679,7 +2679,7 @@
      $                                         WORK( IPW4 ), NWIN,
      $                                         ZERO, WORK(IPW8),
      $                                         QROWS )
-                                          CALL SLACPY( 'All', QROWS,
+                                          CALL SLAMOV( 'All', QROWS,
      $                                         DIM1, WORK(IPW8), QROWS,
      $                                         Q((JLOC-1)*LLDQ+ILOC),
      $                                         LLDQ )
@@ -2698,7 +2698,7 @@
      $                                         WORK( IPW4+NWIN*DIM1 ),
      $                                         NWIN, ZERO, WORK(IPW8),
      $                                         QROWS )
-                                          CALL SLACPY( 'All', QROWS,
+                                          CALL SLAMOV( 'All', QROWS,
      $                                         DIM4, WORK(IPW8), QROWS,
      $                                         Q((JLOC-1)*LLDQ+ILOC),
      $                                         LLDQ )
@@ -2724,7 +2724,7 @@
      $                                   NWIN, ONE, WORK(IPW4), NWIN,
      $                                   WORK( IPW6 ), NWIN, ZERO,
      $                                   WORK(IPW8), DIM1 )
-                                    CALL SLACPY( 'All', DIM1, TCOLS,
+                                    CALL SLAMOV( 'All', DIM1, TCOLS,
      $                                   WORK(IPW8), DIM1,
      $                                   T((JLOC-1)*LLDT+ILOC), LLDT )
                                  END IF
@@ -2740,7 +2740,7 @@
      $                                   WORK( IPW4+DIM1*NWIN ), NWIN,
      $                                   WORK( IPW6), NWIN, ZERO,
      $                                   WORK(IPW8), DIM4 )
-                                    CALL SLACPY( 'All', DIM4, TCOLS,
+                                    CALL SLAMOV( 'All', DIM4, TCOLS,
      $                                   WORK(IPW8), DIM4,
      $                                   T((JLOC-1)*LLDT+ILOC), LLDT )
                                  END IF
@@ -2758,7 +2758,7 @@
      $                                         WORK( IPW4 ), NWIN,
      $                                         WORK( IPW6 ), NWIN,
      $                                         ZERO, WORK(IPW8), DIM1 )
-                                          CALL SLACPY( 'All', DIM1,
+                                          CALL SLAMOV( 'All', DIM1,
      $                                         TCOLS, WORK(IPW8), DIM1,
      $                                         T((JLOC-1)*LLDT+ILOC),
      $                                         LLDT )
@@ -2777,7 +2777,7 @@
      $                                         NWIN, WORK( IPW6 ),
      $                                         NWIN, ZERO, WORK(IPW8),
      $                                         DIM4 )
-                                          CALL SLACPY( 'All', DIM4,
+                                          CALL SLAMOV( 'All', DIM4,
      $                                         TCOLS, WORK(IPW8), DIM4,
      $                                         T((JLOC-1)*LLDT+ILOC),
      $                                         LLDT )
@@ -2827,7 +2827,7 @@
      $                                   NPCOL, MYROW, MYCOL, ILOC,
      $                                   JLOC, RSRC, CSRC1 )
                                     IF( MYROW.EQ.RSRC ) THEN
-                                       CALL SLACPY( 'All', TROWS, KS,
+                                       CALL SLAMOV( 'All', TROWS, KS,
      $                                      WORK( IPW5+TROWS*DIM4),
      $                                      TROWS, WORK(IPW8), TROWS )
                                        CALL STRMM( 'Right', 'Upper',
@@ -2840,7 +2840,7 @@
      $                                      DIM4, ONE, WORK( IPW5 ),
      $                                      TROWS, WORK( IPW4 ), NWIN,
      $                                      ONE, WORK(IPW8), TROWS )
-                                       CALL SLACPY( 'All', TROWS, KS,
+                                       CALL SLAMOV( 'All', TROWS, KS,
      $                                      WORK(IPW8), TROWS,
      $                                      T((JLOC-1)*LLDT+ILOC),
      $                                      LLDT )
@@ -2855,7 +2855,7 @@
      $                                   NPROW, NPCOL, MYROW, MYCOL,
      $                                   ILOC, JLOC, RSRC, CSRC4 )
                                     IF( MYROW.EQ.RSRC ) THEN
-                                       CALL SLACPY( 'All', TROWS, DIM4,
+                                       CALL SLAMOV( 'All', TROWS, DIM4,
      $                                      WORK(IPW5), TROWS,
      $                                      WORK( IPW8 ), TROWS )
                                        CALL STRMM( 'Right', 'Lower',
@@ -2871,7 +2871,7 @@
      $                                      WORK( IPW4+NWIN*KS+DIM4 ),
      $                                      NWIN, ONE, WORK( IPW8 ),
      $                                      TROWS )
-                                       CALL SLACPY( 'All', TROWS, DIM4,
+                                       CALL SLAMOV( 'All', TROWS, DIM4,
      $                                      WORK(IPW8), TROWS,
      $                                      T((JLOC-1)*LLDT+ILOC),
      $                                      LLDT )
@@ -2890,7 +2890,7 @@
      $                                      NPROW, NPCOL, MYROW, MYCOL,
      $                                      ILOC, JLOC, RSRC, CSRC1 )
                                        IF( MYROW.EQ.RSRC ) THEN
-                                          CALL SLACPY( 'All', QROWS, KS,
+                                          CALL SLAMOV( 'All', QROWS, KS,
      $                                         WORK( IPW7+QROWS*DIM4),
      $                                         QROWS, WORK(IPW8),
      $                                         QROWS )
@@ -2906,7 +2906,7 @@
      $                                         WORK( IPW7 ), QROWS,
      $                                         WORK( IPW4 ), NWIN, ONE,
      $                                         WORK(IPW8), QROWS )
-                                          CALL SLACPY( 'All', QROWS, KS,
+                                          CALL SLAMOV( 'All', QROWS, KS,
      $                                         WORK(IPW8), QROWS,
      $                                         Q((JLOC-1)*LLDQ+ILOC),
      $                                         LLDQ )
@@ -2922,7 +2922,7 @@
      $                                      MYCOL, ILOC, JLOC, RSRC,
      $                                      CSRC4 )
                                        IF( MYROW.EQ.RSRC ) THEN
-                                          CALL SLACPY( 'All', QROWS,
+                                          CALL SLAMOV( 'All', QROWS,
      $                                         DIM4, WORK(IPW7), QROWS,
      $                                         WORK( IPW8 ), QROWS )
                                           CALL STRMM( 'Right', 'Lower',
@@ -2940,7 +2940,7 @@
      $                                         WORK(IPW4+NWIN*KS+DIM4),
      $                                         NWIN, ONE, WORK( IPW8 ),
      $                                         QROWS )
-                                          CALL SLACPY( 'All', QROWS,
+                                          CALL SLAMOV( 'All', QROWS,
      $                                         DIM4, WORK(IPW8), QROWS,
      $                                         Q((JLOC-1)*LLDQ+ILOC),
      $                                         LLDQ )
@@ -2962,7 +2962,7 @@
                                     CALL INFOG2L( I, INDX, DESCT, NPROW,
      $                                   NPCOL, MYROW, MYCOL, ILOC,
      $                                   JLOC, RSRC1, CSRC4 )
-                                    CALL SLACPY( 'All', KS, TCOLS,
+                                    CALL SLAMOV( 'All', KS, TCOLS,
      $                                   WORK( IPW6+DIM4 ), NWIN,
      $                                   WORK(IPW8), KS )
                                     CALL STRMM( 'Left', 'Upper',
@@ -2975,7 +2975,7 @@
      $                                   DIM4, ONE, WORK(IPW4), NWIN,
      $                                   WORK(IPW6), NWIN, ONE,
      $                                   WORK(IPW8), KS )
-                                    CALL SLACPY( 'All', KS, TCOLS,
+                                    CALL SLAMOV( 'All', KS, TCOLS,
      $                                   WORK(IPW8), KS,
      $                                   T((JLOC-1)*LLDT+ILOC), LLDT )
                                  END IF
@@ -2989,7 +2989,7 @@
                                     CALL INFOG2L( I+DIM1, INDX, DESCT,
      $                                   NPROW, NPCOL, MYROW, MYCOL,
      $                                   ILOC, JLOC, RSRC4, CSRC4 )
-                                    CALL SLACPY( 'All', DIM4, TCOLS,
+                                    CALL SLAMOV( 'All', DIM4, TCOLS,
      $                                   WORK( IPW6 ), NWIN,
      $                                   WORK( IPW8 ), DIM4 )
                                     CALL STRMM( 'Left', 'Lower',
@@ -3003,7 +3003,7 @@
      $                                   WORK( IPW4+NWIN*KS+DIM4 ),
      $                                   NWIN, WORK( IPW6+DIM1 ), NWIN,
      $                                   ONE, WORK( IPW8), DIM4 )
-                                    CALL SLACPY( 'All', DIM4, TCOLS,
+                                    CALL SLAMOV( 'All', DIM4, TCOLS,
      $                                   WORK(IPW8), DIM4,
      $                                   T((JLOC-1)*LLDT+ILOC), LLDT )
                                  END IF
@@ -3019,7 +3019,7 @@
      $                                      NPROW, NPCOL, MYROW, MYCOL,
      $                                      ILOC, JLOC, RSRC1, CSRC )
                                        IF( MYCOL.EQ.CSRC ) THEN
-                                          CALL SLACPY( 'All', KS, TCOLS,
+                                          CALL SLAMOV( 'All', KS, TCOLS,
      $                                         WORK( IPW6+DIM4 ), NWIN,
      $                                         WORK(IPW8), KS )
                                           CALL STRMM( 'Left', 'Upper',
@@ -3034,7 +3034,7 @@
      $                                         WORK(IPW4), NWIN,
      $                                         WORK(IPW6), NWIN, ONE,
      $                                         WORK(IPW8), KS )
-                                          CALL SLACPY( 'All', KS, TCOLS,
+                                          CALL SLAMOV( 'All', KS, TCOLS,
      $                                         WORK(IPW8), KS,
      $                                         T((JLOC-1)*LLDT+ILOC),
      $                                         LLDT )
@@ -3050,7 +3050,7 @@
      $                                      MYCOL, ILOC, JLOC, RSRC4,
      $                                      CSRC )
                                        IF( MYCOL.EQ.CSRC ) THEN
-                                          CALL SLACPY( 'All', DIM4,
+                                          CALL SLAMOV( 'All', DIM4,
      $                                         TCOLS, WORK( IPW6 ),
      $                                         NWIN, WORK( IPW8 ),
      $                                         DIM4 )
@@ -3068,7 +3068,7 @@
      $                                         NWIN, WORK( IPW6+DIM1 ),
      $                                         NWIN, ONE, WORK( IPW8),
      $                                         DIM4 )
-                                          CALL SLACPY( 'All', DIM4,
+                                          CALL SLAMOV( 'All', DIM4,
      $                                         TCOLS, WORK(IPW8), DIM4,
      $                                         T((JLOC-1)*LLDT+ILOC),
      $                                         LLDT )
@@ -3104,7 +3104,7 @@
      $                                WORK(IPW5), TROWS, NITRAF,
      $                                IWORK(IPIW), WORK( IPW3 ),
      $                                WORK(IPW8) )
-                                 CALL SLACPY( 'All', TROWS, DIM1,
+                                 CALL SLAMOV( 'All', TROWS, DIM1,
      $                                WORK(IPW5), TROWS,
      $                                T((JLOC-1)*LLDT+ILOC ), LLDT )
                               END IF
@@ -3118,7 +3118,7 @@
      $                                WORK(IPW5), TROWS, NITRAF,
      $                                IWORK(IPIW), WORK( IPW3 ),
      $                                WORK(IPW8) )
-                                 CALL SLACPY( 'All', TROWS, DIM4,
+                                 CALL SLAMOV( 'All', TROWS, DIM4,
      $                                WORK(IPW5+TROWS*DIM1), TROWS,
      $                                T((JLOC-1)*LLDT+ILOC ), LLDT )
                               END IF
@@ -3135,7 +3135,7 @@
      $                                   WORK(IPW7), QROWS, NITRAF,
      $                                   IWORK(IPIW), WORK( IPW3 ),
      $                                   WORK(IPW8) )
-                                    CALL SLACPY( 'All', QROWS, DIM1,
+                                    CALL SLAMOV( 'All', QROWS, DIM1,
      $                                   WORK(IPW7), QROWS,
      $                                   Q((JLOC-1)*LLDQ+ILOC ), LLDQ )
                                  END IF
@@ -3149,7 +3149,7 @@
      $                                   NCB, WORK(IPW7), QROWS,
      $                                   NITRAF, IWORK(IPIW),
      $                                   WORK( IPW3 ), WORK(IPW8) )
-                                    CALL SLACPY( 'All', QROWS, DIM4,
+                                    CALL SLAMOV( 'All', QROWS, DIM4,
      $                                   WORK(IPW7+QROWS*DIM1), QROWS,
      $                                   Q((JLOC-1)*LLDQ+ILOC ), LLDQ )
                                  END IF
@@ -3169,7 +3169,7 @@
      $                                WORK( IPW6 ), NWIN, NITRAF,
      $                                IWORK(IPIW), WORK( IPW3 ),
      $                                WORK(IPW8) )
-                                 CALL SLACPY( 'All', DIM1, TCOLS,
+                                 CALL SLAMOV( 'All', DIM1, TCOLS,
      $                                WORK( IPW6 ), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT )
                               END IF
@@ -3183,7 +3183,7 @@
      $                                WORK( IPW6 ), NWIN, NITRAF,
      $                                IWORK(IPIW), WORK( IPW3 ),
      $                                WORK(IPW8) )
-                                 CALL SLACPY( 'All', DIM4, TCOLS,
+                                 CALL SLAMOV( 'All', DIM4, TCOLS,
      $                                WORK( IPW6+DIM1 ), NWIN,
      $                                T((JLOC-1)*LLDT+ILOC), LLDT )
                               END IF
@@ -3199,7 +3199,7 @@
      $                                   WORK(IPW6), NWIN, NITRAF,
      $                                   IWORK(IPIW), WORK( IPW3 ),
      $                                   WORK(IPW8) )
-                                    CALL SLACPY( 'All', DIM1, TCOLS,
+                                    CALL SLAMOV( 'All', DIM1, TCOLS,
      $                                   WORK( IPW6 ), NWIN,
      $                                   T((JLOC-1)*LLDT+ILOC), LLDT )
                                  END IF
@@ -3213,7 +3213,7 @@
      $                                   NCB, WORK(IPW6), NWIN, NITRAF,
      $                                   IWORK(IPIW), WORK( IPW3 ),
      $                                   WORK(IPW8) )
-                                    CALL SLACPY( 'All', DIM4, TCOLS,
+                                    CALL SLAMOV( 'All', DIM4, TCOLS,
      $                                   WORK( IPW6+DIM1 ), NWIN,
      $                                   T((JLOC-1)*LLDT+ILOC), LLDT )
                                  END IF

@@ -378,7 +378,7 @@
       EXTERNAL           BLACS_GRIDEXIT, BLACS_GRIDINFO, DESC_CONVERT,
      $                   GLOBCHK, IGAMX2D, IGEBR2D, IGEBS2D, PXERBLA,
      $                   RESHAPE, SAXPY, SGEMM, SGERV2D, SGESD2D,
-     $                   SLACPY, SLATCPY, SPBTRF, SPOTRF, SSYRK, STBTRS,
+     $                   SLAMOV, SLATCPY, SPBTRF, SPOTRF, SSYRK, STBTRS,
      $                   STRMM, STRRV2D, STRSD2D, STRSM, STRTRS
 *     ..
 *     .. External Functions ..
@@ -863,7 +863,7 @@
 *       Copy last diagonal block into AF storage for subsequent
 *         operations.
 *
-         CALL SLACPY( 'N', BW, BW, A( OFST+ODD_SIZE*LLDA+1 ), LLDA-1,
+         CALL SLAMOV( 'N', BW, BW, A( OFST+ODD_SIZE*LLDA+1 ), LLDA-1,
      $                AF( ODD_SIZE*BW+MBW2+1 ), BW )
 *
 *       Receive cont. to diagonal block that is stored on this proc.
@@ -945,7 +945,7 @@
 *           Move block into place that it will be expected to be for
 *             calcs.
 *
-            CALL SLACPY( 'N', BW, BW, AF( ODD_SIZE*BW+1 ), BW,
+            CALL SLAMOV( 'N', BW, BW, AF( ODD_SIZE*BW+1 ), BW,
      $                   AF( ODD_SIZE*BW+2*MBW2+1 ), BW )
 *
          ELSE
@@ -1100,7 +1100,7 @@
 *
 *         Move the connection block in preparation.
 *
-            CALL SLACPY( 'L', BW, BW, A( ( OFST+1+ODD_SIZE*LLDA ) ),
+            CALL SLAMOV( 'L', BW, BW, A( ( OFST+1+ODD_SIZE*LLDA ) ),
      $                   LLDA-1, AF( ODD_SIZE*BW+2*MBW2+1+BW-BW ), BW )
 *
 *
@@ -1112,7 +1112,7 @@
 *
 *         Move the resulting block back to its location in main storage.
 *
-            CALL SLACPY( 'L', BW, BW, AF( ODD_SIZE*BW+2*MBW2+1+BW-BW ),
+            CALL SLAMOV( 'L', BW, BW, AF( ODD_SIZE*BW+2*MBW2+1+BW-BW ),
      $                   BW, A( ( OFST+1+ODD_SIZE*LLDA ) ), LLDA-1 )
 *
 *
@@ -1321,7 +1321,7 @@
 *           Move block into place that it will be expected to be for
 *             calcs.
 *
-            CALL SLACPY( 'N', BW, BW, AF( ODD_SIZE*BW+1 ), BW,
+            CALL SLAMOV( 'N', BW, BW, AF( ODD_SIZE*BW+1 ), BW,
      $                   AF( ODD_SIZE*BW+2*MBW2+1 ), BW )
 *
          ELSE

@@ -221,7 +221,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, INFOG2L, SLASET,
      $                   SLAHQR, SLAQR4, DESCINIT, PSGEMM, PSGEMR2D,
-     $                   SGEMM, SLACPY, SGESD2D, SGERV2D,
+     $                   SGEMM, SLAMOV, SGESD2D, SGERV2D,
      $                   SGEBS2D, SGEBR2D, IGEBS2D, IGEBR2D
 *     ..
 *     .. Intrinsic Functions ..
@@ -331,7 +331,7 @@
                   CALL SGEMM( 'T', 'N', NH, KLN, NH, ONE, V,
      $                 LDV, A( IROW+(KKCOL-1)*LDA ), LDA, ZERO, WORK,
      $                 NH )
-                  CALL SLACPY( 'A', NH, KLN, WORK, NH,
+                  CALL SLAMOV( 'A', NH, KLN, WORK, NH,
      $                 A( IROW+(KKCOL-1)*LDA ), LDA )
    10          CONTINUE
             END IF
@@ -349,7 +349,7 @@
                   CALL SGEMM( 'N', 'N', KLN, NH, NH, ONE,
      $                 A( KKROW+(ICOL-1)*LDA ), LDA, V, LDV, ZERO,
      $                 WORK, KLN )
-                  CALL SLACPY( 'A', KLN, NH, WORK, KLN,
+                  CALL SLAMOV( 'A', KLN, NH, WORK, KLN,
      $                 A( KKROW+(ICOL-1)*LDA ), LDA )
    20          CONTINUE
             END IF
@@ -369,7 +369,7 @@
                   CALL SGEMM( 'N', 'N', KLN, NH, NH, ONE,
      $                 Z( KKROW+(ICOL-1)*LDZ ), LDZ, V, LDV, ZERO,
      $                 WORK, KLN )
-                  CALL SLACPY( 'A', KLN, NH, WORK, KLN,
+                  CALL SLAMOV( 'A', KLN, NH, WORK, KLN,
      $                 Z( KKROW+(ICOL-1)*LDZ ), LDZ )
    30          CONTINUE
             END IF
@@ -400,7 +400,7 @@
                      CALL SGEMM( 'T', 'N', NH, KLN, NH, ONE, V,
      $                    NH, A( IROW+(KKCOL-1)*LDA ), LDA, ZERO,
      $                    WORK, NH )
-                     CALL SLACPY( 'A', NH, KLN, WORK, NH,
+                     CALL SLAMOV( 'A', NH, KLN, WORK, NH,
      $                    A( IROW+(KKCOL-1)*LDA ), LDA )
    40             CONTINUE
                END IF
@@ -419,7 +419,7 @@
                      CALL SGEMM( 'T', 'N', D1, KLN, D1, ONE,
      $                    V, LDV, A( IROW+(KKCOL-1)*LDA ), LDA, ONE,
      $                    WORK, NH )
-                     CALL SLACPY( 'A', D1, KLN, WORK, NH,
+                     CALL SLAMOV( 'A', D1, KLN, WORK, NH,
      $                    A( IROW+(KKCOL-1)*LDA ), LDA )
    50             CONTINUE
                ELSE IF( UP .EQ. II ) THEN
@@ -437,7 +437,7 @@
      $                    V( D1+1, D1+1 ), LDV,
      $                    A( IROW+(KKCOL-1)*LDA ), LDA, ONE,
      $                    WORK( D1+1 ), NH )
-                     CALL SLACPY( 'A', D2, KLN, WORK( D1+1 ), NH,
+                     CALL SLAMOV( 'A', D2, KLN, WORK( D1+1 ), NH,
      $                    A( IROW+(KKCOL-1)*LDA ), LDA )
    60             CONTINUE
                END IF
@@ -457,7 +457,7 @@
                      CALL SGEMM( 'N', 'N', KLN, NH, NH, ONE,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA, V, LDV,
      $                    ZERO, WORK, KLN )
-                     CALL SLACPY( 'A', KLN, NH, WORK, KLN,
+                     CALL SLAMOV( 'A', KLN, NH, WORK, KLN,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA )
    70             CONTINUE
                END IF
@@ -478,7 +478,7 @@
                      CALL SGEMM( 'N', 'N', KLN, D1, D1, ONE,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA, V, LDV, ONE,
      $                    WORK, KLN )
-                     CALL SLACPY( 'A', KLN, D1, WORK, KLN,
+                     CALL SLAMOV( 'A', KLN, D1, WORK, KLN,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA )
    80             CONTINUE
                ELSE IF ( LEFT .EQ. JJ ) THEN
@@ -497,7 +497,7 @@
                      CALL SGEMM( 'N', 'N', KLN, D2, D2, ONE,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA, V( D1+1, D1+1 ),
      $                    LDV, ONE, WORK( 1+D1*KLN ), KLN )
-                     CALL SLACPY( 'A', KLN, D2, WORK( 1+D1*KLN ), KLN,
+                     CALL SLAMOV( 'A', KLN, D2, WORK( 1+D1*KLN ), KLN,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA )
    90             CONTINUE
                END IF
@@ -519,7 +519,7 @@
                      CALL SGEMM( 'N', 'N', KLN, NH, NH, ONE,
      $                    Z( KKROW+(ICOL-1)*LDZ ), LDZ, V, LDV, ZERO,
      $                    WORK, KLN )
-                     CALL SLACPY( 'A', KLN, NH, WORK, KLN,
+                     CALL SLAMOV( 'A', KLN, NH, WORK, KLN,
      $                    Z( KKROW+(ICOL-1)*LDZ ), LDZ )
   100             CONTINUE
                END IF
@@ -540,7 +540,7 @@
                      CALL SGEMM( 'N', 'N', KLN, D1, D1, ONE,
      $                    Z( KKROW+(ICOL-1)*LDZ ), LDZ, V, LDV, ONE,
      $                    WORK, KLN )
-                     CALL SLACPY( 'A', KLN, D1, WORK, KLN,
+                     CALL SLAMOV( 'A', KLN, D1, WORK, KLN,
      $                    Z( KKROW+(ICOL-1)*LDZ ), LDZ )
   110             CONTINUE
                ELSE IF( LEFT .EQ. JJ ) THEN
@@ -560,7 +560,7 @@
      $                    Z( KKROW+(ICOL-1)*LDZ ), LDZ,
      $                    V( D1+1, D1+1 ), LDV, ONE, WORK( 1+D1*KLN ),
      $                    KLN )
-                     CALL SLACPY( 'A', KLN, D2, WORK( 1+D1*KLN ),
+                     CALL SLAMOV( 'A', KLN, D2, WORK( 1+D1*KLN ),
      $                    KLN, Z( KKROW+(ICOL-1)*LDZ ), LDZ )
   120             CONTINUE
                END IF

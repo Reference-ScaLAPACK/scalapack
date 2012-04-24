@@ -300,7 +300,7 @@ F_VOID_FUNC cgamx2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
 #ifdef ZeroByteTypeBug
          if (N > 0)
 #endif
-         ierr=MPI_Type_free(&MyType);
+         ierr=BI_MPI_TYPE_FREE(&MyType);
       if (BI_ActiveQ) BI_UpdateBuffs(NULL);
       return;
       break;
@@ -351,7 +351,7 @@ F_VOID_FUNC cgamx2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
 #ifdef ZeroByteTypeBug
       if (N > 0)
 #endif
-      ierr=MPI_Type_free(&MyType);
+      ierr=BI_MPI_TYPE_FREE(&MyType);
 /*
  * If I am selected to receive answer
  */

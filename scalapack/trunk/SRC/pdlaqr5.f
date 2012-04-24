@@ -177,7 +177,7 @@
       DOUBLE PRECISION   VT( 3 )
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           DGEMM, DLABAD, DLACPY, DLAQR1, DLARFG, DLASET,
+      EXTERNAL           DGEMM, DLABAD, DLAMOV, DLAQR1, DLARFG, DLASET,
      $                   DTRMM, DLAQR6
 *     ..
 *     .. Executable Statements ..
@@ -454,7 +454,7 @@
                   CALL DLASET( 'All', NTINY+1, NTINY+1, ZERO, ONE,
      $                 WORK(IPH), NTINY+1 )
                END IF
-               CALL DLACPY( 'Upper', DIM, DIM, H(II+(JJ-1)*LLDH), LLDH,
+               CALL DLAMOV( 'Upper', DIM, DIM, H(II+(JJ-1)*LLDH), LLDH,
      $              WORK(IPH), MAX(NTINY+1,DIM) )
                CALL DCOPY(  DIM-1, H(II+(JJ-1)*LLDH+1), LLDH+1,
      $              WORK(IPH+1), MAX(NTINY+1,DIM)+1 )
@@ -493,7 +493,7 @@
 *
 *              Copy submatrix of H back.
 *
-               CALL DLACPY( 'Upper', DIM, DIM, WORK(IPH),
+               CALL DLAMOV( 'Upper', DIM, DIM, WORK(IPH),
      $              MAX(NTINY+1,DIM), H(II+(JJ-1)*LLDH), LLDH )
                CALL DCOPY( DIM-1, WORK(IPH+1), MAX(NTINY+1,DIM)+1,
      $              H(II+(JJ-1)*LLDH+1), LLDH+1 )
@@ -510,7 +510,7 @@
 *              Copy actual submatrix of U to the correct place
 *              of the buffer.
 *
-               CALL DLACPY( 'All', LNWIN, LNWIN,
+               CALL DLAMOV( 'All', LNWIN, LNWIN,
      $              WORK(IPUU+(MAX(NTINY+1,DIM)*LIROFFH)+LIROFFH),
      $              MAX(NTINY+1,DIM), WORK(IPU), LNWIN )
             END IF
@@ -571,7 +571,7 @@
      $                       1, WORK, LENCBUF )
                      END IF
                      IF( LENRBUF.GT.0 )
-     $                  CALL DLACPY( 'All', LENRBUF, 1, WORK, LENRBUF,
+     $                  CALL DLAMOV( 'All', LENRBUF, 1, WORK, LENRBUF,
      $                       WORK(1+LENRBUF), LENCBUF )
                      BCDONE = .TRUE.
                   ELSEIF( MYROW.EQ.LRSRC .AND. DIR.EQ.1 ) THEN
@@ -656,7 +656,7 @@
      $                             WORK( IPU ), LNWIN, ZERO,
      $                             WORK(IPW),
      $                             LROWS )
-                              CALL DLACPY( 'All', LROWS, LNWIN,
+                              CALL DLAMOV( 'All', LROWS, LNWIN,
      $                             WORK(IPW), LROWS,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH )
                            END IF
@@ -674,7 +674,7 @@
      $                             ONE, Z((JLOC-1)*LLDZ+ILOC), LLDZ,
      $                             WORK( IPU ), LNWIN, ZERO,
      $                             WORK(IPW), LROWS )
-                              CALL DLACPY( 'All', LROWS, LNWIN,
+                              CALL DLAMOV( 'All', LROWS, LNWIN,
      $                             WORK(IPW), LROWS,
      $                             Z((JLOC-1)*LLDZ+ILOC), LLDZ )
                            END IF
@@ -702,7 +702,7 @@
      $                             LNWIN, LCOLS, LNWIN, ONE, WORK(IPU),
      $                             LNWIN, H((JLOC-1)*LLDH+ILOC), LLDH,
      $                             ZERO, WORK(IPW), LNWIN )
-                              CALL DLACPY( 'All', LNWIN, LCOLS,
+                              CALL DLAMOV( 'All', LNWIN, LCOLS,
      $                             WORK(IPW), LNWIN,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH )
                            END IF
@@ -720,7 +720,7 @@
      $                             LNWIN, H((JLOC-1)*LLDH+ILOC), LLDH,
      $                             ZERO, WORK(IPW),
      $                             LNWIN )
-                              CALL DLACPY( 'All', LNWIN, LCOLS,
+                              CALL DLAMOV( 'All', LNWIN, LCOLS,
      $                             WORK(IPW), LNWIN,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH )
                            END IF
@@ -757,7 +757,7 @@
                               JLOC1 = INDXG2L( LKTOP+LNWIN-KS, NB,
      $                             MYCOL, DESCH( CSRC_ ), NPCOL )
                               LROWS = MIN( NB, LKTOP-INDX )
-                              CALL DLACPY( 'All', LROWS, KS,
+                              CALL DLAMOV( 'All', LROWS, KS,
      $                             H((JLOC1-1)*LLDH+ILOC ), LLDH,
      $                             WORK(IPW), LROWS )
                               CALL DTRMM( 'Right', 'Upper',
@@ -772,7 +772,7 @@
 *
 *                             Compute H1*U12 + H2*U22 in workspace.
 *
-                              CALL DLACPY( 'All', LROWS, LNWIN-KS,
+                              CALL DLAMOV( 'All', LROWS, LNWIN-KS,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH,
      $                             WORK( IPW+KS*LROWS ), LROWS )
                               CALL DTRMM( 'Right', 'Lower',
@@ -788,7 +788,7 @@
 *
 *                             Copy workspace to H.
 *
-                              CALL DLACPY( 'All', LROWS, LNWIN,
+                              CALL DLAMOV( 'All', LROWS, LNWIN,
      $                             WORK(IPW), LROWS,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH )
                            END IF
@@ -807,7 +807,7 @@
                               JLOC1 = INDXG2L( LKTOP+LNWIN-KS, NB,
      $                             MYCOL, DESCZ( CSRC_ ), NPCOL )
                               LROWS = MIN(NB,N-INDX+1)
-                              CALL DLACPY( 'All', LROWS, KS,
+                              CALL DLAMOV( 'All', LROWS, KS,
      $                             Z((JLOC1-1)*LLDZ+ILOC ), LLDZ,
      $                             WORK(IPW), LROWS )
                               CALL DTRMM( 'Right', 'Upper',
@@ -822,7 +822,7 @@
 *
 *                             Compute Z1*U12 + Z2*U22 in workspace.
 *
-                              CALL DLACPY( 'All', LROWS, LNWIN-KS,
+                              CALL DLAMOV( 'All', LROWS, LNWIN-KS,
      $                             Z((JLOC-1)*LLDZ+ILOC), LLDZ,
      $                             WORK( IPW+KS*LROWS ), LROWS)
                               CALL DTRMM( 'Right', 'Lower',
@@ -839,7 +839,7 @@
 *
 *                             Copy workspace to Z.
 *
-                              CALL DLACPY( 'All', LROWS, LNWIN,
+                              CALL DLAMOV( 'All', LROWS, LNWIN,
      $                             WORK(IPW), LROWS,
      $                             Z((JLOC-1)*LLDZ+ILOC), LLDZ )
                            END IF
@@ -862,7 +862,7 @@
                               ILOC1 = INDXG2L( LKTOP+LNWIN-KS, NB,
      $                             MYROW, DESCH( RSRC_ ), NPROW )
                               LCOLS = MIN( NB, N-INDX+1 )
-                              CALL DLACPY( 'All', KS, LCOLS,
+                              CALL DLAMOV( 'All', KS, LCOLS,
      $                             H((JLOC-1)*LLDH+ILOC1), LLDH,
      $                             WORK(IPW), LNWIN )
                               CALL DTRMM( 'Left', 'Upper', 'Transpose',
@@ -876,7 +876,7 @@
 *
 *                             Compute U12**T*H1 + U22**T*H2 in workspace.
 *
-                              CALL DLACPY( 'All', LNWIN-KS, LCOLS,
+                              CALL DLAMOV( 'All', LNWIN-KS, LCOLS,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH,
      $                             WORK( IPW+KS ), LNWIN )
                               CALL DTRMM( 'Left', 'Lower', 'Transpose',
@@ -891,7 +891,7 @@
 *
 *                             Copy workspace to H.
 *
-                              CALL DLACPY( 'All', LNWIN, LCOLS,
+                              CALL DLAMOV( 'All', LNWIN, LCOLS,
      $                             WORK(IPW), LNWIN,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH )
                            END IF
@@ -1101,7 +1101,7 @@
      $                    DESCH( RSRC_ ), NPROW )
                      JLOC = INDXG2L( LKTOP, NB, MYCOL,
      $                    DESCH( CSRC_ ), NPCOL )
-                     CALL DLACPY( 'All', DIM1, DIM1,
+                     CALL DLAMOV( 'All', DIM1, DIM1,
      $                    H((JLOC-1)*LLDH+ILOC), LLDH, WORK(IPH),
      $                    LNWIN )
                      IF( RSRC1.NE.RSRC4 .OR. CSRC1.NE.CSRC4 ) THEN
@@ -1118,7 +1118,7 @@
      $                    DESCH( RSRC_ ), NPROW )
                      JLOC = INDXG2L( LKTOP+DIM1, NB, MYCOL,
      $                    DESCH( CSRC_ ), NPCOL )
-                     CALL DLACPY( 'All', DIM4, DIM4,
+                     CALL DLAMOV( 'All', DIM4, DIM4,
      $                    H((JLOC-1)*LLDH+ILOC), LLDH,
      $                    WORK(IPH+DIM1*LNWIN+DIM1),
      $                    LNWIN )
@@ -1136,7 +1136,7 @@
      $                    DESCH( RSRC_ ), NPROW )
                      JLOC = INDXG2L( LKTOP+DIM1, NB, MYCOL,
      $                    DESCH( CSRC_ ), NPCOL )
-                     CALL DLACPY( 'All', DIM1, DIM4,
+                     CALL DLAMOV( 'All', DIM1, DIM4,
      $                    H((JLOC-1)*LLDH+ILOC), LLDH,
      $                    WORK(IPH+DIM1*LNWIN), LNWIN )
                      IF( RSRC2.NE.RSRC1 .OR. CSRC2.NE.CSRC1 ) THEN
@@ -1159,7 +1159,7 @@
      $                    DESCH( RSRC_ ), NPROW )
                      JLOC = INDXG2L( LKTOP+DIM1-1, NB, MYCOL,
      $                    DESCH( CSRC_ ), NPCOL )
-                     CALL DLACPY( 'All', 1, 1,
+                     CALL DLAMOV( 'All', 1, 1,
      $                    H((JLOC-1)*LLDH+ILOC), LLDH,
      $                    WORK(IPH+(DIM1-1)*LNWIN+DIM1),
      $                    LNWIN )
@@ -1257,7 +1257,7 @@
      $                       DESCH( RSRC_ ), NPROW )
                         JLOC = INDXG2L( LKTOP, NB, MYCOL,
      $                       DESCH( CSRC_ ), NPCOL )
-                        CALL DLACPY( 'All', DIM1, DIM1, WORK(IPH),
+                        CALL DLAMOV( 'All', DIM1, DIM1, WORK(IPH),
      $                       LNWIN, H((JLOC-1)*LLDH+ILOC),
      $                       LLDH )
                      END IF
@@ -1266,7 +1266,7 @@
      $                       DESCH( RSRC_ ), NPROW )
                         JLOC = INDXG2L( LKTOP+DIM1, NB, MYCOL,
      $                       DESCH( CSRC_ ), NPCOL )
-                        CALL DLACPY( 'All', DIM4, DIM4,
+                        CALL DLAMOV( 'All', DIM4, DIM4,
      $                       WORK(IPH+DIM1*LNWIN+DIM1),
      $                       LNWIN, H((JLOC-1)*LLDH+ILOC), LLDH )
                      END IF
@@ -1274,7 +1274,7 @@
 *                    Copy actual submatrix of U to the correct place of
 *                    the buffer.
 *
-                     CALL DLACPY( 'All', DIM, DIM,
+                     CALL DLAMOV( 'All', DIM, DIM,
      $                    WORK(IPUU), LNWIN, WORK(IPU), DIM )
                   END IF
 *
@@ -1309,7 +1309,7 @@
      $                       WORK(IPH+DIM1*LNWIN),
      $                       LNWIN, RSRC4, CSRC4 )
                      END IF
-                     CALL DLACPY( 'All', DIM1, DIM4,
+                     CALL DLAMOV( 'All', DIM1, DIM4,
      $                    WORK( IPH+DIM1*LNWIN ), LNWIN,
      $                    H((JLOC-1)*LLDH+ILOC), LLDH )
                   END IF
@@ -1324,14 +1324,14 @@
      $                       WORK( IPH+(DIM1-CLS3)*LNWIN+DIM1 ),
      $                       LNWIN, RSRC1, CSRC1 )
                      END IF
-                     CALL DLACPY( 'Upper', RWS3, CLS3,
+                     CALL DLAMOV( 'Upper', RWS3, CLS3,
      $                    WORK( IPH+(DIM1-CLS3)*LNWIN+DIM1 ),
      $                    LNWIN, H((JLOC-1)*LLDH+ILOC),
      $                    LLDH )
                      IF( RWS3.GT.1 .AND. CLS3.GT.1 ) THEN
                         ELEM = WORK( IPH+(DIM1-CLS3)*LNWIN+DIM1+1 )
                         IF( ELEM.NE.ZERO ) THEN
-                           CALL DLACPY( 'Lower', RWS3-1, CLS3-1,
+                           CALL DLAMOV( 'Lower', RWS3-1, CLS3-1,
      $                          WORK( IPH+(DIM1-CLS3)*LNWIN+DIM1+1 ),
      $                          LNWIN, H((JLOC-1)*LLDH+ILOC+1), LLDH )
                         END IF
@@ -1405,7 +1405,7 @@
                      END IF
                      IF( LENRBUF.GT.0 .AND. ( MYCOL.EQ.CSRC1 .OR.
      $                    ( MYCOL.EQ.CSRC4 .AND. CSRC4.NE.CSRC1 ) ) )
-     $                  CALL DLACPY( 'All', LENRBUF, 1, WORK, LENRBUF,
+     $                  CALL DLAMOV( 'All', LENRBUF, 1, WORK, LENRBUF,
      $                       WORK(1+LENRBUF), LENCBUF )
                      BCDONE = .TRUE.
                   ELSEIF( MYROW.EQ.RSRC1 .AND. DIR.EQ.1 ) THEN
@@ -1519,7 +1519,7 @@
      $                             NPROW, NPCOL, MYROW, MYCOL, ILOC,
      $                             JLOC1, RSRC, CSRC1 )
                               IF( MYROW.EQ.RSRC ) THEN
-                                 CALL DLACPY( 'All', HROWS, DIM1,
+                                 CALL DLAMOV( 'All', HROWS, DIM1,
      $                                H((JLOC1-1)*LLDH+ILOC), LLDH,
      $                                WORK(IPW), HROWS )
                                  IF( NPCOL.GT.1 ) THEN
@@ -1537,7 +1537,7 @@
      $                             DESCH, NPROW, NPCOL, MYROW, MYCOL,
      $                             ILOC, JLOC4, RSRC, CSRC4 )
                               IF( MYROW.EQ.RSRC ) THEN
-                                 CALL DLACPY( 'All', HROWS, DIM4,
+                                 CALL DLAMOV( 'All', HROWS, DIM4,
      $                                H((JLOC4-1)*LLDH+ILOC), LLDH,
      $                                WORK(IPW+HROWS*DIM1), HROWS )
                                  IF( NPCOL.GT.1 ) THEN
@@ -1579,7 +1579,7 @@
      $                                ILOC1, JLOC, RSRC1, CSRC )
                               END IF
                               IF( MYCOL.EQ.CSRC ) THEN
-                                 CALL DLACPY( 'All', DIM1, HCOLS,
+                                 CALL DLAMOV( 'All', DIM1, HCOLS,
      $                                H((JLOC-1)*LLDH+ILOC1), LLDH,
      $                                WORK(IPW1), LNWIN )
                                  IF( NPROW.GT.1 ) THEN
@@ -1615,7 +1615,7 @@
      $                                ILOC4, JLOC, RSRC4, CSRC )
                               END IF
                               IF( MYCOL.EQ.CSRC ) THEN
-                                 CALL DLACPY( 'All', DIM4, HCOLS,
+                                 CALL DLAMOV( 'All', DIM4, HCOLS,
      $                                H((JLOC-1)*LLDH+ILOC4), LLDH,
      $                                WORK(IPW1+DIM1), LNWIN )
                                  IF( NPROW.GT.1 ) THEN
@@ -1642,7 +1642,7 @@
      $                             DESCZ, NPROW, NPCOL, MYROW, MYCOL,
      $                             ILOC, JLOC1, RSRC, CSRC1 )
                               IF( MYROW.EQ.RSRC ) THEN
-                                 CALL DLACPY( 'All', ZROWS, DIM1,
+                                 CALL DLAMOV( 'All', ZROWS, DIM1,
      $                                Z((JLOC1-1)*LLDZ+ILOC), LLDZ,
      $                                WORK(IPW2), ZROWS )
                                  IF( NPCOL.GT.1 ) THEN
@@ -1662,7 +1662,7 @@
      $                             MYROW, MYCOL, ILOC, JLOC4, RSRC,
      $                             CSRC4 )
                               IF( MYROW.EQ.RSRC ) THEN
-                                 CALL DLACPY( 'All', ZROWS, DIM4,
+                                 CALL DLAMOV( 'All', ZROWS, DIM4,
      $                                Z((JLOC4-1)*LLDZ+ILOC), LLDZ,
      $                                WORK(IPW2+ZROWS*DIM1), ZROWS )
                                  IF( NPCOL.GT.1 ) THEN
@@ -1812,7 +1812,7 @@
      $                                LNWIN, ONE, WORK( IPW ), HROWS,
      $                                WORK( IPU ), LNWIN, ZERO,
      $                                WORK(IPW3), HROWS )
-                                 CALL DLACPY( 'All', HROWS, DIM1,
+                                 CALL DLAMOV( 'All', HROWS, DIM1,
      $                                WORK(IPW3), HROWS,
      $                                H((JLOC-1)*LLDH+ILOC), LLDH )
                               END IF
@@ -1827,7 +1827,7 @@
      $                                LNWIN, ONE, WORK( IPW ), HROWS,
      $                                WORK( IPU+LNWIN*DIM1 ), LNWIN,
      $                                ZERO, WORK(IPW3), HROWS )
-                                 CALL DLACPY( 'All', HROWS, DIM4,
+                                 CALL DLAMOV( 'All', HROWS, DIM4,
      $                                WORK(IPW3), HROWS,
      $                                H((JLOC-1)*LLDH+ILOC), LLDH )
                               END IF
@@ -1847,7 +1847,7 @@
      $                                LNWIN, ONE, WORK( IPW2 ),
      $                                ZROWS, WORK( IPU ), LNWIN,
      $                                ZERO, WORK(IPW3), ZROWS )
-                                 CALL DLACPY( 'All', ZROWS, DIM1,
+                                 CALL DLAMOV( 'All', ZROWS, DIM1,
      $                                WORK(IPW3), ZROWS,
      $                                Z((JLOC-1)*LLDZ+ILOC), LLDZ )
                               END IF
@@ -1863,7 +1863,7 @@
      $                                ZROWS,
      $                                WORK( IPU+LNWIN*DIM1 ), LNWIN,
      $                                ZERO, WORK(IPW3), ZROWS )
-                                 CALL DLACPY( 'All', ZROWS, DIM4,
+                                 CALL DLAMOV( 'All', ZROWS, DIM4,
      $                                WORK(IPW3), ZROWS,
      $                                Z((JLOC-1)*LLDZ+ILOC), LLDZ )
                               END IF
@@ -1885,7 +1885,7 @@
      $                             DIM1, HCOLS, LNWIN, ONE, WORK(IPU),
      $                             LNWIN, WORK( IPW1 ), LNWIN, ZERO,
      $                             WORK(IPW3), DIM1 )
-                              CALL DLACPY( 'All', DIM1, HCOLS,
+                              CALL DLAMOV( 'All', DIM1, HCOLS,
      $                             WORK(IPW3), DIM1,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH )
                            END IF
@@ -1900,7 +1900,7 @@
      $                             WORK( IPU+DIM1*LNWIN ), LNWIN,
      $                             WORK( IPW1), LNWIN, ZERO,
      $                             WORK(IPW3), DIM4 )
-                              CALL DLACPY( 'All', DIM4, HCOLS,
+                              CALL DLAMOV( 'All', DIM4, HCOLS,
      $                             WORK(IPW3), DIM4,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH )
                            END IF
@@ -1921,7 +1921,7 @@
      $                                   LNWIN, ONE, WORK( IPU ), LNWIN,
      $                                   WORK( IPW1 ), LNWIN, ZERO,
      $                                   WORK(IPW3), DIM1 )
-                                    CALL DLACPY( 'All', DIM1, HCOLS,
+                                    CALL DLAMOV( 'All', DIM1, HCOLS,
      $                                   WORK(IPW3), DIM1,
      $                                   H((JLOC-1)*LLDH+ILOC), LLDH )
                                  END IF
@@ -1937,7 +1937,7 @@
      $                                   WORK( IPU+LNWIN*DIM1 ), LNWIN,
      $                                   WORK( IPW1 ), LNWIN,
      $                                   ZERO, WORK(IPW3), DIM4 )
-                                    CALL DLACPY( 'All', DIM4, HCOLS,
+                                    CALL DLAMOV( 'All', DIM4, HCOLS,
      $                                   WORK(IPW3), DIM4,
      $                                   H((JLOC-1)*LLDH+ILOC), LLDH )
                                  END IF
@@ -1959,7 +1959,7 @@
      $                             NPCOL, MYROW, MYCOL, ILOC, JLOC,
      $                             RSRC, CSRC1 )
                               IF( MYROW.EQ.RSRC ) THEN
-                                 CALL DLACPY( 'All', HROWS, KS,
+                                 CALL DLAMOV( 'All', HROWS, KS,
      $                                WORK( IPW+HROWS*DIM4), HROWS,
      $                                WORK(IPW3), HROWS )
                                  CALL DTRMM( 'Right', 'Upper',
@@ -1972,7 +1972,7 @@
      $                                ONE, WORK( IPW ), HROWS,
      $                                WORK( IPU ), LNWIN, ONE,
      $                                WORK(IPW3), HROWS )
-                                 CALL DLACPY( 'All', HROWS, KS,
+                                 CALL DLAMOV( 'All', HROWS, KS,
      $                                WORK(IPW3), HROWS,
      $                                H((JLOC-1)*LLDH+ILOC), LLDH )
                               END IF
@@ -1986,7 +1986,7 @@
      $                             NPROW, NPCOL, MYROW, MYCOL, ILOC,
      $                             JLOC, RSRC, CSRC4 )
                               IF( MYROW.EQ.RSRC ) THEN
-                                 CALL DLACPY( 'All', HROWS, DIM4,
+                                 CALL DLAMOV( 'All', HROWS, DIM4,
      $                                WORK(IPW), HROWS, WORK( IPW3 ),
      $                                HROWS )
                                  CALL DTRMM( 'Right', 'Lower',
@@ -2000,7 +2000,7 @@
      $                                HROWS,
      $                                WORK( IPU+LNWIN*KS+DIM4 ), LNWIN,
      $                                ONE, WORK( IPW3 ), HROWS )
-                                 CALL DLACPY( 'All', HROWS, DIM4,
+                                 CALL DLAMOV( 'All', HROWS, DIM4,
      $                                WORK(IPW3), HROWS,
      $                                H((JLOC-1)*LLDH+ILOC), LLDH )
                               END IF
@@ -2020,7 +2020,7 @@
      $                             NPCOL, MYROW, MYCOL, ILOC, JLOC,
      $                             RSRC, CSRC1 )
                               IF( MYROW.EQ.RSRC ) THEN
-                                 CALL DLACPY( 'All', ZROWS, KS,
+                                 CALL DLAMOV( 'All', ZROWS, KS,
      $                                WORK( IPW2+ZROWS*DIM4),
      $                                ZROWS, WORK(IPW3), ZROWS )
                                  CALL DTRMM( 'Right', 'Upper',
@@ -2033,7 +2033,7 @@
      $                                DIM4, ONE, WORK( IPW2 ),
      $                                ZROWS, WORK( IPU ), LNWIN,
      $                                ONE, WORK(IPW3), ZROWS )
-                                 CALL DLACPY( 'All', ZROWS, KS,
+                                 CALL DLAMOV( 'All', ZROWS, KS,
      $                                WORK(IPW3), ZROWS,
      $                                Z((JLOC-1)*LLDZ+ILOC), LLDZ )
                               END IF
@@ -2047,7 +2047,7 @@
      $                             NPROW, NPCOL, MYROW, MYCOL, ILOC,
      $                             JLOC, RSRC, CSRC4 )
                               IF( MYROW.EQ.RSRC ) THEN
-                                 CALL DLACPY( 'All', ZROWS, DIM4,
+                                 CALL DLAMOV( 'All', ZROWS, DIM4,
      $                                WORK(IPW2), ZROWS,
      $                                WORK( IPW3 ), ZROWS )
                                  CALL DTRMM( 'Right', 'Lower',
@@ -2063,7 +2063,7 @@
      $                                WORK( IPU+LNWIN*KS+DIM4 ),
      $                                LNWIN, ONE, WORK( IPW3 ),
      $                                ZROWS )
-                                 CALL DLACPY( 'All', ZROWS, DIM4,
+                                 CALL DLAMOV( 'All', ZROWS, DIM4,
      $                                WORK(IPW3), ZROWS,
      $                                Z((JLOC-1)*LLDZ+ILOC), LLDZ )
                               END IF
@@ -2083,7 +2083,7 @@
                               CALL INFOG2L( LKTOP, INDX, DESCH, NPROW,
      $                             NPCOL, MYROW, MYCOL, ILOC, JLOC,
      $                             RSRC1, CSRC4 )
-                              CALL DLACPY( 'All', KS, HCOLS,
+                              CALL DLAMOV( 'All', KS, HCOLS,
      $                             WORK( IPW1+DIM4 ), LNWIN,
      $                             WORK(IPW3), KS )
                               CALL DTRMM( 'Left', 'Upper', 'Transpose',
@@ -2094,7 +2094,7 @@
      $                             KS, HCOLS, DIM4, ONE, WORK(IPU),
      $                             LNWIN, WORK(IPW1), LNWIN,
      $                             ONE, WORK(IPW3), KS )
-                              CALL DLACPY( 'All', KS, HCOLS,
+                              CALL DLAMOV( 'All', KS, HCOLS,
      $                             WORK(IPW3), KS,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH )
                            END IF
@@ -2108,7 +2108,7 @@
                               CALL INFOG2L( LKTOP+DIM1, INDX, DESCH,
      $                             NPROW, NPCOL, MYROW, MYCOL, ILOC,
      $                             JLOC, RSRC4, CSRC4 )
-                              CALL DLACPY( 'All', DIM4, HCOLS,
+                              CALL DLAMOV( 'All', DIM4, HCOLS,
      $                             WORK( IPW1 ), LNWIN,
      $                             WORK( IPW3 ), DIM4 )
                               CALL DTRMM( 'Left', 'Lower', 'Transpose',
@@ -2120,7 +2120,7 @@
      $                             WORK( IPU+LNWIN*KS+DIM4 ), LNWIN,
      $                             WORK( IPW1+DIM1 ), LNWIN,
      $                             ONE, WORK( IPW3), DIM4 )
-                              CALL DLACPY( 'All', DIM4, HCOLS,
+                              CALL DLAMOV( 'All', DIM4, HCOLS,
      $                             WORK(IPW3), DIM4,
      $                             H((JLOC-1)*LLDH+ILOC), LLDH )
                            END IF
@@ -2140,7 +2140,7 @@
      $                                NPROW, NPCOL, MYROW, MYCOL, ILOC,
      $                                JLOC, RSRC1, CSRC )
                                  IF( MYCOL.EQ.CSRC ) THEN
-                                    CALL DLACPY( 'All', KS, HCOLS,
+                                    CALL DLAMOV( 'All', KS, HCOLS,
      $                                   WORK( IPW1+DIM4 ), LNWIN,
      $                                   WORK(IPW3), KS )
                                     CALL DTRMM( 'Left', 'Upper',
@@ -2153,7 +2153,7 @@
      $                                   DIM4, ONE, WORK(IPU), LNWIN,
      $                                   WORK(IPW1), LNWIN, ONE,
      $                                   WORK(IPW3), KS )
-                                    CALL DLACPY( 'All', KS, HCOLS,
+                                    CALL DLAMOV( 'All', KS, HCOLS,
      $                                   WORK(IPW3), KS,
      $                                   H((JLOC-1)*LLDH+ILOC), LLDH )
                                  END IF
@@ -2167,7 +2167,7 @@
      $                                NPROW, NPCOL, MYROW, MYCOL, ILOC,
      $                                JLOC, RSRC4, CSRC )
                                  IF( MYCOL.EQ.CSRC ) THEN
-                                    CALL DLACPY( 'All', DIM4, HCOLS,
+                                    CALL DLAMOV( 'All', DIM4, HCOLS,
      $                                   WORK( IPW1 ), LNWIN,
      $                                   WORK( IPW3 ), DIM4 )
                                     CALL DTRMM( 'Left', 'Lower',
@@ -2182,7 +2182,7 @@
      $                                   LNWIN, WORK( IPW1+DIM1 ),
      $                                   LNWIN, ONE, WORK( IPW3),
      $                                   DIM4 )
-                                    CALL DLACPY( 'All', DIM4, HCOLS,
+                                    CALL DLAMOV( 'All', DIM4, HCOLS,
      $                                   WORK(IPW3), DIM4,
      $                                   H((JLOC-1)*LLDH+ILOC), LLDH )
                                  END IF

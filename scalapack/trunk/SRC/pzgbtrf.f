@@ -390,7 +390,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDEXIT, BLACS_GRIDINFO, DESC_CONVERT,
      $                   GLOBCHK, PXERBLA, RESHAPE, ZAXPY, ZGEMM,
-     $                   ZGERV2D, ZGESD2D, ZLACPY, ZLATCPY, ZPBTRF,
+     $                   ZGERV2D, ZGESD2D, ZLAMOV, ZLATCPY, ZPBTRF,
      $                   ZPOTRF, ZSYRK, ZTBTRS, ZTRMM, ZTRRV2D, ZTRSD2D,
      $                   ZTRSM, ZTRTRS
 *     ..
@@ -841,7 +841,7 @@
 *     DBPTR = Pointer to diagonal blocks in A
       DBPTR = BW+1 + LBWU + LN*LLDA
 *
-      CALL ZLACPY('G',BM,BN, A(DBPTR),LLDA-1,
+      CALL ZLAMOV('G',BM,BN, A(DBPTR),LLDA-1,
      $     AF(BBPTR + BW*LDBB),LDBB)
 *
 *     Zero out any junk entries that were copied
@@ -857,7 +857,7 @@
 *        ODPTR = Pointer to offdiagonal blocks in A
 *
          ODPTR = LM-BM+1
-         CALL ZLACPY('G',BM,BW, AF(ODPTR),LM,
+         CALL ZLAMOV('G',BM,BW, AF(ODPTR),LM,
      $        AF(BBPTR +2*BW*LDBB),LDBB)
       ENDIF
 *
@@ -924,7 +924,7 @@
 *
 *                     Copy diagonal block to align whole system
 *
-                      CALL ZLACPY( 'G', BMN, BW, AF( BBPTR+BM ),
+                      CALL ZLAMOV( 'G', BMN, BW, AF( BBPTR+BM ),
      $                  LDBB, AF( BBPTR+2*BW*LDBB+BM ), LDBB )
                    ENDIF
 *
@@ -950,7 +950,7 @@
                 CALL ZGESD2D( ICTXT, BM, 2*BW, AF(BBPTR+BW*LDBB),
      $               LDBB, 0, NEICOL )
 *
-                CALL ZLACPY('G',BM, 2*BW, AF(BBPTR+BW*LDBB),LDBB,
+                CALL ZLAMOV('G',BM, 2*BW, AF(BBPTR+BW*LDBB),LDBB,
      $               AF(BBPTR+BMN),LDBB)
 *
                 DO 31 J=BBPTR+2*BW*LDBB, BBPTR+3*BW*LDBB-1, LDBB
@@ -966,7 +966,7 @@
 *
 *                  Copy diagonal block to align whole system
 *
-                   CALL ZLACPY( 'G', BM, BW, AF( BBPTR+BMN ),
+                   CALL ZLAMOV( 'G', BM, BW, AF( BBPTR+BMN ),
      $               LDBB, AF( BBPTR+2*BW*LDBB+BMN ), LDBB )
                 ENDIF
 *
@@ -1029,10 +1029,10 @@
 *                  Local copying in the block bidiagonal area
 *
 *
-                   CALL ZLACPY('G',BM,BW,
+                   CALL ZLAMOV('G',BM,BW,
      $                  AF(BBPTR+BW),
      $                  LDBB, AF(BBPTR+BW*LDBB), LDBB)
-                   CALL ZLACPY('G',BM,BW,
+                   CALL ZLAMOV('G',BM,BW,
      $                  AF(BBPTR+2*BW*LDBB+BW),
      $                  LDBB, AF(BBPTR+2*BW*LDBB), LDBB)
 *

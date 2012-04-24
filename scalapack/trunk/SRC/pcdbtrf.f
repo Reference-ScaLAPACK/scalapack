@@ -380,7 +380,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GET, BLACS_GRIDEXIT, BLACS_GRIDINFO,
-     $                   CAXPY, CGEMM, CGERV2D, CGESD2D, CLACPY,
+     $                   CAXPY, CGEMM, CGERV2D, CGESD2D, CLAMOV,
      $                   CLATCPY, CPBTRF, CPOTRF, CSYRK, CTBTRS, CTRMM,
      $                   CTRRV2D, CTRSD2D, CTRSM, CTRTRS, DESC_CONVERT,
      $                   GLOBCHK, PXERBLA, RESHAPE
@@ -743,7 +743,7 @@
      $                  A(( OFST+(BWL+BWU+1)+(ODD_SIZE-BWL)*LLDA )),
      $                  LLDA-1, AF( ODD_SIZE*BWU+2*MBW2+1+MAX_BW-BWL ),
      $                  MAX_BW )
-          CALL CLACPY( 'L', BWU, BWU, A( ( OFST+1+ODD_SIZE*LLDA ) ),
+          CALL CLAMOV( 'L', BWU, BWU, A( ( OFST+1+ODD_SIZE*LLDA ) ),
      $                 LLDA-1,
      $                 AF( WORK_U+ODD_SIZE*BWL+2*MBW2+1+MAX_BW-BWU ),
      $                 MAX_BW )
@@ -772,7 +772,7 @@
 *
 *         Move the resulting block back to its location in main storage.
 *
-          CALL CLACPY( 'L', BWU, BWU,
+          CALL CLAMOV( 'L', BWU, BWU,
      $                 AF( WORK_U+ODD_SIZE*BWL+2*MBW2+1+MAX_BW-BWU ),
      $                 MAX_BW, A(( OFST+1+ODD_SIZE*LLDA )), LLDA-1 )
 *
@@ -952,7 +952,7 @@
 *       Copy last diagonal block into AF storage for subsequent
 *         operations.
 *
-        CALL CLACPY( 'N', MAX_BW, MAX_BW,
+        CALL CLAMOV( 'N', MAX_BW, MAX_BW,
      $                    A( OFST+ODD_SIZE*LLDA+BWU+1 ),
      $                    LLDA-1, AF( ODD_SIZE*BWU+MBW2+1 ),
      $                    MAX_BW )
@@ -1040,11 +1040,11 @@
 *           Move block into place that it will be expected to be for
 *             calcs.
 *
-          CALL CLACPY( 'N', MAX_BW, MAX_BW, AF( ODD_SIZE*BWU+1 ),
+          CALL CLAMOV( 'N', MAX_BW, MAX_BW, AF( ODD_SIZE*BWU+1 ),
      $                 MAX_BW, AF( WORK_U+ODD_SIZE*BWL+2*MBW2+1 ),
      $                 MAX_BW )
 *
-          CALL CLACPY( 'N', MAX_BW, MAX_BW, AF( WORK_U+ODD_SIZE*BWL+1 ),
+          CALL CLAMOV( 'N', MAX_BW, MAX_BW, AF( WORK_U+ODD_SIZE*BWL+1 ),
      $                 MAX_BW, AF( ODD_SIZE*BWU+2*MBW2+1 ), MAX_BW )
 *
         ELSE

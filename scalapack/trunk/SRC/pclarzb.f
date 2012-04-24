@@ -243,7 +243,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_ABORT, BLACS_GRIDINFO, CGEBR2D,
      $                   CGEBS2D, CGEMM, CGSUM2D, CLACGV,
-     $                   CLACPY, CLASET, CTRBR2D, CTRBS2D,
+     $                   CLAMOV, CLASET, CTRBR2D, CTRBS2D,
      $                   CTRMM, INFOG2L, PBCMATADD, PBCTRAN,
      $                   PB_TOPGET, PXERBLA
 *     ..
@@ -381,10 +381,10 @@
 *
          IF( MYROW.EQ.IVROW ) THEN
             IF( MYCOL.EQ.IVCOL ) THEN
-               CALL CLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+               CALL CLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                      WORK( IPW+ICOFFV*LW ), LW )
             ELSE
-               CALL CLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+               CALL CLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                      WORK( IPW ), LW )
             END IF
          END IF
@@ -517,7 +517,7 @@
             IF( MYCOL.EQ.IVCOL )
      $         CALL CTRBS2D( ICTXT, 'Columnwise', COLBTOP, 'Lower',
      $                       'Non unit', K, K, T, MBV )
-            CALL CLACPY( 'All', K, NQC2, V( IOFFV ), LDV, WORK( IPV ),
+            CALL CLAMOV( 'All', K, NQC2, V( IOFFV ), LDV, WORK( IPV ),
      $                   LV )
          ELSE
             CALL CGEBR2D( ICTXT, 'Columnwise', COLBTOP, K, NQC2,

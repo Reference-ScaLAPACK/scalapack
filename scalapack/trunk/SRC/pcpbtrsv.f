@@ -400,7 +400,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GET, BLACS_GRIDEXIT, BLACS_GRIDINFO,
-     $                   CGEMM, CGERV2D, CGESD2D, CLACPY, CMATADD,
+     $                   CGEMM, CGERV2D, CGESD2D, CLAMOV, CMATADD,
      $                   CTBTRS, CTRMM, CTRTRS, DESC_CONVERT, GLOBCHK,
      $                   PXERBLA, RESHAPE
 *     ..
@@ -772,7 +772,7 @@
 *           First copy and multiply it into temporary storage,
 *             then use it on RHS
 *
-            CALL CLACPY( 'N', BW, NRHS,
+            CALL CLAMOV( 'N', BW, NRHS,
      $                B( PART_OFFSET+ODD_SIZE-BW+1), LLDB,
      $                WORK( 1 ), BW )
 *
@@ -1115,7 +1115,7 @@
 *         First copy and multiply it into temporary storage,
 *           then use it on RHS
 *
-          CALL CLACPY( 'N', BW, NRHS, B( PART_OFFSET+ODD_SIZE+1), LLDB,
+          CALL CLAMOV( 'N', BW, NRHS, B( PART_OFFSET+ODD_SIZE+1), LLDB,
      $                 WORK( 1+BW-BW ), BW )
 *
           CALL CTRMM( 'L', 'U', 'C', 'N', BW, NRHS, -CONE,
@@ -1168,7 +1168,7 @@
 *           First copy and multiply it into temporary storage,
 *             then use it on RHS
 *
-            CALL CLACPY( 'N', BW, NRHS,
+            CALL CLAMOV( 'N', BW, NRHS,
      $                B( PART_OFFSET+ODD_SIZE-BW+1), LLDB,
      $                WORK( 1 ), BW )
 *
@@ -1511,7 +1511,7 @@
 *         First copy and multiply it into temporary storage,
 *           then use it on RHS
 *
-          CALL CLACPY( 'N', BW, NRHS, B( PART_OFFSET+ODD_SIZE+1), LLDB,
+          CALL CLAMOV( 'N', BW, NRHS, B( PART_OFFSET+ODD_SIZE+1), LLDB,
      $                 WORK( 1+BW-BW ), BW )
 *
           CALL CTRMM( 'L', 'L', 'N', 'N', BW, NRHS, -CONE,

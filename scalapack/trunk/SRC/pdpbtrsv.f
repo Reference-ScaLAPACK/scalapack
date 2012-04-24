@@ -394,7 +394,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDEXIT, BLACS_GRIDINFO, DESC_CONVERT,
-     $                   DGEMM, DGERV2D, DGESD2D, DLACPY, DMATADD,
+     $                   DGEMM, DGERV2D, DGESD2D, DLAMOV, DMATADD,
      $                   DTBTRS, DTRMM, DTRTRS, GLOBCHK, PXERBLA,
      $                   RESHAPE
 *     ..
@@ -762,7 +762,7 @@
 *           First copy and multiply it into temporary storage,
 *             then use it on RHS
 *
-               CALL DLACPY( 'N', BW, NRHS,
+               CALL DLAMOV( 'N', BW, NRHS,
      $                      B( PART_OFFSET+ODD_SIZE-BW+1 ), LLDB,
      $                      WORK( 1 ), BW )
 *
@@ -1086,7 +1086,7 @@
 *         First copy and multiply it into temporary storage,
 *           then use it on RHS
 *
-               CALL DLACPY( 'N', BW, NRHS, B( PART_OFFSET+ODD_SIZE+1 ),
+               CALL DLAMOV( 'N', BW, NRHS, B( PART_OFFSET+ODD_SIZE+1 ),
      $                      LLDB, WORK( 1+BW-BW ), BW )
 *
                CALL DTRMM( 'L', 'U', 'T', 'N', BW, NRHS, -ONE,
@@ -1136,7 +1136,7 @@
 *           First copy and multiply it into temporary storage,
 *             then use it on RHS
 *
-               CALL DLACPY( 'N', BW, NRHS,
+               CALL DLAMOV( 'N', BW, NRHS,
      $                      B( PART_OFFSET+ODD_SIZE-BW+1 ), LLDB,
      $                      WORK( 1 ), BW )
 *
@@ -1460,7 +1460,7 @@
 *         First copy and multiply it into temporary storage,
 *           then use it on RHS
 *
-               CALL DLACPY( 'N', BW, NRHS, B( PART_OFFSET+ODD_SIZE+1 ),
+               CALL DLAMOV( 'N', BW, NRHS, B( PART_OFFSET+ODD_SIZE+1 ),
      $                      LLDB, WORK( 1+BW-BW ), BW )
 *
                CALL DTRMM( 'L', 'L', 'N', 'N', BW, NRHS, -ONE,

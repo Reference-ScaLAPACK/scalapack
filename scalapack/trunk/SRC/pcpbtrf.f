@@ -382,7 +382,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GET, BLACS_GRIDEXIT, BLACS_GRIDINFO,
-     $                   CAXPY, CGEMM, CGERV2D, CGESD2D, CLACPY,
+     $                   CAXPY, CGEMM, CGERV2D, CGESD2D, CLAMOV,
      $                   CLATCPY, CPBTRF, CPOTRF, CSYRK, CTBTRS, CTRMM,
      $                   CTRRV2D, CTRSD2D, CTRSM, CTRTRS, DESC_CONVERT,
      $                   GLOBCHK, PXERBLA, RESHAPE
@@ -878,7 +878,7 @@
 *       Copy last diagonal block into AF storage for subsequent
 *         operations.
 *
-        CALL CLACPY( 'N', BW, BW,
+        CALL CLAMOV( 'N', BW, BW,
      $                    A( OFST+ODD_SIZE*LLDA+1 ),
      $                    LLDA-1, AF( ODD_SIZE*BW+MBW2+1 ),
      $                    BW )
@@ -965,7 +965,7 @@
 *           Move block into place that it will be expected to be for
 *             calcs.
 *
-          CALL CLACPY( 'N', BW, BW, AF( ODD_SIZE*BW+1 ), BW,
+          CALL CLAMOV( 'N', BW, BW, AF( ODD_SIZE*BW+1 ), BW,
      $                 AF( ODD_SIZE*BW+2*MBW2+1 ), BW )
 *
         ELSE
@@ -1124,7 +1124,7 @@
 *
 *         Move the connection block in preparation.
 *
-          CALL CLACPY( 'L', BW, BW, A( ( OFST+1+ODD_SIZE*LLDA ) ),
+          CALL CLAMOV( 'L', BW, BW, A( ( OFST+1+ODD_SIZE*LLDA ) ),
      $                 LLDA-1, AF( ODD_SIZE*BW+2*MBW2+1+BW-BW ), BW )
 *
 *
@@ -1136,7 +1136,7 @@
 *
 *         Move the resulting block back to its location in main storage.
 *
-          CALL CLACPY( 'L', BW, BW, AF( ODD_SIZE*BW+2*MBW2+1+BW-BW ),
+          CALL CLAMOV( 'L', BW, BW, AF( ODD_SIZE*BW+2*MBW2+1+BW-BW ),
      $                 BW, A(( OFST+1+ODD_SIZE*LLDA )), LLDA-1 )
 *
 *
@@ -1353,7 +1353,7 @@
 *           Move block into place that it will be expected to be for
 *             calcs.
 *
-          CALL CLACPY( 'N', BW, BW, AF( ODD_SIZE*BW+1 ), BW,
+          CALL CLAMOV( 'N', BW, BW, AF( ODD_SIZE*BW+1 ), BW,
      $                 AF( ODD_SIZE*BW+2*MBW2+1 ), BW )
 *
         ELSE

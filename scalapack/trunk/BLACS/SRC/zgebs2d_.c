@@ -115,7 +115,7 @@ F_VOID_FUNC zgebs2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
    if (ttop == ' ')
    {
       error=MPI_Bcast(A, BI_AuxBuff.N, MatTyp, ctxt->scp->Iam, ctxt->scp->comm);
-      error=MPI_Type_free(&MatTyp);
+      error=BI_MPI_TYPE_FREE(&MatTyp);
       if (BI_ActiveQ) BI_UpdateBuffs(NULL);
       return;
    }
@@ -186,7 +186,7 @@ F_VOID_FUNC zgebs2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
                   ttop);
    }
 
-   error=MPI_Type_free(&MatTyp);
+   error=BI_MPI_TYPE_FREE(&MatTyp);
    if (bp == &BI_AuxBuff)
    {
       if (BI_ActiveQ) BI_UpdateBuffs(NULL);

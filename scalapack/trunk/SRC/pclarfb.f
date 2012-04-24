@@ -237,7 +237,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, CGEBR2D, CGEBS2D,CGEMM,
-     $                   CGSUM2D, CLACPY, CLASET, CTRBR2D,
+     $                   CGSUM2D, CLAMOV, CLASET, CTRBR2D,
      $                   CTRBS2D, CTRMM, INFOG1L, INFOG2L, PB_TOPGET,
      $                   PBCTRAN
 *     ..
@@ -325,7 +325,7 @@
                IF( MYROW.EQ.IVROW )
      $            CALL CTRBS2D( ICTXT, 'Rowwise', ROWBTOP, UPLO,
      $                          'Non unit', K, K, T, NBV )
-               CALL CLACPY( 'All', MPC, K, V( IOFFV ), LDV, WORK( IPV ),
+               CALL CLAMOV( 'All', MPC, K, V( IOFFV ), LDV, WORK( IPV ),
      $                      LV )
             ELSE
                CALL CGEBR2D( ICTXT, 'Rowwise', ROWBTOP, MPC, K,
@@ -462,11 +462,11 @@
                   CALL CLASET( 'All', IROFFV, K, ZERO, ZERO,
      $                         WORK( IPW ), LW )
                   IPW1 = IPW + IROFFV
-                  CALL CLACPY( 'All', NPV, K, V( IOFFV ), LDV,
+                  CALL CLAMOV( 'All', NPV, K, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                ELSE
                   IPW1 = IPW
-                  CALL CLACPY( 'All', NPV, K, V( IOFFV ), LDV,
+                  CALL CLAMOV( 'All', NPV, K, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                END IF
 *
@@ -626,11 +626,11 @@
                   CALL CLASET( 'All', K, ICOFFV, ZERO, ZERO,
      $                         WORK( IPW ), LW )
                   IPW1 = IPW + ICOFFV * LW
-                  CALL CLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+                  CALL CLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                ELSE
                   IPW1 = IPW
-                  CALL CLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+                  CALL CLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                END IF
 *
@@ -775,7 +775,7 @@
                IF( MYCOL.EQ.IVCOL )
      $            CALL CTRBS2D( ICTXT, 'Columnwise', COLBTOP, UPLO,
      $                          'Non unit', K, K, T, MBV )
-               CALL CLACPY( 'All', K, NQC, V( IOFFV ), LDV, WORK( IPV ),
+               CALL CLAMOV( 'All', K, NQC, V( IOFFV ), LDV, WORK( IPV ),
      $                      LV )
             ELSE
                CALL CGEBR2D( ICTXT, 'Columnwise', COLBTOP, K, NQC,

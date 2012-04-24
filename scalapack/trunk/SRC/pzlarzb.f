@@ -244,7 +244,7 @@
       EXTERNAL           BLACS_ABORT, BLACS_GRIDINFO, INFOG2L,
      $                   PBZMATADD, PB_TOPGET, PXERBLA, PBZTRAN,
      $                   ZGEBR2D, ZGEBS2D, ZGEMM,
-     $                   ZGSUM2D, ZLACGV, ZLACPY, ZLASET,
+     $                   ZGSUM2D, ZLACGV, ZLAMOV, ZLASET,
      $                   ZTRBR2D, ZTRBS2D, ZTRMM
 *     ..
 *     .. Intrinsic Functions ..
@@ -381,10 +381,10 @@
 *
          IF( MYROW.EQ.IVROW ) THEN
             IF( MYCOL.EQ.IVCOL ) THEN
-               CALL ZLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+               CALL ZLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                      WORK( IPW+ICOFFV*LW ), LW )
             ELSE
-               CALL ZLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+               CALL ZLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                      WORK( IPW ), LW )
             END IF
          END IF
@@ -517,7 +517,7 @@
             IF( MYCOL.EQ.IVCOL )
      $         CALL ZTRBS2D( ICTXT, 'Columnwise', COLBTOP, 'Lower',
      $                       'Non unit', K, K, T, MBV )
-            CALL ZLACPY( 'All', K, NQC2, V( IOFFV ), LDV, WORK( IPV ),
+            CALL ZLAMOV( 'All', K, NQC2, V( IOFFV ), LDV, WORK( IPV ),
      $                   LV )
          ELSE
             CALL ZGEBR2D( ICTXT, 'Columnwise', COLBTOP, K, NQC2,

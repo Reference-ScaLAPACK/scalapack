@@ -227,6 +227,16 @@ typedef char *          F_CHAR;
 #define zcombamax_        ZCOMBAMAX
 #define scombnrm2_        SCOMBNRM2
 #define dcombnrm2_        DCOMBNRM2
+
+#define dlamov_           DLAMOV
+#define slamov_           SLAMOV
+#define clamov_           CLAMOV
+#define zlamov_           ZLAMOV
+#define dlacpy_           DLACPY
+#define slacpy_           SLACPY
+#define clacpy_           CLACPY
+#define zlacpy_           ZLACPY
+#define xerbla_           XERBLA
                                                             /* BLACS */
 #define blacs_abort_      BLACS_ABORT
 #define blacs_gridinfo_   BLACS_GRIDINFO
@@ -656,6 +666,16 @@ typedef char *          F_CHAR;
 #define zcombamax_        zcombamax
 #define scombnrm2_        scombnrm2
 #define dcombnrm2_        dcombnrm2
+
+#define dlamov_           dlamov
+#define slamov_           slamov
+#define clamov_           clamov
+#define zlamov_           zlamov
+#define dlacpy_           dlacpy
+#define slacpy_           slacpy
+#define clacpy_           clacpy
+#define zlacpy_           zlacpy
+#define xerbla_           xerbla
                                                             /* BLACS */
 #define blacs_abort_      blacs_abort
 #define blacs_gridinfo_   blacs_gridinfo

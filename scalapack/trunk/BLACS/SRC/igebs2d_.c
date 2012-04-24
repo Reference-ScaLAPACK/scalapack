@@ -115,7 +115,7 @@ F_VOID_FUNC igebs2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
    if (ttop == ' ')
    {
       error=MPI_Bcast(A, BI_AuxBuff.N, MatTyp, ctxt->scp->Iam, ctxt->scp->comm);
-      error=MPI_Type_free(&MatTyp);
+      error=BI_MPI_TYPE_FREE(&MatTyp);
       if (BI_ActiveQ) BI_UpdateBuffs(NULL);
       return;
    }
@@ -185,7 +185,7 @@ F_VOID_FUNC igebs2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
       BI_BlacsErr(Mpval(ConTxt), __LINE__, __FILE__, "Unknown topology '%c'",ttop);
    }
 
-   error=MPI_Type_free(&MatTyp);
+   error=BI_MPI_TYPE_FREE(&MatTyp);
    if (bp == &BI_AuxBuff)
    {
       if (BI_ActiveQ) BI_UpdateBuffs(NULL);

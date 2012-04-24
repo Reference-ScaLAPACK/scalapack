@@ -55,14 +55,14 @@ SCLAUX = \
    pslamch.o pslared1d.o pslasrt.o psstebz.o psstedc.o slapst.o slasrt2.o \
    sstein2.o \
    slar1va.o slarrb2.o slarrd2.o slarre2.o slarre2a.o slarrf2.o \
-   slarrv2.o sstegr2.o sstegr2a.o sstegr2b.o
+   slarrv2.o sstegr2.o sstegr2a.o sstegr2b.o slamov.o clamov.o
 
 DZLAUX = \
    pdlabad.o pdlaed0.o pdlaed1.o pdlaed2.o pdlaed3.o pdlaedz.o pdlaiect.o \
    pdlamch.o pdlared1d.o pdlasrt.o pdstebz.o pdstedc.o dlapst.o dlasrt2.o \
    dstein2.o \
    dlar1va.o dlarrb2.o dlarrd2.o dlarre2.o dlarre2a.o dlarrf2.o \
-   dlarrv2.o dstegr2.o dstegr2a.o dstegr2b.o
+   dlarrv2.o dstegr2.o dstegr2a.o dstegr2b.o dlamov.o zlamov.o
 
 SLASRC = \
    psdbsv.o  psdbtrf.o psdbtrs.o psdbtrsv.o \
@@ -211,6 +211,13 @@ complex16: $(ZLASRC) $(DZLAUX) $(ALLAUX)
 	$(ARCH) $(ARCHFLAGS) ../$(SCALAPACKLIB) $(ZLASRC) $(DZLAUX) \
 	$(ALLAUX)
 	$(RANLIB) ../$(SCALAPACKLIB)
+
+slamov.o: slamov.c
+dlamov.o: dlamov.c
+clamov.o: clamov.c
+zlamov.o: zlamov.c
+slamov.o dlamov.o clamov.o zlamov.o: lamov.h
+	$(CC) -c $(CFLAGS) $(CDEFS) $(@:.o=.c) -o $@
 
 clean :
 	rm -f *.o

@@ -241,7 +241,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_ABORT, BLACS_GRIDINFO, DGEBR2D,
-     $                   DGEBS2D,DGEMM, DGSUM2D, DLACPY,
+     $                   DGEBS2D,DGEMM, DGSUM2D, DLAMOV,
      $                   DLASET, DTRBR2D, DTRBS2D, DTRMM,
      $                   INFOG2L, PBDMATADD, PBDTRAN, PB_TOPGET, PXERBLA
 *     ..
@@ -379,10 +379,10 @@
 *
          IF( MYROW.EQ.IVROW ) THEN
             IF( MYCOL.EQ.IVCOL ) THEN
-               CALL DLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+               CALL DLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                      WORK( IPW+ICOFFV*LW ), LW )
             ELSE
-               CALL DLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+               CALL DLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                      WORK( IPW ), LW )
             END IF
          END IF
@@ -512,7 +512,7 @@
             IF( MYCOL.EQ.IVCOL )
      $         CALL DTRBS2D( ICTXT, 'Columnwise', COLBTOP, 'Lower',
      $                       'Non unit', K, K, T, MBV )
-            CALL DLACPY( 'All', K, NQC2, V( IOFFV ), LDV, WORK( IPV ),
+            CALL DLAMOV( 'All', K, NQC2, V( IOFFV ), LDV, WORK( IPV ),
      $                   LV )
          ELSE
             CALL DGEBR2D( ICTXT, 'Columnwise', COLBTOP, K, NQC2,
