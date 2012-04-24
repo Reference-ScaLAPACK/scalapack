@@ -142,7 +142,7 @@ F_VOID_FUNC ctrbr2d_(int *ConTxt, F_CHAR scope, F_CHAR top, F_CHAR uplo,
    if (ttop == ' ')
    {
       error=MPI_Bcast(A, BI_AuxBuff.N, MatTyp, src, ctxt->scp->comm);
-      error=MPI_Type_free(&MatTyp);
+      error=BI_MPI_TYPE_FREE(&MatTyp);
       if (BI_ActiveQ) BI_UpdateBuffs(NULL);
       return;
    }
@@ -214,7 +214,7 @@ F_VOID_FUNC ctrbr2d_(int *ConTxt, F_CHAR scope, F_CHAR top, F_CHAR uplo,
    }
 
 #ifdef MpiBuffGood
-   error=MPI_Type_free(&MatTyp);
+   error=BI_MPI_TYPE_FREE(&MatTyp);
    if (BI_ActiveQ) BI_UpdateBuffs(NULL);
 #endif
 #ifndef MpiBuffGood

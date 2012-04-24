@@ -101,7 +101,7 @@
       EXTERNAL           DLAMCH, DLANGE
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           DLACPY, DLANV2, DLARFG, DLARFX, DLARTG, DLASY2,
+      EXTERNAL           DLAMOV, DLANV2, DLARFG, DLARFX, DLARTG, DLASY2,
      $                   DROT
 *     ..
 *     .. Intrinsic Functions ..
@@ -155,7 +155,7 @@
 *        and compute its norm.
 *
          ND = N1 + N2
-         CALL DLACPY( 'Full', ND, ND, T( J1, J1 ), LDT, D, LDD )
+         CALL DLAMOV( 'Full', ND, ND, T( J1, J1 ), LDT, D, LDD )
          DNORM = DLANGE( 'Max', ND, ND, D, LDD, WORK )
 *
 *        Compute machine-dependent threshold for test for accepting

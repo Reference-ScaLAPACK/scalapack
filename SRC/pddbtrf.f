@@ -371,7 +371,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDEXIT, BLACS_GRIDINFO, DAXPY, DDBTRF,
      $                   DESC_CONVERT, DGEMM, DGEMV, DGERV2D, DGESD2D,
-     $                   DLACPY, DLATCPY, DTBTRS, DTRMM, DTRRV2D,
+     $                   DLAMOV, DLATCPY, DTBTRS, DTRMM, DTRRV2D,
      $                   DTRSD2D, GLOBCHK, IGAMX2D, IGEBR2D, IGEBS2D,
      $                   PXERBLA, RESHAPE
 *     ..
@@ -723,7 +723,7 @@
          CALL DLATCPY( 'U', BWL, BWL, A( ( OFST+( BWL+BWU+1 )+
      $                 ( ODD_SIZE-BWL )*LLDA ) ), LLDA-1,
      $                 AF( ODD_SIZE*BWU+2*MBW2+1+MAX_BW-BWL ), MAX_BW )
-         CALL DLACPY( 'L', BWU, BWU, A( ( OFST+1+ODD_SIZE*LLDA ) ),
+         CALL DLAMOV( 'L', BWU, BWU, A( ( OFST+1+ODD_SIZE*LLDA ) ),
      $                LLDA-1, AF( WORK_U+ODD_SIZE*BWL+2*MBW2+1+MAX_BW-
      $                BWU ), MAX_BW )
 *
@@ -750,7 +750,7 @@
 *
 *         Move the resulting block back to its location in main storage.
 *
-         CALL DLACPY( 'L', BWU, BWU, AF( WORK_U+ODD_SIZE*BWL+2*MBW2+1+
+         CALL DLAMOV( 'L', BWU, BWU, AF( WORK_U+ODD_SIZE*BWL+2*MBW2+1+
      $                MAX_BW-BWU ), MAX_BW, A( ( OFST+1+ODD_SIZE*
      $                LLDA ) ), LLDA-1 )
 *
@@ -816,7 +816,7 @@
 *
 *         Copy D block into AF storage for solve.
 *
-            CALL DLACPY( 'L', UP_PREV_TRI_SIZE_N, UP_PREV_TRI_SIZE_M,
+            CALL DLAMOV( 'L', UP_PREV_TRI_SIZE_N, UP_PREV_TRI_SIZE_M,
      $                   A( OFST+1 ), LLDA-1, AF( 1 ), BWU )
 *
             DO 80 I1 = 1, ODD_SIZE
@@ -865,7 +865,7 @@
 *             Since we have GU_i stored,
 *             transpose HU_i to HU_i^T.
 *
-               CALL DLACPY( 'N', BWL, BWL,
+               CALL DLAMOV( 'N', BWL, BWL,
      $                      AF( WORK_U+( ODD_SIZE-BWL )*BWL+1 ), BWL,
      $                      AF( ( ODD_SIZE )*BWU+1+( MAX_BW-BWL ) ),
      $                      MAX_BW )
@@ -881,7 +881,7 @@
 *             Since we have GL_i^T stored,
 *             transpose HL_i^T to HL_i.
 *
-               CALL DLACPY( 'N', BWU, BWU, AF( ( ODD_SIZE-BWU )*BWU+1 ),
+               CALL DLAMOV( 'N', BWU, BWU, AF( ( ODD_SIZE-BWU )*BWU+1 ),
      $                      BWU, AF( WORK_U+( ODD_SIZE )*BWL+1+MAX_BW-
      $                      BWU ), MAX_BW )
 *
@@ -946,7 +946,7 @@
 *       Copy last diagonal block into AF storage for subsequent
 *         operations.
 *
-      CALL DLACPY( 'N', MAX_BW, MAX_BW, A( OFST+ODD_SIZE*LLDA+BWU+1 ),
+      CALL DLAMOV( 'N', MAX_BW, MAX_BW, A( OFST+ODD_SIZE*LLDA+BWU+1 ),
      $             LLDA-1, AF( ODD_SIZE*BWU+MBW2+1 ), MAX_BW )
 *
 *       Receive cont. to diagonal block that is stored on this proc.
@@ -1030,10 +1030,10 @@
 *           Move block into place that it will be expected to be for
 *             calcs.
 *
-         CALL DLACPY( 'N', MAX_BW, MAX_BW, AF( ODD_SIZE*BWU+1 ), MAX_BW,
+         CALL DLAMOV( 'N', MAX_BW, MAX_BW, AF( ODD_SIZE*BWU+1 ), MAX_BW,
      $                AF( WORK_U+ODD_SIZE*BWL+2*MBW2+1 ), MAX_BW )
 *
-         CALL DLACPY( 'N', MAX_BW, MAX_BW, AF( WORK_U+ODD_SIZE*BWL+1 ),
+         CALL DLAMOV( 'N', MAX_BW, MAX_BW, AF( WORK_U+ODD_SIZE*BWL+1 ),
      $                MAX_BW, AF( ODD_SIZE*BWU+2*MBW2+1 ), MAX_BW )
 *
       ELSE

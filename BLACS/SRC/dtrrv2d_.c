@@ -96,6 +96,6 @@ F_VOID_FUNC dtrrv2d_(int *ConTxt, F_CHAR uplo, F_CHAR diag, int *m, int *n,
    BI_AuxBuff.Buff = (char *) A;
    BI_AuxBuff.dtype = MatTyp;
    BI_Srecv(ctxt, Mkpnum(ctxt, Mpval(rsrc), Mpval(csrc)), PT2PTID, &BI_AuxBuff);
-   ierr=MPI_Type_free(&MatTyp);
+   ierr=BI_MPI_TYPE_FREE(&MatTyp);
    if (BI_ActiveQ) BI_UpdateBuffs(NULL);
 }

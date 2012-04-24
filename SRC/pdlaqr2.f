@@ -236,7 +236,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, INFOG2L, DLASET,
      $                   DLAQR3, DESCINIT, PDGEMM, PDGEMR2D, DGEMM,
-     $                   DLACPY, DGESD2D, DGERV2D, DGEBS2D, DGEBR2D,
+     $                   DLAMOV, DGESD2D, DGERV2D, DGEBS2D, DGEBR2D,
      $                   IGEBS2D, IGEBR2D
 *     ..
 *     .. Intrinsic Functions ..
@@ -340,7 +340,7 @@
                      CALL DGEMM( 'T', 'N', DBLK, KLN, DBLK, ONE, V,
      $                    LDV, A( IROW+(KKCOL-1)*LDA ), LDA, ZERO, WORK,
      $                    DBLK )
-                     CALL DLACPY( 'A', DBLK, KLN, WORK, DBLK,
+                     CALL DLAMOV( 'A', DBLK, KLN, WORK, DBLK,
      $                    A( IROW+(KKCOL-1)*LDA ), LDA )
    10             CONTINUE
                END IF
@@ -359,7 +359,7 @@
                   CALL DGEMM( 'N', 'N', KLN, DBLK, DBLK, ONE,
      $                 A( KKROW+(ICOL-1)*LDA ), LDA, V, LDV, ZERO, WORK,
      $                 KLN )
-                  CALL DLACPY( 'A', KLN, DBLK, WORK, KLN,
+                  CALL DLAMOV( 'A', KLN, DBLK, WORK, KLN,
      $                 A( KKROW+(ICOL-1)*LDA ), LDA )
    20          CONTINUE
             END IF
@@ -378,7 +378,7 @@
                      CALL DGEMM( 'N', 'N', KLN, DBLK, DBLK, ONE,
      $                    Z( KKROW+(ICOL-1)*LDZ ), LDZ, V, LDV, ZERO,
      $                    WORK, KLN )
-                     CALL DLACPY( 'A', KLN, DBLK, WORK, KLN,
+                     CALL DLAMOV( 'A', KLN, DBLK, WORK, KLN,
      $                    Z( KKROW+(ICOL-1)*LDZ ), LDZ )
    30             CONTINUE
                END IF
@@ -408,7 +408,7 @@
                         CALL DGEMM( 'T', 'N', DBLK, KLN, DBLK, ONE, V,
      $                       DBLK, A( IROW+(KKCOL-1)*LDA ), LDA, ZERO,
      $                       WORK, DBLK )
-                        CALL DLACPY( 'A', DBLK, KLN, WORK, DBLK,
+                        CALL DLAMOV( 'A', DBLK, KLN, WORK, DBLK,
      $                       A( IROW+(KKCOL-1)*LDA ), LDA )
    40                CONTINUE
                   END IF
@@ -427,7 +427,7 @@
                         CALL DGEMM( 'T', 'N', D1, KLN, D1, ONE,
      $                       V, LDV, A( IROW+(KKCOL-1)*LDA ), LDA, ONE,
      $                       WORK, DBLK )
-                        CALL DLACPY( 'A', D1, KLN, WORK, DBLK,
+                        CALL DLAMOV( 'A', D1, KLN, WORK, DBLK,
      $                       A( IROW+(KKCOL-1)*LDA ), LDA )
    50                CONTINUE
                   ELSE IF( UP .EQ. II ) THEN
@@ -445,7 +445,7 @@
      $                       V( D1+1, D1+1 ), LDV,
      $                       A( IROW+(KKCOL-1)*LDA ), LDA, ONE,
      $                       WORK( D1+1 ), DBLK )
-                        CALL DLACPY( 'A', D2, KLN, WORK( D1+1 ), DBLK,
+                        CALL DLAMOV( 'A', D2, KLN, WORK( D1+1 ), DBLK,
      $                       A( IROW+(KKCOL-1)*LDA ), LDA )
    60                CONTINUE
                   END IF
@@ -466,7 +466,7 @@
                      CALL DGEMM( 'N', 'N', KLN, DBLK, DBLK, ONE,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA, V, LDV, ZERO,
      $                    WORK, KLN )
-                     CALL DLACPY( 'A', KLN, DBLK, WORK, KLN,
+                     CALL DLAMOV( 'A', KLN, DBLK, WORK, KLN,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA )
    70             CONTINUE
                END IF
@@ -488,7 +488,7 @@
                      CALL DGEMM( 'N', 'N', KLN, D1, D1, ONE,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA, V, LDV, ONE,
      $                    WORK, KLN )
-                     CALL DLACPY( 'A', KLN, D1, WORK, KLN,
+                     CALL DLAMOV( 'A', KLN, D1, WORK, KLN,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA )
    80             CONTINUE
                ELSE IF ( LEFT .EQ. JJ ) THEN
@@ -507,7 +507,7 @@
                      CALL DGEMM( 'N', 'N', KLN, D2, D2, ONE,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA, V( D1+1, D1+1 ),
      $                    LDV, ONE, WORK( 1+D1*KLN ), KLN )
-                     CALL DLACPY( 'A', KLN, D2, WORK( 1+D1*KLN ), KLN,
+                     CALL DLAMOV( 'A', KLN, D2, WORK( 1+D1*KLN ), KLN,
      $                    A( KKROW+(ICOL-1)*LDA ), LDA )
    90             CONTINUE
                END IF
@@ -528,7 +528,7 @@
                         CALL DGEMM( 'N', 'N', KLN, DBLK, DBLK, ONE,
      $                       Z( KKROW+(ICOL-1)*LDZ ), LDZ, V, LDV, ZERO,
      $                       WORK, KLN )
-                        CALL DLACPY( 'A', KLN, DBLK, WORK, KLN,
+                        CALL DLAMOV( 'A', KLN, DBLK, WORK, KLN,
      $                       Z( KKROW+(ICOL-1)*LDZ ), LDZ )
   100                CONTINUE
                   END IF
@@ -550,7 +550,7 @@
                         CALL DGEMM( 'N', 'N', KLN, D1, D1, ONE,
      $                       Z( KKROW+(ICOL-1)*LDZ ), LDZ, V, LDV, ONE,
      $                       WORK, KLN )
-                        CALL DLACPY( 'A', KLN, D1, WORK, KLN,
+                        CALL DLAMOV( 'A', KLN, D1, WORK, KLN,
      $                       Z( KKROW+(ICOL-1)*LDZ ), LDZ )
   110                CONTINUE
                   ELSE IF( LEFT .EQ. JJ ) THEN
@@ -570,7 +570,7 @@
      $                       Z( KKROW+(ICOL-1)*LDZ ), LDZ,
      $                       V( D1+1, D1+1 ), LDV, ONE,
      $                       WORK( 1+D1*KLN ), KLN )
-                        CALL DLACPY( 'A', KLN, D2, WORK( 1+D1*KLN ),
+                        CALL DLAMOV( 'A', KLN, D2, WORK( 1+D1*KLN ),
      $                       KLN, Z( KKROW+(ICOL-1)*LDZ ), LDZ )
   120                CONTINUE
                   END IF

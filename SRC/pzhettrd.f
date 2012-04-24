@@ -445,7 +445,7 @@
       EXTERNAL           BLACS_GRIDINFO, CHK1MAT, DCOMBNRM2, DGEBR2D,
      $                   DGEBS2D, DGSUM2D, PCHK1MAT, PDTREECOMB,
      $                   PXERBLA, ZGEBR2D, ZGEBS2D, ZGEMM, ZGEMV,
-     $                   ZGERV2D, ZGESD2D, ZGSUM2D, ZLACPY, ZSCAL,
+     $                   ZGERV2D, ZGESD2D, ZGSUM2D, ZLAMOV, ZSCAL,
      $                   ZTRMVT
 *     ..
 *     .. External Functions ..
@@ -1133,10 +1133,10 @@
                IF( INTERLEAVE ) THEN
                   LDZG = LDV / 2
                ELSE
-                  CALL ZLACPY( 'A', LTNM1, ANB, WORK( INHT+LIJP1-1 ),
+                  CALL ZLAMOV( 'A', LTNM1, ANB, WORK( INHT+LIJP1-1 ),
      $                         LDV, WORK( INVT+LIJP1-1+ANB*LDV ), LDV )
 *
-                  CALL ZLACPY( 'A', LTNM1, ANB, WORK( INV+LTLIP1-1 ),
+                  CALL ZLAMOV( 'A', LTNM1, ANB, WORK( INV+LTLIP1-1 ),
      $                         LDV, WORK( INH+LTLIP1-1+ANB*LDV ), LDV )
                   LDZG = LDV
                END IF

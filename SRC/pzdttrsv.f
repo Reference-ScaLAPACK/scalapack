@@ -418,7 +418,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GET, BLACS_GRIDEXIT, BLACS_GRIDINFO,
      $                   DESC_CONVERT, GLOBCHK, PXERBLA, RESHAPE, ZGEMM,
-     $                   ZGERV2D, ZGESD2D, ZLACPY, ZMATADD, ZTBTRS,
+     $                   ZGERV2D, ZGESD2D, ZLAMOV, ZMATADD, ZTBTRS,
      $                   ZTRMM, ZTRTRS
 *     ..
 *     .. External Functions ..

@@ -236,7 +236,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, DGEBR2D, DGEBS2D,DGEMM,
-     $                   DGSUM2D, DLACPY, DLASET, DTRBR2D,
+     $                   DGSUM2D, DLAMOV, DLASET, DTRBR2D,
      $                   DTRBS2D, DTRMM, INFOG1L, INFOG2L, PB_TOPGET,
      $                   PBDTRAN
 *     ..
@@ -324,7 +324,7 @@
                IF( MYROW.EQ.IVROW )
      $            CALL DTRBS2D( ICTXT, 'Rowwise', ROWBTOP, UPLO,
      $                          'Non unit', K, K, T, NBV )
-               CALL DLACPY( 'All', MPC, K, V( IOFFV ), LDV, WORK( IPV ),
+               CALL DLAMOV( 'All', MPC, K, V( IOFFV ), LDV, WORK( IPV ),
      $                      LV )
             ELSE
                CALL DGEBR2D( ICTXT, 'Rowwise', ROWBTOP, MPC, K,
@@ -461,11 +461,11 @@
                   CALL DLASET( 'All', IROFFV, K, ZERO, ZERO,
      $                         WORK( IPW ), LW )
                   IPW1 = IPW + IROFFV
-                  CALL DLACPY( 'All', NPV, K, V( IOFFV ), LDV,
+                  CALL DLAMOV( 'All', NPV, K, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                ELSE
                   IPW1 = IPW
-                  CALL DLACPY( 'All', NPV, K, V( IOFFV ), LDV,
+                  CALL DLAMOV( 'All', NPV, K, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                END IF
 *
@@ -624,11 +624,11 @@
                   CALL DLASET( 'All', K, ICOFFV, ZERO, ZERO,
      $                         WORK( IPW ), LW )
                   IPW1 = IPW + ICOFFV * LW
-                  CALL DLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+                  CALL DLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                ELSE
                   IPW1 = IPW
-                  CALL DLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+                  CALL DLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                END IF
 *
@@ -772,7 +772,7 @@
                IF( MYCOL.EQ.IVCOL )
      $            CALL DTRBS2D( ICTXT, 'Columnwise', COLBTOP, UPLO,
      $                          'Non unit', K, K, T, MBV )
-               CALL DLACPY( 'All', K, NQC, V( IOFFV ), LDV, WORK( IPV ),
+               CALL DLAMOV( 'All', K, NQC, V( IOFFV ), LDV, WORK( IPV ),
      $                      LV )
             ELSE
                CALL DGEBR2D( ICTXT, 'Columnwise', COLBTOP, K, NQC,

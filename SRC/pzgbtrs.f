@@ -737,7 +737,7 @@
 *
       LDW = NB+BWU + 2*BW+BWU
 *
-      CALL ZLACPY( 'G', LM, NRHS, B(1), LLDB, WORK( WPTR ), LDW )
+      CALL ZLAMOV( 'G', LM, NRHS, B(1), LLDB, WORK( WPTR ), LDW )
 *
 *     Zero out rest of work
 *
@@ -882,7 +882,7 @@
                    BMN = BW
                 ENDIF
 *
-                CALL ZLACPY( 'G', BM, NRHS, WORK(LN+1), LDW,
+                CALL ZLAMOV( 'G', BM, NRHS, WORK(LN+1), LDW,
      $               WORK(NB+BWU+BMN+1), LDW )
 *
                 CALL ZGERV2D( ICTXT, BMN, NRHS, WORK( NB+BWU+1 ),
@@ -1029,7 +1029,7 @@
 *
 *              Move RHS to make room for received solutions
 *
-               CALL ZLACPY( 'G', BW, NRHS, WORK(NB+BWU+1),
+               CALL ZLAMOV( 'G', BW, NRHS, WORK(NB+BWU+1),
      $               LDW, WORK(NB+BWU+BW+1), LDW )
 *
                CALL ZGERV2D( ICTXT, 2*BW, NRHS, WORK( LN+1 ),
@@ -1060,7 +1060,7 @@
 *
 *              Copy new solution into expected place
 *
-               CALL ZLACPY( 'G', BW, NRHS, WORK(NB+BWU+1+BW),
+               CALL ZLAMOV( 'G', BW, NRHS, WORK(NB+BWU+1+BW),
      $               LDW, WORK(LN+BW+1), LDW )
 *
             ELSE
@@ -1077,7 +1077,7 @@
 *
 *              Shift solutions into expected positions
 *
-               CALL ZLACPY( 'G', BNN+BN-BW, NRHS, WORK(NB+BWU+1+BW),
+               CALL ZLAMOV( 'G', BNN+BN-BW, NRHS, WORK(NB+BWU+1+BW),
      $               LDW, WORK(LN+1), LDW )
 *
 *
@@ -1155,7 +1155,7 @@
 *
 *
 *
-      CALL ZLACPY( 'G', ODD_SIZE, NRHS, WORK( 1 ), LDW,
+      CALL ZLAMOV( 'G', ODD_SIZE, NRHS, WORK( 1 ), LDW,
      $             B( 1 ), LLDB )
 *
 *     Free BLACS space used to hold standard-form grid.

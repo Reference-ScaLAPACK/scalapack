@@ -243,7 +243,7 @@
       EXTERNAL           BLACS_ABORT, BLACS_GRIDINFO, INFOG2L,
      $                   PBSMATADD, PBSTRAN, PB_TOPGET, PXERBLA,
      $                   SGEBR2D, SGEBS2D, SGEMM,
-     $                   SGSUM2D, SLACPY, SLASET, STRBR2D,
+     $                   SGSUM2D, SLAMOV, SLASET, STRBR2D,
      $                   STRBS2D, STRMM
 *     ..
 *     .. Intrinsic Functions ..
@@ -380,10 +380,10 @@
 *
          IF( MYROW.EQ.IVROW ) THEN
             IF( MYCOL.EQ.IVCOL ) THEN
-               CALL SLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+               CALL SLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                      WORK( IPW+ICOFFV*LW ), LW )
             ELSE
-               CALL SLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+               CALL SLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                      WORK( IPW ), LW )
             END IF
          END IF
@@ -513,7 +513,7 @@
             IF( MYCOL.EQ.IVCOL )
      $         CALL STRBS2D( ICTXT, 'Columnwise', COLBTOP, 'Lower',
      $                       'Non unit', K, K, T, MBV )
-            CALL SLACPY( 'All', K, NQC2, V( IOFFV ), LDV, WORK( IPV ),
+            CALL SLAMOV( 'All', K, NQC2, V( IOFFV ), LDV, WORK( IPV ),
      $                   LV )
          ELSE
             CALL SGEBR2D( ICTXT, 'Columnwise', COLBTOP, K, NQC2,

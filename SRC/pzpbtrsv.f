@@ -401,7 +401,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GET, BLACS_GRIDEXIT, BLACS_GRIDINFO,
      $                   DESC_CONVERT, GLOBCHK, PXERBLA, RESHAPE, ZGEMM,
-     $                   ZGERV2D, ZGESD2D, ZLACPY, ZMATADD, ZTBTRS,
+     $                   ZGERV2D, ZGESD2D, ZLAMOV, ZMATADD, ZTBTRS,
      $                   ZTRMM, ZTRTRS
 *     ..
 *     .. External Functions ..
@@ -772,7 +772,7 @@
 *           First copy and multiply it into temporary storage,
 *             then use it on RHS
 *
-            CALL ZLACPY( 'N', BW, NRHS,
+            CALL ZLAMOV( 'N', BW, NRHS,
      $                B( PART_OFFSET+ODD_SIZE-BW+1), LLDB,
      $                WORK( 1 ), BW )
 *
@@ -1115,7 +1115,7 @@
 *         First copy and multiply it into temporary storage,
 *           then use it on RHS
 *
-          CALL ZLACPY( 'N', BW, NRHS, B( PART_OFFSET+ODD_SIZE+1), LLDB,
+          CALL ZLAMOV( 'N', BW, NRHS, B( PART_OFFSET+ODD_SIZE+1), LLDB,
      $                 WORK( 1+BW-BW ), BW )
 *
           CALL ZTRMM( 'L', 'U', 'C', 'N', BW, NRHS, -CONE,
@@ -1168,7 +1168,7 @@
 *           First copy and multiply it into temporary storage,
 *             then use it on RHS
 *
-            CALL ZLACPY( 'N', BW, NRHS,
+            CALL ZLAMOV( 'N', BW, NRHS,
      $                B( PART_OFFSET+ODD_SIZE-BW+1), LLDB,
      $                WORK( 1 ), BW )
 *
@@ -1511,7 +1511,7 @@
 *         First copy and multiply it into temporary storage,
 *           then use it on RHS
 *
-          CALL ZLACPY( 'N', BW, NRHS, B( PART_OFFSET+ODD_SIZE+1), LLDB,
+          CALL ZLAMOV( 'N', BW, NRHS, B( PART_OFFSET+ODD_SIZE+1), LLDB,
      $                 WORK( 1+BW-BW ), BW )
 *
           CALL ZTRMM( 'L', 'L', 'N', 'N', BW, NRHS, -CONE,

@@ -157,7 +157,7 @@
      $                   NQ, NQAA, WIDE
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           BLACS_GRIDINFO, CLACPY, INFOG2L
+      EXTERNAL           BLACS_GRIDINFO, CLAMOV, INFOG2L
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
@@ -247,7 +247,7 @@
 *
    10          CONTINUE
                IF( ( N-ITOP ).GT.0 ) THEN
-                  CALL CLACPY( UPLO, IINXTA-IIBEGA+1, N-ITOP,
+                  CALL CLAMOV( UPLO, IINXTA-IIBEGA+1, N-ITOP,
      $                         A( IIBEGA+(JJA+ITOP-1)*LDA ), LDA,
      $                         B( IIBEGB+(JJB+ITOP-1)*LDB ), LDB )
                   MYDIST = MYDIST + NPROW
@@ -272,10 +272,10 @@
    20          CONTINUE
                IF( JJAA.LE.( JJA+N-1 ) ) THEN
                   HEIGHT = IBASE - ITOP
-                  CALL CLACPY( 'All', MPAA, ITOP-JJAA+JJA,
+                  CALL CLAMOV( 'All', MPAA, ITOP-JJAA+JJA,
      $                         A( IIAA+(JJAA-1)*LDA ), LDA,
      $                         B( IIBB+(JJBB-1)*LDB ), LDB )
-                  CALL CLACPY( UPLO, MPAA, HEIGHT,
+                  CALL CLAMOV( UPLO, MPAA, HEIGHT,
      $                         A( IIAA+(JJA+ITOP-1)*LDA ), LDA,
      $                         B( IIBB+(JJB+ITOP-1)*LDB ), LDB )
                   MPAA   = MAX( 0, MPAA - HEIGHT )
@@ -292,7 +292,7 @@
 *
             ELSE
 *
-               CALL CLACPY( 'All', MP, N, A( IIA+(JJA-1)*LDA ),
+               CALL CLAMOV( 'All', MP, N, A( IIA+(JJA-1)*LDA ),
      $                      LDA, B( IIB+(JJB-1)*LDB ), LDB )
 *
             END IF
@@ -345,7 +345,7 @@
 *
    30          CONTINUE
                IF( ( M-ILEFT ).GT.0 ) THEN
-                  CALL CLACPY( UPLO, M-ILEFT, JJNXTA-JJBEGA+1,
+                  CALL CLAMOV( UPLO, M-ILEFT, JJNXTA-JJBEGA+1,
      $                         A( IIA+ILEFT+(JJBEGA-1)*LDA ), LDA,
      $                         B( IIB+ILEFT+(JJBEGB-1)*LDB ), LDB )
                   MYDIST = MYDIST + NPCOL
@@ -370,10 +370,10 @@
    40          CONTINUE
                IF( IIAA.LE.( IIA+M-1 ) ) THEN
                   WIDE = IRIGHT - ILEFT
-                  CALL CLACPY( 'All', ILEFT-IIAA+IIA, NQAA,
+                  CALL CLAMOV( 'All', ILEFT-IIAA+IIA, NQAA,
      $                         A( IIAA+(JJAA-1)*LDA ), LDA,
      $                         B( IIBB+(JJBB-1)*LDB ), LDB )
-                  CALL CLACPY( UPLO, WIDE, NQAA,
+                  CALL CLAMOV( UPLO, WIDE, NQAA,
      $                         A( IIA+ILEFT+(JJAA-1)*LDA ), LDA,
      $                         B( IIB+ILEFT+(JJBB-1)*LDB ), LDB )
                   NQAA   = MAX( 0, NQAA - WIDE )
@@ -390,7 +390,7 @@
 *
             ELSE
 *
-               CALL CLACPY( 'All', M, NQ, A( IIA+(JJA-1)*LDA ),
+               CALL CLAMOV( 'All', M, NQ, A( IIA+(JJA-1)*LDA ),
      $                      LDA, B( IIB+(JJB-1)*LDB ), LDB )
 *
             END IF

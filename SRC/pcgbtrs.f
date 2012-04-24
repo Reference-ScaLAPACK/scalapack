@@ -737,7 +737,7 @@
 *
       LDW = NB+BWU + 2*BW+BWU
 *
-      CALL CLACPY( 'G', LM, NRHS, B(1), LLDB, WORK( WPTR ), LDW )
+      CALL CLAMOV( 'G', LM, NRHS, B(1), LLDB, WORK( WPTR ), LDW )
 *
 *     Zero out rest of work
 *
@@ -882,7 +882,7 @@
                    BMN = BW
                 ENDIF
 *
-                CALL CLACPY( 'G', BM, NRHS, WORK(LN+1), LDW,
+                CALL CLAMOV( 'G', BM, NRHS, WORK(LN+1), LDW,
      $               WORK(NB+BWU+BMN+1), LDW )
 *
                 CALL CGERV2D( ICTXT, BMN, NRHS, WORK( NB+BWU+1 ),
@@ -1029,7 +1029,7 @@
 *
 *              Move RHS to make room for received solutions
 *
-               CALL CLACPY( 'G', BW, NRHS, WORK(NB+BWU+1),
+               CALL CLAMOV( 'G', BW, NRHS, WORK(NB+BWU+1),
      $               LDW, WORK(NB+BWU+BW+1), LDW )
 *
                CALL CGERV2D( ICTXT, 2*BW, NRHS, WORK( LN+1 ),
@@ -1060,7 +1060,7 @@
 *
 *              Copy new solution into expected place
 *
-               CALL CLACPY( 'G', BW, NRHS, WORK(NB+BWU+1+BW),
+               CALL CLAMOV( 'G', BW, NRHS, WORK(NB+BWU+1+BW),
      $               LDW, WORK(LN+BW+1), LDW )
 *
             ELSE
@@ -1077,7 +1077,7 @@
 *
 *              Shift solutions into expected positions
 *
-               CALL CLACPY( 'G', BNN+BN-BW, NRHS, WORK(NB+BWU+1+BW),
+               CALL CLAMOV( 'G', BNN+BN-BW, NRHS, WORK(NB+BWU+1+BW),
      $               LDW, WORK(LN+1), LDW )
 *
 *
@@ -1155,7 +1155,7 @@
 *
 *
 *
-      CALL CLACPY( 'G', ODD_SIZE, NRHS, WORK( 1 ), LDW,
+      CALL CLAMOV( 'G', ODD_SIZE, NRHS, WORK( 1 ), LDW,
      $             B( 1 ), LLDB )
 *
 *     Free BLACS space used to hold standard-form grid.

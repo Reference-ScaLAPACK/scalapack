@@ -409,7 +409,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GET, BLACS_GRIDEXIT, BLACS_GRIDINFO,
-     $                   CGEMM, CGERV2D, CGESD2D, CLACPY, CMATADD,
+     $                   CGEMM, CGERV2D, CGESD2D, CLAMOV, CMATADD,
      $                   CTBTRS, CTRMM, CTRTRS, DESC_CONVERT, GLOBCHK,
      $                   PXERBLA, RESHAPE
 *     ..

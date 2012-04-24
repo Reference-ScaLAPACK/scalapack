@@ -397,7 +397,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDEXIT, BLACS_GRIDINFO, DCOPY,
      $                   DESC_CONVERT, DGEMM, DGEMV, DGER, DGERV2D,
-     $                   DGESD2D, DGETRS, DLACPY, DLASWP, DSCAL, DSWAP,
+     $                   DGESD2D, DGETRS, DLAMOV, DLASWP, DSCAL, DSWAP,
      $                   DTRSM, GLOBCHK, PXERBLA, RESHAPE
 *     ..
 *     .. External Functions ..
@@ -725,7 +725,7 @@
 *
       LDW = NB + BWU + 2*BW + BWU
 *
-      CALL DLACPY( 'G', LM, NRHS, B( 1 ), LLDB, WORK( WPTR ), LDW )
+      CALL DLAMOV( 'G', LM, NRHS, B( 1 ), LLDB, WORK( WPTR ), LDW )
 *
 *     Zero out rest of work
 *
@@ -872,7 +872,7 @@
                BMN = BW
             END IF
 *
-            CALL DLACPY( 'G', BM, NRHS, WORK( LN+1 ), LDW,
+            CALL DLAMOV( 'G', BM, NRHS, WORK( LN+1 ), LDW,
      $                   WORK( NB+BWU+BMN+1 ), LDW )
 *
             CALL DGERV2D( ICTXT, BMN, NRHS, WORK( NB+BWU+1 ), LDW, 0,
@@ -1023,7 +1023,7 @@
 *
 *              Move RHS to make room for received solutions
 *
-            CALL DLACPY( 'G', BW, NRHS, WORK( NB+BWU+1 ), LDW,
+            CALL DLAMOV( 'G', BW, NRHS, WORK( NB+BWU+1 ), LDW,
      $                   WORK( NB+BWU+BW+1 ), LDW )
 *
             CALL DGERV2D( ICTXT, 2*BW, NRHS, WORK( LN+1 ), LDW, 0,
@@ -1053,7 +1053,7 @@
 *
 *              Copy new solution into expected place
 *
-            CALL DLACPY( 'G', BW, NRHS, WORK( NB+BWU+1+BW ), LDW,
+            CALL DLAMOV( 'G', BW, NRHS, WORK( NB+BWU+1+BW ), LDW,
      $                   WORK( LN+BW+1 ), LDW )
 *
          ELSE
@@ -1071,7 +1071,7 @@
 *
 *              Shift solutions into expected positions
 *
-            CALL DLACPY( 'G', BNN+BN-BW, NRHS, WORK( NB+BWU+1+BW ), LDW,
+            CALL DLAMOV( 'G', BNN+BN-BW, NRHS, WORK( NB+BWU+1+BW ), LDW,
      $                   WORK( LN+1 ), LDW )
 *
 *
@@ -1147,7 +1147,7 @@
 *
 *
 *
-      CALL DLACPY( 'G', ODD_SIZE, NRHS, WORK( 1 ), LDW, B( 1 ), LLDB )
+      CALL DLAMOV( 'G', ODD_SIZE, NRHS, WORK( 1 ), LDW, B( 1 ), LLDB )
 *
 *     Free BLACS space used to hold standard-form grid.
 *

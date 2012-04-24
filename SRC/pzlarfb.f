@@ -238,7 +238,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, INFOG1L, INFOG2L, PB_TOPGET,
      $                   PBZTRAN, ZGEBR2D, ZGEBS2D, ZGEMM,
-     $                   ZGSUM2D, ZLACPY, ZLASET, ZTRBR2D,
+     $                   ZGSUM2D, ZLAMOV, ZLASET, ZTRBR2D,
      $                   ZTRBS2D, ZTRMM
 *     ..
 *     .. Intrinsic Functions ..
@@ -325,7 +325,7 @@
                IF( MYROW.EQ.IVROW )
      $            CALL ZTRBS2D( ICTXT, 'Rowwise', ROWBTOP, UPLO,
      $                          'Non unit', K, K, T, NBV )
-               CALL ZLACPY( 'All', MPC, K, V( IOFFV ), LDV, WORK( IPV ),
+               CALL ZLAMOV( 'All', MPC, K, V( IOFFV ), LDV, WORK( IPV ),
      $                      LV )
             ELSE
                CALL ZGEBR2D( ICTXT, 'Rowwise', ROWBTOP, MPC, K,
@@ -462,11 +462,11 @@
                   CALL ZLASET( 'All', IROFFV, K, ZERO, ZERO,
      $                         WORK( IPW ), LW )
                   IPW1 = IPW + IROFFV
-                  CALL ZLACPY( 'All', NPV, K, V( IOFFV ), LDV,
+                  CALL ZLAMOV( 'All', NPV, K, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                ELSE
                   IPW1 = IPW
-                  CALL ZLACPY( 'All', NPV, K, V( IOFFV ), LDV,
+                  CALL ZLAMOV( 'All', NPV, K, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                END IF
 *
@@ -626,11 +626,11 @@
                   CALL ZLASET( 'All', K, ICOFFV, ZERO, ZERO,
      $                         WORK( IPW ), LW )
                   IPW1 = IPW + ICOFFV * LW
-                  CALL ZLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+                  CALL ZLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                ELSE
                   IPW1 = IPW
-                  CALL ZLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+                  CALL ZLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                END IF
 *
@@ -775,7 +775,7 @@
                IF( MYCOL.EQ.IVCOL )
      $            CALL ZTRBS2D( ICTXT, 'Columnwise', COLBTOP, UPLO,
      $                          'Non unit', K, K, T, MBV )
-               CALL ZLACPY( 'All', K, NQC, V( IOFFV ), LDV, WORK( IPV ),
+               CALL ZLAMOV( 'All', K, NQC, V( IOFFV ), LDV, WORK( IPV ),
      $                      LV )
             ELSE
                CALL ZGEBR2D( ICTXT, 'Columnwise', COLBTOP, K, NQC,

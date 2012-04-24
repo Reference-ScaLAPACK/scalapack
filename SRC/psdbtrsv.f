@@ -399,7 +399,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDEXIT, BLACS_GRIDINFO, DESC_CONVERT,
-     $                   SGEMM, SGERV2D, SGESD2D, SLACPY, SMATADD,
+     $                   SGEMM, SGERV2D, SGESD2D, SLAMOV, SMATADD,
      $                   STBTRS, STRMM, GLOBCHK, PXERBLA, RESHAPE
 *     ..
 *     .. External Functions ..
@@ -777,7 +777,7 @@
 *           First copy and multiply it into temporary storage,
 *             then use it on RHS
 *
-               CALL SLACPY( 'N', BWL, NRHS,
+               CALL SLAMOV( 'N', BWL, NRHS,
      $                      B( PART_OFFSET+ODD_SIZE-BWL+1 ), LLDB,
      $                      WORK( 1 ), MAX_BW )
 *
@@ -1111,7 +1111,7 @@
 *         First copy and multiply it into temporary storage,
 *           then use it on RHS
 *
-               CALL SLACPY( 'N', BWL, NRHS, B( PART_OFFSET+ODD_SIZE+1 ),
+               CALL SLAMOV( 'N', BWL, NRHS, B( PART_OFFSET+ODD_SIZE+1 ),
      $                      LLDB, WORK( 1+MAX_BW-BWL ), MAX_BW )
 *
                CALL STRMM( 'L', 'U', 'T', 'N', BWL, NRHS, -ONE,
@@ -1163,7 +1163,7 @@
 *           First copy and multiply it into temporary storage,
 *             then use it on RHS
 *
-               CALL SLACPY( 'N', BWU, NRHS,
+               CALL SLAMOV( 'N', BWU, NRHS,
      $                      B( PART_OFFSET+ODD_SIZE-BWU+1 ), LLDB,
      $                      WORK( 1 ), MAX_BW )
 *
@@ -1497,7 +1497,7 @@
 *         First copy and multiply it into temporary storage,
 *           then use it on RHS
 *
-               CALL SLACPY( 'N', BWU, NRHS, B( PART_OFFSET+ODD_SIZE+1 ),
+               CALL SLAMOV( 'N', BWU, NRHS, B( PART_OFFSET+ODD_SIZE+1 ),
      $                      LLDB, WORK( 1+MAX_BW-BWU ), MAX_BW+BWL )
 *
                CALL STRMM( 'L', 'L', 'N', 'N', BWU, NRHS, -ONE,

@@ -383,7 +383,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GET, BLACS_GRIDEXIT, BLACS_GRIDINFO,
      $                   DESC_CONVERT, GLOBCHK, PXERBLA, RESHAPE, ZAXPY,
-     $                   ZGEMM, ZGERV2D, ZGESD2D, ZLACPY, ZLATCPY,
+     $                   ZGEMM, ZGERV2D, ZGESD2D, ZLAMOV, ZLATCPY,
      $                   ZPBTRF, ZPOTRF, ZSYRK, ZTBTRS, ZTRMM, ZTRRV2D,
      $                   ZTRSD2D, ZTRSM, ZTRTRS
 *     ..
@@ -878,7 +878,7 @@
 *       Copy last diagonal block into AF storage for subsequent
 *         operations.
 *
-        CALL ZLACPY( 'N', BW, BW,
+        CALL ZLAMOV( 'N', BW, BW,
      $                    A( OFST+ODD_SIZE*LLDA+1 ),
      $                    LLDA-1, AF( ODD_SIZE*BW+MBW2+1 ),
      $                    BW )
@@ -965,7 +965,7 @@
 *           Move block into place that it will be expected to be for
 *             calcs.
 *
-          CALL ZLACPY( 'N', BW, BW, AF( ODD_SIZE*BW+1 ), BW,
+          CALL ZLAMOV( 'N', BW, BW, AF( ODD_SIZE*BW+1 ), BW,
      $                 AF( ODD_SIZE*BW+2*MBW2+1 ), BW )
 *
         ELSE
@@ -1124,7 +1124,7 @@
 *
 *         Move the connection block in preparation.
 *
-          CALL ZLACPY( 'L', BW, BW, A( ( OFST+1+ODD_SIZE*LLDA ) ),
+          CALL ZLAMOV( 'L', BW, BW, A( ( OFST+1+ODD_SIZE*LLDA ) ),
      $                 LLDA-1, AF( ODD_SIZE*BW+2*MBW2+1+BW-BW ), BW )
 *
 *
@@ -1136,7 +1136,7 @@
 *
 *         Move the resulting block back to its location in main storage.
 *
-          CALL ZLACPY( 'L', BW, BW, AF( ODD_SIZE*BW+2*MBW2+1+BW-BW ),
+          CALL ZLAMOV( 'L', BW, BW, AF( ODD_SIZE*BW+2*MBW2+1+BW-BW ),
      $                 BW, A(( OFST+1+ODD_SIZE*LLDA )), LLDA-1 )
 *
 *
@@ -1353,7 +1353,7 @@
 *           Move block into place that it will be expected to be for
 *             calcs.
 *
-          CALL ZLACPY( 'N', BW, BW, AF( ODD_SIZE*BW+1 ), BW,
+          CALL ZLAMOV( 'N', BW, BW, AF( ODD_SIZE*BW+1 ), BW,
      $                 AF( ODD_SIZE*BW+2*MBW2+1 ), BW )
 *
         ELSE

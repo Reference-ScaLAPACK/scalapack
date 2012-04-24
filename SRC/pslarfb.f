@@ -237,7 +237,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, INFOG1L, INFOG2L, PB_TOPGET,
      $                   PBSTRAN, SGEBR2D, SGEBS2D, SGEMM,
-     $                   SGSUM2D, SLACPY, SLASET, STRBR2D,
+     $                   SGSUM2D, SLAMOV, SLASET, STRBR2D,
      $                   STRBS2D, STRMM
 *     ..
 *     .. Intrinsic Functions ..
@@ -324,7 +324,7 @@
                IF( MYROW.EQ.IVROW )
      $            CALL STRBS2D( ICTXT, 'Rowwise', ROWBTOP, UPLO,
      $                          'Non unit', K, K, T, NBV )
-               CALL SLACPY( 'All', MPC, K, V( IOFFV ), LDV, WORK( IPV ),
+               CALL SLAMOV( 'All', MPC, K, V( IOFFV ), LDV, WORK( IPV ),
      $                      LV )
             ELSE
                CALL SGEBR2D( ICTXT, 'Rowwise', ROWBTOP, MPC, K,
@@ -461,11 +461,11 @@
                   CALL SLASET( 'All', IROFFV, K, ZERO, ZERO,
      $                         WORK( IPW ), LW )
                   IPW1 = IPW + IROFFV
-                  CALL SLACPY( 'All', NPV, K, V( IOFFV ), LDV,
+                  CALL SLAMOV( 'All', NPV, K, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                ELSE
                   IPW1 = IPW
-                  CALL SLACPY( 'All', NPV, K, V( IOFFV ), LDV,
+                  CALL SLAMOV( 'All', NPV, K, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                END IF
 *
@@ -624,11 +624,11 @@
                   CALL SLASET( 'All', K, ICOFFV, ZERO, ZERO,
      $                         WORK( IPW ), LW )
                   IPW1 = IPW + ICOFFV * LW
-                  CALL SLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+                  CALL SLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                ELSE
                   IPW1 = IPW
-                  CALL SLACPY( 'All', K, MQV, V( IOFFV ), LDV,
+                  CALL SLAMOV( 'All', K, MQV, V( IOFFV ), LDV,
      $                         WORK( IPW1 ), LW )
                END IF
 *
@@ -772,7 +772,7 @@
                IF( MYCOL.EQ.IVCOL )
      $            CALL STRBS2D( ICTXT, 'Columnwise', COLBTOP, UPLO,
      $                          'Non unit', K, K, T, MBV )
-               CALL SLACPY( 'All', K, NQC, V( IOFFV ), LDV, WORK( IPV ),
+               CALL SLAMOV( 'All', K, NQC, V( IOFFV ), LDV, WORK( IPV ),
      $                      LV )
             ELSE
                CALL SGEBR2D( ICTXT, 'Columnwise', COLBTOP, K, NQC,

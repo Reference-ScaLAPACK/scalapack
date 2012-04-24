@@ -81,7 +81,7 @@ F_VOID_FUNC sgesd2d_(int *ConTxt, int *m, int *n, float *A, int *lda,
    bp = BI_Pack(ctxt, (BVOID *) A, NULL, MatTyp);
    BI_Asend(ctxt, Mkpnum(ctxt, Mpval(rdest), Mpval(cdest)), PT2PTID, bp);
 #endif
-   ierr=MPI_Type_free(&MatTyp);
+   ierr=BI_MPI_TYPE_FREE(&MatTyp);
 
 /*
  * Having started the async send, update the buffers (reform links, check if

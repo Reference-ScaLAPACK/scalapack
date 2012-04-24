@@ -385,7 +385,7 @@
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDEXIT, BLACS_GRIDINFO, DESC_CONVERT,
      $                   DGBTRF, DGEMM, DGER, DGERV2D, DGESD2D, DGETRF,
-     $                   DLACPY, DLASWP, DLATCPY, DSWAP, DTRRV2D,
+     $                   DLAMOV, DLASWP, DLATCPY, DSWAP, DTRRV2D,
      $                   DTRSD2D, DTRSM, GLOBCHK, IGAMX2D, IGEBR2D,
      $                   IGEBS2D, PXERBLA, RESHAPE
 *     ..
@@ -834,7 +834,7 @@
 *     DBPTR = Pointer to diagonal blocks in A
       DBPTR = BW + 1 + LBWU + LN*LLDA
 *
-      CALL DLACPY( 'G', BM, BN, A( DBPTR ), LLDA-1, AF( BBPTR+BW*LDBB ),
+      CALL DLAMOV( 'G', BM, BN, A( DBPTR ), LLDA-1, AF( BBPTR+BW*LDBB ),
      $             LDBB )
 *
 *     Zero out any junk entries that were copied
@@ -919,7 +919,7 @@
 *
 *                     Copy diagonal block to align whole system
 *
-                  CALL DLACPY( 'G', BMN, BW, AF( BBPTR+BM ), LDBB,
+                  CALL DLAMOV( 'G', BMN, BW, AF( BBPTR+BM ), LDBB,
      $                         AF( BBPTR+2*BW*LDBB+BM ), LDBB )
                END IF
 *
@@ -945,7 +945,7 @@
             CALL DGESD2D( ICTXT, BM, 2*BW, AF( BBPTR+BW*LDBB ), LDBB, 0,
      $                    NEICOL )
 *
-            CALL DLACPY( 'G', BM, 2*BW, AF( BBPTR+BW*LDBB ), LDBB,
+            CALL DLAMOV( 'G', BM, 2*BW, AF( BBPTR+BW*LDBB ), LDBB,
      $                   AF( BBPTR+BMN ), LDBB )
 *
             DO 130 J = BBPTR + 2*BW*LDBB, BBPTR + 3*BW*LDBB - 1, LDBB
@@ -961,7 +961,7 @@
 *
 *                  Copy diagonal block to align whole system
 *
-               CALL DLACPY( 'G', BM, BW, AF( BBPTR+BMN ), LDBB,
+               CALL DLAMOV( 'G', BM, BW, AF( BBPTR+BMN ), LDBB,
      $                      AF( BBPTR+2*BW*LDBB+BMN ), LDBB )
             END IF
 *
@@ -1023,9 +1023,9 @@
 *                  Local copying in the block bidiagonal area
 *
 *
-               CALL DLACPY( 'G', BM, BW, AF( BBPTR+BW ), LDBB,
+               CALL DLAMOV( 'G', BM, BW, AF( BBPTR+BW ), LDBB,
      $                      AF( BBPTR+BW*LDBB ), LDBB )
-               CALL DLACPY( 'G', BM, BW, AF( BBPTR+2*BW*LDBB+BW ), LDBB,
+               CALL DLAMOV( 'G', BM, BW, AF( BBPTR+2*BW*LDBB+BW ), LDBB,
      $                      AF( BBPTR+2*BW*LDBB ), LDBB )
 *
 *                  Zero out space that held original copy

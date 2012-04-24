@@ -296,6 +296,15 @@ int BI_ContxtNum(BLACSCONTEXT *ctxt);
 #define BI_zvmcopy(m, n, A, lda, buff) \
         BI_dvmcopy(2*(m), (n), (double *) (A), 2*(lda), (double *) (buff))
 
+/*
+ * This macro avoids freeing types when the zero-byte workaround was applied
+ */
+#ifdef ZeroByteTypeBug
+#define BI_MPI_TYPE_FREE(t) (*(t) != MPI_BYTE ? MPI_Type_free(t) : 0)
+#else
+#define BI_MPI_TYPE_FREE(t) MPI_Type_free(t)
+#endif
+
 #if (FORTRAN_CALL_C == NOCHANGE)
 /*
  * These defines set up the naming scheme required to have a fortran

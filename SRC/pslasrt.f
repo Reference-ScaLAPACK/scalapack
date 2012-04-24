@@ -97,7 +97,7 @@
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, CHK1MAT, PXERBLA, SCOPY,
-     $                   SGERV2D, SGESD2D, SLACPY, SLAPST
+     $                   SGERV2D, SGESD2D, SLAMOV, SLAPST
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          MAX, MIN, MOD
@@ -247,7 +247,7 @@
          ND = ND + NB
          GO TO 20
       END IF
-      CALL SLACPY( 'Full', NP, NQ, WORK, NP, Q( IIQ ), LDQ )
+      CALL SLAMOV( 'Full', NP, NQ, WORK, NP, Q( IIQ ), LDQ )
 *
 *     End of PSLASRT
 *

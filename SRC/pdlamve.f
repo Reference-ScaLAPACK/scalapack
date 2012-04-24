@@ -156,7 +156,7 @@
      $                   INDEX, IDUM, NUMREC, NUMSND
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           DLACPY, INFOG2L
+      EXTERNAL           DLAMOV, INFOG2L
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
@@ -186,7 +186,7 @@
 *     Do redistribution operation.
 *
       IF( NPROCS.EQ.1 ) THEN
-         CALL DLACPY( UPLO, M, N, A((JA-1)*DESCA(LLD_)+IA),
+         CALL DLAMOV( UPLO, M, N, A((JA-1)*DESCA(LLD_)+IA),
      $        DESCA(LLD_), B((JB-1)*DESCB(LLD_)+IB),
      $        DESCB(LLD_) )
       ELSEIF( FULL ) THEN
