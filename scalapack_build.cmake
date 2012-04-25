@@ -144,19 +144,6 @@ if(CTEST_CMAKE_GENERATOR MATCHES Makefiles)
   set(ENV{CXX}                 "${full_compiler}")
 endif(CTEST_CMAKE_GENERATOR MATCHES Makefiles)
 
-###################################################################
-# Values for the cmake build
-###################################################################
-
-set( CACHE_CONTENTS "
-# Specific Fortran Compiler (uncomment and add flags directly after = )
-#CMAKE_Fortran_COMPILER:STRING=
-# Specific Fortran Compiler Flags (uncomment and add flags directly after = )
-#CMAKE_Fortran_FLAGS:STRING=
-# Use Reference BLAS and LAPACK by default
-USE_OPTIMIZED_LAPACK_BLAS:OPTION=OFF
-" )
-
 #----------------------------------------------------------------------------------
 # Should not need to edit under this line
 #----------------------------------------------------------------------------------
@@ -184,6 +171,25 @@ if(parallel GREATER 1)
   message("CTEST_CONFIGURE_COMMAND: ${CTEST_CONFIGURE_COMMAND}")
 endif(parallel GREATER 1)
 
+###################################################################
+# Values for the cmake build
+###################################################################
+
+set( CACHE_CONTENTS "
+SITE:STRING=${hostname}
+BUILDNAME:STRING=${BUILDNAME}
+DART_ROOT:PATH=
+SVNCOMMAND:FILEPATH=${CTEST_UPDATE_COMMAND}
+DROP_METHOD:STRING=https
+DART_TESTING_TIMEOUT:STRING=${CTEST_TEST_TIMEOUT}
+# Specific Fortran Compiler (uncomment and add flags directly after = )
+#CMAKE_Fortran_COMPILER:STRING=
+# Specific Fortran Compiler Flags (uncomment and add flags directly after = )
+#CMAKE_Fortran_FLAGS:STRING=
+# Use Reference BLAS and LAPACK by default
+USE_OPTIMIZED_LAPACK_BLAS:OPTION=OFF
+" )
+
 ##########################################################################
 # wipe the binary dir
 message("Remove binary directory...")
@@ -196,18 +202,11 @@ message("CTest command: ${CTEST_COMMAND}")
 
 # this is the initial cache to use for the binary tree, be careful to escape
 # any quotes inside of this string if you use it
-file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" "
-SITE:STRING=${hostname}
-BUILDNAME:STRING=${BUILDNAME}
-DART_ROOT:PATH=
-SVNCOMMAND:FILEPATH=${CTEST_UPDATE_COMMAND}
-DROP_METHOD:STRING=https
-DART_TESTING_TIMEOUT:STRING=${CTEST_TEST_TIMEOUT}
-")
+file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" "${CACHE_CONTENTS}")
 
 message("Start dashboard...")
-#ctest_start(Nightly)
-ctest_start(Experimental)
+ctest_start(Nightly)
+#ctest_start(Experimental)
 message("  Update")
 ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}" RETURN_VALUE res)
 message("  Configure")
