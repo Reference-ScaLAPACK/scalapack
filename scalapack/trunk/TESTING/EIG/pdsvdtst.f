@@ -330,27 +330,18 @@
      $              WORK( PTRVT ), IVT, JVT, DESCVT,
      $              WORK( PTRWORK ), -1, DINFO )
       WPDGESVD = INT( WORK( PTRWORK ) )
-         IF( MYROW.EQ.0 .AND. MYCOL.EQ.0 ) THEN
-      WRITE(*,*) "AFTER LWORK -1 WPDGESVD=",WPDGESVD
-         END IF
 *
       CALL PDSVDCHK( M, N, WORK( PTRAC ), IA, JA, DESCA, WORK( PTRUC ),
      $               IU, JU, DESCU, WORK( PTRVT ), IVT, JVT, DESCVT, 
      $               WORK( PTRS ), THRESH, WORK( PTRWORK ), -1, 
      $               RESULT, CHK, MTM )
       WPDSVDCHK = INT( WORK( PTRWORK ) )
-         IF( MYROW.EQ.0 .AND. MYCOL.EQ.0 ) THEN
-      WRITE(*,*) "AFTER PDSVDCHK - WPDGESVD=",WPDGESVD
-         END IF
 *
       CALL PDSVDCMP( M, N, 1, WORK( PTRS ), WORK( PTRSC ), WORK( PTRU ),
      $               WORK( PTRUC ), IU, JU, DESCU, WORK( PTRVT ),
      $               WORK( PTRVTC ), IVT, JVT, DESCVT, THRESH, 
      $               RESULT, DELTA, WORK( PTRWORK ), -1 )
       WPDSVDCMP = INT( WORK( PTRWORK ) )
-         IF( MYROW.EQ.0 .AND. MYCOL.EQ.0 ) THEN
-      WRITE(*,*) "AFTER PDSVDCMP - WPDGESVD=",WPDGESVD
-         END IF
 *
 *     Calculation of workspace at last.
 *
@@ -522,9 +513,6 @@
                CALL BLACS_BARRIER( CONTEXT, 'All' )
                CALL SLTIMER( 1 )
 *
-         IF( MYROW.EQ.0 .AND. MYCOL.EQ.0 ) THEN
-      WRITE(*,*) "BEFORE PDGESVD - WPDGESVD=",WPDGESVD
-         END IF
                CALL PDGESVD( JOBU, JOBVT, M, N, WORK( PTRAC ), IA, JA,
      $                       DESCA, WORK( PTRS ), WORK( PTRU ), IU, JU,
      $                       DESCU, WORK( PTRVT ), IVT, JVT, DESCVT,
