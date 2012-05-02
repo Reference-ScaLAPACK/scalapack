@@ -1,10 +1,9 @@
       SUBROUTINE PCLARFB( SIDE, TRANS, DIRECT, STOREV, M, N, K, V, IV,
      $                    JV, DESCV, T, C, IC, JC, DESCC, WORK )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.7) --
-*     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
-*     and University of California, Berkeley.
-*     May 1, 1997
+*  -- ScaLAPACK auxiliary routine (version 2.0.2) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
+*     May 1 2012
 *
 *     .. Scalar Arguments ..
       CHARACTER          SIDE, TRANS, DIRECT, STOREV

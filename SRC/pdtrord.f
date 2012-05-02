@@ -5,10 +5,9 @@
 *     Contribution from the Department of Computing Science and HPC2N,
 *     Umea University, Sweden
 *
-*  -- ScaLAPACK computational routine (version 2.0.1) --
-*     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
-*     Univ. of Colorado Denver and University of California, Berkeley.
-*     January, 2012
+*  -- ScaLAPACK routine (version 2.0.2) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
+*     May 1 2012
 *
       IMPLICIT NONE
 *

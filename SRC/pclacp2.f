@@ -1,10 +1,9 @@
       SUBROUTINE PCLACP2( UPLO, M, N, A, IA, JA, DESCA, B, IB, JB,
      $                     DESCB )
 *
-*  -- ScaLAPACK auxiliary routine (version 1.7) --
-*     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
-*     and University of California, Berkeley.
-*     November 15, 1997
+*  -- ScaLAPACK auxiliary routine (version 2.0.2) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
+*     May 1 2012
 *
 *     .. Scalar Arguments ..
       CHARACTER          UPLO
