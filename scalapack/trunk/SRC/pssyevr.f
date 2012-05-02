@@ -5,9 +5,9 @@
 
       IMPLICIT NONE
 *
-*  -- ScaLAPACK routine (version 2.0) --
+*  -- ScaLAPACK routine (version 2.0.2) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
-*     December 6, 2008
+*     May 1 2012
 *
 *     .. Scalar Arguments ..
       CHARACTER          JOBZ, RANGE, UPLO

@@ -2,9 +2,9 @@
      $                    ILOZ, IHIZ, Z, DESCZ, WORK, LWORK, IWORK,
      $                    ILWORK, INFO )
 *
-*  -- ScaLAPACK routine (version 2.0.1) --
-*     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
-*     and University of California, Berkeley.
+*  -- ScaLAPACK routine (version 2.0.2) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
+*     May 1 2012
 *
 *     .. Scalar Arguments ..
       LOGICAL            WANTT, WANTZ

@@ -2,10 +2,9 @@
      $                    INFO )
       IMPLICIT NONE
 *
-*  -- LAPACK auxiliary routine (version 3.0) --
-*     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
-*     Courant Institute, Argonne National Lab, and Rice University
-*     February 29, 1992
+*  -- ScaLAPACK auxiliary routine (version 2.0.2) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
+*     May 1 2012
 *
 *     .. Scalar Arguments ..
       INTEGER            INFO, J1, LDT, N, N1, N2

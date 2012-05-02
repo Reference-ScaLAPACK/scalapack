@@ -1,10 +1,9 @@
       SUBROUTINE PDGBTRF( N, BWL, BWU, A, JA, DESCA, IPIV, AF, LAF,
      $                    WORK, LWORK, INFO )
 *
-*  -- ScaLAPACK routine (version 1.7) --
-*     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
-*     and University of California, Berkeley.
-*     April 3, 2000
+*  -- ScaLAPACK routine (version 2.0.2) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
+*     May 1 2012
 *
 *     .. Scalar Arguments ..
       INTEGER            BWL, BWU, INFO, JA, LAF, LWORK, N

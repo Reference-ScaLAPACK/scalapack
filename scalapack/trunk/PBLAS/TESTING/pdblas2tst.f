@@ -10,10 +10,9 @@
       
       PROGRAM PDBLA2TST
 *
-*  -- PBLAS testing driver (version 2.0) --
-*     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
-*     and University of California, Berkeley.
-*     April 1, 1998
+*  -- PBLAS testing driver (version 2.0.2) --
+*     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
+*     May 1 2012
 *
 *  Purpose
 *  =======
