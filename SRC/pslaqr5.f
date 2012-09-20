@@ -312,7 +312,7 @@
 *
 *     Check if KTOP and KBOT are valid.
 *
-      IF( KTOP.LT.1 .OR. KBOT.GT.N ) STOP
+      IF( KTOP.LT.1 .OR. KBOT.GT.N ) RETURN
 *
 *     Create and chase NUMWIN chains of NBMPS bulges.
 *
