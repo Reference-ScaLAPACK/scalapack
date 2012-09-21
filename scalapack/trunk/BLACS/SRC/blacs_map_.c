@@ -1,3 +1,4 @@
+#include "Cblacs.h"
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
@@ -7,12 +8,8 @@ F_VOID_FUNC blacs_gridmap_(int *ConTxt, int *usermap, int *ldup, int *nprow0,
                            int *npcol0)
 #endif
 {
-   void Cblacs_pinfo(int *, int *);
-   void Cblacs_get(int, int, int *);
 
    MPI_Comm BI_TransUserComm(int, int, int *);
-
-   MPI_Comm Cblacs2sys_handle(int);
 
    int info, i, j, Iam, *iptr;
    int myrow, mycol, nprow, npcol, Ng;

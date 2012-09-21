@@ -1,3 +1,4 @@
+#include "Cblacs.h"
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)

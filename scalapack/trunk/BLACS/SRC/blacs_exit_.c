@@ -1,3 +1,4 @@
+#include "Cblacs.h"
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
@@ -6,7 +7,6 @@ void Cblacs_exit(int NotDone)
 F_VOID_FUNC blacs_exit_(int *NotDone)
 #endif
 {
-   void Cblacs_gridexit(int);
    void BI_UpdateBuffs(BLACBUFF *);
    BLACBUFF *BI_GetBuff(int);
    int BI_BuffIsFree(BLACBUFF *, int);

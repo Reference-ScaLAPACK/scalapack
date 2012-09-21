@@ -1,3 +1,4 @@
+#include "Cblacs.h"
 #include "Bdef.h"
 #if (INTFACE == C_CALL)
 void Cblacs_get(int ConTxt, int what, int *val)
@@ -5,7 +6,6 @@ void Cblacs_get(int ConTxt, int what, int *val)
 F_VOID_FUNC blacs_get_(int *ConTxt, int *what, int *val)
 #endif
 {
-   int Csys2blacs_handle(MPI_Comm);
    int ierr, *iptr;
    int comm;
    BLACSCONTEXT *ctxt;
