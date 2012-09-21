@@ -153,7 +153,7 @@ F_VOID_FUNC cgebr2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
    else
    {
       send = BI_Asend;
-      MPI_Pack_size(one, MatTyp, ctxt->scp->comm, &length, error);
+      MPI_Pack_size(one, MatTyp, ctxt->scp->comm, &length);
       bp = BI_GetBuff(length);
       bp->N = length;
       bp->dtype = MPI_PACKED;

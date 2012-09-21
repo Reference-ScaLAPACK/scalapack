@@ -1,3 +1,4 @@
+#include "Cblacs.h"
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
@@ -6,7 +7,6 @@ void Cblacs_gridinit(int *ConTxt, char *order, int nprow, int npcol)
 F_VOID_FUNC blacs_gridinit_(int *ConTxt, F_CHAR order, int *nprow, int *npcol)
 #endif
 {
-   void Cblacs_gridmap(int *, int *, int, int, int);
    int *tmpgrid, *iptr;
    int i, j;
 

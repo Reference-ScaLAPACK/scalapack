@@ -1,3 +1,4 @@
+#include "Cblacs.h"
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
@@ -6,7 +7,6 @@ void Cblacs_abort(int ConTxt, int ErrNo)
 F_VOID_FUNC blacs_abort_(int *ConTxt, int *ErrNo)
 #endif
 {
-   void Cblacs_gridinfo(int, int *, int *, int *, int *);
    void BI_BlacsAbort(int ErrNo);
    int nprow, npcol, myrow, mycol;
    extern int BI_Iam;

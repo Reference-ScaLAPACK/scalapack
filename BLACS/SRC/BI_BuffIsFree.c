@@ -28,7 +28,7 @@ int BI_BuffIsFree(BLACBUFF *bp, int Wait)
          {
             if (bp->Aops[-bp->N-1] == MPI_REQUEST_NULL)
             {
-               info=MPI_Get_count(&BI_Stats[(-bp->N-1)*MPI_STATUS_SIZE],MPI_PACKED, &i);
+               info=MPI_Get_count(&BI_Stats[(-bp->N-1)*sizeof(MPI_Status)],MPI_PACKED, &i);
                if (i != MPI_UNDEFINED) bp->N = i;
                else BI_BlacsWarn(-1, __LINE__, __FILE__,
                                  "MPI_Get_count returned MPI_UNDEFINED.\n");
@@ -54,7 +54,7 @@ int BI_BuffIsFree(BLACBUFF *bp, int Wait)
  */
    if (bp->N < 0)
    {
-      info=MPI_Get_count(&BI_Stats[(-bp->N-1)*MPI_STATUS_SIZE],MPI_PACKED, &i);
+      info=MPI_Get_count(&BI_Stats[(-bp->N-1)*sizeof(MPI_Status)],MPI_PACKED, &i);
       if (i != MPI_UNDEFINED) bp->N = i;
       else BI_BlacsWarn(-1, __LINE__, __FILE__,
                         "MPI_Get_count returned MPI_UNDEFINED.\n");
