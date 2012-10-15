@@ -75,7 +75,7 @@
  * Comment out the following line if your MPI does a data copy on every
  * non-contiguous send
  */
-//#define MpiBuffGood
+#define MpiBuffGood
 
 /*
  * If your MPI cannot form data types of zero length, uncomment the

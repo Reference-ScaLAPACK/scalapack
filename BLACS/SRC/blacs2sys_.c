@@ -1,4 +1,3 @@
-#include "Cblacs.h"
 #include "Bdef.h"
 #if (INTFACE == C_CALL)
 MPI_Comm Cblacs2sys_handle(int BlacsCtxt)
