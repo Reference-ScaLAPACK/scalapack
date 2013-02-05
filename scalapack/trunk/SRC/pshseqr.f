@@ -354,7 +354,7 @@
 *
 *        Quick return in case of invalid argument.
 *
-         CALL PXERBLA( 'PSHSEQR', -INFO )
+         CALL PXERBLA( ICTXT, 'PSHSEQR', -INFO )
          RETURN
 *
       ELSE IF( N.EQ.0 ) THEN
