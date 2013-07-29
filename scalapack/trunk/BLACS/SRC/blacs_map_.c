@@ -8,6 +8,7 @@ F_VOID_FUNC blacs_gridmap_(int *ConTxt, int *usermap, int *ldup, int *nprow0,
 #endif
 {
 
+   MPI_Comm Cblacs2sys_handle(int BlacsCtxt);
    MPI_Comm BI_TransUserComm(int, int, int *);
 
    int info, i, j, Iam, *iptr;
