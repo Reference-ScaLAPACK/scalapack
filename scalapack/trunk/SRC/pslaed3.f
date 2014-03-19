@@ -64,16 +64,6 @@
 *          The process column over which the first column of the
 *          matrix D is distributed. 0 <= DCOL < NPCOL.
 *
-*  Q      (input/output) REAL array, dimension (LDQ, N)
-*         On entry, Q contains the eigenvectors of two submatrices in
-*         the two square blocks with corners at (1,1), (N1,N1)
-*         and (N1+1, N1+1), (N,N).
-*         On exit, Q contains the trailing (N-K) updated eigenvectors
-*         (those which were deflated) in its last N-K columns.
-*
-*  LDQ    (input) INTEGER
-*         The leading dimension of the array Q.  LDQ >= max(1,NQ).
-*
 *  RHO    (global input/output) REAL
 *         On entry, the off-diagonal element associated with the rank-1
 *         cut which originally split the two submatrices which are now
@@ -83,11 +73,11 @@
 *
 *  DLAMDA (global output) REAL array, dimension (N)
 *         A copy of the first K eigenvalues which will be used by
-*         SLAED3 to form the secular equation.
+*         SLAED4 to form the secular equation.
 *
 *  W      (global output) REAL array, dimension (N)
 *         The first k values of the final deflation-altered z-vector
-*         which will be passed to SLAED3.
+*         which will be passed to SLAED4.
 *
 *  Z      (global input) REAL array, dimension (N)
 *         On entry, Z contains the updating vector (the last
@@ -98,13 +88,14 @@
 *
 *  U     (global output) REAL array
 *         global dimension (N, N), local dimension (LDU, NQ).
+*         (See PSLAED0 for definition of NQ.)
 *         Q  contains the orthonormal eigenvectors of the symmetric
 *         tridiagonal matrix.
 *
 *  LDU    (input) INTEGER
 *         The leading dimension of the array U.
 *
-*  QBUF   (workspace) REAL array, dimension 3*N
+*  BUF    (workspace) REAL array, dimension 3*N
 *
 *
 *  INDX   (workspace) INTEGER array, dimension (N)
