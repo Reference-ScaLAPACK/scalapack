@@ -340,6 +340,7 @@
      $             +6*LDS*LDS )
       IF( LWORK.EQ.-1 .OR. ILWORK.EQ.-1 ) THEN
          WORK( 1 ) = FLOAT( LWKOPT )
+         IWORK( 1 ) = 3
          RETURN
       ELSEIF( LWORK.LT.LWKOPT ) THEN
          INFO = -15
