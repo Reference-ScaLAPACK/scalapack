@@ -222,7 +222,7 @@
          CALL CHK1MAT( N, 2, N, 2, 1, 1, DESCA, 4, INFO )
       END IF
       IF( INFO.NE.0 ) THEN
-         CALL PXERBLA( 'PDGEBAL', -INFO )
+         CALL PXERBLA( ICTXT, 'PDGEBAL', -INFO )
          RETURN
       END IF
 *
