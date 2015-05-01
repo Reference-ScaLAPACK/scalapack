@@ -383,7 +383,7 @@
 *           Exit if NaN to avoid infinite loop
 *
             INFO = -3
-            CALL PXERBLA( 'PSGEBAL', -INFO )
+            CALL PXERBLA( ICTXT, 'PDGEBAL', -INFO )
             RETURN
          END IF
          F = F*SCLFAC
