@@ -110,7 +110,8 @@
       IF( N.EQ.0 )
      $   RETURN
 *
-      CALL BLACS_GRIDINFO( DESCQ( CTXT_ ), NPROW, NPCOL, MYROW, MYCOL )
+      ICTXT = DESCQ( CTXT_ )
+      CALL BLACS_GRIDINFO( ICTXT, NPROW, NPCOL, MYROW, MYCOL )
 *
 *     Test the input parameters
 *
