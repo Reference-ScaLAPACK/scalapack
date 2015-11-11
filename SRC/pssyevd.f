@@ -199,7 +199,8 @@
 *
 *     Test the input arguments.
 *
-      CALL BLACS_GRIDINFO( DESCZ( CTXT_ ), NPROW, NPCOL, MYROW, MYCOL )
+      ICTXT = DESCZ( CTXT_ )
+      CALL BLACS_GRIDINFO( ICTXT, NPROW, NPCOL, MYROW, MYCOL )
 *
       INFO = 0
       IF( NPROW.EQ.-1 ) THEN
