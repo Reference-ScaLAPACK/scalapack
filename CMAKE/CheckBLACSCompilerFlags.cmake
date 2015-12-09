@@ -80,6 +80,12 @@ if( "${CMAKE_Fortran_FLAGS_RELEASE}" MATCHES "O[3-9]" )
           "${CMAKE_Fortran_FLAGS_RELEASE}" )
   set( CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
        CACHE STRING "Flags used by the compiler during release builds" FORCE )
+elseif ( "${CMAKE_Fortran_FLAGS_RELEASE}" MATCHES "Ofast" )
+  message( STATUS "Reducing RELEASE optimization level to O2" )
+  string( REGEX REPLACE "Ofast" "O2" CMAKE_Fortran_FLAGS_RELEASE 
+          "${CMAKE_Fortran_FLAGS_RELEASE}" )
+  set( CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
+       CACHE STRING "Flags used by the compiler during release builds" FORCE )
 endif()
 
 
