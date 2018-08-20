@@ -1,5 +1,6 @@
       REAL             FUNCTION PCLANSY( NORM, UPLO, N, A, IA, JA,
      $                                   DESCA, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -174,10 +175,10 @@
      $                   ICURROW, II, IIA, IN, IROFF, ICSR, ICSR0,
      $                   IOFFA, IRSC, IRSC0, IRSR, IRSR0, JJ, JJA, K,
      $                   LDA, LL, MYCOL, MYROW, NP, NPCOL, NPROW, NQ
-      REAL               SCALE, SUM, VALUE
+      REAL               SUM, VALUE
 *     ..
 *     .. Local Arrays ..
-      REAL               RWORK( 2 )
+      REAL               SSQ( 2 ), COLSSQ( 2 )
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, CLASSQ, PSCOL2ROW,
@@ -263,6 +264,9 @@
       IF( N.EQ.0 ) THEN
 *
          VALUE = ZERO
+*
+************************************************************************
+* max norm
 *
       ELSE IF( LSAME( NORM, 'M' ) ) THEN
 *
@@ -456,6 +460,9 @@
 *
          CALL SGAMX2D( ICTXT, 'All', ' ', 1, 1, VALUE, 1, I, K, -1,
      $                 IAROW, IACOL )
+*
+************************************************************************
+* one or inf norm
 *
       ELSE IF( LSAME( NORM, 'I' ) .OR. LSAME( NORM, 'O' ) .OR.
      $         NORM.EQ.'1' ) THEN
@@ -705,12 +712,17 @@
      $                    -1, IAROW, IACOL )
          END IF
 *
+************************************************************************
+* Frobenius norm
+* SSQ(1) is scale
+* SSQ(2) is sum-of-squares
+*
       ELSE IF( LSAME( NORM, 'F' ) .OR. LSAME( NORM, 'E' ) ) THEN
 *
 *        Find normF( sub( A ) ).
 *
-         SCALE = ZERO
-         SUM = ONE
+         SSQ(1) = ZERO
+         SSQ(2) = ONE
 *
 *        Add off-diagonal entries, first
 *
@@ -722,10 +734,15 @@
 *
             IF( MYCOL.EQ.IACOL ) THEN
                DO 370 K = (JJ-1)*LDA, (JJ+IB-2)*LDA, LDA
-                  CALL CLASSQ( II-IIA, A( IIA+K ), 1, SCALE, SUM )
+                  COLSSQ(1) = ZERO
+                  COLSSQ(2) = ONE
+                  CALL CLASSQ( II-IIA, A( IIA+K ), 1,
+     $                         COLSSQ(1), COLSSQ(2) )
                   IF( MYROW.EQ.IAROW )
      $               II = II + 1
-                  CALL CLASSQ( II-IIA, A( IIA+K ), 1, SCALE, SUM )
+                  CALL CLASSQ( II-IIA, A( IIA+K ), 1,
+     $                         COLSSQ(1), COLSSQ(2) )
+                  CALL SCOMBSSQ( SSQ, COLSSQ )
   370          CONTINUE
 *
                JJ = JJ + IB
@@ -743,10 +760,15 @@
 *
                IF( MYCOL.EQ.ICURCOL ) THEN
                   DO 380 K = (JJ-1)*LDA, (JJ+IB-2)*LDA, LDA
-                     CALL CLASSQ( II-IIA, A( IIA+K ), 1, SCALE, SUM )
+                     COLSSQ(1) = ZERO
+                     COLSSQ(2) = ONE
+                     CALL CLASSQ( II-IIA, A( IIA+K ), 1,
+     $                            COLSSQ(1), COLSSQ(2) )
                      IF( MYROW.EQ.ICURROW )
      $                  II = II + 1
-                     CALL CLASSQ( II-IIA, A( IIA+K ), 1, SCALE, SUM )
+                     CALL CLASSQ( II-IIA, A (IIA+K ), 1,
+     $                            COLSSQ(1), COLSSQ(2) )
+                     CALL SCOMBSSQ( SSQ, COLSSQ )
   380             CONTINUE
 *
                   JJ = JJ + IB
@@ -767,10 +789,15 @@
 *
             IF( MYCOL.EQ.IACOL ) THEN
                DO 400 K = (JJ-1)*LDA, (JJ+IB-2)*LDA, LDA
-                  CALL CLASSQ( IIA+NP-II, A( II+K ), 1, SCALE, SUM )
+                  COLSSQ(1) = ZERO
+                  COLSSQ(2) = ONE
+                  CALL CLASSQ( IIA+NP-II, A( II+K ), 1,
+     $                         COLSSQ(1), COLSSQ(2) )
                   IF( MYROW.EQ.IAROW )
      $               II = II + 1
-                  CALL CLASSQ( IIA+NP-II, A( II+K ), 1, SCALE, SUM )
+                  CALL CLASSQ( IIA+NP-II, A( II+K ), 1,
+     $                         COLSSQ(1), COLSSQ(2) )
+                  CALL SCOMBSSQ( SSQ, COLSSQ )
   400          CONTINUE
 *
                JJ = JJ + IB
@@ -788,10 +815,15 @@
 *
                IF( MYCOL.EQ.ICURCOL ) THEN
                   DO 410 K = (JJ-1)*LDA, (JJ+IB-2)*LDA, LDA
-                     CALL CLASSQ( IIA+NP-II, A( II+K ), 1, SCALE, SUM )
+                     COLSSQ(1) = ZERO
+                     COLSSQ(2) = ONE
+                     CALL CLASSQ( IIA+NP-II, A( II+K ), 1,
+     $                            COLSSQ(1), COLSSQ(2) )
                      IF( MYROW.EQ.ICURROW )
      $                  II = II + 1
-                     CALL CLASSQ( IIA+NP-II, A( II+K ), 1, SCALE, SUM )
+                     CALL CLASSQ( IIA+NP-II, A( II+K ), 1,
+     $                            COLSSQ(1), COLSSQ(2) )
+                     CALL SCOMBSSQ( SSQ, COLSSQ )
   410             CONTINUE
 *
                   JJ = JJ + IB
@@ -808,12 +840,9 @@
 *
 *        Perform the global scaled sum
 *
-         RWORK( 1 ) = SCALE
-         RWORK( 2 ) = SUM
-*
-         CALL PSTREECOMB( ICTXT, 'All', 2, RWORK, IAROW, IACOL,
+         CALL PSTREECOMB( ICTXT, 'All', 2, SSQ, IAROW, IACOL,
      $                    SCOMBSSQ )
-         VALUE = RWORK( 1 ) * SQRT( RWORK( 2 ) )
+         VALUE = SSQ( 1 ) * SQRT( SSQ( 2 ) )
 *
       END IF
 *

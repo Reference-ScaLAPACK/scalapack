@@ -1,5 +1,6 @@
       DOUBLE PRECISION   FUNCTION PZLANGE( NORM, M, N, A, IA, JA, DESCA,
      $                                     WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -157,10 +158,10 @@
       INTEGER            I, IACOL, IAROW, ICTXT, II, ICOFF, IOFFA,
      $                   IROFF, J, JJ, LDA, MP, MYCOL, MYROW, NPCOL,
      $                   NPROW, NQ
-      DOUBLE PRECISION   SCALE, SUM, VALUE
+      DOUBLE PRECISION   SUM, VALUE
 *     ..
 *     .. Local Arrays ..
-      DOUBLE PRECISION   RWORK( 2 )
+      DOUBLE PRECISION   SSQ( 2 ), COLSSQ( 2 )
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, DCOMBSSQ, DGEBR2D,
@@ -198,6 +199,9 @@
 *
          VALUE = ZERO
 *
+************************************************************************
+* max norm
+*
       ELSE IF( LSAME( NORM, 'M' ) ) THEN
 *
 *        Find max(abs(A(i,j))).
@@ -214,6 +218,9 @@
          END IF
          CALL DGAMX2D( ICTXT, 'All', ' ', 1, 1, VALUE, 1, I, J, -1,
      $                 0, 0 )
+*
+************************************************************************
+* one norm
 *
       ELSE IF( LSAME( NORM, 'O' ) .OR. NORM.EQ.'1' ) THEN
 *
@@ -251,6 +258,9 @@
      $                    -1, 0, 0 )
          END IF
 *
+************************************************************************
+* inf norm
+*
       ELSE IF( LSAME( NORM, 'I' ) ) THEN
 *
 *        Find normI( sub( A ) ).
@@ -287,25 +297,31 @@
      $                    J, -1, 0, 0 )
          END IF
 *
+************************************************************************
+* Frobenius norm
+* SSQ(1) is scale
+* SSQ(2) is sum-of-squares
+*
       ELSE IF( ( LSAME( NORM, 'F' ) ) .OR. ( LSAME( NORM, 'E' ) ) ) THEN
 *
 *        Find normF( sub( A ) ).
 *
-         SCALE = ZERO
-         SUM = ONE
+         SSQ(1) = ZERO
+         SSQ(2) = ONE
          IOFFA = II + ( JJ - 1 ) * LDA
          IF( NQ.GT.0 ) THEN
              DO 70 J = IOFFA, IOFFA + NQ*LDA - 1, LDA
-                CALL ZLASSQ( MP, A( J ), 1, SCALE, SUM )
+                COLSSQ(1) = ZERO
+                COLSSQ(2) = ONE
+                CALL ZLASSQ( MP, A( J ), 1, COLSSQ(1), COLSSQ(2) )
+                CALL DCOMBSSQ( SSQ, COLSSQ )
    70        CONTINUE
          END IF
 *
 *        Perform the global scaled sum
 *
-         RWORK( 1 ) = SCALE
-         RWORK( 2 ) = SUM
-         CALL PDTREECOMB( ICTXT, 'All', 2, RWORK, 0, 0, DCOMBSSQ )
-         VALUE = RWORK( 1 ) * SQRT( RWORK( 2 ) )
+         CALL PDTREECOMB( ICTXT, 'All', 2, SSQ, 0, 0, DCOMBSSQ )
+         VALUE = SSQ( 1 ) * SQRT( SSQ( 2 ) )
 *
       END IF
 *
