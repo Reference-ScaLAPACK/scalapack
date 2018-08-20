@@ -1,5 +1,6 @@
       DOUBLE PRECISION   FUNCTION PZLANTR( NORM, UPLO, DIAG, M, N, A,
      $                                     IA, JA, DESCA, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -173,10 +174,10 @@
       INTEGER            IACOL, IAROW, ICTXT, II, IIA, ICOFF, IOFFA,
      $                   IROFF, J, JB, JJ, JJA, JN, KK, LDA, LL, MP,
      $                   MYCOL, MYROW, NP, NPCOL, NPROW, NQ
-      DOUBLE PRECISION   SCALE, SUM, VALUE
+      DOUBLE PRECISION   SUM, VALUE
 *     ..
 *     .. Local Arrays ..
-      DOUBLE PRECISION   RWORK( 2 )
+      DOUBLE PRECISION   SSQ( 2 ), COLSSQ( 2 )
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, DCOMBSSQ, DGEBR2D,
@@ -215,6 +216,9 @@
       IF( MIN( M, N ).EQ.0 ) THEN
 *
          VALUE = ZERO
+*
+************************************************************************
+* max norm
 *
       ELSE IF( LSAME( NORM, 'M' ) ) THEN
 *
@@ -396,6 +400,9 @@
 *
          CALL DGAMX2D( ICTXT, 'All', ' ', 1, 1, VALUE, 1, KK, LL, -1,
      $                 0, 0 )
+*
+************************************************************************
+* one norm
 *
       ELSE IF( LSAME( NORM, 'O' ) .OR. NORM.EQ.'1' ) THEN
 *
@@ -608,6 +615,9 @@
             CALL DGAMX2D( ICTXT, 'Rowwise', ' ', 1, 1, VALUE, 1, KK, LL,
      $                    -1, 0, 0 )
          END IF
+*
+************************************************************************
+* infinity norm
 *
       ELSE IF( LSAME( NORM, 'I' ) ) THEN
 *
@@ -835,18 +845,24 @@
      $                    LL, -1, 0, 0 )
          END IF
 *
+************************************************************************
+* Frobenius norm
+* SSQ(1) is scale
+* SSQ(2) is sum-of-squares
+*
       ELSE IF( LSAME( NORM, 'F' ) .OR. LSAME( NORM, 'E' ) ) THEN
 *
          IF( UDIAG ) THEN
-            SCALE = ONE
-            SUM = DBLE( MIN( M, N ) ) / DBLE( NPROW*NPCOL )
+            SSQ(1) = ONE
+            SSQ(2) = DBLE( MIN( M, N ) ) / DBLE( NPROW*NPCOL )
          ELSE
-            SCALE = ZERO
-            SUM = ONE
+            SSQ(1) = ZERO
+            SSQ(2) = ONE
          END IF
 *
          IF( LSAME( UPLO, 'U' ) ) THEN
 *
+*           ***********************
 *           Upper triangular matrix
 *
             II = IIA
@@ -854,37 +870,59 @@
             JN = MIN( ICEIL( JA, DESCA( NB_ ) ) * DESCA( NB_ ), JA+N-1 )
             JB = JN-JA+1
 *
+*           First block column of sub-matrix.
+*
             IF( MYCOL.EQ.IACOL ) THEN
                IF( MYROW.EQ.IAROW ) THEN
+*                 This process has part of current block column,
+*                 including diagonal block.
                   IF( UDIAG ) THEN
                      DO 840 LL = JJ, JJ + JB -1
-                        CALL ZLASSQ( MIN( II+LL-JJ, IIA+MP-1 )-IIA+1,
-     $                               A( IIA+IOFFA ), 1, SCALE, SUM )
+                        COLSSQ(1) = ZERO
+                        COLSSQ(2) = ONE
+                        CALL ZLASSQ( MIN( II+LL-JJ-1, IIA+MP-1 )-IIA+1,
+     $                               A( IIA+IOFFA ), 1,
+     $                               COLSSQ(1), COLSSQ(2) )
+                        CALL DCOMBSSQ( SSQ, COLSSQ )
                         IOFFA = IOFFA + LDA
   840                CONTINUE
                   ELSE
                      DO 850 LL = JJ, JJ + JB -1
-                        CALL ZLASSQ( MIN( II+LL-JJ+1, IIA+MP-1 )-IIA+1,
-     $                               A( IIA+IOFFA ), 1, SCALE, SUM )
+                        COLSSQ(1) = ZERO
+                        COLSSQ(2) = ONE
+                        CALL ZLASSQ( MIN( II+LL-JJ, IIA+MP-1 )-IIA+1,
+     $                               A( IIA+IOFFA ), 1,
+     $                               COLSSQ(1), COLSSQ(2) )
+                        CALL DCOMBSSQ( SSQ, COLSSQ )
                         IOFFA = IOFFA + LDA
   850                CONTINUE
                   END IF
                ELSE
+*                 This rank has part of current block column,
+*                 but not diagonal block.
+*                 It seems this lassq will be length 0, since ii = iia.
                   DO 860 LL = JJ, JJ + JB -1
+                     COLSSQ(1) = ZERO
+                     COLSSQ(2) = ONE
                      CALL ZLASSQ( MIN( II-1, IIA+MP-1 )-IIA+1,
-     $                            A( IIA+IOFFA ), 1, SCALE, SUM )
+     $                            A( IIA+IOFFA ), 1,
+     $                            COLSSQ(1), COLSSQ(2) )
+                     CALL DCOMBSSQ( SSQ, COLSSQ )
                      IOFFA = IOFFA + LDA
   860             CONTINUE
                END IF
                JJ = JJ + JB
             END IF
 *
+*           If this process has part of current block row, advance ii,
+*           then advance iarow, iacol to next diagonal block.
+*
             IF( MYROW.EQ.IAROW )
      $         II = II + JB
             IAROW = MOD( IAROW+1, NPROW )
             IACOL = MOD( IACOL+1, NPCOL )
 *
-*           Loop over remaining block of columns
+*           Loop over remaining block columns
 *
             DO 900 J = JN+1, JA+N-1, DESCA( NB_ )
                JB = MIN( JA+N-J, DESCA( NB_ ) )
@@ -893,23 +931,33 @@
                   IF( MYROW.EQ.IAROW ) THEN
                      IF( UDIAG ) THEN
                         DO 870 LL = JJ, JJ + JB -1
-                           CALL ZLASSQ( MIN( II+LL-JJ+1, IIA+MP-1 )-
-     $                                  IIA+1, A( IIA+IOFFA ), 1, SCALE,
-     $                                  SUM )
+                           COLSSQ(1) = ZERO
+                           COLSSQ(2) = ONE
+                           CALL ZLASSQ( MIN(II+LL-JJ-1, IIA+MP-1)-IIA+1,
+     $                                  A( IIA+IOFFA ), 1,
+     $                                  COLSSQ(1), COLSSQ(2) )
+                           CALL DCOMBSSQ( SSQ, COLSSQ )
                            IOFFA = IOFFA + LDA
   870                   CONTINUE
                      ELSE
                         DO 880 LL = JJ, JJ + JB -1
-                           CALL ZLASSQ( MIN( II+LL-JJ, IIA+MP-1 )-
-     $                                  IIA+1, A( IIA+IOFFA ), 1, SCALE,
-     $                                  SUM )
+                           COLSSQ(1) = ZERO
+                           COLSSQ(2) = ONE
+                           CALL ZLASSQ( MIN( II+LL-JJ, IIA+MP-1 )-IIA+1,
+     $                                  A( IIA+IOFFA ), 1,
+     $                                  COLSSQ(1), COLSSQ(2) )
+                           CALL DCOMBSSQ( SSQ, COLSSQ )
                            IOFFA = IOFFA + LDA
   880                   CONTINUE
                      END IF
                   ELSE
                      DO 890 LL = JJ, JJ + JB -1
+                        COLSSQ(1) = ZERO
+                        COLSSQ(2) = ONE
                         CALL ZLASSQ( MIN( II-1, IIA+MP-1 )-IIA+1,
-     $                               A( IIA+IOFFA ), 1, SCALE, SUM )
+     $                               A( IIA+IOFFA ), 1,
+     $                               COLSSQ(1), COLSSQ(2) )
+                        CALL DCOMBSSQ( SSQ, COLSSQ )
                         IOFFA = IOFFA + LDA
   890                CONTINUE
                   END IF
@@ -925,6 +973,7 @@
 *
          ELSE
 *
+*           ***********************
 *           Lower triangular matrix
 *
             II = IIA
@@ -936,23 +985,32 @@
                IF( MYROW.EQ.IAROW ) THEN
                   IF( UDIAG ) THEN
                      DO 910 LL = JJ, JJ + JB -1
+                        COLSSQ(1) = ZERO
+                        COLSSQ(2) = ONE
                         CALL ZLASSQ( IIA+MP-(II+LL-JJ+1),
-     $                               A( II+LL-JJ+IOFFA ), 1, SCALE,
-     $                               SUM )
+     $                               A( II+LL-JJ+1+IOFFA ), 1,
+     $                               COLSSQ(1), COLSSQ(2) )
+                        CALL DCOMBSSQ( SSQ, COLSSQ )
                         IOFFA = IOFFA + LDA
   910                CONTINUE
                   ELSE
                      DO 920 LL = JJ, JJ + JB -1
+                        COLSSQ(1) = ZERO
+                        COLSSQ(2) = ONE
                         CALL ZLASSQ( IIA+MP-(II+LL-JJ),
-     $                               A( II+LL-JJ+IOFFA ), 1, SCALE,
-     $                               SUM )
+     $                               A( II+LL-JJ+IOFFA ), 1,
+     $                               COLSSQ(1), COLSSQ(2) )
+                        CALL DCOMBSSQ( SSQ, COLSSQ )
                         IOFFA = IOFFA + LDA
   920                CONTINUE
                   END IF
                ELSE
                   DO 930 LL = JJ, JJ + JB -1
-                     CALL ZLASSQ( IIA+MP-II, A( II+IOFFA ), 1, SCALE,
-     $                            SUM )
+                     COLSSQ(1) = ZERO
+                     COLSSQ(2) = ONE
+                     CALL ZLASSQ( IIA+MP-II, A( II+IOFFA ), 1,
+     $                            COLSSQ(1), COLSSQ(2) )
+                     CALL DCOMBSSQ( SSQ, COLSSQ )
                      IOFFA = IOFFA + LDA
   930             CONTINUE
                END IF
@@ -973,23 +1031,32 @@
                   IF( MYROW.EQ.IAROW ) THEN
                      IF( UDIAG ) THEN
                         DO 940 LL = JJ, JJ + JB -1
+                           COLSSQ(1) = ZERO
+                           COLSSQ(2) = ONE
                            CALL ZLASSQ( IIA+MP-(II+LL-JJ+1),
-     $                                  A( II+LL-JJ+IOFFA ), 1, SCALE,
-     $                                  SUM )
+     $                                  A( II+LL-JJ+1+IOFFA ), 1,
+     $                                  COLSSQ(1), COLSSQ(2) )
+                           CALL DCOMBSSQ( SSQ, COLSSQ )
                            IOFFA = IOFFA + LDA
   940                   CONTINUE
                      ELSE
                         DO 950 LL = JJ, JJ + JB -1
+                           COLSSQ(1) = ZERO
+                           COLSSQ(2) = ONE
                            CALL ZLASSQ( IIA+MP-(II+LL-JJ),
-     $                                  A( II+LL-JJ+IOFFA ), 1, SCALE,
-     $                                  SUM )
+     $                                  A( II+LL-JJ+IOFFA ), 1,
+     $                                  COLSSQ(1), COLSSQ(2) )
+                           CALL DCOMBSSQ( SSQ, COLSSQ )
                            IOFFA = IOFFA + LDA
   950                   CONTINUE
                      END IF
                   ELSE
                      DO 960 LL = JJ, JJ + JB -1
-                        CALL ZLASSQ( IIA+MP-II, A( II+IOFFA ), 1, SCALE,
-     $                               SUM )
+                        COLSSQ(1) = ZERO
+                        COLSSQ(2) = ONE
+                        CALL ZLASSQ( IIA+MP-II, A( II+IOFFA ), 1,
+     $                               COLSSQ(1), COLSSQ(2) )
+                        CALL DCOMBSSQ( SSQ, COLSSQ )
                         IOFFA = IOFFA + LDA
   960                CONTINUE
                   END IF
@@ -1005,12 +1072,11 @@
 *
          END IF
 *
+*        ***********************
 *        Perform the global scaled sum
 *
-         RWORK( 1 ) = SCALE
-         RWORK( 2 ) = SUM
-         CALL PDTREECOMB( ICTXT, 'All', 2, RWORK, 0, 0, DCOMBSSQ )
-         VALUE = RWORK( 1 ) * SQRT( RWORK( 2 ) )
+         CALL PDTREECOMB( ICTXT, 'All', 2, SSQ, 0, 0, DCOMBSSQ )
+         VALUE = SSQ( 1 ) * SQRT( SSQ( 2 ) )
 *
       END IF
 *
