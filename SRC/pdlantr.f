@@ -242,7 +242,7 @@
                IF( MYROW.EQ.IAROW ) THEN
                   IF( UDIAG ) THEN
                      DO 20 LL = JJ, JJ + JB -1
-                        DO 10 KK = IIA, MIN(II+LL-JJ+1,IIA+MP-1)
+                        DO 10 KK = IIA, MIN(II+LL-JJ-1,IIA+MP-1)
                            VALUE = MAX( VALUE, ABS( A( IOFFA+KK ) ) )
    10                   CONTINUE
                         IOFFA = IOFFA + LDA
@@ -280,7 +280,7 @@
                   IF( MYROW.EQ.IAROW ) THEN
                      IF( UDIAG ) THEN
                         DO 80 LL = JJ, JJ + JB -1
-                           DO 70 KK = IIA, MIN( II+LL-JJ+1, IIA+MP-1 )
+                           DO 70 KK = IIA, MIN( II+LL-JJ-1, IIA+MP-1 )
                               VALUE = MAX( VALUE, ABS( A( IOFFA+KK ) ) )
    70                      CONTINUE
                            IOFFA = IOFFA + LDA
@@ -420,17 +420,22 @@
                IF( MYROW.EQ.IAROW ) THEN
                   IF( UDIAG ) THEN
                      DO 280 LL = JJ, JJ + JB -1
-                        SUM = ONE
-                        DO 270 KK = IIA, MIN( II+LL-JJ, IIA+MP-1 )
+                        SUM = ZERO
+                        DO 270 KK = IIA, MIN( II+LL-JJ-1, IIA+MP-1 )
                            SUM = SUM + ABS( A( IOFFA+KK ) )
   270                   CONTINUE
+*                       Unit diagonal entry
+                        KK = II+LL-JJ
+                        IF (KK <= IIA+MP-1) THEN
+                           SUM = SUM + ONE
+                        ENDIF
                         IOFFA = IOFFA + LDA
                         WORK( LL-JJA+1 ) = SUM
   280                CONTINUE
                   ELSE
                      DO 300 LL = JJ, JJ + JB -1
                         SUM = ZERO
-                        DO 290 KK = IIA, MIN( II+LL-JJ+1, IIA+MP-1 )
+                        DO 290 KK = IIA, MIN( II+LL-JJ, IIA+MP-1 )
                            SUM = SUM + ABS( A( IOFFA+KK ) )
   290                   CONTINUE
                         IOFFA = IOFFA + LDA
@@ -464,10 +469,15 @@
                   IF( MYROW.EQ.IAROW ) THEN
                      IF( UDIAG ) THEN
                         DO 340 LL = JJ, JJ + JB -1
-                           SUM = ONE
-                           DO 330 KK = IIA, MIN( II+LL-JJ+1, IIA+MP-1 )
+                           SUM = ZERO
+                           DO 330 KK = IIA, MIN( II+LL-JJ-1, IIA+MP-1 )
                               SUM = SUM + ABS( A( IOFFA+KK ) )
   330                      CONTINUE
+*                          Unit diagonal entry
+                           KK = II+LL-JJ
+                           IF (KK <= IIA+MP-1) THEN
+                              SUM = SUM + ONE
+                           ENDIF
                            IOFFA = IOFFA + LDA
                            WORK( LL-JJA+1 ) = SUM
   340                   CONTINUE
@@ -621,31 +631,13 @@
       ELSE IF( LSAME( NORM, 'I' ) ) THEN
 *
          IF( LSAME( UPLO, 'U' ) ) THEN
-            IF( UDIAG ) THEN
-               DO 530 KK = IIA, IIA+MP-1
-                  WORK( KK ) = ONE
-  530          CONTINUE
-            ELSE
                DO 540 KK = IIA, IIA+MP-1
                   WORK( KK ) = ZERO
   540          CONTINUE
-            END IF
          ELSE
-            IF( UDIAG ) THEN
-               NP = NUMROC( N+IROFF, DESCA( MB_ ), MYROW, IAROW, NPROW )
-               IF( MYROW.EQ.IAROW )
-     $            NP = NP - IROFF
-               DO 550 KK = IIA, IIA+NP-1
-                  WORK( KK ) = ONE
-  550          CONTINUE
-               DO 560 KK = IIA+NP, IIA+MP-1
-                  WORK( KK ) = ZERO
-  560          CONTINUE
-            ELSE
                DO 570 KK = IIA, IIA+MP-1
                   WORK( KK ) = ZERO
   570          CONTINUE
-            END IF
          END IF
 *
          IF( LSAME( UPLO, 'U' ) ) THEN
@@ -661,15 +653,20 @@
                IF( MYROW.EQ.IAROW ) THEN
                   IF( UDIAG ) THEN
                      DO 590 LL = JJ, JJ + JB -1
-                        DO 580 KK = IIA, MIN( II+LL-JJ, IIA+MP-1 )
+                        DO 580 KK = IIA, MIN( II+LL-JJ-1, IIA+MP-1 )
                            WORK( KK-IIA+1 ) = WORK( KK-IIA+1 ) +
      $                                        ABS( A( IOFFA+KK ) )
   580                   CONTINUE
+*                       Unit diagonal entry
+                        KK = II+LL-JJ
+                        IF (KK <= IIA+MP-1) THEN
+                           WORK( KK-IIA+1 ) = WORK( KK-IIA+1 ) + ONE
+                        ENDIF
                         IOFFA = IOFFA + LDA
   590                CONTINUE
                   ELSE
                      DO 610 LL = JJ, JJ + JB -1
-                        DO 600 KK = IIA, MIN(II+LL-JJ+1,IIA+MP-1)
+                        DO 600 KK = IIA, MIN( II+LL-JJ, IIA+MP-1 )
                            WORK( KK-IIA+1 ) = WORK( KK-IIA+1 ) +
      $                                        ABS( A( IOFFA+KK ) )
   600                   CONTINUE
@@ -702,10 +699,15 @@
                   IF( MYROW.EQ.IAROW ) THEN
                      IF( UDIAG ) THEN
                         DO 650 LL = JJ, JJ + JB -1
-                           DO 640 KK = IIA, MIN( II+LL-JJ+1, IIA+MP-1 )
+                           DO 640 KK = IIA, MIN( II+LL-JJ-1, IIA+MP-1 )
                               WORK( KK-IIA+1 ) = WORK( KK-IIA+1 ) +
      $                                           ABS( A( IOFFA+KK ) )
   640                      CONTINUE
+*                          Unit diagonal entry
+                           KK = II+LL-JJ
+                           IF (KK <= IIA+MP-1) THEN
+                              WORK( KK-IIA+1 ) = WORK( KK-IIA+1 ) + ONE
+                           ENDIF
                            IOFFA = IOFFA + LDA
   650                   CONTINUE
                      ELSE
@@ -749,6 +751,9 @@
                IF( MYROW.EQ.IAROW ) THEN
                   IF( UDIAG ) THEN
                      DO 720 LL = JJ, JJ + JB -1
+*                       Unit diagonal entry
+                        KK = II+LL-JJ
+                        WORK( KK-IIA+1 ) = WORK( KK-IIA+1 ) + ONE
                         DO 710 KK = II+LL-JJ+1, IIA+MP-1
                            WORK( KK-IIA+1 ) = WORK( KK-IIA+1 ) +
      $                                        ABS( A( IOFFA+KK ) )
@@ -790,6 +795,9 @@
                   IF( MYROW.EQ.IAROW ) THEN
                      IF( UDIAG ) THEN
                         DO 780 LL = JJ, JJ + JB -1
+*                          Unit diagonal entry
+                           KK = II+LL-JJ
+                           WORK( KK-IIA+1 ) = WORK( KK-IIA+1 ) + ONE
                            DO 770 KK = II+LL-JJ+1, IIA+MP-1
                               WORK( KK-IIA+1 ) = WORK( KK-IIA+1 ) +
      $                                           ABS( A( IOFFA+KK ) )
