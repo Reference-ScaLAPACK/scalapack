@@ -22,7 +22,7 @@ F_VOID_FUNC blacs_get_(int *ConTxt, int *what, int *val)
    case SGET_MSGIDS:
       if (BI_COMM_WORLD == NULL) Cblacs_pinfo(val, &val[1]);
       iptr = &val[1];
-      ierr=MPI_Attr_get(MPI_COMM_WORLD, MPI_TAG_UB, (BVOID **) &iptr,val);
+      ierr=MPI_Comm_get_attr(MPI_COMM_WORLD, MPI_TAG_UB, (BVOID **) &iptr,val);
       val[0] = 0;
       val[1] = *iptr;
       break;

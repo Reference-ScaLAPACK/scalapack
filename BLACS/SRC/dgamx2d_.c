@@ -221,7 +221,7 @@ F_VOID_FUNC dgamx2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
       {
 #endif
       i = 2;
-      ierr=MPI_Type_struct(i, len, disp, dtypes, &MyType);
+      ierr=MPI_Type_create_struct(i, len, disp, dtypes, &MyType);
       ierr=MPI_Type_commit(&MyType);
       bp->N = bp2->N = 1;
       bp->dtype = bp2->dtype = MyType;
