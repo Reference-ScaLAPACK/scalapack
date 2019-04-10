@@ -19,7 +19,7 @@ set (SLASRC
    psdbsv.f  psdbtrf.f psdbtrs.f psdbtrsv.f 
    psdtsv.f  psdttrf.f psdttrs.f psdttrsv.f 
    psgbsv.f  psgbtrf.f psgbtrs.f 
-   psgebd2.f psgebrd.f psgecon.f           psgeequ.f psgehd2.f psgehrd.f 
+   psgebd2.f psgebrd.f psgecon.f pstrcon.f psgeequ.f psgehd2.f psgehrd.f
    psgelq2.f psgelqf.f psgels.f  psgeql2.f psgeqlf.f psgeqpf.f psgeqr2.f 
    psgeqrf.f psgerfs.f psgerq2.f psgerqf.f                               
    psgesv.f  psgesvd.f psgesvx.f psgetf2.f psgetrf.f psgetri.f psgetrs.f 
@@ -51,7 +51,7 @@ set (CLASRC
    pcdbsv.f  pcdbtrf.f pcdbtrs.f pcdbtrsv.f 
    pcdtsv.f  pcdttrf.f pcdttrs.f pcdttrsv.f 
    pcgbsv.f  pcgbtrf.f pcgbtrs.f 
-   pcgebd2.f pcgebrd.f pcgecon.f          pcgeequ.f pcgehd2.f pcgehrd.f 
+   pcgebd2.f pcgebrd.f pcgecon.f pctrcon.f pcgeequ.f pcgehd2.f pcgehrd.f
    pcgelq2.f pcgelqf.f  pcgels.f pcgeql2.f pcgeqlf.f pcgeqpf.f pcgeqr2.f 
    pcgeqrf.f pcgerfs.f pcgerq2.f pcgerqf.f                               
    pcgesv.f  pcgesvd.f pcgesvx.f pcgetf2.f pcgetrf.f pcgetri.f pcgetrs.f 
@@ -82,7 +82,7 @@ set (DLASRC
    pddbsv.f  pddbtrf.f pddbtrs.f pddbtrsv.f 
    pddtsv.f  pddttrf.f pddttrs.f pddttrsv.f 
    pdgbsv.f  pdgbtrf.f pdgbtrs.f 
-   pdgebd2.f pdgebrd.f pdgecon.f           pdgeequ.f pdgehd2.f pdgehrd.f 
+   pdgebd2.f pdgebrd.f pdgecon.f pdtrcon.f pdgeequ.f pdgehd2.f pdgehrd.f
    pdgelq2.f pdgelqf.f pdgels.f  pdgeql2.f pdgeqlf.f pdgeqpf.f pdgeqr2.f 
    pdgeqrf.f pdgerfs.f pdgerq2.f pdgerqf.f                               
    pdgesv.f  pdgesvd.f pdgesvx.f pdgetf2.f pdgetrf.f pdgetri.f pdgetrs.f 
@@ -114,7 +114,7 @@ set (ZLASRC
    pzdbsv.f  pzdbtrf.f pzdbtrs.f pzdbtrsv.f 
    pzdtsv.f  pzdttrf.f pzdttrs.f pzdttrsv.f 
    pzgbsv.f  pzgbtrf.f pzgbtrs.f 
-   pzgebd2.f pzgebrd.f pzgecon.f           pzgeequ.f pzgehd2.f pzgehrd.f 
+   pzgebd2.f pzgebrd.f pzgecon.f pztrcon.f pzgeequ.f pzgehd2.f pzgehrd.f
    pzgelq2.f pzgelqf.f pzgels.f  pzgeql2.f pzgeqlf.f pzgeqpf.f pzgeqr2.f 
    pzgeqrf.f pzgerfs.f pzgerq2.f pzgerqf.f                               
    pzgesv.f  pzgesvd.f pzgesvx.f pzgetf2.f pzgetrf.f pzgetri.f pzgetrs.f 

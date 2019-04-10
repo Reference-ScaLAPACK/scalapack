@@ -68,7 +68,7 @@ SLASRC = \
    psdbsv.o  psdbtrf.o psdbtrs.o psdbtrsv.o \
    psdtsv.o  psdttrf.o psdttrs.o psdttrsv.o \
    psgbsv.o  psgbtrf.o psgbtrs.o \
-   psgebd2.o psgebrd.o psgecon.o           psgeequ.o psgehd2.o psgehrd.o \
+   psgebd2.o psgebrd.o psgecon.o pstrcon.o psgeequ.o psgehd2.o psgehrd.o \
    psgelq2.o psgelqf.o psgels.o  psgeql2.o psgeqlf.o psgeqpf.o psgeqr2.o \
    psgeqrf.o psgerfs.o psgerq2.o psgerqf.o                               \
    psgesv.o  psgesvd.o psgesvx.o psgetf2.o psgetrf.o psgetri.o psgetrs.o \
@@ -100,7 +100,7 @@ CLASRC = \
    pcdbsv.o  pcdbtrf.o pcdbtrs.o pcdbtrsv.o \
    pcdtsv.o  pcdttrf.o pcdttrs.o pcdttrsv.o \
    pcgbsv.o  pcgbtrf.o pcgbtrs.o \
-   pcgebd2.o pcgebrd.o pcgecon.o          pcgeequ.o pcgehd2.o pcgehrd.o \
+   pcgebd2.o pcgebrd.o pcgecon.o pctrcon.o pcgeequ.o pcgehd2.o pcgehrd.o \
    pcgelq2.o pcgelqf.o  pcgels.o pcgeql2.o pcgeqlf.o pcgeqpf.o pcgeqr2.o \
    pcgeqrf.o pcgerfs.o pcgerq2.o pcgerqf.o                               \
    pcgesv.o  pcgesvd.o pcgesvx.o pcgetf2.o pcgetrf.o pcgetri.o pcgetrs.o \
@@ -131,7 +131,7 @@ DLASRC = \
    pddbsv.o  pddbtrf.o pddbtrs.o pddbtrsv.o \
    pddtsv.o  pddttrf.o pddttrs.o pddttrsv.o \
    pdgbsv.o  pdgbtrf.o pdgbtrs.o \
-   pdgebd2.o pdgebrd.o pdgecon.o           pdgeequ.o pdgehd2.o pdgehrd.o \
+   pdgebd2.o pdgebrd.o pdgecon.o pdtrcon.o pdgeequ.o pdgehd2.o pdgehrd.o \
    pdgelq2.o pdgelqf.o pdgels.o  pdgeql2.o pdgeqlf.o pdgeqpf.o pdgeqr2.o \
    pdgeqrf.o pdgerfs.o pdgerq2.o pdgerqf.o                               \
    pdgesv.o  pdgesvd.o pdgesvx.o pdgetf2.o pdgetrf.o pdgetri.o pdgetrs.o \
@@ -163,7 +163,7 @@ ZLASRC = \
    pzdbsv.o  pzdbtrf.o pzdbtrs.o pzdbtrsv.o \
    pzdtsv.o  pzdttrf.o pzdttrs.o pzdttrsv.o \
    pzgbsv.o  pzgbtrf.o pzgbtrs.o \
-   pzgebd2.o pzgebrd.o pzgecon.o           pzgeequ.o pzgehd2.o pzgehrd.o \
+   pzgebd2.o pzgebrd.o pzgecon.o pztrcon.o pzgeequ.o pzgehd2.o pzgehrd.o \
    pzgelq2.o pzgelqf.o pzgels.o  pzgeql2.o pzgeqlf.o pzgeqpf.o pzgeqr2.o \
    pzgeqrf.o pzgerfs.o pzgerq2.o pzgerqf.o                               \
    pzgesv.o  pzgesvd.o pzgesvx.o pzgetf2.o pzgetrf.o pzgetri.o pzgetrs.o \
