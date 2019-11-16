@@ -23,6 +23,9 @@ ScaLAPACK README FILE
  VERSION 2.0 :  November, 2011
    VERSION 2.0.1 :  January, 2012
    VERSION 2.0.2 :  May, 2012
+ 
+ VERSION 2.1 :  Nov, 2019
+
 
 ScaLAPACK, or Scalable LAPACK, is a library of high performance linear
 algebra routines for distributed memory computers supporting MPI.
@@ -31,6 +34,12 @@ The complete ScaLAPACK package is freely available on netlib and
 can be obtained via the World Wide Web or anonymous ftp.
 
     http://www.netlib.org/scalapack/
+
+=============== GitHub Repository ================
+
+https://github.com/Reference-ScaLAPACK/scalapack/
+
+==================================================
 
 ScaLAPACK, version 2.0, includes routines for the solution of dense,
 band, and tridiagonal linear systems of equations, condition estimation and
