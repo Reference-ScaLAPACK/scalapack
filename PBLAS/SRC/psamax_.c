@@ -260,7 +260,7 @@ void psamax_( N, AMAX, INDX, X, IX, JX, DESCX, INCX )
             {
                Xld = Xd[LLD_];
                Xlindx = Xjj - 1 +
-                        isamax_( &Xnq, ((char*)(X+(Xii+Xjj*Xld))), &Xld );
+                        isamax_( &Xnq, ((char*)(Mptr(X,Xii,Xjj,Xld,1))), &Xld );
                Mindxl2g( Xgindx, Xlindx, Xinb, Xnb, mycol, Xsrc, npcol );
                work[0] = X[Xii+Xlindx*Xld];
                work[1] = ((float )( Xgindx+1 ));
@@ -343,8 +343,8 @@ l_20:
 */
                Xld = Xd[LLD_];
                Xlindx = Xjj - 1 +
-                        isamax_( &Xnq, ((char*)(X+(Xii+Xjj*Xld))), &Xld );
-               *AMAX = X[Xii+Xlindx*Xld];
+                        isamax_( &Xnq, ((char*)(Mptr(X,Xii,Xjj,Xld, 1))), &Xld );
+               *AMAX = *Mptr(X,Xii,Xlindx,Xld,1);
             }
             else
             {
@@ -419,9 +419,9 @@ l_20:
             {
                Xld     = Xd[LLD_];
                Xlindx  = Xii - 1 +
-                         isamax_( &Xnp, ((char*)(X+(Xii+Xjj*Xld))), INCX );
+                         isamax_( &Xnp, ((char*)Mptr(X,Xii,Xjj,Xld,1)), INCX );
                Mindxl2g( Xgindx, Xlindx, Ximb, Xmb, myrow, Xsrc, nprow );
-               work[0] = X[Xlindx+Xjj*Xld];
+               work[0] = *Mptr(X,Xlindx,Xjj,Xld,1);
                work[1] = ((float )( Xgindx+1 ));
             }
             else

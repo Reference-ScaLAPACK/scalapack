@@ -286,7 +286,7 @@ void psger_( M, N, ALPHA, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY,
    if( ( Amp > 0 ) && ( Anq > 0 ) )
    {
       sger_( &Amp, &Anq, ((char *) ALPHA), XA, &ione, YA, &YAd[LLD_],
-             ((char *) (A+(Aii+Ajj*Ald))), &Ald );
+             ((char *)Mptr(A,Aii,Ajj,Ald,1)), &Ald );
    }
    if( XAfr ) free( XA );
    if( YAfr ) free( YA );

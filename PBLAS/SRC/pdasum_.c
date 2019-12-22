@@ -225,7 +225,7 @@ void pdasum_( N, ASUM, X, IX, JX, DESCX, INCX )
       if( ( ( myrow == Xrow ) || ( Xrow < 0 ) ) &&
           ( ( mycol == Xcol ) || ( Xcol < 0 ) ) )
       {
-         *ASUM = ABS( X[Xii+Xjj*Xd[LLD_]] );
+         *ASUM = ABS( *Mptr(X,Xii,Xjj,Xd[LLD_],1) );
       }
       return;
    }
@@ -243,7 +243,7 @@ void pdasum_( N, ASUM, X, IX, JX, DESCX, INCX )
          if( Xnq > 0 )
          {
             Xld = Xd[LLD_];
-            dvasum_( &Xnq, ((char *) ASUM), ((char *)( X+(Xii+Xjj*Xld) )),
+            dvasum_( &Xnq, ((char *) ASUM), ((char *)Mptr( X,Xii,Xjj,Xld,1 )),
                      &Xld );
          }
 /*
@@ -276,7 +276,7 @@ void pdasum_( N, ASUM, X, IX, JX, DESCX, INCX )
          if( Xnp > 0 )
          {
             dvasum_( &Xnp, ((char *) ASUM),
-                     ((char *)( X+(Xii+Xjj*Xd[LLD_]) )), INCX );
+                     ((char *)Mptr( X,Xii,Xjj,Xd[LLD_],1) ), INCX );
          }
 /*
 *  If Xnp <= 0, ASUM is zero (see initialization above)
