@@ -224,7 +224,7 @@ void pdnrm2_( N, NORM2, X, IX, JX, DESCX, INCX )
 */
       if( ( ( myrow == Xrow ) || ( Xrow < 0 ) ) &&
           ( ( mycol == Xcol ) || ( Xcol < 0 ) ) )
-         *NORM2 = ABS( X[Xii+Xjj*Xd[LLD_]] );
+         *NORM2 = ABS( *Mptr(X,Xii,Xjj,Xd[LLD_],1) );
       return;
    }
    else if( *INCX == Xd[M_] )
@@ -246,7 +246,7 @@ void pdnrm2_( N, NORM2, X, IX, JX, DESCX, INCX )
          if( Xnq > 0 )
          {
             Xld  = Xd[LLD_];
-            Xptr = X+(Xii+Xjj*Xld);
+            Xptr = Mptr(X,Xii,Xjj,Xld,1);
 
             for( k = 0; k < Xnq; k++ )
             {
@@ -366,7 +366,7 @@ l_20:
          Xnp = PB_Cnumroc( *N, Xi, Xd[IMB_], Xd[MB_], myrow, Xd[RSRC_], nprow );
          if( Xnp > 0 )
          {
-            Xptr = X+(Xii+Xjj*Xd[LLD_]);
+            Xptr = Mptr(X,Xii,Xjj,Xd[LLD_],1);
 
             for( k = 0; k < Xnp; k++ )
             {

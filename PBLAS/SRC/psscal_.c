@@ -210,12 +210,12 @@ void psscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
             Xld = Xd[LLD_];
             if( ALPHA[REAL_PART] == ZERO )
             {
-               sset_( &Xnq, ((char *) ALPHA), ((char *)(X+(Xii+Xjj*Xld))),
+               sset_( &Xnq, ((char *) ALPHA), ((char *)Mptr(X,Xii,Xjj,Xld,1)),
                       &Xld );
             }
             else
             {
-               sscal_( &Xnq, ((char *) ALPHA), ((char *)(X+(Xii+Xjj*Xld))),
+               sscal_( &Xnq, ((char *) ALPHA), ((char *)Mptr(X,Xii,Xjj,Xld,1)),
                        &Xld );
             }
          }
@@ -239,12 +239,12 @@ void psscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
             if( ALPHA[REAL_PART] == ZERO )
             {
                sset_( &Xnp, ((char *) ALPHA),
-                      ((char *)( X+(Xii+Xjj*Xd[LLD_]) )), INCX );
+                      ((char *)Mptr( X,Xii,Xjj,Xd[LLD_],1) ), INCX );
             }
             else
             {
                sscal_( &Xnp, ((char *) ALPHA),
-                       ((char *)( X+(Xii+Xjj*Xd[LLD_]) )), INCX );
+                       ((char *)Mptr( X,Xii,Xjj,Xd[LLD_],1 )), INCX );
             }
          }
       }
