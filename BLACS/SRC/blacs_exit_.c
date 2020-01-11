@@ -1,18 +1,19 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Cblacs_exit(int NotDone)
+void Cblacs_exit(Int NotDone)
 #else
-F_VOID_FUNC blacs_exit_(int *NotDone)
+F_VOID_FUNC blacs_exit_(Int *NotDone)
 #endif
 {
+   void Cblacs_gridexit(Int);
    void BI_UpdateBuffs(BLACBUFF *);
-   BLACBUFF *BI_GetBuff(int);
-   int BI_BuffIsFree(BLACBUFF *, int);
+   BLACBUFF *BI_GetBuff(Int);
+   Int BI_BuffIsFree(BLACBUFF *, Int);
    BLACBUFF *bp;
    extern BLACBUFF *BI_ReadyB, *BI_ActiveQ, BI_AuxBuff;
-   int i;
-   extern int BI_MaxNCtxt, BI_Np;
+   Int i;
+   extern Int BI_MaxNCtxt, BI_Np;
    extern BLACSCONTEXT **BI_MyContxts;
 /*
  * Destroy all contexts

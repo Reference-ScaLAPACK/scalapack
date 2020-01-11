@@ -18,9 +18,9 @@
 
 #ifdef __STDC__
 void PB_Ctztrmv( PBTYP_T * TYPE, char * SIDE, char * UPLO, char * TRANS,
-                 char * DIAG, int M, int N, int K, int IOFFD,
-                 char * ALPHA, char * A, int LDA, char * X, int LDX,
-                 char * Y, int LDY )
+                 char * DIAG, Int M, Int N, Int K, Int IOFFD,
+                 char * ALPHA, char * A, Int LDA, char * X, Int LDX,
+                 char * Y, Int LDY )
 #else
 void PB_Ctztrmv( TYPE, SIDE, UPLO, TRANS, DIAG, M, N, K, IOFFD, ALPHA,
                  A, LDA, X, LDX, Y, LDY )
@@ -28,7 +28,7 @@ void PB_Ctztrmv( TYPE, SIDE, UPLO, TRANS, DIAG, M, N, K, IOFFD, ALPHA,
 *  .. Scalar Arguments ..
 */
    char               * SIDE, * UPLO, * TRANS, * DIAG;
-   int                IOFFD, K, LDA, LDX, LDY, M, N;
+   Int                IOFFD, K, LDA, LDX, LDY, M, N;
    char               * ALPHA;
 /*
 *  .. Array Arguments ..
@@ -186,7 +186,7 @@ void PB_Ctztrmv( TYPE, SIDE, UPLO, TRANS, DIAG, M, N, K, IOFFD, ALPHA,
 /*
 *  .. Local Scalars ..
 */
-   int                ione = 1;
+   Int                ione = 1;
    char               * Aptr = NULL;
 /* ..
 *  .. Executable Statements ..

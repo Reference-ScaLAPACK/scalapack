@@ -1,14 +1,14 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Cblacs_gridexit(int ConTxt)
+void Cblacs_gridexit(Int ConTxt)
 #else
-F_VOID_FUNC blacs_gridexit_(int *ConTxt)
+F_VOID_FUNC blacs_gridexit_(Int *ConTxt)
 #endif
 {
-   int i;
+   Int i;
    BLACSCONTEXT *ctxt;
-   extern int BI_MaxNCtxt;
+   extern Int BI_MaxNCtxt;
    extern BLACSCONTEXT **BI_MyContxts;
 
    if ( (Mpval(ConTxt) < 0) || (Mpval(ConTxt) >= BI_MaxNCtxt) )

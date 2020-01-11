@@ -18,10 +18,10 @@
 
 #ifdef __STDC__
 void PB_CpsymmBC( PBTYP_T * TYPE, char * DIRECAB, char * CONJUG,
-                  char * SIDE, char * UPLO, int M, int N, char * ALPHA,
-                  char * A, int IA, int JA, int * DESCA, char * B,
-                  int IB, int JB, int * DESCB, char * BETA, char * C,
-                  int IC, int JC, int * DESCC )
+                  char * SIDE, char * UPLO, Int M, Int N, char * ALPHA,
+                  char * A, Int IA, Int JA, Int * DESCA, char * B,
+                  Int IB, Int JB, Int * DESCB, char * BETA, char * C,
+                  Int IC, Int JC, Int * DESCC )
 #else
 void PB_CpsymmBC( TYPE, DIRECAB, CONJUG, SIDE, UPLO, M, N, ALPHA, A, IA,
                   JA, DESCA, B, IB, JB, DESCB, BETA, C, IC, JC, DESCC )
@@ -29,13 +29,13 @@ void PB_CpsymmBC( TYPE, DIRECAB, CONJUG, SIDE, UPLO, M, N, ALPHA, A, IA,
 *  .. Scalar Arguments ..
 */
    char           * CONJUG, * DIRECAB, * SIDE, * UPLO;
-   int            IA, IB, IC, JA, JB, JC, M, N;
+   Int            IA, IB, IC, JA, JB, JC, M, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB, * DESCC;
+   Int            * DESCA, * DESCB, * DESCC;
    char           * A, * B, * C;
 #endif
 {
@@ -281,7 +281,7 @@ void PB_CpsymmBC( TYPE, DIRECAB, CONJUG, SIDE, UPLO, M, N, ALPHA, A, IA,
 */
    char           GemmTa, GemmTb, cctop, * one, rctop, * talphaCR, * talphaRC,
                   * tbeta, * zero;
-   int            Acol, Aii, Aimb1, Ainb1, Ajj, Alcmb, Ald, Alp, Alp0, Alq,
+   Int            Acol, Aii, Aimb1, Ainb1, Ajj, Alcmb, Ald, Alp, Alp0, Alq,
                   Alq0, Amb, Amp, An, Anb, Anq, Arow, BCfwd, BCmyprocD,
                   BCmyprocR, BCnD, BCnR, BCnprocsD, BCnprocsR, Bbufld, BcurrocR,
                   Bfr, BiD, BiR, BiiD, BiiR, BinbD, BinbR, Binb1D, Binb1R, BisR,
@@ -299,7 +299,7 @@ void PB_CpsymmBC( TYPE, DIRECAB, CONJUG, SIDE, UPLO, M, N, ALPHA, A, IA,
 *  .. Local Arrays ..
 */
    PB_VM_T        VM;
-   int            Ad0 [DLEN_], DBUFB[DLEN_], DBUFC[DLEN_], WBCd[DLEN_],
+   Int            Ad0 [DLEN_], DBUFB[DLEN_], DBUFC[DLEN_], WBCd[DLEN_],
                   WBRd[DLEN_], WCCd [DLEN_], WCRd [DLEN_];
    char           * Aptr = NULL, * Bbuf = NULL, * Cbuf = NULL, * WBC  = NULL,
                   * WBR  = NULL, * WCC  = NULL, * WCR  = NULL;

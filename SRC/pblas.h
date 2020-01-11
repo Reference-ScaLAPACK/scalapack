@@ -89,6 +89,10 @@
 * ========================================================================
 */
 
+#ifndef Int
+#define Int int
+#endif
+
 typedef struct { float  re, im; } complex;
 typedef struct { double re, im; } complex16;
 
@@ -101,7 +105,7 @@ typedef struct { double re, im; } complex16;
 #define C2F_CHAR(a)     ( _cptofcd( (a), 1 ) )
                                           /* Type of FORTRAN functions */
 #define F_VOID_FCT      void   fortran                   /* Subroutine */
-#define F_INTG_FCT      int    fortran             /* INTEGER function */
+#define F_INTG_FCT      Int    fortran             /* INTEGER function */
 #define F_DBLE_FCT      double fortran    /* DOUBLE PRECISION function */
 
 #else
@@ -112,7 +116,7 @@ typedef char *          F_CHAR;
 #define C2F_CHAR(a)     (a)
                                           /* Type of FORTRAN functions */
 #define F_VOID_FCT      void                             /* Subroutine */
-#define F_INTG_FCT      int                        /* INTEGER function */
+#define F_INTG_FCT      Int                        /* INTEGER function */
 #define F_DBLE_FCT      double            /* DOUBLE PRECISION function */
 
 #endif

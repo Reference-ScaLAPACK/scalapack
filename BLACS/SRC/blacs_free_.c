@@ -1,13 +1,13 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Cblacs_freebuff(int ConTxt, int Wait)
+void Cblacs_freebuff(Int ConTxt, Int Wait)
 #else
-F_VOID_FUNC blacs_freebuff_(int *ConTxt, int *Wait)
+F_VOID_FUNC blacs_freebuff_(Int *ConTxt, Int *Wait)
 #endif
 {
    void BI_UpdateBuffs(BLACBUFF *);
-   int BI_BuffIsFree(BLACBUFF *, int);
+   Int BI_BuffIsFree(BLACBUFF *, Int);
    extern BLACBUFF *BI_ReadyB, *BI_ActiveQ;
 
    if (Mpval(Wait))  /* wait for all buffers to be done */

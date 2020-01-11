@@ -17,9 +17,9 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Ctzher( PBTYP_T * TYPE, char * UPLO, int M, int N, int K,
-                int IOFFD, char * ALPHA, char * XC, int LDXC, char * XR,
-                int LDXR, char * A, int LDA )
+void PB_Ctzher( PBTYP_T * TYPE, char * UPLO, Int M, Int N, Int K,
+                Int IOFFD, char * ALPHA, char * XC, Int LDXC, char * XR,
+                Int LDXR, char * A, Int LDA )
 #else
 void PB_Ctzher( TYPE, UPLO, M, N, K, IOFFD, ALPHA, XC, LDXC, XR, LDXR,
                A, LDA )
@@ -27,7 +27,7 @@ void PB_Ctzher( TYPE, UPLO, M, N, K, IOFFD, ALPHA, XC, LDXC, XR, LDXR,
 *  .. Scalar Arguments ..
 */
    char           * UPLO;
-   int            IOFFD, K, LDA, LDXC, LDXR, M, N;
+   Int            IOFFD, K, LDA, LDXC, LDXR, M, N;
    char           * ALPHA;
 /*
 *  .. Array Arguments ..
@@ -151,7 +151,7 @@ void PB_Ctzher( TYPE, UPLO, M, N, K, IOFFD, ALPHA, XC, LDXC, XR, LDXR,
 /*
 *  .. Local Scalars ..
 */
-   int            i1, ione=1, j1, m1, mn, n1, size;
+   Int            i1, ione=1, j1, m1, mn, n1, size;
    GERC_T         gerc;
 /* ..
 *  .. Executable Statements ..

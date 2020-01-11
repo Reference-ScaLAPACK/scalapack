@@ -17,9 +17,9 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_COutV( PBTYP_T * TYPE, char * ROWCOL, char * ZEROIT, int M,
-               int N, int * DESCA, int K, char * * YAPTR, int * DYA,
-               int * YAFREE, int * YASUM )
+void PB_COutV( PBTYP_T * TYPE, char * ROWCOL, char * ZEROIT, Int M,
+               Int N, Int * DESCA, Int K, char * * YAPTR, Int * DYA,
+               Int * YAFREE, Int * YASUM )
 #else
 void PB_COutV( TYPE, ROWCOL, ZEROIT, M, N, DESCA, K, YAPTR, DYA,
                YAFREE, YASUM )
@@ -27,12 +27,12 @@ void PB_COutV( TYPE, ROWCOL, ZEROIT, M, N, DESCA, K, YAPTR, DYA,
 *  .. Scalar Arguments ..
 */
    char           * ROWCOL, * ZEROIT;
-   int            * YAFREE, K, M, N, * YASUM;
+   Int            * YAFREE, K, M, N, * YASUM;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DYA;
+   Int            * DESCA, * DYA;
    char           * * YAPTR;
 #endif
 {
@@ -175,7 +175,7 @@ void PB_COutV( TYPE, ROWCOL, ZEROIT, M, N, DESCA, K, YAPTR, DYA,
 /*
 *  .. Local Scalars ..
 */
-   int            Acol, Aimb, Ainb, Amb, Amp, Anb, Anq, Arow, Yld, ctxt,
+   Int            Acol, Aimb, Ainb, Amb, Amp, Anb, Anq, Arow, Yld, ctxt,
                   izero=0, nprow, myrow, npcol, mycol;
    char           * zero;
 /* ..

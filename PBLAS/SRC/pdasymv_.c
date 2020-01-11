@@ -17,11 +17,11 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pdasymv_( F_CHAR_T UPLO, int * N, double * ALPHA,
-               double * A, int * IA, int * JA, int * DESCA,
-               double * X, int * IX, int * JX, int * DESCX, int * INCX,
+void pdasymv_( F_CHAR_T UPLO, Int * N, double * ALPHA,
+               double * A, Int * IA, Int * JA, Int * DESCA,
+               double * X, Int * IX, Int * JX, Int * DESCX, Int * INCX,
                double * BETA,
-               double * Y, int * IY, int * JY, int * DESCY, int * INCY )
+               double * Y, Int * IY, Int * JY, Int * DESCY, Int * INCY )
 #else
 void pdasymv_( UPLO, N, ALPHA, A, IA, JA, DESCA, X, IX, JX, DESCX,
                INCX, BETA, Y, IY, JY, DESCY, INCY )
@@ -29,13 +29,13 @@ void pdasymv_( UPLO, N, ALPHA, A, IA, JA, DESCA, X, IX, JX, DESCX,
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       UPLO;
-   int            * IA, * INCX, * INCY, * IX, * IY, * JA, * JX, * JY,
+   Int            * IA, * INCX, * INCY, * IX, * IY, * JA, * JX, * JY,
                   * N;
    double         * ALPHA, * BETA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCX, * DESCY;
+   Int            * DESCA, * DESCX, * DESCY;
    double         * A, * X, * Y;
 #endif
 {
@@ -245,7 +245,7 @@ void pdasymv_( UPLO, N, ALPHA, A, IA, JA, DESCA, X, IX, JX, DESCX,
 *  .. Local Scalars ..
 */
    char           UploA, * one, top;
-   int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Akp, Akq, Ald, Amb, Amp,
+   Int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Akp, Akq, Ald, Amb, Amp,
                   Amp0, Anb, Anq, Anq0, Arow, XCfr, XCld, XRfr, XRld, Xi, Xj,
                   YCfr, YCpbY, YCsum, YCld, YRfr, YRpbY, YRsum, YRld, Ycol, Yi,
                   Yii, YisRow, Yj, Yjj, Yld, Ynp, Ynq, Yrow, ctxt, info, ione=1,
@@ -256,7 +256,7 @@ void pdasymv_( UPLO, N, ALPHA, A, IA, JA, DESCA, X, IX, JX, DESCX,
 /*
 *  .. Local Arrays ..
 */
-   int            Ad [DLEN_], Ad0[DLEN_], XCd[DLEN_], XRd[DLEN_], Xd[DLEN_],
+   Int            Ad [DLEN_], Ad0[DLEN_], XCd[DLEN_], XRd[DLEN_], Xd[DLEN_],
                   YCd[DLEN_], YRd[DLEN_], Yd [DLEN_];
    char           * Aptr  = NULL, * XC = NULL, * XR = NULL, * YC = NULL,
                   * YR    = NULL;

@@ -17,13 +17,13 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_topget_( int * ICTXT, F_CHAR_T OP, F_CHAR_T SCOPE, F_CHAR_T TOP )
+void PB_topget_( Int * ICTXT, F_CHAR_T OP, F_CHAR_T SCOPE, F_CHAR_T TOP )
 #else
 void PB_topget_( ICTXT, OP, SCOPE, TOP )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * ICTXT;
+   Int            * ICTXT;
 /*
 *  .. Array Arguments ..
 */

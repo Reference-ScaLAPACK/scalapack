@@ -17,12 +17,12 @@ void pbchkvect( n, npos0, ix, jx, desc_X, incx, dpos0, iix, jjx, ixrow,
 /*
 *  .. Scalar Arguments ..
 */
-   int         dpos0, * iix, incx, * info, ix, * ixcol, * ixrow, * jjx,
+   Int         dpos0, * iix, incx, * info, ix, * ixcol, * ixrow, * jjx,
                jx, myrow, mycol, npcol, nprow, n, npos0;
 /*
 *  .. Array Arguments ..
 */
-   int         desc_X[];
+   Int         desc_X[];
 {
 /*
 *
@@ -114,7 +114,7 @@ void pbchkvect( n, npos0, ix, jx, desc_X, incx, dpos0, iix, jjx, ixrow,
 /* ..
 *  .. Local Scalars ..
 */
-   int         descpos, ExtraColBlock, ExtraRowBlock, icpos, ixpos,
+   Int         descpos, ExtraColBlock, ExtraRowBlock, icpos, ixpos,
                jxpos, MyColBlock, MyColDist, MyRowBlock, MyRowDist,
                NColBlock, np, npos, nq, NRowBlock;
 /* ..

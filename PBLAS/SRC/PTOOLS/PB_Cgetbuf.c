@@ -17,13 +17,13 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-char * PB_Cgetbuf( char * MESS, int LENGTH )
+char * PB_Cgetbuf( char * MESS, Int LENGTH )
 #else
 char * PB_Cgetbuf( MESS, LENGTH )
 /*
 *  .. Scalar Arguments ..
 */
-   int            LENGTH;
+   Int            LENGTH;
 /*
 *  .. Array Arguments ..
 */
@@ -63,7 +63,7 @@ char * PB_Cgetbuf( MESS, LENGTH )
 *  .. Local Scalars ..
 */
    static char    * pblasbuf = NULL;
-   static int     pbbuflen = 0;
+   static Int     pbbuflen = 0;
 /* ..
 *  .. Executable Statements ..
 *

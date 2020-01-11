@@ -18,10 +18,10 @@
 
 #ifdef __STDC__
 void PB_CpgemmAC( PBTYP_T * TYPE, char * DIRECA, char * DIRECC,
-                  char * TRANSA, char * TRANSB, int M, int N, int K,
-                  char * ALPHA, char * A, int IA, int JA, int * DESCA,
-                  char * B, int IB, int JB, int * DESCB, char * BETA,
-                  char * C, int IC, int JC, int * DESCC )
+                  char * TRANSA, char * TRANSB, Int M, Int N, Int K,
+                  char * ALPHA, char * A, Int IA, Int JA, Int * DESCA,
+                  char * B, Int IB, Int JB, Int * DESCB, char * BETA,
+                  char * C, Int IC, Int JC, Int * DESCC )
 #else
 void PB_CpgemmAC( TYPE, DIRECA, DIRECC, TRANSA, TRANSB, M, N, K, ALPHA,
                   A, IA, JA, DESCA, B, IB, JB, DESCB, BETA, C, IC, JC,
@@ -30,13 +30,13 @@ void PB_CpgemmAC( TYPE, DIRECA, DIRECC, TRANSA, TRANSB, M, N, K, ALPHA,
 *  .. Scalar Arguments ..
 */
    char           * DIRECA, * DIRECC, * TRANSA, * TRANSB;
-   int            IA, IB, IC, JA, JB, JC, K, M, N;
+   Int            IA, IB, IC, JA, JB, JC, K, M, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB, * DESCC;
+   Int            * DESCA, * DESCB, * DESCC;
    char           * A, * B, * C;
 #endif
 {
@@ -259,7 +259,7 @@ void PB_CpgemmAC( TYPE, DIRECA, DIRECC, TRANSA, TRANSB, M, N, K, ALPHA,
 */
    char           Aroc, GemmTa, GemmTb, TrA, TrB, * one, * talpha, * tbeta,
                   top, * zero;
-   int            Abufld, AcurrocR, Afr, Afwd, AiD, AiR, AiiD, AiiR, AinbD,
+   Int            Abufld, AcurrocR, Afr, Afwd, AiD, AiR, AiiD, AiiR, AinbD,
                   AinbR, Ainb1D, Ainb1R, AisR, Akk, Ald, AmyprocD, AmyprocR,
                   AnbD, AnbR, AnpD, AnpR, AnprocsD, AnprocsR, Aoff, ArocD,
                   ArocR, AsrcR, Asrc_, Bcol, Bii, Bimb1, Binb1, Bjj, Bld, Bm,
@@ -275,7 +275,7 @@ void PB_CpgemmAC( TYPE, DIRECA, DIRECC, TRANSA, TRANSB, M, N, K, ALPHA,
 *  .. Local Arrays ..
 */
    PB_VM_T        VM;
-   int            Bd0[DLEN_], DBUFA[DLEN_], DBUFC[DLEN_], WAd[DLEN_],
+   Int            Bd0[DLEN_], DBUFA[DLEN_], DBUFC[DLEN_], WAd[DLEN_],
                   WCd[DLEN_];
    char           * Abuf = NULL, * Bptr = NULL, * Cbuf = NULL, * WA = NULL,
                   * WC   = NULL;

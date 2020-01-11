@@ -1,12 +1,12 @@
 #include "Bdef.h"
 
-int BI_ContxtNum(BLACSCONTEXT *ctxt)
+Int BI_ContxtNum(BLACSCONTEXT *ctxt)
 /*
  *  Returns the integer ID of ctxt
  */
 {
-   int i;
-   extern int BI_MaxNCtxt;
+   Int i;
+   extern Int BI_MaxNCtxt;
    extern BLACSCONTEXT **BI_MyContxts;
 
    if (ctxt == NULL) return(-1);

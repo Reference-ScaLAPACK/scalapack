@@ -8,7 +8,7 @@
  *  Robert van de Geijn, et al.
  */
 void BI_BeComb(BLACSCONTEXT *ctxt, BLACBUFF *bp, BLACBUFF *bp2,
-               int N, VVFUNPTR Xvvop)
+               Int N, VVFUNPTR Xvvop)
 /*
  *  -- V1.1ALPHA (test version) BLACS routine --
  *  University of Tennessee, October 1, 1995
@@ -47,15 +47,15 @@ void BI_BeComb(BLACSCONTEXT *ctxt, BLACBUFF *bp, BLACBUFF *bp2,
  * ------------------------------------------------------------------------
  */
 {
-   void BI_Ssend(BLACSCONTEXT *, int, int, BLACBUFF *);
-   void BI_Srecv(BLACSCONTEXT *, int, int, BLACBUFF *);
-   void BI_Rsend(BLACSCONTEXT *, int, int, BLACBUFF *);
-   void BI_Arecv(BLACSCONTEXT *, int, int, BLACBUFF *);
+   void BI_Ssend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   void BI_Srecv(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   void BI_Rsend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   void BI_Arecv(BLACSCONTEXT *, Int, Int, BLACBUFF *);
    void BI_UpdateBuffs(BLACBUFF *);
-   BLACBUFF *BI_GetBuff(int);
-   int BI_BuffIsFree(BLACBUFF *, int);
+   BLACBUFF *BI_GetBuff(Int);
+   Int BI_BuffIsFree(BLACBUFF *, Int);
 
-   int Np, Iam, dest, msgid, Rmsgid, np2, bit, ierr;
+   Int Np, Iam, dest, msgid, Rmsgid, np2, bit, ierr;
    extern MPI_Status *BI_Stats;
 
    Np = ctxt->scp->Np;

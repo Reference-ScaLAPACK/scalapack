@@ -2,6 +2,10 @@
 #define NOCHANGE 1
 #define UPCASE   2
 
+#ifndef Int
+#define Int int
+#endif
+
 #ifdef UpCase
 #define F77_CALL_C UPCASE
 #endif

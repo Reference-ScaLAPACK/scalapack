@@ -17,11 +17,11 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pdsyrk_( F_CHAR_T UPLO, F_CHAR_T TRANS, int * N, int * K,
+void pdsyrk_( F_CHAR_T UPLO, F_CHAR_T TRANS, Int * N, Int * K,
               double * ALPHA,
-              double * A, int * IA, int * JA, int * DESCA,
+              double * A, Int * IA, Int * JA, Int * DESCA,
               double * BETA,
-              double * C, int * IC, int * JC, int * DESCC )
+              double * C, Int * IC, Int * JC, Int * DESCC )
 #else
 void pdsyrk_( UPLO, TRANS, N, K, ALPHA, A, IA, JA, DESCA, BETA,
               C, IC, JC, DESCC )
@@ -29,12 +29,12 @@ void pdsyrk_( UPLO, TRANS, N, K, ALPHA, A, IA, JA, DESCA, BETA,
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       TRANS, UPLO;
-   int            * IA, * IC, * JA, * JC, * K, * N;
+   Int            * IA, * IC, * JA, * JC, * K, * N;
    double         * ALPHA, * BETA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCC;
+   Int            * DESCA, * DESCC;
    double         * A, * C;
 #endif
 {
@@ -241,14 +241,14 @@ void pdsyrk_( UPLO, TRANS, N, K, ALPHA, A, IA, JA, DESCA, BETA,
 */
    char           DirA, OpC, OpR, TopC, TopR, TranOp, UploC, ctop, ctopsave,
                   rtop, rtopsave;
-   int            Ai, Aj, ChooseAC, Ci, Cj, ForceTop, ctxt, info, mycol,
+   Int            Ai, Aj, ChooseAC, Ci, Cj, ForceTop, ctxt, info, mycol,
                   myrow, nb, notran, npcol, nprow, upper;
    double         Aest, ACest, tmp1, tmp2, tmp3, tmp4;
    PBTYP_T        * type;
 /*
 *  .. Local Arrays ..
 */
-   int            Ad[DLEN_], Cd[DLEN_];
+   Int            Ad[DLEN_], Cd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

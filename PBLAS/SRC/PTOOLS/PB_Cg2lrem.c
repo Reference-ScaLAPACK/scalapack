@@ -17,13 +17,13 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-int PB_Cg2lrem( int IG, int INB, int NB, int MYPROC, int SRCPROC, int NPROCS )
+Int PB_Cg2lrem( Int IG, Int INB, Int NB, Int MYPROC, Int SRCPROC, Int NPROCS )
 #else
-int PB_Cg2lrem( IG, INB, NB, MYPROC, SRCPROC, NPROCS )
+Int PB_Cg2lrem( IG, INB, NB, MYPROC, SRCPROC, NPROCS )
 /*
 *  .. Scalar Arguments ..
 */
-   int            IG, INB, NB, NPROCS, MYPROC, SRCPROC;
+   Int            IG, INB, NB, NPROCS, MYPROC, SRCPROC;
 #endif
 {
 /*
@@ -73,7 +73,7 @@ int PB_Cg2lrem( IG, INB, NB, MYPROC, SRCPROC, NPROCS )
 /*
 *  .. Local Scalars ..
 */
-   int            ilocblk, mydist, nblocks, proc;
+   Int            ilocblk, mydist, nblocks, proc;
 /* ..
 *  .. Executable Statements ..
 *

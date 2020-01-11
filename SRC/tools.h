@@ -1,7 +1,7 @@
 #include "./pblas.h"
 
 #ifdef __STDC__
-typedef void (*CPYPTR)(int, int, float *, int, float *, int);
+typedef void (*CPYPTR)(Int, Int, float *, Int, float *, Int);
 #define SLVOID void
 #else
 typedef void (*CPYPTR)();

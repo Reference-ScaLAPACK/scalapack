@@ -73,222 +73,222 @@
 */
 #ifdef __STDC__
                                               /* BLACS Initialization */
-void           Cblacs_pinfo    ( int *,     int * );
-void           Cblacs_setup    ( int *,     int * );
-void           Cblacs_get      ( int,       int,       int * );
-void           Cblacs_set      ( int,       int,       int * );
-void           Cblacs_gridinit ( int *,     char *,    int,
-                                 int );
-void           Cblacs_gridmap  ( int *,     int *,     int,
-                                 int,       int );
+void           Cblacs_pinfo    ( Int *,     Int * );
+void           Cblacs_setup    ( Int *,     Int * );
+void           Cblacs_get      ( Int,       Int,       Int * );
+void           Cblacs_set      ( Int,       Int,       Int * );
+void           Cblacs_gridinit ( Int *,     char *,    Int,
+                                 Int );
+void           Cblacs_gridmap  ( Int *,     Int *,     Int,
+                                 Int,       Int );
 
                                                  /* BLACS Destruction */
-void           Cblacs_freebuff ( int,       int );
-void           Cblacs_gridexit ( int );
-void           Cblacs_abort    ( int,       int );
-void           Cblacs_exit     ( int );
+void           Cblacs_freebuff ( Int,       Int );
+void           Cblacs_gridexit ( Int );
+void           Cblacs_abort    ( Int,       Int );
+void           Cblacs_exit     ( Int );
 
                              /* BLACS Informational and Miscellaneous */
-void           Cblacs_gridinfo ( int,       int *,     int *,
-                                 int *,     int * );
-int            Cblacs_pnum     ( int,       int,       int );
-void           Cblacs_pcoord   ( int,       int,       int *,
-                                 int * );
-void           Cblacs_barrier  ( int,       char * );
+void           Cblacs_gridinfo ( Int,       Int *,     Int *,
+                                 Int *,     Int * );
+Int            Cblacs_pnum     ( Int,       Int,       Int );
+void           Cblacs_pcoord   ( Int,       Int,       Int *,
+                                 Int * );
+void           Cblacs_barrier  ( Int,       char * );
 
                                                      /* BLACS Sending */
-void           Cigesd2d        ( int,       int,       int,
-                                 char *,    int,       int,
-                                 int );
-void           Csgesd2d        ( int,       int,       int,
-                                 char *,    int,       int,
-                                 int );
-void           Cdgesd2d        ( int,       int,       int,
-                                 char *,    int,       int,
-                                 int );
-void           Ccgesd2d        ( int,       int,       int,
-                                 char *,    int,       int,
-                                 int );
-void           Czgesd2d        ( int,       int,       int,
-                                 char *,    int,       int,
-                                 int );
+void           Cigesd2d        ( Int,       Int,       Int,
+                                 char *,    Int,       Int,
+                                 Int );
+void           Csgesd2d        ( Int,       Int,       Int,
+                                 char *,    Int,       Int,
+                                 Int );
+void           Cdgesd2d        ( Int,       Int,       Int,
+                                 char *,    Int,       Int,
+                                 Int );
+void           Ccgesd2d        ( Int,       Int,       Int,
+                                 char *,    Int,       Int,
+                                 Int );
+void           Czgesd2d        ( Int,       Int,       Int,
+                                 char *,    Int,       Int,
+                                 Int );
 
-void           Citrsd2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Cstrsd2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Cdtrsd2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Cctrsd2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Cztrsd2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
+void           Citrsd2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Cstrsd2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Cdtrsd2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Cctrsd2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Cztrsd2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
 
-void           Cigebs2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int );
-void           Csgebs2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int );
-void           Cdgebs2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int );
-void           Ccgebs2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int );
-void           Czgebs2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int );
+void           Cigebs2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int );
+void           Csgebs2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int );
+void           Cdgebs2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int );
+void           Ccgebs2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int );
+void           Czgebs2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int );
 
-void           Citrbs2d        ( int,       char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    int );
-void           Cstrbs2d        ( int,       char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    int );
-void           Cdtrbs2d        ( int,       char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    int );
-void           Cctrbs2d        ( int,       char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    int );
-void           Cztrbs2d        ( int,       char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    int );
+void           Citrbs2d        ( Int,       char *,    char *,
+                                 char *,    char *,    Int,
+                                 Int,       char *,    Int );
+void           Cstrbs2d        ( Int,       char *,    char *,
+                                 char *,    char *,    Int,
+                                 Int,       char *,    Int );
+void           Cdtrbs2d        ( Int,       char *,    char *,
+                                 char *,    char *,    Int,
+                                 Int,       char *,    Int );
+void           Cctrbs2d        ( Int,       char *,    char *,
+                                 char *,    char *,    Int,
+                                 Int,       char *,    Int );
+void           Cztrbs2d        ( Int,       char *,    char *,
+                                 char *,    char *,    Int,
+                                 Int,       char *,    Int );
 
                                                    /* BLACS Receiving */
-void           Cigerv2d        ( int,       int,       int,
-                                 char *,    int,       int,
-                                 int );
-void           Csgerv2d        ( int,       int,       int,
-                                 char *,    int,       int,
-                                 int );
-void           Cdgerv2d        ( int,       int,       int,
-                                 char *,    int,       int,
-                                 int );
-void           Ccgerv2d        ( int,       int,       int,
-                                 char *,    int,       int,
-                                 int );
-void           Czgerv2d        ( int,       int,       int,
-                                 char *,    int,       int,
-                                 int );
+void           Cigerv2d        ( Int,       Int,       Int,
+                                 char *,    Int,       Int,
+                                 Int );
+void           Csgerv2d        ( Int,       Int,       Int,
+                                 char *,    Int,       Int,
+                                 Int );
+void           Cdgerv2d        ( Int,       Int,       Int,
+                                 char *,    Int,       Int,
+                                 Int );
+void           Ccgerv2d        ( Int,       Int,       Int,
+                                 char *,    Int,       Int,
+                                 Int );
+void           Czgerv2d        ( Int,       Int,       Int,
+                                 char *,    Int,       Int,
+                                 Int );
 
-void           Citrrv2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Cstrrv2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Cdtrrv2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Cctrrv2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Cztrrv2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
+void           Citrrv2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Cstrrv2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Cdtrrv2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Cctrrv2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Cztrrv2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
 
-void           Cigebr2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Csgebr2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Cdgebr2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Ccgebr2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Czgebr2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
+void           Cigebr2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Csgebr2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Cdgebr2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Ccgebr2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Czgebr2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
 
-void           Citrbr2d        ( int,       char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    int,
-                                 int,       int );
-void           Cstrbr2d        ( int,       char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    int,
-                                 int,       int );
-void           Cdtrbr2d        ( int,       char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    int,
-                                 int,       int );
-void           Cctrbr2d        ( int,       char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    int,
-                                 int,       int );
-void           Cztrbr2d        ( int,       char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    int,
-                                 int,       int );
+void           Citrbr2d        ( Int,       char *,    char *,
+                                 char *,    char *,    Int,
+                                 Int,       char *,    Int,
+                                 Int,       Int );
+void           Cstrbr2d        ( Int,       char *,    char *,
+                                 char *,    char *,    Int,
+                                 Int,       char *,    Int,
+                                 Int,       Int );
+void           Cdtrbr2d        ( Int,       char *,    char *,
+                                 char *,    char *,    Int,
+                                 Int,       char *,    Int,
+                                 Int,       Int );
+void           Cctrbr2d        ( Int,       char *,    char *,
+                                 char *,    char *,    Int,
+                                 Int,       char *,    Int,
+                                 Int,       Int );
+void           Cztrbr2d        ( Int,       char *,    char *,
+                                 char *,    char *,    Int,
+                                 Int,       char *,    Int,
+                                 Int,       Int );
 
                                           /* BLACS Combine Operations */
-void           Cigamx2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int *,     int *,
-                                 int,       int,       int );
-void           Csgamx2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int *,     int *,
-                                 int,       int,       int );
-void           Cdgamx2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int *,     int *,
-                                 int,       int,       int );
-void           Ccgamx2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int *,     int *,
-                                 int,       int,       int );
-void           Czgamx2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int *,     int *,
-                                 int,       int,       int );
+void           Cigamx2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int *,     Int *,
+                                 Int,       Int,       Int );
+void           Csgamx2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int *,     Int *,
+                                 Int,       Int,       Int );
+void           Cdgamx2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int *,     Int *,
+                                 Int,       Int,       Int );
+void           Ccgamx2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int *,     Int *,
+                                 Int,       Int,       Int );
+void           Czgamx2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int *,     Int *,
+                                 Int,       Int,       Int );
 
-void           Cigamn2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int *,     int *,
-                                 int,       int,       int );
-void           Csgamn2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int *,     int *,
-                                 int,       int,       int );
-void           Cdgamn2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int *,     int *,
-                                 int,       int,       int );
-void           Ccgamn2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int *,     int *,
-                                 int,       int,       int );
-void           Czgamn2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int *,     int *,
-                                 int,       int,       int );
+void           Cigamn2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int *,     Int *,
+                                 Int,       Int,       Int );
+void           Csgamn2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int *,     Int *,
+                                 Int,       Int,       Int );
+void           Cdgamn2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int *,     Int *,
+                                 Int,       Int,       Int );
+void           Ccgamn2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int *,     Int *,
+                                 Int,       Int,       Int );
+void           Czgamn2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int *,     Int *,
+                                 Int,       Int,       Int );
 
-void           Cigsum2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Csgsum2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Cdgsum2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Ccgsum2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
-void           Czgsum2d        ( int,       char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int );
+void           Cigsum2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Csgsum2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Cdgsum2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Ccgsum2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
+void           Czgsum2d        ( Int,       char *,    char *,
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int );
 
 #else
                                               /* BLACS Initialization */
@@ -307,7 +307,7 @@ void           Cblacs_exit     ();
 
                              /* BLACS Informational and Miscellaneous */
 void           Cblacs_gridinfo ();
-int            Cblacs_pnum     ();
+Int            Cblacs_pnum     ();
 void           Cblacs_pcoord   ();
 void           Cblacs_barrier  ();
 

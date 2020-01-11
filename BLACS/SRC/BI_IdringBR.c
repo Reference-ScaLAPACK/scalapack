@@ -1,9 +1,9 @@
 #include "Bdef.h"
 
-void BI_IdringBR(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, int src, int step)
+void BI_IdringBR(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, Int src, Int step)
 {
-   void BI_Srecv(BLACSCONTEXT *, int, int, BLACBUFF *);
-   int Np, Iam, msgid, dest;
+   void BI_Srecv(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   Int Np, Iam, msgid, dest;
 
    Np = ctxt->scp->Np;
    Iam = ctxt->scp->Iam;

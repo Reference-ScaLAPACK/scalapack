@@ -17,13 +17,13 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cinfog2l( int I, int J, int * DESC, int NPROW, int NPCOL,
-                  int MYROW, int MYCOL, int * II, int * JJ,
-                  int * PROW, int * PCOL )
+void PB_Cinfog2l( Int I, Int J, Int * DESC, Int NPROW, Int NPCOL,
+                  Int MYROW, Int MYCOL, Int * II, Int * JJ,
+                  Int * PROW, Int * PCOL )
 #else
 void PB_Cinfog2l( I, J, DESC, NPROW, NPCOL, MYROW, MYCOL, II, JJ,
                   PROW, PCOL )
-   int            I, * II, J, * JJ, MYCOL, MYROW, NPCOL, NPROW, * PCOL,
+   Int            I, * II, J, * JJ, MYCOL, MYROW, NPCOL, NPROW, * PCOL,
                   * PROW;
 /*
 *  .. Scalar Arguments ..
@@ -31,7 +31,7 @@ void PB_Cinfog2l( I, J, DESC, NPROW, NPCOL, MYROW, MYCOL, II, JJ,
 /*
 *  .. Array Arguments ..
 */
-   int            * DESC;
+   Int            * DESC;
 #endif
 {
 /*
@@ -169,7 +169,7 @@ void PB_Cinfog2l( I, J, DESC, NPROW, NPCOL, MYROW, MYCOL, II, JJ,
 /*
 *  .. Local Scalars ..
 */
-   int            ilocblk, imb, inb, mb, mydist, nb, nblocks, csrc, rsrc;
+   Int            ilocblk, imb, inb, mb, mydist, nb, nblocks, csrc, rsrc;
 /* ..
 *  .. Executable Statements ..
 *

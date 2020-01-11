@@ -34,13 +34,13 @@
  *  it a little more complex.						   *
  ***************************************************************************/
 
-BLACBUFF *BI_GetBuff(int length)
+BLACBUFF *BI_GetBuff(Int length)
 {
-   void BI_EmergencyBuff(int length);
+   void BI_EmergencyBuff(Int length);
 
    char *cptr;
-   int i, j;
-   extern int BI_Np;
+   Int i, j;
+   extern Int BI_Np;
    extern BLACBUFF *BI_ReadyB;
 
 /*

@@ -17,13 +17,13 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-int PB_Cgcd( int M, int N )
+Int PB_Cgcd( Int M, Int N )
 #else
-int PB_Cgcd( M, N )
+Int PB_Cgcd( M, N )
 /*
 *  .. Scalar Arguments ..
 */
-   int            M, N;
+   Int            M, N;
 #endif
 {
 /*
@@ -50,7 +50,7 @@ int PB_Cgcd( M, N )
 /*
 *  .. Local Scalars ..
 */
-   int            gcd=1, m_val, n_val, t;
+   Int            gcd=1, m_val, n_val, t;
 /* ..
 *  .. Executable Statements ..
 *

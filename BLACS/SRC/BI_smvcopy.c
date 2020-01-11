@@ -1,10 +1,10 @@
 #include "Bdef.h"
-void BI_smvcopy(int m, int n, float *A, int lda, float *buff)
+void BI_smvcopy(Int m, Int n, float *A, Int lda, float *buff)
 /*
  * Performs a matrix to vector copy (pack) for the data type float
  */
 {
-   int i, j;
+   Int i, j;
 
    if ( (m == lda) || (n == 1) )
    {

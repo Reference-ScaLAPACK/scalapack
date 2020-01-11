@@ -1,9 +1,9 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Cblacs_pcoord(int ConTxt, int nodenum, int *prow, int *pcol)
+void Cblacs_pcoord(Int ConTxt, Int nodenum, Int *prow, Int *pcol)
 #else
-F_VOID_FUNC blacs_pcoord_(int *ConTxt, int *nodenum, int *prow, int *pcol)
+F_VOID_FUNC blacs_pcoord_(Int *ConTxt, Int *nodenum, Int *prow, Int *pcol)
 #endif
 {
    BLACSCONTEXT *ctxt;

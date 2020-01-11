@@ -17,10 +17,10 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cptrsm( PBTYP_T * TYPE, int FBCAST, char * SIDE, char * UPLO,
-                char * TRANS, char * DIAG, int M, int N, char * ALPHA,
-                char * A, int IA, int JA, int * DESCA, char * BC,
-                int LDBC, char * BR, int LDBR )
+void PB_Cptrsm( PBTYP_T * TYPE, Int FBCAST, char * SIDE, char * UPLO,
+                char * TRANS, char * DIAG, Int M, Int N, char * ALPHA,
+                char * A, Int IA, Int JA, Int * DESCA, char * BC,
+                Int LDBC, char * BR, Int LDBR )
 #else
 void PB_Cptrsm( TYPE, FBCAST, SIDE, UPLO, TRANS, DIAG, M, N, ALPHA,
                 A, IA, JA, DESCA, BC, LDBC, BR, LDBR )
@@ -28,12 +28,12 @@ void PB_Cptrsm( TYPE, FBCAST, SIDE, UPLO, TRANS, DIAG, M, N, ALPHA,
 *  .. Scalar Arguments ..
 */
    char           * ALPHA, * DIAG, * SIDE, * TRANS, * UPLO;
-   int            FBCAST, IA, JA, LDBC, LDBR, M, N;
+   Int            FBCAST, IA, JA, LDBC, LDBR, M, N;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA;
+   Int            * DESCA;
    char           * A, * BC, * BR;
 #endif
 {
@@ -252,7 +252,7 @@ void PB_Cptrsm( TYPE, FBCAST, SIDE, UPLO, TRANS, DIAG, M, N, ALPHA,
 *  .. Local Scalars ..
 */
    char           btop, * negone, * one, * talpha1, * talpha2, * zero;
-   int            Acol, Aii, Aimb1, Ainb1, Ais1Col, Ais1Row, AisColRep,
+   Int            Acol, Aii, Aimb1, Ainb1, Ais1Col, Ais1Row, AisColRep,
                   AisRowRep, Ajj, Alcol, Ald, Alrow, Amb, Anpprev, Anb, Anp,
                   Anq, Arow, Asrc, ChangeRoc=0, LNorRT, Na, Nb, bcst, ctxt,
                   izero=0, k=0, kb, kbprev=0, kbsize, lside, mb1, mycol, myrow,

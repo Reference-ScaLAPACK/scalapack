@@ -1,9 +1,9 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-int Cblacs_pnum(int ConTxt, int prow, int pcol)
+Int Cblacs_pnum(Int ConTxt, Int prow, Int pcol)
 #else
-F_INT_FUNC blacs_pnum_(int *ConTxt, int *prow, int *pcol)
+F_INT_FUNC blacs_pnum_(Int *ConTxt, Int *prow, Int *pcol)
 #endif
 {
    BLACSCONTEXT *ctxt;

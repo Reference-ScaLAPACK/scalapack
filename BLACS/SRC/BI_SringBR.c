@@ -1,11 +1,11 @@
 #include "Bdef.h"
 
-void BI_SringBR(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, int src)
+void BI_SringBR(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, Int src)
 {
-   void BI_Srecv(BLACSCONTEXT *, int, int, BLACBUFF *);
+   void BI_Srecv(BLACSCONTEXT *, Int, Int, BLACBUFF *);
 
-   int mydist;  	/* my distance from source */
-   int Np, Iam, msgid, rightedge;
+   Int mydist;  	/* my distance from source */
+   Int Np, Iam, msgid, rightedge;
 
    Np = ctxt->scp->Np;
    Iam = ctxt->scp->Iam;

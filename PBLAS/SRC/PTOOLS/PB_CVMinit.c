@@ -17,16 +17,16 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_CVMinit( PB_VM_T * VM, int OFFD, int M, int N, int IMB1, int INB1,
-                 int MB, int NB, int MRROW, int MRCOL, int NPROW,
-                 int NPCOL, int LCMB )
+void PB_CVMinit( PB_VM_T * VM, Int OFFD, Int M, Int N, Int IMB1, Int INB1,
+                 Int MB, Int NB, Int MRROW, Int MRCOL, Int NPROW,
+                 Int NPCOL, Int LCMB )
 #else
 void PB_CVMinit( VM, OFFD, M, N, IMB1, INB1, MB, NB, MRROW, MRCOL, NPROW,
                  NPCOL, LCMB )
 /*
 *  .. Scalar Arguments ..
 */
-   int            IMB1, INB1, LCMB, M, MB, MRCOL, MRROW, N, NB, NPCOL,
+   Int            IMB1, INB1, LCMB, M, MB, MRCOL, MRROW, N, NB, NPCOL,
                   NPROW, OFFD;
 /*
 *  .. Array Arguments ..
@@ -117,7 +117,7 @@ void PB_CVMinit( VM, OFFD, M, N, IMB1, INB1, MB, NB, MRROW, MRCOL, NPROW,
 /*
 *  .. Local Scalars ..
 */
-   int            tmp1;
+   Int            tmp1;
 /* ..
 *  .. Executable Statements ..
 *

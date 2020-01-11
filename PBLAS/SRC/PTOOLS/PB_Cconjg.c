@@ -72,7 +72,7 @@ void PB_Cconjg( TYPE, ALPHA, CALPHA )
         ((double*)(CALPHA))[REAL_PART] =  ((double*)(ALPHA))[REAL_PART];
         break;
      case INT:
-        *((int*)(CALPHA))              = *((int*)(ALPHA));
+        *((Int*)(CALPHA))              = *((Int*)(ALPHA));
         break;
      default: ;
   }

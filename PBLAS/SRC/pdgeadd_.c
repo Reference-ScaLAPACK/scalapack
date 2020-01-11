@@ -17,23 +17,23 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pdgeadd_( F_CHAR_T TRANS, int * M, int * N,
+void pdgeadd_( F_CHAR_T TRANS, Int * M, Int * N,
                double * ALPHA,
-               double * A, int * IA, int * JA, int * DESCA,
+               double * A, Int * IA, Int * JA, Int * DESCA,
                double * BETA,
-               double * C, int * IC, int * JC, int * DESCC )
+               double * C, Int * IC, Int * JC, Int * DESCC )
 #else
 void pdgeadd_( TRANS, M, N, ALPHA, A, IA, JA, DESCA, BETA, C, IC, JC, DESCC )
 /*
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       TRANS;
-   int            * IA, * IC, * JA, * JC, * M, * N;
+   Int            * IA, * IC, * JA, * JC, * M, * N;
    double         * ALPHA, * BETA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCC;
+   Int            * DESCA, * DESCC;
    double         * A, * C;
 #endif
 {
@@ -202,12 +202,12 @@ void pdgeadd_( TRANS, M, N, ALPHA, A, IA, JA, DESCA, BETA, C, IC, JC, DESCC )
 *  .. Local Scalars ..
 */
    char           DirA, DirC, ctop, rtop;
-   int            Ai, Aj, Ci, Cj, TrA, ctxt, info, mycol, myrow, npcol, nprow,
+   Int            Ai, Aj, Ci, Cj, TrA, ctxt, info, mycol, myrow, npcol, nprow,
                   notran;
 /*
 *  .. Local Arrays ..
 */
-   int            Ad[DLEN_], Cd[DLEN_];
+   Int            Ad[DLEN_], Cd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

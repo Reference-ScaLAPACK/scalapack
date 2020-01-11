@@ -17,10 +17,10 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Ctzasymv( PBTYP_T * TYPE, char * SIDE, char * UPLO, int M, int N,
-                  int K, int IOFFD, char * ALPHA, char * A, int LDA,
-                  char * XC, int LDXC, char * XR, int LDXR, char * YC,
-                  int LDYC, char * YR, int LDYR )
+void PB_Ctzasymv( PBTYP_T * TYPE, char * SIDE, char * UPLO, Int M, Int N,
+                  Int K, Int IOFFD, char * ALPHA, char * A, Int LDA,
+                  char * XC, Int LDXC, char * XR, Int LDXR, char * YC,
+                  Int LDYC, char * YR, Int LDYR )
 #else
 void PB_Ctzasymv( TYPE, SIDE, UPLO, M, N, K, IOFFD, ALPHA, A, LDA, XC,
                   LDXC, XR, LDXR, YC, LDYC, YR, LDYR )
@@ -28,7 +28,7 @@ void PB_Ctzasymv( TYPE, SIDE, UPLO, M, N, K, IOFFD, ALPHA, A, LDA, XC,
 *  .. Scalar Arguments ..
 */
    char           * SIDE, * UPLO;
-   int            IOFFD, K, LDA, LDXC, LDXR, LDYC, LDYR, M, N;
+   Int            IOFFD, K, LDA, LDXC, LDXR, LDYC, LDYR, M, N;
    char           * ALPHA;
 /*
 *  .. Array Arguments ..
@@ -172,7 +172,7 @@ void PB_Ctzasymv( TYPE, SIDE, UPLO, M, N, K, IOFFD, ALPHA, A, LDA, XC,
 *  .. Local Scalars ..
 */
    char           * one;
-   int            i1, ione=1, j1, m1, mn, n1, size, usiz;
+   Int            i1, ione=1, j1, m1, mn, n1, size, usiz;
    AGEMV_T        agemv;
 /* ..
 *  .. Executable Statements ..

@@ -18,9 +18,9 @@
 
 #ifdef __STDC__
 void PB_CpsyrkAC( PBTYP_T * TYPE, char * DIRECA, char * CONJUG,
-                  char * UPLO, char * TRANS, int N, int K, char * ALPHA,
-                  char * A, int IA, int JA, int * DESCA, char * BETA,
-                  char * C, int IC, int JC, int * DESCC )
+                  char * UPLO, char * TRANS, Int N, Int K, char * ALPHA,
+                  char * A, Int IA, Int JA, Int * DESCA, char * BETA,
+                  char * C, Int IC, Int JC, Int * DESCC )
 #else
 void PB_CpsyrkAC( TYPE, DIRECA, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
                  JA, DESCA, BETA, C, IC, JC, DESCC )
@@ -28,13 +28,13 @@ void PB_CpsyrkAC( TYPE, DIRECA, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
 *  .. Scalar Arguments ..
 */
    char           * CONJUG, * DIRECA, * TRANS, * UPLO;
-   int            IA, IC, JA, JC, K, N;
+   Int            IA, IC, JA, JC, K, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCC;
+   Int            * DESCA, * DESCC;
    char           * A, * C;
 #endif
 {
@@ -272,7 +272,7 @@ void PB_CpsyrkAC( TYPE, DIRECA, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
 *  .. Local Scalars ..
 */
    char           GatherDir, ScatterDir, * one, top, tran, * zero;
-   int            Acol, Acurcol, Acurimb1, Acurinb1, Acurrow, Afr, Aii, Aimb,
+   Int            Acol, Acurcol, Acurimb1, Acurinb1, Acurrow, Afr, Aii, Aimb,
                   Aimb1, Ainb, Ainb1, Ajj, Ald, Am, Amb, Amp, Amp0, An, Anb,
                   Anq, Anq0, Arow, Ccsrc, Cimb, Cinb, Cmb, Cnb, Crsrc, WAfr,
                   WCfr, WCsum, conjg, ctxt, fwd, k, kb, kbb, kend, kstart,
@@ -282,7 +282,7 @@ void PB_CpsyrkAC( TYPE, DIRECA, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
 /*
 *  .. Local Arrays ..
 */
-   int            Ad0[DLEN_], DBUFA[DLEN_], WAd[DLEN_], WCd[DLEN_];
+   Int            Ad0[DLEN_], DBUFA[DLEN_], WAd[DLEN_], WCd[DLEN_];
    char           * Aptr = NULL, * Aptr0 = NULL, * WA = NULL, * WC = NULL;
 /* ..
 *  .. Executable Statements ..

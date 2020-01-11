@@ -17,19 +17,19 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pzswap_( int * N,
-              double * X, int * IX, int * JX, int * DESCX, int * INCX,
-              double * Y, int * IY, int * JY, int * DESCY, int * INCY )
+void pzswap_( Int * N,
+              double * X, Int * IX, Int * JX, Int * DESCX, Int * INCX,
+              double * Y, Int * IY, Int * JY, Int * DESCY, Int * INCY )
 #else
 void pzswap_( N, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * INCX, * INCY, * IX, * IY, * JX, * JY, * N;
+   Int            * INCX, * INCY, * IX, * IY, * JX, * JY, * N;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX, * DESCY;
+   Int            * DESCX, * DESCY;
    double         * X, * Y;
 #endif
 {
@@ -176,7 +176,7 @@ void pzswap_( N, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 *  .. Local Scalars ..
 */
    char           Xscope, Yscope, * one, * top, tran, * zero;
-   int            OneBlock, OneDgrid, RRorCC, Square, Xcol, Xi, XisD, XisR,
+   Int            OneBlock, OneDgrid, RRorCC, Square, Xcol, Xi, XisD, XisR,
                   Xinb1D, XinbD, XisRow, Xii, Xj, Xjj, Xld, Xlinc, Xm, XmyprocD,
                   XmyprocR, Xn, XnbD, XnpD, XnprocsD, XnprocsR, XprocD, XprocR,
                   Xroc, Xrow, Ycol, Yi, Yii, Yinb1D, YinbD, YisD, YisR, YisRow,
@@ -189,7 +189,7 @@ void pzswap_( N, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 /*
 *  .. Local Arrays ..
 */
-   int            Xd[DLEN_], Yd[DLEN_];
+   Int            Xd[DLEN_], Yd[DLEN_];
    char           * buf = NULL;
 /* ..
 *  .. Executable Statements ..

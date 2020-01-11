@@ -379,650 +379,650 @@
 
 void           PB_freebuf_     ( void );
 
-void           PB_topget_      ( int *,     F_CHAR_T,  F_CHAR_T,
+void           PB_topget_      ( Int *,     F_CHAR_T,  F_CHAR_T,
                                  F_CHAR_T );
 
-void           PB_topset_      ( int *,     F_CHAR_T,  F_CHAR_T,
+void           PB_topset_      ( Int *,     F_CHAR_T,  F_CHAR_T,
                                  F_CHAR_T );
 
-void           picopy_         ( int *,     int *,     int *,
-                                 int *,     int *,     int *,
-                                 int *,     int *,     int *,
-                                 int *,     int * );
-void           pscopy_         ( int *,     float *,   int *,
-                                 int *,     int *,     int *,
-                                 float *,   int *,     int *,
-                                 int *,     int * );
-void           pdcopy_         ( int *,     double *,  int *,
-                                 int *,     int *,     int *,
-                                 double *,  int *,     int *,
-                                 int *,     int * );
-void           pccopy_         ( int *,     float *,   int *,
-                                 int *,     int *,     int *,
-                                 float *,   int *,     int *,
-                                 int *,     int * );
-void           pzcopy_         ( int *,     double *,  int *,
-                                 int *,     int *,     int *,
-                                 double *,  int *,     int *,
-                                 int *,     int * );
+void           picopy_         ( Int *,     Int *,     Int *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     Int * );
+void           pscopy_         ( Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int * );
+void           pdcopy_         ( Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int * );
+void           pccopy_         ( Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int * );
+void           pzcopy_         ( Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int * );
 
-void           psswap_         ( int *,     float *,   int *,
-                                 int *,     int *,     int *,
-                                 float *,   int *,     int *,
-                                 int *,     int * );
-void           pdswap_         ( int *,     double *,  int *,
-                                 int *,     int *,     int *,
-                                 double *,  int *,     int *,
-                                 int *,     int * );
-void           pcswap_         ( int *,     float *,   int *,
-                                 int *,     int *,     int *,
-                                 float *,   int *,     int *,
-                                 int *,     int * );
-void           pzswap_         ( int *,     double *,  int *,
-                                 int *,     int *,     int *,
-                                 double *,  int *,     int *,
-                                 int *,     int * );
+void           psswap_         ( Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int * );
+void           pdswap_         ( Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int * );
+void           pcswap_         ( Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int * );
+void           pzswap_         ( Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int * );
 
-void           psaxpy_         ( int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     int * );
-void           pdaxpy_         ( int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     int * );
-void           pcaxpy_         ( int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     int * );
-void           pzaxpy_         ( int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     int * );
+void           psaxpy_         ( Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int * );
+void           pdaxpy_         ( Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int * );
+void           pcaxpy_         ( Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int * );
+void           pzaxpy_         ( Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int * );
 
-void           psscal_         ( int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pdscal_         ( int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pcscal_         ( int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pcsscal_        ( int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pzscal_         ( int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pzdscal_        ( int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int * );
+void           psscal_         ( Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pdscal_         ( Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pcscal_         ( Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pcsscal_        ( Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pzscal_         ( Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pzdscal_        ( Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 
-void           psasum_         ( int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pdasum_         ( int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pscasum_        ( int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pdzasum_        ( int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int * );
+void           psasum_         ( Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pdasum_         ( Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pscasum_        ( Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pdzasum_        ( Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 
-void           psnrm2_         ( int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pdnrm2_         ( int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pscnrm2_        ( int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pdznrm2_        ( int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int * );
+void           psnrm2_         ( Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pdnrm2_         ( Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pscnrm2_        ( Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pdznrm2_        ( Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 
-void           psdot_          ( int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     int * );
-void           pddot_          ( int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     int * );
-void           pcdotc_         ( int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     int * );
-void           pcdotu_         ( int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     int * );
-void           pzdotc_         ( int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     int * );
-void           pzdotu_         ( int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     int * );
+void           psdot_          ( Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int * );
+void           pddot_          ( Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int * );
+void           pcdotc_         ( Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int * );
+void           pcdotu_         ( Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int * );
+void           pzdotc_         ( Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int * );
+void           pzdotu_         ( Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int * );
 
-void           psamax_         ( int *,     float *,   int *,
-                                 float *,   int *,     int *,
-                                 int *,     int * );
-void           pdamax_         ( int *,     double *,  int *,
-                                 double *,  int *,     int *,
-                                 int *,     int * );
-void           pcamax_         ( int *,     float *,   int *,
-                                 float *,   int *,     int *,
-                                 int *,     int * );
-void           pzamax_         ( int *,     double *,  int *,
-                                 double *,  int *,     int *,
-                                 int *,     int * );
+void           psamax_         ( Int *,     float *,   Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int * );
+void           pdamax_         ( Int *,     double *,  Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int * );
+void           pcamax_         ( Int *,     float *,   Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int * );
+void           pzamax_         ( Int *,     double *,  Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int * );
 
-void           psgemv_         ( F_CHAR_T,  int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pdgemv_         ( F_CHAR_T,  int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pcgemv_         ( F_CHAR_T,  int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pzgemv_         ( F_CHAR_T,  int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int * );
+void           psgemv_         ( F_CHAR_T,  Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pdgemv_         ( F_CHAR_T,  Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pcgemv_         ( F_CHAR_T,  Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pzgemv_         ( F_CHAR_T,  Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 
-void           psagemv_        ( F_CHAR_T,  int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pdagemv_        ( F_CHAR_T,  int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pcagemv_        ( F_CHAR_T,  int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           pzagemv_        ( F_CHAR_T,  int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 int * );
+void           psagemv_        ( F_CHAR_T,  Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pdagemv_        ( F_CHAR_T,  Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pcagemv_        ( F_CHAR_T,  Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           pzagemv_        ( F_CHAR_T,  Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 
-void           psger_          ( int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int * );
-void           pdger_          ( int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int * );
-void           pcgerc_         ( int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int * );
-void           pcgeru_         ( int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int * );
-void           pzgerc_         ( int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int * );
-void           pzgeru_         ( int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int * );
+void           psger_          ( Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int * );
+void           pdger_          ( Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int * );
+void           pcgerc_         ( Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int * );
+void           pcgeru_         ( Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int * );
+void           pzgerc_         ( Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int * );
+void           pzgeru_         ( Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int * );
 
-void           pssymv_         ( F_CHAR_T,  int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     int * );
-void           pdsymv_         ( F_CHAR_T,  int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     int * );
-void           pchemv_         ( F_CHAR_T,  int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     int * );
-void           pzhemv_         ( F_CHAR_T,  int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     int * );
+void           pssymv_         ( F_CHAR_T,  Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     Int * );
+void           pdsymv_         ( F_CHAR_T,  Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     Int * );
+void           pchemv_         ( F_CHAR_T,  Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     Int * );
+void           pzhemv_         ( F_CHAR_T,  Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     Int * );
 
-void           psasymv_        ( F_CHAR_T,  int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     int * );
-void           pdasymv_        ( F_CHAR_T,  int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     int * );
-void           pcahemv_        ( F_CHAR_T,  int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     int * );
-void           pzahemv_        ( F_CHAR_T,  int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     int * );
+void           psasymv_        ( F_CHAR_T,  Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     Int * );
+void           pdasymv_        ( F_CHAR_T,  Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     Int * );
+void           pcahemv_        ( F_CHAR_T,  Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     Int * );
+void           pzahemv_        ( F_CHAR_T,  Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     Int * );
 
-void           pssyr_          ( F_CHAR_T,  int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int * );
-void           pdsyr_          ( F_CHAR_T,  int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int * );
-void           pcher_          ( F_CHAR_T,  int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int * );
-void           pzher_          ( F_CHAR_T,  int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int * );
+void           pssyr_          ( F_CHAR_T,  Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int * );
+void           pdsyr_          ( F_CHAR_T,  Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int * );
+void           pcher_          ( F_CHAR_T,  Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int * );
+void           pzher_          ( F_CHAR_T,  Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int * );
 
-void           pssyr2_         ( F_CHAR_T,  int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int * );
-void           pdsyr2_         ( F_CHAR_T,  int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int * );
-void           pcher2_         ( F_CHAR_T,  int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int * );
-void           pzher2_         ( F_CHAR_T,  int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int * );
+void           pssyr2_         ( F_CHAR_T,  Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int * );
+void           pdsyr2_         ( F_CHAR_T,  Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int * );
+void           pcher2_         ( F_CHAR_T,  Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int * );
+void           pzher2_         ( F_CHAR_T,  Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int * );
 
 void           pstrmv_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int * );
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 void           pdtrmv_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int * );
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 void           pctrmv_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int * );
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 void           pztrmv_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int * );
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 
 void           psatrmv_        ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   int *,     int *,
-                                 int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     int * );
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int * );
 void           pdatrmv_        ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  int *,     int *,
-                                 int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     int * );
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int * );
 void           pcatrmv_        ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   int *,     int *,
-                                 int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     int * );
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     Int * );
 void           pzatrmv_        ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  int *,     int *,
-                                 int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     int * );
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     Int * );
 
 void           pstrsv_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int * );
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 void           pdtrsv_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int * );
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 void           pctrsv_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int *,
-                                 int * );
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 void           pztrsv_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int *,
-                                 int * );
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
 
-void           psgeadd_        ( F_CHAR_T,  int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int * );
-void           pdgeadd_        ( F_CHAR_T,  int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int * );
-void           pcgeadd_        ( F_CHAR_T,  int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int * );
-void           pzgeadd_        ( F_CHAR_T,  int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int * );
+void           psgeadd_        ( F_CHAR_T,  Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int * );
+void           pdgeadd_        ( F_CHAR_T,  Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int * );
+void           pcgeadd_        ( F_CHAR_T,  Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int * );
+void           pzgeadd_        ( F_CHAR_T,  Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int * );
 
-void           psgemm_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int * );
-void           pdgemm_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int * );
-void           pcgemm_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   int *,
-                                 int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int * );
-void           pzgemm_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  int *,
-                                 int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int * );
+void           psgemm_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int * );
+void           pdgemm_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int * );
+void           pcgemm_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int * );
+void           pzgemm_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int * );
 
-void           pssymm_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int * );
-void           pdsymm_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int * );
-void           pcsymm_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int * );
-void           pzsymm_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int * );
-void           pchemm_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int * );
-void           pzhemm_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int * );
+void           pssymm_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int * );
+void           pdsymm_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int * );
+void           pcsymm_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int * );
+void           pzsymm_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int * );
+void           pchemm_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int * );
+void           pzhemm_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int * );
 
-void           pssyr2k_        ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int * );
-void           pdsyr2k_        ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int * );
-void           pcsyr2k_        ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int * );
-void           pzsyr2k_        ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int * );
-void           pcher2k_        ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int * );
-void           pzher2k_        ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int * );
+void           pssyr2k_        ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int * );
+void           pdsyr2k_        ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int * );
+void           pcsyr2k_        ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int * );
+void           pzsyr2k_        ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int * );
+void           pcher2k_        ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int * );
+void           pzher2k_        ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int * );
 
-void           pssyrk_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int * );
-void           pdsyrk_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int * );
-void           pcsyrk_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int * );
-void           pzsyrk_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int * );
-void           pcherk_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int * );
-void           pzherk_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int * );
+void           pssyrk_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int * );
+void           pdsyrk_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int * );
+void           pcsyrk_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int * );
+void           pzsyrk_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int * );
+void           pcherk_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int * );
+void           pzherk_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int * );
 
-void           pstradd_        ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int * );
-void           pdtradd_        ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int * );
-void           pctradd_        ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int * );
-void           pztradd_        ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int * );
+void           pstradd_        ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int * );
+void           pdtradd_        ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int * );
+void           pctradd_        ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int * );
+void           pztradd_        ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int * );
 
-void           pstran_         ( int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int * );
-void           pdtran_         ( int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int * );
-void           pctranc_        ( int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int * );
-void           pztranc_        ( int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int * );
-void           pctranu_        ( int *,     int *,     float *,
-                                 float *,   int *,     int *,
-                                 int *,     float *,   float *,
-                                 int *,     int *,     int * );
-void           pztranu_        ( int *,     int *,     double *,
-                                 double *,  int *,     int *,
-                                 int *,     double *,  double *,
-                                 int *,     int *,     int * );
+void           pstran_         ( Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int * );
+void           pdtran_         ( Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int * );
+void           pctranc_        ( Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int * );
+void           pztranc_        ( Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int * );
+void           pctranu_        ( Int *,     Int *,     float *,
+                                 float *,   Int *,     Int *,
+                                 Int *,     float *,   float *,
+                                 Int *,     Int *,     Int * );
+void           pztranu_        ( Int *,     Int *,     double *,
+                                 double *,  Int *,     Int *,
+                                 Int *,     double *,  double *,
+                                 Int *,     Int *,     Int * );
 
 void           pstrmm_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int * );
 void           pdtrmm_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int * );
 void           pctrmm_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int * );
 void           pztrmm_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int * );
 
 void           pstrsm_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int * );
 void           pdtrsm_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int * );
 void           pctrsm_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 float *,   float *,   int *,
-                                 int *,     int *,     float *,
-                                 int *,     int *,     int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 float *,   float *,   Int *,
+                                 Int *,     Int *,     float *,
+                                 Int *,     Int *,     Int * );
 void           pztrsm_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 double *,  double *,  int *,
-                                 int *,     int *,     double *,
-                                 int *,     int *,     int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 double *,  double *,  Int *,
+                                 Int *,     Int *,     double *,
+                                 Int *,     Int *,     Int * );
 #else
 
 void           PB_freebuf_     ();

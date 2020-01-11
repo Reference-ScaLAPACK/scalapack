@@ -1,11 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int SL_Cgridreshape(ctxt, pstart, row_major_in, row_major_out, P, Q)
-int ctxt, pstart, row_major_in, row_major_out, P, Q;
+#ifndef Int
+#define Int int
+#endif
+
+Int SL_Cgridreshape(ctxt, pstart, row_major_in, row_major_out, P, Q)
+Int ctxt, pstart, row_major_in, row_major_out, P, Q;
 {
-   int Cblacs_pnum();
-   int nctxt, P0, Q0, Np, i, *g;
+   Int Cblacs_pnum();
+   Int nctxt, P0, Q0, Np, i, *g;
 
    Cblacs_gridinfo(ctxt, &P0, &Q0, &i, &Np);
    Np = P * Q;
@@ -14,7 +18,7 @@ int ctxt, pstart, row_major_in, row_major_out, P, Q;
       fprintf(stderr, "Illegal reshape command in %s\n",__FILE__);
       Cblacs_abort(ctxt, -22);
    }
-   g = (int *) malloc(Np * sizeof(int));
+   g = (Int *) malloc(Np * sizeof(Int));
    if (!g)
    {
       fprintf(stderr, "Cannot allocate memory in %s\n",__FILE__);
@@ -45,29 +49,29 @@ int ctxt, pstart, row_major_in, row_major_out, P, Q;
    return(nctxt);
 }
 
-int sl_gridreshape_(ctxt, pstart, row_major_in, row_major_out, P, Q)
-int *ctxt, *pstart, *row_major_in, *row_major_out, *P, *Q;
+Int sl_gridreshape_(ctxt, pstart, row_major_in, row_major_out, P, Q)
+Int *ctxt, *pstart, *row_major_in, *row_major_out, *P, *Q;
 {
    return( SL_Cgridreshape(*ctxt, *pstart, *row_major_in, *row_major_out,
                            *P, *Q) );
 }
 
-int SL_GRIDRESHAPE(ctxt, pstart, row_major_in, row_major_out, P, Q)
-int *ctxt, *pstart, *row_major_in, *row_major_out, *P, *Q;
+Int SL_GRIDRESHAPE(ctxt, pstart, row_major_in, row_major_out, P, Q)
+Int *ctxt, *pstart, *row_major_in, *row_major_out, *P, *Q;
 {
    return( SL_Cgridreshape(*ctxt, *pstart, *row_major_in, *row_major_out,
                            *P, *Q) );
 }
 
-int sl_gridreshape__(ctxt, pstart, row_major_in, row_major_out, P, Q)
-int *ctxt, *pstart, *row_major_in, *row_major_out, *P, *Q;
+Int sl_gridreshape__(ctxt, pstart, row_major_in, row_major_out, P, Q)
+Int *ctxt, *pstart, *row_major_in, *row_major_out, *P, *Q;
 {
    return( SL_Cgridreshape(*ctxt, *pstart, *row_major_in, *row_major_out,
                            *P, *Q) );
 }
 
-int sl_gridreshape(ctxt, pstart, row_major_in, row_major_out, P, Q)
-int *ctxt, *pstart, *row_major_in, *row_major_out, *P, *Q;
+Int sl_gridreshape(ctxt, pstart, row_major_in, row_major_out, P, Q)
+Int *ctxt, *pstart, *row_major_in, *row_major_out, *P, *Q;
 {
    return( SL_Cgridreshape(*ctxt, *pstart, *row_major_in, *row_major_out,
                            *P, *Q) );

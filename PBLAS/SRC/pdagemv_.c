@@ -17,11 +17,11 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pdagemv_( F_CHAR_T TRANS, int * M, int * N, double * ALPHA,
-               double * A, int * IA, int * JA, int * DESCA,
-               double * X, int * IX, int * JX, int * DESCX, int * INCX,
+void pdagemv_( F_CHAR_T TRANS, Int * M, Int * N, double * ALPHA,
+               double * A, Int * IA, Int * JA, Int * DESCA,
+               double * X, Int * IX, Int * JX, Int * DESCX, Int * INCX,
                double * BETA,
-               double * Y, int * IY, int * JY, int * DESCY, int * INCY )
+               double * Y, Int * IY, Int * JY, Int * DESCY, Int * INCY )
 #else
 void pdagemv_( TRANS, M, N, ALPHA, A, IA, JA, DESCA, X, IX, JX, DESCX,
                INCX, BETA, Y, IY, JY, DESCY, INCY )
@@ -29,13 +29,13 @@ void pdagemv_( TRANS, M, N, ALPHA, A, IA, JA, DESCA, X, IX, JX, DESCX,
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       TRANS;
-   int            * IA, * INCX, * INCY, * IX, * IY, * JA, * JX, * JY,
+   Int            * IA, * INCX, * INCY, * IX, * IY, * JA, * JX, * JY,
                   * M, * N;
    double         * ALPHA, * BETA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCX, * DESCY;
+   Int            * DESCA, * DESCX, * DESCY;
    double         * A, * X, * Y;
 #endif
 {
@@ -255,7 +255,7 @@ void pdagemv_( TRANS, M, N, ALPHA, A, IA, JA, DESCA, X, IX, JX, DESCX,
 *  .. Local Scalars ..
 */
    char           TrA, Yroc, * one, * tbeta, top;
-   int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Ald, Amb, Amp, Anb,
+   Int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Ald, Amb, Amp, Anb,
                   Anq, Arow, XAfr, Xi, Xj, YAfr, YApbY, YAsum, Ycol, Yi, Yii,
                   Yj, Yjj, Yld, Ynp, Ynq, Yrow, ctxt, info, ione=1, mycol,
                   myrow, nota, npcol, nprow;
@@ -263,7 +263,7 @@ void pdagemv_( TRANS, M, N, ALPHA, A, IA, JA, DESCA, X, IX, JX, DESCX,
 /*
 *  .. Local Arrays ..
 */
-   int            Ad [DLEN_], Ad0[DLEN_], XAd[DLEN_], Xd[DLEN_], YAd[DLEN_],
+   Int            Ad [DLEN_], Ad0[DLEN_], XAd[DLEN_], Xd[DLEN_], YAd[DLEN_],
                   Yd [DLEN_];
    char           * XA = NULL, * YA = NULL;
 /* ..

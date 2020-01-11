@@ -17,22 +17,22 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cdescribe( int M, int N, int IA, int JA, int * DA, int NPROW,
-                   int NPCOL, int MYROW, int MYCOL, int * II, int * JJ,
-                   int * LDA, int * IMB, int * INB, int * MB, int * NB,
-                   int * PROW, int * PCOL, int * DA0 )
+void PB_Cdescribe( Int M, Int N, Int IA, Int JA, Int * DA, Int NPROW,
+                   Int NPCOL, Int MYROW, Int MYCOL, Int * II, Int * JJ,
+                   Int * LDA, Int * IMB, Int * INB, Int * MB, Int * NB,
+                   Int * PROW, Int * PCOL, Int * DA0 )
 #else
 void PB_Cdescribe( M, N, IA, JA, DA, NPROW, NPCOL, MYROW, MYCOL, II, JJ,
                    LDA, IMB, INB, MB, NB, PROW, PCOL, DA0 )
 /*
 *  .. Scalar Arguments ..
 */
-   int            IA, *II, * IMB, * INB, JA, * JJ, * LDA, M, * MB, MYCOL,
+   Int            IA, *II, * IMB, * INB, JA, * JJ, * LDA, M, * MB, MYCOL,
                   MYROW, N, * NB, NPCOL, NPROW, * PCOL, * PROW;
 /*
 *  .. Array Arguments ..
 */
-   int            * DA, * DA0;
+   Int            * DA, * DA0;
 #endif
 {
 /*

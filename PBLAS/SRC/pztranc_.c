@@ -17,22 +17,22 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pztranc_( int * M, int * N,
+void pztranc_( Int * M, Int * N,
                double * ALPHA,
-               double * A, int * IA, int * JA, int * DESCA,
+               double * A, Int * IA, Int * JA, Int * DESCA,
                double * BETA,
-               double * C, int * IC, int * JC, int * DESCC )
+               double * C, Int * IC, Int * JC, Int * DESCC )
 #else
 void pztranc_( M, N, ALPHA, A, IA, JA, DESCA, BETA, C, IC, JC, DESCC )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * IA, * IC, * JA, * JC, * M, * N;
+   Int            * IA, * IC, * JA, * JC, * M, * N;
    double         * ALPHA, * BETA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCC;
+   Int            * DESCA, * DESCC;
    double         * A, * C;
 #endif
 {
@@ -190,11 +190,11 @@ void pztranc_( M, N, ALPHA, A, IA, JA, DESCA, BETA, C, IC, JC, DESCC )
 /*
 *  .. Local Scalars ..
 */
-   int            Ai, Aj, Ci, Cj, ctxt, info, mycol, myrow, npcol, nprow;
+   Int            Ai, Aj, Ci, Cj, ctxt, info, mycol, myrow, npcol, nprow;
 /*
 *  .. Local Arrays ..
 */
-   int            Ad[DLEN_], Cd[DLEN_];
+   Int            Ad[DLEN_], Cd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

@@ -1,25 +1,28 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Cblacs_gridmap(int *ConTxt, int *usermap, int ldup, int nprow0, int npcol0)
+void Cblacs_gridmap(Int *ConTxt, Int *usermap, Int ldup, Int nprow0, Int npcol0)
 #else
-F_VOID_FUNC blacs_gridmap_(int *ConTxt, int *usermap, int *ldup, int *nprow0,
-                           int *npcol0)
+F_VOID_FUNC blacs_gridmap_(Int *ConTxt, Int *usermap, Int *ldup, Int *nprow0,
+                           Int *npcol0)
 #endif
 {
+   void Cblacs_pinfo(Int *, Int *);
+   void Cblacs_get(Int, Int, Int *);
 
-   MPI_Comm Cblacs2sys_handle(int BlacsCtxt);
-   MPI_Comm BI_TransUserComm(int, int, int *);
+   MPI_Comm Cblacs2sys_handle(Int BlacsCtxt);
+   MPI_Comm BI_TransUserComm(Int, Int, Int *);
 
-   int info, i, j, Iam, *iptr;
-   int myrow, mycol, nprow, npcol, Ng;
+   MpiInt Iam;
+   Int info, i, j, *iptr;
+   Int myrow, mycol, nprow, npcol, Ng;
    BLACSCONTEXT *ctxt, **tCTxts;
    MPI_Comm comm, tcomm;
    MPI_Group grp, tgrp;
 
    extern BLACSCONTEXT **BI_MyContxts;
    extern BLACBUFF BI_AuxBuff;
-   extern int BI_Iam, BI_Np, BI_MaxNCtxt;
+   extern Int BI_Iam, BI_Np, BI_MaxNCtxt;
    extern MPI_Status *BI_Stats;
 
 /*
@@ -37,25 +40,28 @@ F_VOID_FUNC blacs_gridmap_(int *ConTxt, int *usermap, int *ldup, int *nprow0,
    npcol = Mpval(npcol0);
    Ng = nprow * npcol;
    if ( (Ng > BI_Np) || (nprow < 1) || (npcol < 1) )
-      BI_BlacsErr(-1, -1, "BLACS_GRIDINIT/BLACS_GRIDMAP",
+      BI_BlacsErr((Int)-1, (Int)-1, "BLACS_GRIDINIT/BLACS_GRIDMAP",
                   "Illegal grid (%d x %d), #procs=%d", nprow, npcol, BI_Np);
 /*
  * Form MPI communicator for scope = 'all'
  */
    if (Ng > 2) i = Ng;
    else i = 2;
-   iptr = (int *) malloc(i*sizeof(int));
+   iptr = (Int *) malloc(i*sizeof(Int));
    for (j=0; j < npcol; j++)
    {
       for (i=0; i < nprow; i++) iptr[i*npcol+j] = usermap[j*Mpval(ldup)+i];
    }
 #if (INTFACE == C_CALL)
+   MpiInt *miptr = (MpiInt *) malloc(Ng*sizeof(MpiInt));
+   for (j=0; j < Ng; j++) miptr[j] = iptr[j];
    tcomm = Cblacs2sys_handle(*ConTxt);
    MPI_Comm_group(tcomm, &grp);           /* find input comm's group */
-   MPI_Group_incl(grp, Ng, iptr, &tgrp);  /* form new group */
+   MPI_Group_incl(grp, Ng, miptr, &tgrp);  /* form new group */
    MPI_Comm_create(tcomm, tgrp, &comm);   /* create new comm */
    MPI_Group_free(&tgrp);
    MPI_Group_free(&grp);
+   free(miptr);
 #else  /* gridmap called from fortran */
    comm = BI_TransUserComm(*ConTxt, Ng, iptr);
 #endif

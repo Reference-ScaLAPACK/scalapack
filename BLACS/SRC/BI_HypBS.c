@@ -1,7 +1,7 @@
 #include "Bdef.h"
-int BI_HypBS(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send)
+Int BI_HypBS(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send)
 {
-   int bit, Np, Iam, msgid;
+   Int bit, Np, Iam, msgid;
 
    Np = ctxt->scp->Np;
    if (Np < 2) return(NORV);

@@ -17,18 +17,18 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_CargFtoC( int IF, int JF, int * DESCIN, int * IC, int * JC,
-                    int * DESCOUT )
+void PB_CargFtoC( Int IF, Int JF, Int * DESCIN, Int * IC, Int * JC,
+                    Int * DESCOUT )
 #else
 void PB_CargFtoC( IF, JF, DESCIN, IC, JC, DESCOUT )
 /*
 *  .. Scalar Arguments ..
 */
-   int            IF, JF, * IC, * JC;
+   Int            IF, JF, * IC, * JC;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCIN, * DESCOUT;
+   Int            * DESCIN, * DESCOUT;
 #endif
 {
 /*

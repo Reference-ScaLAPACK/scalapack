@@ -17,13 +17,13 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pzatrmv_( F_CHAR_T UPLO, F_CHAR_T TRANS, F_CHAR_T DIAG, int * N,
+void pzatrmv_( F_CHAR_T UPLO, F_CHAR_T TRANS, F_CHAR_T DIAG, Int * N,
                double * ALPHA,
-               double * A, int * IA, int * JA, int * DESCA,
-               double * X, int * IX, int * JX, int * DESCX,
-               int * INCX, double * BETA,
-               double * Y, int * IY, int * JY, int * DESCY,
-               int * INCY )
+               double * A, Int * IA, Int * JA, Int * DESCA,
+               double * X, Int * IX, Int * JX, Int * DESCX,
+               Int * INCX, double * BETA,
+               double * Y, Int * IY, Int * JY, Int * DESCY,
+               Int * INCY )
 #else
 void pzatrmv_( UPLO, TRANS, DIAG, N, ALPHA, A, IA, JA, DESCA, X, IX,
                JX, DESCX, INCX, BETA, Y, IY, JY, DESCY, INCY )
@@ -31,13 +31,13 @@ void pzatrmv_( UPLO, TRANS, DIAG, N, ALPHA, A, IA, JA, DESCA, X, IX,
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       DIAG, TRANS, UPLO;
-   int            * IA, * INCX, * INCY, * IX, * IY, * JA, * JX, * JY,
+   Int            * IA, * INCX, * INCY, * IX, * IY, * JA, * JX, * JY,
                   * N;
    double         * ALPHA, * BETA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCX, * DESCY;
+   Int            * DESCA, * DESCX, * DESCY;
    double         * A, * X, * Y;
 #endif
 {
@@ -281,7 +281,7 @@ void pzatrmv_( UPLO, TRANS, DIAG, N, ALPHA, A, IA, JA, DESCA, X, IX,
 *  .. Local Scalars ..
 */
    char           DiagA, TranOp, UploA, Yroc, * one, top;
-   int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Akp, Akq, Ald, Amb,
+   Int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Akp, Akq, Ald, Amb,
                   Amp, Amp0, Anb, Anq, Anq0, Arow, XAfr, XAld, Xi, Xj, YAfr,
                   YAld, YApbY, YAsum, Ycol, Yi, Yii, Yj, Yjj, Yld, Ynp, Ynq,
                   Yrow, ctxt, info, ione=1, k, kb, ktmp, mycol, myrow, nb,
@@ -291,7 +291,7 @@ void pzatrmv_( UPLO, TRANS, DIAG, N, ALPHA, A, IA, JA, DESCA, X, IX,
 /*
 *  .. Local Arrays ..
 */
-   int            Ad [DLEN_], Ad0[DLEN_], XAd[DLEN_], Xd[DLEN_], YAd[DLEN_],
+   Int            Ad [DLEN_], Ad0[DLEN_], XAd[DLEN_], Xd[DLEN_], YAd[DLEN_],
                   Yd [DLEN_];
    char           * Aptr = NULL, * XA = NULL, * YA = NULL;
 /* ..

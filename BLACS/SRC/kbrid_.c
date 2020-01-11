@@ -1,12 +1,12 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-int Ckbrid(int ConTxt, char *scope, int rsrc, int csrc)
+Int Ckbrid(Int ConTxt, char *scope, Int rsrc, Int csrc)
 #else
-F_INT_FUNC kbrid_(int *ConTxt, F_CHAR scope, int *rsrc, int *csrc)
+F_INT_FUNC kbrid_(Int *ConTxt, F_CHAR scope, Int *rsrc, Int *csrc)
 #endif
 {
-   int msgid;
+   Int msgid;
    char tmpscope;
    BLACSCONTEXT *ctxt;
 

@@ -1,12 +1,12 @@
 #include "Bdef.h"
 
-void BI_MpathBS(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, int npaths)
+void BI_MpathBS(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, Int npaths)
 {
-   int pathlen;		/* the length of each path */
-   int dist;	        /* the distance to the node closest to src on each path */
-   int pdest;           /* part of dest calculation -- saves unneeded ops */
-   int lastlong;	/* number of paths with extra node */
-   int Np, Iam, msgid, Np_1, dir;
+   Int pathlen;		/* the length of each path */
+   Int dist;	        /* the distance to the node closest to src on each path */
+   Int pdest;           /* part of dest calculation -- saves unneeded ops */
+   Int lastlong;	/* number of paths with extra node */
+   Int Np, Iam, msgid, Np_1, dir;
 
    Np = ctxt->scp->Np;
    if (Np < 2) return;

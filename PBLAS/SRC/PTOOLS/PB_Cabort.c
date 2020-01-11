@@ -58,13 +58,13 @@
 #endif
 
 #ifdef __STDC__
-void PB_Cabort( int ICTXT, char * ROUT, int INFO )
+void PB_Cabort( Int ICTXT, char * ROUT, Int INFO )
 #else
 void PB_Cabort( ICTXT, ROUT, INFO )
 /*
 *  .. Scalar Arguments ..
 */
-   int            ICTXT, INFO;
+   Int            ICTXT, INFO;
 /*
 *  .. Array Arguments ..
 */
@@ -107,15 +107,15 @@ void PB_Cabort( ICTXT, ROUT, INFO )
 /*
 *  .. Local Scalars ..
 */
-   int            mycol, myrow, npcol, nprow;
+   Int            mycol, myrow, npcol, nprow;
 /* ..
 *  .. External Functions ..
 */
 #ifdef TestingPblas
 #ifdef __STDC__
-   int            PB_NoAbort( int * );
+   Int            PB_NoAbort( Int * );
 #else
-   int            PB_NoAbort();
+   Int            PB_NoAbort();
 #endif
 #endif
 /* ..

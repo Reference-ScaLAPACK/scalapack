@@ -1,10 +1,10 @@
 #include "Bdef.h"
-void BI_dmvcopy(int m, int n, double *A, int lda, double *buff)
+void BI_dmvcopy(Int m, Int n, double *A, Int lda, double *buff)
 /*
  * Performs a matrix to vector copy (pack) for the data type double
  */
 {
-   int i, j;
+   Int i, j;
 
    if ( (m == lda) || (n == 1) )
    {

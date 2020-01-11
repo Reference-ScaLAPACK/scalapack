@@ -17,19 +17,19 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pdamax_( int * N, double * AMAX, int * INDX,
-              double * X, int * IX, int * JX, int * DESCX, int * INCX )
+void pdamax_( Int * N, double * AMAX, Int * INDX,
+              double * X, Int * IX, Int * JX, Int * DESCX, Int * INCX )
 #else
 void pdamax_( N, AMAX, INDX, X, IX, JX, DESCX, INCX )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * INCX, * INDX, * IX, * JX, * N;
+   Int            * INCX, * INDX, * IX, * JX, * N;
    double         * AMAX;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX;
+   Int            * DESCX;
    double         * X;
 #endif
 {
@@ -181,13 +181,13 @@ void pdamax_( N, AMAX, INDX, X, IX, JX, DESCX, INCX )
 *  .. Local Scalars ..
 */
    char           cbtop, cctop, rbtop, rctop;
-   int            Xcol, Xgindx, Xi, Xii, Ximb, Xinb, Xj, Xjj, Xlindx, Xld, Xmb,
+   Int            Xcol, Xgindx, Xi, Xii, Ximb, Xinb, Xj, Xjj, Xlindx, Xld, Xmb,
                   Xnb, Xnp, Xnq, Xrow, Xsrc, ctxt, dist, dst, idumm, info, k,
                   maxpos, mycol, mydist, myrow, npcol, nprow, src;
 /*
 *  .. Local Arrays ..
 */
-   int            Xd[DLEN_];
+   Int            Xd[DLEN_];
    double         work[4];
 /* ..
 *  .. Executable Statements ..
@@ -324,7 +324,7 @@ l_20:
 *  zero, then select a coherent INDX.
 */
             *AMAX = work[0];
-            *INDX = ( ( *AMAX == ZERO ) ? ( *JX ) : ( (int)(work[1]) ) );
+            *INDX = ( ( *AMAX == ZERO ) ? ( *JX ) : ( (Int)(work[1]) ) );
          }
          else
          {
@@ -483,7 +483,7 @@ l_40:
 *  zero, then select a coherent INDX.
 */
             *AMAX = work[0];
-            *INDX = ( ( *AMAX == ZERO ) ? ( *IX ) : ( (int)(work[1]) ) );
+            *INDX = ( ( *AMAX == ZERO ) ? ( *IX ) : ( (Int)(work[1]) ) );
          }
          else
          {

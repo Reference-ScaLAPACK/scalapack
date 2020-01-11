@@ -18,12 +18,12 @@
 
 #ifdef __STDC__
 void psgemm_( F_CHAR_T TRANSA, F_CHAR_T TRANSB,
-              int * M, int * N, int * K,
+              Int * M, Int * N, Int * K,
               float * ALPHA,
-              float * A, int * IA, int * JA, int * DESCA,
-              float * B, int * IB, int * JB, int * DESCB,
+              float * A, Int * IA, Int * JA, Int * DESCA,
+              float * B, Int * IB, Int * JB, Int * DESCB,
               float * BETA,
-              float * C, int * IC, int * JC, int * DESCC )
+              float * C, Int * IC, Int * JC, Int * DESCC )
 #else
 void psgemm_( TRANSA, TRANSB, M, N, K, ALPHA, A, IA, JA, DESCA,
               B, IB, JB, DESCB, BETA, C, IC, JC, DESCC )
@@ -31,12 +31,12 @@ void psgemm_( TRANSA, TRANSB, M, N, K, ALPHA, A, IA, JA, DESCA,
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       TRANSA, TRANSB;
-   int            * IA, * IB, * IC, * JA, * JB, * JC, * K, * M, * N;
+   Int            * IA, * IB, * IC, * JA, * JB, * JC, * K, * M, * N;
    float          * ALPHA, * BETA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB, * DESCC;
+   Int            * DESCA, * DESCB, * DESCC;
    float          * A, * B, * C;
 #endif
 {
@@ -244,14 +244,14 @@ void psgemm_( TRANSA, TRANSB, M, N, K, ALPHA, A, IA, JA, DESCA,
 */
    char           DirAB, DirBC, OpC, OpR, TrA, TrB, ctop, ctopsave, rtop,
                   rtopsave;
-   int            Ai, Aj, Bi, Bj, ChooseAB, ChooseBC, Ci, Cj, ForceTop, ctxt,
+   Int            Ai, Aj, Bi, Bj, ChooseAB, ChooseBC, Ci, Cj, ForceTop, ctxt,
                   info, mycol, myrow, nb, nota, notb, npcol, nprow;
    double         ABest, ACest, BCest, tmp1, tmp2, tmp3, tmp4;
    PBTYP_T        * type;
 /*
 *  .. Local Arrays ..
 */
-   int            Ad[DLEN_], Bd[DLEN_], Cd[DLEN_];
+   Int            Ad[DLEN_], Bd[DLEN_], Cd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

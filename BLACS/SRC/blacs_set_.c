@@ -1,9 +1,9 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Cblacs_set(int ConTxt, int what, int *val)
+void Cblacs_set(Int ConTxt, Int what, Int *val)
 #else
-F_VOID_FUNC blacs_set_(int *ConTxt, int *what, int *val)
+F_VOID_FUNC blacs_set_(Int *ConTxt, Int *what, Int *val)
 #endif
 {
    BLACSCONTEXT *ctxt;

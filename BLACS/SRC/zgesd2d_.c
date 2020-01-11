@@ -1,11 +1,11 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Czgesd2d(int ConTxt, int m, int n, double *A, int lda,
-              int rdest, int cdest)
+void Czgesd2d(Int ConTxt, Int m, Int n, double *A, Int lda,
+              Int rdest, Int cdest)
 #else
-F_VOID_FUNC zgesd2d_(int *ConTxt, int *m, int *n, double *A, int *lda,
-                     int *rdest, int *cdest)
+F_VOID_FUNC zgesd2d_(Int *ConTxt, Int *m, Int *n, double *A, Int *lda,
+                     Int *rdest, Int *cdest)
 #endif
 /*
  *  -- V1.1 BLACS routine --
@@ -19,43 +19,43 @@ F_VOID_FUNC zgesd2d_(int *ConTxt, int *m, int *n, double *A, int *lda,
  *  Arguments
  *  =========
  *
- *  ConTxt  (input) Ptr to int
+ *  ConTxt  (input) Ptr to Int
  *          Index into MyConTxts00 (my contexts array).
  *
- *  M       (input) Ptr to int
+ *  M       (input) Ptr to Int
  *          The number of rows of the matrix A.  M >= 0.
  *
- *  N       (input) Ptr to int
+ *  N       (input) Ptr to Int
  *          The number of columns of the matrix A.  N >= 0.
  *
  *  A       (input) Ptr to double complex two dimensional array
  *          The m by n matrix A.  Fortran77 (column-major) storage
  *          assumed.
  *
- *  LDA     (input) Ptr to int
+ *  LDA     (input) Ptr to Int
  *          The leading dimension of the array A.  LDA >= M.
  *
- *  RDEST   (input) Ptr to int
+ *  RDEST   (input) Ptr to Int
  *          The process row of the destination process.
  *
- *  CDEST   (input) Ptr to int
+ *  CDEST   (input) Ptr to Int
  *          The process column of the destination process.
  *
  * ------------------------------------------------------------------------
  */
 {
-   void BI_ArgCheck(int, int, char *, char, char, char, int, int, int, int,
-                    int *, int *);
-   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, int, int, int,
-                                   MPI_Datatype, int *);
+   void BI_ArgCheck(Int, Int, char *, char, char, char, Int, Int, Int, Int,
+                    Int *, Int *);
+   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, Int, Int, Int,
+                                   MPI_Datatype, Int *);
    BLACBUFF *BI_Pack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
-   void BI_Ssend(BLACSCONTEXT *, int, int, BLACBUFF *);
-   void BI_Asend(BLACSCONTEXT *, int, int, BLACBUFF *);
+   void BI_Ssend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   void BI_Asend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
    void BI_UpdateBuffs(BLACBUFF *);
-   BLACBUFF *BI_GetBuff(int);
-   int BI_BuffIsFree(BLACBUFF *, int);
+   BLACBUFF *BI_GetBuff(Int);
+   Int BI_BuffIsFree(BLACBUFF *, Int);
 
-   int dest, tlda, ierr;
+   Int dest, tlda, ierr;
    BLACBUFF *bp;
    BLACSCONTEXT *ctxt;
    MPI_Datatype MatTyp;

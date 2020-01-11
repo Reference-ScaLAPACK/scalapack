@@ -17,9 +17,9 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cplapd2( PBTYP_T * TYPE, char * UPLO, char * CONJUG, int M,
-                 int N, char * ALPHA, char * BETA, char * A, int IA,
-                 int JA, int * DESCA )
+void PB_Cplapd2( PBTYP_T * TYPE, char * UPLO, char * CONJUG, Int M,
+                 Int N, char * ALPHA, char * BETA, char * A, Int IA,
+                 Int JA, Int * DESCA )
 #else
 void PB_Cplapd2( TYPE, UPLO, CONJUG, M, N, ALPHA, BETA, A, IA, JA,
                  DESCA )
@@ -27,13 +27,13 @@ void PB_Cplapd2( TYPE, UPLO, CONJUG, M, N, ALPHA, BETA, A, IA, JA,
 *  .. Scalar Arguments ..
 */
    char           * CONJUG, * UPLO;
-   int            IA, JA, M, N;
+   Int            IA, JA, M, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA;
+   Int            * DESCA;
    char           * A;
 #endif
 {
@@ -41,7 +41,7 @@ void PB_Cplapd2( TYPE, UPLO, CONJUG, M, N, ALPHA, BETA, A, IA, JA,
 *  .. Local Scalars ..
 */
    char           UploA, herm;
-   int            Acol, Aii, Aimb1, Ainb1, Aoffi, Ajj, Ald, Amb, Amp, Anb, Anq,
+   Int            Acol, Aii, Aimb1, Ainb1, Aoffi, Ajj, Ald, Amb, Amp, Anb, Anq,
                   Aoffj, Arcol, Arow, Arrow, GoEast, GoSouth, iimax, ilow,
                   imbloc, inbloc, ioffd, iupp, izero=0, jjmax, joffd, lcmt,
                   lcmt00, lmbloc, lnbloc, low, lower, m1, mbloc, mblkd, mblks,

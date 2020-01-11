@@ -2,11 +2,11 @@
 
 
 #if (INTFACE == C_CALL)
-void Cigsum2d(int ConTxt, char *scope, char *top, int m, int n, int *A,
-              int lda, int rdest, int cdest)
+void Cigsum2d(Int ConTxt, char *scope, char *top, Int m, Int n, Int *A,
+              Int lda, Int rdest, Int cdest)
 #else
-F_VOID_FUNC igsum2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
-                     int *A, int *lda, int *rdest, int *cdest)
+F_VOID_FUNC igsum2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
+                     Int *A, Int *lda, Int *rdest, Int *cdest)
 #endif
 /*
  *  -- V1.1 BLACS routine --
@@ -20,7 +20,7 @@ F_VOID_FUNC igsum2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
  *  Arguments
  *  =========
  *
- *  ConTxt  (input) Ptr to int
+ *  ConTxt  (input) Ptr to Int
  *          Index into MyConTxts00 (my contexts array).
  *
  *  SCOPE   (input) Ptr to char
@@ -32,54 +32,55 @@ F_VOID_FUNC igsum2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
  *  TOP     (input) Ptr to char
  *          Controls fashion in which messages flow within the operation.
  *
- *  M       (input) Ptr to int
+ *  M       (input) Ptr to Int
  *          The number of rows of the matrix A.  M >= 0.
  *
- *  N       (input) Ptr to int
+ *  N       (input) Ptr to Int
  *          The number of columns of the matrix A.  N >= 0.
  *
  *  A       (output) Ptr to integer two dimensional array
  *          The m by n matrix A.  Fortran77 (column-major) storage
  *          assumed.
  *
- *  LDA     (input) Ptr to int
+ *  LDA     (input) Ptr to Int
  *          The leading dimension of the array A.  LDA >= M.
  *
- *  RDEST   (input) Ptr to int
+ *  RDEST   (input) Ptr to Int
  *          The process row of the destination of the sum.
  *          If rdest == -1, then result is left on all processes in scope.
  *
- *  CDEST   (input) Ptr to int
+ *  CDEST   (input) Ptr to Int
  *          The process column of the destination of the sum.
  *          If rdest == -1, then CDEST ignored.
  *
  * ------------------------------------------------------------------------
  */
 {
-   void BI_ArgCheck(int, int, char *, char, char, char, int, int, int, int,
-                    int *, int *);
+   void BI_ArgCheck(Int, Int, char *, char, char, char, Int, Int, Int, Int,
+                    Int *, Int *);
    void BI_UpdateBuffs(BLACBUFF *);
-   BLACBUFF *BI_GetBuff(int);
-   int BI_BuffIsFree(BLACBUFF *, int);
-   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, int, int, int,
-                                   MPI_Datatype, int *);
+   BLACBUFF *BI_GetBuff(Int);
+   Int BI_BuffIsFree(BLACBUFF *, Int);
+   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, Int, Int, Int,
+                                   MPI_Datatype, Int *);
    BLACBUFF *BI_Pack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
-   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, int, int, int,
-                                   MPI_Datatype, int *);
+   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, Int, Int, Int,
+                                   MPI_Datatype, Int *);
    void BI_Unpack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
-   void BI_MringComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, int, VVFUNPTR,
-                     int, int);
-   void BI_TreeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, int, VVFUNPTR,
-                    int, int);
-   void BI_BeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, int, VVFUNPTR);
-   void BI_ivvsum(int, char *, char *);
+   void BI_MringComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR,
+                     Int, Int);
+   void BI_TreeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR,
+                    Int, Int);
+   void BI_BeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR);
+   void BI_ivvsum(Int, char *, char *);
 /*
  *  Variable Declarations
  */
    BLACBUFF *bp, *bp2;
    BLACSCONTEXT *ctxt;
    char ttop, tscope;
-   int N, length, dest, tlda, trdest, ierr, itr;
+   Int N, length, dest, tlda, trdest, ierr, itr;
+   MPI_Datatype Dtype;
    extern BLACBUFF *BI_ActiveQ;
    extern BLACBUFF BI_AuxBuff;
 
@@ -132,7 +133,7 @@ F_VOID_FUNC igsum2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
  */
    if (ttop == ' ') if ( (Mpval(m) < 1) || (Mpval(n) < 1) ) ttop = '1';
    N = Mpval(m) * Mpval(n);
-   length = N * sizeof(int);
+   length = N * sizeof(Int);
 /*
  * If A is contiguous, we can use it as one of the buffers
  */
@@ -152,7 +153,9 @@ F_VOID_FUNC igsum2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
       bp2->Buff = &bp->Buff[length];
       BI_imvcopy(Mpval(m), Mpval(n), A, tlda, bp->Buff);
    }
-   bp->dtype = bp2->dtype = MPI_INT;
+
+   MPI_Type_match_size(MPI_TYPECLASS_INTEGER, sizeof(Int), &Dtype);
+   bp->dtype = bp2->dtype = Dtype;
    bp->N = bp2->N = N;
 
    switch(ttop)

@@ -17,19 +17,19 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pzscal_( int * N, double * ALPHA,
-              double * X, int * IX, int * JX, int * DESCX, int * INCX )
+void pzscal_( Int * N, double * ALPHA,
+              double * X, Int * IX, Int * JX, Int * DESCX, Int * INCX )
 #else
 void pzscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * INCX, * IX, * JX, * N;
+   Int            * INCX, * IX, * JX, * N;
    double         * ALPHA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX;
+   Int            * DESCX;
    double         * X;
 #endif
 {
@@ -64,7 +64,7 @@ void pzscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
 *                                   the NPROW x NPCOL BLACS process grid
 *                                   A  is  distributed over. The context
 *                                   itself  is  global,  but  the handle
-*                                   (the integer value) may vary.
+*                                   (the Integer value) may vary.
 *  M_A     (global) DESCA[ M_     ] The  number of rows in the distribu-
 *                                   ted matrix A, M_A >= 0.
 *  N_A     (global) DESCA[ N_     ] The number of columns in the distri-
@@ -131,11 +131,11 @@ void pzscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
 *          subvector.
 *
 *  IX      (global input) INTEGER
-*          On entry, IX  specifies X's global row index, which points to
+*          On entry, IX  specifies X's global row index, which poInts to
 *          the beginning of the submatrix sub( X ).
 *
 *  JX      (global input) INTEGER
-*          On entry, JX  specifies X's global column index, which points
+*          On entry, JX  specifies X's global column index, which poInts
 *          to the beginning of the submatrix sub( X ).
 *
 *  DESCX   (global and local input) INTEGER array
@@ -155,13 +155,13 @@ void pzscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
 /*
 *  .. Local Scalars ..
 */
-   int            Xcol, Xi, Xii, Xj, Xjj, Xld, Xnp, Xnq, Xrow, ctxt, info,
+   Int            Xcol, Xi, Xii, Xj, Xjj, Xld, Xnp, Xnq, Xrow, ctxt, info,
                   mycol, myrow, npcol, nprow;
    PBTYP_T        * type;
 /*
 *  .. Local Arrays ..
 */
-   int            Xd[DLEN_];
+   Int            Xd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

@@ -17,20 +17,20 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void picopy_( int * N,
-              int * X, int * IX, int * JX, int * DESCX, int * INCX,
-              int * Y, int * IY, int * JY, int * DESCY, int * INCY )
+void picopy_( Int * N,
+              Int * X, Int * IX, Int * JX, Int * DESCX, Int * INCX,
+              Int * Y, Int * IY, Int * JY, Int * DESCY, Int * INCY )
 #else
 void picopy_( N, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * INCX, * INCY, * IX, * IY, * JX, * JY, * N;
+   Int            * INCX, * INCY, * IX, * IY, * JX, * JY, * N;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX, * DESCY;
-   int            * X, * Y;
+   Int            * DESCX, * DESCY;
+   Int            * X, * Y;
 #endif
 {
 /*
@@ -177,12 +177,12 @@ void picopy_( N, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 /*
 *  .. Local Scalars ..
 */
-   int            Xi, Xj, Yi, Yj, ctxt, info, mycol, myrow, npcol, nprow;
+   Int            Xi, Xj, Yi, Yj, ctxt, info, mycol, myrow, npcol, nprow;
    PBTYP_T        * type;
 /*
 *  .. Local Arrays ..
 */
-   int            Xd[DLEN_], Yd[DLEN_];
+   Int            Xd[DLEN_], Yd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

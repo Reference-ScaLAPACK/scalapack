@@ -34,7 +34,7 @@ PBTYP_T * PB_Cdtypeset()
 /*
 *  .. Local Scalars ..
 */
-   static int     setup=0;
+   static Int     setup=0;
    static PBTYP_T TypeStruct;
    static double  zero, one, negone;
 /* ..

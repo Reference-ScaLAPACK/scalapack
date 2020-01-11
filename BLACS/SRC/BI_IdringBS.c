@@ -1,8 +1,8 @@
 #include "Bdef.h"
 
-void BI_IdringBS(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, int step)
+void BI_IdringBS(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, Int step)
 {
-   int Np, Iam, msgid;
+   Int Np, Iam, msgid;
 
    Np = ctxt->scp->Np;
    if (Np < 2) return;

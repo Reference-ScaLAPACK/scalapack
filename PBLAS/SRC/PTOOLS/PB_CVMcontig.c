@@ -17,14 +17,14 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_CVMcontig( PB_VM_T * VM, int * NRPQ, int * NCPQ, int * IOFF,
-                   int * JOFF )
+void PB_CVMcontig( PB_VM_T * VM, Int * NRPQ, Int * NCPQ, Int * IOFF,
+                   Int * JOFF )
 #else
 void PB_CVMcontig( VM, NRPQ, NCPQ, IOFF, JOFF )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * IOFF, * JOFF, * NCPQ, * NRPQ;
+   Int            * IOFF, * JOFF, * NCPQ, * NRPQ;
    PB_VM_T        * VM;
 #endif
 {
@@ -74,7 +74,7 @@ void PB_CVMcontig( VM, NRPQ, NCPQ, IOFF, JOFF )
 /*
 *  .. Local Scalars ..
 */
-   int            ColCont=1, FirstD=0, GoSouth, GoEast, RowCont=1, ilow, imbloc,
+   Int            ColCont=1, FirstD=0, GoSouth, GoEast, RowCont=1, ilow, imbloc,
                   inbloc, iupp, lcmt, lcmtnn=0, lcmt00, lmbloc, lnbloc, low, mb,
                   mblks, mbloc, mcur=0, mcurd, md=0, nb, nblks, nbloc, ncur=0,
                   ncurd, nd=0, npq=0, pmb, qnb, tmp1, tmp2, upp;

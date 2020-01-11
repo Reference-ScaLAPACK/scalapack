@@ -17,13 +17,13 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_CVMupdate( PB_VM_T * VM, int K, int * II, int * JJ )
+void PB_CVMupdate( PB_VM_T * VM, Int K, Int * II, Int * JJ )
 #else
 void PB_CVMupdate( VM, K, II, JJ )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * II, * JJ, K;
+   Int            * II, * JJ, K;
    PB_VM_T        * VM;
 #endif
 {
@@ -67,7 +67,7 @@ void PB_CVMupdate( VM, K, II, JJ )
 /*
 *  .. Local Scalars ..
 */
-   int            GoEast, GoSouth, ilow, imbloc, inbloc, ioff, ioffd, iupp,
+   Int            GoEast, GoSouth, ilow, imbloc, inbloc, ioff, ioffd, iupp,
                   joff, joffd, lcmt, lcmt00, lmbloc, lnbloc, low, mb, mblkd,
                   mblks, mbloc, nb, nblkd, nblks, nbloc, npq=0, pmb, qnb,
                   tmp1, tmp2, upp;

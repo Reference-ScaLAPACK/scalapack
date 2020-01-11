@@ -17,19 +17,19 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pscnrm2_( int * N, float * NORM2,
-               float * X, int * IX, int * JX, int * DESCX, int * INCX )
+void pscnrm2_( Int * N, float * NORM2,
+               float * X, Int * IX, Int * JX, Int * DESCX, Int * INCX )
 #else
 void pscnrm2_( N, NORM2, X, IX, JX, DESCX, INCX )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * INCX, * IX, * JX, * N;
+   Int            * INCX, * IX, * JX, * N;
    float          * NORM2;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX;
+   Int            * DESCX;
    float          * X;
 #endif
 {
@@ -173,14 +173,14 @@ void pscnrm2_( N, NORM2, X, IX, JX, DESCX, INCX )
 *  .. Local Scalars ..
 */
    char           * Xptr = NULL, top;
-   int            Xcol, Xi, Xii, Xj, Xjj, Xld, Xnp, Xnq, Xrow, ctxt, dst, dist,
+   Int            Xcol, Xi, Xii, Xj, Xjj, Xld, Xnp, Xnq, Xrow, ctxt, dst, dist,
                   info, k, mycol, mydist, myrow, npcol, nprow, src, size;
    float          Xtmp, scale, ssq, temp1, temp2;
    PBTYP_T        * type;
 /*
 *  .. Local Arrays ..
 */
-   int            Xd[DLEN_];
+   Int            Xd[DLEN_];
    float          work[4];
 /* ..
 *  .. Executable Statements ..

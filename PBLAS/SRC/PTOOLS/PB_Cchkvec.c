@@ -17,21 +17,21 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cchkvec( int ICTXT, char * ROUT, char * VNAME, int N, int NPOS0,
-                 int IX, int JX, int * DESCX, int INCX, int DPOS0,
-                 int * INFO )
+void PB_Cchkvec( Int ICTXT, char * ROUT, char * VNAME, Int N, Int NPOS0,
+                 Int IX, Int JX, Int * DESCX, Int INCX, Int DPOS0,
+                 Int * INFO )
 #else
 void PB_Cchkvec( ICTXT, ROUT, VNAME, N, NPOS0, IX, JX, DESCX, INCX,
                  DPOS0, INFO )
 /*
 *  .. Scalar Arguments ..
 */
-   int            DPOS0, ICTXT, IX, * INFO, INCX, JX, N, NPOS0;
+   Int            DPOS0, ICTXT, IX, * INFO, INCX, JX, N, NPOS0;
 /*
 *  .. Array Arguments ..
 */
    char           * ROUT, * VNAME;
-   int            * DESCX;
+   Int            * DESCX;
 #endif
 {
 /*
@@ -105,7 +105,7 @@ void PB_Cchkvec( ICTXT, ROUT, VNAME, N, NPOS0, IX, JX, DESCX, INCX,
 /*
 *  .. Local Scalars ..
 */
-   int            dpos, icpos, ixpos, jxpos, mycol, myrow, np, npcol, npos,
+   Int            dpos, icpos, ixpos, jxpos, mycol, myrow, np, npcol, npos,
                   nprow, nq;
 /* ..
 *  .. Executable Statements ..

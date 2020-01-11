@@ -1,20 +1,21 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Cblacs_gridinit(int *ConTxt, char *order, int nprow, int npcol)
+void Cblacs_gridinit(Int *ConTxt, char *order, Int nprow, Int npcol)
 #else
-F_VOID_FUNC blacs_gridinit_(int *ConTxt, F_CHAR order, int *nprow, int *npcol)
+F_VOID_FUNC blacs_gridinit_(Int *ConTxt, F_CHAR order, Int *nprow, Int *npcol)
 #endif
 {
-   int *tmpgrid, *iptr;
-   int i, j;
+   void Cblacs_gridmap(Int *, Int *, Int, Int, Int);
+   Int *tmpgrid, *iptr;
+   Int i, j;
 
 /*
  * Grid can be row- or column-major natural ordering when blacs_gridinit is
  * called.  Define a tmpgrid to reflect this, and call blacs_gridmap to
  * set it up
  */
-   iptr = tmpgrid = (int*) malloc( Mpval(nprow)*Mpval(npcol)*sizeof(*tmpgrid) );
+   iptr = tmpgrid = (Int*) malloc( Mpval(nprow)*Mpval(npcol)*sizeof(*tmpgrid) );
    if (Mlowcase(F2C_CharTrans(order)) == 'c')
    {
       i = Mpval(npcol) * Mpval(nprow);

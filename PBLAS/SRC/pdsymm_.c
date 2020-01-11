@@ -17,12 +17,12 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pdsymm_( F_CHAR_T SIDE, F_CHAR_T UPLO, int * M, int * N,
+void pdsymm_( F_CHAR_T SIDE, F_CHAR_T UPLO, Int * M, Int * N,
               double * ALPHA,
-              double * A, int * IA, int * JA, int * DESCA,
-              double * B, int * IB, int * JB, int * DESCB,
+              double * A, Int * IA, Int * JA, Int * DESCA,
+              double * B, Int * IB, Int * JB, Int * DESCB,
               double * BETA,
-              double * C, int * IC, int * JC, int * DESCC )
+              double * C, Int * IC, Int * JC, Int * DESCC )
 #else
 void pdsymm_( SIDE, UPLO, M, N, ALPHA, A, IA, JA, DESCA,
               B, IB, JB, DESCB, BETA, C, IC, JC, DESCC )
@@ -30,12 +30,12 @@ void pdsymm_( SIDE, UPLO, M, N, ALPHA, A, IA, JA, DESCA,
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       SIDE, UPLO;
-   int            * IA, * IB, * IC, * JA, * JB, * JC, * M, * N;
+   Int            * IA, * IB, * IC, * JA, * JB, * JC, * M, * N;
    double         * ALPHA, * BETA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB, * DESCC;
+   Int            * DESCA, * DESCB, * DESCC;
    double         * A, * B, * C;
 #endif
 {
@@ -261,14 +261,14 @@ void pdsymm_( SIDE, UPLO, M, N, ALPHA, A, IA, JA, DESCA,
 */
    char           DirAB, SideOp, UploA, cbtop, cbtopsave, cctop, cctopsave,
                   rbtop, rbtopsave, rctop, rctopsave;
-   int            Ai, Aj, Bi, Bj, ChooseABC, Ci, Cj, ForceTop, ctxt, info,
+   Int            Ai, Aj, Bi, Bj, ChooseABC, Ci, Cj, ForceTop, ctxt, info,
                   lside, mycol, myrow, nb, npcol, nprow, upper;
    double         ABCest, BCest, tmp1, tmp2, tmp3, tmp4;
    PBTYP_T        * type;
 /*
 *  .. Local Arrays ..
 */
-   int            Ad[DLEN_], Bd[DLEN_], Cd[DLEN_];
+   Int            Ad[DLEN_], Bd[DLEN_], Cd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

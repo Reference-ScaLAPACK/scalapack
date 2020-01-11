@@ -17,11 +17,11 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cpaxpby( PBTYP_T * TYPE, char * CONJUG, int M, int N,
+void PB_Cpaxpby( PBTYP_T * TYPE, char * CONJUG, Int M, Int N,
                  char * ALPHA,
-                 char * A, int IA, int JA, int * DESCA, char * AROC,
+                 char * A, Int IA, Int JA, Int * DESCA, char * AROC,
                  char * BETA,
-                 char * B, int IB, int JB, int * DESCB, char * BROC )
+                 char * B, Int IB, Int JB, Int * DESCB, char * BROC )
 #else
 void PB_Cpaxpby( TYPE, CONJUG, M, N, ALPHA, A, IA, JA, DESCA, AROC,
                 BETA, B, IB, JB, DESCB, BROC )
@@ -29,13 +29,13 @@ void PB_Cpaxpby( TYPE, CONJUG, M, N, ALPHA, A, IA, JA, DESCA, AROC,
 *  .. Scalar Arguments ..
 */
    char           * AROC, * BROC, * CONJUG;
-   int            IA, IB, JA, JB, M, N;
+   Int            IA, IB, JA, JB, M, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB;
+   Int            * DESCA, * DESCB;
    char           * A, * B;
 #endif
 {
@@ -214,7 +214,7 @@ void PB_Cpaxpby( TYPE, CONJUG, M, N, ALPHA, A, IA, JA, DESCA, AROC,
 *  .. Local Scalars ..
 */
    char           ascope, bscope, * buf = NULL, * one, * top, tran, * zero;
-   int            Acol, Aii, AinbD, Ainb1D, AisD, AisR, AisRow, AiD, Ajj, Ald,
+   Int            Acol, Aii, AinbD, Ainb1D, AisD, AisR, AisRow, AiD, Ajj, Ald,
                   AmyprocD, AmyprocR, AnbD, AnD, AnR, AnpD, AnprocsD, AnprocsR,
                   AprocD, AprocR, Aroc, Arow, Bcol, Bii, BinbD, Binb1D, BisD,
                   BisR, BisRow, BiD, Bjj, Bld, BmyprocD, BmyprocR, BnbD, BnD,

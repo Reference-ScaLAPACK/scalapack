@@ -1,9 +1,9 @@
 #include "Bdef.h"
 
-int BI_HypBR(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, int src)
+Int BI_HypBR(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, Int src)
 {
-   void BI_Srecv(BLACSCONTEXT *, int, int, BLACBUFF *);
-   int relnode, bit, Np, Iam, msgid;
+   void BI_Srecv(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   Int relnode, bit, Np, Iam, msgid;
 
    Np = ctxt->scp->Np;
    Iam = ctxt->scp->Iam;

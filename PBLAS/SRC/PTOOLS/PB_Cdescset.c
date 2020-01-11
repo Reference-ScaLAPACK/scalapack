@@ -17,18 +17,18 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cdescset( int * DESC, int M, int N, int IMB, int INB, int MB, int NB,
-                  int RSRC, int CSRC, int CTXT, int LLD )
+void PB_Cdescset( Int * DESC, Int M, Int N, Int IMB, Int INB, Int MB, Int NB,
+                  Int RSRC, Int CSRC, Int CTXT, Int LLD )
 #else
 void PB_Cdescset( DESC, M, N, IMB, INB, MB, NB, RSRC, CSRC, CTXT, LLD )
 /*
 *  .. Scalar Arguments ..
 */
-   int            CSRC, CTXT, IMB, INB, LLD, M, MB, N, NB, RSRC;
+   Int            CSRC, CTXT, IMB, INB, LLD, M, MB, N, NB, RSRC;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESC;
+   Int            * DESC;
 #endif
 {
 /*

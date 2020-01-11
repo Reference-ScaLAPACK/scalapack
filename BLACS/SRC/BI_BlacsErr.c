@@ -1,14 +1,14 @@
 #include "Bdef.h"
 
-void BI_BlacsErr(int ConTxt, int line, char *file, char *form, ...)
+void BI_BlacsErr(Int ConTxt, Int line, char *file, char *form, ...)
 {
 #ifdef __STDC__
-   void BI_BlacsAbort(int ErrNo);
+   void BI_BlacsAbort(Int ErrNo);
 #else
    void BI_BlacsAbort();
 #endif
-   extern int BI_Iam;
-   int myrow, mycol;
+   extern Int BI_Iam;
+   Int myrow, mycol;
    va_list argptr;
    char cline[100];
    BLACSCONTEXT *ctxt;

@@ -1,10 +1,10 @@
 #include "Bdef.h"
 
-void BI_BlacsWarn(int ConTxt, int line, char *file, char *form, ...)
+void BI_BlacsWarn(Int ConTxt, Int line, char *file, char *form, ...)
 {
-   extern int BI_Iam;
+   extern Int BI_Iam;
    extern BLACSCONTEXT **BI_MyContxts;
-   int myrow, mycol;
+   Int myrow, mycol;
    va_list argptr;
    char cline[100];
 

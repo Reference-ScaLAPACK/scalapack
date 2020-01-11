@@ -348,292 +348,292 @@
 */
 #ifdef __STDC__
 
-int            isamax_         ( int *,     char *,    int * );
-int            idamax_         ( int *,     char *,    int * );
-int            icamax_         ( int *,     char *,    int * );
-int            izamax_         ( int *,     char *,    int * );
+Int            isamax_         ( Int *,     char *,    Int * );
+Int            idamax_         ( Int *,     char *,    Int * );
+Int            icamax_         ( Int *,     char *,    Int * );
+Int            izamax_         ( Int *,     char *,    Int * );
 
-F_VOID_FCT     saxpy_          ( int *,     char *,    char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     daxpy_          ( int *,     char *,    char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     caxpy_          ( int *,     char *,    char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     zaxpy_          ( int *,     char *,    char *,
-                                 int *,     char *,    int * );
+F_VOID_FCT     saxpy_          ( Int *,     char *,    char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     daxpy_          ( Int *,     char *,    char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     caxpy_          ( Int *,     char *,    char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     zaxpy_          ( Int *,     char *,    char *,
+                                 Int *,     char *,    Int * );
 
-F_VOID_FCT     scopy_          ( int *,     char *,    int *,
-                                 char *,    int * );
-F_VOID_FCT     dcopy_          ( int *,     char *,    int *,
-                                 char *,    int * );
-F_VOID_FCT     ccopy_          ( int *,     char *,    int *,
-                                 char *,    int * );
-F_VOID_FCT     zcopy_          ( int *,     char *,    int *,
-                                 char *,    int * );
+F_VOID_FCT     scopy_          ( Int *,     char *,    Int *,
+                                 char *,    Int * );
+F_VOID_FCT     dcopy_          ( Int *,     char *,    Int *,
+                                 char *,    Int * );
+F_VOID_FCT     ccopy_          ( Int *,     char *,    Int *,
+                                 char *,    Int * );
+F_VOID_FCT     zcopy_          ( Int *,     char *,    Int *,
+                                 char *,    Int * );
 
-F_VOID_FCT     sscal_          ( int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     dscal_          ( int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     cscal_          ( int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     csscal_         ( int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     zdscal_         ( int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     zscal_          ( int *,     char *,    char *,
-                                 int * );
+F_VOID_FCT     sscal_          ( Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     dscal_          ( Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     cscal_          ( Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     csscal_         ( Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     zdscal_         ( Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     zscal_          ( Int *,     char *,    char *,
+                                 Int * );
 
-F_VOID_FCT     sswap_          ( int *,     char *,    int *,
-                                 char *,    int * );
-F_VOID_FCT     dswap_          ( int *,     char *,    int *,
-                                 char *,    int * );
-F_VOID_FCT     cswap_          ( int *,     char *,    int *,
-                                 char *,    int * );
-F_VOID_FCT     zswap_          ( int *,     char *,    int *,
-                                 char *,    int * );
+F_VOID_FCT     sswap_          ( Int *,     char *,    Int *,
+                                 char *,    Int * );
+F_VOID_FCT     dswap_          ( Int *,     char *,    Int *,
+                                 char *,    Int * );
+F_VOID_FCT     cswap_          ( Int *,     char *,    Int *,
+                                 char *,    Int * );
+F_VOID_FCT     zswap_          ( Int *,     char *,    Int *,
+                                 char *,    Int * );
 
-F_VOID_FCT     sgemv_          ( F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     dgemv_          ( F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     cgemv_          ( F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     zgemv_          ( F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
+F_VOID_FCT     sgemv_          ( F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     dgemv_          ( F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     cgemv_          ( F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     zgemv_          ( F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
 
-F_VOID_FCT     ssymv_          ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     dsymv_          ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     chemv_          ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     zhemv_          ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
+F_VOID_FCT     ssymv_          ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     dsymv_          ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     chemv_          ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     zhemv_          ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
 
 F_VOID_FCT     strmv_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     char *,    int *,
-                                 char *,    int * );
+                                 Int *,     char *,    Int *,
+                                 char *,    Int * );
 F_VOID_FCT     dtrmv_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     char *,    int *,
-                                 char *,    int * );
+                                 Int *,     char *,    Int *,
+                                 char *,    Int * );
 F_VOID_FCT     ctrmv_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     char *,    int *,
-                                 char *,    int * );
+                                 Int *,     char *,    Int *,
+                                 char *,    Int * );
 F_VOID_FCT     ztrmv_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     char *,    int *,
-                                 char *,    int * );
+                                 Int *,     char *,    Int *,
+                                 char *,    Int * );
 
 F_VOID_FCT     strsv_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     char *,    int *,
-                                 char *,    int * );
+                                 Int *,     char *,    Int *,
+                                 char *,    Int * );
 F_VOID_FCT     dtrsv_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     char *,    int *,
-                                 char *,    int * );
+                                 Int *,     char *,    Int *,
+                                 char *,    Int * );
 F_VOID_FCT     ctrsv_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     char *,    int *,
-                                 char *,    int * );
+                                 Int *,     char *,    Int *,
+                                 char *,    Int * );
 F_VOID_FCT     ztrsv_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     char *,    int *,
-                                 char *,    int * );
+                                 Int *,     char *,    Int *,
+                                 char *,    Int * );
 
-F_VOID_FCT     sger_           ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     dger_           ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     cgerc_          ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     cgeru_          ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     zgerc_          ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     zgeru_          ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    int * );
+F_VOID_FCT     sger_           ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     dger_           ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     cgerc_          ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     cgeru_          ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     zgerc_          ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     zgeru_          ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    Int * );
 
-F_VOID_FCT     ssyr_           ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int * );
-F_VOID_FCT     dsyr_           ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int * );
-F_VOID_FCT     cher_           ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int * );
-F_VOID_FCT     zher_           ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int * );
+F_VOID_FCT     ssyr_           ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int * );
+F_VOID_FCT     dsyr_           ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int * );
+F_VOID_FCT     cher_           ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int * );
+F_VOID_FCT     zher_           ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int * );
 
-F_VOID_FCT     ssyr2_          ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     dsyr2_          ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     cher2_          ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     zher2_          ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    int * );
+F_VOID_FCT     ssyr2_          ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     dsyr2_          ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     cher2_          ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     zher2_          ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    Int * );
 
-F_VOID_FCT     sgemm_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     dgemm_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     cgemm_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     zgemm_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
+F_VOID_FCT     sgemm_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     dgemm_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     cgemm_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     zgemm_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
 
-F_VOID_FCT     ssymm_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     dsymm_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     csymm_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     zsymm_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     chemm_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     zhemm_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
+F_VOID_FCT     ssymm_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     dsymm_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     csymm_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     zsymm_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     chemm_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     zhemm_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
 
-F_VOID_FCT     ssyrk_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     dsyrk_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     csyrk_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     zsyrk_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     cherk_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     zherk_          ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    char *,
-                                 int * );
+F_VOID_FCT     ssyrk_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     dsyrk_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     csyrk_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     zsyrk_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     cherk_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     zherk_          ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
 
-F_VOID_FCT     ssyr2k_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     dsyr2k_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     csyr2k_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     zsyr2k_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     cher2k_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     zher2k_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
+F_VOID_FCT     ssyr2k_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     dsyr2k_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     csyr2k_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     zsyr2k_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     cher2k_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     zher2k_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
 
 F_VOID_FCT     strmm_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int * );
 F_VOID_FCT     dtrmm_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int * );
 F_VOID_FCT     ctrmm_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int * );
 F_VOID_FCT     ztrmm_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int * );
 
 F_VOID_FCT     strsm_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int * );
 F_VOID_FCT     dtrsm_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int * );
 F_VOID_FCT     ctrsm_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int * );
 F_VOID_FCT     ztrsm_          ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int * );
+                                 F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int * );
 
 #else
 
-int            isamax_         ();
-int            idamax_         ();
-int            icamax_         ();
-int            izamax_         ();
+Int            isamax_         ();
+Int            idamax_         ();
+Int            icamax_         ();
+Int            izamax_         ();
 
 F_VOID_FCT     saxpy_          ();
 F_VOID_FCT     daxpy_          ();

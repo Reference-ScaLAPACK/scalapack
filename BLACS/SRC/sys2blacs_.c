@@ -1,15 +1,15 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-int Csys2blacs_handle(MPI_Comm SysCtxt)
+Int Csys2blacs_handle(MPI_Comm SysCtxt)
 #else
-int sys2blacs_handle_(int *SysCtxt)
+Int sys2blacs_handle_(Int *SysCtxt)
 #endif
 {
 #if (INTFACE == C_CALL)
-   int i, j, DEF_WORLD;
+   Int i, j, DEF_WORLD;
    MPI_Comm *tSysCtxt;
-   extern int BI_MaxNSysCtxt;
+   extern Int BI_MaxNSysCtxt;
    extern MPI_Comm *BI_SysContxts;
 
    if (BI_COMM_WORLD == NULL) 

@@ -17,21 +17,21 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pdsyr_( F_CHAR_T UPLO, int * N, double * ALPHA,
-             double * X, int * IX, int * JX, int * DESCX, int * INCX,
-             double * A, int * IA, int * JA, int * DESCA )
+void pdsyr_( F_CHAR_T UPLO, Int * N, double * ALPHA,
+             double * X, Int * IX, Int * JX, Int * DESCX, Int * INCX,
+             double * A, Int * IA, Int * JA, Int * DESCA )
 #else
 void pdsyr_( UPLO, N, ALPHA, X, IX, JX, DESCX, INCX, A, IA, JA, DESCA )
 /*
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       UPLO;
-   int            * IA, * INCX, * IX, * JA, * JX, * N;
+   Int            * IA, * INCX, * IX, * JA, * JX, * N;
    double         * ALPHA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCX;
+   Int            * DESCA, * DESCX;
    double         * A, * X;
 #endif
 {
@@ -210,7 +210,7 @@ void pdsyr_( UPLO, N, ALPHA, X, IX, JX, DESCX, INCX, A, IA, JA, DESCA )
 *  .. Local Scalars ..
 */
    char           UploA;
-   int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Akp, Akq, Ald, Amb,
+   Int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Akp, Akq, Ald, Amb,
                   Amp, Amp0, Anb, Anq, Anq0, Arow, XCfr, XCld, XRfr, XRld,
                   Xi, Xj, ctxt, info, ione=1, k, kb, ktmp, mycol, myrow, nb,
                   npcol, nprow, size, upper;
@@ -218,7 +218,7 @@ void pdsyr_( UPLO, N, ALPHA, X, IX, JX, DESCX, INCX, A, IA, JA, DESCA )
 /*
 *  .. Local Arrays ..
 */
-   int            Ad[DLEN_], Ad0[DLEN_], XCd0[DLEN_], XRd0[DLEN_], Xd[DLEN_];
+   Int            Ad[DLEN_], Ad0[DLEN_], XCd0[DLEN_], XRd0[DLEN_], Xd[DLEN_];
    char           * Aptr = NULL, * XC = NULL, * XR = NULL;
 /* ..
 *  .. Executable Statements ..

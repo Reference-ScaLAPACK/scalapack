@@ -17,9 +17,9 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Ctzsyrk( PBTYP_T * TYPE, char * UPLO, int M, int N, int K,
-                 int IOFFD, char * ALPHA, char * AC, int LDAC,
-                 char * AR, int LDAR, char * C, int LDC )
+void PB_Ctzsyrk( PBTYP_T * TYPE, char * UPLO, Int M, Int N, Int K,
+                 Int IOFFD, char * ALPHA, char * AC, Int LDAC,
+                 char * AR, Int LDAR, char * C, Int LDC )
 #else
 void PB_Ctzsyrk( TYPE, UPLO, M, N, K, IOFFD, ALPHA, AC, LDAC, AR, LDAR,
                  C, LDC )
@@ -27,7 +27,7 @@ void PB_Ctzsyrk( TYPE, UPLO, M, N, K, IOFFD, ALPHA, AC, LDAC, AR, LDAR,
 *  .. Scalar Arguments ..
 */
    char           * UPLO;
-   int            IOFFD, K, LDAC, LDAR, LDC, M, N;
+   Int            IOFFD, K, LDAC, LDAR, LDC, M, N;
    char           * ALPHA;
 /*
 *  .. Array Arguments ..
@@ -153,7 +153,7 @@ void PB_Ctzsyrk( TYPE, UPLO, M, N, K, IOFFD, ALPHA, AC, LDAC, AR, LDAR,
 *  .. Local Scalars ..
 */
    char           * one;
-   int            i1, j1, m1, mn, n1, size;
+   Int            i1, j1, m1, mn, n1, size;
    GEMM_T         gemm;
 /* ..
 *  .. Executable Statements ..

@@ -17,9 +17,9 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_CGatherV( PBTYP_T * TYPE, char * ALLOC, char * DIRECA, int M, int N,
-                  char * A, int IA, int JA, int * DESCA, char * AROC,
-                  char * * B, int * DESCB, int * BFREE )
+void PB_CGatherV( PBTYP_T * TYPE, char * ALLOC, char * DIRECA, Int M, Int N,
+                  char * A, Int IA, Int JA, Int * DESCA, char * AROC,
+                  char * * B, Int * DESCB, Int * BFREE )
 #else
 void PB_CGatherV( TYPE, ALLOC, DIRECA, M, N, A, IA, JA, DESCA, AROC, B,
                   DESCB, BFREE )
@@ -27,12 +27,12 @@ void PB_CGatherV( TYPE, ALLOC, DIRECA, M, N, A, IA, JA, DESCA, AROC, B,
 *  .. Scalar Arguments ..
 */
    char           * ALLOC, * AROC, * DIRECA;
-   int            * BFREE, IA, JA, M, N;
+   Int            * BFREE, IA, JA, M, N;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB;
+   Int            * DESCA, * DESCB;
    char           * A, * * B;
 #endif
 {
@@ -186,7 +186,7 @@ void PB_CGatherV( TYPE, ALLOC, DIRECA, M, N, A, IA, JA, DESCA, AROC, B,
 *  .. Local Scalars ..
 */
    char           * one, * zero;
-   int            Afwd, AggRow, AiiD, AiiR, Ainb1D, Ainb1R, Ald, AmyprocD,
+   Int            Afwd, AggRow, AiiD, AiiR, Ainb1D, Ainb1R, Ald, AmyprocD,
                   AmyprocR, AnR, AnbD, AnbR, AnnxtL, AnnxtR, AnpD, AnpR, AnpreR,
                   AnprocsR, ArocR, AsrcD, AsrcR, Bld, Bsrc_, ctxt, k, kb, kblks,
                   kn, ktmp, mycol, mydist, mydistnb, myrow, nlen, npcol, nprow,

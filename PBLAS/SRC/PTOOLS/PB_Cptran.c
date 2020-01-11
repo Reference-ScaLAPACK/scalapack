@@ -17,9 +17,9 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cptran( PBTYP_T * TYPE, char * CONJUG, int M, int N,
-                char * ALPHA, char * A, int IA, int JA, int * DESCA,
-                char * BETA,  char * C, int IC, int JC, int * DESCC )
+void PB_Cptran( PBTYP_T * TYPE, char * CONJUG, Int M, Int N,
+                char * ALPHA, char * A, Int IA, Int JA, Int * DESCA,
+                char * BETA,  char * C, Int IC, Int JC, Int * DESCC )
 #else
 void PB_Cptran( TYPE, CONJUG, M, N, ALPHA, A, IA, JA, DESCA, BETA,
                 C, IC, JC, DESCC )
@@ -27,13 +27,13 @@ void PB_Cptran( TYPE, CONJUG, M, N, ALPHA, A, IA, JA, DESCA, BETA,
 *  .. Scalar Arguments ..
 */
    char           * CONJUG;
-   int            IA, IC, JA, JC, M, N;
+   Int            IA, IC, JA, JC, M, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCC;
+   Int            * DESCA, * DESCC;
    char           * A, * C;
 #endif
 {
@@ -202,7 +202,7 @@ void PB_Cptran( TYPE, CONJUG, M, N, ALPHA, A, IA, JA, DESCA, BETA,
 *  .. Local Scalars ..
 */
    char           Aroc, Croc, * one, * talpha, * tbeta, * zero;
-   int            ACnD, ACnR, Abufld, AcurrocR, Afr, AiD, AiR, AiiD, AiiR,
+   Int            ACnD, ACnR, Abufld, AcurrocR, Afr, AiD, AiR, AiiD, AiiR,
                   AinbD, AinbR, Ainb1D, Ainb1R, AisR, Akk, Ald, AmyprocD,
                   AmyprocR, AnbD, AnbR, AnpD, AnpR, AnprocsD, AnprocsR, Aoff,
                   ArocD, ArocR, AsrcR, Cbufld, CcurrocR, Cfr, CiD, CiR, CiiD,
@@ -215,7 +215,7 @@ void PB_Cptran( TYPE, CONJUG, M, N, ALPHA, A, IA, JA, DESCA, BETA,
 /*
 *  .. Local Arrays ..
 */
-   int            DBUFA[DLEN_], DBUFC[DLEN_];
+   Int            DBUFA[DLEN_], DBUFC[DLEN_];
    char           * Abuf = NULL, * Cbuf = NULL;
 /* ..
 *  .. Executable Statements ..

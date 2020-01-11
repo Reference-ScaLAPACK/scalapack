@@ -1,8 +1,9 @@
 #include "Bdef.h"
 
-void BI_Arecv(BLACSCONTEXT *ctxt, int src, int msgid, BLACBUFF *bp)
+void BI_Arecv(BLACSCONTEXT *ctxt, Int src, Int msgid, BLACBUFF *bp)
 {
-   int i, info, errclass;
+   Int i, info;
+   MpiInt errclass;
 
    info=MPI_Irecv(bp->Buff, bp->N, bp->dtype, src, msgid, ctxt->scp->comm,
                 &bp->Aops[bp->nAops]);

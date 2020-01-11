@@ -17,23 +17,23 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pzgerc_( int * M, int * N, double * ALPHA,
-              double * X, int * IX, int * JX, int * DESCX, int * INCX,
-              double * Y, int * IY, int * JY, int * DESCY, int * INCY,
-              double * A, int * IA, int * JA, int * DESCA )
+void pzgerc_( Int * M, Int * N, double * ALPHA,
+              double * X, Int * IX, Int * JX, Int * DESCX, Int * INCX,
+              double * Y, Int * IY, Int * JY, Int * DESCY, Int * INCY,
+              double * A, Int * IA, Int * JA, Int * DESCA )
 #else
 void pzgerc_( M, N, ALPHA, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY,
               INCY, A, IA, JA, DESCA )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * IA, * INCX, * INCY, * IX, * IY, * JA, * JX, * JY,
+   Int            * IA, * INCX, * INCY, * IX, * IY, * JA, * JX, * JY,
                   * M, * N;
    double         * ALPHA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCX, * DESCY;
+   Int            * DESCA, * DESCX, * DESCY;
    double         * A, * X, * Y;
 #endif
 {
@@ -216,14 +216,14 @@ void pzgerc_( M, N, ALPHA, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY,
 /*
 *  .. Local Scalars ..
 */
-   int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Ald, Amb, Amp, Anb,
+   Int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Ald, Amb, Amp, Anb,
                   Anq, Arow, XAfr, Xi, Xj, YAfr, Yi, Yj, ctxt, info, ione=1,
                   mycol, myrow, npcol, nprow;
    PBTYP_T        * type;
 /*
 *  .. Local Arrays ..
 */
-   int            Ad[DLEN_], Ad0[DLEN_], XAd[DLEN_], Xd[DLEN_], YAd[DLEN_],
+   Int            Ad[DLEN_], Ad0[DLEN_], XAd[DLEN_], Xd[DLEN_], YAd[DLEN_],
                   Yd[DLEN_];
    char           * XA = NULL, * YA = NULL;
 /* ..

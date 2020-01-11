@@ -17,10 +17,10 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cbinfo( int OFFD, int M, int N, int IMB1, int INB1, int MB,
-                int NB, int MRROW, int MRCOL, int * LCMT00, int * MBLKS,
-                int * NBLKS, int * IMBLOC, int * INBLOC, int * LMBLOC,
-                int * LNBLOC, int * ILOW, int * LOW, int * IUPP, int * UPP )
+void PB_Cbinfo( Int OFFD, Int M, Int N, Int IMB1, Int INB1, Int MB,
+                Int NB, Int MRROW, Int MRCOL, Int * LCMT00, Int * MBLKS,
+                Int * NBLKS, Int * IMBLOC, Int * INBLOC, Int * LMBLOC,
+                Int * LNBLOC, Int * ILOW, Int * LOW, Int * IUPP, Int * UPP )
 #else
 void PB_Cbinfo( OFFD, M, N, IMB1, INB1, MB, NB, MRROW, MRCOL, LCMT00,
                 MBLKS, NBLKS, IMBLOC, INBLOC, LMBLOC, LNBLOC, ILOW, LOW,
@@ -28,7 +28,7 @@ void PB_Cbinfo( OFFD, M, N, IMB1, INB1, MB, NB, MRROW, MRCOL, LCMT00,
 /*
 *  .. Scalar Arguments ..
 */
-   int            * ILOW, IMB1, * IMBLOC, INB1, * INBLOC, * IUPP,
+   Int            * ILOW, IMB1, * IMBLOC, INB1, * INBLOC, * IUPP,
                   * LCMT00, * LMBLOC, * LNBLOC, * LOW, M, MB, * MBLKS,
                   MRCOL, MRROW, N, NB, * NBLKS, OFFD, * UPP;
 #endif
@@ -158,7 +158,7 @@ void PB_Cbinfo( OFFD, M, N, IMB1, INB1, MB, NB, MRROW, MRCOL, LCMT00,
 /*
 *  .. Local Scalars ..
 */
-   int            tmp1;
+   Int            tmp1;
 /* ..
 *  .. Executable Statements ..
 *

@@ -17,22 +17,22 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cplascal( PBTYP_T * TYPE, char * UPLO, char * CONJUG, int M,
-                  int N, char * ALPHA, char * A, int IA, int JA,
-                  int * DESCA )
+void PB_Cplascal( PBTYP_T * TYPE, char * UPLO, char * CONJUG, Int M,
+                  Int N, char * ALPHA, char * A, Int IA, Int JA,
+                  Int * DESCA )
 #else
 void PB_Cplascal( TYPE, UPLO, CONJUG, M, N, ALPHA, A, IA, JA, DESCA )
 /*
 *  .. Scalar Arguments ..
 */
    char           * CONJUG, * UPLO;
-   int            IA, JA, M, N;
+   Int            IA, JA, M, N;
    char           * ALPHA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA;
+   Int            * DESCA;
    char           * A;
 #endif
 {
@@ -171,14 +171,14 @@ void PB_Cplascal( TYPE, UPLO, CONJUG, M, N, ALPHA, A, IA, JA, DESCA )
 *  .. Local Scalars ..
 */
    char           UploA, herm, type;
-   int            Acol, Arow, Aii, Aimb1, Ainb1, Ajj, Akp, Akq, Ald, Amb, Amp,
+   Int            Acol, Arow, Aii, Aimb1, Ainb1, Ajj, Akp, Akq, Ald, Amb, Amp,
                   Amp0, Anb, Anq, Anq0, ctxt, izero=0, k, kb, ktmp, mn, mycol,
                   myrow, nb, npcol, nprow, size;
    TZSCAL_T       scal;
 /*
 *  .. Local Arrays ..
 */
-   int            Ad0[DLEN_];
+   Int            Ad0[DLEN_];
    char           * Aptr = NULL;
 /* ..
 *  .. Executable Statements ..

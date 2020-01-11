@@ -34,10 +34,10 @@
  *   |
  *   7
  */
-void BI_TreeBS(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, int nbranches)
+void BI_TreeBS(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, Int nbranches)
 {
-   int Np, Iam, msgid, i, j;
-   int destdist;	/* the distance of the destination node */
+   Int Np, Iam, msgid, i, j;
+   Int destdist;	/* the distance of the destination node */
 
    Np = ctxt->scp->Np;
    if (Np < 2) return;

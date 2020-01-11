@@ -1,14 +1,14 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Cblacs_gridinfo(int ConTxt, int *nprow, int *npcol, int *myrow, int *mycol)
+void Cblacs_gridinfo(Int ConTxt, Int *nprow, Int *npcol, Int *myrow, Int *mycol)
 #else
-F_VOID_FUNC blacs_gridinfo_(int *ConTxt, int *nprow, int *npcol,
-                            int *myrow, int *mycol)
+F_VOID_FUNC blacs_gridinfo_(Int *ConTxt, Int *nprow, Int *npcol,
+                            Int *myrow, Int *mycol)
 #endif
 {
    extern BLACSCONTEXT **BI_MyContxts;
-   extern int BI_MaxNCtxt;
+   extern Int BI_MaxNCtxt;
    BLACSCONTEXT *ctxt;
 /*
  * Make sure context handle is in range

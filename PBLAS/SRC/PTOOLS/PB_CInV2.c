@@ -17,10 +17,10 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_CInV2( PBTYP_T * TYPE, char * CONJUG, char * ROWCOL, int M,
-               int N, int * DESCA, int K, char * X, int IX, int JX,
-               int * DESCX, char * XROC, char * XAPTR, int IJXA,
-               int * DXA )
+void PB_CInV2( PBTYP_T * TYPE, char * CONJUG, char * ROWCOL, Int M,
+               Int N, Int * DESCA, Int K, char * X, Int IX, Int JX,
+               Int * DESCX, char * XROC, char * XAPTR, Int IJXA,
+               Int * DXA )
 #else
 void PB_CInV2( TYPE, CONJUG, ROWCOL, M, N, DESCA, K, X, IX, JX, DESCX,
                XROC, XAPTR, IJXA, DXA )
@@ -28,12 +28,12 @@ void PB_CInV2( TYPE, CONJUG, ROWCOL, M, N, DESCA, K, X, IX, JX, DESCX,
 *  .. Scalar Arguments ..
 */
    char           * CONJUG, * ROWCOL, * XROC;
-   int            IJXA, IX, JX, K, M, N;
+   Int            IJXA, IX, JX, K, M, N;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCX, * DXA;
+   Int            * DESCA, * DESCX, * DXA;
    char           * X, * XAPTR;
 #endif
 {
@@ -195,7 +195,7 @@ void PB_CInV2( TYPE, CONJUG, ROWCOL, M, N, DESCA, K, X, IX, JX, DESCX,
 *  .. Local Scalars ..
 */
    char           * Xptr = NULL, * top;
-   int            AColSpan, ARowSpan, Acol, Aimb, Ainb, AisD, Amb, Amp, Anb,
+   Int            AColSpan, ARowSpan, Acol, Aimb, Ainb, AisD, Amb, Amp, Anb,
                   Anq, Arow, XAld, Xcol, Xii, Ximb1, Xinb1, XisD, XisR, XisRow,
                   Xjj, Xld=1, Xmb, Xnb, Xrow, ctxt, mycol, myrow, npcol, nprow,
                   size;

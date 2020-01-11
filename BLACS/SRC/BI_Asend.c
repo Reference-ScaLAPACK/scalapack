@@ -1,8 +1,9 @@
 #include "Bdef.h"
 
-void BI_Asend(BLACSCONTEXT *ctxt, int dest, int msgid, BLACBUFF *bp)
+void BI_Asend(BLACSCONTEXT *ctxt, Int dest, Int msgid, BLACBUFF *bp)
 {
-   int i, info, errclass;
+   Int i, info;
+   MpiInt errclass;
 
    info=MPI_Isend(bp->Buff, bp->N, bp->dtype, dest, msgid, ctxt->scp->comm,
                 &bp->Aops[bp->nAops]);

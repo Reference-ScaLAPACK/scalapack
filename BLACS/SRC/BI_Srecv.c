@@ -1,8 +1,8 @@
 #include "Bdef.h"
 
-void BI_Srecv(BLACSCONTEXT *ctxt, int src, int msgid, BLACBUFF *bp)
+void BI_Srecv(BLACSCONTEXT *ctxt, Int src, Int msgid, BLACBUFF *bp)
 {
-   int i, info;
+   Int i, info;
    extern MPI_Status *BI_Stats;
 
    info=MPI_Recv(bp->Buff, bp->N, bp->dtype, src, msgid, ctxt->scp->comm,BI_Stats);

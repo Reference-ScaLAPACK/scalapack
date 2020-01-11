@@ -17,11 +17,11 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_CInOutV( PBTYP_T * TYPE, char * ROWCOL, int M, int N, int * DESCA,
-                 int K, char * BETA,
-                 char * Y, int IY, int JY, int * DESCY, char * YROC,
-                 char * * TBETA, char * * YAPTR, int * DYA,
-                 int * YAFREE, int * YASUM, int * YAPBY )
+void PB_CInOutV( PBTYP_T * TYPE, char * ROWCOL, Int M, Int N, Int * DESCA,
+                 Int K, char * BETA,
+                 char * Y, Int IY, Int JY, Int * DESCY, char * YROC,
+                 char * * TBETA, char * * YAPTR, Int * DYA,
+                 Int * YAFREE, Int * YASUM, Int * YAPBY )
 #else
 void PB_CInOutV( TYPE, ROWCOL, M, N, DESCA, K,
                  BETA, Y, IY, JY, DESCY, YROC,
@@ -30,12 +30,12 @@ void PB_CInOutV( TYPE, ROWCOL, M, N, DESCA, K,
 *  .. Scalar Arguments ..
 */
    char           * BETA, * ROWCOL, * * TBETA, * YROC;
-   int            * YAPBY, * YAFREE, IY, JY, K, M, N, * YASUM;
+   Int            * YAPBY, * YAFREE, IY, JY, K, M, N, * YASUM;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCY, * DYA;
+   Int            * DESCA, * DESCY, * DYA;
    char           * Y, * * YAPTR;
 #endif
 {
@@ -225,7 +225,7 @@ void PB_CInOutV( TYPE, ROWCOL, M, N, DESCA, K,
 /*
 *  .. Local Scalars ..
 */
-   int            Acol, Aimb, Ainb, AisD, AisR, Amb, Amp, Anb, Anq, Arow, Ycol,
+   Int            Acol, Aimb, Ainb, AisD, AisR, Amb, Amp, Anb, Anq, Arow, Ycol,
                   Yii, Yimb, Yimb1, Yinb, Yinb1, YisD, YisR, YisRow, Yjj, Yld,
                   Ymb, Ymp, Ynb, Ynq, Yrow, ctxt, izero=0, nprow, myrow, npcol,
                   mycol;

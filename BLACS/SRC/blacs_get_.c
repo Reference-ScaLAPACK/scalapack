@@ -1,12 +1,14 @@
 #include "Bdef.h"
 #if (INTFACE == C_CALL)
-void Cblacs_get(int ConTxt, int what, int *val)
+void Cblacs_get(Int ConTxt, Int what, Int *val)
 #else
-F_VOID_FUNC blacs_get_(int *ConTxt, int *what, int *val)
+F_VOID_FUNC blacs_get_(Int *ConTxt, Int *what, Int *val)
 #endif
 {
-   int ierr, *iptr;
-   int comm;
+   Int Csys2blacs_handle(MPI_Comm);
+   Int ierr, *iptr;
+   MpiInt flag;
+   Int comm;
    BLACSCONTEXT *ctxt;
 
    switch( Mpval(what) )
@@ -22,7 +24,7 @@ F_VOID_FUNC blacs_get_(int *ConTxt, int *what, int *val)
    case SGET_MSGIDS:
       if (BI_COMM_WORLD == NULL) Cblacs_pinfo(val, &val[1]);
       iptr = &val[1];
-      ierr=MPI_Comm_get_attr(MPI_COMM_WORLD, MPI_TAG_UB, (BVOID **) &iptr,val);
+      ierr=MPI_Comm_get_attr(MPI_COMM_WORLD, MPI_TAG_UB, (BVOID **) &iptr,&flag);
       val[0] = 0;
       val[1] = *iptr;
       break;

@@ -75,20 +75,20 @@
 #define Clacpy Cstrlacpy
 void  Clacpy();
 typedef struct {
-  int   desctype;
-  int   ctxt;
-  int   m;
-  int   n;
-  int   nbrow;
-  int   nbcol;
-  int   sprow;
-  int   spcol;
-  int   lda;
+  Int   desctype;
+  Int   ctxt;
+  Int   m;
+  Int   n;
+  Int   nbrow;
+  Int   nbcol;
+  Int   sprow;
+  Int   spcol;
+  Int   lda;
 }     MDESC;
 #define BLOCK_CYCLIC_2D 1
 typedef struct {
-  int   gstart;
-  int   len;
+  Int   gstart;
+  Int   len;
 }     IDESC;
 #define SHIFT(row,sprow,nbrow) ((row)-(sprow)+ ((row) >= (sprow) ? 0 : (nbrow)))
 #define max(A,B) ((A)>(B)?(A):(B))
@@ -102,7 +102,7 @@ typedef struct {
 #endif
 /* Cblacs */
 extern void Cblacs_pcoord();
-extern int Cblacs_pnum();
+extern Int Cblacs_pnum();
 extern void Csetpvmtids();
 extern void Cblacs_get();
 extern void Cblacs_pinfo();
@@ -123,12 +123,12 @@ extern void Csgerv2d();
 /* lapack */
 void  slacpy_();
 /* aux fonctions */
-extern int localindice();
+extern Int localindice();
 extern void *mr2d_malloc();
-extern int ppcm();
-extern int localsize();
-extern int memoryblocksize();
-extern int changeorigin();
+extern Int ppcm();
+extern Int localsize();
+extern Int memoryblocksize();
+extern Int changeorigin();
 extern void paramcheck();
 /* tools and others function */
 #define scanD0 strscanD0
@@ -140,7 +140,7 @@ extern void scanD0();
 extern void dispmat();
 extern void setmemory();
 extern void freememory();
-extern int scan_intervals();
+extern Int scan_intervals();
 extern void Cpstrmr2do();
 extern void Cpstrmr2d();
 /* some defines for Cpstrmr2do */
@@ -163,10 +163,10 @@ extern void Cpstrmr2d();
 static2 void
 initblock(block, m, n)
   float *block;
-  int   m, n;
+  Int   m, n;
 {
   float *pdata;
-  int   i;
+  Int   i;
   pdata = block;
   for (i = 0; i < m * n; i++, pdata++) {
     (*pdata) = i;
@@ -188,10 +188,10 @@ va_dcl
   FILE *f;
 #endif
   va_list ap;
-  int   i;
-  static int nbline;
+  Int   i;
+  static Int nbline;
   char *ptr, *next;
-  int  *var;
+  Int  *var;
   static char buffer[200];
 #ifdef __STDC__
   va_start(ap, f);
@@ -208,7 +208,7 @@ va_dcl
     nbline += 1;
   } while (buffer[0] == '#');
   ptr = buffer;
-  var = va_arg(ap, int *);
+  var = va_arg(ap, Int *);
   while (var != NULL) {
     *var = strtol(ptr, &next, 10);
     if (ptr == next) {
@@ -216,16 +216,16 @@ va_dcl
       exit(1);
     }
     ptr = next;
-    var = va_arg(ap, int *);
+    var = va_arg(ap, Int *);
   }
   va_end(ap);
 }
 void 
 initforpvm(argc, argv)
-  int   argc;
+  Int   argc;
   char *argv[];
 {
-  int   pnum, nproc;
+  Int   pnum, nproc;
   Cblacs_pinfo(&pnum, &nproc);
   if (nproc < 1) {	/* we are with PVM */
     if (pnum == 0) {
@@ -249,23 +249,23 @@ main(argc, argv)
    * with the initial one. */
   /* Data file */
   FILE *fp;
-  int   nbre, nbremax;
+  Int   nbre, nbremax;
   /* Data distribution 0 parameters */
-  int   p0,	/* # of rows in the processor grid */
+  Int   p0,	/* # of rows in the processor grid */
         q0;	/* # of columns in the processor grid */
   /* Data distribution 1 parameters */
-  int   p1, q1;
+  Int   p1, q1;
   /* # of parameter to be read on the keyboard */
 #define nbparameter 24
   /* General variables */
-  int   blocksize0;
-  int   mypnum, nprocs;
-  int   parameters[nbparameter], nberrors;
-  int   i;
-  int   ia, ja, ib, jb, m, n;
-  int   gcontext, context0, context1;
-  int   myprow1, myprow0, mypcol0, mypcol1;
-  int   dummy;
+  Int   blocksize0;
+  Int   mypnum, nprocs;
+  Int   parameters[nbparameter], nberrors;
+  Int   i;
+  Int   ia, ja, ib, jb, m, n;
+  Int   gcontext, context0, context1;
+  Int   myprow1, myprow0, mypcol0, mypcol1;
+  Int   dummy;
   MDESC ma, mb;
   char *uplo, *diag;
   float *ptrmyblock, *ptrsavemyblock, *ptrmyblockcopy, *ptrmyblockvide;
@@ -281,8 +281,8 @@ main(argc, argv)
   /* Read physical parameters */
   Cblacs_pinfo(&mypnum, &nprocs);
   /* initialize BLACS for the parameter communication */
-  Cblacs_get(0, 0, &gcontext);
-  Cblacs_gridinit(&gcontext, "R", nprocs, 1);
+  Cblacs_get((Int)0, (Int)0, &gcontext);
+  Cblacs_gridinit(&gcontext, "R", nprocs, (Int)1);
   Cblacs_gridinfo(gcontext, &dummy, &dummy, &mypnum, &dummy);
   if (mypnum == 0) {
     if ((fp = fopen("TRMR2D.dat", "r")) == NULL) {
@@ -293,9 +293,9 @@ main(argc, argv)
     getparam(fp, &nbre, NULL);
     printf("////////// %d tests \n\n", nbre);
     parameters[0] = nbre;
-    Cigebs2d(gcontext, "All", "H", 1, 1, parameters, 1);
+    Cigebs2d(gcontext, "All", "H", (Int)1, (Int)1, parameters, (Int)1);
   } else {
-    Cigebr2d(gcontext, "All", "H", 1, 1, parameters, 1, 0, 0);
+    Cigebr2d(gcontext, "All", "H", (Int)1, (Int)1, parameters, (Int)1, (Int)0, (Int)0);
     nbre = parameters[0];
   };
   if (mypnum == 0) {
@@ -313,7 +313,7 @@ m1  n1  sr1 sc1 i1  j1  p1  q1 nbr1 nbc1\n\n");
      * grid at each iteration */
     /* Read processors grid and matrices parameters */
     if (mypnum == 0) {
-      int   u, d;
+      Int   u, d;
       getparam(fp,
 	       &m, &n,
 	       &ma.m, &ma.n, &ma.sprow, &ma.spcol,
@@ -365,9 +365,9 @@ m1  n1  sr1 sc1 i1  j1  p1  q1 nbr1 nbc1\n\n");
       parameters[21] = mb.n;
       parameters[22] = *uplo == 'U';
       parameters[23] = *diag == 'U';
-      Cigebs2d(gcontext, "All", "H", 1, nbparameter, parameters, 1);
+      Cigebs2d(gcontext, "All", "H", (Int)1, nbparameter, parameters, (Int)1);
     } else {
-      Cigebr2d(gcontext, "All", "H", 1, nbparameter, parameters, 1, 0, 0);
+      Cigebr2d(gcontext, "All", "H", (Int)1, nbparameter, parameters, (Int)1, (Int)0, (Int)0);
       p0 = parameters[0];
       q0 = parameters[1];
       ma.nbrow = parameters[2];
@@ -395,9 +395,9 @@ m1  n1  sr1 sc1 i1  j1  p1  q1 nbr1 nbc1\n\n");
       uplo = parameters[22] ? "UPPER" : "LOWER";
       diag = parameters[23] ? "UNIT" : "NONUNIT";
     };
-    Cblacs_get(0, 0, &context0);
+    Cblacs_get((Int)0, (Int)0, &context0);
     Cblacs_gridinit(&context0, "R", p0, q0);
-    Cblacs_get(0, 0, &context1);
+    Cblacs_get((Int)0, (Int)0, &context1);
     Cblacs_gridinit(&context1, "R", p1, q1);
     Cblacs_gridinfo(context0, &dummy, &dummy, &myprow0, &mypcol0);
     if (myprow0 >= p0 || mypcol0 >= q0)
@@ -445,8 +445,8 @@ m1  n1  sr1 sc1 i1  j1  p1  q1 nbr1 nbc1\n\n");
     if (myprow0 >= 0 && mypcol0 >= 0) {
       /* only for the processors that do have data at the begining */
       for (i = 0; i < blocksize0; i++) {
-	int   li, lj, gi, gj;
-	int   in;
+	Int   li, lj, gi, gj;
+	Int   in;
 	in = 1;
 	li = i % ma.lda;
 	lj = i / ma.lda;
@@ -477,7 +477,7 @@ Number of redistribution errors = %d \n",
       }
     }
     /* Look at the errors on all the processors at this point. */
-    Cigsum2d(gcontext, "All", "H", 1, 1, &nberrors, 1, 0, 0);
+    Cigsum2d(gcontext, "All", "H", (Int)1, (Int)1, &nberrors, (Int)1, (Int)0, (Int)0);
     if (mypnum == 0)
       if (nberrors)
 	printf("  => Total number of redistribution errors = %d \n",
@@ -502,6 +502,6 @@ Number of redistribution errors = %d \n",
   if (mypnum == 0) {
     fclose(fp);
   };
-  Cblacs_exit(0);
+  Cblacs_exit((Int)0);
   return 0;
 }/* main */

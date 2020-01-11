@@ -1,14 +1,14 @@
 #include "Bdef.h"
 
-void BI_TransDist(BLACSCONTEXT *ctxt, char scope, int m, int n, int *rA,
-                  int *cA, int ldrc, BI_DistType *dist, int rdest, int cdest)
+void BI_TransDist(BLACSCONTEXT *ctxt, char scope, Int m, Int n, Int *rA,
+                  Int *cA, Int ldrc, BI_DistType *dist, Int rdest, Int cdest)
 /*
  *  This routine translates distances (offsets from the destination node),
  *  stored in location dist, into row and column coordinates.
  */
 {
-   int i, j, k, dest;
-   int Ng, nprow, npcol, myrow, mycol;
+   Int i, j, k, dest;
+   Int Ng, nprow, npcol, myrow, mycol;
 
    Mgridinfo(ctxt, Ng, nprow, npcol, myrow, mycol);
    if (rdest == -1) rdest = cdest = 0;
@@ -21,7 +21,7 @@ void BI_TransDist(BLACSCONTEXT *ctxt, char scope, int m, int n, int *rA,
          for (i=0; i < m; i++)
          {
             rA[i] = myrow;
-            cA[i] = (int) (cdest + dist[i]) % npcol;
+            cA[i] = (Int) (cdest + dist[i]) % npcol;
          }
          rA += ldrc;
          cA += ldrc;
@@ -33,7 +33,7 @@ void BI_TransDist(BLACSCONTEXT *ctxt, char scope, int m, int n, int *rA,
       {
          for (i=0; i < m; i++)
          {
-            rA[i] = (int) (rdest + dist[i]) % nprow;
+            rA[i] = (Int) (rdest + dist[i]) % nprow;
             cA[i] = mycol;
          }
          rA += ldrc;
@@ -47,7 +47,7 @@ void BI_TransDist(BLACSCONTEXT *ctxt, char scope, int m, int n, int *rA,
       {
          for (i=0; i < m; i++)
          {
-            k = (int) (dest + dist[i]) % Ng;   /* figure node number */
+            k = (Int) (dest + dist[i]) % Ng;   /* figure node number */
             Mvpcoord(ctxt, k, rA[i], cA[i]);   /* figure node coordinates */
          }
          rA += ldrc;

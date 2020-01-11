@@ -18,9 +18,9 @@
 
 #ifdef __STDC__
 void PB_Cpgeadd( PBTYP_T * TYPE, char * DIRECA, char * DIRECC,
-                 char * CONJUG, int M, int N, char * ALPHA, char * A,
-                 int IA, int JA, int * DESCA, char * BETA,  char * C,
-                 int IC, int JC, int * DESCC )
+                 char * CONJUG, Int M, Int N, char * ALPHA, char * A,
+                 Int IA, Int JA, Int * DESCA, char * BETA,  char * C,
+                 Int IC, Int JC, Int * DESCC )
 #else
 void PB_Cpgeadd( TYPE, DIRECA, DIRECC, CONJUG, M, N, ALPHA, A, IA, JA,
                  DESCA, BETA, C, IC, JC, DESCC )
@@ -28,13 +28,13 @@ void PB_Cpgeadd( TYPE, DIRECA, DIRECC, CONJUG, M, N, ALPHA, A, IA, JA,
 *  .. Scalar Arguments ..
 */
    char           * CONJUG, * DIRECA, * DIRECC;
-   int            IA, IC, JA, JC, M, N;
+   Int            IA, IC, JA, JC, M, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCC;
+   Int            * DESCA, * DESCC;
    char           * A, * C;
 #endif
 {
@@ -214,7 +214,7 @@ void PB_Cpgeadd( TYPE, DIRECA, DIRECC, CONJUG, M, N, ALPHA, A, IA, JA,
 *  .. Local Scalars ..
 */
    char           ACroc, * one, * talpha, * tbeta, * zero;
-   int            ACmyprocD, ACmyprocR, ACnD, ACnR, ACnprocsD, ACnprocsR,
+   Int            ACmyprocD, ACmyprocR, ACnD, ACnR, ACnprocsD, ACnprocsR,
                   Abufld, AcurrocR, Afr, Afwd, AiD, AiR, AiiD, AiiR, AinbD,
                   AinbR, Ainb1D, Ainb1R, AisR, Akk, Ald, AnbD, AnbR, AnpD,
                   AnpR, Aoff, ArocD, ArocR, AsrcR, Cbufld, CcurrocR, Cfr,
@@ -227,7 +227,7 @@ void PB_Cpgeadd( TYPE, DIRECA, DIRECC, CONJUG, M, N, ALPHA, A, IA, JA,
 /*
 *  .. Local Arrays ..
 */
-   int            DBUFA[DLEN_], DBUFC[DLEN_];
+   Int            DBUFA[DLEN_], DBUFC[DLEN_];
    char           * Abuf = NULL, * Cbuf = NULL;
 /* ..
 *  .. Executable Statements ..

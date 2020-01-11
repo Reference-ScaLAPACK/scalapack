@@ -17,17 +17,17 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-int PB_CVMloc( PBTYP_T * TYPE, PB_VM_T * VM,
+Int PB_CVMloc( PBTYP_T * TYPE, PB_VM_T * VM,
                char * VROCS, char * ROCS, char * UNPA, char * TRANS,
-               int MN, int K, char * ALPHA, char * A, int LDA,
-               char * BETA,  char * B, int LDB )
+               Int MN, Int K, char * ALPHA, char * A, Int LDA,
+               char * BETA,  char * B, Int LDB )
 #else
-int PB_CVMloc( TYPE, VM, VROCS, ROCS, UNPA, TRANS, MN, K, ALPHA, A,
+Int PB_CVMloc( TYPE, VM, VROCS, ROCS, UNPA, TRANS, MN, K, ALPHA, A,
                LDA, BETA,  B, LDB )
 /*
 *  .. Scalar Arguments ..
 */
-   int            K, LDA, LDB, MN;
+   Int            K, LDA, LDB, MN;
    char           * ALPHA, * BETA;
 /*
 *  .. Array Arguments ..
@@ -136,7 +136,7 @@ int PB_CVMloc( TYPE, VM, VROCS, ROCS, UNPA, TRANS, MN, K, ALPHA, A,
 /*
 *  .. Local Scalars ..
 */
-   int            GoEast, GoSouth, ilow, imbloc, inbloc, inca, incb, iupp, kb,
+   Int            GoEast, GoSouth, ilow, imbloc, inbloc, inca, incb, iupp, kb,
                   lcmt, lcmt00, lmbloc, lnbloc, low, mb, mblkd, mblks, mbloc,
                   * m, * n, nb, nblkd, nblks, nbloc, notran, npcol, npq=0,
                   nprow, pmb, qnb, rows, size, tmp1, tmp2, upp;

@@ -17,13 +17,13 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-int PB_Clastnb( int N, int I, int INB, int NB )
+Int PB_Clastnb( Int N, Int I, Int INB, Int NB )
 #else
-int PB_Clastnb( N, I, INB, NB )
+Int PB_Clastnb( N, I, INB, NB )
 /*
 *  .. Scalar Arguments ..
 */
-   int            I, INB, N, NB;
+   Int            I, INB, N, NB;
 #endif
 {
 /*
@@ -61,7 +61,7 @@ int PB_Clastnb( N, I, INB, NB )
 /*
 *  .. Local Scalars ..
 */
-   int            lnbt;
+   Int            lnbt;
 /* ..
 *  .. Executable Statements ..
 *

@@ -173,20 +173,20 @@
 #define Clacpy Cdtrlacpy
 void  Clacpy();
 typedef struct {
-  int   desctype;
-  int   ctxt;
-  int   m;
-  int   n;
-  int   nbrow;
-  int   nbcol;
-  int   sprow;
-  int   spcol;
-  int   lda;
+  Int   desctype;
+  Int   ctxt;
+  Int   m;
+  Int   n;
+  Int   nbrow;
+  Int   nbcol;
+  Int   sprow;
+  Int   spcol;
+  Int   lda;
 }     MDESC;
 #define BLOCK_CYCLIC_2D 1
 typedef struct {
-  int   gstart;
-  int   len;
+  Int   gstart;
+  Int   len;
 }     IDESC;
 #define SHIFT(row,sprow,nbrow) ((row)-(sprow)+ ((row) >= (sprow) ? 0 : (nbrow)))
 #define max(A,B) ((A)>(B)?(A):(B))
@@ -200,7 +200,7 @@ typedef struct {
 #endif
 /* Cblacs */
 extern void Cblacs_pcoord();
-extern int Cblacs_pnum();
+extern Int Cblacs_pnum();
 extern void Csetpvmtids();
 extern void Cblacs_get();
 extern void Cblacs_pinfo();
@@ -221,12 +221,12 @@ extern void Cdgerv2d();
 /* lapack */
 void  dlacpy_();
 /* aux fonctions */
-extern int localindice();
+extern Int localindice();
 extern void *mr2d_malloc();
-extern int ppcm();
-extern int localsize();
-extern int memoryblocksize();
-extern int changeorigin();
+extern Int ppcm();
+extern Int localsize();
+extern Int memoryblocksize();
+extern Int changeorigin();
 extern void paramcheck();
 /* tools and others function */
 #define scanD0 dtrscanD0
@@ -238,7 +238,7 @@ extern void scanD0();
 extern void dispmat();
 extern void setmemory();
 extern void freememory();
-extern int scan_intervals();
+extern Int scan_intervals();
 extern void Cpdtrmr2do();
 extern void Cpdtrmr2d();
 /* some defines for Cpdtrmr2do */
@@ -259,8 +259,8 @@ void
 fortran_mr2d(uplo, diag, m, n, A, ia, ja, desc_A,
 	     B, ib, jb, desc_B)
   char *uplo, *diag;
-  int  *ia, *ib, *ja, *jb, *m, *n;
-  int   desc_A[DESCLEN], desc_B[DESCLEN];
+  Int  *ia, *ib, *ja, *jb, *m, *n;
+  Int   desc_A[DESCLEN], desc_B[DESCLEN];
   double *A, *B;
 {
   Cpdtrmr2do(uplo, diag, *m, *n, A, *ia, *ja, (MDESC *) desc_A,
@@ -271,18 +271,18 @@ void
 fortran_mr2dnew(uplo, diag, m, n, A, ia, ja, desc_A,
 		B, ib, jb, desc_B, gcontext)
   char *uplo, *diag;
-  int  *ia, *ib, *ja, *jb, *m, *n;
-  int   desc_A[DESCLEN], desc_B[DESCLEN];
+  Int  *ia, *ib, *ja, *jb, *m, *n;
+  Int   desc_A[DESCLEN], desc_B[DESCLEN];
   double *A, *B;
-  int  *gcontext;
+  Int  *gcontext;
 {
   Cpdtrmr2d(uplo, diag, *m, *n, A, *ia, *ja, (MDESC *) desc_A,
 	    B, *ib, *jb, (MDESC *) desc_B, *gcontext);
   return;
 }
 static2 void init_chenille();
-static2 int inter_len();
-static2 int block2buff();
+static2 Int inter_len();
+static2 Int block2buff();
 static2 void buff2block();
 static2 void gridreshape();
 void
@@ -294,15 +294,15 @@ Cpdtrmr2do(uplo, diag, m, n,
 /* pointers to the memory location of the matrix and the redistributed matrix */
   MDESC *ma;
   MDESC *mb;
-  int   ia, ja, ib, jb, m, n;
+  Int   ia, ja, ib, jb, m, n;
 {
-  int   dummy, nprocs;
-  int   gcontext;
+  Int   dummy, nprocs;
+  Int   gcontext;
   /* first we initialize a global grid which serve as a reference to
    * communicate from grid a to grid b */
   Cblacs_pinfo(&dummy, &nprocs);
-  Cblacs_get(0, 0, &gcontext);
-  Cblacs_gridinit(&gcontext, "R", 1, nprocs);
+  Cblacs_get((Int)0, (Int)0, &gcontext);
+  Cblacs_gridinit(&gcontext, "R", (Int)1, nprocs);
   Cpdtrmr2d(uplo, diag, m, n, ptrmyblock, ia, ja, ma,
 	    ptrmynewblock, ib, jb, mb, gcontext);
   Cblacs_gridexit(gcontext);
@@ -319,22 +319,22 @@ Cpdtrmr2d(uplo, diag, m, n,
 /* pointers to the memory location of the matrix and the redistributed matrix */
   MDESC *ma;
   MDESC *mb;
-  int   ia, ja, ib, jb, m, n, globcontext;
+  Int   ia, ja, ib, jb, m, n, globcontext;
 {
   double *ptrsendbuff, *ptrrecvbuff, *ptrNULL = 0;
   double *recvptr;
   MDESC newa, newb;
-  int  *proc0, *proc1, *param;
-  int   mypnum, myprow0, mypcol0, myprow1, mypcol1, nprocs;
-  int   i, j;
-  int   nprow, npcol, gcontext;
-  int   recvsize, sendsize;
+  Int  *proc0, *proc1, *param;
+  Int   mypnum, myprow0, mypcol0, myprow1, mypcol1, nprocs;
+  Int   i, j;
+  Int   nprow, npcol, gcontext;
+  Int   recvsize, sendsize;
   IDESC *h_inter;	/* to store the horizontal intersections */
   IDESC *v_inter;	/* to store the vertical intersections */
-  int   hinter_nb, vinter_nb;	/* number of intrsections in both directions */
-  int   dummy;
-  int   p0, q0, p1, q1;
-  int  *ra, *ca;
+  Int   hinter_nb, vinter_nb;	/* number of intrsections in both directions */
+  Int   dummy;
+  Int   p0, q0, p1, q1;
+  Int  *ra, *ca;
   /* end of variables */
   /* To simplify further calcul we change the matrix indexation from
    * 1..m,1..n (fortran) to 0..m-1,0..n-1 */
@@ -365,7 +365,7 @@ Cpdtrmr2d(uplo, diag, m, n,
   assert((myprow1 < p1 && mypcol1 < q1) || (myprow1 == -1 && mypcol1 == -1));
   /* exchange the missing parameters among the processors: shape of grids and
    * location of the processors */
-  param = (int *) mr2d_malloc(3 * (nprocs * 2 + NBPARAM) * sizeof(int));
+  param = (Int *) mr2d_malloc(3 * (nprocs * 2 + NBPARAM) * sizeof(Int));
   ra = param + nprocs * 2 + NBPARAM;
   ca = param + (nprocs * 2 + NBPARAM) * 2;
   for (i = 0; i < nprocs * 2 + NBPARAM; i++)
@@ -400,8 +400,8 @@ Cpdtrmr2d(uplo, diag, m, n,
     param[18] = ib;
     param[19] = jb;
   }
-  Cigamn2d(gcontext, "All", "H", 2 * nprocs + NBPARAM, 1, param, 2 * nprocs + NBPARAM,
-	   ra, ca, 2 * nprocs + NBPARAM, -1, -1);
+  Cigamn2d(gcontext, "All", "H", 2 * nprocs + NBPARAM, (Int)1, param, 2 * nprocs + NBPARAM,
+	   ra, ca, 2 * nprocs + NBPARAM, (Int)-1, (Int)-1);
   newa = *ma;
   newb = *mb;
   ma = &newa;
@@ -447,7 +447,7 @@ Cpdtrmr2d(uplo, diag, m, n,
   paramcheck(mb, ib, jb, m, n, p1, q1, gcontext);
   /* we change the problem so that ia < a->nbrow ... andia + m = a->m ... */
   {
-    int   decal;
+    Int   decal;
     ia = changeorigin(myprow0, ma->sprow, p0,
 		      ma->nbrow, ia, &decal, &ma->sprow);
     ptrmyblock += decal;
@@ -501,9 +501,9 @@ Cpdtrmr2d(uplo, diag, m, n,
    * of recvbuff the right place (scanD)(RECVBUFF)) */
   recvptr = ptrrecvbuff;
   {
-    int   tot, myrang, step, sens;
-    int  *sender, *recver;
-    int   mesending, merecving;
+    Int   tot, myrang, step, sens;
+    Int  *sender, *recver;
+    Int   mesending, merecving;
     tot = max(p0 * q0, p1 * q1);
     init_chenille(mypnum, nprocs, p0 * q0, proc0, p1 * q1, proc1,
 		  &sender, &recver, &myrang);
@@ -540,8 +540,8 @@ Cpdtrmr2d(uplo, diag, m, n,
 	  if (sendsize > 0
 	      && (step != myrang || !merecving)
 		) {
-	    Cdgesd2d(gcontext, sendsize, 1, ptrsendbuff, sendsize,
-		     0, proc1[i * q1 + j]);
+	    Cdgesd2d(gcontext, sendsize, (Int)1, ptrsendbuff, sendsize,
+		     (Int)0, proc1[i * q1 + j]);
 	  }	/* sendsize > 0 */
 	}	/* if (mesending ... */
 	if (merecving && sender[step] >= 0 &&
@@ -557,12 +557,12 @@ Cpdtrmr2d(uplo, diag, m, n,
 		 v_inter, vinter_nb, h_inter, hinter_nb, ptrNULL);
 	  if (recvsize > 0) {
 	    if (step == myrang && mesending) {
-	      Clacpy(recvsize, 1,
+	      Clacpy(recvsize, (Int)1,
 		     ptrsendbuff, recvsize,
 		     ptrrecvbuff, recvsize);
 	    } else {
-	      Cdgerv2d(gcontext, recvsize, 1, ptrrecvbuff, recvsize,
-		       0, proc0[i * q0 + j]);
+	      Cdgerv2d(gcontext, recvsize, (Int)1, ptrrecvbuff, recvsize,
+		       (Int)0, proc0[i * q0 + j]);
 	    }
 	  }	/* recvsize > 0 */
 	}	/* if (merecving ...) */
@@ -594,13 +594,13 @@ after_comm:
 }/* distrib */
 static2 void 
 init_chenille(mypnum, nprocs, n0, proc0, n1, proc1, psend, precv, myrang)
-  int   nprocs, mypnum, n0, n1;
-  int  *proc0, *proc1, **psend, **precv, *myrang;
+  Int   nprocs, mypnum, n0, n1;
+  Int  *proc0, *proc1, **psend, **precv, *myrang;
 {
-  int   ns, nr, i, tot;
-  int  *sender, *recver, *g0, *g1;
+  Int   ns, nr, i, tot;
+  Int  *sender, *recver, *g0, *g1;
   tot = max(n0, n1);
-  sender = (int *) mr2d_malloc((nprocs + tot) * sizeof(int) * 2);
+  sender = (Int *) mr2d_malloc((nprocs + tot) * sizeof(Int) * 2);
   recver = sender + tot;
   *psend = sender;
   *precv = recver;
@@ -651,9 +651,9 @@ init_chenille(mypnum, nprocs, n0, proc0, n1, proc1, psend, precv, myrang)
 void 
 Clacpy(m, n, a, lda, b, ldb)
   double *a, *b;
-  int   m, n, lda, ldb;
+  Int   m, n, lda, ldb;
 {
-  int   i, j;
+  Int   i, j;
   lda -= m;
   ldb -= m;
   assert(lda >= 0 && ldb >= 0);
@@ -666,23 +666,23 @@ Clacpy(m, n, a, lda, b, ldb)
 }
 static2 void 
 gridreshape(ctxtp)
-  int  *ctxtp;
+  Int  *ctxtp;
 {
-  int   ori, final;	/* original context, and new context created, with
+  Int   ori, final;	/* original context, and new context created, with
 			 * line form */
-  int   nprow, npcol, myrow, mycol;
-  int  *usermap;
-  int   i, j;
+  Int   nprow, npcol, myrow, mycol;
+  Int  *usermap;
+  Int   i, j;
   ori = *ctxtp;
   Cblacs_gridinfo(ori, &nprow, &npcol, &myrow, &mycol);
-  usermap = mr2d_malloc(sizeof(int) * nprow * npcol);
+  usermap = mr2d_malloc(sizeof(Int) * nprow * npcol);
   for (i = 0; i < nprow; i++)
     for (j = 0; j < npcol; j++) {
       usermap[i + j * nprow] = Cblacs_pnum(ori, i, j);
     }
   /* Cblacs_get(0, 0, &final); */
-  Cblacs_get(ori, 10, &final);
-  Cblacs_gridmap(&final, usermap, 1, 1, nprow * npcol);
+  Cblacs_get(ori, (Int)10, &final);
+  Cblacs_gridmap(&final, usermap, (Int)1, (Int)1, nprow * npcol);
   *ctxtp = final;
   free(usermap);
 }

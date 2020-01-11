@@ -17,21 +17,21 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pcaxpy_( int * N,
+void pcaxpy_( Int * N,
               float * ALPHA,
-              float * X, int * IX, int * JX, int * DESCX, int * INCX,
-              float * Y, int * IY, int * JY, int * DESCY, int * INCY )
+              float * X, Int * IX, Int * JX, Int * DESCX, Int * INCX,
+              float * Y, Int * IY, Int * JY, Int * DESCY, Int * INCY )
 #else
 void pcaxpy_( N, ALPHA, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * INCX, * INCY, * IX, * IY, * JX, * JY, * N;
+   Int            * INCX, * INCY, * IX, * IY, * JX, * JY, * N;
    float          * ALPHA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX, * DESCY;
+   Int            * DESCX, * DESCY;
    float          * X, * Y;
 #endif
 {
@@ -186,12 +186,12 @@ void pcaxpy_( N, ALPHA, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 /*
 *  .. Local Scalars ..
 */
-   int            Xi, Xj, Yi, Yj, ctxt, info, mycol, myrow, npcol, nprow;
+   Int            Xi, Xj, Yi, Yj, ctxt, info, mycol, myrow, npcol, nprow;
    PBTYP_T        * type;
 /*
 *  .. Local Arrays ..
 */
-   int            Xd[DLEN_], Yd[DLEN_];
+   Int            Xd[DLEN_], Yd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

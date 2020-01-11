@@ -1,13 +1,13 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Cblacs_barrier(int ConTxt, char *scope)
+void Cblacs_barrier(Int ConTxt, char *scope)
 #else
-F_VOID_FUNC blacs_barrier_(int *ConTxt, F_CHAR scope)
+F_VOID_FUNC blacs_barrier_(Int *ConTxt, F_CHAR scope)
 #endif
 {
    char tscope;
-   int ierr;
+   Int ierr;
    BLACSCONTEXT *ctxt;
 
    tscope = F2C_CharTrans(scope);

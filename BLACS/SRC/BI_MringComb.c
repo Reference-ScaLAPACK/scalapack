@@ -1,16 +1,16 @@
 #include "Bdef.h"
 void BI_MringComb(BLACSCONTEXT *ctxt, BLACBUFF *bp, BLACBUFF *bp2,
-                  int N, VVFUNPTR Xvvop, int dest, int nrings)
+                  Int N, VVFUNPTR Xvvop, Int dest, Int nrings)
 {
-   void BI_Ssend(BLACSCONTEXT *, int, int, BLACBUFF *);
-   void BI_Srecv(BLACSCONTEXT *, int, int, BLACBUFF *);
-   void BI_MpathBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, int);
-   void BI_MpathBR(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, int, int);
+   void BI_Ssend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   void BI_Srecv(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   void BI_MpathBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, Int);
+   void BI_MpathBR(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, Int, Int);
 
-   int Np, Iam, msgid, i, inc, mysrc, mydest, Np_1;
-   int mydist, ringlen, myring;
-   int nearedge, faredge;  /* edge closest and farthest from dest */
-   int REBS;               /* Is result leave-on-all? */
+   Int Np, Iam, msgid, i, inc, mysrc, mydest, Np_1;
+   Int mydist, ringlen, myring;
+   Int nearedge, faredge;  /* edge closest and farthest from dest */
+   Int REBS;               /* Is result leave-on-all? */
 
    Np = ctxt->scp->Np;
    if (Np < 2) return;
