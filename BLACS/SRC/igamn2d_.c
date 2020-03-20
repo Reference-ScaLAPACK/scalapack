@@ -98,9 +98,6 @@ F_VOID_FUNC igamn2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
    void BI_ivvamn2(Int, char *, char *);
    void BI_iMPI_amn(void *, void *, MpiInt *, MPI_Datatype *);
    void BI_iMPI_amn2(void *, void *, MpiInt *, MPI_Datatype *);
-   
-   printf("%ld %c %c %ld %ld %ld... %ld %ld... %ld... %ld %ld %d\n", ConTxt, *scope, *top, m, n, *A,
-              lda, *rA, *cA, ldia, rdest, cdest);
 /*
  *  Variable Declarations
  */
