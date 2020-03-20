@@ -134,3 +134,21 @@ This include file is then referenced in all subdirectory Makefiles.  Once
 the include file has been modified, the entire installation process (including
 the building of testing executables) can be performed by typing ``make''
 in the top-level ScaLAPACK directory.
+
+ScaLAPACK uses the default (typically 4-byte) integers. With compilers that
+support it, the library can be compiled with long (8-byte) integers instead.
+This can be achived by providing the flag "-DInt=long" to the C compiler
+(or with another corresponding C type) and, simultaneously, the appropriate
+integer promotion flag (e.g. "-fdefault-integer-8" or "-i8") to the Fortran
+compiler. It is expected that the BLAS/LAPACK library linked to ScaLAPACK uses
+the 8-byte integers as well. Note that in order to run the test suite with long
+integers, it is necessary to replace the hardcoded byte sizes in the tests
+before the compilation using
+
+    sed -i 's/INTSZ = 4/INTSZ = 8/g'   TESTING/EIG/* TESTING/LIN/*
+    sed -i 's/INTGSZ = 4/INTGSZ = 8/g' TESTING/EIG/* TESTING/LIN/*
+
+Even then, the tests "xssep", "xsgsep" and "xssyevr" will fail, because they
+are already written with the assumption that an integer fits into memory
+occupied by a real number, which is mostly not true for combination of default
+Fortran real numbers and long integers.
