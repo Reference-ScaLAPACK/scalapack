@@ -3,12 +3,12 @@
 
 
 #if (INTFACE == C_CALL)
-void Csgamx2d(int ConTxt, char *scope, char *top, int m, int n, float *A,
-              int lda, int *rA, int *cA, int ldia, int rdest, int cdest)
+void Csgamx2d(Int ConTxt, char *scope, char *top, Int m, Int n, float *A,
+              Int lda, Int *rA, Int *cA, Int ldia, Int rdest, Int cdest)
 #else
-F_VOID_FUNC sgamx2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
-                     float *A, int *lda, int *rA, int *cA, int *ldia,
-                     int *rdest, int *cdest)
+F_VOID_FUNC sgamx2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
+                     float *A, Int *lda, Int *rA, Int *cA, Int *ldia,
+                     Int *rdest, Int *cdest)
 #endif
 /*
  *  -- V1.1 BLACS routine --
@@ -22,7 +22,7 @@ F_VOID_FUNC sgamx2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
  *  Arguments
  *  =========
  *
- *  ConTxt  (input) Ptr to int
+ *  ConTxt  (input) Ptr to Int
  *          Index into MyConTxts00 (my contexts array).
  *
  *  SCOPE   (input) Ptr to char
@@ -34,17 +34,17 @@ F_VOID_FUNC sgamx2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
  *  TOP     (input) Ptr to char
  *          Controls fashion in which messages flow within the operation.
  *
- *  M       (input) Ptr to int
+ *  M       (input) Ptr to Int
  *          The number of rows of the matrix A.  M >= 0.
  *
- *  N       (input) Ptr to int
+ *  N       (input) Ptr to Int
  *          The number of columns of the matrix A.  N >= 0.
  *
  *  A       (output) Ptr to real two dimensional array
  *          The m by n matrix A.  Fortran77 (column-major) storage
  *          assumed.
  *
- *  LDA     (input) Ptr to int
+ *  LDA     (input) Ptr to Int
  *          The leading dimension of the array A.  LDA >= M.
  *
  *  RA      (output) Integer Array, dimension (LDIA, N)
@@ -65,41 +65,41 @@ F_VOID_FUNC sgamx2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
  *          If rdest == -1, then result is left on all processes in scope.
  *          If LDIA == -1, this array is not accessed, and need not exist.
  *
- *  LDIA    (input) Ptr to int
+ *  LDIA    (input) Ptr to Int
  *          If (LDIA == -1), then the arrays RA and CA are not accessed.
  *          ELSE leading dimension of the arrays RA and CA.  LDIA >= M.
  *
- *  RDEST   (input) Ptr to int
+ *  RDEST   (input) Ptr to Int
  *          The process row of the destination of the amx.
  *          If rdest == -1, then result is left on all processes in scope.
  *
- *  CDEST   (input) Ptr to int
+ *  CDEST   (input) Ptr to Int
  *          The process column of the destination of the amx.
  *          If rdest == -1, then CDEST ignored.
  *
  * ------------------------------------------------------------------------
  */
 {
-   void BI_ArgCheck(int, int, char *, char, char, char, int, int, int, int,
-                    int *, int *);
+   void BI_ArgCheck(Int, Int, char *, char, char, char, Int, Int, Int, Int,
+                    Int *, Int *);
    void BI_UpdateBuffs(BLACBUFF *);
-   BLACBUFF *BI_GetBuff(int);
-   int BI_BuffIsFree(BLACBUFF *, int);
-   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, int, int, int,
-                                   MPI_Datatype, int *);
+   BLACBUFF *BI_GetBuff(Int);
+   Int BI_BuffIsFree(BLACBUFF *, Int);
+   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, Int, Int, Int,
+                                   MPI_Datatype, Int *);
    BLACBUFF *BI_Pack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
-   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, int, int, int,
-                                   MPI_Datatype, int *);
+   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, Int, Int, Int,
+                                   MPI_Datatype, Int *);
    void BI_Unpack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
-   void BI_MringComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, int, VVFUNPTR,
-                     int, int);
-   void BI_TreeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, int, VVFUNPTR,
-                    int, int);
-   void BI_BeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, int, VVFUNPTR);
-   void BI_svvamx(int, char *, char *);
-   void BI_svvamx2(int, char *, char *);
-   void BI_sMPI_amx(void *, void *, int *, MPI_Datatype *);
-   void BI_sMPI_amx2(void *, void *, int *, MPI_Datatype *);
+   void BI_MringComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR,
+                     Int, Int);
+   void BI_TreeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR,
+                    Int, Int);
+   void BI_BeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR);
+   void BI_svvamx(Int, char *, char *);
+   void BI_svvamx2(Int, char *, char *);
+   void BI_sMPI_amx(void *, void *, MpiInt *, MPI_Datatype *);
+   void BI_sMPI_amx2(void *, void *, MpiInt *, MPI_Datatype *);
 /*
  *  Variable Declarations
  */
@@ -107,15 +107,17 @@ F_VOID_FUNC sgamx2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
    BLACBUFF *bp, *bp2;
    BLACSCONTEXT *ctxt;
    char ttop, tscope;
-   int i, j, N, dest, idist, length, tlda, tldia, trdest, ierr;
-   int len[2];
+   Int i, j, N, dest, idist, length, tlda, tldia, trdest, ierr;
+   MpiInt len[2];
    MPI_Aint disp[2];
    MPI_Datatype dtypes[2];
    MPI_Op BlacComb;
-   MPI_Datatype MyType;
+   MPI_Datatype IntTyp, MyType;
    BI_DistType *dist, mydist;
    extern BLACBUFF *BI_ActiveQ;
    extern BLACBUFF BI_AuxBuff;
+
+   MPI_Type_match_size(MPI_TYPECLASS_INTEGER, sizeof(Int), &IntTyp);
 
    MGetConTxt(Mpval(ConTxt), ctxt);
    ttop = F2C_CharTrans(top);
@@ -230,7 +232,7 @@ F_VOID_FUNC sgamx2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
       else
       {
          bp->N = bp2->N = 0;
-         bp->dtype = bp2->dtype = MPI_INT;
+         bp->dtype = bp2->dtype = IntTyp;
       }
 #endif
    }

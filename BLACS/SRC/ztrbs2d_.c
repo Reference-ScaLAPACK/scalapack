@@ -1,11 +1,11 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Cztrbs2d(int ConTxt, char *scope, char *top, char *uplo, char *diag,
-              int m, int n, double *A, int lda)
+void Cztrbs2d(Int ConTxt, char *scope, char *top, char *uplo, char *diag,
+              Int m, Int n, double *A, Int lda)
 #else
-F_VOID_FUNC ztrbs2d_(int *ConTxt, F_CHAR scope, F_CHAR top, F_CHAR uplo,
-                     F_CHAR diag, int *m, int *n, double *A, int *lda)
+F_VOID_FUNC ztrbs2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, F_CHAR uplo,
+                     F_CHAR diag, Int *m, Int *n, double *A, Int *lda)
 #endif
 /*
  *  -- V1.1 BLACS routine --
@@ -19,7 +19,7 @@ F_VOID_FUNC ztrbs2d_(int *ConTxt, F_CHAR scope, F_CHAR top, F_CHAR uplo,
  *  Arguments
  *  =========
  *
- *  ConTxt  (input) Ptr to int
+ *  ConTxt  (input) Ptr to Int
  *          Index into MyConTxts00 (my contexts array).
  *
  *  SCOPE   (input) Ptr to char
@@ -41,10 +41,10 @@ F_VOID_FUNC ztrbs2d_(int *ConTxt, F_CHAR scope, F_CHAR top, F_CHAR uplo,
  *          = 'U':      Matrix is unit diagonal, diagonal not communicated.
  *          ELSE :      Matrix is not unit diagonal, diagonal is communicated.
  *
- *  M       (input) Ptr to int
+ *  M       (input) Ptr to Int
  *          The number of rows of the matrix A.  M >= 0.
  *
- *  N       (input) Ptr to int
+ *  N       (input) Ptr to Int
  *          The number of columns of the matrix A.  N >= 0.
  *
  *  A       (input) Ptr to double complex two dimensional array
@@ -53,30 +53,30 @@ F_VOID_FUNC ztrbs2d_(int *ConTxt, F_CHAR scope, F_CHAR top, F_CHAR uplo,
  *          If UPLO = 'U', only the upper trapezoid is accessed;
  *          if UPLO = 'L', only the lower trapezoid is accessed.
  *
- *  LDA     (input) Ptr to int
+ *  LDA     (input) Ptr to Int
  *          The leading dimension of the array A.  LDA >= M.
  *
  * ------------------------------------------------------------------------
  */
 {
-   void BI_ArgCheck(int, int, char *, char, char, char, int, int, int, int,
-                    int *, int *);
-   int BI_HypBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR);
-   void BI_IdringBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, int);
+   void BI_ArgCheck(Int, Int, char *, char, char, char, Int, Int, Int, Int,
+                    Int *, Int *);
+   Int BI_HypBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR);
+   void BI_IdringBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, Int);
    void BI_SringBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR);
-   void BI_MpathBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, int);
-   void BI_TreeBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, int);
+   void BI_MpathBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, Int);
+   void BI_TreeBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, Int);
    void BI_UpdateBuffs(BLACBUFF *);
-   BLACBUFF *BI_GetBuff(int);
-   int BI_BuffIsFree(BLACBUFF *, int);
-   MPI_Datatype BI_GetMpiTrType(BLACSCONTEXT *, char, char, int, int, int,
-                                   MPI_Datatype, int *);
+   BLACBUFF *BI_GetBuff(Int);
+   Int BI_BuffIsFree(BLACBUFF *, Int);
+   MPI_Datatype BI_GetMpiTrType(BLACSCONTEXT *, char, char, Int, Int, Int,
+                                   MPI_Datatype, Int *);
    BLACBUFF *BI_Pack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
-   void BI_Ssend(BLACSCONTEXT *, int, int, BLACBUFF *);
-   void BI_Asend(BLACSCONTEXT *, int, int, BLACBUFF *);
+   void BI_Ssend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   void BI_Asend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
 
    char ttop, tscope, tuplo, tdiag;
-   int error, tlda;
+   Int error, tlda;
    MPI_Datatype MatTyp;
    SDRVPTR send;
    BLACBUFF *bp;

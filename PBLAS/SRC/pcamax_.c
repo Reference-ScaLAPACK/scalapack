@@ -17,19 +17,19 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pcamax_( int * N, float * AMAX, int * INDX,
-              float * X, int * IX, int * JX, int * DESCX, int * INCX )
+void pcamax_( Int * N, float * AMAX, Int * INDX,
+              float * X, Int * IX, Int * JX, Int * DESCX, Int * INCX )
 #else
 void pcamax_( N, AMAX, INDX, X, IX, JX, DESCX, INCX )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * INCX, * INDX, * IX, * JX, * N;
+   Int            * INCX, * INDX, * IX, * JX, * N;
    float          * AMAX;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX;
+   Int            * DESCX;
    float          * X;
 #endif
 {
@@ -181,7 +181,7 @@ void pcamax_( N, AMAX, INDX, X, IX, JX, DESCX, INCX )
 *  .. Local Scalars ..
 */
    char           cbtop, cctop, rbtop, rctop;
-   int            Xcol, Xgindx, Xi, Xii, Ximb, Xinb, Xj, Xjj, Xlindx, Xld, Xmb,
+   Int            Xcol, Xgindx, Xi, Xii, Ximb, Xinb, Xj, Xjj, Xlindx, Xld, Xmb,
                   Xnb, Xnp, Xnq, Xrow, Xsrc, ctxt, dist, dst, idumm, info, k,
                   maxpos, mycol, mydist, myrow, npcol, nprow, src, size;
    PBTYP_T        * type;
@@ -189,7 +189,7 @@ void pcamax_( N, AMAX, INDX, X, IX, JX, DESCX, INCX )
 *  .. Local Arrays ..
 */
    char           * Xptr;
-   int            Xd[DLEN_];
+   Int            Xd[DLEN_];
    cmplx          work[4];
 /* ..
 *  .. Executable Statements ..
@@ -347,7 +347,7 @@ l_20:
             AMAX[IMAG_PART] = work[0][IMAG_PART];
             *INDX = ( ( ( AMAX[REAL_PART] == ZERO ) &&
                         ( AMAX[IMAG_PART] == ZERO ) ) ?
-                    ( *JX ) : ( (int)(work[1][REAL_PART]) ) );
+                    ( *JX ) : ( (Int)(work[1][REAL_PART]) ) );
          }
          else
          {
@@ -530,7 +530,7 @@ l_40:
             AMAX[IMAG_PART] = work[0][IMAG_PART];
             *INDX = ( ( ( AMAX[REAL_PART] == ZERO ) &&
                         ( AMAX[IMAG_PART] == ZERO ) ) ?
-                    ( *IX ) : ( (int)(work[1][REAL_PART]) ) );
+                    ( *IX ) : ( (Int)(work[1][REAL_PART]) ) );
          }
          else
          {

@@ -17,7 +17,7 @@
  */
 
 void BI_TreeComb(BLACSCONTEXT *ctxt, BLACBUFF *bp, BLACBUFF *bp2,
-                 int N, VVFUNPTR Xvvop, int dest, int nbranches)
+                 Int N, VVFUNPTR Xvvop, Int dest, Int nbranches)
 /*
  *  -- V1.1ALPHA (test version) BLACS routine --
  *  University of Tennessee, October 1, 1995
@@ -47,38 +47,38 @@ void BI_TreeComb(BLACSCONTEXT *ctxt, BLACBUFF *bp, BLACBUFF *bp2,
  *            This BLACBUFF is used to receive information for combining with
  *            this process's information.
  *
- *  DEST      (input) int
+ *  DEST      (input) Int
  *            Node to receive answer.  If DEST == -1, all nodes in receive
  *            the answer.
  *
- *  N         (input) int
+ *  N         (input) Int
  *            The number of elements in the vector.  N >= 0.
  *
  *  Xvvop     (input) pointer to typed operation function
  *            Points to a typed function which performs the required operation
  *            (e.g. summation) on the two N-element vectors.
  *
- *  NBRANCHES (input) int
+ *  NBRANCHES (input) Int
  *            Indicates the degree of the tree to use (see picture above).
  *
  * ------------------------------------------------------------------------
  */
 {
    void BI_UpdateBuffs(BLACBUFF *);
-   BLACBUFF *BI_GetBuff(int);
-   int BI_BuffIsFree(BLACBUFF *, int);
-   void BI_Ssend(BLACSCONTEXT *, int, int, BLACBUFF *);
-   void BI_Srecv(BLACSCONTEXT *, int, int, BLACBUFF *);
-   void BI_Rsend(BLACSCONTEXT *, int, int, BLACBUFF *);
-   void BI_Arecv(BLACSCONTEXT *, int, int, BLACBUFF *);
+   BLACBUFF *BI_GetBuff(Int);
+   Int BI_BuffIsFree(BLACBUFF *, Int);
+   void BI_Ssend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   void BI_Srecv(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   void BI_Rsend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   void BI_Arecv(BLACSCONTEXT *, Int, Int, BLACBUFF *);
 
-   int Np, Iam, msgid, Rmsgid, i, j;
-   int nrcvs=0;	  /* Number of ReCeiVeS to do */
-   int REBS;	  /* should info be RE-BroadcaSt? */
-   int rightedge; /* right-most receiving node */
-   int mydist;    /* my distance from destination node */
-   int dist;
-   int src;       /* Used if we must force repeatability */
+   Int Np, Iam, msgid, Rmsgid, i, j;
+   Int nrcvs=0;	  /* Number of ReCeiVeS to do */
+   Int REBS;	  /* should info be RE-BroadcaSt? */
+   Int rightedge; /* right-most receiving node */
+   Int mydist;    /* my distance from destination node */
+   Int dist;
+   Int src;       /* Used if we must force repeatability */
 
    Np = ctxt->scp->Np;
    if (Np < 2) return;

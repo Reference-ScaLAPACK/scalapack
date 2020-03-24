@@ -18,9 +18,9 @@
 
 #ifdef __STDC__
 void PB_CptrmmAB( PBTYP_T * TYPE, char * VARIANT, char * SIDE, char * UPLO,
-                  char * TRANSA, char * DIAG, int M, int N, char * ALPHA,
-                  char * A, int IA, int JA, int * DESCA, char * B, int IB,
-                  int JB, int * DESCB )
+                  char * TRANSA, char * DIAG, Int M, Int N, char * ALPHA,
+                  char * A, Int IA, Int JA, Int * DESCA, char * B, Int IB,
+                  Int JB, Int * DESCB )
 #else
 void PB_CptrmmAB( TYPE, VARIANT, SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA, A, IA,
                   JA, DESCA, B, IB, JB, DESCB )
@@ -28,13 +28,13 @@ void PB_CptrmmAB( TYPE, VARIANT, SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA, A, IA,
 *  .. Scalar Arguments ..
 */
    char           * DIAG, * SIDE, * TRANSA, * UPLO, * VARIANT;
-   int            IA, IB, JA, JB, M, N;
+   Int            IA, IB, JA, JB, M, N;
    char           * ALPHA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB;
+   Int            * DESCA, * DESCB;
    char           * A, * B;
 #endif
 {
@@ -255,14 +255,14 @@ void PB_CptrmmAB( TYPE, VARIANT, SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA, A, IA,
 *  .. Local Scalars ..
 */
    char           conjg, * one, top, * zero;
-   int            Afr, Bcol, Bcurcol, Bcurimb1, Bcurinb1, Bcurrow, Bfr, Bii,
+   Int            Afr, Bcol, Bcurcol, Bcurimb1, Bcurinb1, Bcurrow, Bfr, Bii,
                   Bimb, Bimb1, Binb, Binb1, Bjj, Bld, Bmb, Bmp, Bmp0, Bnb, Bnq,
                   Bnq0, Brow, WAfr, WBfr, WBsum, ctxt, k, kb, kbb, ktmp, lside,
                   mycol, myrow, notran, npcol, nprow, size, unit, upper;
 /*
 *  .. Local Arrays ..
 */
-   int            Bd0[DLEN_], DBUFA[DLEN_], DBUFB[DLEN_], WAd[DLEN_],
+   Int            Bd0[DLEN_], DBUFA[DLEN_], DBUFB[DLEN_], WAd[DLEN_],
                   WBd[DLEN_];
    char           * Aptr = NULL, * Bptr = NULL, * Bptr0 = NULL, * WA = NULL,
                   * WB   = NULL;

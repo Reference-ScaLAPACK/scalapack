@@ -2,7 +2,7 @@
 
 void BI_Unpack(BLACSCONTEXT *ctxt, BVOID *A, BLACBUFF *bp, MPI_Datatype Dtype)
 {
-   int i=0, info, one=1;
+   MpiInt i=0, info, one=1;
 
 /*
  * Some versions of mpich and its derivitives cannot handle 0 byte typedefs,

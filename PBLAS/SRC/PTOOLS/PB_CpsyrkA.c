@@ -18,9 +18,9 @@
 
 #ifdef __STDC__
 void PB_CpsyrkA( PBTYP_T * TYPE, char * DIRECA, char * CONJUG,
-                 char * UPLO, char * TRANS, int N, int K, char * ALPHA,
-                 char * A, int IA, int JA, int * DESCA, char * BETA,
-                 char * C, int IC, int JC, int * DESCC )
+                 char * UPLO, char * TRANS, Int N, Int K, char * ALPHA,
+                 char * A, Int IA, Int JA, Int * DESCA, char * BETA,
+                 char * C, Int IC, Int JC, Int * DESCC )
 #else
 void PB_CpsyrkA( TYPE, DIRECA, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
                  JA, DESCA, BETA, C, IC, JC, DESCC )
@@ -28,13 +28,13 @@ void PB_CpsyrkA( TYPE, DIRECA, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
 *  .. Scalar Arguments ..
 */
    char           * CONJUG, * DIRECA, * TRANS, * UPLO;
-   int            IA, IC, JA, JC, K, N;
+   Int            IA, IC, JA, JC, K, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCC;
+   Int            * DESCA, * DESCC;
    char           * A, * C;
 #endif
 {
@@ -272,7 +272,7 @@ void PB_CpsyrkA( TYPE, DIRECA, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
 *  .. Local Scalars ..
 */
    char           * one;
-   int            AcurrocR, Afwd, AiD, AiR, AiiD, AiiR, AinbD, AinbR, Ainb1D,
+   Int            AcurrocR, Afwd, AiD, AiR, AiiD, AiiR, AinbD, AinbR, Ainb1D,
                   Ainb1R, AisR, Ald, AmyprocD, AmyprocR, AnbD, AnbR, AnpR,
                   AnprocsD, AnprocsR, ArocD, ArocR, Arocs, AsrcR, Ccol, Cii,
                   Cimb1, Cinb1, Cjj, Clcmb, Cld, Clp, Clq, Cnq0, Cmb, Cmp,
@@ -284,7 +284,7 @@ void PB_CpsyrkA( TYPE, DIRECA, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
 /*
 *  .. Local Arrays ..
 */
-   int            Cd0[DLEN_], DBUFA[DLEN_], WACd0[DLEN_], WARd0[DLEN_];
+   Int            Cd0[DLEN_], DBUFA[DLEN_], WACd0[DLEN_], WARd0[DLEN_];
    char           * Aptr = NULL, * Cptr = NULL, * WAC = NULL, * WAR  = NULL;
 /* ..
 *  .. Executable Statements ..

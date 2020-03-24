@@ -1,13 +1,13 @@
 #include "Bdef.h"
 BLACBUFF *BI_Pack(BLACSCONTEXT *ctxt,BVOID *A,BLACBUFF *bp,MPI_Datatype Dtype)
 {
-   BLACBUFF *BI_GetBuff(int);
-   int i, info, one=1;
+   BLACBUFF *BI_GetBuff(Int);
+   MpiInt i, info, one=1;
    MPI_Aint eltsiz;
 #ifdef ZeroByteTypeBug
    char *cptr;
    extern BLACBUFF BI_AuxBuff;
-   extern int BI_Np;
+   extern Int BI_Np;
 #endif
 
 /*

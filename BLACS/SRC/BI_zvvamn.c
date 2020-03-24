@@ -1,10 +1,10 @@
 #include "Bdef.h"
-void BI_zvvamn(int N, char *vec1, char *vec2)
+void BI_zvvamn(Int N, char *vec1, char *vec2)
 {
    DCOMPLEX *v1=(DCOMPLEX*)vec1, *v2=(DCOMPLEX*)vec2;
    double diff;
    BI_DistType *dist1, *dist2;
-   int i, k;
+   Int i, k;
 
    k = N * sizeof(DCOMPLEX);
    i = k % sizeof(BI_DistType);

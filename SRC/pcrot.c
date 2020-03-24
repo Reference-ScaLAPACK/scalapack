@@ -18,14 +18,14 @@ void pcrot_( n, X, ix, jx, desc_X, incx, Y, iy, jy, desc_Y, incy, c, s )
 /*
 *  .. Scalar Arguments ..
 */
-   int         * incx, * incy, * ix, * iy, * jx, * jy, * n;
+   Int         * incx, * incy, * ix, * iy, * jx, * jy, * n;
    float       * c;
    complex     * s;
 /*
 *  ..
 *  .. Array Arguments ..
 */
-   int         desc_X[], desc_Y[];
+   Int         desc_X[], desc_Y[];
    complex     X[], Y[];
 {
 /*
@@ -182,7 +182,7 @@ void pcrot_( n, X, ix, jx, desc_X, incx, Y, iy, jy, desc_Y, incy, c, s )
 *
 *  .. Local Scalars ..
 */
-   int         ictxt, iix, iiy, info, ixcol, ixrow, iycol, iyrow, jjx,
+   Int         ictxt, iix, iiy, info, ixcol, ixrow, iycol, iyrow, jjx,
                jjy, lcm, lcmp, mycol, myrow, nn, np, np0,
                nprow, npcol, nq, nz, ione=1, tmp1, wksz;
    complex     xwork[1], ywork[1], zero;

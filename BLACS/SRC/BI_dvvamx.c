@@ -1,10 +1,10 @@
 #include "Bdef.h"
-void BI_dvvamx(int N, char *vec1, char *vec2)
+void BI_dvvamx(Int N, char *vec1, char *vec2)
 {
    double *v1=(double*)vec1, *v2=(double*)vec2;
    double diff;
    BI_DistType *dist1, *dist2;
-   int i, k;
+   Int i, k;
 
    k = N * sizeof(double);
    i = k % sizeof(BI_DistType);

@@ -17,13 +17,13 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-char * PB_Cmalloc( int LENGTH )
+char * PB_Cmalloc( Int LENGTH )
 #else
 char * PB_Cmalloc( LENGTH )
 /*
 *  .. Scalar Arguments ..
 */
-   int            LENGTH;
+   Int            LENGTH;
 #endif
 {
 /*

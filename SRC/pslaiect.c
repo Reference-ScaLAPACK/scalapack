@@ -14,12 +14,13 @@
  * Include Files
  */
 #include "pxsyevx.h"
+#include "pblas.h"
 #include <stdio.h>
 #include <math.h>
 #define  proto(x)	()
 
 
-void pslasnbt_( int *ieflag )
+void pslasnbt_( Int *ieflag )
 {
 /* 
 *
@@ -52,8 +53,8 @@ void pslasnbt_( int *ieflag )
 *  .. Local Scalars ..
 */
    float x;
-   int         negone=-1, errornum;
-   unsigned int *ix; 
+   Int         negone=-1, errornum;
+   unsigned Int *ix; 
 /* ..
 *  .. Executable Statements ..
 */
@@ -61,12 +62,12 @@ void pslasnbt_( int *ieflag )
 #ifdef NO_IEEE
    *ieflag = 0;
 #else
-   if(sizeof(int) != 4){
+   if(sizeof(Int) != 4){
       *ieflag = 0;
       return;
    }
    x = (float) -1.0;
-   ix = (unsigned int *) &x;
+   ix = (unsigned Int *) &x;
    if( *ix == 0xbff00000 )
    {
       *ieflag = 1;
@@ -76,7 +77,7 @@ void pslasnbt_( int *ieflag )
 #endif
 }
 
-void pslaiect_( float *sigma, int *n, float *d, int *count )
+void pslaiect_( float *sigma, Int *n, float *d, Int *count )
 {
 /* 
 *
@@ -125,7 +126,7 @@ void pslaiect_( float *sigma, int *n, float *d, int *count )
 *  .. Local Scalars ..
 */
    float       lsigma, tmp, *pd, *pe2;
-   int         i;
+   Int         i;
 /* ..
 *  .. Executable Statements ..
 */
@@ -133,15 +134,15 @@ void pslaiect_( float *sigma, int *n, float *d, int *count )
    lsigma = *sigma;
    pd = d; pe2 = d+1;
    tmp = *pd - lsigma; pd += 2;
-   *count = (*((int *)&tmp) >> 31) & 1;
+   *count = (*((Int *)&tmp) >> 31) & 1;
    for(i = 1;i < *n;i++){
       tmp = *pd - *pe2/tmp - lsigma;
       pd += 2; pe2 += 2;
-      *count += ((*((int *)&tmp)) >> 31) & 1;
+      *count += ((*((Int *)&tmp)) >> 31) & 1;
    }
 }
 
-void pslachkieee_( int *isieee, float *rmax, float *rmin )
+void pslachkieee_( Int *isieee, float *rmax, float *rmin )
 {
 /* 
 *
@@ -178,7 +179,7 @@ void pslachkieee_( int *isieee, float *rmax, float *rmin )
 *  .. Local Scalars ..
 */
    float x, pinf, pzero, ninf, nzero;
-   int         ieflag, *ix, sbit1, sbit2, negone=-1, errornum;
+   Int         ieflag, *ix, sbit1, sbit2, negone=-1, errornum;
 /* ..
 *  .. Executable Statements ..
 */
@@ -195,8 +196,8 @@ void pslachkieee_( int *isieee, float *rmax, float *rmin )
       return ;
    }
    if( ieflag == 1 ){
-      sbit1 = (*((int *)&pzero) >> 31) & 1;
-      sbit2 = (*((int *)&pinf) >> 31) & 1;
+      sbit1 = (*((Int *)&pzero) >> 31) & 1;
+      sbit2 = (*((Int *)&pinf) >> 31) & 1;
    }
    if( sbit1 == 1 ){
       printf("Sign of positive infinity is incorrect\n");
@@ -216,8 +217,8 @@ void pslachkieee_( int *isieee, float *rmax, float *rmin )
       *isieee = 0;
    }
    if( ieflag == 1 ){
-      sbit1 = (*((int *)&nzero) >> 31) & 1;
-      sbit2 = (*((int *)&ninf) >> 31) & 1;
+      sbit1 = (*((Int *)&nzero) >> 31) & 1;
+      sbit2 = (*((Int *)&ninf) >> 31) & 1;
    }
    if( sbit1 == 0 ){
       printf("Sign of negative infinity is incorrect\n");

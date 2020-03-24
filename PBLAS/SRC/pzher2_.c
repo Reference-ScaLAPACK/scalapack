@@ -17,10 +17,10 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pzher2_( F_CHAR_T UPLO, int * N, double * ALPHA,
-              double * X, int * IX, int * JX, int * DESCX, int * INCX,
-              double * Y, int * IY, int * JY, int * DESCY, int * INCY,
-              double * A, int * IA, int * JA, int * DESCA )
+void pzher2_( F_CHAR_T UPLO, Int * N, double * ALPHA,
+              double * X, Int * IX, Int * JX, Int * DESCX, Int * INCX,
+              double * Y, Int * IY, Int * JY, Int * DESCY, Int * INCY,
+              double * A, Int * IA, Int * JA, Int * DESCA )
 #else
 void pzher2_( UPLO, N, ALPHA, X, IX, JX, DESCX, INCX, Y, IY, JY,
               DESCY, INCY, A, IA, JA, DESCA )
@@ -28,13 +28,13 @@ void pzher2_( UPLO, N, ALPHA, X, IX, JX, DESCX, INCX, Y, IY, JY,
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       UPLO;
-   int            * IA, * INCX, * INCY, * IX, * IY, * JA, * JX, * JY,
+   Int            * IA, * INCX, * INCY, * IX, * IY, * JA, * JX, * JY,
                   * N;
    double         * ALPHA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCX, * DESCY;
+   Int            * DESCA, * DESCX, * DESCY;
    double         * A, * X, * Y;
 #endif
 {
@@ -246,7 +246,7 @@ void pzher2_( UPLO, N, ALPHA, X, IX, JX, DESCX, INCX, Y, IY, JY,
 *  .. Local Scalars ..
 */
    char           UploA;
-   int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Akp, Akq, Ald, Amb,
+   Int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Akp, Akq, Ald, Amb,
                   Amp, Amp0, Anb, Anq, Anq0, Arow, XCfr, XCld, XRfr, XRld,
                   Xi, Xj, YCfr, YCld, YRfr, YRld, Yi, Yj, ctxt, info, ione=1,
                   k, kb, ktmp, mycol, myrow, nb, npcol, nprow, size, upper;
@@ -255,7 +255,7 @@ void pzher2_( UPLO, N, ALPHA, X, IX, JX, DESCX, INCX, Y, IY, JY,
 /*
 *  .. Local Arrays ..
 */
-   int            Ad  [DLEN_], Ad0 [DLEN_], XCd0[DLEN_], XRd0[DLEN_], Xd[DLEN_],
+   Int            Ad  [DLEN_], Ad0 [DLEN_], XCd0[DLEN_], XRd0[DLEN_], Xd[DLEN_],
                   YCd0[DLEN_], YRd0[DLEN_], Yd  [DLEN_];
    char           * Aptr = NULL, * XC = NULL, * XR = NULL, * YC = NULL,
                   * YR   = NULL;

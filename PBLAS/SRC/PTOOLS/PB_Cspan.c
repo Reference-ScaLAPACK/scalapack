@@ -17,13 +17,13 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-int PB_Cspan( int N, int I, int INB, int NB, int SRCPROC, int NPROCS )
+Int PB_Cspan( Int N, Int I, Int INB, Int NB, Int SRCPROC, Int NPROCS )
 #else
-int PB_Cspan( N, I, INB, NB, SRCPROC, NPROCS )
+Int PB_Cspan( N, I, INB, NB, SRCPROC, NPROCS )
 /*
 *  .. Scalar Arguments ..
 */
-   int            I, INB, N, NB, NPROCS, SRCPROC;
+   Int            I, INB, N, NB, NPROCS, SRCPROC;
 #endif
 {
 /*

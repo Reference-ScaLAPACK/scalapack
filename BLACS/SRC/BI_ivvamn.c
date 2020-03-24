@@ -1,12 +1,12 @@
 #include "Bdef.h"
-void BI_ivvamn(int N, char *vec1, char *vec2)
+void BI_ivvamn(Int N, char *vec1, char *vec2)
 {
-   int *v1=(int*)vec1, *v2=(int*)vec2;
-   int diff;
+   Int *v1=(Int*)vec1, *v2=(Int*)vec2;
+   Int diff;
    BI_DistType *dist1, *dist2;
-   int i, k;
+   Int i, k;
 
-   k = N * sizeof(int);
+   k = N * sizeof(Int);
    i = k % sizeof(BI_DistType);
    if (i) k += sizeof(BI_DistType) - i;
    dist1 = (BI_DistType *) &vec1[k];

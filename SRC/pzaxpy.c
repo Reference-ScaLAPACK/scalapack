@@ -17,12 +17,12 @@ void pzaxpy_( n, alpha, X, ix, jx, desc_X, incx, Y, iy, jy, desc_Y,
 /*
 *  .. Scalar Arguments ..
 */
-   int         * incx, * incy, * ix, * iy, * jx, * jy, * n;
+   Int         * incx, * incy, * ix, * iy, * jx, * jy, * n;
    complex16   * alpha;
 /* ..
 *  .. Array Arguments ..
 */
-   int         desc_X[], desc_Y[];
+   Int         desc_X[], desc_Y[];
    complex16   X[], Y[];
 {
 /*
@@ -171,7 +171,7 @@ void pzaxpy_( n, alpha, X, ix, jx, desc_X, incx, Y, iy, jy, desc_Y,
 *
 *  .. Local Scalars ..
 */
-   int         ictxt, info, iix, iiy, ixcol, ixrow, iycol, iyrow, jjx,
+   Int         ictxt, info, iix, iiy, ixcol, ixrow, iycol, iyrow, jjx,
                jjy, lcm, lcmp, lcmq, mycol, myrow, nn, np, np0, nprow,
                npcol, nq, nq0, nz, ione=1, tmp1, wksz;
    complex16   one, tmp, zero;

@@ -6,15 +6,15 @@
  *  the user-changeable macro value BUFWAIT.  If in that time no active    *
  *  buffer becomes inactive, a hang is assumed, and the grid is killed.    *
  ***************************************************************************/
-void BI_EmergencyBuff(int length)
+void BI_EmergencyBuff(Int length)
 {
    void BI_UpdateBuffs(BLACBUFF *);
 
    char *cptr;
-   int i, j;
+   Int i, j;
    double Mwalltime(void);
    double t1;
-   extern int BI_Np;
+   extern Int BI_Np;
    extern BLACBUFF *BI_ReadyB, *BI_ActiveQ;
 
    j = sizeof(BLACBUFF);

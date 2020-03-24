@@ -58,7 +58,7 @@
 #endif
 
 #ifdef __STDC__
-void PB_Cwarn( int ICTXT, int LINE, char * ROUT, char * FORM, ... )
+void PB_Cwarn( Int ICTXT, Int LINE, char * ROUT, char * FORM, ... )
 #else
 void PB_Cwarn( va_alist )
 va_dcl
@@ -103,16 +103,16 @@ va_dcl
 *  ---------------------------------------------------------------------
 */
    va_list        argptr;
-   int            iam, mycol, myrow, npcol, nprow;
+   Int            iam, mycol, myrow, npcol, nprow;
    char           cline[100];
 /* ..
 *  .. External Functions ..
 */
 #ifdef TestingPblas
 #ifdef __STDC__
-   int            PB_NoAbort( int * );
+   Int            PB_NoAbort( Int * );
 #else
-   int            PB_NoAbort();
+   Int            PB_NoAbort();
 #endif
 #endif
 
@@ -120,14 +120,14 @@ va_dcl
    va_start( argptr, FORM );
 #else
    char           * ROUT, * FORM;
-   int            ICTXT, LINE;
+   Int            ICTXT, LINE;
 /* ..
 *  .. Executable Statements ..
 *
 */
    va_start( argptr );
-   ICTXT = va_arg( argptr, int );
-   LINE  = va_arg( argptr, int );
+   ICTXT = va_arg( argptr, Int );
+   LINE  = va_arg( argptr, Int );
    ROUT  = va_arg( argptr, char * );
    FORM  = va_arg( argptr, char * );
 #endif

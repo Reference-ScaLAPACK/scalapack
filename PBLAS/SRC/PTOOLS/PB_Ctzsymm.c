@@ -17,10 +17,10 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Ctzsymm( PBTYP_T * TYPE, char * SIDE, char * UPLO, int M, int N,
-                 int K, int IOFFD, char * ALPHA, char * A, int LDA,
-                 char * BC, int LDBC, char * BR, int LDBR, char * CC,
-                 int LDCC, char * CR, int LDCR )
+void PB_Ctzsymm( PBTYP_T * TYPE, char * SIDE, char * UPLO, Int M, Int N,
+                 Int K, Int IOFFD, char * ALPHA, char * A, Int LDA,
+                 char * BC, Int LDBC, char * BR, Int LDBR, char * CC,
+                 Int LDCC, char * CR, Int LDCR )
 #else
 void PB_Ctzsymm( TYPE, SIDE, UPLO, M, N, K, IOFFD, ALPHA, A, LDA, BC,
                  LDBC, BR, LDBR, CC, LDCC, CR, LDCR )
@@ -28,7 +28,7 @@ void PB_Ctzsymm( TYPE, SIDE, UPLO, M, N, K, IOFFD, ALPHA, A, LDA, BC,
 *  .. Scalar Arguments ..
 */
    char           * SIDE, * UPLO;
-   int            IOFFD, K, LDA, LDBC, LDBR, LDCC, LDCR, M, N;
+   Int            IOFFD, K, LDA, LDBC, LDBR, LDCC, LDCR, M, N;
    char           * ALPHA;
 /*
 *  .. Array Arguments ..
@@ -183,7 +183,7 @@ void PB_Ctzsymm( TYPE, SIDE, UPLO, M, N, K, IOFFD, ALPHA, A, LDA, BC,
 *  .. Local Scalars ..
 */
    char           * one;
-   int            i1, j1, m1, mn, n1, size;
+   Int            i1, j1, m1, mn, n1, size;
    GEMM_T         gemm;
 /* ..
 *  .. Executable Statements ..

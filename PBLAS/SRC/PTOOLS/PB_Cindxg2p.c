@@ -17,13 +17,13 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-int PB_Cindxg2p( int IG, int INB, int NB, int PROC, int SRCPROC, int NPROCS )
+Int PB_Cindxg2p( Int IG, Int INB, Int NB, Int PROC, Int SRCPROC, Int NPROCS )
 #else
-int PB_Cindxg2p( IG, INB, NB, PROC, SRCPROC, NPROCS )
+Int PB_Cindxg2p( IG, INB, NB, PROC, SRCPROC, NPROCS )
 /*
 *  .. Scalar Arguments ..
 */
-   int            IG, INB, NB, NPROCS, PROC, SRCPROC;
+   Int            IG, INB, NB, NPROCS, PROC, SRCPROC;
 #endif
 {
 /*

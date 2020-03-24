@@ -18,10 +18,10 @@
 
 #ifdef __STDC__
 void PB_Cpsym( PBTYP_T * TYPE, PBTYP_T * UTYP, char * SIDE,
-               char * UPLO, int N, int K, char * ALPHA, char * A,
-               int IA, int JA, int * DESCA, char * XC, int LDXC,
-               char * XR, int LDXR, char * YC, int LDYC, char * YR,
-               int LDYR, TZSYM_T SYM )
+               char * UPLO, Int N, Int K, char * ALPHA, char * A,
+               Int IA, Int JA, Int * DESCA, char * XC, Int LDXC,
+               char * XR, Int LDXR, char * YC, Int LDYC, char * YR,
+               Int LDYR, TZSYM_T SYM )
 #else
 void PB_Cpsym( TYPE, UTYP, SIDE, UPLO, N, K, ALPHA, A, IA, JA, DESCA,
                XC, LDXC, XR, LDXR, YC, LDYC, YR, LDYR, SYM )
@@ -29,14 +29,14 @@ void PB_Cpsym( TYPE, UTYP, SIDE, UPLO, N, K, ALPHA, A, IA, JA, DESCA,
 *  .. Scalar Arguments ..
 */
    char           * SIDE, * UPLO;
-   int            IA, JA, K, LDXC, LDXR, LDYC, LDYR, N;
+   Int            IA, JA, K, LDXC, LDXR, LDYC, LDYR, N;
    char           * ALPHA;
    PBTYP_T        * TYPE, * UTYP;
    TZSYM_T        SYM;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA;
+   Int            * DESCA;
    char           * A, * XC, * XR, * YC, * YR;
 #endif
 {
@@ -234,7 +234,7 @@ void PB_Cpsym( TYPE, UTYP, SIDE, UPLO, N, K, ALPHA, A, IA, JA, DESCA,
 /*
 *  .. Local Scalars ..
 */
-   int            Acol, Arow, Aii, Aimb1, Ainb1, Ajj, Ald, Amp, Amb, Anb, Anq,
+   Int            Acol, Arow, Aii, Aimb1, Ainb1, Ajj, Ald, Amp, Amb, Anb, Anq,
                   Aoffi, Aoffj, Arcol, Arrow, GoEast, GoSouth, IsColRepl,
                   IsRowRepl, XCinc, XRinc, Xii=0, Xjj=0, Xoffi=-1, Xoffj=-1,
                   YCinc, YRinc, iimax, ilow, imbloc, inbloc, ioffd, ioffx, iupp,

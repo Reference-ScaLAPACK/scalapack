@@ -1,13 +1,13 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-int Ckbsid(int ConTxt, char *scope)
+Int Ckbsid(Int ConTxt, char *scope)
 #else
-F_INT_FUNC kbsid_(int *ConTxt, F_CHAR scope)
+F_INT_FUNC kbsid_(Int *ConTxt, F_CHAR scope)
 #endif
 {
    char tmpscope;
-   int msgid;
+   Int msgid;
    BLACSCONTEXT *ctxt;
 
    MGetConTxt(Mpval(ConTxt), ctxt);

@@ -1,11 +1,11 @@
 #include "Bdef.h"
 
-void BI_ivmcopy(int m, int n, int *A, int lda, int *buff)
+void BI_ivmcopy(Int m, Int n, Int *A, Int lda, Int *buff)
 /*
- *  performs an vector to matrix copy (unpack) for the data type int
+ *  performs an vector to matrix copy (unpack) for the data type Int
  */
 {
-   int i, j;
+   Int i, j;
 
    if ( (m == lda) || (n == 1) )
    {

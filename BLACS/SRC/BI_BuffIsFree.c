@@ -1,14 +1,14 @@
 #include "Bdef.h"
 
-int BI_BuffIsFree(BLACBUFF *bp, int Wait)
+Int BI_BuffIsFree(BLACBUFF *bp, Int Wait)
 /*
  *  Check to see if buff is finished with async. operations.  If Wait != 0,
  *  wait for all async. operations to complete.
  */
 {
-   int i, info;
+   MpiInt i, info;
    extern MPI_Status *BI_Stats;
-   extern int BI_Np;
+   extern Int BI_Np;
 
 
    if (!Wait)

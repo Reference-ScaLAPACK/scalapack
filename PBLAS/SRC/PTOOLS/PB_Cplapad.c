@@ -17,9 +17,9 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cplapad( PBTYP_T * TYPE, char * UPLO, char * CONJUG, int M,
-                 int N, char * ALPHA, char * BETA, char * A, int IA,
-                 int JA, int * DESCA )
+void PB_Cplapad( PBTYP_T * TYPE, char * UPLO, char * CONJUG, Int M,
+                 Int N, char * ALPHA, char * BETA, char * A, Int IA,
+                 Int JA, Int * DESCA )
 #else
 void PB_Cplapad( TYPE, UPLO, CONJUG, M, N, ALPHA, BETA, A, IA, JA,
                  DESCA )
@@ -27,13 +27,13 @@ void PB_Cplapad( TYPE, UPLO, CONJUG, M, N, ALPHA, BETA, A, IA, JA,
 *  .. Scalar Arguments ..
 */
    char           * CONJUG, * UPLO;
-   int            IA, JA, M, N;
+   Int            IA, JA, M, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA;
+   Int            * DESCA;
    char           * A;
 #endif
 {
@@ -180,14 +180,14 @@ void PB_Cplapad( TYPE, UPLO, CONJUG, M, N, ALPHA, BETA, A, IA, JA,
 *  .. Local Scalars ..
 */
    char           type;
-   int            Acol, Aii, Aimb1, Ainb1, Ajj, Akp, Akq, Ald, Amb, Amp, Amp0,
+   Int            Acol, Aii, Aimb1, Ainb1, Ajj, Akp, Akq, Ald, Amb, Amp, Amp0,
                   Anb, Anq, Anq0, Arow, ctxt, izero=0, k, kb, ktmp, mn, mycol,
                   myrow, nb, npcol, nprow, size;
    TZPAD_T        pad;
 /*
 *  .. Local Arrays ..
 */
-   int            Ad0[DLEN_];
+   Int            Ad0[DLEN_];
    char           * Aptr = NULL;
 /* ..
 *  .. Executable Statements ..

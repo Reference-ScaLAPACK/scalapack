@@ -17,9 +17,9 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cpdot11( PBTYP_T * TYPE, int N, char * DOT,
-                 char * X, int IX, int JX, int * DESCX, int INCX,
-                 char * Y, int IY, int JY, int * DESCY, int INCY,
+void PB_Cpdot11( PBTYP_T * TYPE, Int N, char * DOT,
+                 char * X, Int IX, Int JX, Int * DESCX, Int INCX,
+                 char * Y, Int IY, Int JY, Int * DESCY, Int INCY,
                  VVDOT_T FDOT )
 #else
 void PB_Cpdot11( TYPE, N, DOT, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY,
@@ -27,14 +27,14 @@ void PB_Cpdot11( TYPE, N, DOT, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY,
 /*
 *  .. Scalar Arguments ..
 */
-   int            INCX, INCY, IX, IY, JX, JY, N;
+   Int            INCX, INCY, IX, IY, JX, JY, N;
    char           * DOT;
    PBTYP_T        * TYPE;
    VVDOT_T        FDOT;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX, * DESCY;
+   Int            * DESCX, * DESCY;
    char           * X, * Y;
 #endif
 {
@@ -219,7 +219,7 @@ void PB_Cpdot11( TYPE, N, DOT, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY,
 *  .. Local Scalars ..
 */
    char           Xscope, Yscope, * top;
-   int            RRorCC, Xcol, Xii, XisD, XisOne, XisR, XisRow, Xjj, Xld,
+   Int            RRorCC, Xcol, Xii, XisD, XisOne, XisR, XisRow, Xjj, Xld,
                   Xlinc, XmyprocD, XmyprocR, XprocD, XprocR, Xrow, Ycol, Yii,
                   YisD, YisOne, YisR, YisRow, Yjj, YmyprocD, YmyprocR, YprocD,
                   YprocR, Yrow, cdst, ctxt, ione=1, mycol, myrow, npcol, nprow,
@@ -227,7 +227,7 @@ void PB_Cpdot11( TYPE, N, DOT, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY,
 /*
 *  .. Local Arrays ..
 */
-   int            dbuf[DLEN_];
+   Int            dbuf[DLEN_];
    char           * buf = NULL;
 /* ..
 *  .. Executable Statements ..

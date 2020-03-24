@@ -18,9 +18,9 @@
 
 #ifdef __STDC__
 void PB_Cptradd( PBTYP_T * TYPE, char * DIRECAC, char * UPLO, char * TRANS,
-                 int M, int N, char * ALPHA, char * A, int IA, int JA,
-                 int * DESCA, char * BETA, char * C, int IC, int JC,
-                 int * DESCC )
+                 Int M, Int N, char * ALPHA, char * A, Int IA, Int JA,
+                 Int * DESCA, char * BETA, char * C, Int IC, Int JC,
+                 Int * DESCC )
 #else
 void PB_Cptradd( TYPE, DIRECAC, UPLO, TRANS, M, N, ALPHA, A, IA, JA, DESCA,
                  BETA, C, IC, JC, DESCC )
@@ -28,13 +28,13 @@ void PB_Cptradd( TYPE, DIRECAC, UPLO, TRANS, M, N, ALPHA, A, IA, JA, DESCA,
 *  .. Scalar Arguments ..
 */
    char           * DIRECAC, * TRANS, * UPLO;
-   int            IA, IC, JA, JC, M, N;
+   Int            IA, IC, JA, JC, M, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCC;
+   Int            * DESCA, * DESCC;
    char           * A, * C;
 #endif
 {
@@ -227,11 +227,11 @@ void PB_Cptradd( TYPE, DIRECAC, UPLO, TRANS, M, N, ALPHA, A, IA, JA, DESCA,
 *  .. Local Scalars ..
 */
    char           Dir, * one, * zero;
-   int            Afr, conjg, k, kb, kbb, kend, kstart, kstep, ktmp;
+   Int            Afr, conjg, k, kb, kbb, kend, kstart, kstep, ktmp;
 /*
 *  .. Local Arrays ..
 */
-   int            DBUFA[DLEN_];
+   Int            DBUFA[DLEN_];
    char           * Aptr = NULL;
 /* ..
 *  .. Executable Statements ..

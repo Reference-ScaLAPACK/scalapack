@@ -1,7 +1,7 @@
 #include "Bdef.h"
-void BI_cvvamn2(int N, char *vec1, char *vec2)
+void BI_cvvamn2(Int N, char *vec1, char *vec2)
 {
-   int r, i;
+   Int r, i;
    float *v1=(float*)vec1, *v2=(float*)vec2;
    float diff;
 

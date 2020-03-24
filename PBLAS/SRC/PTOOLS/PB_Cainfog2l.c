@@ -17,23 +17,23 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cainfog2l( int M, int N, int I, int J, int * DESC, int NPROW,
-                   int NPCOL, int MYROW, int MYCOL, int * IMB1,
-                   int * INB1, int * MP, int * NQ, int * II, int * JJ,
-                   int * PROW, int * PCOL, int * RPROW, int * RPCOL )
+void PB_Cainfog2l( Int M, Int N, Int I, Int J, Int * DESC, Int NPROW,
+                   Int NPCOL, Int MYROW, Int MYCOL, Int * IMB1,
+                   Int * INB1, Int * MP, Int * NQ, Int * II, Int * JJ,
+                   Int * PROW, Int * PCOL, Int * RPROW, Int * RPCOL )
 #else
 void PB_Cainfog2l( M, N, I, J, DESC, NPROW, NPCOL, MYROW, MYCOL, IMB1,
                    INB1, MP, NQ, II, JJ, PROW, PCOL, RPROW, RPCOL )
 /*
 *  .. Scalar Arguments ..
 */
-   int            I, * II, * IMB1, * INB1, J, * JJ, M, * MP, MYCOL,
+   Int            I, * II, * IMB1, * INB1, J, * JJ, M, * MP, MYCOL,
                   MYROW, N, NPCOL, NPROW, * NQ, * PCOL, * PROW, * RPCOL,
                   * RPROW;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESC;
+   Int            * DESC;
 #endif
 {
 /*
@@ -217,7 +217,7 @@ void PB_Cainfog2l( M, N, I, J, DESC, NPROW, NPCOL, MYROW, MYCOL, IMB1,
 /*
 *  .. Local Scalars ..
 */
-   int            i1, ilocblk, j1, mb, mydist, nb, nblocks, csrc, rsrc;
+   Int            i1, ilocblk, j1, mb, mydist, nb, nblocks, csrc, rsrc;
 /* ..
 *  .. Executable Statements ..
 *

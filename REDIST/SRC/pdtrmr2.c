@@ -23,20 +23,20 @@
 #define Clacpy Cdtrlacpy
 void  Clacpy();
 typedef struct {
-  int   desctype;
-  int   ctxt;
-  int   m;
-  int   n;
-  int   nbrow;
-  int   nbcol;
-  int   sprow;
-  int   spcol;
-  int   lda;
+  Int   desctype;
+  Int   ctxt;
+  Int   m;
+  Int   n;
+  Int   nbrow;
+  Int   nbcol;
+  Int   sprow;
+  Int   spcol;
+  Int   lda;
 }     MDESC;
 #define BLOCK_CYCLIC_2D 1
 typedef struct {
-  int   gstart;
-  int   len;
+  Int   gstart;
+  Int   len;
 }     IDESC;
 #define SHIFT(row,sprow,nbrow) ((row)-(sprow)+ ((row) >= (sprow) ? 0 : (nbrow)))
 #define max(A,B) ((A)>(B)?(A):(B))
@@ -50,7 +50,7 @@ typedef struct {
 #endif
 /* Cblacs */
 extern void Cblacs_pcoord();
-extern int Cblacs_pnum();
+extern Int Cblacs_pnum();
 extern void Csetpvmtids();
 extern void Cblacs_get();
 extern void Cblacs_pinfo();
@@ -71,12 +71,12 @@ extern void Cdgerv2d();
 /* lapack */
 void  dlacpy_();
 /* aux fonctions */
-extern int localindice();
+extern Int localindice();
 extern void *mr2d_malloc();
-extern int ppcm();
-extern int localsize();
-extern int memoryblocksize();
-extern int changeorigin();
+extern Int ppcm();
+extern Int localsize();
+extern Int memoryblocksize();
+extern Int changeorigin();
 extern void paramcheck();
 /* tools and others function */
 #define scanD0 dtrscanD0
@@ -88,7 +88,7 @@ extern void scanD0();
 extern void dispmat();
 extern void setmemory();
 extern void freememory();
-extern int scan_intervals();
+extern Int scan_intervals();
 extern void Cpdtrmr2do();
 extern void Cpdtrmr2d();
 /* some defines for Cpdtrmr2do */
@@ -112,7 +112,7 @@ extern void Cpdtrmr2d();
 void
 setmemory(adpointer, blocksize)
   double **adpointer;
-  int   blocksize;
+  Int   blocksize;
 {
   assert(blocksize >= 0);
   if (blocksize == 0) {
@@ -137,28 +137,28 @@ freememory(ptrtobefreed)
 /* return the number of elements int the column after i and the distance of
  * the first one from i, i,j can be negative out of borns, the number of
  * elements returned can be negative (means 0) */
-static2 int
+static2 Int
 insidemat(uplo, diag, i, j, m, n, offset)
-  int   m, n, i, j;	/* coordonnees de depart, taille de la sous-matrice */
+  Int   m, n, i, j;	/* coordonnees de depart, taille de la sous-matrice */
   char *uplo, *diag;
-  int  *offset;
+  Int  *offset;
 {
   /* tests outside mxn */
   assert(j >= 0 && j < n);
   assert(i >= 0);
   if (toupper(*uplo) == 'U') {
-    int   nbline;	/* number of lines in the j_th column */
-    int   virtualnbline;	/* number of line if we were not limited by m */
+    Int   nbline;	/* number of lines in the j_th column */
+    Int   virtualnbline;	/* number of line if we were not limited by m */
     *offset = 0;
     virtualnbline = max(m - n, 0) + j + (toupper(*diag) == 'N');
     nbline = min(virtualnbline, m);
     return nbline - i;
   } else {
-    int   firstline;	/* first line in the j_th column */
-    int   diagcol;	/* column where the diag begin */
-    int   virtualline;	/* virtual first line if the matrix was extended with
+    Int   firstline;	/* first line in the j_th column */
+    Int   diagcol;	/* column where the diag begin */
+    Int   virtualline;	/* virtual first line if the matrix was extended with
 			 * negative indices */
-    int   off;
+    Int   off;
     diagcol = max(n - m, 0);;
     virtualline = j - diagcol + (toupper(*diag) == 'U');
     firstline = max(0, virtualline);
@@ -180,13 +180,13 @@ intersect(uplo, diag,
 	  m, n,
 	  ma, ia, ja, templateheight0, templatewidth0,
 	  mb, ib, jb, templateheight1, templatewidth1)
-  int   action, *ptrsizebuff;
-  int   j, start, end;
+  Int   action, *ptrsizebuff;
+  Int   j, start, end;
   double **pptrbuff, *ptrblock;
-  int   templateheight0, templatewidth0;
-  int   templateheight1, templatewidth1;
+  Int   templateheight0, templatewidth0;
+  Int   templateheight1, templatewidth1;
   MDESC *ma, *mb;
-  int   ia, ja, ib, jb, m, n;
+  Int   ia, ja, ib, jb, m, n;
   char *uplo, *diag;
 /* Execute the action on the local memory for the current interval and
  * increment pptrbuff and ptrsizebuff of the intervalsize */
@@ -195,8 +195,8 @@ intersect(uplo, diag,
 {
   /* int       un = 1; only when we use dcopy instead of memcpy */
   double *ptrstart;
-  int   offset, nbline;
-  int   intervalsize;
+  Int   offset, nbline;
+  Int   intervalsize;
   assert(start < end);
   assert(j >= 0 && j < n);
   nbline =
@@ -239,24 +239,24 @@ intersect(uplo, diag,
  * intersections on the local processor. result must be long enough to
  * contains the result that are stocked in IDESC structure, the function
  * returns the number of intersections found */
-int 
+Int 
 scan_intervals(type, ja, jb, n, ma, mb, q0, q1, col0, col1,
 	       result)
   char  type;
-  int   ja, jb, n, q0, q1, col0, col1;
+  Int   ja, jb, n, q0, q1, col0, col1;
   MDESC *ma, *mb;
   IDESC *result;
 {
-  int   offset, j0, j1, templatewidth0, templatewidth1, nbcol0, nbcol1;
-  int   l;	/* local indice on the beginning of the interval */
+  Int   offset, j0, j1, templatewidth0, templatewidth1, nbcol0, nbcol1;
+  Int   l;	/* local indice on the beginning of the interval */
   assert(type == 'c' || type == 'r');
   nbcol0 = (type == 'c' ? ma->nbcol : ma->nbrow);
   nbcol1 = (type == 'c' ? mb->nbcol : mb->nbrow);
   templatewidth0 = q0 * nbcol0;
   templatewidth1 = q1 * nbcol1;
   {
-    int   sp0 = (type == 'c' ? ma->spcol : ma->sprow);
-    int   sp1 = (type == 'c' ? mb->spcol : mb->sprow);
+    Int   sp0 = (type == 'c' ? ma->spcol : ma->sprow);
+    Int   sp1 = (type == 'c' ? mb->spcol : mb->sprow);
     j0 = SHIFT(col0, sp0, q0) * nbcol0 - ja;
     j1 = SHIFT(col1, sp1, q1) * nbcol1 - jb;
   }
@@ -268,8 +268,8 @@ scan_intervals(type, ja, jb, n, ma, mb, q0, q1, col0, col1,
   assert(j0 + nbcol0 > 0);
   assert(j1 + nbcol1 > 0);
   while ((j0 < n) && (j1 < n)) {
-    int   end0, end1;
-    int   start, end;
+    Int   end0, end1;
+    Int   start, end;
     end0 = j0 + nbcol0;
     end1 = j1 + nbcol1;
     if (end0 <= j1) {
@@ -317,24 +317,24 @@ scanD0(uplo, diag, action, ptrbuff, ptrsizebuff,
        v_inter, vinter_nb,
        h_inter, hinter_nb,
        ptrblock)
-  int   action,	/* # of the action done on the intersected intervals  */
+  Int   action,	/* # of the action done on the intersected intervals  */
        *ptrsizebuff;	/* size of the communication ptrbuffer (chosen to be
 			 * an output parameter in every cases) */
   double *ptrbuff	/* address of the communication ptrbuffer (a
 			 * suffisant memory space is supposed to be allocated
       before the call) */ , *ptrblock;
-  int   p0, q0, p1, q1;
+  Int   p0, q0, p1, q1;
   IDESC *v_inter, *h_inter;
-  int   vinter_nb, hinter_nb;
-  int   m, n;
-  int   ia, ja, ib, jb;
+  Int   vinter_nb, hinter_nb;
+  Int   m, n;
+  Int   ia, ja, ib, jb;
   MDESC *ma, *mb;
   char *uplo, *diag;
 {/* Rmk: the a+au type addresses are strict bounds as a+au does not belong to
   * the [a..a+au-1] interval of length au */
-  int   templateheight1, templatewidth1;
-  int   templateheight0, templatewidth0;
-  int   h, v;	/* for scanning the intervals */
+  Int   templateheight1, templatewidth1;
+  Int   templateheight0, templatewidth0;
+  Int   h, v;	/* for scanning the intervals */
   /* initializations */
   templateheight1 = p1 * mb->nbrow;
   templateheight0 = p0 * ma->nbrow;
@@ -346,7 +346,7 @@ scanD0(uplo, diag, action, ptrbuff, ptrsizebuff,
   (*ptrsizebuff) = 0;
   for (h = 0; h < hinter_nb; h++)
     for (v = 0; v < vinter_nb; v++) {
-      int   j;
+      Int   j;
       for (j = 0; j < h_inter[h].len; j++)
 	intersect(uplo, diag, j + h_inter[h].gstart,
 		  v_inter[v].gstart, v_inter[v].gstart + v_inter[v].len,

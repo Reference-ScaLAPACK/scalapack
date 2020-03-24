@@ -18,9 +18,9 @@
 
 #ifdef __STDC__
 void PB_Cptrm( PBTYP_T * TYPE, PBTYP_T * UTYP, char * SIDE, char * UPLO,
-               char * TRANS, char * DIAG, int N, int K, char * ALPHA,
-               char * A, int IA, int JA, int * DESCA,
-               char * X, int LDX, char * Y, int LDY,
+               char * TRANS, char * DIAG, Int N, Int K, char * ALPHA,
+               char * A, Int IA, Int JA, Int * DESCA,
+               char * X, Int LDX, char * Y, Int LDY,
                TZTRM_T TRM )
 #else
 void PB_Cptrm( TYPE, UTYP, SIDE, UPLO, TRANS, DIAG, N, K, ALPHA, A,
@@ -29,14 +29,14 @@ void PB_Cptrm( TYPE, UTYP, SIDE, UPLO, TRANS, DIAG, N, K, ALPHA, A,
 *  .. Scalar Arguments ..
 */
    char           * DIAG, * SIDE, * TRANS, * UPLO;
-   int            IA, JA, K, LDX, LDY, N;
+   Int            IA, JA, K, LDX, LDY, N;
    char           * ALPHA;
    PBTYP_T        * TYPE, * UTYP;
    TZTRM_T        TRM;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA;
+   Int            * DESCA;
    char           * A, * X, * Y;
 #endif
 {
@@ -246,7 +246,7 @@ void PB_Cptrm( TYPE, UTYP, SIDE, UPLO, TRANS, DIAG, N, K, ALPHA, A,
 /*
 *  .. Local Scalars ..
 */
-   int            Acol, Arow, Aii, Aimb1, Ainb1, Ajj, Ald, Amp, Amb, Anb, Anq,
+   Int            Acol, Arow, Aii, Aimb1, Ainb1, Ajj, Ald, Amp, Amb, Anb, Anq,
                   Aoffi, Aoffj, Arcol, Arrow, GoEast, GoSouth, IsColRepl,
                   IsRowRepl, Xinc, Yinc, XYii=0, XYjj=0, XYoffi=-1, XYoffj=-1,
                   XisRow, iimax, ilow, imbloc, inbloc, ioffd, ioffxy, iupp,

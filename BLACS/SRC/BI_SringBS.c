@@ -2,7 +2,7 @@
 
 void BI_SringBS(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send)
 {
-   int Np, Iam, msgid;
+   Int Np, Iam, msgid;
 
    Np = ctxt->scp->Np;
    if (Np < 2) return;

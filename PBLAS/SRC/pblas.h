@@ -101,6 +101,10 @@
 *  TYPE DEFINITIONS AND CONVERSION UTILITIES
 *  ---------------------------------------------------------------------
 */
+#ifndef Int
+#define Int int
+#endif
+
 #if( ( _MACH_ == _T3D_ ) || ( _MACH_ == _T3E_ ) )
 
 #define    float               double
@@ -111,7 +115,7 @@
 #define    C2F_CHAR(a)         ( _cptofcd( (a), 1 ) )
                                          /* Type of FORTRAN functions */
 #define    F_VOID_FCT          void   fortran           /* Subroutine */
-#define    F_INTG_FCT          int    fortran     /* INTEGER function */
+#define    F_INTG_FCT          Int    fortran     /* INTEGER function */
 
 #else                 /* Type of character argument in a FORTRAN call */
 
@@ -121,7 +125,7 @@ typedef    char *              F_CHAR_T;
 #define    C2F_CHAR(a)            (a)
                                          /* Type of FORTRAN functions */
 #define    F_VOID_FCT             void                  /* Subroutine */
-#define    F_INTG_FCT             int             /* INTEGER function */
+#define    F_INTG_FCT             Int             /* INTEGER function */
 
 #endif
 /*
@@ -137,141 +141,141 @@ typedef    double              cmplx16[2];
 
 #ifdef __STDC__
 
-typedef void           (*GESD2D_T)   ( int,       int,       int,
-                                       char *,    int,       int,
-                                       int );
-typedef void           (*GERV2D_T)   ( int,       int,       int,
-                                       char *,    int,       int,
-                                       int );
-typedef void           (*GEBS2D_T)   ( int,       char *,    char *,
-                                       int,       int,       char *,
-                                       int );
-typedef void           (*GEBR2D_T)   ( int,       char *,    char *,
-                                       int,       int,       char *,
-                                       int,       int,       int );
-typedef void           (*GSUM2D_T)   ( int,       char *,    char *,
-                                       int,       int,       char *,
-                                       int,       int,       int );
+typedef void           (*GESD2D_T)   ( Int,       Int,       Int,
+                                       char *,    Int,       Int,
+                                       Int );
+typedef void           (*GERV2D_T)   ( Int,       Int,       Int,
+                                       char *,    Int,       Int,
+                                       Int );
+typedef void           (*GEBS2D_T)   ( Int,       char *,    char *,
+                                       Int,       Int,       char *,
+                                       Int );
+typedef void           (*GEBR2D_T)   ( Int,       char *,    char *,
+                                       Int,       Int,       char *,
+                                       Int,       Int,       Int );
+typedef void           (*GSUM2D_T)   ( Int,       char *,    char *,
+                                       Int,       Int,       char *,
+                                       Int,       Int,       Int );
 
-typedef F_VOID_FCT     (*MMADD_T)    ( int  *,    int  *,    char *,
-                                       char *,    int  *,    char *,
-                                       char *,    int  * );
-typedef F_VOID_FCT     (*MMSHFT_T)   ( int  *,    int  *,    int *,
-                                       char *,    int  * );
-typedef F_VOID_FCT     (*VVDOT_T)    ( int  *,    char *,    char *,
-                                       int  *,    char *,    int  * );
-typedef F_VOID_FCT     (*VVSET_T)    ( int  *,    char *,    char *,
-                                       int  * );
-typedef F_VOID_FCT     (*TZPAD_T)    ( F_CHAR_T,  F_CHAR_T,  int  *,
-                                       int  *,    int  *,    char *,
-                                       char *,    char *,    int  * );
-typedef F_VOID_FCT     (*TZPADCPY_T) ( F_CHAR_T,  F_CHAR_T,  int  *,
-                                       int  *,    int  *,    char *,
-                                       int *,     char *,    int  * );
-typedef F_VOID_FCT     (*TZSET_T)    ( F_CHAR_T,  int  *,    int  *,
-                                       int  *,    char *,    char *,
-                                       char *,    int  * );
-typedef F_VOID_FCT     (*TZSCAL_T)   ( F_CHAR_T,  int *,     int  *,
-                                       int  *,    char *,    char *,
-                                       int  * );
+typedef F_VOID_FCT     (*MMADD_T)    ( Int  *,    Int  *,    char *,
+                                       char *,    Int  *,    char *,
+                                       char *,    Int  * );
+typedef F_VOID_FCT     (*MMSHFT_T)   ( Int  *,    Int  *,    Int *,
+                                       char *,    Int  * );
+typedef F_VOID_FCT     (*VVDOT_T)    ( Int  *,    char *,    char *,
+                                       Int  *,    char *,    Int  * );
+typedef F_VOID_FCT     (*VVSET_T)    ( Int  *,    char *,    char *,
+                                       Int  * );
+typedef F_VOID_FCT     (*TZPAD_T)    ( F_CHAR_T,  F_CHAR_T,  Int  *,
+                                       Int  *,    Int  *,    char *,
+                                       char *,    char *,    Int  * );
+typedef F_VOID_FCT     (*TZPADCPY_T) ( F_CHAR_T,  F_CHAR_T,  Int  *,
+                                       Int  *,    Int  *,    char *,
+                                       Int *,     char *,    Int  * );
+typedef F_VOID_FCT     (*TZSET_T)    ( F_CHAR_T,  Int  *,    Int  *,
+                                       Int  *,    char *,    char *,
+                                       char *,    Int  * );
+typedef F_VOID_FCT     (*TZSCAL_T)   ( F_CHAR_T,  Int *,     Int  *,
+                                       Int  *,    char *,    char *,
+                                       Int  * );
 
-typedef F_VOID_FCT     (*AXPY_T)     ( int *,     char *,    char *,
-                                       int *,     char *,    int * );
-typedef F_VOID_FCT     (*COPY_T)     ( int *,     char *,    int *,
-                                       char *,    int * );
-typedef F_VOID_FCT     (*SWAP_T)     ( int *,     char *,    int *,
-                                       char *,    int * );
+typedef F_VOID_FCT     (*AXPY_T)     ( Int *,     char *,    char *,
+                                       Int *,     char *,    Int * );
+typedef F_VOID_FCT     (*COPY_T)     ( Int *,     char *,    Int *,
+                                       char *,    Int * );
+typedef F_VOID_FCT     (*SWAP_T)     ( Int *,     char *,    Int *,
+                                       char *,    Int * );
 
-typedef F_VOID_FCT     (*GEMV_T)     ( F_CHAR_T,  int *,     int *,
-                                       char *,    char *,    int *,
-                                       char *,    int *,     char *,
-                                       char *,    int * );
-typedef F_VOID_FCT     (*AGEMV_T)    ( F_CHAR_T,  int *,     int *,
-                                       char *,    char *,    int *,
-                                       char *,    int *,     char *,
-                                       char *,    int * );
-typedef F_VOID_FCT     (*SYMV_T)     ( F_CHAR_T,  int *,     char *,
-                                       char *,    int *,     char *,
-                                       int *,     char *,    char *,
-                                       int * );
-typedef F_VOID_FCT     (*ASYMV_T)    ( F_CHAR_T,  int *,     char *,
-                                       char *,    int *,     char *,
-                                       int *,     char *,    char *,
-                                       int * );
-typedef F_VOID_FCT     (*HEMV_T)     ( F_CHAR_T,  int *,     char *,
-                                       char *,    int *,     char *,
-                                       int *,     char *,    char *,
-                                       int * );
-typedef F_VOID_FCT     (*AHEMV_T)    ( F_CHAR_T,  int *,     char *,
-                                       char *,    int *,     char *,
-                                       int *,     char *,    char *,
-                                       int * );
+typedef F_VOID_FCT     (*GEMV_T)     ( F_CHAR_T,  Int *,     Int *,
+                                       char *,    char *,    Int *,
+                                       char *,    Int *,     char *,
+                                       char *,    Int * );
+typedef F_VOID_FCT     (*AGEMV_T)    ( F_CHAR_T,  Int *,     Int *,
+                                       char *,    char *,    Int *,
+                                       char *,    Int *,     char *,
+                                       char *,    Int * );
+typedef F_VOID_FCT     (*SYMV_T)     ( F_CHAR_T,  Int *,     char *,
+                                       char *,    Int *,     char *,
+                                       Int *,     char *,    char *,
+                                       Int * );
+typedef F_VOID_FCT     (*ASYMV_T)    ( F_CHAR_T,  Int *,     char *,
+                                       char *,    Int *,     char *,
+                                       Int *,     char *,    char *,
+                                       Int * );
+typedef F_VOID_FCT     (*HEMV_T)     ( F_CHAR_T,  Int *,     char *,
+                                       char *,    Int *,     char *,
+                                       Int *,     char *,    char *,
+                                       Int * );
+typedef F_VOID_FCT     (*AHEMV_T)    ( F_CHAR_T,  Int *,     char *,
+                                       char *,    Int *,     char *,
+                                       Int *,     char *,    char *,
+                                       Int * );
 typedef F_VOID_FCT     (*TRMV_T)     ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                       int *,     char *,    int *,
-                                       char *,    int * );
+                                       Int *,     char *,    Int *,
+                                       char *,    Int * );
 typedef F_VOID_FCT     (*ATRMV_T)    ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                       int *,     char *,    char *,
-                                       int *,     char *,    int *,
-                                       char *,    char *,    int * );
+                                       Int *,     char *,    char *,
+                                       Int *,     char *,    Int *,
+                                       char *,    char *,    Int * );
 typedef F_VOID_FCT     (*TRSV_T)     ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                       int *,     char *,    int *,
-                                       char *,    int * );
-typedef F_VOID_FCT     (*GERC_T)     ( int *,     int *,     char *,
-                                       char *,    int *,     char *,
-                                       int *,     char *,    int * );
-typedef F_VOID_FCT     (*GERU_T)     ( int *,     int *,     char *,
-                                       char *,    int *,     char *,
-                                       int *,     char *,    int * );
-typedef F_VOID_FCT     (*SYR_T)      ( F_CHAR_T,  int *,     char *,
-                                       char *,    int *,     char *,
-                                       int * );
-typedef F_VOID_FCT     (*HER_T)      ( F_CHAR_T,  int *,     char *,
-                                       char *,    int *,     char *,
-                                       int * );
-typedef F_VOID_FCT     (*SYR2_T)     ( F_CHAR_T,  int *,     char *,
-                                       char *,    int *,     char *,
-                                       int *,     char *,    int * );
-typedef F_VOID_FCT     (*HER2_T)     ( F_CHAR_T,  int *,     char *,
-                                       char *,    int *,     char *,
-                                       int *,     char *,    int * );
+                                       Int *,     char *,    Int *,
+                                       char *,    Int * );
+typedef F_VOID_FCT     (*GERC_T)     ( Int *,     Int *,     char *,
+                                       char *,    Int *,     char *,
+                                       Int *,     char *,    Int * );
+typedef F_VOID_FCT     (*GERU_T)     ( Int *,     Int *,     char *,
+                                       char *,    Int *,     char *,
+                                       Int *,     char *,    Int * );
+typedef F_VOID_FCT     (*SYR_T)      ( F_CHAR_T,  Int *,     char *,
+                                       char *,    Int *,     char *,
+                                       Int * );
+typedef F_VOID_FCT     (*HER_T)      ( F_CHAR_T,  Int *,     char *,
+                                       char *,    Int *,     char *,
+                                       Int * );
+typedef F_VOID_FCT     (*SYR2_T)     ( F_CHAR_T,  Int *,     char *,
+                                       char *,    Int *,     char *,
+                                       Int *,     char *,    Int * );
+typedef F_VOID_FCT     (*HER2_T)     ( F_CHAR_T,  Int *,     char *,
+                                       char *,    Int *,     char *,
+                                       Int *,     char *,    Int * );
 
-typedef F_VOID_FCT     (*GEMM_T)     ( F_CHAR_T,  F_CHAR_T,  int *,
-                                       int *,     int *,     char *,
-                                       char *,    int *,     char *,
-                                       int *,     char *,    char *,
-                                       int * );
-typedef F_VOID_FCT     (*SYMM_T)     ( F_CHAR_T,  F_CHAR_T,  int *,
-                                       int *,     char *,    char *,
-                                       int *,     char *,    int *,
-                                       char *,    char *,    int * );
-typedef F_VOID_FCT     (*HEMM_T)     ( F_CHAR_T,  F_CHAR_T,  int *,
-                                       int *,     char *,    char *,
-                                       int *,     char *,    int *,
-                                       char *,    char *,    int * );
-typedef F_VOID_FCT     (*SYRK_T)     ( F_CHAR_T,  F_CHAR_T,  int *,
-                                       int *,     char *,    char *,
-                                       int *,     char *,    char *,
-                                       int * );
-typedef F_VOID_FCT     (*HERK_T)     ( F_CHAR_T,  F_CHAR_T,  int *,
-                                       int *,     char *,    char *,
-                                       int *,     char *,    char *,
-                                       int * );
-typedef F_VOID_FCT     (*SYR2K_T)    ( F_CHAR_T,  F_CHAR_T,  int *,
-                                       int *,     char *,    char *,
-                                       int *,     char *,    int *,
-                                       char *,    char *,    int * );
-typedef F_VOID_FCT     (*HER2K_T)    ( F_CHAR_T,  F_CHAR_T,  int *,
-                                       int *,     char *,    char *,
-                                       int *,     char *,    int *,
-                                       char *,    char *,    int * );
+typedef F_VOID_FCT     (*GEMM_T)     ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                       Int *,     Int *,     char *,
+                                       char *,    Int *,     char *,
+                                       Int *,     char *,    char *,
+                                       Int * );
+typedef F_VOID_FCT     (*SYMM_T)     ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                       Int *,     char *,    char *,
+                                       Int *,     char *,    Int *,
+                                       char *,    char *,    Int * );
+typedef F_VOID_FCT     (*HEMM_T)     ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                       Int *,     char *,    char *,
+                                       Int *,     char *,    Int *,
+                                       char *,    char *,    Int * );
+typedef F_VOID_FCT     (*SYRK_T)     ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                       Int *,     char *,    char *,
+                                       Int *,     char *,    char *,
+                                       Int * );
+typedef F_VOID_FCT     (*HERK_T)     ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                       Int *,     char *,    char *,
+                                       Int *,     char *,    char *,
+                                       Int * );
+typedef F_VOID_FCT     (*SYR2K_T)    ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                       Int *,     char *,    char *,
+                                       Int *,     char *,    Int *,
+                                       char *,    char *,    Int * );
+typedef F_VOID_FCT     (*HER2K_T)    ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                       Int *,     char *,    char *,
+                                       Int *,     char *,    Int *,
+                                       char *,    char *,    Int * );
 typedef F_VOID_FCT     (*TRMM_T)     ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                       F_CHAR_T,  int *,     int *,
-                                       char *,    char *,    int *,
-                                       char *,    int * );
+                                       F_CHAR_T,  Int *,     Int *,
+                                       char *,    char *,    Int *,
+                                       char *,    Int * );
 typedef F_VOID_FCT     (*TRSM_T)     ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                       F_CHAR_T,  int *,     int *,
-                                       char *,    char *,    int *,
-                                       char *,    int * );
+                                       F_CHAR_T,  Int *,     Int *,
+                                       char *,    char *,    Int *,
+                                       char *,    Int * );
 
 #else
 
@@ -325,8 +329,8 @@ typedef F_VOID_FCT     (*TRSM_T)     ();
 typedef struct
 {
    char           type;                  /* Encoding of the data type */
-   int            usiz;    /* length in bytes of elementary data type */
-   int            size;               /* length in bytes of data type */
+   Int            usiz;    /* length in bytes of elementary data type */
+   Int            size;               /* length in bytes of data type */
 
    char           * zero,
                   * one,
@@ -397,29 +401,29 @@ typedef struct
 
 #ifdef __STDC__
 
-typedef void           (*TZSYR_T)    ( PBTYP_T *, char *,    int,
-                                       int,       int,       int,
-                                       char *,    char *,    int,
-                                       char *,    int,       char *,
-                                       int );
-typedef void           (*TZSYR2_T)   ( PBTYP_T *, char *,    int,
-                                       int,       int,       int,
-                                       char *,    char *,    int,
-                                       char *,    int,       char *,
-                                       int,       char *,    int,
-                                       char *,    int );
+typedef void           (*TZSYR_T)    ( PBTYP_T *, char *,    Int,
+                                       Int,       Int,       Int,
+                                       char *,    char *,    Int,
+                                       char *,    Int,       char *,
+                                       Int );
+typedef void           (*TZSYR2_T)   ( PBTYP_T *, char *,    Int,
+                                       Int,       Int,       Int,
+                                       char *,    char *,    Int,
+                                       char *,    Int,       char *,
+                                       Int,       char *,    Int,
+                                       char *,    Int );
 typedef void           (*TZTRM_T)    ( PBTYP_T *, char *,    char *,
-                                       char *,    char *,    int,
-                                       int,       int,       int,
-                                       char *,    char *,    int,
-                                       char *,    int,       char *,
-                                       int );
+                                       char *,    char *,    Int,
+                                       Int,       Int,       Int,
+                                       char *,    char *,    Int,
+                                       char *,    Int,       char *,
+                                       Int );
 typedef void           (*TZSYM_T)    ( PBTYP_T *, char *,    char *,
-                                       int,       int,       int,
-                                       int,       char *,    char *,
-                                       int,       char *,    int,
-                                       char *,    int,       char *,
-                                       int,       char *,    int );
+                                       Int,       Int,       Int,
+                                       Int,       char *,    char *,
+                                       Int,       char *,    Int,
+                                       char *,    Int,       char *,
+                                       Int,       char *,    Int );
 #else
 
 typedef void           (*TZSYR_T)    ();
@@ -431,32 +435,32 @@ typedef void           (*TZSYM_T)    ();
 
 typedef struct
 {
-   int offd;                                /* Global diagonal offset */
-   int lcmt00;                            /* LCM value of first block */
+   Int offd;                                /* Global diagonal offset */
+   Int lcmt00;                            /* LCM value of first block */
 
-   int mp;                                    /* Local number of rows */
-   int imb1;                      /* Size of first row block (global) */
-   int imbloc;                       /* Size of first local row block */
-   int mb;                                          /* Row block size */
-   int lmbloc;                        /* Size of last local row block */
-   int mblks;                           /* Number of local row blocks */
-   int iupp;                /* LCM row bound for first diagonal block */
-   int upp;                       /* LCM row bound for diagonal block */
-   int prow;                       /* Relative row process coordinate */
-   int nprow;                               /* Number of process rows */
+   Int mp;                                    /* Local number of rows */
+   Int imb1;                      /* Size of first row block (global) */
+   Int imbloc;                       /* Size of first local row block */
+   Int mb;                                          /* Row block size */
+   Int lmbloc;                        /* Size of last local row block */
+   Int mblks;                           /* Number of local row blocks */
+   Int iupp;                /* LCM row bound for first diagonal block */
+   Int upp;                       /* LCM row bound for diagonal block */
+   Int prow;                       /* Relative row process coordinate */
+   Int nprow;                               /* Number of process rows */
 
-   int nq;                                 /* Local number of columns */
-   int inb1;                   /* Size of first column block (global) */
-   int inbloc;                    /* Size of first local column block */
-   int nb;                                       /* Column block size */
-   int lnbloc;                     /* Size of last local column block */
-   int nblks;                        /* Number of local column blocks */
-   int ilow;             /* LCM column bound for first diagonal block */
-   int low;                    /* LCM column bound for diagonal block */
-   int pcol;                    /* Relative column process coordinate */
-   int npcol;                            /* Number of process columns */
+   Int nq;                                 /* Local number of columns */
+   Int inb1;                   /* Size of first column block (global) */
+   Int inbloc;                    /* Size of first local column block */
+   Int nb;                                       /* Column block size */
+   Int lnbloc;                     /* Size of last local column block */
+   Int nblks;                        /* Number of local column blocks */
+   Int ilow;             /* LCM column bound for first diagonal block */
+   Int low;                    /* LCM column bound for diagonal block */
+   Int pcol;                    /* Relative column process coordinate */
+   Int npcol;                            /* Number of process columns */
 
-   int lcmb;    /* Least common multiple of nprow * mb and npcol * nb */
+   Int lcmb;    /* Least common multiple of nprow * mb and npcol * nb */
 
 } PB_VM_T;
 

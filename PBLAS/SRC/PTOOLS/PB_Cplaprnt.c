@@ -17,20 +17,20 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cplaprnt( PBTYP_T * TYPE, int M, int N,
-                  char * A, int IA, int JA, int * DESCA,
-                  int IRPRNT, int ICPRNT, char * CMATNM )
+void PB_Cplaprnt( PBTYP_T * TYPE, Int M, Int N,
+                  char * A, Int IA, Int JA, Int * DESCA,
+                  Int IRPRNT, Int ICPRNT, char * CMATNM )
 #else
 void PB_Cplaprnt( TYPE, M, N, A, IA, JA, DESCA, IRPRNT, ICPRNT, CMATNM )
 /*
 *  .. Scalar Arguments ..
 */
-   int            IA, ICPRNT, IRPRNT, JA, M, N;
+   Int            IA, ICPRNT, IRPRNT, JA, M, N;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA;
+   Int            * DESCA;
    char           * A, * CMATNM;
 #endif
 {
@@ -156,7 +156,7 @@ void PB_Cplaprnt( TYPE, M, N, A, IA, JA, DESCA, IRPRNT, ICPRNT, CMATNM )
 /*
 *  .. Local Scalars ..
 */
-   int            mycol, myrow, npcol, nprow, pcol, prow;
+   Int            mycol, myrow, npcol, nprow, pcol, prow;
 /* ..
 *  .. Executable Statements ..
 *
@@ -239,21 +239,21 @@ void PB_Cplaprnt( TYPE, M, N, A, IA, JA, DESCA, IRPRNT, ICPRNT, CMATNM )
 }
 
 #ifdef __STDC__
-void PB_Cplaprn2( PBTYP_T * TYPE, int M, int N, char * A, int IA,
-                  int JA, int * DESCA, int IRPRNT, int ICPRNT,
-                  char * CMATNM, int PROW, int PCOL )
+void PB_Cplaprn2( PBTYP_T * TYPE, Int M, Int N, char * A, Int IA,
+                  Int JA, Int * DESCA, Int IRPRNT, Int ICPRNT,
+                  char * CMATNM, Int PROW, Int PCOL )
 #else
 void PB_Cplaprn2( TYPE, M, N, A, IA, JA, DESCA, IRPRNT, ICPRNT, CMATNM,
                   PROW, PCOL )
 /*
 *  .. Scalar Arguments ..
 */
-   int            IA, ICPRNT, IRPRNT, JA, M, N, PCOL, PROW;
+   Int            IA, ICPRNT, IRPRNT, JA, M, N, PCOL, PROW;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA;
+   Int            * DESCA;
    char           * A, * CMATNM;
 #endif
 {
@@ -261,7 +261,7 @@ void PB_Cplaprn2( TYPE, M, N, A, IA, JA, DESCA, IRPRNT, ICPRNT, CMATNM,
 *  .. Local Scalars ..
 */
    char           type;
-   int            Acol, Aii, AisColRep, AisRowRep, Ajj, Ald, Arow, ctxt, h, i,
+   Int            Acol, Aii, AisColRep, AisRowRep, Ajj, Ald, Arow, ctxt, h, i,
                   ib, icurcol, icurrow, ii, in, j, jb, jj, jn, ldw, mycol,
                   myrow, npcol, nprow, size, usiz;
 /*
@@ -491,14 +491,14 @@ void PB_Cplaprn2( TYPE, M, N, A, IA, JA, DESCA, IRPRNT, ICPRNT, CMATNM,
 }
 
 #ifdef __STDC__
-void PB_Cprnt( char TYPE, int SIZE, int USIZ, int N, char * A, int IA,
-               int JA, char * CMATNM )
+void PB_Cprnt( char TYPE, Int SIZE, Int USIZ, Int N, char * A, Int IA,
+               Int JA, char * CMATNM )
 #else
 void PB_Cprnt( TYPE, SIZE, USIZ, N, A, IA, JA, CMATNM )
 /*
 *  .. Scalar Arguments ..
 */
-   int            IA, JA, N, SIZE, TYPE, USIZ;
+   Int            IA, JA, N, SIZE, TYPE, USIZ;
 /*
 *  .. Array Arguments ..
 */
@@ -508,7 +508,7 @@ void PB_Cprnt( TYPE, SIZE, USIZ, N, A, IA, JA, CMATNM )
 /*
 *  .. Local Scalars ..
 */
-   int            k;
+   Int            k;
 /* ..
 *  .. Executable Statements ..
 *
@@ -516,7 +516,7 @@ void PB_Cprnt( TYPE, SIZE, USIZ, N, A, IA, JA, CMATNM )
    if( TYPE == INT )
       for( k = 0; k < N; k++ )
          (void) fprintf( stdout, "%s(%6d,%6d)=%8d\n",      CMATNM, IA+k, JA,
-                         *((int *)(&A[k*SIZE])) );
+                         *((Int *)(&A[k*SIZE])) );
    else if( TYPE == SREAL )
       for( k = 0; k < N; k++ )
          (void) fprintf( stdout, "%s(%6d,%6d)=%16.8f\n",   CMATNM, IA+k, JA,

@@ -223,7 +223,7 @@
            { \
               if( ( (srcproc_) >= 0 ) && ( (nprocs_) > 1 ) ) \
               { \
-                 int inb__, mydist__, n__, nblk__, quot__, src__; \
+                 Int inb__, mydist__, n__, nblk__, quot__, src__; \
                  if( ( inb__ = (inb_) - (i_) ) <= 0 ) \
                  { \
                     src__  = (srcproc_) + ( nblk__ = (-inb__) / (nb_) + 1 ); \
@@ -300,7 +300,7 @@
            { \
               if( ( (srcproc_) >= 0 ) && ( (nprocs_) > 1 ) ) \
               { \
-                 int inb__, mydist__, n__, nblk__, quot__, rem__, src__; \
+                 Int inb__, mydist__, n__, nblk__, quot__, rem__, src__; \
                  if( ( inb__ = (inb_) - (i_) ) <= 0 ) \
                  { \
                     src__  = (srcproc_) + ( nblk__ = (-inb__) / (nb_) + 1 ); \
@@ -373,7 +373,7 @@
            { \
               if( ( (srcproc_) >= 0 ) && ( (nprocs_) > 1 ) ) \
               { \
-                 int inb__, mydist__, n__, nblk__, quot__, rem__, src__; \
+                 Int inb__, mydist__, n__, nblk__, quot__, rem__, src__; \
                  if( ( inb__ = (inb_) - (i_) ) <= 0 ) \
                  { \
                     src__  = (srcproc_) + ( nblk__ = (-inb__) / (nb_) + 1 ); \
@@ -427,7 +427,7 @@
 
 #define    Minfog2l( i_, j_, desc_, nr_, nc_, r_, c_, ii_, jj_, pr_, pc_ ) \
            { \
-              int quot__, i__, imb__, inb__, j__, mb__, mydist__, \
+              Int quot__, i__, imb__, inb__, j__, mb__, mydist__, \
                   nb__, nblk__, src__; \
               imb__ = desc_[IMB_]; mb__ = desc_[MB_]; pr_ = desc_[RSRC_]; \
               if( ( pr_ >= 0 ) && ( nr_ > 1 ) ) \
@@ -880,615 +880,615 @@
 */
 #ifdef __STDC__
 
-F_VOID_FCT     immadd_         ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     smmadd_         ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     dmmadd_         ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     cmmadd_         ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     zmmadd_         ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
+F_VOID_FCT     immadd_         ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     smmadd_         ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     dmmadd_         ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     cmmadd_         ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     zmmadd_         ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
 
-F_VOID_FCT     smmcadd_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     dmmcadd_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     cmmcadd_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     zmmcadd_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
+F_VOID_FCT     smmcadd_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     dmmcadd_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     cmmcadd_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     zmmcadd_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
 
-F_VOID_FCT     immtadd_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     smmtadd_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     dmmtadd_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     cmmtadd_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     zmmtadd_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
+F_VOID_FCT     immtadd_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     smmtadd_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     dmmtadd_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     cmmtadd_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     zmmtadd_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
 
-F_VOID_FCT     smmtcadd_       ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     dmmtcadd_       ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     cmmtcadd_       ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     zmmtcadd_       ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
+F_VOID_FCT     smmtcadd_       ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     dmmtcadd_       ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     cmmtcadd_       ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     zmmtcadd_       ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
 
-F_VOID_FCT     immdda_         ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     smmdda_         ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     dmmdda_         ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     cmmdda_         ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     zmmdda_         ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
+F_VOID_FCT     immdda_         ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     smmdda_         ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     dmmdda_         ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     cmmdda_         ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     zmmdda_         ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
 
-F_VOID_FCT     smmddac_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     dmmddac_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     cmmddac_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     zmmddac_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
+F_VOID_FCT     smmddac_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     dmmddac_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     cmmddac_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     zmmddac_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
 
-F_VOID_FCT     immddat_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     smmddat_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     dmmddat_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     cmmddat_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     zmmddat_        ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
+F_VOID_FCT     immddat_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     smmddat_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     dmmddat_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     cmmddat_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     zmmddat_        ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
 
-F_VOID_FCT     smmddact_       ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     dmmddact_       ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     cmmddact_       ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     zmmddact_       ( int *,     int *,     char *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
+F_VOID_FCT     smmddact_       ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     dmmddact_       ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     cmmddact_       ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     zmmddact_       ( Int *,     Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
 
 F_VOID_FCT     sasqrtb_        ( float *,   float *,   float * );
 F_VOID_FCT     dasqrtb_        ( double *,  double *,  double * );
 
-F_VOID_FCT     sset_           ( int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     dset_           ( int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     cset_           ( int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     zset_           ( int *,     char *,    char *,
-                                 int * );
+F_VOID_FCT     sset_           ( Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     dset_           ( Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     cset_           ( Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     zset_           ( Int *,     char *,    char *,
+                                 Int * );
 
-F_VOID_FCT     svasum_         ( int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     dvasum_         ( int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     scvasum_        ( int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     dzvasum_        ( int *,     char *,    char *,
-                                 int * );
+F_VOID_FCT     svasum_         ( Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     dvasum_         ( Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     scvasum_        ( Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     dzvasum_        ( Int *,     char *,    char *,
+                                 Int * );
 
-F_VOID_FCT     sascal_         ( int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     dascal_         ( int *,     char *,    char *,
-                                 int * );
+F_VOID_FCT     sascal_         ( Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     dascal_         ( Int *,     char *,    char *,
+                                 Int * );
 
-F_VOID_FCT     scshft_         ( int *,     int *,     int *,
-                                 char *,    int * );
-F_VOID_FCT     dcshft_         ( int *,     int *,     int *,
-                                 char *,    int * );
-F_VOID_FCT     ccshft_         ( int *,     int *,     int *,
-                                 char *,    int * );
-F_VOID_FCT     zcshft_         ( int *,     int *,     int *,
-                                 char *,    int * );
+F_VOID_FCT     scshft_         ( Int *,     Int *,     Int *,
+                                 char *,    Int * );
+F_VOID_FCT     dcshft_         ( Int *,     Int *,     Int *,
+                                 char *,    Int * );
+F_VOID_FCT     ccshft_         ( Int *,     Int *,     Int *,
+                                 char *,    Int * );
+F_VOID_FCT     zcshft_         ( Int *,     Int *,     Int *,
+                                 char *,    Int * );
 
-F_VOID_FCT     srshft_         ( int *,     int *,     int *,
-                                 char *,    int * );
-F_VOID_FCT     drshft_         ( int *,     int *,     int *,
-                                 char *,    int * );
-F_VOID_FCT     crshft_         ( int *,     int *,     int *,
-                                 char *,    int * );
-F_VOID_FCT     zrshft_         ( int *,     int *,     int *,
-                                 char *,    int * );
+F_VOID_FCT     srshft_         ( Int *,     Int *,     Int *,
+                                 char *,    Int * );
+F_VOID_FCT     drshft_         ( Int *,     Int *,     Int *,
+                                 char *,    Int * );
+F_VOID_FCT     crshft_         ( Int *,     Int *,     Int *,
+                                 char *,    Int * );
+F_VOID_FCT     zrshft_         ( Int *,     Int *,     Int *,
+                                 char *,    Int * );
 
-F_VOID_FCT     svvdot_         ( int *,     char *,    char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     dvvdot_         ( int *,     char *,    char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     cvvdotu_        ( int *,     char *,    char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     cvvdotc_        ( int *,     char *,    char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     zvvdotu_        ( int *,     char *,    char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     zvvdotc_        ( int *,     char *,    char *,
-                                 int *,     char *,    int * );
+F_VOID_FCT     svvdot_         ( Int *,     char *,    char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     dvvdot_         ( Int *,     char *,    char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     cvvdotu_        ( Int *,     char *,    char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     cvvdotc_        ( Int *,     char *,    char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     zvvdotu_        ( Int *,     char *,    char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     zvvdotc_        ( Int *,     char *,    char *,
+                                 Int *,     char *,    Int * );
 
-F_VOID_FCT     stzpad_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     char *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     dtzpad_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     char *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     ctzpad_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     char *,
-                                 char *,    char *,    int * );
-F_VOID_FCT     ztzpad_         ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     char *,
-                                 char *,    char *,    int * );
+F_VOID_FCT     stzpad_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     char *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     dtzpad_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     char *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     ctzpad_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     char *,
+                                 char *,    char *,    Int * );
+F_VOID_FCT     ztzpad_         ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     char *,
+                                 char *,    char *,    Int * );
 
-F_VOID_FCT     stzpadcpy_      ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     dtzpadcpy_      ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     ctzpadcpy_      ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     ztzpadcpy_      ( F_CHAR_T,  F_CHAR_T,  int *,
-                                 int *,     int *,     char *,
-                                 int *,     char *,    int * );
+F_VOID_FCT     stzpadcpy_      ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     dtzpadcpy_      ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     ctzpadcpy_      ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     ztzpadcpy_      ( F_CHAR_T,  F_CHAR_T,  Int *,
+                                 Int *,     Int *,     char *,
+                                 Int *,     char *,    Int * );
 
-F_VOID_FCT     stzscal_        ( F_CHAR_T,  int *,     int *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     dtzscal_        ( F_CHAR_T,  int *,     int *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     ctzscal_        ( F_CHAR_T,  int *,     int *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     ztzscal_        ( F_CHAR_T,  int *,     int *,
-                                 int *,     char *,    char *,
-                                 int * );
+F_VOID_FCT     stzscal_        ( F_CHAR_T,  Int *,     Int *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     dtzscal_        ( F_CHAR_T,  Int *,     Int *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     ctzscal_        ( F_CHAR_T,  Int *,     Int *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     ztzscal_        ( F_CHAR_T,  Int *,     Int *,
+                                 Int *,     char *,    char *,
+                                 Int * );
 
-F_VOID_FCT     chescal_        ( F_CHAR_T,  int *,     int *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     zhescal_        ( F_CHAR_T,  int *,     int *,
-                                 int *,     char *,    char *,
-                                 int * );
+F_VOID_FCT     chescal_        ( F_CHAR_T,  Int *,     Int *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     zhescal_        ( F_CHAR_T,  Int *,     Int *,
+                                 Int *,     char *,    char *,
+                                 Int * );
 
-F_VOID_FCT     ctzcnjg_        ( F_CHAR_T,  int *,     int *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     ztzcnjg_        ( F_CHAR_T,  int *,     int *,
-                                 int *,     char *,    char *,
-                                 int * );
+F_VOID_FCT     ctzcnjg_        ( F_CHAR_T,  Int *,     Int *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     ztzcnjg_        ( F_CHAR_T,  Int *,     Int *,
+                                 Int *,     char *,    char *,
+                                 Int * );
 
-F_VOID_FCT     sagemv_         ( F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     dagemv_         ( F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     cagemv_         ( F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
-F_VOID_FCT     zagemv_         ( F_CHAR_T,  int *,     int *,
-                                 char *,    char *,    int *,
-                                 char *,    int *,     char *,
-                                 char *,    int * );
+F_VOID_FCT     sagemv_         ( F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     dagemv_         ( F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     cagemv_         ( F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
+F_VOID_FCT     zagemv_         ( F_CHAR_T,  Int *,     Int *,
+                                 char *,    char *,    Int *,
+                                 char *,    Int *,     char *,
+                                 char *,    Int * );
 
-F_VOID_FCT     sasymv_         ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     dasymv_         ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     casymv_         ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     zasymv_         ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     cahemv_         ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     zahemv_         ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
+F_VOID_FCT     sasymv_         ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     dasymv_         ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     casymv_         ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     zasymv_         ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     cahemv_         ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     zahemv_         ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
 
 F_VOID_FCT     satrmv_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
 F_VOID_FCT     datrmv_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
 F_VOID_FCT     catrmv_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
 F_VOID_FCT     zatrmv_         ( F_CHAR_T,  F_CHAR_T,  F_CHAR_T,
-                                 int *,     char *,    char *,
-                                 int *,     char *,    int *,
-                                 char *,    char *,    int * );
+                                 Int *,     char *,    char *,
+                                 Int *,     char *,    Int *,
+                                 char *,    char *,    Int * );
 
-F_VOID_FCT     csymv_          ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
-F_VOID_FCT     zsymv_          ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    char *,
-                                 int * );
+F_VOID_FCT     csymv_          ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
+F_VOID_FCT     zsymv_          ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    char *,
+                                 Int * );
 
-F_VOID_FCT     csyr_           ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int * );
-F_VOID_FCT     zsyr_           ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int * );
+F_VOID_FCT     csyr_           ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int * );
+F_VOID_FCT     zsyr_           ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int * );
 
-F_VOID_FCT     csyr2_          ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    int * );
-F_VOID_FCT     zsyr2_          ( F_CHAR_T,  int *,     char *,
-                                 char *,    int *,     char *,
-                                 int *,     char *,    int * );
+F_VOID_FCT     csyr2_          ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    Int * );
+F_VOID_FCT     zsyr2_          ( F_CHAR_T,  Int *,     char *,
+                                 char *,    Int *,     char *,
+                                 Int *,     char *,    Int * );
 
-void           PB_Ctzsyr       ( PBTYP_T *, char *,    int,
-                                 int,       int,       int,
-                                 char *,    char *,    int,
-                                 char *,    int,       char *,
-                                 int );
-void           PB_Ctzher       ( PBTYP_T *, char *,    int,
-                                 int,       int,       int,
-                                 char *,    char *,    int,
-                                 char *,    int,       char *,
-                                 int );
-void           PB_Ctzsyr2      ( PBTYP_T *, char *,    int,
-                                 int,       int,       int,
-                                 char *,    char *,    int,
-                                 char *,    int,       char *,
-                                 int,       char *,    int,
-                                 char *,    int );
-void           PB_Ctzher2      ( PBTYP_T *, char *,    int,
-                                 int,       int,       int,
-                                 char *,    char *,    int,
-                                 char *,    int,       char *,
-                                 int,       char *,    int,
-                                 char *,    int );
+void           PB_Ctzsyr       ( PBTYP_T *, char *,    Int,
+                                 Int,       Int,       Int,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int );
+void           PB_Ctzher       ( PBTYP_T *, char *,    Int,
+                                 Int,       Int,       Int,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int );
+void           PB_Ctzsyr2      ( PBTYP_T *, char *,    Int,
+                                 Int,       Int,       Int,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int );
+void           PB_Ctzher2      ( PBTYP_T *, char *,    Int,
+                                 Int,       Int,       Int,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int );
 void           PB_Ctztrmv      ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       int,       int,
-                                 char *,    char *,    int,
-                                 char *,    int,       char *,
-                                 int );
+                                 char *,    char *,    Int,
+                                 Int,       Int,       Int,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int );
 void           PB_Ctzatrmv     ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       int,       int,
-                                 char *,    char *,    int,
-                                 char *,    int,       char *,
-                                 int );
+                                 char *,    char *,    Int,
+                                 Int,       Int,       Int,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int );
 void           PB_Ctzsymv      ( PBTYP_T *, char *,    char *,
-                                 int,       int,       int,
-                                 int,       char *,    char *,
-                                 int,       char *,    int,
-                                 char *,    int,       char *,
-                                 int,       char *,    int );
+                                 Int,       Int,       Int,
+                                 Int,       char *,    char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int,       char *,    Int );
 void           PB_Ctzhemv      ( PBTYP_T *, char *,    char *,
-                                 int,       int,       int,
-                                 int,       char *,    char *,
-                                 int,       char *,    int,
-                                 char *,    int,       char *,
-                                 int,       char *,    int );
+                                 Int,       Int,       Int,
+                                 Int,       char *,    char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int,       char *,    Int );
 void           PB_Ctzasymv     ( PBTYP_T *, char *,    char *,
-                                 int,       int,       int,
-                                 int,       char *,    char *,
-                                 int,       char *,    int,
-                                 char *,    int,       char *,
-                                 int,       char *,    int );
+                                 Int,       Int,       Int,
+                                 Int,       char *,    char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int,       char *,    Int );
 void           PB_Ctzahemv     ( PBTYP_T *, char *,    char *,
-                                 int,       int,       int,
-                                 int,       char *,    char *,
-                                 int,       char *,    int,
-                                 char *,    int,       char *,
-                                 int,       char *,    int );
+                                 Int,       Int,       Int,
+                                 Int,       char *,    char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int,       char *,    Int );
 
-void           PB_Ctzsyrk      ( PBTYP_T *, char *,    int,
-                                 int,       int,       int,
-                                 char *,    char *,    int,
-                                 char *,    int,       char *,
-                                 int );
-void           PB_Ctzherk      ( PBTYP_T *, char *,    int,
-                                 int,       int,       int,
-                                 char *,    char *,    int,
-                                 char *,    int,       char *,
-                                 int );
-void           PB_Ctzsyr2k     ( PBTYP_T *, char *,    int,
-                                 int,       int,       int,
-                                 char *,    char *,    int,
-                                 char *,    int,       char *,
-                                 int,       char *,    int,
-                                 char *,    int );
-void           PB_Ctzher2k     ( PBTYP_T *, char *,    int,
-                                 int,       int,       int,
-                                 char *,    char *,    int,
-                                 char *,    int,       char *,
-                                 int,       char *,    int,
-                                 char *,    int );
+void           PB_Ctzsyrk      ( PBTYP_T *, char *,    Int,
+                                 Int,       Int,       Int,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int );
+void           PB_Ctzherk      ( PBTYP_T *, char *,    Int,
+                                 Int,       Int,       Int,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int );
+void           PB_Ctzsyr2k     ( PBTYP_T *, char *,    Int,
+                                 Int,       Int,       Int,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int );
+void           PB_Ctzher2k     ( PBTYP_T *, char *,    Int,
+                                 Int,       Int,       Int,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int );
 void           PB_Ctztrmm      ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       int,       int,
-                                 char *,    char *,    int,
-                                 char *,    int,       char *,
-                                 int );
+                                 char *,    char *,    Int,
+                                 Int,       Int,       Int,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int );
 void           PB_Ctzsymm      ( PBTYP_T *, char *,    char *,
-                                 int,       int,       int,
-                                 int,       char *,    char *,
-                                 int,       char *,    int,
-                                 char *,    int,       char *,
-                                 int,       char *,    int );
+                                 Int,       Int,       Int,
+                                 Int,       char *,    char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int,       char *,    Int );
 void           PB_Ctzhemm      ( PBTYP_T *, char *,    char *,
-                                 int,       int,       int,
-                                 int,       char *,    char *,
-                                 int,       char *,    int,
-                                 char *,    int,       char *,
-                                 int,       char *,    int );
+                                 Int,       Int,       Int,
+                                 Int,       char *,    char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int,       char *,    Int );
 
-void           PB_CpswapNN     ( PBTYP_T *, int,       char *,
-                                 int,       int,       int *,
-                                 int,       char *,    int,
-                                 int,       int *,     int );
-void           PB_CpswapND     ( PBTYP_T *, int,       char *,
-                                 int,       int,       int *,
-                                 int,       char *,    int,
-                                 int,       int *,     int );
-void           PB_Cpdot11      ( PBTYP_T *, int,       char *,
-                                 char *,    int,       int,
-                                 int *,     int,       char *,
-                                 int,       int,       int *,
-                                 int,       VVDOT_T );
-void           PB_CpdotNN      ( PBTYP_T *, int,       char *,
-                                 char *,    int,       int,
-                                 int *,     int,       char *,
-                                 int,       int,       int *,
-                                 int,       VVDOT_T );
-void           PB_CpdotND      ( PBTYP_T *, int,       char *,
-                                 char *,    int,       int,
-                                 int *,     int,       char *,
-                                 int,       int,       int *,
-                                 int,       VVDOT_T );
-void           PB_CpaxpbyNN    ( PBTYP_T *, char *,    int,
-                                 int,       char *,    char *,
-                                 int,       int,       int *,
+void           PB_CpswapNN     ( PBTYP_T *, Int,       char *,
+                                 Int,       Int,       Int *,
+                                 Int,       char *,    Int,
+                                 Int,       Int *,     Int );
+void           PB_CpswapND     ( PBTYP_T *, Int,       char *,
+                                 Int,       Int,       Int *,
+                                 Int,       char *,    Int,
+                                 Int,       Int *,     Int );
+void           PB_Cpdot11      ( PBTYP_T *, Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int *,     Int,       char *,
+                                 Int,       Int,       Int *,
+                                 Int,       VVDOT_T );
+void           PB_CpdotNN      ( PBTYP_T *, Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int *,     Int,       char *,
+                                 Int,       Int,       Int *,
+                                 Int,       VVDOT_T );
+void           PB_CpdotND      ( PBTYP_T *, Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int *,     Int,       char *,
+                                 Int,       Int,       Int *,
+                                 Int,       VVDOT_T );
+void           PB_CpaxpbyNN    ( PBTYP_T *, char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       Int,       Int *,
                                  char *,    char *,    char *,
-                                 int,       int,       int *,
+                                 Int,       Int,       Int *,
                                  char * );
-void           PB_CpaxpbyND    ( PBTYP_T *, char *,    int,
-                                 int,       char *,    char *,
-                                 int,       int,       int *,
+void           PB_CpaxpbyND    ( PBTYP_T *, char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       Int,       Int *,
                                  char *,    char *,    char *,
-                                 int,       int,       int *,
+                                 Int,       Int,       Int *,
                                  char * );
-void           PB_CpaxpbyDN    ( PBTYP_T *, char *,    int,
-                                 int,       char *,    char *,
-                                 int,       int,       int *,
+void           PB_CpaxpbyDN    ( PBTYP_T *, char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       Int,       Int *,
                                  char *,    char *,    char *,
-                                 int,       int,       int *,
+                                 Int,       Int,       Int *,
                                  char * );
-void           PB_Cpaxpby      ( PBTYP_T *, char *,    int,
-                                 int,       char *,    char *,
-                                 int,       int,       int *,
+void           PB_Cpaxpby      ( PBTYP_T *, char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       Int,       Int *,
                                  char *,    char *,    char *,
-                                 int,       int,       int *,
+                                 Int,       Int,       Int *,
                                  char * );
 
-void           PB_Cpsyr        ( PBTYP_T *, char *,    int,
-                                 int,       char *,    char *,
-                                 int,       char *,    int,
-                                 char *,    int,       int,
-                                 int *,     TZSYR_T );
-void           PB_Cpsyr2       ( PBTYP_T *, char *,    int,
-                                 int,       char *,    char *,
-                                 int,       char *,    int,
-                                 char *,    int,       char *,
-                                 int,       char *,    int,
-                                 int,       int *,     TZSYR2_T );
+void           PB_Cpsyr        ( PBTYP_T *, char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int,       Int,
+                                 Int *,     TZSYR_T );
+void           PB_Cpsyr2       ( PBTYP_T *, char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int,       char *,    Int,
+                                 Int,       Int *,     TZSYR2_T );
 void           PB_Cptrm        ( PBTYP_T *, PBTYP_T *, char *,
                                  char *,    char *,    char *,
-                                 int,       int,       char *,
-                                 char *,    int,       int,
-                                 int *,     char *,    int,
-                                 char *,    int,       TZTRM_T );
+                                 Int,       Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    Int,
+                                 char *,    Int,       TZTRM_T );
 void           PB_Cpsym        ( PBTYP_T *, PBTYP_T *, char *,
-                                 char *,    int,       int,
-                                 char *,    char *,    int,
-                                 int,       int *,     char *,
-                                 int,       char *,    int,
-                                 char *,    int,       char *,
-                                 int,       TZSYM_T );
+                                 char *,    Int,       Int,
+                                 char *,    char *,    Int,
+                                 Int,       Int *,     char *,
+                                 Int,       char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int,       TZSYM_T );
 void           PB_Cpgeadd      ( PBTYP_T *, char *,    char *,
-                                 char *,    int,       int,
-                                 char *,    char *,    int,
-                                 int,       int *,     char *,
-                                 char *,    int,       int,
-                                 int * );
+                                 char *,    Int,       Int,
+                                 char *,    char *,    Int,
+                                 Int,       Int *,     char *,
+                                 char *,    Int,       Int,
+                                 Int * );
 void           PB_Cptradd      ( PBTYP_T *, char *,    char *,
-                                 char *,    int,       int,
-                                 char *,    char *,    int,
-                                 int,       int *,     char *,
-                                 char *,    int,       int,
-                                 int * );
-void           PB_Cptran       ( PBTYP_T *, char *,    int,
-                                 int,       char *,    char *,
-                                 int,       int,       int *,
-                                 char *,    char *,    int,
-                                 int,       int * );
-void           PB_Cptrsv       ( PBTYP_T *, int,       char *,
-                                 char *,    char *,    int,
-                                 char *,    int,       int,
-                                 int *,     char *,    int,
-                                 char *,    int );
-void           PB_Cptrsm       ( PBTYP_T *, int,       char *,
+                                 char *,    Int,       Int,
+                                 char *,    char *,    Int,
+                                 Int,       Int *,     char *,
+                                 char *,    Int,       Int,
+                                 Int * );
+void           PB_Cptran       ( PBTYP_T *, char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       Int,       Int *,
+                                 char *,    char *,    Int,
+                                 Int,       Int * );
+void           PB_Cptrsv       ( PBTYP_T *, Int,       char *,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    Int,
+                                 char *,    Int );
+void           PB_Cptrsm       ( PBTYP_T *, Int,       char *,
                                  char *,    char *,    char *,
-                                 int,       int,       char *,
-                                 char *,    int,       int,
-                                 int *,     char *,    int,
-                                 char *,    int );
+                                 Int,       Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    Int,
+                                 char *,    Int );
 
 void           PB_CpgemmAB     ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       int,       char *,
-                                 char *,    int,       int,
-                                 int *,     char *,    int,
-                                 int,       int *,     char *,
-                                 char *,    int,       int,
-                                 int * );
+                                 char *,    char *,    Int,
+                                 Int,       Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    Int,
+                                 Int,       Int *,     char *,
+                                 char *,    Int,       Int,
+                                 Int * );
 void           PB_CpgemmAC     ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       int,       char *,
-                                 char *,    int,       int,
-                                 int *,     char *,    int,
-                                 int,       int *,     char *,
-                                 char *,    int,       int,
-                                 int * );
+                                 char *,    char *,    Int,
+                                 Int,       Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    Int,
+                                 Int,       Int *,     char *,
+                                 char *,    Int,       Int,
+                                 Int * );
 void           PB_CpgemmBC     ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       int,       char *,
-                                 char *,    int,       int,
-                                 int *,     char *,    int,
-                                 int,       int *,     char *,
-                                 char *,    int,       int,
-                                 int * );
+                                 char *,    char *,    Int,
+                                 Int,       Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    Int,
+                                 Int,       Int *,     char *,
+                                 char *,    Int,       Int,
+                                 Int * );
 void           PB_CpsymmAB     ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    char *,
-                                 int,       int,       int *,
-                                 char *,    int,       int,
-                                 int *,     char *,    char *,
-                                 int,       int,       int * );
+                                 char *,    char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       Int,       Int *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    char *,
+                                 Int,       Int,       Int * );
 void           PB_CpsymmBC     ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    char *,
-                                 int,       int,       int *,
-                                 char *,    int,       int,
-                                 int *,     char *,    char *,
-                                 int,       int,       int * );
+                                 char *,    char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       Int,       Int *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    char *,
+                                 Int,       Int,       Int * );
 void           PB_CpsyrkA      ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    char *,
-                                 int,       int,       int *,
-                                 char *,    char *,    int,
-                                 int,       int * );
+                                 char *,    char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       Int,       Int *,
+                                 char *,    char *,    Int,
+                                 Int,       Int * );
 void           PB_CpsyrkAC     ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    char *,
-                                 int,       int,       int *,
-                                 char *,    char *,    int,
-                                 int,       int * );
+                                 char *,    char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       Int,       Int *,
+                                 char *,    char *,    Int,
+                                 Int,       Int * );
 void           PB_Cpsyr2kA     ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    char *,
-                                 int,       int,       int *,
-                                 char *,    int,       int,
-                                 int *,     char *,    char *,
-                                 int,       int,       int * );
+                                 char *,    char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       Int,       Int *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    char *,
+                                 Int,       Int,       Int * );
 void           PB_Cpsyr2kAC    ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    char *,
-                                 int,       int,       int *,
-                                 char *,    int,       int,
-                                 int *,     char *,    char *,
-                                 int,       int,       int * );
+                                 char *,    char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       Int,       Int *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    char *,
+                                 Int,       Int,       Int * );
 void           PB_CptrmmAB     ( PBTYP_T *, char *,    char *,
                                  char *,    char *,    char *,
-                                 int,       int,       char *,
-                                 char *,    int,       int,
-                                 int *,     char *,    int,
-                                 int,       int * );
+                                 Int,       Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    Int,
+                                 Int,       Int * );
 void           PB_CptrmmB      ( PBTYP_T *, char *,    char *,
                                  char *,    char *,    char *,
-                                 int,       int,       char *,
-                                 char *,    int,       int,
-                                 int *,     char *,    int,
-                                 int,       int * );
+                                 Int,       Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    Int,
+                                 Int,       Int * );
 void           PB_CptrsmAB     ( PBTYP_T *, char *,    char *,
                                  char *,    char *,    char *,
-                                 int,       int,       char *,
-                                 char *,    int,       int,
-                                 int *,     char *,    int,
-                                 int,       int * );
+                                 Int,       Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    Int,
+                                 Int,       Int * );
 void           PB_CptrsmAB0    ( PBTYP_T *, char *,    char *,
-                                 char *,    int,       int,
-                                 char *,    char *,    int,
-                                 int,       int *,     char *,
-                                 int,       int,       int *,
-                                 char * *,  int *,     int * );
+                                 char *,    Int,       Int,
+                                 char *,    char *,    Int,
+                                 Int,       Int *,     char *,
+                                 Int,       Int,       Int *,
+                                 char * *,  Int *,     Int * );
 void           PB_CptrsmAB1    ( PBTYP_T *, char *,    char *,
-                                 char *,    char *,    int,
-                                 int,       char *,    char *,
-                                 int,       int,       int *,
-                                 char *,    int,       int,
-                                 int *,     char *,    int * );
+                                 char *,    char *,    Int,
+                                 Int,       char *,    char *,
+                                 Int,       Int,       Int *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    Int * );
 void           PB_CptrsmB      ( PBTYP_T *, char *,    char *,
                                  char *,    char *,    char *,
-                                 int,       int,       char *,
-                                 char *,    int,       int,
-                                 int *,     char *,    int,
-                                 int,       int * );
+                                 Int,       Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int *,     char *,    Int,
+                                 Int,       Int * );
 #else
 
 F_VOID_FCT     immadd_         ();
@@ -1673,71 +1673,71 @@ void           PB_CptrsmB      ();
                                                              /* TOOLS */
 #ifdef __STDC__
 
-int            PB_Cgcd         ( int,       int );
-int            PB_Clcm         ( int,       int );
+Int            PB_Cgcd         ( Int,       Int );
+Int            PB_Clcm         ( Int,       Int );
 
-void           PB_Cdescset     ( int *,     int,       int,
-                                 int,       int,       int,
-                                 int,       int,       int,
-                                 int,       int );
-void           PB_Cdescribe    ( int,       int,       int,
-                                 int,       int *,     int,
-                                 int,       int,       int,
-                                 int *,     int *,     int *,
-                                 int *,     int *,     int *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           PB_CargFtoC     ( int,       int,       int *,
-                                 int *,     int *,     int * );
-int            PB_Cfirstnb     ( int,       int,       int,
-                                 int );
-int            PB_Clastnb      ( int,       int,       int,
-                                 int );
-int            PB_Cspan        ( int,       int,       int,
-                                 int,       int,       int );
+void           PB_Cdescset     ( Int *,     Int,       Int,
+                                 Int,       Int,       Int,
+                                 Int,       Int,       Int,
+                                 Int,       Int );
+void           PB_Cdescribe    ( Int,       Int,       Int,
+                                 Int,       Int *,     Int,
+                                 Int,       Int,       Int,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           PB_CargFtoC     ( Int,       Int,       Int *,
+                                 Int *,     Int *,     Int * );
+Int            PB_Cfirstnb     ( Int,       Int,       Int,
+                                 Int );
+Int            PB_Clastnb      ( Int,       Int,       Int,
+                                 Int );
+Int            PB_Cspan        ( Int,       Int,       Int,
+                                 Int,       Int,       Int );
 
-void           PB_Cainfog2l    ( int,       int,       int,
-                                 int,       int *,     int,
-                                 int,       int,       int,
-                                 int *,     int *,     int *,
-                                 int *,     int *,     int *,
-                                 int *,     int *,     int *,
-                                 int * );
-void           PB_Cinfog2l     ( int,       int,       int *,
-                                 int,       int,       int,
-                                 int,       int *,     int *,
-                                 int *,     int * );
-int            PB_Cg2lrem      ( int,       int,       int,
-                                 int,       int,       int );
-int            PB_Cindxg2p     ( int,       int,       int,
-                                 int,       int,       int );
-int            PB_Cnumroc      ( int,       int,       int,
-                                 int,       int,       int,
-                                 int );
-int            PB_Cnpreroc     ( int,       int,       int,
-                                 int,       int,       int,
-                                 int );
-int            PB_Cnnxtroc     ( int,       int,       int,
-                                 int,       int,       int,
-                                 int );
+void           PB_Cainfog2l    ( Int,       Int,       Int,
+                                 Int,       Int *,     Int,
+                                 Int,       Int,       Int,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     Int *,     Int *,
+                                 Int * );
+void           PB_Cinfog2l     ( Int,       Int,       Int *,
+                                 Int,       Int,       Int,
+                                 Int,       Int *,     Int *,
+                                 Int *,     Int * );
+Int            PB_Cg2lrem      ( Int,       Int,       Int,
+                                 Int,       Int,       Int );
+Int            PB_Cindxg2p     ( Int,       Int,       Int,
+                                 Int,       Int,       Int );
+Int            PB_Cnumroc      ( Int,       Int,       Int,
+                                 Int,       Int,       Int,
+                                 Int );
+Int            PB_Cnpreroc     ( Int,       Int,       Int,
+                                 Int,       Int,       Int,
+                                 Int );
+Int            PB_Cnnxtroc     ( Int,       Int,       Int,
+                                 Int,       Int,       Int,
+                                 Int );
 
 void           PB_Cconjg       ( PBTYP_T *, char *,    char * );
 
 
-void           PB_Cwarn        ( int,       int,       char *,
+void           PB_Cwarn        ( Int,       Int,       char *,
                                  char *,    ... );
-void           PB_Cabort       ( int,       char *,    int );
-void           PB_Cchkmat      ( int,       char *,    char *,
-                                 int,       int,       int,
-                                 int,       int,       int,
-                                 int *,     int,       int * );
-void           PB_Cchkvec      ( int,       char *,    char *,
-                                 int,       int,       int,
-                                 int,       int *,     int,
-                                 int,       int * );
+void           PB_Cabort       ( Int,       char *,    Int );
+void           PB_Cchkmat      ( Int,       char *,    char *,
+                                 Int,       Int,       Int,
+                                 Int,       Int,       Int,
+                                 Int *,     Int,       Int * );
+void           PB_Cchkvec      ( Int,       char *,    char *,
+                                 Int,       Int ,       Int ,
+                                 Int,       Int *,     Int,
+                                 Int,       Int * );
 
-char *         PB_Cmalloc      ( int );
-char *         PB_Cgetbuf      ( char *,    int );
+char *         PB_Cmalloc      ( Int );
+char *         PB_Cgetbuf      ( char *,    Int );
 
 PBTYP_T *      PB_Citypeset    ( void );
 PBTYP_T *      PB_Cstypeset    ( void );
@@ -1745,130 +1745,130 @@ PBTYP_T *      PB_Cdtypeset    ( void );
 PBTYP_T *      PB_Cctypeset    ( void );
 PBTYP_T *      PB_Cztypeset    ( void );
 
-int            pilaenv_        ( int *,     F_CHAR_T );
-char *         PB_Ctop         ( int *,     char *,    char *,
+Int            pilaenv_        ( Int *,     F_CHAR_T );
+char *         PB_Ctop         ( Int *,     char *,    char *,
                                  char * );
 
-void           PB_CVMinit      ( PB_VM_T *, int,       int,
-                                 int,       int,       int,
-                                 int,       int,       int,
-                                 int,       int,       int,
-                                 int );
-int            PB_CVMnpq       ( PB_VM_T * );
-void           PB_CVMcontig    ( PB_VM_T *, int *,     int *,
-                                 int *,     int * );
-int            PB_CVMloc       ( PBTYP_T *, PB_VM_T *, char *,
+void           PB_CVMinit      ( PB_VM_T *, Int,       Int,
+                                 Int,       Int,       Int,
+                                 Int,       Int,       Int,
+                                 Int,       Int,       Int,
+                                 Int );
+Int            PB_CVMnpq       ( PB_VM_T * );
+void           PB_CVMcontig    ( PB_VM_T *, Int *,     Int *,
+                                 Int *,     Int * );
+Int            PB_CVMloc       ( PBTYP_T *, PB_VM_T *, char *,
                                  char *,    char *,    char *,
-                                 int,       int,       char *,
-                                 char *,    int,       char *,
-                                 char *,    int );
-int            PB_CVMswp       ( PBTYP_T *, PB_VM_T *, char *,
-                                 char *,    char *,    int,
-                                 char *,    int,       char *,
-                                 int );
-int            PB_CVMpack      ( PBTYP_T *, PB_VM_T *, char *,
+                                 Int,       Int,       char *,
+                                 char *,    Int,       char *,
+                                 char *,    Int );
+Int            PB_CVMswp       ( PBTYP_T *, PB_VM_T *, char *,
+                                 char *,    char *,    Int,
+                                 char *,    Int,       char *,
+                                 Int );
+Int            PB_CVMpack      ( PBTYP_T *, PB_VM_T *, char *,
                                  char *,    char *,    char *,
-                                 int,       int,       char *,
-                                 char *,    int,       char *,
-                                 char *,    int );
-void           PB_CVMupdate    ( PB_VM_T *, int,       int *,
-                                 int * );
+                                 Int,       Int,       char *,
+                                 char *,    Int,       char *,
+                                 char *,    Int );
+void           PB_CVMupdate    ( PB_VM_T *, Int,       Int *,
+                                 Int * );
 
-void           PB_Cbinfo       ( int,       int,       int,
-                                 int,       int,       int,
-                                 int,       int,       int,
-                                 int *,     int *,     int *,
-                                 int *,     int *,     int *,
-                                 int *,     int *,     int *,
-                                 int *,     int * );
+void           PB_Cbinfo       ( Int,       Int,       Int,
+                                 Int,       Int,       Int,
+                                 Int,       Int,       Int,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     Int *,     Int *,
+                                 Int *,     Int * );
 
-void           PB_Cplaprnt     ( PBTYP_T *, int,       int,
-                                 char *,    int,       int,
-                                 int *,     int,       int,
+void           PB_Cplaprnt     ( PBTYP_T *, Int,       Int,
+                                 char *,    Int,       Int,
+                                 Int *,     Int,       Int,
                                  char * );
-void           PB_Cplaprn2     ( PBTYP_T *, int,       int,
-                                 char *,    int,       int,
-                                 int *,     int,       int,
-                                 char *,    int,       int );
-void           PB_Cprnt        ( char,      int,       int,
-                                 int,       char *,    int,
-                                 int,       char * );
+void           PB_Cplaprn2     ( PBTYP_T *, Int,       Int,
+                                 char *,    Int,       Int,
+                                 Int *,     Int,       Int,
+                                 char *,    Int,       Int );
+void           PB_Cprnt        ( char,      Int,       Int,
+                                 Int,       char *,    Int,
+                                 Int,       char * );
 
 void           PB_Cplapad      ( PBTYP_T *, char *,    char *,
-                                 int,       int,       char *,
-                                 char *,    char *,    int,
-                                 int,       int * );
+                                 Int,       Int,       char *,
+                                 char *,    char *,    Int,
+                                 Int,       Int * );
 void           PB_Cplapd2      ( PBTYP_T *, char *,    char *,
-                                 int,       int,       char *,
-                                 char *,    char *,    int,
-                                 int,       int * );
+                                 Int,       Int,       char *,
+                                 char *,    char *,    Int,
+                                 Int,       Int * );
 void           PB_Cplascal     ( PBTYP_T *, char *,    char *,
-                                 int,       int,       char *,
-                                 char *,    int,       int,
-                                 int * );
+                                 Int,       Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int * );
 void           PB_Cplasca2     ( PBTYP_T *, char *,    char *,
-                                 int,       int,       char *,
-                                 char *,    int,       int,
-                                 int * );
-void           PB_Cplacnjg     ( PBTYP_T *, int,       int,
-                                 char *,    char *,    int,
-                                 int,       int * );
+                                 Int,       Int,       char *,
+                                 char *,    Int,       Int,
+                                 Int * );
+void           PB_Cplacnjg     ( PBTYP_T *, Int,       Int,
+                                 char *,    char *,    Int,
+                                 Int,       Int * );
 
 void           PB_CInV         ( PBTYP_T *, char *,    char *,
-                                 int,       int,       int *,
-                                 int,       char *,    int,
-                                 int,       int *,     char *,
-                                 char * *,  int *,     int * );
+                                 Int,       Int,       Int *,
+                                 Int,       char *,    Int,
+                                 Int,       Int *,     char *,
+                                 char * *,  Int *,     Int * );
 void           PB_CInV2        ( PBTYP_T *, char *,    char *,
-                                 int,       int,       int *,
-                                 int,       char *,    int,
-                                 int,       int *,     char *,
-                                 char *,    int,       int * );
-void           PB_CInOutV      ( PBTYP_T *, char *,    int,
-                                 int,       int *,     int,
-                                 char *,    char *,    int,
-                                 int,       int *,     char *,
-                                 char * *,  char * *,  int *,
-                                 int *,     int *,     int * );
+                                 Int,       Int,       Int *,
+                                 Int,       char *,    Int,
+                                 Int,       Int *,     char *,
+                                 char *,    Int,       Int * );
+void           PB_CInOutV      ( PBTYP_T *, char *,    Int,
+                                 Int,       Int *,     Int,
+                                 char *,    char *,    Int,
+                                 Int,       Int *,     char *,
+                                 char * *,  char * *,  Int *,
+                                 Int *,     Int *,     Int * );
 void           PB_CInOutV2     ( PBTYP_T *, char *,    char *,
-                                 int,       int,       int,
-                                 int *,     int,       char *,
-                                 int,       int,       int *,
-                                 char *,    char * *,  int *,
-                                 int *,     int *,     int * );
+                                 Int,       Int,       Int,
+                                 Int *,     Int,       char *,
+                                 Int,       Int,       Int *,
+                                 char *,    char * *,  Int *,
+                                 Int *,     Int *,     Int * );
 void           PB_COutV        ( PBTYP_T *, char *,    char *,
-                                 int,       int,       int *,
-                                 int,       char * *,  int *,
-                                 int *,     int * );
+                                 Int,       Int,       Int *,
+                                 Int,       char * *,  Int *,
+                                 Int *,     Int * );
 void           PB_CGatherV     ( PBTYP_T *, char *,    char *,
-                                 int,       int,       char *,
-                                 int,       int,       int *,
-                                 char *,    char * *,  int *,
-                                 int * );
-void           PB_CScatterV    ( PBTYP_T *, char *,    int,
-                                 int,       char *,    int,
-                                 int,       int *,     char *,
-                                 char *,    char *,    int,
-                                 int,       int *,     char * );
+                                 Int,       Int,       char *,
+                                 Int,       Int,       Int *,
+                                 char *,    char * *,  Int *,
+                                 Int * );
+void           PB_CScatterV    ( PBTYP_T *, char *,    Int,
+                                 Int,       char *,    Int,
+                                 Int,       Int *,     char *,
+                                 char *,    char *,    Int,
+                                 Int,       Int *,     char * );
 #else
 
-int            PB_Cgcd         ();
-int            PB_Clcm         ();
+Int            PB_Cgcd         ();
+Int            PB_Clcm         ();
 
 void           PB_Cdescset     ();
 void           PB_Cdescribe    ();
 void           PB_CargFtoC     ();
-int            PB_Cfirstnb     ();
-int            PB_Clastnb      ();
-int            PB_Cspan        ();
+Int            PB_Cfirstnb     ();
+Int            PB_Clastnb      ();
+Int            PB_Cspan        ();
 
 void           PB_Cainfog2l    ();
 void           PB_Cinfog2l     ();
-int            PB_Cg2lrem      ();
-int            PB_Cindxg2p     ();
-int            PB_Cnumroc      ();
-int            PB_Cnpreroc     ();
-int            PB_Cnnxtroc     ();
+Int            PB_Cg2lrem      ();
+Int            PB_Cindxg2p     ();
+Int            PB_Cnumroc      ();
+Int            PB_Cnpreroc     ();
+Int            PB_Cnnxtroc     ();
 
 void           PB_Cconjg       ();
 
@@ -1886,15 +1886,15 @@ PBTYP_T *      PB_Cdtypeset    ();
 PBTYP_T *      PB_Cctypeset    ();
 PBTYP_T *      PB_Cztypeset    ();
 
-int            pilaenv_        ();
+Int            pilaenv_        ();
 char *         PB_Ctop         ();
 
 void           PB_CVMinit      ();
-int            PB_CVMnpq       ();
+Int            PB_CVMnpq       ();
 void           PB_CVMcontig    ();
-int            PB_CVMloc       ();
-int            PB_CVMswp       ();
-int            PB_CVMpack      ();
+Int            PB_CVMloc       ();
+Int            PB_CVMswp       ();
+Int            PB_CVMpack      ();
 void           PB_CVMupdate    ();
 
 void           PB_Cbinfo       ();

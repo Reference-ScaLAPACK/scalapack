@@ -1,14 +1,13 @@
 #include "Bdef.h"
 
-
 MPI_Datatype BI_GetMpiTrType(BLACSCONTEXT *ctxt, char uplo, char diag,
-                                int m, int n, int lda, MPI_Datatype Dtype,
-                                int *N)
+                                Int m, Int n, Int lda, MPI_Datatype Dtype,
+                                Int *N)
 {
-   BLACBUFF *BI_GetBuff(int);
+   BLACBUFF *BI_GetBuff(Int);
    MPI_Datatype TrType;
-   int info, start, i, k;
-   int *len, *disp;
+   Int info, start, i, k;
+   MpiInt *len, *disp;
    BLACBUFF *bp;
 
    if (diag == 'u') start = 1;
@@ -32,9 +31,9 @@ MPI_Datatype BI_GetMpiTrType(BLACSCONTEXT *ctxt, char uplo, char diag,
 /*
  * Get space to hold the length and displacement values
  */
-   bp = BI_GetBuff( 2 * n * sizeof(int) );
-   len = (int *) bp->Buff;
-   disp = (int *) &bp->Buff[n*sizeof(int)];
+   bp = BI_GetBuff( 2 * n * sizeof(MpiInt) );
+   len = (MpiInt *) bp->Buff;
+   disp = (MpiInt *) &bp->Buff[n*sizeof(MpiInt)];
 
    if (m > n)
    {

@@ -17,21 +17,21 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pddot_( int * N,
+void pddot_( Int * N,
              double * DOT,
-             double * X, int * IX, int * JX, int * DESCX, int * INCX,
-             double * Y, int * IY, int * JY, int * DESCY, int * INCY )
+             double * X, Int * IX, Int * JX, Int * DESCX, Int * INCX,
+             double * Y, Int * IY, Int * JY, Int * DESCY, Int * INCY )
 #else
 void pddot_( N, DOT, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * INCX, * INCY, * IX, * IY, * JX, * JY, * N;
+   Int            * INCX, * INCY, * IX, * IY, * JX, * JY, * N;
    double         * DOT;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX, * DESCY;
+   Int            * DESCX, * DESCY;
    double         * X, * Y;
 #endif
 {
@@ -206,7 +206,7 @@ void pddot_( N, DOT, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 *  .. Local Scalars ..
 */
    char           scope, * top;
-   int            OneBlock, OneDgrid, RRorCC, Square, Xcol, Xi, Xii, XinbD,
+   Int            OneBlock, OneDgrid, RRorCC, Square, Xcol, Xi, Xii, XinbD,
                   Xinb1D, XisD, XisR, XisRow, Xj, Xjj, Xld, Xlinc, XmyprocD,
                   XmyprocR, XnbD, XnpD, XnprocsD, XnprocsR, XprocD, XprocR,
                   Xrow, Ycol, Yi, Yii, YinbD, Yinb1D, YisD, YisR, YisRow, Yj,
@@ -219,7 +219,7 @@ void pddot_( N, DOT, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 *  .. Local Arrays ..
 */
    char           * buf = NULL;
-   int            Xd[DLEN_], Yd[DLEN_], dbuf[ DLEN_ ];
+   Int            Xd[DLEN_], Yd[DLEN_], dbuf[ DLEN_ ];
 /* ..
 *  .. Executable Statements ..
 *

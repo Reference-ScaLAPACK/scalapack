@@ -17,19 +17,19 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pdasum_( int * N, double * ASUM,
-              double * X, int * IX, int * JX, int * DESCX, int * INCX )
+void pdasum_( Int * N, double * ASUM,
+              double * X, Int * IX, Int * JX, Int * DESCX, Int * INCX )
 #else
 void pdasum_( N, ASUM, X, IX, JX, DESCX, INCX )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * INCX, * IX, * JX, * N;
+   Int            * INCX, * IX, * JX, * N;
    double         * ASUM;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX;
+   Int            * DESCX;
    double         * X;
 #endif
 {
@@ -175,12 +175,12 @@ void pdasum_( N, ASUM, X, IX, JX, DESCX, INCX )
 *  .. Local Scalars ..
 */
    char           top;
-   int            Xcol, Xi, Xii, Xj, Xjj, Xld, Xnp, Xnq, Xrow, ctxt, info,
+   Int            Xcol, Xi, Xii, Xj, Xjj, Xld, Xnp, Xnq, Xrow, ctxt, info,
                   mycol, myrow, npcol, nprow;
 /*
 *  .. Local Arrays ..
 */
-   int            Xd[DLEN_];
+   Int            Xd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

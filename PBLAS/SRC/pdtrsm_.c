@@ -18,9 +18,9 @@
 
 #ifdef __STDC__
 void pdtrsm_( F_CHAR_T SIDE, F_CHAR_T UPLO, F_CHAR_T TRANS, F_CHAR_T DIAG,
-              int * M, int * N, double * ALPHA,
-              double * A, int * IA, int * JA, int * DESCA,
-              double * B, int * IB, int * JB, int * DESCB )
+              Int * M, Int * N, double * ALPHA,
+              double * A, Int * IA, Int * JA, Int * DESCA,
+              double * B, Int * IB, Int * JB, Int * DESCB )
 #else
 void pdtrsm_( SIDE, UPLO, TRANS, DIAG, M, N, ALPHA,
               A, IA, JA, DESCA, B, IB, JB, DESCB )
@@ -28,12 +28,12 @@ void pdtrsm_( SIDE, UPLO, TRANS, DIAG, M, N, ALPHA,
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       DIAG, SIDE, TRANS, UPLO;
-   int            * IA, * IB, * JA, * JB, * M, * N;
+   Int            * IA, * IB, * JA, * JB, * M, * N;
    double         * ALPHA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB;
+   Int            * DESCA, * DESCB;
    double         * A, * B;
 #endif
 {
@@ -241,14 +241,14 @@ void pdtrsm_( SIDE, UPLO, TRANS, DIAG, M, N, ALPHA,
 */
    char           DiagA, DirB, OpC, OpR, SideOp, TopC, TopR, TranOp, UploA,
                   Var, ctop, ctopsave, rtop, rtopsave;
-   int            Ai, Aj, Bi, Bj, ChooseAB, ForceTop, ctxt, info, itmp, lside,
+   Int            Ai, Aj, Bi, Bj, ChooseAB, ForceTop, ctxt, info, itmp, lside,
                   mycol, myrow, nb, notran, nounit, npcol, nprow, upper;
    double         ABestL, ABestR, Best, tmp1, tmp2, tmp3, tmp4;
    PBTYP_T        * type;
 /*
 *  .. Local Arrays ..
 */
-   int            Ad[DLEN_], Bd[DLEN_];
+   Int            Ad[DLEN_], Bd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

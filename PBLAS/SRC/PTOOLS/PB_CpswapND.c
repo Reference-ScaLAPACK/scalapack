@@ -17,20 +17,20 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_CpswapND( PBTYP_T * TYPE, int N,
-                  char * X, int IX, int JX, int * DESCX, int INCX,
-                  char * Y, int IY, int JY, int * DESCY, int INCY )
+void PB_CpswapND( PBTYP_T * TYPE, Int N,
+                  char * X, Int IX, Int JX, Int * DESCX, Int INCX,
+                  char * Y, Int IY, Int JY, Int * DESCY, Int INCY )
 #else
 void PB_CpswapND( TYPE, N, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 /*
 *  .. Scalar Arguments ..
 */
-   int            INCX, INCY, IX, IY, JX, JY, N;
+   Int            INCX, INCY, IX, IY, JX, JY, N;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX, * DESCY;
+   Int            * DESCX, * DESCY;
    char           * X, * Y;
 #endif
 {
@@ -184,7 +184,7 @@ void PB_CpswapND( TYPE, N, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 *  .. Local Scalars ..
 */
    char           scope, * top, * zero;
-   int            RRorCC, Xcol, Xii, XisR, XisRow, Xjj, Xld, Xlinc, Xm,
+   Int            RRorCC, Xcol, Xii, XisR, XisRow, Xjj, Xld, Xlinc, Xm,
                   XmyprocD, XmyprocR, Xn, XnprocsD, XnprocsR, XprocR, Xroc,
                   Xrow, Ycol, Yii, Yinb1D, YisR, YisRow, Yjj, Yld, Ylinc,
                   YmyprocD, YmyprocR, YnbD, YnpD, YnprocsD, YnprocsR, YprocD,

@@ -17,15 +17,15 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-int PB_CVMswp( PBTYP_T * TYPE, PB_VM_T * VM, char * VROCS, char * ROCS,
-               char * TRANS, int MN, char * X, int INCX, char * Y,
-               int INCY )
+Int PB_CVMswp( PBTYP_T * TYPE, PB_VM_T * VM, char * VROCS, char * ROCS,
+               char * TRANS, Int MN, char * X, Int INCX, char * Y,
+               Int INCY )
 #else
-int PB_CVMswp( TYPE, VM, VROCS, ROCS, TRANS, MN, X, INCX, Y, INCY )
+Int PB_CVMswp( TYPE, VM, VROCS, ROCS, TRANS, MN, X, INCX, Y, INCY )
 /*
 *  .. Scalar Arguments ..
 */
-   int            INCX, INCY, MN;
+   Int            INCX, INCY, MN;
 /*
 *  .. Array Arguments ..
 */
@@ -109,7 +109,7 @@ int PB_CVMswp( TYPE, VM, VROCS, ROCS, TRANS, MN, X, INCX, Y, INCY )
 /*
 *  .. Local Scalars ..
 */
-   int            GoEast, GoSouth, Xinc, Yinc, ilow, imbloc, inbloc, iupp, kb,
+   Int            GoEast, GoSouth, Xinc, Yinc, ilow, imbloc, inbloc, iupp, kb,
                   lcmt, lcmt00, lmbloc, lnbloc, low, mb, mblkd, mblks, mbloc,
                   nb, nblkd, nblks, nbloc, notran, npcol, npq=0, nprow, pmb,
                   qnb, rows, size, tmp1, tmp2, upp;

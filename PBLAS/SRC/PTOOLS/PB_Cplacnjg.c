@@ -17,20 +17,20 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cplacnjg( PBTYP_T * TYPE, int M, int N, char * ALPHA, char * A,
-                  int IA, int JA, int * DESCA )
+void PB_Cplacnjg( PBTYP_T * TYPE, Int M, Int N, char * ALPHA, char * A,
+                  Int IA, Int JA, Int * DESCA )
 #else
 void PB_Cplacnjg( TYPE, M, N, ALPHA, A, IA, JA, DESCA )
 /*
 *  .. Scalar Arguments ..
 */
-   int            IA, JA, M, N;
+   Int            IA, JA, M, N;
    char           * ALPHA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA;
+   Int            * DESCA;
    char           * A;
 #endif
 {
@@ -151,12 +151,12 @@ void PB_Cplacnjg( TYPE, M, N, ALPHA, A, IA, JA, DESCA )
 /*
 *  .. Local Scalars ..
 */
-   int            Acol, Arow, Aii, Aimb1, Ainb1, Ajj, Ald, Amb, Amp, Anb, Anq,
+   Int            Acol, Arow, Aii, Aimb1, Ainb1, Ajj, Ald, Amb, Amp, Anb, Anq,
                   izero=0, mycol, myrow, npcol, nprow;
 /*
 *  .. Local Arrays ..
 */
-   int            Ad0[DLEN_];
+   Int            Ad0[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

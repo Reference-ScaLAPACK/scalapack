@@ -23,20 +23,20 @@
 #define Clacpy Cigelacpy
 void  Clacpy();
 typedef struct {
-  int   desctype;
-  int   ctxt;
-  int   m;
-  int   n;
-  int   nbrow;
-  int   nbcol;
-  int   sprow;
-  int   spcol;
-  int   lda;
+  Int   desctype;
+  Int   ctxt;
+  Int   m;
+  Int   n;
+  Int   nbrow;
+  Int   nbcol;
+  Int   sprow;
+  Int   spcol;
+  Int   lda;
 }     MDESC;
 #define BLOCK_CYCLIC_2D 1
 typedef struct {
-  int   lstart;
-  int   len;
+  Int   lstart;
+  Int   len;
 }     IDESC;
 #define SHIFT(row,sprow,nbrow) ((row)-(sprow)+ ((row) >= (sprow) ? 0 : (nbrow)))
 #define max(A,B) ((A)>(B)?(A):(B))
@@ -50,7 +50,7 @@ typedef struct {
 #endif
 /* Cblacs */
 extern void Cblacs_pcoord();
-extern int Cblacs_pnum();
+extern Int Cblacs_pnum();
 extern void Csetpvmtids();
 extern void Cblacs_get();
 extern void Cblacs_pinfo();
@@ -71,12 +71,12 @@ extern void Cigerv2d();
 /* lapack */
 void  ilacpy_();
 /* aux fonctions */
-extern int localindice();
+extern Int localindice();
 extern void *mr2d_malloc();
-extern int ppcm();
-extern int localsize();
-extern int memoryblocksize();
-extern int changeorigin();
+extern Int ppcm();
+extern Int localsize();
+extern Int memoryblocksize();
+extern Int changeorigin();
 extern void paramcheck();
 /* tools and others function */
 #define scanD0 igescanD0
@@ -88,7 +88,7 @@ extern void scanD0();
 extern void dispmat();
 extern void setmemory();
 extern void freememory();
-extern int scan_intervals();
+extern Int scan_intervals();
 extern void Cpigemr2do();
 extern void Cpigemr2d();
 /* some defines for Cpigemr2do */
@@ -111,22 +111,22 @@ extern void Cpigemr2d();
 /* Set the memory space with the malloc function */
 void
 setmemory(adpointer, blocksize)
-  int **adpointer;
-  int   blocksize;
+  Int **adpointer;
+  Int   blocksize;
 {
   assert(blocksize >= 0);
   if (blocksize == 0) {
     *adpointer = NULL;
     return;
   }
-  *adpointer = (int *) mr2d_malloc(
-				   blocksize * sizeof(int));
+  *adpointer = (Int *) mr2d_malloc(
+				   blocksize * sizeof(Int));
 }
 /******************************************************************/
 /* Free the memory space after the malloc */
 void
 freememory(ptrtobefreed)
-  int  *ptrtobefreed;
+  Int  *ptrtobefreed;
 {
   if (ptrtobefreed == NULL)
     return;
@@ -137,24 +137,24 @@ freememory(ptrtobefreed)
  * intersections on the local processor. result must be long enough to
  * contains the result that are stocked in IDESC structure, the function
  * returns the number of intersections found */
-int 
+Int 
 scan_intervals(type, ja, jb, n, ma, mb, q0, q1, col0, col1,
 	       result)
   char  type;
-  int   ja, jb, n, q0, q1, col0, col1;
+  Int   ja, jb, n, q0, q1, col0, col1;
   MDESC *ma, *mb;
   IDESC *result;
 {
-  int   offset, j0, j1, templatewidth0, templatewidth1, nbcol0, nbcol1;
-  int   l;	/* local indice on the beginning of the interval */
+  Int   offset, j0, j1, templatewidth0, templatewidth1, nbcol0, nbcol1;
+  Int   l;	/* local indice on the beginning of the interval */
   assert(type == 'c' || type == 'r');
   nbcol0 = (type == 'c' ? ma->nbcol : ma->nbrow);
   nbcol1 = (type == 'c' ? mb->nbcol : mb->nbrow);
   templatewidth0 = q0 * nbcol0;
   templatewidth1 = q1 * nbcol1;
   {
-    int   sp0 = (type == 'c' ? ma->spcol : ma->sprow);
-    int   sp1 = (type == 'c' ? mb->spcol : mb->sprow);
+    Int   sp0 = (type == 'c' ? ma->spcol : ma->sprow);
+    Int   sp1 = (type == 'c' ? mb->spcol : mb->sprow);
     j0 = SHIFT(col0, sp0, q0) * nbcol0 - ja;
     j1 = SHIFT(col1, sp1, q1) * nbcol1 - jb;
   }
@@ -166,8 +166,8 @@ scan_intervals(type, ja, jb, n, ma, mb, q0, q1, col0, col1,
   assert(j0 + nbcol0 > 0);
   assert(j1 + nbcol1 > 0);
   while ((j0 < n) && (j1 < n)) {
-    int   end0, end1;
-    int   start, end;
+    Int   end0, end1;
+    Int   start, end;
     end0 = j0 + nbcol0;
     end1 = j1 + nbcol1;
     if (end0 <= j1) {

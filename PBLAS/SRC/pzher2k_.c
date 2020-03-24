@@ -17,12 +17,12 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pzher2k_( F_CHAR_T UPLO, F_CHAR_T TRANS, int * N, int * K,
+void pzher2k_( F_CHAR_T UPLO, F_CHAR_T TRANS, Int * N, Int * K,
               double * ALPHA,
-              double * A, int * IA, int * JA, int * DESCA,
-              double * B, int * IB, int * JB, int * DESCB,
+              double * A, Int * IA, Int * JA, Int * DESCA,
+              double * B, Int * IB, Int * JB, Int * DESCB,
               double * BETA,
-              double * C, int * IC, int * JC, int * DESCC )
+              double * C, Int * IC, Int * JC, Int * DESCC )
 #else
 void pzher2k_( UPLO, TRANS, N, K, ALPHA, A, IA, JA, DESCA,
               B, IB, JB, DESCB, BETA, C, IC, JC, DESCC )
@@ -30,12 +30,12 @@ void pzher2k_( UPLO, TRANS, N, K, ALPHA, A, IA, JA, DESCA,
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       TRANS, UPLO;
-   int            * IA, * IB, * IC, * JA, * JB, * JC, * K, * N;
+   Int            * IA, * IB, * IC, * JA, * JB, * JC, * K, * N;
    double         * ALPHA, * BETA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB, * DESCC;
+   Int            * DESCA, * DESCB, * DESCC;
    double         * A, * B, * C;
 #endif
 {
@@ -277,14 +277,14 @@ void pzher2k_( UPLO, TRANS, N, K, ALPHA, A, IA, JA, DESCA,
 */
    char           DirA, OpC, OpR, TopC, TopR, TranOp, UploC, ctop, ctopsave,
                   rtop, rtopsave;
-   int            Ai, Aj, Bi, Bj, ChooseABC, Ci, Cj, ForceTop, ctxt, info,
+   Int            Ai, Aj, Bi, Bj, ChooseABC, Ci, Cj, ForceTop, ctxt, info,
                   mycol, myrow, nb, notran, npcol, nprow, upper;
    double         ABCest, ABest, tmp1, tmp2, tmp3, tmp4;
    PBTYP_T        * type;
 /*
 *  .. Local Arrays ..
 */
-   int            Ad[DLEN_], Bd[DLEN_], Cd[DLEN_];
+   Int            Ad[DLEN_], Bd[DLEN_], Cd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

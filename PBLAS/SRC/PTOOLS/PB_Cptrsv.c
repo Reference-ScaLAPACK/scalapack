@@ -17,10 +17,10 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cptrsv( PBTYP_T * TYPE, int FBCAST, char * UPLO, char * TRANS,
-                char * DIAG, int N, char * A, int IA, int JA,
-                int * DESCA, char * XC, int INCXC, char * XR,
-                int INCXR )
+void PB_Cptrsv( PBTYP_T * TYPE, Int FBCAST, char * UPLO, char * TRANS,
+                char * DIAG, Int N, char * A, Int IA, Int JA,
+                Int * DESCA, char * XC, Int INCXC, char * XR,
+                Int INCXR )
 #else
 void PB_Cptrsv( TYPE, FBCAST, UPLO, TRANS, DIAG, N, A, IA, JA, DESCA,
                 XC, INCXC, XR, INCXR )
@@ -28,12 +28,12 @@ void PB_Cptrsv( TYPE, FBCAST, UPLO, TRANS, DIAG, N, A, IA, JA, DESCA,
 *  .. Scalar Arguments ..
 */
    char           * DIAG, * TRANS, * UPLO;
-   int            FBCAST, IA, INCXC, INCXR, JA, N;
+   Int            FBCAST, IA, INCXC, INCXR, JA, N;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA;
+   Int            * DESCA;
    char           * A, * XC, * XR;
 #endif
 {
@@ -227,7 +227,7 @@ void PB_Cptrsv( TYPE, FBCAST, UPLO, TRANS, DIAG, N, A, IA, JA, DESCA,
 *  .. Local Scalars ..
 */
    char           btop, * negone, * one, * zero;
-   int            Acol, Aii, Aimb1, Ainb1, Ais1Col, Ais1Row, AisColRep,
+   Int            Acol, Aii, Aimb1, Ainb1, Ais1Col, Ais1Row, AisColRep,
                   AisRowRep, Ajj, Alcol, Ald, Alrow, Amb, Anpprev, Anb, Anp,
                   Anq, Arow, Asrc, ChangeRoc=0, bcst, ctxt, ione=1, k=0, kb,
                   kbprev=0, kbsize, mb1, mycol, myrow, n1, n1last, n1p,

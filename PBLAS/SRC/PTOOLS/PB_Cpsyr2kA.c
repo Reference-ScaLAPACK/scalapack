@@ -18,10 +18,10 @@
 
 #ifdef __STDC__
 void PB_Cpsyr2kA( PBTYP_T * TYPE, char * DIRECAB, char * CONJUG,
-                  char * UPLO, char * TRANS, int N, int K, char * ALPHA,
-                  char * A, int IA, int JA, int * DESCA, char * B,
-                  int IB, int JB, int * DESCB, char * BETA, char * C,
-                  int IC, int JC, int * DESCC )
+                  char * UPLO, char * TRANS, Int N, Int K, char * ALPHA,
+                  char * A, Int IA, Int JA, Int * DESCA, char * B,
+                  Int IB, Int JB, Int * DESCB, char * BETA, char * C,
+                  Int IC, Int JC, Int * DESCC )
 #else
 void PB_Cpsyr2kA( TYPE, DIRECAB, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
                   JA, DESCA, B, IB, JB, DESCB, BETA, C, IC, JC, DESCC )
@@ -29,13 +29,13 @@ void PB_Cpsyr2kA( TYPE, DIRECAB, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
 *  .. Scalar Arguments ..
 */
    char           * CONJUG, * DIRECAB, * TRANS, * UPLO;
-   int            IA, IB, IC, JA, JB, JC, K, N;
+   Int            IA, IB, IC, JA, JB, JC, K, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB, * DESCC;
+   Int            * DESCA, * DESCB, * DESCC;
    char           * A, * B, * C;
 #endif
 {
@@ -318,7 +318,7 @@ void PB_Cpsyr2kA( TYPE, DIRECAB, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
 *  .. Local Scalars ..
 */
    char           * one, * talpha, * zero;
-   int            ABfwd, ABmyprocD, ABmyprocR, ABnprocsD, ABnprocsR, ABrocs,
+   Int            ABfwd, ABmyprocD, ABmyprocR, ABnprocsD, ABnprocsR, ABrocs,
                   Abufld, AcurrocR, Afr, AiD, AiR, AiiD, AiiR, AinbD, AinbR,
                   Ainb1D, Ainb1R, AisR, AkkR, Ald, AnbD, AnbR, AnpD, AnpR,
                   Aoff, ArocD, ArocR, AsrcR, Bbufld, BcurrocR, Bfr, BiD, BiR,
@@ -338,7 +338,7 @@ void PB_Cpsyr2kA( TYPE, DIRECAB, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
 *  .. Local Arrays ..
 */
    PB_VM_T        VM;
-   int            Cd0  [DLEN_], DBUFA[DLEN_], DBUFB[DLEN_], WACd0[DLEN_],
+   Int            Cd0  [DLEN_], DBUFA[DLEN_], DBUFB[DLEN_], WACd0[DLEN_],
                   WARd0[DLEN_], WBCd0[DLEN_], WBRd0[DLEN_];
    char           * Abuf = NULL, * Bbuf = NULL, * Cptr = NULL, * WAC = NULL,
                   * WAR  = NULL, * WBC  = NULL, * WBR  = NULL;

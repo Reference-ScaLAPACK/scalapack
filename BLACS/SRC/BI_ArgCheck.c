@@ -1,13 +1,13 @@
 #include "Bdef.h"
 
 
-void BI_ArgCheck(int ConTxt, int RoutType, char *routine, char scope,
-                 char uplo, char diag, int m, int n, int lda, int nprocs,
-                 int *prows, int *pcols)
+void BI_ArgCheck(Int ConTxt, Int RoutType, char *routine, char scope,
+                 char uplo, char diag, Int m, Int n, Int lda, Int nprocs,
+                 Int *prows, Int *pcols)
 {
 #if (BlacsDebugLvl > 0)
    char *srcdest;
-   int i=1, prow, pcol, Ng, nprow, npcol, myrow, mycol;
+   Int i=1, prow, pcol, Ng, nprow, npcol, myrow, mycol;
    BLACSCONTEXT *ctxt;
 
    MGetConTxt(ConTxt, ctxt);

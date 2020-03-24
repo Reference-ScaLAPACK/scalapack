@@ -13,8 +13,8 @@ typedef struct bLaCsScOpE BLACSSCOPE;
 struct bLaCsScOpE
 {
    MPI_Comm comm;
-   int ScpId, MaxId, MinId;
-   int Np, Iam;
+   Int ScpId, MaxId, MinId;
+   Int Np, Iam;
 };
 /*
  * Data type defining a context for the BLACS
@@ -24,10 +24,10 @@ struct bLaCsCoNtExT
 {
    BLACSSCOPE rscp, cscp, ascp, pscp; /* row, column, all, and pt2pt scopes */
    BLACSSCOPE *scp;                   /* pointer to present scope */
-   int TopsRepeat;                    /* Use only repeatable topologies? */
-   int TopsCohrnt;                    /* Use only coherent topologies? */
-   int Nb_bs, Nr_bs;           /* for bcast general tree and multiring tops */
-   int Nb_co, Nr_co;           /* for combine general tree and multiring tops */
+   Int TopsRepeat;                    /* Use only repeatable topologies? */
+   Int TopsCohrnt;                    /* Use only coherent topologies? */
+   Int Nb_bs, Nr_bs;           /* for bcast general tree and multiring tops */
+   Int Nb_co, Nr_co;           /* for combine general tree and multiring tops */
 };
 
 /*
@@ -44,7 +44,7 @@ typedef struct {float r, i;} SCOMPLEX;
  *  these guys external in every file that needs them.
  */
 #ifndef GlobalVars
-   extern int *BI_COMM_WORLD;
+   extern Int *BI_COMM_WORLD;
 #endif
 
 /*
@@ -54,19 +54,19 @@ typedef struct bLaCbUfF BLACBUFF;
 struct bLaCbUfF
 {
    char *Buff;             /* send/recv buffer */
-   int Len;                /* length of buffer in bytes */
-   int nAops;              /* number of asynchronous operations out of buff */
+   Int Len;                /* length of buffer in bytes */
+   Int nAops;              /* number of asynchronous operations out of buff */
    MPI_Request *Aops;   /* list of async. operations out of buff */
    MPI_Datatype dtype;  /* data type of buffer */
-   int N;                  /* number of elements of data type in buff */
+   Int N;                  /* number of elements of data type in buff */
    BLACBUFF *prev, *next;  /* pointer to the other BLACBUFF in queue */
 };
 
 /*
  * Pointer to the combine's vector-vector functions
  */
-typedef void (*VVFUNPTR)(int, char *, char *);
-typedef void (*SDRVPTR)(BLACSCONTEXT *, int, int, BLACBUFF *);
+typedef void (*VVFUNPTR)(Int, char *, char *);
+typedef void (*SDRVPTR)(BLACSCONTEXT *, Int, Int, BLACBUFF *);
 
 
 #define BI_DistType                  unsigned short
@@ -126,9 +126,9 @@ typedef void (*SDRVPTR)(BLACSCONTEXT *, int, int, BLACBUFF *);
  * These are prototypes for error and warning functions -- I don't want
  * to prototype them in each routine.
  */
-void BI_BlacsWarn(int ConTxt, int line, char *file, char *form, ...);
-void BI_BlacsErr(int ConTxt, int line, char *file, char *form, ...);
-int BI_ContxtNum(BLACSCONTEXT *ctxt);
+void BI_BlacsWarn(Int ConTxt, Int line, char *file, char *form, ...);
+void BI_BlacsErr(Int ConTxt, Int line, char *file, char *form, ...);
+Int BI_ContxtNum(BLACSCONTEXT *ctxt);
 
 /*
  * If we've got an ANSI standard C compiler, we can use void pointers...
@@ -187,7 +187,7 @@ int BI_ContxtNum(BLACSCONTEXT *ctxt);
 #define MGetConTxt(Context, ctxtptr)\
 {\
    extern BLACSCONTEXT **BI_MyContxts;\
-   extern int BI_MaxNCtxt;\
+   extern Int BI_MaxNCtxt;\
    if ( ((Context) >= BI_MaxNCtxt) || ((Context) < 0) )\
       BI_BlacsErr(-1, __LINE__, __FILE__, "Invalid context handle: %d",\
                   (Context));\
@@ -221,7 +221,7 @@ int BI_ContxtNum(BLACSCONTEXT *ctxt);
  */
 #define ErrPrint \
 { \
-   extern int BI_Iam; \
+   extern Int BI_Iam; \
    fprintf(stderr, "%d: line %d of file %s\n", BI_Iam, __LINE__, __FILE__); \
 }
 
@@ -230,7 +230,7 @@ int BI_ContxtNum(BLACSCONTEXT *ctxt);
  * needed on the CRAY to have a C routine callable from fortran
  */
 #define F_VOID_FUNC void
-#define F_INT_FUNC  int
+#define F_INT_FUNC  Int
 #define F_DOUBLE_FUNC double
 
 #if (INTFACE == C_CALL)

@@ -17,20 +17,20 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pzdscal_( int * N,
+void pzdscal_( Int * N,
                double * ALPHA,
-               double * X, int * IX, int * JX, int * DESCX, int * INCX )
+               double * X, Int * IX, Int * JX, Int * DESCX, Int * INCX )
 #else
 void pzdscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * INCX, * IX, * JX, * N;
+   Int            * INCX, * IX, * JX, * N;
    double         * ALPHA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX;
+   Int            * DESCX;
    double         * X;
 #endif
 {
@@ -156,13 +156,13 @@ void pzdscal_( N, ALPHA, X, IX, JX, DESCX, INCX )
 /*
 *  .. Local Scalars ..
 */
-   int            Xcol, Xi, Xii, Xj, Xjj, Xld, Xnp, Xnq, Xrow, ctxt, info,
+   Int            Xcol, Xi, Xii, Xj, Xjj, Xld, Xnp, Xnq, Xrow, ctxt, info,
                   mycol, myrow, npcol, nprow;
    PBTYP_T        * type;
 /*
 *  .. Local Arrays ..
 */
-   int            Xd[DLEN_];
+   Int            Xd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

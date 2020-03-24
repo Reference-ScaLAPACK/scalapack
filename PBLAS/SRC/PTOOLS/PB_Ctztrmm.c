@@ -18,9 +18,9 @@
 
 #ifdef __STDC__
 void PB_Ctztrmm( PBTYP_T * TYPE, char * SIDE, char * UPLO, char * TRANS,
-                 char * DIAG, int M, int N, int K, int IOFFD,
-                 char * ALPHA, char * A, int LDA, char * B, int LDB,
-                 char * C, int LDC )
+                 char * DIAG, Int M, Int N, Int K, Int IOFFD,
+                 char * ALPHA, char * A, Int LDA, char * B, Int LDB,
+                 char * C, Int LDC )
 #else
 void PB_Ctztrmm( TYPE, SIDE, UPLO, TRANS, DIAG, M, N, K, IOFFD, ALPHA,
                  A, LDA, B, LDB, C, LDC )
@@ -28,7 +28,7 @@ void PB_Ctztrmm( TYPE, SIDE, UPLO, TRANS, DIAG, M, N, K, IOFFD, ALPHA,
 *  .. Scalar Arguments ..
 */
    char               * SIDE, * UPLO, * TRANS, * DIAG;
-   int                IOFFD, K, LDA, LDB, LDC, M, N;
+   Int                IOFFD, K, LDA, LDB, LDC, M, N;
    char               * ALPHA;
 /*
 *  .. Array Arguments ..

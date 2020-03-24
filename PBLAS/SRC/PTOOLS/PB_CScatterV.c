@@ -17,9 +17,9 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_CScatterV( PBTYP_T * TYPE, char * DIRECA, int M, int N,
-                   char * A, int IA, int JA, int * DESCA, char * AROC,
-                   char * ALPHA, char * B, int IB, int JB, int * DESCB,
+void PB_CScatterV( PBTYP_T * TYPE, char * DIRECA, Int M, Int N,
+                   char * A, Int IA, Int JA, Int * DESCA, char * AROC,
+                   char * ALPHA, char * B, Int IB, Int JB, Int * DESCB,
                    char * BROC )
 #else
 void PB_CScatterV( TYPE, DIRECA, M, N, A, IA, JA, DESCA, AROC,
@@ -28,12 +28,12 @@ void PB_CScatterV( TYPE, DIRECA, M, N, A, IA, JA, DESCA, AROC,
 *  .. Scalar Arguments ..
 */
    char           * ALPHA, * AROC, * BROC, * DIRECA;
-   int            IA, IB, JA, JB, M, N;
+   Int            IA, IB, JA, JB, M, N;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB;
+   Int            * DESCA, * DESCB;
    char           * A, * B;
 #endif
 {
@@ -192,7 +192,7 @@ void PB_CScatterV( TYPE, DIRECA, M, N, A, IA, JA, DESCA, AROC,
 *  .. Local Scalars ..
 */
    char           * one;
-   int            Afwd, Bbufld, Bcol, Bcurcol, Bcurrow, Bii, Bimb, Bimb1, Binb,
+   Int            Afwd, Bbufld, Bcol, Bcurcol, Bcurrow, Bii, Bimb, Bimb1, Binb,
                   Binb1, BisRow, Bjj, Bld, Bm, Bmb, Bmp, Bn, Bnb, Bnnxt, BnnxtL,
                   Bnpre, Bnq, Brow, WAfr, ctxt, kb, mycol, mydist, mydistnb,
                   myrow, nlen, npcol, nprow, offset, size, srcdist, stride,
@@ -202,7 +202,7 @@ void PB_CScatterV( TYPE, DIRECA, M, N, A, IA, JA, DESCA, AROC,
 /*
 *  .. Local Arrays ..
 */
-   int            Bd0[DLEN_], WAd[DLEN_];
+   Int            Bd0[DLEN_], WAd[DLEN_];
    char           * Bptr = NULL, * Bbuf = NULL, * Bbufptr = NULL, * WA = NULL;
 /* ..
 *  .. Executable Statements ..

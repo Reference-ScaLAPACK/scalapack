@@ -1,10 +1,10 @@
 #include "Bdef.h"
-void BI_imvcopy(int m, int n, int *A, int lda, int *buff)
+void BI_imvcopy(Int m, Int n, Int *A, Int lda, Int *buff)
 /*
- * Performs a matrix to vector copy (pack) for the data type int
+ * Performs a matrix to vector copy (pack) for the data type Int
  */
 {
-   int i, j;
+   Int i, j;
 
    if ( (m == lda) || (n == 1) )
    {

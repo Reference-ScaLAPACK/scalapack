@@ -2,7 +2,7 @@
 
 void BI_UpdateBuffs(BLACBUFF *Newbp)
 {
-   int BI_BuffIsFree(BLACBUFF *, int);
+   Int BI_BuffIsFree(BLACBUFF *, Int);
    BLACBUFF *bp, *bp2;
    extern BLACBUFF *BI_ReadyB, *BI_ActiveQ;
 

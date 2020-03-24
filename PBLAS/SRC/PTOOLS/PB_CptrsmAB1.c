@@ -18,9 +18,9 @@
 
 #ifdef __STDC__
 void PB_CptrsmAB1( PBTYP_T * TYPE, char * SIDE, char * UPLO, char * TRANSA,
-                   char * DIAG, int M, int N, char * ALPHA, char * A, int IA,
-                   int JA, int * DESCA,  char * B, int IB, int JB, int * DESCB,
-                   char * C, int * DESCC )
+                   char * DIAG, Int M, Int N, char * ALPHA, char * A, Int IA,
+                   Int JA, Int * DESCA,  char * B, Int IB, Int JB, Int * DESCB,
+                   char * C, Int * DESCC )
 #else
 void PB_CptrsmAB1( TYPE, SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA, A, IA, JA,
                    DESCA, B, IB, JB, DESCB, C, DESCC )
@@ -28,13 +28,13 @@ void PB_CptrsmAB1( TYPE, SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA, A, IA, JA,
 *  .. Scalar Arguments ..
 */
    char           * DIAG, * SIDE, * TRANSA, * UPLO;
-   int            IA, IB, JA, JB, M, N;
+   Int            IA, IB, JA, JB, M, N;
    char           * ALPHA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB, * DESCC;
+   Int            * DESCA, * DESCB, * DESCC;
    char           * A, * B, * C;
 #endif
 {
@@ -42,7 +42,7 @@ void PB_CptrsmAB1( TYPE, SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA, A, IA, JA,
 *  .. Local Scalars ..
 */
    char           * negone, * one;
-   int            Acol, Acurcol, Acurrow, Aii, Aimb, Aimb1, Ainb, Ainb1, Ajj,
+   Int            Acol, Acurcol, Acurrow, Aii, Aimb, Aimb1, Ainb, Ainb1, Ajj,
                   Ald, Almb1, Alnb1, Amb, Amp0, An, Anb, Anq0, Anxtrow, Anxtcol,
                   Arow, Bcol, Bii, Bimb, Binb, Bjj, Bld, Bmb, Bmp0, Bnb, Bnq0,
                   Brow, Cld, ctxt, k=1, kb, kblks, lside, mycol, myrow, npcol,

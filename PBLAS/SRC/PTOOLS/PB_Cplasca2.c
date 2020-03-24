@@ -17,22 +17,22 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cplasca2( PBTYP_T * TYPE, char * UPLO, char * CONJUG, int M,
-                  int N, char * ALPHA, char * A, int IA, int JA,
-                  int * DESCA )
+void PB_Cplasca2( PBTYP_T * TYPE, char * UPLO, char * CONJUG, Int M,
+                  Int N, char * ALPHA, char * A, Int IA, Int JA,
+                  Int * DESCA )
 #else
 void PB_Cplasca2( TYPE, UPLO, CONJUG, M, N, ALPHA, A, IA, JA, DESCA )
 /*
 *  .. Scalar Arguments ..
 */
    char           * CONJUG, * UPLO;
-   int            IA, JA, M, N;
+   Int            IA, JA, M, N;
    char           * ALPHA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA;
+   Int            * DESCA;
    char           * A;
 #endif
 {
@@ -40,7 +40,7 @@ void PB_Cplasca2( TYPE, UPLO, CONJUG, M, N, ALPHA, A, IA, JA, DESCA )
 *  .. Local Scalars ..
 */
    char           UploA, herm;
-   int            Acol, Arow, Aii, iimax, ilow, imbloc, Aimb1, inbloc, Ainb1,
+   Int            Acol, Arow, Aii, iimax, ilow, imbloc, Aimb1, inbloc, Ainb1,
                   Aoffi, GoEast, GoSouth, ioffd, iupp, izero=0, Ajj, jjmax,
                   Aoffj, joffd, lcmt, lcmt00, Ald, lmbloc, lnbloc, low, lower,
                   m1, Amb, mbloc, mblkd, mblks, Amp, Arcol, Arrow, mycol, myrow,

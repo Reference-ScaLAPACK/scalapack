@@ -1,11 +1,11 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Cctrsd2d(int ConTxt, char *uplo, char *diag, int m, int n, float *A,
-              int lda, int rdest, int cdest)
+void Cctrsd2d(Int ConTxt, char *uplo, char *diag, Int m, Int n, float *A,
+              Int lda, Int rdest, Int cdest)
 #else
-F_VOID_FUNC ctrsd2d_(int *ConTxt, F_CHAR uplo, F_CHAR diag, int *m, int *n,
-                     float *A, int *lda, int *rdest, int *cdest)
+F_VOID_FUNC ctrsd2d_(Int *ConTxt, F_CHAR uplo, F_CHAR diag, Int *m, Int *n,
+                     float *A, Int *lda, Int *rdest, Int *cdest)
 #endif
 /*
  *  -- V1.1 BLACS routine --
@@ -19,7 +19,7 @@ F_VOID_FUNC ctrsd2d_(int *ConTxt, F_CHAR uplo, F_CHAR diag, int *m, int *n,
  *  Arguments
  *  =========
  *
- *  ConTxt  (input) Ptr to int
+ *  ConTxt  (input) Ptr to Int
  *          Index into MyConTxts00 (my contexts array).
  *
  *  UPLO    (input) Ptr to char
@@ -32,10 +32,10 @@ F_VOID_FUNC ctrsd2d_(int *ConTxt, F_CHAR uplo, F_CHAR diag, int *m, int *n,
  *          = 'U':      Matrix is unit diagonal, diagonal not communicated.
  *          ELSE :      Matrix is not unit diagonal, diagonal is communicated.
  *
- *  M       (input) Ptr to int
+ *  M       (input) Ptr to Int
  *          The number of rows of the matrix A.  M >= 0.
  *
- *  N       (input) Ptr to int
+ *  N       (input) Ptr to Int
  *          The number of columns of the matrix A.  N >= 0.
  *
  *  A       (input) Ptr to complex two dimensional array
@@ -44,31 +44,31 @@ F_VOID_FUNC ctrsd2d_(int *ConTxt, F_CHAR uplo, F_CHAR diag, int *m, int *n,
  *          If UPLO = 'U', only the upper trapezoid is accessed;
  *          if UPLO = 'L', only the lower trapezoid is accessed.
  *
- *  LDA     (input) Ptr to int
+ *  LDA     (input) Ptr to Int
  *          The leading dimension of the array A.  LDA >= M.
  *
- *  RDEST   (input) Ptr to int
+ *  RDEST   (input) Ptr to Int
  *          The process row of the destination process.
  *
- *  CDEST   (input) Ptr to int
+ *  CDEST   (input) Ptr to Int
  *          The process column of the destination process.
  *
  * ------------------------------------------------------------------------
  */
 {
-   void BI_ArgCheck(int, int, char *, char, char, char, int, int, int, int,
-                    int *, int *);
-   MPI_Datatype BI_GetMpiTrType(BLACSCONTEXT *, char, char, int, int, int,
-                                   MPI_Datatype, int *);
+   void BI_ArgCheck(Int, Int, char *, char, char, char, Int, Int, Int, Int,
+                    Int *, Int *);
+   MPI_Datatype BI_GetMpiTrType(BLACSCONTEXT *, char, char, Int, Int, Int,
+                                   MPI_Datatype, Int *);
    BLACBUFF *BI_Pack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
-   void BI_Ssend(BLACSCONTEXT *, int, int, BLACBUFF *);
-   void BI_Asend(BLACSCONTEXT *, int, int, BLACBUFF *);
+   void BI_Ssend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   void BI_Asend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
    void BI_UpdateBuffs(BLACBUFF *);
-   BLACBUFF *BI_GetBuff(int);
-   int BI_BuffIsFree(BLACBUFF *, int);
+   BLACBUFF *BI_GetBuff(Int);
+   Int BI_BuffIsFree(BLACBUFF *, Int);
 
    char tuplo, tdiag;
-   int dest, length, tlda, ierr;
+   Int dest, length, tlda, ierr;
    BLACBUFF *bp;
    BLACSCONTEXT *ctxt;
    MPI_Datatype MatTyp;

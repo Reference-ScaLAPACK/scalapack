@@ -17,9 +17,9 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-int PB_CVMnpq( PB_VM_T * VM )
+Int PB_CVMnpq( PB_VM_T * VM )
 #else
-int PB_CVMnpq( VM )
+Int PB_CVMnpq( VM )
 /*
 *  .. Array Arguments ..
 */
@@ -48,7 +48,7 @@ int PB_CVMnpq( VM )
 /*
 *  .. Local Scalars ..
 */
-   int            GoEast, GoSouth, Pmb, Qnb, gcdb, ilow, imbloc, inbloc, iupp,
+   Int            GoEast, GoSouth, Pmb, Qnb, gcdb, ilow, imbloc, inbloc, iupp,
                   kmax, kmin, k1, k2, k3, lcmb, lcmp, lcmq, lcmt, lcmt00,
                   lmbloc, lnbloc, low, l1, l2, l3, m, mb, mblkd, mblks, mbloc,
                   n, nb, nblkd, nblks, nbloc, nlcmblks, npcol, npq=0, nprow,

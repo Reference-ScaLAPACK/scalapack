@@ -17,10 +17,10 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pctrsv_( F_CHAR_T UPLO, F_CHAR_T TRANS, F_CHAR_T DIAG, int * N,
-              float * A, int * IA, int * JA, int * DESCA,
-              float * X, int * IX, int * JX, int * DESCX,
-              int * INCX )
+void pctrsv_( F_CHAR_T UPLO, F_CHAR_T TRANS, F_CHAR_T DIAG, Int * N,
+              float * A, Int * IA, Int * JA, Int * DESCA,
+              float * X, Int * IX, Int * JX, Int * DESCX,
+              Int * INCX )
 #else
 void pctrsv_( UPLO, TRANS, DIAG, N, A, IA, JA, DESCA, X, IX, JX,
               DESCX, INCX )
@@ -28,11 +28,11 @@ void pctrsv_( UPLO, TRANS, DIAG, N, A, IA, JA, DESCA, X, IX, JX,
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       DIAG, TRANS, UPLO;
-   int            * IA, * INCX, * IX, * JA, * JX, * N;
+   Int            * IA, * INCX, * IX, * JA, * JX, * N;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCX;
+   Int            * DESCA, * DESCX;
    float          * A, * X;
 #endif
 {
@@ -226,7 +226,7 @@ void pctrsv_( UPLO, TRANS, DIAG, N, A, IA, JA, DESCA, X, IX, JX,
 */
    char           DiagA, TranOp, UploA, Xroc, btop, ctop, * negone, * one,
                   * zero;
-   int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Akp, Akq, Ald, Amb, Anb,
+   Int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Akp, Akq, Ald, Amb, Anb,
                   Anp, Anp0, Anq, Anq0, Arow, Asrc, XACapbX, XACfr, XACld,
                   XACsum, XARapbX, XARfr, XARld, XARsum, Xi, Xj, ctxt, info,
                   ione=1, k, kb, kbnext, kbprev, ktmp, mycol, myrow, nb, notran,
@@ -235,7 +235,7 @@ void pctrsv_( UPLO, TRANS, DIAG, N, A, IA, JA, DESCA, X, IX, JX,
 /*
 *  .. Local Arrays ..
 */
-   int            Ad[DLEN_], Ad0[DLEN_], XACd[DLEN_], XARd[DLEN_], Xd[DLEN_];
+   Int            Ad[DLEN_], Ad0[DLEN_], XACd[DLEN_], XARd[DLEN_], Xd[DLEN_];
    char           * Aptr = NULL, * XAC = NULL, * XAR = NULL;
 /* ..
 *  .. Executable Statements ..

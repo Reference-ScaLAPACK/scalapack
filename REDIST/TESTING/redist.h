@@ -7,3 +7,6 @@
 #ifdef CRAY
 #define float double
 #endif
+#ifndef Int
+#define Int int
+#endif

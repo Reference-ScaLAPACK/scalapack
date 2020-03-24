@@ -17,10 +17,10 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cpsyr2( PBTYP_T * TYPE, char * UPLO, int N, int K,
-                char * ALPHA, char * XC, int LDXC, char * XR, int LDXR,
-                char * YC, int LDYC, char * YR, int LDYR, char * A,
-                int IA, int JA, int * DESCA, TZSYR2_T SYR2 )
+void PB_Cpsyr2( PBTYP_T * TYPE, char * UPLO, Int N, Int K,
+                char * ALPHA, char * XC, Int LDXC, char * XR, Int LDXR,
+                char * YC, Int LDYC, char * YR, Int LDYR, char * A,
+                Int IA, Int JA, Int * DESCA, TZSYR2_T SYR2 )
 #else
 void PB_Cpsyr2( TYPE, UPLO, N, K, ALPHA, XC, LDXC, XR, LDXR,
                 YC, LDYC, YR, LDYR, A, IA, JA, DESCA, SYR2 )
@@ -28,14 +28,14 @@ void PB_Cpsyr2( TYPE, UPLO, N, K, ALPHA, XC, LDXC, XR, LDXR,
 *  .. Scalar Arguments ..
 */
    char           * UPLO;
-   int            IA, JA, K, LDXC, LDXR, LDYC, LDYR, N;
+   Int            IA, JA, K, LDXC, LDXR, LDYC, LDYR, N;
    char           * ALPHA;
    PBTYP_T        * TYPE;
    TZSYR2_T       SYR2;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA;
+   Int            * DESCA;
    char           * A, * XC, * XR, * YC, * YR;
 #endif
 {
@@ -221,7 +221,7 @@ void PB_Cpsyr2( TYPE, UPLO, N, K, ALPHA, XC, LDXC, XR, LDXR,
 /*
 *  .. Local Scalars ..
 */
-   int            Acol, Arow, Aii, Aimb1, Ainb1, Ajj, Ald, Amp, Amb, Anb, Anq,
+   Int            Acol, Arow, Aii, Aimb1, Ainb1, Ajj, Ald, Amp, Amb, Anb, Anq,
                   Aoffi, Aoffj, Arcol, Arrow, GoEast, GoSouth, IsColRepl,
                   IsRowRepl, XCinc, XRinc, Xii=0, Xjj=0, Xoffi=-1, Xoffj=-1,
                   YCinc, YRinc, iimax, ilow, imbloc, inbloc, ioffd, ioffx, iupp,

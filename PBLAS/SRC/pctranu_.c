@@ -17,22 +17,22 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pctranu_( int * M, int * N,
+void pctranu_( Int * M, Int * N,
                float * ALPHA,
-               float * A, int * IA, int * JA, int * DESCA,
+               float * A, Int * IA, Int * JA, Int * DESCA,
                float * BETA,
-               float * C, int * IC, int * JC, int * DESCC )
+               float * C, Int * IC, Int * JC, Int * DESCC )
 #else
 void pctranu_( M, N, ALPHA, A, IA, JA, DESCA, BETA, C, IC, JC, DESCC )
 /*
 *  .. Scalar Arguments ..
 */
-   int            * IA, * IC, * JA, * JC, * M, * N;
+   Int            * IA, * IC, * JA, * JC, * M, * N;
    float          * ALPHA, * BETA;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCC;
+   Int            * DESCA, * DESCC;
    float          * A, * C;
 #endif
 {
@@ -188,11 +188,11 @@ void pctranu_( M, N, ALPHA, A, IA, JA, DESCA, BETA, C, IC, JC, DESCC )
 /*
 *  .. Local Scalars ..
 */
-   int            Ai, Aj, Ci, Cj, ctxt, info, mycol, myrow, npcol, nprow;
+   Int            Ai, Aj, Ci, Cj, ctxt, info, mycol, myrow, npcol, nprow;
 /*
 *  .. Local Arrays ..
 */
-   int            Ad[DLEN_], Cd[DLEN_];
+   Int            Ad[DLEN_], Cd[DLEN_];
 /* ..
 *  .. Executable Statements ..
 *

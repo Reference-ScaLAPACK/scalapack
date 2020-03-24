@@ -17,10 +17,10 @@
 #include "PBblas.h"
 
 #ifdef __STDC__
-void pdtrmv_( F_CHAR_T UPLO, F_CHAR_T TRANS, F_CHAR_T DIAG, int * N,
-              double * A, int * IA, int * JA, int * DESCA,
-              double * X, int * IX, int * JX, int * DESCX,
-              int * INCX )
+void pdtrmv_( F_CHAR_T UPLO, F_CHAR_T TRANS, F_CHAR_T DIAG, Int * N,
+              double * A, Int * IA, Int * JA, Int * DESCA,
+              double * X, Int * IX, Int * JX, Int * DESCX,
+              Int * INCX )
 #else
 void pdtrmv_( UPLO, TRANS, DIAG, N, A, IA, JA, DESCA, X, IX, JX,
               DESCX, INCX )
@@ -28,11 +28,11 @@ void pdtrmv_( UPLO, TRANS, DIAG, N, A, IA, JA, DESCA, X, IX, JX,
 *  .. Scalar Arguments ..
 */
    F_CHAR_T       DIAG, TRANS, UPLO;
-   int            * IA, * INCX, * IX, * JA, * JX, * N;
+   Int            * IA, * INCX, * IX, * JA, * JX, * N;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCX;
+   Int            * DESCA, * DESCX;
    double         * A, * X;
 #endif
 {
@@ -219,7 +219,7 @@ void pdtrmv_( UPLO, TRANS, DIAG, N, A, IA, JA, DESCA, X, IX, JX,
 *  .. Local Scalars ..
 */
    char           DiagA, TranOp, UploA, Xroc, * one, * tbeta, top, *zero;
-   int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Akp, Akq, Ald, Amb,
+   Int            Acol, Ai, Aii, Aimb1, Ainb1, Aj, Ajj, Akp, Akq, Ald, Amb,
                   Amp, Amp0, Anb, Anq, Anq0, Arow, XAfr, XAld, Xcol, Xi, Xii,
                   Xj, Xjj, Xld, Xnp, Xnq, Xrow, YAfr, YAld, YApbY, YAsum,
                   ctxt, info, ione=1, k, kb, ktmp, mycol, myrow, nb, notran,
@@ -228,7 +228,7 @@ void pdtrmv_( UPLO, TRANS, DIAG, N, A, IA, JA, DESCA, X, IX, JX,
 /*
 *  .. Local Arrays ..
 */
-   int            Ad [DLEN_], Ad0[DLEN_], XAd[DLEN_], Xd[DLEN_], YAd[DLEN_];
+   Int            Ad [DLEN_], Ad0[DLEN_], XAd[DLEN_], Xd[DLEN_], YAd[DLEN_];
    char           * Aptr = NULL, * XA = NULL, * YA = NULL;
 /* ..
 *  .. Executable Statements ..

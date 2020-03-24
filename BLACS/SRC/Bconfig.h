@@ -16,6 +16,16 @@
 #include <mpi.h>
 
 /*
+ * Integer types used by BLACS
+ */
+#ifndef Int
+#define Int int
+#endif
+#ifndef MpiInt
+#define MpiInt int
+#endif
+
+/*
  * These macros define the naming strategy needed for a fortran
  * routine to call a C routine, and whether to build so they may be
  * called from C or fortran.  For the fortran call C interface, ADD_ assumes that

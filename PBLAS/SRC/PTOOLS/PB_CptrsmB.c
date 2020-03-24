@@ -18,9 +18,9 @@
 
 #ifdef __STDC__
 void PB_CptrsmB( PBTYP_T * TYPE, char * DIRECB, char * SIDE,
-                 char * UPLO, char * TRANSA, char * DIAG, int M, int N,
-                 char * ALPHA, char * A, int IA, int JA, int * DESCA,
-                 char * B, int IB, int JB, int * DESCB )
+                 char * UPLO, char * TRANSA, char * DIAG, Int M, Int N,
+                 char * ALPHA, char * A, Int IA, Int JA, Int * DESCA,
+                 char * B, Int IB, Int JB, Int * DESCB )
 #else
 void PB_CptrsmB( TYPE, DIRECB, SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA, A,
                  IA, JA, DESCA, B, IB, JB, DESCB )
@@ -28,13 +28,13 @@ void PB_CptrsmB( TYPE, DIRECB, SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA, A,
 *  .. Scalar Arguments ..
 */
    char           * DIAG, * DIRECB, * SIDE, * TRANSA, * UPLO;
-   int            IA, IB, JA, JB, M, N;
+   Int            IA, IB, JA, JB, M, N;
    char           * ALPHA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB;
+   Int            * DESCA, * DESCB;
    char           * A, * B;
 #endif
 {
@@ -256,7 +256,7 @@ void PB_CptrsmB( TYPE, DIRECB, SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA, A,
 */
    char           Broc, TranOp, conjg, * negone, * one, * talpha, * talph0, top,
                   * zero;
-   int            Acol, Aii, Aimb1, Ainb1, Ajj, Akp, Akq, Alcmb, Ald, Amb, An,
+   Int            Acol, Aii, Aimb1, Ainb1, Ajj, Akp, Akq, Alcmb, Ald, Amb, An,
                   Anb, Anp, Anp0, Anq, Anq0, Arow, Asrc, Astart, BcurrocR, Bfwd,
                   BiiD, BiiR, Binb1D, Binb1R, BisR, Bld, BmyprocD, BmyprocR,
                   BnD, BnR, BnbD, BnbR, BnpR, BnprocsD, BnprocsR, BrocD, BrocR,
@@ -270,7 +270,7 @@ void PB_CptrsmB( TYPE, DIRECB, SIDE, UPLO, TRANSA, DIAG, M, N, ALPHA, A,
 /*
 *  .. Local Arrays ..
 */
-   int            Ad0[DLEN_], DBUFB[DLEN_], WBCd[DLEN_], WBRd[DLEN_];
+   Int            Ad0[DLEN_], DBUFB[DLEN_], WBCd[DLEN_], WBRd[DLEN_];
    char           * Aptr = NULL, * Bptr = NULL, * WBC = NULL, * WBR = NULL;
 /* ..
 *  .. Executable Statements ..

@@ -1,11 +1,11 @@
 #include "Bdef.h"
 
-void BI_TreeBR(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, int src, int nbranches)
+void BI_TreeBR(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, Int src, Int nbranches)
 {
-   void BI_Srecv(BLACSCONTEXT *, int, int, BLACBUFF *);
-   int Np, Iam, msgid, i, j;
-   int mydist;          /* my distance from src */
-   int destdist;	/* the distance of the destination node */
+   void BI_Srecv(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   Int Np, Iam, msgid, i, j;
+   Int mydist;          /* my distance from src */
+   Int destdist;	/* the distance of the destination node */
 
    Np = ctxt->scp->Np;
    if (Np < 2) return;

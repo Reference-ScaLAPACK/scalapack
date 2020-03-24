@@ -17,14 +17,14 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-int PB_Cnnxtroc( int N, int I, int INB, int NB, int PROC, int SRCPROC,
-                 int NPROCS )
+Int PB_Cnnxtroc( Int N, Int I, Int INB, Int NB, Int PROC, Int SRCPROC,
+                 Int NPROCS )
 #else
-int PB_Cnnxtroc( N, I, INB, NB, PROC, SRCPROC, NPROCS )
+Int PB_Cnnxtroc( N, I, INB, NB, PROC, SRCPROC, NPROCS )
 /*
 *  .. Scalar Arguments ..
 */
-   int            I, INB, N, NB, NPROCS, PROC, SRCPROC;
+   Int            I, INB, N, NB, NPROCS, PROC, SRCPROC;
 #endif
 {
 /*
@@ -88,7 +88,7 @@ int PB_Cnnxtroc( N, I, INB, NB, PROC, SRCPROC, NPROCS )
 /*
 *  .. Local Scalars ..
 */
-   int            ilocblk, mydist, nblocks;
+   Int            ilocblk, mydist, nblocks;
 /* ..
 *  .. Executable Statements ..
 *

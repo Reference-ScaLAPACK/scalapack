@@ -1,15 +1,15 @@
 #include "Bdef.h"
 
-void BI_MpathBR(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, int src, int npaths)
+void BI_MpathBR(BLACSCONTEXT *ctxt, BLACBUFF *bp, SDRVPTR send, Int src, Int npaths)
 {
-   void BI_Arecv(BLACSCONTEXT *, int, int, BLACBUFF *);
-   int BI_BuffIsFree(BLACBUFF *, int);
+   void BI_Arecv(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   Int BI_BuffIsFree(BLACBUFF *, Int);
 
-   int pathlen;		/* the minimal length of each path */
-   int mydist;		/* my distance from src */
-   int faredge;		/* node at far end of path */
-   int lastlong;	/* distance to node on end of last path with extra node */
-   int Np, Iam, msgid, Np_1, dest;
+   Int pathlen;		/* the minimal length of each path */
+   Int mydist;		/* my distance from src */
+   Int faredge;		/* node at far end of path */
+   Int lastlong;	/* distance to node on end of last path with extra node */
+   Int Np, Iam, msgid, Np_1, dest;
 
    msgid = Mscopeid(ctxt);
    BI_Arecv(ctxt, BANYNODE, msgid, bp);

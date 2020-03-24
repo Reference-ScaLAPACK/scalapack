@@ -17,12 +17,12 @@ void pzdotu_( n, dotu, X, ix, jx, desc_X, incx, Y, iy, jy, desc_Y,
 /*
 *  .. Scalar Arguments ..
 */
-   int         * incx, * incy, * ix, * iy, * jx, * jy, * n;
+   Int         * incx, * incy, * ix, * iy, * jx, * jy, * n;
    complex16   * dotu;
 /* ..
 *  .. Array Arguments ..
 */
-   int         desc_X[], desc_Y[];
+   Int         desc_X[], desc_Y[];
    complex16   X[], Y[];
 {
 /*
@@ -172,7 +172,7 @@ void pzdotu_( n, dotu, X, ix, jx, desc_X, incx, Y, iy, jy, desc_Y,
 *  .. Local Scalars ..
 */
    char        * cbtop, * cctop, * rbtop, * rctop;
-   int         ictxt, iix, iiy, info, ixcol, ixrow, iycol, iyrow, jjx,
+   Int         ictxt, iix, iiy, info, ixcol, ixrow, iycol, iyrow, jjx,
                jjy, lcm, lcmp, mone=-1, mycol, myrow, nn, np, np0,
                nprow, npcol, nq, nz, ione=1, tmp1, wksz;
    complex16   xwork[1], ywork[1], zero;

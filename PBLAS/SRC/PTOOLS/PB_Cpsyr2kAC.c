@@ -18,10 +18,10 @@
 
 #ifdef __STDC__
 void PB_Cpsyr2kAC( PBTYP_T * TYPE, char * DIRECAB, char * CONJUG,
-                   char * UPLO, char * TRANS, int N, int K, char * ALPHA,
-                   char * A, int IA, int JA, int * DESCA, char * B,
-                   int IB, int JB, int * DESCB, char * BETA, char * C,
-                   int IC, int JC, int * DESCC )
+                   char * UPLO, char * TRANS, Int N, Int K, char * ALPHA,
+                   char * A, Int IA, Int JA, Int * DESCA, char * B,
+                   Int IB, Int JB, Int * DESCB, char * BETA, char * C,
+                   Int IC, Int JC, Int * DESCC )
 #else
 void PB_Cpsyr2kAC( TYPE, DIRECAB, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
                    JA, DESCA, B, IB, JB, DESCB, BETA, C, IC, JC, DESCC )
@@ -29,13 +29,13 @@ void PB_Cpsyr2kAC( TYPE, DIRECAB, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
 *  .. Scalar Arguments ..
 */
    char           * CONJUG, * DIRECAB, * TRANS, * UPLO;
-   int            IA, IB, IC, JA, JB, JC, K, N;
+   Int            IA, IB, IC, JA, JB, JC, K, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB, * DESCC;
+   Int            * DESCA, * DESCB, * DESCC;
    char           * A, * B, * C;
 #endif
 {
@@ -318,7 +318,7 @@ void PB_Cpsyr2kAC( TYPE, DIRECAB, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
 */
    char           GatherDir, ScatterDir, * one, top, * talpha, * tbeta, tran,
                   * zero;
-   int            ABm, ABn, Acol, Acurcol, Acurrow, Acurimb1, Acurinb1, Afr,
+   Int            ABm, ABn, Acol, Acurcol, Acurrow, Acurimb1, Acurinb1, Afr,
                   Aii, Aimb, Aimb1, Ainb, Ainb1, AisD, AisR, Ajj, Ald, Amb,
                   Amp, Amp0, Anb, Anq, Anq0, Arow, Aspan, Bcol, Bcurcol,
                   Bcurrow, Bcurimb1, Bcurinb1, Bfr, Bii, Bimb, Bimb1, Binb,
@@ -334,7 +334,7 @@ void PB_Cpsyr2kAC( TYPE, DIRECAB, CONJUG, UPLO, TRANS, N, K, ALPHA, A, IA,
 */
    char           * Aptr = NULL, * Aptr0 = NULL, * Bptr = NULL, * Bptr0 = NULL,
                   * WA = NULL, * WB = NULL, * WAC = NULL, *WBC = NULL;
-   int            Ad0[DLEN_], Bd0[DLEN_], DBUFA[DLEN_], DBUFB[DLEN_],
+   Int            Ad0[DLEN_], Bd0[DLEN_], DBUFA[DLEN_], DBUFB[DLEN_],
                   WAd[DLEN_], WBd[DLEN_], WACd [DLEN_], WBCd [DLEN_];
 /* ..
 *  .. Executable Statements ..

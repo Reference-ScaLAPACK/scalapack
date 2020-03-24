@@ -1,10 +1,10 @@
 #include "Bdef.h"
 
 #if (INTFACE == C_CALL)
-void Csgebs2d(int ConTxt, char *scope, char *top, int m, int n, float *A, int lda)
+void Csgebs2d(Int ConTxt, char *scope, char *top, Int m, Int n, float *A, Int lda)
 #else
-F_VOID_FUNC sgebs2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
-                     float *A, int *lda)
+F_VOID_FUNC sgebs2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
+                     float *A, Int *lda)
 #endif
 /*
  *  -- V1.1 BLACS routine --
@@ -18,7 +18,7 @@ F_VOID_FUNC sgebs2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
  *  Arguments
  *  =========
  *
- *  ConTxt  (input) Ptr to int
+ *  ConTxt  (input) Ptr to Int
  *          Index into MyConTxts00 (my contexts array).
  *
  *  SCOPE   (input) Ptr to char
@@ -30,40 +30,40 @@ F_VOID_FUNC sgebs2d_(int *ConTxt, F_CHAR scope, F_CHAR top, int *m, int *n,
  *  TOP     (input) Ptr to char
  *          Controls fashion in which messages flow within the operation.
  *
- *  M       (input) Ptr to int
+ *  M       (input) Ptr to Int
  *          The number of rows of the matrix A.  M >= 0.
  *
- *  N       (input) Ptr to int
+ *  N       (input) Ptr to Int
  *          The number of columns of the matrix A.  N >= 0.
  *
  *  A       (input) Ptr to real two dimensional array
  *          The m by n matrix A.  Fortran77 (column-major) storage
  *          assumed.
  *
- *  LDA     (input) Ptr to int
+ *  LDA     (input) Ptr to Int
  *          The leading dimension of the array A.  LDA >= M.
  *
  * ------------------------------------------------------------------------
  */
 {
-   void BI_ArgCheck(int, int, char *, char, char, char, int, int, int, int,
-                    int *, int *);
-   int BI_HypBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR);
-   void BI_IdringBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, int);
+   void BI_ArgCheck(Int, Int, char *, char, char, char, Int, Int, Int, Int,
+                    Int *, Int *);
+   Int BI_HypBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR);
+   void BI_IdringBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, Int);
    void BI_SringBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR);
-   void BI_MpathBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, int);
-   void BI_TreeBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, int);
+   void BI_MpathBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, Int);
+   void BI_TreeBS(BLACSCONTEXT *, BLACBUFF *, SDRVPTR, Int);
    void BI_UpdateBuffs(BLACBUFF *);
-   BLACBUFF *BI_GetBuff(int);
-   int BI_BuffIsFree(BLACBUFF *, int);
-   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, int, int, int,
-                                   MPI_Datatype, int *);
+   BLACBUFF *BI_GetBuff(Int);
+   Int BI_BuffIsFree(BLACBUFF *, Int);
+   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, Int, Int, Int,
+                                   MPI_Datatype, Int *);
    BLACBUFF *BI_Pack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
-   void BI_Ssend(BLACSCONTEXT *, int, int, BLACBUFF *);
-   void BI_Asend(BLACSCONTEXT *, int, int, BLACBUFF *);
+   void BI_Ssend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
+   void BI_Asend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
 
    char ttop, tscope;
-   int error, tlda;
+   Int error, tlda;
    MPI_Datatype MatTyp;
    SDRVPTR send;
    BLACBUFF *bp;

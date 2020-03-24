@@ -1775,7 +1775,7 @@
       MEMUSED = MEMUSED + 3
       CMEMUSED = CMEMUSED - 1
 *
- 1000 FORMAT('Mem too short (',I4,') to handle',I4,' ',A20)
+ 1000 FORMAT('Mem too short (',I8,') to handle',I4,' ',A20)
  2000 FORMAT('Must have at least one ',A20)
  3000 FORMAT('UNRECOGNIZABLE ',A5,' ''', A1, '''.')
  4000 FORMAT('Illegal process grid: {',I3,',',I3,'}.')

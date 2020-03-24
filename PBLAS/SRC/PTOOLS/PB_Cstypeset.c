@@ -34,7 +34,7 @@ PBTYP_T * PB_Cstypeset()
 /*
 *  .. Local Scalars ..
 */
-   static int     setup=0;
+   static Int     setup=0;
    static PBTYP_T TypeStruct;
    static float   zero, one, negone;
 /* ..

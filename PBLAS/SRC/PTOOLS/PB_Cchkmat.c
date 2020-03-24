@@ -17,21 +17,21 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Cchkmat( int ICTXT, char * ROUT, char * MNAME, int M, int MPOS0,
-                 int N, int NPOS0, int IA, int JA, int * DESCA, int DPOS0,
-                 int * INFO )
+void PB_Cchkmat( Int ICTXT, char * ROUT, char * MNAME, Int M, Int MPOS0,
+                 Int N, Int NPOS0, Int IA, Int JA, Int * DESCA, Int DPOS0,
+                 Int * INFO )
 #else
 void PB_Cchkmat( ICTXT, ROUT, MNAME, M, MPOS0, N, NPOS0, IA, JA, DESCA,
                  DPOS0, INFO )
 /*
 *  .. Scalar Arguments ..
 */
-   int            DPOS0, IA, ICTXT, * INFO, JA, M, MPOS0, N, NPOS0;
+   Int            DPOS0, IA, ICTXT, * INFO, JA, M, MPOS0, N, NPOS0;
 /*
 *  .. Array Arguments ..
 */
    char           * MNAME, * ROUT;
-   int            * DESCA;
+   Int            * DESCA;
 #endif
 {
 /*
@@ -108,7 +108,7 @@ void PB_Cchkmat( ICTXT, ROUT, MNAME, M, MPOS0, N, NPOS0, IA, JA, DESCA,
 /*
 *  .. Local Scalars ..
 */
-   int            dpos, iapos, japos, mpos, mycol, myrow, np, npcol, nprow,
+   Int            dpos, iapos, japos, mpos, mycol, myrow, np, npcol, nprow,
                   npos, nq;
 /* ..
 *  .. Executable Statements ..

@@ -18,10 +18,10 @@
 
 #ifdef __STDC__
 void PB_CpgemmBC( PBTYP_T * TYPE, char * DIRECB, char * DIRECC,
-                  char * TRANSA, char * TRANSB, int M, int N, int K,
-                  char * ALPHA, char * A, int IA, int JA, int * DESCA,
-                  char * B, int IB, int JB, int * DESCB, char * BETA,
-                  char * C, int IC, int JC, int * DESCC )
+                  char * TRANSA, char * TRANSB, Int M, Int N, Int K,
+                  char * ALPHA, char * A, Int IA, Int JA, Int * DESCA,
+                  char * B, Int IB, Int JB, Int * DESCB, char * BETA,
+                  char * C, Int IC, Int JC, Int * DESCC )
 #else
 void PB_CpgemmBC( TYPE, DIRECB, DIRECC, TRANSA, TRANSB, M, N, K, ALPHA,
                   A, IA, JA, DESCA, B, IB, JB, DESCB, BETA, C, IC, JC,
@@ -30,13 +30,13 @@ void PB_CpgemmBC( TYPE, DIRECB, DIRECC, TRANSA, TRANSB, M, N, K, ALPHA,
 *  .. Scalar Arguments ..
 */
    char           * DIRECB, * DIRECC, * TRANSA, * TRANSB;
-   int            IA, IB, IC, JA, JB, JC, K, M, N;
+   Int            IA, IB, IC, JA, JB, JC, K, M, N;
    char           * ALPHA, * BETA;
    PBTYP_T        * TYPE;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCA, * DESCB, * DESCC;
+   Int            * DESCA, * DESCB, * DESCC;
    char           * A, * B, * C;
 #endif
 {
@@ -259,7 +259,7 @@ void PB_CpgemmBC( TYPE, DIRECB, DIRECC, TRANSA, TRANSB, M, N, K, ALPHA,
 */
    char           Broc, GemmTa, GemmTb, TrA, TrB, * one, * talpha, * tbeta,
                   top, * zero;
-   int            Acol, Aii, Aimb1, Ainb1, Ajj, Ald, Am, Amb, Amp, An, Anb,
+   Int            Acol, Aii, Aimb1, Ainb1, Ajj, Ald, Am, Amb, Amp, An, Anb,
                   Anq, Arow, Bbufld, BcurrocR, Bfr, Bfwd, BiD, BiR, BiiD, BiiR,
                   BinbD, BinbR, Binb1D, Binb1R, BisR, Bkk, Bld, BmyprocD,
                   BmyprocR, BnbD, BnbR, BnpD, BnpR, BnprocsD, BnprocsR, Boff,
@@ -273,7 +273,7 @@ void PB_CpgemmBC( TYPE, DIRECB, DIRECC, TRANSA, TRANSB, M, N, K, ALPHA,
 /*
 *  .. Local Arrays ..
 */
-   int            Ad0[DLEN_], DBUFB[DLEN_], DBUFC[DLEN_], WBd[DLEN_],
+   Int            Ad0[DLEN_], DBUFB[DLEN_], DBUFC[DLEN_], WBd[DLEN_],
                   WCd[DLEN_];
    PB_VM_T        VM;
    char           * Aptr = NULL, * Bbuf = NULL, * Cbuf = NULL, * WB   = NULL,

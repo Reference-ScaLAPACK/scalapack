@@ -17,10 +17,10 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_Ctzsyr2( PBTYP_T * TYPE, char * UPLO, int M, int N, int K,
-                 int IOFFD, char * ALPHA, char * XC, int LDXC,
-                 char * YC, int LDYC, char * XR, int LDXR, char * YR,
-                 int LDYR, char * A, int LDA )
+void PB_Ctzsyr2( PBTYP_T * TYPE, char * UPLO, Int M, Int N, Int K,
+                 Int IOFFD, char * ALPHA, char * XC, Int LDXC,
+                 char * YC, Int LDYC, char * XR, Int LDXR, char * YR,
+                 Int LDYR, char * A, Int LDA )
 #else
 void PB_Ctzsyr2( TYPE, UPLO, M, N, K, IOFFD, ALPHA, XC, LDXC, YC, LDYC,
                  XR, LDXR, YR, LDYR, A, LDA )
@@ -28,7 +28,7 @@ void PB_Ctzsyr2( TYPE, UPLO, M, N, K, IOFFD, ALPHA, XC, LDXC, YC, LDYC,
 *  .. Scalar Arguments ..
 */
    char           * UPLO;
-   int            IOFFD, K, LDA, LDXC, LDXR, LDYC, LDYR, M, N;
+   Int            IOFFD, K, LDA, LDXC, LDXR, LDYC, LDYR, M, N;
    char           * ALPHA;
 /*
 *  .. Array Arguments ..
@@ -170,7 +170,7 @@ void PB_Ctzsyr2( TYPE, UPLO, M, N, K, IOFFD, ALPHA, XC, LDXC, YC, LDYC,
 /*
 *  .. Local Scalars ..
 */
-   int            i1, ione=1, j1, m1, mn, n1, size;
+   Int            i1, ione=1, j1, m1, mn, n1, size;
    GERU_T         geru;
 /* ..
 *  .. Executable Statements ..

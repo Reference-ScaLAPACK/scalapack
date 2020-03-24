@@ -17,9 +17,9 @@
 #include "../PBblas.h"
 
 #ifdef __STDC__
-void PB_CpdotND( PBTYP_T * TYPE, int N, char * DOT,
-                 char * X, int IX, int JX, int * DESCX, int INCX,
-                 char * Y, int IY, int JY, int * DESCY, int INCY,
+void PB_CpdotND( PBTYP_T * TYPE, Int N, char * DOT,
+                 char * X, Int IX, Int JX, Int * DESCX, Int INCX,
+                 char * Y, Int IY, Int JY, Int * DESCY, Int INCY,
                  VVDOT_T FDOT )
 #else
 void PB_CpdotND( TYPE, N, DOT, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY,
@@ -27,14 +27,14 @@ void PB_CpdotND( TYPE, N, DOT, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY,
 /*
 *  .. Scalar Arguments ..
 */
-   int            INCX, INCY, IX, IY, JX, JY, N;
+   Int            INCX, INCY, IX, IY, JX, JY, N;
    char           * DOT;
    PBTYP_T        * TYPE;
    VVDOT_T        FDOT;
 /*
 *  .. Array Arguments ..
 */
-   int            * DESCX, * DESCY;
+   Int            * DESCX, * DESCY;
    char           * X, * Y;
 #endif
 {
@@ -220,7 +220,7 @@ void PB_CpdotND( TYPE, N, DOT, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY,
 *  .. Local Scalars ..
 */
    char           * top;
-   int            RRorCC, Xcol, Xii, XisR, XisRow, Xjj, Xld, Xlinc, XmyprocD,
+   Int            RRorCC, Xcol, Xii, XisR, XisRow, Xjj, Xld, Xlinc, XmyprocD,
                   XmyprocR, XnprocsD, XnprocsR, XprocR, Xroc, Xrow, Ycol, Yii,
                   Yinb1D, YisR, YisRow, Yjj, Yld, Ylinc, YmyprocD, YmyprocR,
                   YnbD, YnpD, YnprocsD, YnprocsR, YprocD, YprocR, Yroc, Yrow,

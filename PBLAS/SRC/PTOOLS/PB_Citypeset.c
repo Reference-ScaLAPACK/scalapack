@@ -34,9 +34,9 @@ PBTYP_T * PB_Citypeset()
 /*
 *  .. Local Scalars ..
 */
-   static int     setup=0;
+   static Int     setup=0;
    static PBTYP_T TypeStruct;
-   static int     zero, one, negone;
+   static Int     zero, one, negone;
 /* ..
 *  .. Executable Statements ..
 *
@@ -46,8 +46,8 @@ PBTYP_T * PB_Citypeset()
    setup = 1;
 
    TypeStruct.type = INT;
-   TypeStruct.usiz = sizeof( int );
-   TypeStruct.size = sizeof( int );
+   TypeStruct.usiz = sizeof( Int );
+   TypeStruct.size = sizeof( Int );
    zero   =  0;
    one    =  1;
    negone = -1;
