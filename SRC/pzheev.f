@@ -379,7 +379,7 @@
 *           DOUBLE PRECISION work space for ZSTEQR2
 *
             IF( WANTZ ) THEN
-               RSIZEZSTEQR2 = MIN( 1, 2*N-2 )
+               RSIZEZSTEQR2 = MAX( 1, 2*N-2 )
             ELSE
                RSIZEZSTEQR2 = 0
             END IF

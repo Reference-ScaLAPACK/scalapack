@@ -379,7 +379,7 @@
 *           REAL work space for CSTEQR2
 *
             IF( WANTZ ) THEN
-               RSIZECSTEQR2 = MIN( 1, 2*N-2 )
+               RSIZECSTEQR2 = MAX( 1, 2*N-2 )
             ELSE
                RSIZECSTEQR2 = 0
             END IF
