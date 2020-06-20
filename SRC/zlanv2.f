@@ -55,13 +55,10 @@
 *     ..
 *     .. Local Scalars ..
       COMPLEX*16         AA, BB, DD, T, TEMP, TEMP2, U, X, Y
-*     ..
-*     .. External Functions ..
-      COMPLEX*16         ZLADIV
-      EXTERNAL           ZLADIV
+      DOUBLE PRECISION   ZR, ZI
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           ZLARTG
+      EXTERNAL           ZLARTG, DLADIV
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          DBLE, DCMPLX, DCONJG, DIMAG, SQRT
@@ -97,9 +94,13 @@
             SN = DCMPLX( RZERO, RONE )*CS
          ELSE
             TEMP = SQRT( B+C )
-            TEMP2 = ZLADIV( SQRT( B ), TEMP )
+            CALL DLADIV( DBLE( SQRT( B ) ), DIMAG( SQRT( B ) ),
+     $                   DBLE( TEMP ), DIMAG( TEMP ), ZR, ZI )
+            TEMP2 = DCMPLX( ZR, ZI )
             CS = DBLE( TEMP2 )
-            SN = ZLADIV( SQRT( C ), TEMP )
+            CALL DLADIV( DBLE( SQRT( C ) ), DIMAG( SQRT( C ) ),
+     $                   DBLE( TEMP ), DIMAG( TEMP ), ZR, ZI )
+            SN = DCMPLX( ZR, ZI )
          END IF
          B = B - C
          C = ZERO
@@ -114,7 +115,9 @@
          Y = SQRT( X*X+U )
          IF( DBLE( X )*DBLE( Y )+DIMAG( X )*DIMAG( Y ).LT.RZERO )
      $      Y = -Y
-         T = T - ZLADIV( U, ( X+Y ) )
+         CALL DLADIV( DBLE( U ), DIMAG( U ),
+     $                DBLE( X+Y ), DIMAG( X+Y ), ZR, ZI )
+         T = T - DCMPLX( ZR, ZI )
 *
 *        Do one QR step with exact shift T - resulting 2 x 2 in
 *        triangular form.

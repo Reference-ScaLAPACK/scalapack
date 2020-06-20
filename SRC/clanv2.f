@@ -55,13 +55,10 @@
 *     ..
 *     .. Local Scalars ..
       COMPLEX            AA, BB, DD, T, TEMP, TEMP2, U, X, Y
-*     ..
-*     .. External Functions ..
-      COMPLEX            CLADIV
-      EXTERNAL           CLADIV
+      REAL               CR, CI
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           CLARTG
+      EXTERNAL           CLARTG, SLADIV
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          REAL, CMPLX, CONJG, AIMAG, SQRT
@@ -97,9 +94,13 @@
             SN = CMPLX( RZERO, RONE )*CS
          ELSE
             TEMP = SQRT( B+C )
-            TEMP2 = CLADIV( SQRT( B ), TEMP )
+            CALL SLADIV( REAL( SQRT( B ) ), AIMAG( SQRT( B ) ),
+     $                   REAL( TEMP ), AIMAG( TEMP ), CR, CI )
+            TEMP2 = CMPLX( CR, CI )
             CS = REAL( TEMP2 )
-            SN = CLADIV( SQRT( C ), TEMP )
+            CALL SLADIV( REAL( SQRT( C ) ), AIMAG( SQRT( C ) ),
+     $                   REAL( TEMP ), AIMAG( TEMP ), CR, CI )
+            SN = CMPLX( CR, CI )
          END IF
          B = B - C
          C = ZERO
@@ -114,7 +115,9 @@
          Y = SQRT( X*X+U )
          IF( REAL( X )*REAL( Y )+AIMAG( X )*AIMAG( Y ).LT.RZERO )
      $      Y = -Y
-         T = T - CLADIV( U, ( X+Y ) )
+         CALL SLADIV( REAL( U ), AIMAG( U ),
+     $                REAL( X+Y ), AIMAG( X+Y ), CR, CI )
+         T = T - CMPLX( CR, CI )
 *
 *        Do one QR step with exact shift T - resulting 2 x 2 in
 *        triangular form.

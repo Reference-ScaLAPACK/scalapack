@@ -153,16 +153,16 @@
 *     .. Local Scalars ..
       INTEGER            ICTXT, IIAX, INDXTAU, IXCOL, IXROW, J, JJAX,
      $                   KNT, MYCOL, MYROW, NPCOL, NPROW
-      REAL               ALPHI, ALPHR, BETA, RSAFMN, SAFMIN, XNORM
+      REAL               ALPHI, ALPHR, BETA, RSAFMN, SAFMIN, XNORM, CR,
+     $                   CI
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, CGEBR2D, CGEBS2D, PCSCAL,
-     $                   PCSSCAL, INFOG2L, PSCNRM2
+     $                   PCSSCAL, INFOG2L, PSCNRM2, SLADIV
 *     ..
 *     .. External Functions ..
       REAL               SLAMCH, SLAPY3
-      COMPLEX            CLADIV
-      EXTERNAL           CLADIV, SLAPY3, SLAMCH
+      EXTERNAL           SLAPY3, SLAMCH
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, AIMAG, CMPLX, REAL, SIGN
@@ -265,7 +265,9 @@
             BETA = -SIGN( SLAPY3( ALPHR, ALPHI, XNORM ), ALPHR )
             TAU( INDXTAU ) = CMPLX( ( BETA-ALPHR ) / BETA,
      $                              -ALPHI / BETA )
-            ALPHA = CLADIV( CMPLX( ONE ), ALPHA-BETA )
+            CALL SLADIV( ONE, ZERO, REAL( ALPHA-BETA ),
+     $              AIMAG( ALPHA-BETA ), CR, CI )
+            ALPHA = CMPLX( CR, CI )
             CALL PCSCAL( N-1, ALPHA, X, IX, JX, DESCX, INCX )
 *
 *           If ALPHA is subnormal, it may lose relative accuracy
@@ -277,7 +279,9 @@
          ELSE
             TAU( INDXTAU ) = CMPLX( ( BETA-ALPHR ) / BETA,
      $                              -ALPHI / BETA )
-            ALPHA = CLADIV( CMPLX( ONE ), ALPHA-BETA )
+            CALL SLADIV( ONE, ZERO, REAL( ALPHA-BETA ),
+     $              AIMAG( ALPHA-BETA ), CR, CI )
+            ALPHA = CMPLX( CR, CI )
             CALL PCSCAL( N-1, ALPHA, X, IX, JX, DESCX, INCX )
             ALPHA = BETA
          END IF
