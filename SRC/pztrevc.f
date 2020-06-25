@@ -218,11 +218,12 @@
      $                   ITMP2, J, K, KI, LDT, LDVL, LDVR, LDW, MB,
      $                   MYCOL, MYROW, NB, NPCOL, NPROW, RSRC
       REAL               SELF
-      DOUBLE PRECISION   OVFL, REMAXD, SCALE, SMIN, SMLNUM, ULP, UNFL
+      DOUBLE PRECISION   OVFL, REMAXD, SCALE, SMLNUM, ULP, UNFL
       COMPLEX*16         CDUM, REMAXC, SHIFT
 *     ..
 *     .. Local Arrays ..
       INTEGER            DESCW( DLEN_ )
+      DOUBLE PRECISION   SMIN( 1 )
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
@@ -355,13 +356,13 @@
      $            GO TO 70
             END IF
 *
-            SMIN = ZERO
+            SMIN( 1 ) = ZERO
             SHIFT = CZERO
             CALL INFOG2L( KI, KI, DESCT, NPROW, NPCOL, MYROW, MYCOL,
      $                    IROW, ICOL, ITMP1, ITMP2 )
             IF( ( MYROW.EQ.ITMP1 ) .AND. ( MYCOL.EQ.ITMP2 ) ) THEN
                SHIFT = T( ( ICOL-1 )*LDT+IROW )
-               SMIN = MAX( ULP*( CABS1( SHIFT ) ), SMLNUM )
+               SMIN( 1 ) = MAX( ULP*( CABS1( SHIFT ) ), SMLNUM )
             END IF
             CALL DGSUM2D( CONTXT, 'ALL', ' ', 1, 1, SMIN, 1, -1, -1 )
             CALL ZGSUM2D( CONTXT, 'ALL', ' ', 1, 1, SHIFT, 1, -1, -1 )
@@ -396,8 +397,9 @@
                IF( ( MYROW.EQ.ITMP1 ) .AND. ( MYCOL.EQ.ITMP2 ) ) THEN
                   T( ( ICOL-1 )*LDT+IROW ) = T( ( ICOL-1 )*LDT+IROW ) -
      $               SHIFT
-                  IF( CABS1( T( ( ICOL-1 )*LDT+IROW ) ).LT.SMIN ) THEN
-                     T( ( ICOL-1 )*LDT+IROW ) = DCMPLX( SMIN )
+                  IF( CABS1( T( ( ICOL-1 )*LDT+IROW ) ).LT.SMIN( 1 ) )
+     $            THEN
+                     T( ( ICOL-1 )*LDT+IROW ) = DCMPLX( SMIN( 1 ) )
                   END IF
                END IF
    50       CONTINUE
@@ -467,13 +469,13 @@
      $            GO TO 110
             END IF
 *
-            SMIN = ZERO
+            SMIN( 1 ) = ZERO
             SHIFT = CZERO
             CALL INFOG2L( KI, KI, DESCT, NPROW, NPCOL, MYROW, MYCOL,
      $                    IROW, ICOL, ITMP1, ITMP2 )
             IF( ( MYROW.EQ.ITMP1 ) .AND. ( MYCOL.EQ.ITMP2 ) ) THEN
                SHIFT = T( ( ICOL-1 )*LDT+IROW )
-               SMIN = MAX( ULP*( CABS1( SHIFT ) ), SMLNUM )
+               SMIN( 1 ) = MAX( ULP*( CABS1( SHIFT ) ), SMLNUM )
             END IF
             CALL DGSUM2D( CONTXT, 'ALL', ' ', 1, 1, SMIN, 1, -1, -1 )
             CALL ZGSUM2D( CONTXT, 'ALL', ' ', 1, 1, SHIFT, 1, -1, -1 )
@@ -507,8 +509,8 @@
                IF( ( MYROW.EQ.ITMP1 ) .AND. ( MYCOL.EQ.ITMP2 ) ) THEN
                   T( ( ICOL-1 )*LDT+IROW ) = T( ( ICOL-1 )*LDT+IROW ) -
      $               SHIFT
-                  IF( CABS1( T( ( ICOL-1 )*LDT+IROW ) ).LT.SMIN )
-     $               T( ( ICOL-1 )*LDT+IROW ) = DCMPLX( SMIN )
+                  IF( CABS1( T( ( ICOL-1 )*LDT+IROW ) ).LT.SMIN( 1 ) )
+     $               T( ( ICOL-1 )*LDT+IROW ) = DCMPLX( SMIN( 1 ) )
                END IF
    90       CONTINUE
 *

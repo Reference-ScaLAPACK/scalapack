@@ -160,10 +160,10 @@
       INTEGER            I, ICTXT, IFLAG, IIVX, IMAXROW, IOFFVX, IROFF,
      $                   ITER, IVXCOL, IVXROW, J, JLAST, JJVX, JUMP,
      $                   K, MYCOL, MYROW, NP, NPCOL, NPROW
-      DOUBLE PRECISION   ALTSGN, ESTOLD, JLMAX, TEMP, XMAX
+      DOUBLE PRECISION   ALTSGN, ESTOLD, JLMAX, XMAX
 *     ..
 *     .. Local Arrays ..
-      DOUBLE PRECISION   WORK( 2 )
+      DOUBLE PRECISION   ESTWORK( 1 ), TEMP( 1 ), WORK( 2 )
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, DCOPY, DGEBR2D, DGEBS2D,
@@ -184,6 +184,7 @@
 *
 *     Get grid parameters.
 *
+      ESTWORK( 1 ) = EST
       ICTXT = DESCX( CTXT_ )
       CALL BLACS_GRIDINFO( ICTXT, NPROW, NPCOL, MYROW, MYCOL )
 *
@@ -215,21 +216,21 @@
       IF( N.EQ.1 ) THEN
          IF( MYROW.EQ.IVXROW ) THEN
             V( IOFFVX ) = X( IOFFVX )
-            EST = ABS( V( IOFFVX ) )
-            CALL DGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, EST, 1 )
+            ESTWORK( 1 ) = ABS( V( IOFFVX ) )
+            CALL DGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, ESTWORK, 1 )
          ELSE
-            CALL DGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, EST, 1,
+            CALL DGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, ESTWORK, 1,
      $                    IVXROW, MYCOL )
          END IF
 *        ... QUIT
          GO TO 150
       END IF
-      CALL PDASUM( N, EST, X, IX, JX, DESCX, 1 )
+      CALL PDASUM( N, ESTWORK( 1 ), X, IX, JX, DESCX, 1 )
       IF( DESCX( M_ ).EQ.1 .AND. N.EQ.1 ) THEN
          IF( MYROW.EQ.IVXROW ) THEN
-            CALL DGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, EST, 1 )
+            CALL DGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, ESTWORK, 1 )
          ELSE
-            CALL DGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, EST, 1,
+            CALL DGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, ESTWORK, 1,
      $                    IVXROW, MYCOL )
          END IF
       END IF
@@ -281,13 +282,13 @@
 *
    70 CONTINUE
       CALL DCOPY( NP, X( IOFFVX ), 1, V( IOFFVX ), 1 )
-      ESTOLD = EST
-      CALL PDASUM( N, EST, V, IV, JV, DESCV, 1 )
+      ESTOLD = ESTWORK( 1 )
+      CALL PDASUM( N, ESTWORK( 1 ), V, IV, JV, DESCV, 1 )
       IF( DESCV( M_ ).EQ.1 .AND. N.EQ.1 ) THEN
          IF( MYROW.EQ.IVXROW ) THEN
-            CALL DGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, EST, 1 )
+            CALL DGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, ESTWORK, 1 )
          ELSE
-            CALL DGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, EST, 1,
+            CALL DGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, ESTWORK, 1,
      $                    IVXROW, MYCOL )
          END IF
       END IF
@@ -305,7 +306,7 @@
 *     REPEATED SIGN VECTOR DETECTED, HENCE ALGORITHM HAS CONVERGED.
 *     ALONG WITH IT, TEST FOR CYCLING.
 *
-      IF( IFLAG.EQ.0 .OR. EST.LE.ESTOLD )
+      IF( IFLAG.EQ.0 .OR. ESTWORK( 1 ).LE.ESTOLD )
      $   GO TO 120
 *
       DO 100 I = IOFFVX, IOFFVX+NP-1
@@ -361,7 +362,7 @@
 *     X HAS BEEN OVERWRITTEN BY A*X
 *
   140 CONTINUE
-      CALL PDASUM( N, TEMP, X, IX, JX, DESCX, 1 )
+      CALL PDASUM( N, TEMP( 1 ), X, IX, JX, DESCX, 1 )
       IF( DESCX( M_ ).EQ.1 .AND. N.EQ.1 ) THEN
          IF( MYROW.EQ.IVXROW ) THEN
             CALL DGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, TEMP, 1 )
@@ -370,15 +371,16 @@
      $                    IVXROW, MYCOL )
          END IF
       END IF
-      TEMP = TWO*( TEMP / DBLE( 3*N ) )
-      IF( TEMP.GT.EST ) THEN
+      TEMP( 1 ) = TWO*( TEMP( 1 ) / DBLE( 3*N ) )
+      IF( TEMP( 1 ).GT.ESTWORK( 1 ) ) THEN
          CALL DCOPY( NP, X( IOFFVX ), 1, V( IOFFVX ), 1 )
-         EST = TEMP
+         ESTWORK( 1 ) = TEMP( 1 )
       END IF
 *
   150 CONTINUE
       KASE = 0
 *
+      EST = ESTWORK( 1 )
       RETURN
 *
 *     End of PDLACON

@@ -244,14 +244,14 @@
      $                   ITMP2, J, JB, K, LAST, LEXTRA, LREQ, MYCOL,
      $                   MYROW, NALPHA, NBETA, NCMP, NEIGINT, NEXT, NGL,
      $                   NGLOB, NGU, NINT, NPCOL, NPROW, OFFSET,
-     $                   ONEDCONTEXT, P, PREV, REXTRA, RREQ, SELF,
-     $                   TORECV
+     $                   ONEDCONTEXT, P, PREV, REXTRA, RREQ, SELF
       REAL               ALPHA, ATOLI, BETA, BNORM, DRECV, DSEND, GL,
      $                   GU, INITVL, INITVU, LSAVE, MID, PIVMIN, RELTOL,
      $                   SAFEMN, TMP1, TMP2, TNORM, ULP
 *     ..
 *     .. Local Arrays ..
       INTEGER            IDUM( 5, 2 )
+      INTEGER            TORECV( 1, 1 )
 *     ..
 *     .. Executable Statements ..
 *       This is just to keep ftnchek happy
@@ -774,14 +774,14 @@
          ELSE
             CALL IGEBR2D( ONEDCONTEXT, 'ALL', ' ', 1, 1, TORECV, 1, 0,
      $                    I-1 )
-            IF( TORECV.NE.0 ) THEN
-               CALL IGEBR2D( ONEDCONTEXT, 'ALL', ' ', TORECV, 1, IWORK,
-     $                       TORECV, 0, I-1 )
-               CALL SGEBR2D( ONEDCONTEXT, 'ALL', ' ', TORECV, 1, WORK,
-     $                       TORECV, 0, I-1 )
-               CALL IGEBR2D( ONEDCONTEXT, 'ALL', ' ', TORECV, 1,
-     $                       IWORK( N+1 ), TORECV, 0, I-1 )
-               DO 120 J = 1, TORECV
+            IF( TORECV( 1, 1 ).NE.0 ) THEN
+               CALL IGEBR2D( ONEDCONTEXT, 'ALL', ' ', TORECV( 1, 1 ), 1,
+     $                       IWORK, TORECV( 1, 1 ), 0, I-1 )
+               CALL SGEBR2D( ONEDCONTEXT, 'ALL', ' ', TORECV( 1, 1 ), 1,
+     $                       WORK, TORECV( 1, 1 ), 0, I-1 )
+               CALL IGEBR2D( ONEDCONTEXT, 'ALL', ' ', TORECV( 1, 1 ), 1,
+     $                       IWORK( N+1 ), TORECV( 1, 1 ), 0, I-1 )
+               DO 120 J = 1, TORECV( 1, 1 )
                   W( IWORK( J ) ) = WORK( J )
                   IBLOCK( IWORK( J ) ) = IWORK( N+J )
   120          CONTINUE

@@ -354,13 +354,15 @@
       LOGICAL            LQUERY, WANTBH, WANTQ, WANTS, WANTSP
       INTEGER            ICOFFT12, ICTXT, IDUM1, IDUM2, IERR, ILOC1,
      $                   IPW1, ITER, ITT, JLOC1, JTT, K, LIWMIN, LLDT,
-     $                   LLDQ, LWMIN, MMAX, MMIN, MYROW, MYCOL, N1, N2,
+     $                   LLDQ, LWMIN, MYROW, MYCOL, N1, N2,
      $                   NB, NOEXSY, NPCOL, NPROCS, NPROW, SPACE,
      $                   T12ROWS, T12COLS, TCOLS, TCSRC, TROWS, TRSRC,
      $                   WRK1, IWRK1, WRK2, IWRK2, WRK3, IWRK3
-      REAL               DPDUM1, ELEM, EST, SCALE, RNORM
+      REAL               ELEM, EST, SCALE, RNORM
 *     .. Local Arrays ..
-      INTEGER            DESCT12( DLEN_ ), MBNB2( 2 )
+      INTEGER            DESCT12( DLEN_ ), MBNB2( 2 ), MMAX( 1 ),
+     $                   MMIN( 1 ), INFODUM( 1 )
+      REAL               DPDUM1( 1 )
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
@@ -521,16 +523,16 @@
                END IF
                IF( SELECT(K) ) M = M + 1
  10         CONTINUE
-            MMAX = M
-            MMIN = M
+            MMAX( 1 ) = M
+            MMIN( 1 ) = M
             IF( NPROCS.GT.1 )
      $           CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, MMAX, 1, -1,
      $                -1, -1, -1, -1 )
             IF( NPROCS.GT.1 )
      $           CALL IGAMN2D( ICTXT, 'All', TOP, 1, 1, MMIN, 1, -1,
      $                -1, -1, -1, -1 )
-            IF( MMAX.GT.MMIN ) THEN
-               M = MMAX
+            IF( MMAX( 1 ).GT.MMIN( 1 ) ) THEN
+               M = MMAX( 1 )
                IF( NPROCS.GT.1 )
      $              CALL IGAMX2D( ICTXT, 'All', TOP, N, 1, IWORK, N,
      $                   -1, -1, -1, -1, -1 )
@@ -602,9 +604,11 @@ c     $              IERR )
 *
 *     Global maximum on info
 *
-      IF( NPROCS.GT.1 )
-     $     CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFO, 1, -1, -1, -1,
+      IF( NPROCS.GT.1 ) THEN
+         CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFODUM, 1, -1, -1, -1,
      $          -1, -1 )
+         INFO = INFODUM( 1 )
+      END IF
 *
 *     Return if some argument is incorrect
 *

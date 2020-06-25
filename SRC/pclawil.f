@@ -124,11 +124,10 @@
      $                   MODKM1, MYCOL, MYROW, NPCOL, NPROW, NUM, RIGHT,
      $                   RSRC, UP
       REAL               S
-      COMPLEX            CDUM, H11, H12, H21, H22, H33S, H44S, V1, V2,
-     $                   V3
+      COMPLEX            CDUM, H22, H33S, H44S, V1, V2
 *     ..
 *     .. Local Arrays ..
-      COMPLEX            BUF( 4 )
+      COMPLEX            BUF( 4 ), V3( 1 ), H11( 1 ), H12( 1 ), H21( 1 )
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, INFOG2L, CGERV2D, CGESD2D
@@ -181,18 +180,18 @@
             IF( NPCOL.GT.1 ) THEN
                CALL CGERV2D( CONTXT, 1, 1, V3, 1, MYROW, LEFT )
             ELSE
-               V3 = A( ( ICOL-2 )*LDA+IROW )
+               V3( 1 ) = A( ( ICOL-2 )*LDA+IROW )
             END IF
             IF( NUM.GT.1 ) THEN
                CALL CGERV2D( CONTXT, 4, 1, BUF, 4, UP, LEFT )
-               H11 = BUF( 1 )
-               H21 = BUF( 2 )
-               H12 = BUF( 3 )
+               H11( 1 ) = BUF( 1 )
+               H21( 1 ) = BUF( 2 )
+               H12( 1 ) = BUF( 3 )
                H22 = BUF( 4 )
             ELSE
-               H11 = A( ( ICOL-3 )*LDA+IROW-2 )
-               H21 = A( ( ICOL-3 )*LDA+IROW-1 )
-               H12 = A( ( ICOL-2 )*LDA+IROW-2 )
+               H11( 1 ) = A( ( ICOL-3 )*LDA+IROW-2 )
+               H21( 1 ) = A( ( ICOL-3 )*LDA+IROW-1 )
+               H12( 1 ) = A( ( ICOL-2 )*LDA+IROW-2 )
                H22 = A( ( ICOL-2 )*LDA+IROW-1 )
             END IF
          END IF
@@ -223,22 +222,22 @@
             CALL INFOG2L( M+2, M+2, DESCA, NPROW, NPCOL, MYROW, MYCOL,
      $                    IROW, ICOL, RSRC, JSRC )
             IF( NUM.GT.1 ) THEN
-               CALL CGERV2D( CONTXT, 1, 1, H11, 1, UP, LEFT )
+               CALL CGERV2D( CONTXT, 1, 1, H11( 1 ), 1, UP, LEFT )
             ELSE
-               H11 = A( ( ICOL-3 )*LDA+IROW-2 )
+               H11( 1 ) = A( ( ICOL-3 )*LDA+IROW-2 )
             END IF
             IF( NPROW.GT.1 ) THEN
                CALL CGERV2D( CONTXT, 1, 1, H12, 1, UP, MYCOL )
             ELSE
-               H12 = A( ( ICOL-2 )*LDA+IROW-2 )
+               H12( 1 ) = A( ( ICOL-2 )*LDA+IROW-2 )
             END IF
             IF( NPCOL.GT.1 ) THEN
-               CALL CGERV2D( CONTXT, 1, 1, H21, 1, MYROW, LEFT )
+               CALL CGERV2D( CONTXT, 1, 1, H21( 1 ), 1, MYROW, LEFT )
             ELSE
-               H21 = A( ( ICOL-3 )*LDA+IROW-1 )
+               H21( 1 ) = A( ( ICOL-3 )*LDA+IROW-1 )
             END IF
             H22 = A( ( ICOL-2 )*LDA+IROW-1 )
-            V3 = A( ( ICOL-2 )*LDA+IROW )
+            V3( 1 ) = A( ( ICOL-2 )*LDA+IROW )
          END IF
       END IF
       IF( ( MYROW.NE.II ) .OR. ( MYCOL.NE.JJ ) )
@@ -247,24 +246,24 @@
       IF( MODKM1.GT.1 ) THEN
          CALL INFOG2L( M+2, M+2, DESCA, NPROW, NPCOL, MYROW, MYCOL,
      $                 IROW, ICOL, RSRC, JSRC )
-         H11 = A( ( ICOL-3 )*LDA+IROW-2 )
-         H21 = A( ( ICOL-3 )*LDA+IROW-1 )
-         H12 = A( ( ICOL-2 )*LDA+IROW-2 )
+         H11( 1 ) = A( ( ICOL-3 )*LDA+IROW-2 )
+         H21( 1 ) = A( ( ICOL-3 )*LDA+IROW-1 )
+         H12( 1 ) = A( ( ICOL-2 )*LDA+IROW-2 )
          H22 = A( ( ICOL-2 )*LDA+IROW-1 )
-         V3 = A( ( ICOL-2 )*LDA+IROW )
+         V3( 1 ) = A( ( ICOL-2 )*LDA+IROW )
       END IF
 *
-      H44S = H44 - H11
-      H33S = H33 - H11
-      V1 = ( H33S*H44S-H43H34 ) / H21 + H12
-      V2 = H22 - H11 - H33S - H44S
-      S = CABS1( V1 ) + CABS1( V2 ) + CABS1( V3 )
+      H44S = H44 - H11( 1 )
+      H33S = H33 - H11( 1 )
+      V1 = ( H33S*H44S-H43H34 ) / H21( 1 ) + H12( 1 )
+      V2 = H22 - H11( 1 ) - H33S - H44S
+      S = CABS1( V1 ) + CABS1( V2 ) + CABS1( V3( 1 ) )
       V1 = V1 / S
       V2 = V2 / S
-      V3 = V3 / S
+      V3( 1 ) = V3( 1 ) / S
       V( 1 ) = V1
       V( 2 ) = V2
-      V( 3 ) = V3
+      V( 3 ) = V3( 1 )
 *
       RETURN
 *

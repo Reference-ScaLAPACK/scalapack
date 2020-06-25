@@ -251,7 +251,7 @@
      $                   IVCOL, IVROW, JJC1, JJC2, JJV, LDC, LDV, MPC2,
      $                   MPV, MYCOL, MYROW, NCC, NCV, NPCOL, NPROW,
      $                   NQC2, NQV, RDEST
-      COMPLEX*16         TAULOC
+      COMPLEX*16         TAULOC( 1 )
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, INFOG2L, PB_TOPGET, PBZTRNV,
@@ -370,7 +370,7 @@
 *
                      CALL ZGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1,
      $                             TAU( IIV ), 1 )
-                     TAULOC = TAU( IIV )
+                     TAULOC( 1 ) = TAU( IIV )
 *
                   ELSE
 *
@@ -379,7 +379,7 @@
 *
                   END IF
 *
-                  IF( TAULOC.NE.ZERO ) THEN
+                  IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                    w := sub( C )' * v
 *
@@ -402,9 +402,9 @@
 *                    sub( C ) := sub( C ) - v * w'
 *
                      IF( MYROW.EQ.ICROW1 )
-     $                  CALL ZAXPY( NQC2, -TAULOC, WORK( IPW ),
+     $                  CALL ZAXPY( NQC2, -TAULOC( 1 ), WORK( IPW ),
      $                              MAX( 1, NQC2 ), C( IOFFC1 ), LDC )
-                     CALL ZGERC( MPV, NQC2, -TAULOC, WORK, 1,
+                     CALL ZGERC( MPV, NQC2, -TAULOC( 1 ), WORK, 1,
      $                           WORK( IPW ), 1, C( IOFFC2 ), LDC )
                   END IF
 *
@@ -420,9 +420,9 @@
 *
                   IF( MYCOL.EQ.ICCOL2 ) THEN
 *
-                     TAULOC = TAU( JJV )
+                     TAULOC( 1 ) = TAU( JJV )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C )' * v
 *
@@ -445,11 +445,11 @@
 *                       sub( C ) := sub( C ) - v * w'
 *
                         IF( MYROW.EQ.ICROW1 )
-     $                     CALL ZAXPY( NQC2, -TAULOC, WORK,
+     $                     CALL ZAXPY( NQC2, -TAULOC( 1 ), WORK,
      $                                 MAX( 1, NQC2 ), C( IOFFC1 ),
      $                                 LDC )
-                        CALL ZGERC( MPV, NQC2, -TAULOC, V( IOFFV ), 1,
-     $                              WORK, 1, C( IOFFC2 ), LDC )
+                        CALL ZGERC( MPV, NQC2, -TAULOC( 1 ), V( IOFFV ),
+     $                              1, WORK, 1, C( IOFFC2 ), LDC )
                      END IF
 *
                   END IF
@@ -471,9 +471,9 @@
                      IPW = MPV+1
                      CALL ZGERV2D( ICTXT, IPW, 1, WORK, IPW, MYROW,
      $                             IVCOL )
-                     TAULOC = WORK( IPW )
+                     TAULOC( 1 ) = WORK( IPW )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C )' * v
 *
@@ -496,10 +496,10 @@
 *                       sub( C ) := sub( C ) - v * w'
 *
                         IF( MYROW.EQ.ICROW1 )
-     $                     CALL ZAXPY( NQC2, -TAULOC, WORK( IPW ),
+     $                     CALL ZAXPY( NQC2, -TAULOC( 1 ), WORK( IPW ),
      $                                 MAX( 1, NQC2 ), C( IOFFC1 ),
      $                                 LDC )
-                        CALL ZGERC( MPV, NQC2, -TAULOC, WORK, 1,
+                        CALL ZGERC( MPV, NQC2, -TAULOC( 1 ), WORK, 1,
      $                              WORK( IPW ), 1, C( IOFFC2 ), LDC )
                      END IF
 *
@@ -530,7 +530,7 @@
 *
                   CALL ZGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1,
      $                          TAU( IIV ), 1 )
-                  TAULOC = TAU( IIV )
+                  TAULOC( 1 ) = TAU( IIV )
 *
                ELSE
 *
@@ -539,7 +539,7 @@
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C )' * v
 *
@@ -562,10 +562,10 @@
 *                 sub( C ) := sub( C ) - v * w'
 *
                   IF( MYROW.EQ.ICROW1 )
-     $               CALL ZAXPY( NQC2, -TAULOC, WORK( IPW ),
+     $               CALL ZAXPY( NQC2, -TAULOC( 1 ), WORK( IPW ),
      $                           MAX( 1, NQC2 ), C( IOFFC1 ), LDC )
-                  CALL ZGERC( MPV, NQC2, -TAULOC, WORK, 1, WORK( IPW ),
-     $                        1, C( IOFFC2 ), LDC )
+                  CALL ZGERC( MPV, NQC2, -TAULOC( 1 ), WORK, 1,
+     $                        WORK( IPW ), 1, C( IOFFC2 ), LDC )
                END IF
 *
             ELSE
@@ -580,18 +580,18 @@
                   WORK( IPW ) = TAU( JJV )
                   CALL ZGEBS2D( ICTXT, 'Rowwise', ROWBTOP, IPW, 1,
      $                          WORK, IPW )
-                  TAULOC = TAU( JJV )
+                  TAULOC( 1 ) = TAU( JJV )
 *
                ELSE
 *
                   IPW = MPV+1
                   CALL ZGEBR2D( ICTXT, 'Rowwise', ROWBTOP, IPW, 1, WORK,
      $                          IPW, MYROW, IVCOL )
-                  TAULOC = WORK( IPW )
+                  TAULOC( 1 ) = WORK( IPW )
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C )' * v
 *
@@ -614,10 +614,10 @@
 *                 sub( C ) := sub( C ) - v * w'
 *
                   IF( MYROW.EQ.ICROW1 )
-     $               CALL ZAXPY( NQC2, -TAULOC, WORK( IPW ),
+     $               CALL ZAXPY( NQC2, -TAULOC( 1 ), WORK( IPW ),
      $                           MAX( 1, NQC2 ), C( IOFFC1 ), LDC )
-                  CALL ZGERC( MPV, NQC2, -TAULOC, WORK, 1, WORK( IPW ),
-     $                        1, C( IOFFC2 ), LDC )
+                  CALL ZGERC( MPV, NQC2, -TAULOC( 1 ), WORK, 1,
+     $                        WORK( IPW ), 1, C( IOFFC2 ), LDC )
                END IF
 *
             END IF
@@ -646,9 +646,9 @@
 *
                   IF( MYROW.EQ.ICROW2 ) THEN
 *
-                     TAULOC = TAU( IIV )
+                     TAULOC( 1 ) = TAU( IIV )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C ) * v
 *
@@ -669,13 +669,13 @@
      $                               ICCOL2 )
 *
                         IF( MYCOL.EQ.ICCOL1 )
-     $                     CALL ZAXPY( MPC2, -TAULOC, WORK, 1,
+     $                     CALL ZAXPY( MPC2, -TAULOC( 1 ), WORK, 1,
      $                                 C( IOFFC1 ), 1 )
 *
 *                       sub( C ) := sub( C ) - w * v'
 *
                         IF( MPC2.GT.0 .AND. NQV.GT.0 )
-     $                     CALL ZGERC( MPC2, NQV, -TAULOC, WORK, 1,
+     $                     CALL ZGERC( MPC2, NQV, -TAULOC( 1 ), WORK, 1,
      $                                 V( IOFFV ), LDV, C( IOFFC2 ),
      $                                 LDC )
                      END IF
@@ -699,9 +699,9 @@
                      IPW = NQV+1
                      CALL ZGERV2D( ICTXT, IPW, 1, WORK, IPW, IVROW,
      $                             MYCOL )
-                     TAULOC = WORK( IPW )
+                     TAULOC( 1 ) = WORK( IPW )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C ) * v
 *
@@ -720,13 +720,14 @@
      $                                WORK( IPW ), MAX( 1, MPC2 ),
      $                                RDEST, ICCOL2 )
                         IF( MYCOL.EQ.ICCOL1 )
-     $                     CALL ZAXPY( MPC2, -TAULOC, WORK( IPW ), 1,
-     $                                 C( IOFFC1 ), 1 )
+     $                     CALL ZAXPY( MPC2, -TAULOC( 1 ), WORK( IPW ),
+     $                                 1, C( IOFFC1 ), 1 )
 *
 *                       sub( C ) := sub( C ) - w * v'
 *
-                        CALL ZGERC( MPC2, NQV, -TAULOC, WORK( IPW ), 1,
-     $                              WORK, 1, C( IOFFC2 ), LDC )
+                        CALL ZGERC( MPC2, NQV, -TAULOC( 1 ),
+     $                              WORK( IPW ), 1, WORK, 1,
+     $                              C( IOFFC2 ), LDC )
                      END IF
 *
                   END IF
@@ -751,7 +752,7 @@
 *
                      CALL ZGEBS2D( ICTXT, 'Rowwise', ' ', 1, 1,
      $                             TAU( JJV ), 1 )
-                     TAULOC = TAU( JJV )
+                     TAULOC( 1 ) = TAU( JJV )
 *
                   ELSE
 *
@@ -760,7 +761,7 @@
 *
                   END IF
 *
-                  IF( TAULOC.NE.ZERO ) THEN
+                  IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                    w := sub( C ) * v
 *
@@ -779,13 +780,13 @@
      $                             WORK( IPW ), MAX( 1, MPC2 ), RDEST,
      $                             ICCOL2 )
                      IF( MYCOL.EQ.ICCOL1 )
-     $                  CALL ZAXPY( MPC2, -TAULOC, WORK( IPW ), 1,
+     $                  CALL ZAXPY( MPC2, -TAULOC( 1 ), WORK( IPW ), 1,
      $                              C( IOFFC1 ), 1 )
 *
 *                    sub( C ) := sub( C ) - w * v'
 *
-                     CALL ZGERC( MPC2, NQV, -TAULOC, WORK( IPW ), 1,
-     $                           WORK, 1, C( IOFFC2 ), LDC )
+                     CALL ZGERC( MPC2, NQV, -TAULOC( 1 ), WORK( IPW ),
+     $                           1, WORK, 1, C( IOFFC2 ), LDC )
                   END IF
 *
                END IF
@@ -809,18 +810,18 @@
                   WORK( IPW ) = TAU( IIV )
                   CALL ZGEBS2D( ICTXT, 'Columnwise', COLBTOP, IPW, 1,
      $                          WORK, IPW )
-                  TAULOC = TAU( IIV )
+                  TAULOC( 1 ) = TAU( IIV )
 *
                ELSE
 *
                   IPW = NQV+1
                   CALL ZGEBR2D( ICTXT, 'Columnwise', COLBTOP, IPW, 1,
      $                          WORK, IPW, IVROW, MYCOL )
-                  TAULOC = WORK( IPW )
+                  TAULOC( 1 ) = WORK( IPW )
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C ) * v
 *
@@ -840,13 +841,13 @@
      $                          WORK( IPW ), MAX( 1, MPC2 ), RDEST,
      $                          ICCOL2 )
                   IF( MYCOL.EQ.ICCOL1 )
-     $               CALL ZAXPY( MPC2, -TAULOC, WORK( IPW ), 1,
+     $               CALL ZAXPY( MPC2, -TAULOC( 1 ), WORK( IPW ), 1,
      $                           C( IOFFC1 ), 1 )
 *
 *                 sub( C ) := sub( C ) - w * v'
 *
-                  CALL ZGERC( MPC2, NQV, -TAULOC, WORK( IPW ), 1, WORK,
-     $                        1, C( IOFFC2 ), LDC )
+                  CALL ZGERC( MPC2, NQV, -TAULOC( 1 ), WORK( IPW ), 1,
+     $                        WORK, 1, C( IOFFC2 ), LDC )
                END IF
 *
             ELSE
@@ -865,7 +866,7 @@
 *
                   CALL ZGEBS2D( ICTXT, 'Rowwise', ' ', 1, 1, TAU( JJV ),
      $                          1 )
-                  TAULOC = TAU( JJV )
+                  TAULOC( 1 ) = TAU( JJV )
 *
                ELSE
 *
@@ -874,7 +875,7 @@
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C ) * v
 *
@@ -893,13 +894,13 @@
      $                          WORK( IPW ), MAX( 1, MPC2 ), RDEST,
      $                          ICCOL2 )
                   IF( MYCOL.EQ.ICCOL1 )
-     $               CALL ZAXPY( MPC2, -TAULOC, WORK( IPW ), 1,
+     $               CALL ZAXPY( MPC2, -TAULOC( 1 ), WORK( IPW ), 1,
      $                           C( IOFFC1 ), 1 )
 *
 *                 sub( C ) := sub( C ) - w * v'
 *
-                  CALL ZGERC( MPC2, NQV, -TAULOC, WORK( IPW ), 1, WORK,
-     $                        1, C( IOFFC2 ), LDC )
+                  CALL ZGERC( MPC2, NQV, -TAULOC( 1 ), WORK( IPW ), 1,
+     $                        WORK, 1, C( IOFFC2 ), LDC )
                END IF
 *
             END IF

@@ -242,7 +242,7 @@
      $                   IOFFV, IPW, IROFF, IVCOL, IVROW, JJC, JJV, LDC,
      $                   LDV, MYCOL, MYROW, MP, NCC, NCV, NPCOL, NPROW,
      $                   NQ, RDEST
-      COMPLEX            TAULOC
+      COMPLEX            TAULOC( 1 )
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, CCOPY, CGEBR2D, CGEBS2D,
@@ -336,7 +336,7 @@
 *
                      CALL CGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1,
      $                             TAU( IIV ), 1 )
-                     TAULOC = TAU( IIV )
+                     TAULOC( 1 ) = TAU( IIV )
 *
                   ELSE
 *
@@ -345,7 +345,7 @@
 *
                   END IF
 *
-                  IF( TAULOC.NE.ZERO ) THEN
+                  IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                    w := sub( C )' * v
 *
@@ -363,8 +363,8 @@
 *
 *                    sub( C ) := sub( C ) - v * w'
 *
-                     CALL CGERC( MP, NQ, -TAULOC, WORK, 1, WORK( IPW ),
-     $                           1, C( IOFFC ), LDC )
+                     CALL CGERC( MP, NQ, -TAULOC( 1 ), WORK, 1,
+     $                           WORK( IPW ), 1, C( IOFFC ), LDC )
                   END IF
 *
                END IF
@@ -379,9 +379,9 @@
 *
                   IF( MYCOL.EQ.ICCOL ) THEN
 *
-                     TAULOC = TAU( JJV )
+                     TAULOC( 1 ) = TAU( JJV )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C )' * v
 *
@@ -398,7 +398,7 @@
 *
 *                       sub( C ) := sub( C ) - v * w'
 *
-                        CALL CGERC( MP, NQ, -TAULOC, V( IOFFV ), 1,
+                        CALL CGERC( MP, NQ, -TAULOC( 1 ), V( IOFFV ), 1,
      $                              WORK, 1, C( IOFFC ), LDC )
                      END IF
 *
@@ -421,9 +421,9 @@
                      IPW = MP+1
                      CALL CGERV2D( ICTXT, IPW, 1, WORK, IPW, MYROW,
      $                             IVCOL )
-                     TAULOC = WORK( IPW )
+                     TAULOC( 1 ) = WORK( IPW )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C )' * v
 *
@@ -441,7 +441,7 @@
 *
 *                       sub( C ) := sub( C ) - v * w'
 *
-                        CALL CGERC( MP, NQ, -TAULOC, WORK, 1,
+                        CALL CGERC( MP, NQ, -TAULOC( 1 ), WORK, 1,
      $                              WORK( IPW ), 1, C( IOFFC ), LDC )
                      END IF
 *
@@ -471,7 +471,7 @@
 *
                   CALL CGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1,
      $                          TAU( IIV ), 1 )
-                  TAULOC = TAU( IIV )
+                  TAULOC( 1 ) = TAU( IIV )
 *
                ELSE
 *
@@ -480,7 +480,7 @@
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C )' * v
 *
@@ -500,8 +500,8 @@
 *                 sub( C ) := sub( C ) - v * w'
 *
                   IF( IOFFC.GT.0 )
-     $               CALL CGERC( MP, NQ, -TAULOC, WORK, 1, WORK( IPW ),
-     $                           1, C( IOFFC ), LDC )
+     $               CALL CGERC( MP, NQ, -TAULOC( 1 ), WORK, 1,
+     $                           WORK( IPW ), 1, C( IOFFC ), LDC )
                END IF
 *
             ELSE
@@ -516,18 +516,18 @@
                   WORK(IPW) = TAU( JJV )
                   CALL CGEBS2D( ICTXT, 'Rowwise', ROWBTOP, IPW, 1,
      $                          WORK, IPW )
-                  TAULOC = TAU( JJV )
+                  TAULOC( 1 ) = TAU( JJV )
 *
                ELSE
 *
                   IPW = MP+1
                   CALL CGEBR2D( ICTXT, 'Rowwise', ROWBTOP, IPW, 1, WORK,
      $                          IPW, MYROW, IVCOL )
-                  TAULOC = WORK( IPW )
+                  TAULOC( 1 ) = WORK( IPW )
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C )' * v
 *
@@ -547,8 +547,8 @@
 *                 sub( C ) := sub( C ) - v * w'
 *
                   IF( IOFFC.GT.0 )
-     $               CALL CGERC( MP, NQ, -TAULOC, WORK, 1, WORK( IPW ),
-     $                           1, C( IOFFC ), LDC )
+     $               CALL CGERC( MP, NQ, -TAULOC( 1 ), WORK, 1,
+     $                           WORK( IPW ), 1, C( IOFFC ), LDC )
                END IF
 *
             END IF
@@ -577,9 +577,9 @@
 *
                   IF( MYROW.EQ.ICROW ) THEN
 *
-                     TAULOC = TAU( IIV )
+                     TAULOC( 1 ) = TAU( IIV )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C ) * v
 *
@@ -597,7 +597,7 @@
 *                       sub( C ) := sub( C ) - w * v'
 *
                         IF( IOFFV.GT.0 .AND. IOFFC.GT.0 )
-     $                     CALL CGERC( MP, NQ, -TAULOC, WORK, 1,
+     $                     CALL CGERC( MP, NQ, -TAULOC( 1 ), WORK, 1,
      $                                 V( IOFFV ), LDV, C( IOFFC ),
      $                                 LDC )
                      END IF
@@ -621,9 +621,9 @@
                      IPW = NQ+1
                      CALL CGERV2D( ICTXT, IPW, 1, WORK, IPW, IVROW,
      $                             MYCOL )
-                     TAULOC = WORK( IPW )
+                     TAULOC( 1 ) = WORK( IPW )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C ) * v
 *
@@ -641,8 +641,8 @@
 *
 *                       sub( C ) := sub( C ) - w * v'
 *
-                        CALL CGERC( MP, NQ, -TAULOC, WORK( IPW ), 1,
-     $                              WORK, 1, C( IOFFC ), LDC )
+                        CALL CGERC( MP, NQ, -TAULOC( 1 ), WORK( IPW ),
+     $                              1, WORK, 1, C( IOFFC ), LDC )
                      END IF
 *
                   END IF
@@ -667,7 +667,7 @@
 *
                      CALL CGEBS2D( ICTXT, 'Rowwise', ' ', 1, 1,
      $                             TAU( JJV ), 1 )
-                     TAULOC = TAU( JJV )
+                     TAULOC( 1 ) = TAU( JJV )
 *
                   ELSE
 *
@@ -676,7 +676,7 @@
 *
                   END IF
 *
-                  IF( TAULOC.NE.ZERO ) THEN
+                  IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                    w := sub( C ) * v
 *
@@ -694,8 +694,8 @@
 *
 *                    sub( C ) := sub( C ) - w * v'
 *
-                     CALL CGERC( MP, NQ, -TAULOC, WORK( IPW ), 1, WORK,
-     $                           1, C( IOFFC ), LDC )
+                     CALL CGERC( MP, NQ, -TAULOC( 1 ), WORK( IPW ), 1,
+     $                           WORK, 1, C( IOFFC ), LDC )
                   END IF
 *
                END IF
@@ -720,18 +720,18 @@
                   WORK(IPW) = TAU( IIV )
                   CALL CGEBS2D( ICTXT, 'Columnwise', COLBTOP, IPW, 1,
      $                          WORK, IPW )
-                  TAULOC = TAU( IIV )
+                  TAULOC( 1 ) = TAU( IIV )
 *
                ELSE
 *
                   IPW = NQ+1
                   CALL CGEBR2D( ICTXT, 'Columnwise', COLBTOP, IPW, 1,
      $                          WORK, IPW, IVROW, MYCOL )
-                  TAULOC = WORK( IPW )
+                  TAULOC( 1 ) = WORK( IPW )
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C ) * v
 *
@@ -750,8 +750,8 @@
 *                 sub( C ) := sub( C ) - w * v'
 *
                   IF( IOFFC.GT.0 )
-     $               CALL CGERC( MP, NQ, -TAULOC, WORK( IPW ), 1, WORK,
-     $                           1, C( IOFFC ), LDC )
+     $               CALL CGERC( MP, NQ, -TAULOC( 1 ), WORK( IPW ), 1,
+     $                           WORK, 1, C( IOFFC ), LDC )
                END IF
 *
             ELSE
@@ -770,7 +770,7 @@
 *
                   CALL CGEBS2D( ICTXT, 'Rowwise', ' ', 1, 1, TAU( JJV ),
      $                          1 )
-                  TAULOC = TAU( JJV )
+                  TAULOC( 1 ) = TAU( JJV )
 *
                ELSE
 *
@@ -779,7 +779,7 @@
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C ) * v
 *
@@ -797,8 +797,8 @@
 *
 *                 sub( C ) := sub( C ) - w * v'
 *
-                  CALL CGERC( MP, NQ, -TAULOC, WORK( IPW ), 1, WORK, 1,
-     $                        C( IOFFC ), LDC )
+                  CALL CGERC( MP, NQ, -TAULOC( 1 ), WORK( IPW ), 1,
+     $                        WORK, 1, C( IOFFC ), LDC )
                END IF
 *
             END IF
