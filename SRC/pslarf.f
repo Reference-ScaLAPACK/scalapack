@@ -241,7 +241,7 @@
      $                   IOFFV, IPW, IROFF, IVCOL, IVROW, JJC, JJV, LDC,
      $                   LDV, MYCOL, MYROW, MP, NCC, NCV, NPCOL, NPROW,
      $                   NQ, RDEST
-      REAL               TAULOC
+      REAL               TAULOC( 1 )
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, INFOG2L, PB_TOPGET, PBSTRNV,
@@ -335,7 +335,7 @@
 *
                      CALL SGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1,
      $                             TAU( IIV ), 1 )
-                     TAULOC = TAU( IIV )
+                     TAULOC( 1 ) = TAU( IIV )
 *
                   ELSE
 *
@@ -344,7 +344,7 @@
 *
                   END IF
 *
-                  IF( TAULOC.NE.ZERO ) THEN
+                  IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                    w := sub( C )' * v
 *
@@ -362,8 +362,8 @@
 *
 *                    sub( C ) := sub( C ) - v * w'
 *
-                     CALL SGER( MP, NQ, -TAULOC, WORK, 1, WORK( IPW ),
-     $                          1, C( IOFFC ), LDC )
+                     CALL SGER( MP, NQ, -TAULOC( 1 ), WORK, 1,
+     $                          WORK( IPW ), 1, C( IOFFC ), LDC )
                   END IF
 *
                END IF
@@ -378,9 +378,9 @@
 *
                   IF( MYCOL.EQ.ICCOL ) THEN
 *
-                     TAULOC = TAU( JJV )
+                     TAULOC( 1 ) = TAU( JJV )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C )' * v
 *
@@ -397,8 +397,8 @@
 *
 *                       sub( C ) := sub( C ) - v * w'
 *
-                        CALL SGER( MP, NQ, -TAULOC, V( IOFFV ), 1, WORK,
-     $                             1, C( IOFFC ), LDC )
+                        CALL SGER( MP, NQ, -TAULOC( 1 ), V( IOFFV ), 1,
+     $                             WORK, 1, C( IOFFC ), LDC )
                      END IF
 *
                   END IF
@@ -420,9 +420,9 @@
                      IPW = MP+1
                      CALL SGERV2D( ICTXT, IPW, 1, WORK, IPW, MYROW,
      $                             IVCOL )
-                     TAULOC = WORK( IPW )
+                     TAULOC( 1 ) = WORK( IPW )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C )' * v
 *
@@ -440,7 +440,7 @@
 *
 *                       sub( C ) := sub( C ) - v * w'
 *
-                        CALL SGER( MP, NQ, -TAULOC, WORK, 1,
+                        CALL SGER( MP, NQ, -TAULOC( 1 ), WORK, 1,
      $                             WORK( IPW ), 1, C( IOFFC ), LDC )
                      END IF
 *
@@ -470,7 +470,7 @@
 *
                   CALL SGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1,
      $                          TAU( IIV ), 1 )
-                  TAULOC = TAU( IIV )
+                  TAULOC( 1 ) = TAU( IIV )
 *
                ELSE
 *
@@ -479,7 +479,7 @@
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C )' * v
 *
@@ -499,8 +499,8 @@
 *                 sub( C ) := sub( C ) - v * w'
 *
                   IF( IOFFC.GT.0 )
-     $               CALL SGER( MP, NQ, -TAULOC, WORK, 1, WORK( IPW ),
-     $                          1, C( IOFFC ), LDC )
+     $               CALL SGER( MP, NQ, -TAULOC( 1 ), WORK, 1,
+     $                          WORK( IPW ), 1, C( IOFFC ), LDC )
                END IF
 *
             ELSE
@@ -515,18 +515,18 @@
                   WORK(IPW) = TAU( JJV )
                   CALL SGEBS2D( ICTXT, 'Rowwise', ROWBTOP, IPW, 1,
      $                          WORK, IPW )
-                  TAULOC = TAU( JJV )
+                  TAULOC( 1 ) = TAU( JJV )
 *
                ELSE
 *
                   IPW = MP+1
                   CALL SGEBR2D( ICTXT, 'Rowwise', ROWBTOP, IPW, 1, WORK,
      $                          IPW, MYROW, IVCOL )
-                  TAULOC = WORK( IPW )
+                  TAULOC( 1 ) = WORK( IPW )
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C )' * v
 *
@@ -546,8 +546,8 @@
 *                 sub( C ) := sub( C ) - v * w'
 *
                   IF( IOFFC.GT.0 )
-     $               CALL SGER( MP, NQ, -TAULOC, WORK, 1, WORK( IPW ),
-     $                          1, C( IOFFC ), LDC )
+     $               CALL SGER( MP, NQ, -TAULOC( 1 ), WORK, 1,
+     $                          WORK( IPW ), 1, C( IOFFC ), LDC )
                END IF
 *
             END IF
@@ -576,9 +576,9 @@
 *
                   IF( MYROW.EQ.ICROW ) THEN
 *
-                     TAULOC = TAU( IIV )
+                     TAULOC( 1 ) = TAU( IIV )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C ) * v
 *
@@ -596,7 +596,7 @@
 *                       sub( C ) := sub( C ) - w * v'
 *
                         IF( IOFFV.GT.0 .AND. IOFFC.GT.0 )
-     $                     CALL SGER( MP, NQ, -TAULOC, WORK, 1,
+     $                     CALL SGER( MP, NQ, -TAULOC( 1 ), WORK, 1,
      $                                V( IOFFV ), LDV, C( IOFFC ), LDC )
                      END IF
 *
@@ -619,9 +619,9 @@
                      IPW = NQ+1
                      CALL SGERV2D( ICTXT, IPW, 1, WORK, IPW, IVROW,
      $                             MYCOL )
-                     TAULOC = WORK( IPW )
+                     TAULOC( 1 ) = WORK( IPW )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C ) * v
 *
@@ -639,7 +639,7 @@
 *
 *                       sub( C ) := sub( C ) - w * v'
 *
-                        CALL SGER( MP, NQ, -TAULOC, WORK( IPW ), 1,
+                        CALL SGER( MP, NQ, -TAULOC( 1 ), WORK( IPW ), 1,
      $                             WORK, 1, C( IOFFC ), LDC )
                      END IF
 *
@@ -665,7 +665,7 @@
 *
                      CALL SGEBS2D( ICTXT, 'Rowwise', ' ', 1, 1,
      $                             TAU( JJV ), 1 )
-                     TAULOC = TAU( JJV )
+                     TAULOC( 1 ) = TAU( JJV )
 *
                   ELSE
 *
@@ -674,7 +674,7 @@
 *
                   END IF
 *
-                  IF( TAULOC.NE.ZERO ) THEN
+                  IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                    w := sub( C ) * v
 *
@@ -692,8 +692,8 @@
 *
 *                    sub( C ) := sub( C ) - w * v'
 *
-                     CALL SGER( MP, NQ, -TAULOC, WORK( IPW ), 1, WORK,
-     $                          1, C( IOFFC ), LDC )
+                     CALL SGER( MP, NQ, -TAULOC( 1 ), WORK( IPW ), 1
+     $                         , WORK, 1, C( IOFFC ), LDC )
                   END IF
 *
                END IF
@@ -718,18 +718,18 @@
                   WORK(IPW) = TAU( IIV )
                   CALL SGEBS2D( ICTXT, 'Columnwise', COLBTOP, IPW, 1,
      $                          WORK, IPW )
-                  TAULOC = TAU( IIV )
+                  TAULOC( 1 ) = TAU( IIV )
 *
                ELSE
 *
                   IPW = NQ+1
                   CALL SGEBR2D( ICTXT, 'Columnwise', COLBTOP, IPW, 1,
      $                          WORK, IPW, IVROW, MYCOL )
-                  TAULOC = WORK( IPW )
+                  TAULOC( 1 ) = WORK( IPW )
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C ) * v
 *
@@ -748,8 +748,8 @@
 *                 sub( C ) := sub( C ) - w * v'
 *
                   IF( IOFFC.GT.0 )
-     $               CALL SGER( MP, NQ, -TAULOC, WORK( IPW ), 1, WORK,
-     $                          1, C( IOFFC ), LDC )
+     $               CALL SGER( MP, NQ, -TAULOC( 1 ), WORK( IPW ), 1,
+     $                          WORK, 1, C( IOFFC ), LDC )
                END IF
 *
             ELSE
@@ -768,7 +768,7 @@
 *
                   CALL SGEBS2D( ICTXT, 'Rowwise', ' ', 1, 1, TAU( JJV ),
      $                          1 )
-                  TAULOC = TAU( JJV )
+                  TAULOC( 1 ) = TAU( JJV )
 *
                ELSE
 *
@@ -777,7 +777,7 @@
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C ) * v
 *
@@ -795,8 +795,8 @@
 *
 *                 sub( C ) := sub( C ) - w * v'
 *
-                  CALL SGER( MP, NQ, -TAULOC, WORK( IPW ), 1, WORK, 1,
-     $                       C( IOFFC ), LDC )
+                  CALL SGER( MP, NQ, -TAULOC( 1 ), WORK( IPW ), 1, WORK,
+     $                       1, C( IOFFC ), LDC )
                END IF
 *
             END IF

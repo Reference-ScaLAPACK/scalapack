@@ -160,10 +160,12 @@
       INTEGER            I, ICTXT, IFLAG, IIVX, IMAXROW, IOFFVX, IROFF,
      $                   ITER, IVXCOL, IVXROW, J, JLAST, JJVX, JUMP,
      $                   K, MYCOL, MYROW, NP, NPCOL, NPROW
-      REAL               ALTSGN, ESTOLD, JLMAX, TEMP, XMAX
+      REAL               ALTSGN, ESTOLD, JLMAX, XMAX
 *     ..
 *     .. Local Arrays ..
       REAL               WORK( 2 )
+      REAL               ESTWORK( 1 )
+      REAL               TEMP( 1 )
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, IGSUM2D, INFOG2L, PSAMAX,
@@ -184,6 +186,7 @@
 *
 *     Get grid parameters.
 *
+      ESTWORK( 1 ) = EST
       ICTXT = DESCX( CTXT_ )
       CALL BLACS_GRIDINFO( ICTXT, NPROW, NPCOL, MYROW, MYCOL )
 *
@@ -215,21 +218,21 @@
       IF( N.EQ.1 ) THEN
          IF( MYROW.EQ.IVXROW ) THEN
             V( IOFFVX ) = X( IOFFVX )
-            EST = ABS( V( IOFFVX ) )
-            CALL SGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, EST, 1 )
+            ESTWORK( 1 ) = ABS( V( IOFFVX ) )
+            CALL SGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, ESTWORK, 1 )
          ELSE
-            CALL SGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, EST, 1,
+            CALL SGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, ESTWORK, 1,
      $                    IVXROW, MYCOL )
          END IF
 *        ... QUIT
          GO TO 150
       END IF
-      CALL PSASUM( N, EST, X, IX, JX, DESCX, 1 )
+      CALL PSASUM( N, ESTWORK( 1 ), X, IX, JX, DESCX, 1 )
       IF( DESCX( M_ ).EQ.1 .AND. N.EQ.1 ) THEN
          IF( MYROW.EQ.IVXROW ) THEN
-            CALL SGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, EST, 1 )
+            CALL SGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, ESTWORK, 1 )
          ELSE
-            CALL SGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, EST, 1,
+            CALL SGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, ESTWORK, 1,
      $                    IVXROW, MYCOL )
          END IF
       END IF
@@ -281,13 +284,13 @@
 *
    70 CONTINUE
       CALL SCOPY( NP, X( IOFFVX ), 1, V( IOFFVX ), 1 )
-      ESTOLD = EST
-      CALL PSASUM( N, EST, V, IV, JV, DESCV, 1 )
+      ESTOLD = ESTWORK( 1 )
+      CALL PSASUM( N, ESTWORK( 1 ), V, IV, JV, DESCV, 1 )
       IF( DESCV( M_ ).EQ.1 .AND. N.EQ.1 ) THEN
          IF( MYROW.EQ.IVXROW ) THEN
-            CALL SGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, EST, 1 )
+            CALL SGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, ESTWORK, 1 )
          ELSE
-            CALL SGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, EST, 1,
+            CALL SGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, ESTWORK, 1,
      $                    IVXROW, MYCOL )
          END IF
       END IF
@@ -305,7 +308,7 @@
 *     REPEATED SIGN VECTOR DETECTED, HENCE ALGORITHM HAS CONVERGED.
 *     ALONG WITH IT, TEST FOR CYCLING.
 *
-      IF( IFLAG.EQ.0 .OR. EST.LE.ESTOLD )
+      IF( IFLAG.EQ.0 .OR. ESTWORK( 1 ).LE.ESTOLD )
      $   GO TO 120
 *
       DO 100 I = IOFFVX, IOFFVX+NP-1
@@ -361,7 +364,7 @@
 *     X HAS BEEN OVERWRITTEN BY A*X
 *
   140 CONTINUE
-      CALL PSASUM( N, TEMP, X, IX, JX, DESCX, 1 )
+      CALL PSASUM( N, TEMP( 1 ), X, IX, JX, DESCX, 1 )
       IF( DESCX( M_ ).EQ.1 .AND. N.EQ.1 ) THEN
          IF( MYROW.EQ.IVXROW ) THEN
             CALL SGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1, TEMP, 1 )
@@ -370,15 +373,16 @@
      $                    IVXROW, MYCOL )
          END IF
       END IF
-      TEMP = TWO*( TEMP / REAL( 3*N ) )
-      IF( TEMP.GT.EST ) THEN
+      TEMP( 1 ) = TWO*( TEMP( 1 ) / REAL( 3*N ) )
+      IF( TEMP( 1 ).GT.ESTWORK( 1 ) ) THEN
          CALL SCOPY( NP, X( IOFFVX ), 1, V( IOFFVX ), 1 )
-         EST = TEMP
+         ESTWORK( 1 ) = TEMP( 1 )
       END IF
 *
   150 CONTINUE
       KASE = 0
 *
+      EST = ESTWORK( 1 )
       RETURN
 *
 *     End of PSLACON

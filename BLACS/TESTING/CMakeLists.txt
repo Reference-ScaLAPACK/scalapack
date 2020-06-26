@@ -1,10 +1,14 @@
-set(FTestObj  
+set(FTestObj
    blacstest.f btprim.f tools.f)
+
+if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "GNU" AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
+    set_source_files_properties(blacstest.f PROPERTIES COMPILE_FLAGS "-std=legacy")
+endif()
 
 add_executable(xFbtest ${FTestObj})
 target_link_libraries(xFbtest scalapack)
 
-set(CTestObj  
+set(CTestObj
    Cbt.c)
 
 set_property(

@@ -10,7 +10,7 @@ set (zpbtcom pzblastst.f dlamch.f ${pbtcom})
 
 set_property(
    SOURCE ${PblasErrorHandler}
-   APPEND PROPERTY COMPILE_DEFINITIONS TestingPblas 
+   APPEND PROPERTY COMPILE_DEFINITIONS TestingPblas
    )
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SCALAPACK_BINARY_DIR}/PBLAS/TESTING)
@@ -74,5 +74,6 @@ add_test(dpb3tst ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ./dpb3tst)
 add_test(cpb3tst ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ./cpb3tst)
 add_test(zpb3tst ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ./zpb3tst)
 
-
-
+if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "GNU" AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
+    set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -std=legacy" )  # local to this directory
+endif()

@@ -242,7 +242,7 @@
      $                   IOFFV, IPW, IROFF, IVCOL, IVROW, JJC, JJV, LDC,
      $                   LDV, MYCOL, MYROW, MP, NCC, NCV, NPCOL, NPROW,
      $                   NQ, RDEST
-      COMPLEX*16         TAULOC
+      COMPLEX*16         TAULOC( 1 )
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, INFOG2L, PB_TOPGET, PBZTRNV,
@@ -336,17 +336,17 @@
 *
                      CALL ZGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1,
      $                             TAU( IIV ), 1 )
-                     TAULOC = DCONJG( TAU( IIV ) )
+                     TAULOC( 1 ) = DCONJG( TAU( IIV ) )
 *
                   ELSE
 *
                      CALL ZGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1,
      $                             TAULOC, 1, IVROW, MYCOL )
-                     TAULOC = DCONJG( TAULOC )
+                     TAULOC( 1 ) = DCONJG( TAULOC( 1 ) )
 *
                   END IF
 *
-                  IF( TAULOC.NE.ZERO ) THEN
+                  IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                    w := sub( C )' * v
 *
@@ -364,8 +364,8 @@
 *
 *                    sub( C ) := sub( C ) - v * w'
 *
-                     CALL ZGERC( MP, NQ, -TAULOC, WORK, 1, WORK( IPW ),
-     $                           1, C( IOFFC ), LDC )
+                     CALL ZGERC( MP, NQ, -TAULOC( 1 ), WORK, 1,
+     $                           WORK( IPW ), 1, C( IOFFC ), LDC )
                   END IF
 *
                END IF
@@ -380,9 +380,9 @@
 *
                   IF( MYCOL.EQ.ICCOL ) THEN
 *
-                     TAULOC = DCONJG( TAU( JJV ) )
+                     TAULOC( 1 ) = DCONJG( TAU( JJV ) )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C )' * v
 *
@@ -399,7 +399,7 @@
 *
 *                       sub( C ) := sub( C ) - v * w'
 *
-                        CALL ZGERC( MP, NQ, -TAULOC, V( IOFFV ), 1,
+                        CALL ZGERC( MP, NQ, -TAULOC( 1 ), V( IOFFV ), 1,
      $                              WORK, 1, C( IOFFC ), LDC )
                      END IF
 *
@@ -422,9 +422,9 @@
                      IPW = MP+1
                      CALL ZGERV2D( ICTXT, IPW, 1, WORK, IPW, MYROW,
      $                             IVCOL )
-                     TAULOC = DCONJG( WORK( IPW ) )
+                     TAULOC( 1 ) = DCONJG( WORK( IPW ) )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C )' * v
 *
@@ -442,7 +442,7 @@
 *
 *                       sub( C ) := sub( C ) - v * w'
 *
-                        CALL ZGERC( MP, NQ, -TAULOC, WORK, 1,
+                        CALL ZGERC( MP, NQ, -TAULOC( 1 ), WORK, 1,
      $                              WORK( IPW ), 1, C( IOFFC ), LDC )
                      END IF
 *
@@ -472,17 +472,17 @@
 *
                   CALL ZGEBS2D( ICTXT, 'Columnwise', ' ', 1, 1,
      $                          TAU( IIV ), 1 )
-                  TAULOC = DCONJG( TAU( IIV ) )
+                  TAULOC( 1 ) = DCONJG( TAU( IIV ) )
 *
                ELSE
 *
                   CALL ZGEBR2D( ICTXT, 'Columnwise', ' ', 1, 1, TAULOC,
      $                          1, IVROW, MYCOL )
-                  TAULOC = DCONJG( TAULOC )
+                  TAULOC( 1 ) = DCONJG( TAULOC( 1 ) )
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C )' * v
 *
@@ -500,8 +500,8 @@
 *
 *                 sub( C ) := sub( C ) - v * w'
 *
-                  CALL ZGERC( MP, NQ, -TAULOC, WORK, 1, WORK( IPW ), 1,
-     $                        C( IOFFC ), LDC )
+                  CALL ZGERC( MP, NQ, -TAULOC( 1 ), WORK, 1,
+     $                        WORK( IPW ), 1, C( IOFFC ), LDC )
                END IF
 *
             ELSE
@@ -516,18 +516,18 @@
                   WORK(IPW) = TAU( JJV )
                   CALL ZGEBS2D( ICTXT, 'Rowwise', ROWBTOP, IPW, 1,
      $                          WORK, IPW )
-                  TAULOC = DCONJG( TAU( JJV ) )
+                  TAULOC( 1 ) = DCONJG( TAU( JJV ) )
 *
                ELSE
 *
                   IPW = MP+1
                   CALL ZGEBR2D( ICTXT, 'Rowwise', ROWBTOP, IPW, 1, WORK,
      $                          IPW, MYROW, IVCOL )
-                  TAULOC = DCONJG( WORK( IPW ) )
+                  TAULOC( 1 ) = DCONJG( WORK( IPW ) )
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C )' * v
 *
@@ -545,8 +545,8 @@
 *
 *                 sub( C ) := sub( C ) - v * w'
 *
-                  CALL ZGERC( MP, NQ, -TAULOC, WORK, 1, WORK( IPW ), 1,
-     $                        C( IOFFC ), LDC )
+                  CALL ZGERC( MP, NQ, -TAULOC( 1 ), WORK, 1,
+     $                        WORK( IPW ), 1, C( IOFFC ), LDC )
                END IF
 *
             END IF
@@ -575,9 +575,9 @@
 *
                   IF( MYROW.EQ.ICROW ) THEN
 *
-                     TAULOC = DCONJG( TAU( IIV ) )
+                     TAULOC( 1 ) = DCONJG( TAU( IIV ) )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C ) * v
 *
@@ -594,7 +594,7 @@
 *
 *                       sub( C ) := sub( C ) - w * v'
 *
-                        CALL ZGERC( MP, NQ, -TAULOC, WORK, 1,
+                        CALL ZGERC( MP, NQ, -TAULOC( 1 ), WORK, 1,
      $                              V( IOFFV ), LDV, C( IOFFC ), LDC )
                      END IF
 *
@@ -617,9 +617,9 @@
                      IPW = NQ+1
                      CALL ZGERV2D( ICTXT, IPW, 1, WORK, IPW, IVROW,
      $                             MYCOL )
-                     TAULOC = DCONJG( WORK( IPW ) )
+                     TAULOC( 1 ) = DCONJG( WORK( IPW ) )
 *
-                     IF( TAULOC.NE.ZERO ) THEN
+                     IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                       w := sub( C ) * v
 *
@@ -637,8 +637,8 @@
 *
 *                       sub( C ) := sub( C ) - w * v'
 *
-                        CALL ZGERC( MP, NQ, -TAULOC, WORK( IPW ), 1,
-     $                              WORK, 1, C( IOFFC ), LDC )
+                        CALL ZGERC( MP, NQ, -TAULOC( 1 ), WORK( IPW ),
+     $                              1, WORK, 1, C( IOFFC ), LDC )
                      END IF
 *
                   END IF
@@ -663,17 +663,17 @@
 *
                      CALL ZGEBS2D( ICTXT, 'Rowwise', ' ', 1, 1,
      $                             TAU( JJV ), 1 )
-                     TAULOC = DCONJG( TAU( JJV ) )
+                     TAULOC( 1 ) = DCONJG( TAU( JJV ) )
 *
                   ELSE
 *
                      CALL ZGEBR2D( ICTXT, 'Rowwise', ' ', 1, 1, TAULOC,
      $                             1, MYROW, IVCOL )
-                     TAULOC = DCONJG( TAULOC )
+                     TAULOC( 1 ) = DCONJG( TAULOC( 1 ) )
 *
                   END IF
 *
-                  IF( TAULOC.NE.ZERO ) THEN
+                  IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                    w := sub( C ) * v
 *
@@ -691,8 +691,8 @@
 *
 *                    sub( C ) := sub( C ) - w * v'
 *
-                     CALL ZGERC( MP, NQ, -TAULOC, WORK( IPW ), 1, WORK,
-     $                           1, C( IOFFC ), LDC )
+                     CALL ZGERC( MP, NQ, -TAULOC( 1 ), WORK( IPW ), 1,
+     $                           WORK, 1, C( IOFFC ), LDC )
                   END IF
 *
                END IF
@@ -716,18 +716,18 @@
                   WORK(IPW) = TAU( IIV )
                   CALL ZGEBS2D( ICTXT, 'Columnwise', COLBTOP, IPW, 1,
      $                          WORK, IPW )
-                  TAULOC = DCONJG( TAU( IIV ) )
+                  TAULOC( 1 ) = DCONJG( TAU( IIV ) )
 *
                ELSE
 *
                   IPW = NQ+1
                   CALL ZGEBR2D( ICTXT, 'Columnwise', COLBTOP, IPW, 1,
      $                          WORK, IPW, IVROW, MYCOL )
-                  TAULOC = DCONJG( WORK( IPW ) )
+                  TAULOC( 1 ) = DCONJG( WORK( IPW ) )
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C ) * v
 *
@@ -745,8 +745,8 @@
 *
 *                 sub( C ) := sub( C ) - w * v'
 *
-                  CALL ZGERC( MP, NQ, -TAULOC, WORK( IPW ), 1, WORK, 1,
-     $                        C( IOFFC ), LDC )
+                  CALL ZGERC( MP, NQ, -TAULOC( 1 ), WORK( IPW ), 1,
+     $                        WORK, 1, C( IOFFC ), LDC )
                END IF
 *
             ELSE
@@ -765,17 +765,17 @@
 *
                   CALL ZGEBS2D( ICTXT, 'Rowwise', ' ', 1, 1, TAU( JJV ),
      $                          1 )
-                  TAULOC = DCONJG( TAU( JJV ) )
+                  TAULOC( 1 ) = DCONJG( TAU( JJV ) )
 *
                ELSE
 *
                   CALL ZGEBR2D( ICTXT, 'Rowwise', ' ', 1, 1, TAULOC, 1,
      $                          MYROW, IVCOL )
-                  TAULOC = DCONJG( TAULOC )
+                  TAULOC( 1 ) = DCONJG( TAULOC( 1 ) )
 *
                END IF
 *
-               IF( TAULOC.NE.ZERO ) THEN
+               IF( TAULOC( 1 ).NE.ZERO ) THEN
 *
 *                 w := sub( C ) * v
 *
@@ -793,8 +793,8 @@
 *
 *                 sub( C ) := sub( C ) - w * v'
 *
-                  CALL ZGERC( MP, NQ, -TAULOC, WORK( IPW ), 1, WORK, 1,
-     $                        C( IOFFC ), LDC )
+                  CALL ZGERC( MP, NQ, -TAULOC( 1 ), WORK( IPW ), 1,
+     $                        WORK, 1, C( IOFFC ), LDC )
                END IF
 *
             END IF

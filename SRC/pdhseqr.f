@@ -259,11 +259,12 @@
      $                   HRSRC4, HCSRC4, LIWKOPT
       LOGICAL            INITZ, LQUERY, WANTT, WANTZ, PAIR, BORDER
       DOUBLE PRECISION   TMP1, TMP2, TMP3, TMP4, DUM1, DUM2, DUM3,
-     $                   DUM4, ELEM1, ELEM2, ELEM3, ELEM4,
+     $                   DUM4, ELEM1, ELEM4,
      $                   CS, SN, ELEM5, TMP, LWKOPT
 *     ..
 *     .. Local Arrays ..
       INTEGER            DESCH2( DLEN_ )
+      DOUBLE PRECISION   ELEM2( 1 ), ELEM3( 1 )
 *     ..
 *     .. External Functions ..
       INTEGER            PILAENVX, NUMROC, ICEIL
@@ -566,28 +567,28 @@
                   IF( MYROW.EQ.HRSRC1 .AND. MYCOL.EQ.HCSRC1 ) THEN
                      ELEM1 = H((JLOC1-1)*LLDH+ILOC1)
                      IF( K.LT.N ) THEN
-                        ELEM3 = H((JLOC1-1)*LLDH+ILOC1+1)
+                        ELEM3( 1 ) = H((JLOC1-1)*LLDH+ILOC1+1)
                      ELSE
-                        ELEM3 = ZERO
+                        ELEM3( 1 ) = ZERO
                      END IF
-                     IF( ELEM3.NE.ZERO ) THEN
-                        ELEM2 = H((JLOC1)*LLDH+ILOC1)
+                     IF( ELEM3( 1 ).NE.ZERO ) THEN
+                        ELEM2( 1 ) = H((JLOC1)*LLDH+ILOC1)
                         ELEM4 = H((JLOC1)*LLDH+ILOC1+1)
-                        CALL DLANV2( ELEM1, ELEM2, ELEM3, ELEM4,
-     $                       WR( K ), WI( K ), WR( K+1 ), WI( K+1 ),
-     $                       SN, CS )
+                        CALL DLANV2( ELEM1, ELEM2( 1 ), ELEM3( 1 ),
+     $                       ELEM4, WR( K ), WI( K ), WR( K+1 ),
+     $                       WI( K+1 ), SN, CS )
                         PAIR = .TRUE.
                      ELSE
                         IF( K.GT.1 ) THEN
                            TMP = H((JLOC1-2)*LLDH+ILOC1)
                            IF( TMP.NE.ZERO ) THEN
                               ELEM1 = H((JLOC1-2)*LLDH+ILOC1-1)
-                              ELEM2 = H((JLOC1-1)*LLDH+ILOC1-1)
-                              ELEM3 = H((JLOC1-2)*LLDH+ILOC1)
+                              ELEM2( 1 ) = H((JLOC1-1)*LLDH+ILOC1-1)
+                              ELEM3( 1 ) = H((JLOC1-2)*LLDH+ILOC1)
                               ELEM4 = H((JLOC1-1)*LLDH+ILOC1)
-                              CALL DLANV2( ELEM1, ELEM2, ELEM3,
-     $                             ELEM4, WR( K-1 ), WI( K-1 ),
-     $                             WR( K ), WI( K ), SN, CS )
+                              CALL DLANV2( ELEM1, ELEM2( 1 ),
+     $                             ELEM3( 1 ), ELEM4, WR( K-1 ),
+     $                             WI( K-1 ), WR( K ), WI( K ), SN, CS )
                            ELSE
                               WR( K ) = ELEM1
                            END IF
@@ -620,12 +621,12 @@
             CALL INFOG2L( K+1, K+1, DESCH, NPROW, NPCOL, MYROW, MYCOL,
      $           ILOC4, JLOC4, HRSRC4, HCSRC4 )
             IF( MYROW.EQ.HRSRC2 .AND. MYCOL.EQ.HCSRC2 ) THEN
-               ELEM2 = H((JLOC2-1)*LLDH+ILOC2)
+               ELEM2( 1 ) = H((JLOC2-1)*LLDH+ILOC2)
                IF( HRSRC1.NE.HRSRC2 .OR. HCSRC1.NE.HCSRC2 )
      $            CALL DGESD2D( ICTXT, 1, 1, ELEM2, 1, HRSRC1, HCSRC1)
             END IF
             IF( MYROW.EQ.HRSRC3 .AND. MYCOL.EQ.HCSRC3 ) THEN
-               ELEM3 = H((JLOC3-1)*LLDH+ILOC3)
+               ELEM3( 1 ) = H((JLOC3-1)*LLDH+ILOC3)
                IF( HRSRC1.NE.HRSRC3 .OR. HCSRC1.NE.HCSRC3 )
      $            CALL DGESD2D( ICTXT, 1, 1, ELEM3, 1, HRSRC1, HCSRC1)
             END IF
@@ -651,8 +652,9 @@
                ELEM5 = WORK(2)
                IF( ELEM5.EQ.ZERO ) THEN
                   IF( WR( K ).EQ.ZERO .AND. WI( K ).EQ.ZERO ) THEN
-                     CALL DLANV2( ELEM1, ELEM2, ELEM3, ELEM4, WR( K ),
-     $                    WI( K ), WR( K+1 ), WI( K+1 ), SN, CS )
+                     CALL DLANV2( ELEM1, ELEM2( 1 ), ELEM3( 1 ), ELEM4,
+     $                    WR( K ), WI( K ), WR( K+1 ), WI( K+1 ), SN,
+     $                    CS )
                   ELSEIF( WR( K+1 ).EQ.ZERO .AND. WI( K+1 ).EQ.ZERO )
      $                 THEN
                      WR( K+1 ) = ELEM4

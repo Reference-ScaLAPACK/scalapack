@@ -328,12 +328,13 @@
      $                   EAST, WEST, ILOC4, SOUTH, NORTH, INDXS,
      $                   ITT, JTT, ILEN, DLEN, INDXE, TRSRC1, TCSRC1,
      $                   TRSRC2, TCSRC2, ILOS, DIR, TLIHI, TLILO, TLSEL,
-     $                   ROUND, LAST, WIN0S, WIN0E, WINE, MMAX, MMIN
+     $                   ROUND, LAST, WIN0S, WIN0E, WINE
       REAL               ELEM, ELEM1, ELEM2, ELEM3, ELEM4, SN, CS, TMP,
      $                   ELEM5
 *     ..
 *     .. Local Arrays ..
-      INTEGER            IBUFF( 8 ), IDUM1( 1 ), IDUM2( 1 )
+      INTEGER            IBUFF( 8 ), IDUM1( 1 ), IDUM2( 1 ), MMAX( 1 ),
+     $                    MMIN( 1 ), INFODUM( 1 )
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
@@ -483,16 +484,16 @@
                END IF
                IF( SELECT(K).NE.0 ) M = M + 1
  10         CONTINUE
-            MMAX = M
-            MMIN = M
+            MMAX( 1 ) = M
+            MMIN( 1 ) = M
             IF( NPROCS.GT.1 )
      $         CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, MMAX, 1, -1,
      $              -1, -1, -1, -1 )
             IF( NPROCS.GT.1 )
      $         CALL IGAMN2D( ICTXT, 'All', TOP, 1, 1, MMIN, 1, -1,
      $              -1, -1, -1, -1 )
-            IF( MMAX.GT.MMIN ) THEN
-               M = MMAX
+            IF( MMAX( 1 ).GT.MMIN( 1 ) ) THEN
+               M = MMAX( 1 )
                IF( NPROCS.GT.1 )
      $            CALL IGAMX2D( ICTXT, 'All', TOP, N, 1, SELECT, N,
      $                 -1, -1, -1, -1, -1 )
@@ -520,9 +521,11 @@
 *
 *     Global maximum on info.
 *
-      IF( NPROCS.GT.1 )
-     $   CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFO, 1, -1, -1, -1,
-     $        -1, -1 )
+      IF( NPROCS.GT.1 ) THEN
+            CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFODUM, 1, -1, -1,
+     $        -1, -1, -1 )
+            INFO = INFODUM( 1 )
+      END IF
 *
 *     Return if some argument is incorrect.
 *
@@ -1576,9 +1579,11 @@
 *        experienced a failure in the reordering.
 *
          MYIERR = IERR
-         IF( NPROCS.GT.1 )
-     $      CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, IERR, 1, -1,
+         IF( NPROCS.GT.1 ) THEN
+            CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFODUM, 1, -1,
      $           -1, -1, -1, -1 )
+            IERR = INFODUM( 1 )
+         END IF
 *
          IF( IERR.NE.0 ) THEN
 *
@@ -1586,9 +1591,11 @@
 *           to swap.
 *
             IF( MYIERR.NE.0 ) INFO = MAX(1,I+KKS-1)
-            IF( NPROCS.GT.1 )
-     $         CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFO, 1, -1,
+            IF( NPROCS.GT.1 ) THEN
+               CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFODUM, 1, -1,
      $              -1, -1, -1, -1 )
+               INFO = INFODUM( 1 )
+            END IF
             GO TO 300
          END IF
 *
@@ -3245,9 +3252,11 @@
 *        experienced a failure in the reordering.
 *
          MYIERR = IERR
-         IF( NPROCS.GT.1 )
-     $      CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, IERR, 1, -1,
+         IF( NPROCS.GT.1 ) THEN
+            CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFODUM, 1, -1,
      $           -1, -1, -1, -1 )
+            IERR = INFODUM( 1 )
+         END IF
 *
          IF( IERR.NE.0 ) THEN
 *
@@ -3255,9 +3264,11 @@
 *           to swap.
 *
             IF( MYIERR.NE.0 ) INFO = MAX(1,I+KKS-1)
-            IF( NPROCS.GT.1 )
-     $         CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFO, 1, -1,
+            IF( NPROCS.GT.1 ) THEN
+               CALL IGAMX2D( ICTXT, 'All', TOP, 1, 1, INFODUM, 1, -1,
      $              -1, -1, -1, -1 )
+               INFO = INFODUM( 1 )
+            END IF
             GO TO 300
          END IF
 *

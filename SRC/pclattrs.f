@@ -271,7 +271,8 @@
      $                   JINC, JLAST, LDA, LDX, MB, MYCOL, MYROW, NB,
      $                   NPCOL, NPROW, RSRC
       REAL               BIGNUM, GROW, REC, SMLNUM, TJJ, TMAX, TSCAL,
-     $                   XBND, XJ, XMAX
+     $                   XBND, XJ
+      REAL               XMAX( 1 )
       COMPLEX            CSUMJ, TJJS, USCAL, XJTMP, ZDUM
 *     ..
 *     .. External Functions ..
@@ -391,11 +392,11 @@
 *     Compute a bound on the computed solution vector to see if the
 *     Level 2 PBLAS routine PCTRSV can be used.
 *
-      XMAX = ZERO
+      XMAX( 1 ) = ZERO
       CALL PCAMAX( N, ZDUM, IMAX, X, IX, JX, DESCX, 1 )
-      XMAX = CABS2( ZDUM )
+      XMAX( 1 ) = CABS2( ZDUM )
       CALL SGSUM2D( CONTXT, 'Row', ' ', 1, 1, XMAX, 1, -1, -1 )
-      XBND = XMAX
+      XBND = XMAX( 1 )
 *
       IF( NOTRAN ) THEN
 *
@@ -590,16 +591,16 @@
 *
 *        Use a Level 1 PBLAS solve, scaling intermediate results.
 *
-         IF( XMAX.GT.BIGNUM*HALF ) THEN
+         IF( XMAX( 1 ).GT.BIGNUM*HALF ) THEN
 *
 *           Scale X so that its components are less than or equal to
 *           BIGNUM in absolute value.
 *
-            SCALE = ( BIGNUM*HALF ) / XMAX
+            SCALE = ( BIGNUM*HALF ) / XMAX( 1 )
             CALL PCSSCAL( N, SCALE, X, IX, JX, DESCX, 1 )
-            XMAX = BIGNUM
+            XMAX( 1 ) = BIGNUM
          ELSE
-            XMAX = XMAX*TWO
+            XMAX( 1 ) = XMAX( 1 )*TWO
          END IF
 *
          IF( NOTRAN ) THEN
@@ -651,7 +652,7 @@
                         CALL PCSSCAL( N, REC, X, IX, JX, DESCX, 1 )
                         XJTMP = XJTMP*REC
                         SCALE = SCALE*REC
-                        XMAX = XMAX*REC
+                        XMAX( 1 ) = XMAX( 1 )*REC
                      END IF
                   END IF
 *                 X( J ) = CLADIV( X( J ), TJJS )
@@ -682,7 +683,7 @@
                      CALL PCSSCAL( N, REC, X, IX, JX, DESCX, 1 )
                      XJTMP = XJTMP*REC
                      SCALE = SCALE*REC
-                     XMAX = XMAX*REC
+                     XMAX( 1 ) = XMAX( 1 )*REC
                   END IF
 *                 X( J ) = CLADIV( X( J ), TJJS )
 *                 XJ = CABS1( X( J ) )
@@ -706,7 +707,7 @@
                   XJTMP = CONE
                   XJ = ONE
                   SCALE = ZERO
-                  XMAX = ZERO
+                  XMAX( 1 ) = ZERO
                END IF
    90          CONTINUE
 *
@@ -715,7 +716,7 @@
 *
                IF( XJ.GT.ONE ) THEN
                   REC = ONE / XJ
-                  IF( CNORM( J ).GT.( BIGNUM-XMAX )*REC ) THEN
+                  IF( CNORM( J ).GT.( BIGNUM-XMAX( 1 ) )*REC ) THEN
 *
 *                    Scale x by 1/(2*abs(x(j))).
 *
@@ -724,7 +725,7 @@
                      XJTMP = XJTMP*REC
                      SCALE = SCALE*REC
                   END IF
-               ELSE IF( XJ*CNORM( J ).GT.( BIGNUM-XMAX ) ) THEN
+               ELSE IF( XJ*CNORM( J ).GT.( BIGNUM-XMAX( 1 ) ) ) THEN
 *
 *                 Scale x by 1/2.
 *
@@ -743,7 +744,7 @@
                      CALL PCAXPY( J-1, ZDUM, A, IA, JA+J-1, DESCA, 1, X,
      $                            IX, JX, DESCX, 1 )
                      CALL PCAMAX( J-1, ZDUM, IMAX, X, IX, JX, DESCX, 1 )
-                     XMAX = CABS1( ZDUM )
+                     XMAX( 1 ) = CABS1( ZDUM )
                      CALL SGSUM2D( CONTXT, 'Row', ' ', 1, 1, XMAX, 1,
      $                             -1, -1 )
                   END IF
@@ -757,7 +758,7 @@
                      CALL PCAXPY( N-J, ZDUM, A, IA+J, JA+J-1, DESCA, 1,
      $                            X, IX+J, JX, DESCX, 1 )
                      CALL PCAMAX( N-J, ZDUM, I, X, IX+J, JX, DESCX, 1 )
-                     XMAX = CABS1( ZDUM )
+                     XMAX( 1 ) = CABS1( ZDUM )
                      CALL SGSUM2D( CONTXT, 'Row', ' ', 1, 1, XMAX, 1,
      $                             -1, -1 )
                   END IF
@@ -785,7 +786,7 @@
                END IF
                XJ = CABS1( XJTMP )
                USCAL = CMPLX( TSCAL )
-               REC = ONE / MAX( XMAX, ONE )
+               REC = ONE / MAX( XMAX( 1 ), ONE )
                IF( CNORM( J ).GT.( BIGNUM-XJ )*REC ) THEN
 *
 *                 If x(j) could overflow, scale x by 1/(2*XMAX).
@@ -820,7 +821,7 @@
                      CALL PCSSCAL( N, REC, X, IX, JX, DESCX, 1 )
                      XJTMP = XJTMP*REC
                      SCALE = SCALE*REC
-                     XMAX = XMAX*REC
+                     XMAX( 1 ) = XMAX( 1 )*REC
                   END IF
                END IF
 *
@@ -924,7 +925,7 @@
                            CALL PCSSCAL( N, REC, X, IX, JX, DESCX, 1 )
                            XJTMP = XJTMP*REC
                            SCALE = SCALE*REC
-                           XMAX = XMAX*REC
+                           XMAX( 1 ) = XMAX( 1 )*REC
                         END IF
                      END IF
 *                    X( J ) = CLADIV( X( J ), TJJS )
@@ -945,7 +946,7 @@
                         CALL PCSSCAL( N, REC, X, IX, JX, DESCX, 1 )
                         XJTMP = XJTMP*REC
                         SCALE = SCALE*REC
-                        XMAX = XMAX*REC
+                        XMAX( 1 ) = XMAX( 1 )*REC
                      END IF
 *                    X( J ) = CLADIV( X( J ), TJJS )
                      XJTMP = CLADIV( XJTMP, TJJS )
@@ -966,7 +967,7 @@
                      END IF
                      XJTMP = CONE
                      SCALE = ZERO
-                     XMAX = ZERO
+                     XMAX( 1 ) = ZERO
                   END IF
   110             CONTINUE
                ELSE
@@ -981,7 +982,7 @@
                      X( IROWX ) = XJTMP
                   END IF
                END IF
-               XMAX = MAX( XMAX, CABS1( XJTMP ) )
+               XMAX( 1 ) = MAX( XMAX( 1 ), CABS1( XJTMP ) )
   120       CONTINUE
 *
          ELSE
@@ -1004,7 +1005,7 @@
                END IF
                XJ = CABS1( XJTMP )
                USCAL = TSCAL
-               REC = ONE / MAX( XMAX, ONE )
+               REC = ONE / MAX( XMAX( 1 ), ONE )
                IF( CNORM( J ).GT.( BIGNUM-XJ )*REC ) THEN
 *
 *                 If x(j) could overflow, scale x by 1/(2*XMAX).
@@ -1039,7 +1040,7 @@
                      CALL PCSSCAL( N, REC, X, IX, JX, DESCX, 1 )
                      XJTMP = XJTMP*REC
                      SCALE = SCALE*REC
-                     XMAX = XMAX*REC
+                     XMAX( 1 ) = XMAX( 1 )*REC
                   END IF
                END IF
 *
@@ -1145,7 +1146,7 @@
                            CALL PCSSCAL( N, REC, X, IX, JX, DESCX, 1 )
                            XJTMP = XJTMP*REC
                            SCALE = SCALE*REC
-                           XMAX = XMAX*REC
+                           XMAX( 1 ) = XMAX( 1 )*REC
                         END IF
                      END IF
 *                    X( J ) = CLADIV( X( J ), TJJS )
@@ -1164,7 +1165,7 @@
                         CALL PCSSCAL( N, REC, X, IX, JX, DESCX, 1 )
                         XJTMP = XJTMP*REC
                         SCALE = SCALE*REC
-                        XMAX = XMAX*REC
+                        XMAX( 1 ) = XMAX( 1 )*REC
                      END IF
 *                    X( J ) = CLADIV( X( J ), TJJS )
                      XJTMP = CLADIV( XJTMP, TJJS )
@@ -1181,7 +1182,7 @@
      $                  X( IROWX ) = CONE
                      XJTMP = CONE
                      SCALE = ZERO
-                     XMAX = ZERO
+                     XMAX( 1 ) = ZERO
                   END IF
   130             CONTINUE
                ELSE
@@ -1194,7 +1195,7 @@
                   IF( ( MYROW.EQ.ITMP1X ) .AND. ( MYCOL.EQ.ITMP2X ) )
      $               X( IROWX ) = XJTMP
                END IF
-               XMAX = MAX( XMAX, CABS1( XJTMP ) )
+               XMAX( 1 ) = MAX( XMAX( 1 ), CABS1( XJTMP ) )
   140       CONTINUE
          END IF
          SCALE = SCALE / TSCAL
