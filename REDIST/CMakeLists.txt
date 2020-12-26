@@ -1,2 +1,4 @@
 add_subdirectory(SRC)
-add_subdirectory(TESTING)
+if(${SCALAPACK_BUILD_TESTING})
+  add_subdirectory(TESTING)
+endif()
