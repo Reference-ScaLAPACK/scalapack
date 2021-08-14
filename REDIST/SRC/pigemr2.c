@@ -110,9 +110,7 @@ extern void Cpigemr2d();
 /************************************************************************/
 /* Set the memory space with the malloc function */
 void
-setmemory(adpointer, blocksize)
-  Int **adpointer;
-  Int   blocksize;
+setmemory(Int **adpointer, Int blocksize)
 {
   assert(blocksize >= 0);
   if (blocksize == 0) {
@@ -125,8 +123,7 @@ setmemory(adpointer, blocksize)
 /******************************************************************/
 /* Free the memory space after the malloc */
 void
-freememory(ptrtobefreed)
-  Int  *ptrtobefreed;
+freememory(Int *ptrtobefreed)
 {
   if (ptrtobefreed == NULL)
     return;

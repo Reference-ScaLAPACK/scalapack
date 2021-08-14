@@ -161,9 +161,7 @@ extern void Cpstrmr2d();
 /* initblock: intialize the local part of a matrix with random data (well,
  * not very random) */
 static2 void
-initblock(block, m, n)
-  float *block;
-  Int   m, n;
+initblock(float *block, Int m, Int n)
 {
   float *pdata;
   Int   i;
@@ -221,9 +219,7 @@ va_dcl
   va_end(ap);
 }
 void 
-initforpvm(argc, argv)
-  Int   argc;
-  char *argv[];
+initforpvm(Int argc, char *argv[])
 {
   Int   pnum, nproc;
   Cblacs_pinfo(&pnum, &nproc);
@@ -240,9 +236,7 @@ initforpvm(argc, argv)
   }
 }
 int
-main(argc, argv)
-  int   argc;
-  char *argv[];
+main(int argc, char *argv[])
 {
   /* We initialize the data-block on the current processor, then redistribute
    * it, and perform the inverse redistribution  to compare the local memory

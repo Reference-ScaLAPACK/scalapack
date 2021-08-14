@@ -241,23 +241,16 @@ extern void Cpigemr2d();
 #include <assert.h>
 #define DESCLEN 9
 void 
-fortran_mr2d(m, n, A, ia, ja, desc_A,
-	     B, ib, jb, desc_B)
-  Int  *ia, *ib, *ja, *jb, *m, *n;
-  Int   desc_A[DESCLEN], desc_B[DESCLEN];
-  Int  *A, *B;
+fortran_mr2d(Int *m, Int *n, Int *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
+	     Int *B, Int *ib, Int *jb, Int desc_B[DESCLEN])
 {
   Cpigemr2do(*m, *n, A, *ia, *ja, (MDESC *) desc_A,
 	     B, *ib, *jb, (MDESC *) desc_B);
   return;
 }
 void 
-fortran_mr2dnew(m, n, A, ia, ja, desc_A,
-		B, ib, jb, desc_B, gcontext)
-  Int  *ia, *ib, *ja, *jb, *m, *n;
-  Int   desc_A[DESCLEN], desc_B[DESCLEN];
-  Int  *A, *B;
-  Int  *gcontext;
+fortran_mr2dnew(Int *m, Int *n, Int *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
+		Int *B, Int *ib, Int *jb, Int desc_B[DESCLEN], Int *gcontext)
 {
   Cpigemr2d(*m, *n, A, *ia, *ja, (MDESC *) desc_A,
 	    B, *ib, *jb, (MDESC *) desc_B, *gcontext);
@@ -569,9 +562,7 @@ after_comm:
   free(param);
 }/* distrib */
 static2 void 
-init_chenille(mypnum, nprocs, n0, proc0, n1, proc1, psend, precv, myrang)
-  Int   nprocs, mypnum, n0, n1;
-  Int  *proc0, *proc1, **psend, **precv, *myrang;
+init_chenille(Int mypnum, Int nprocs, Int n0, Int *proc0, Int n1, Int *proc1, Int **psend, Int **precv, Int *myrang)
 {
   Int   ns, nr, i, tot;
   Int  *sender, *recver, *g0, *g1;
@@ -642,11 +633,7 @@ Int _m,_n,_lda,_ldb; \
     } \
 }
 static2 Int 
-block2buff(vi, vinb, hi, hinb, ptra, ma, buff)
-  Int   hinb, vinb;
-  IDESC *hi, *vi;
-  MDESC *ma;
-  Int  *buff, *ptra;
+block2buff(IDESC *vi, Int vinb, IDESC *hi, Int hinb, Int *ptra, MDESC *ma, Int *buff)
 {
   Int   h, v, sizebuff;
   Int  *ptr2;
@@ -664,11 +651,7 @@ block2buff(vi, vinb, hi, hinb, ptra, ma, buff)
   return sizebuff;
 }
 static2 void 
-buff2block(vi, vinb, hi, hinb, buff, ptrb, mb)
-  Int   hinb, vinb;
-  IDESC *hi, *vi;
-  MDESC *mb;
-  Int  *buff, *ptrb;
+buff2block(IDESC *vi, Int vinb, IDESC *hi, Int hinb, Int *buff, Int *ptrb, MDESC *mb)
 {
   Int   h, v, sizebuff;
   Int  *ptr2;
@@ -685,9 +668,7 @@ buff2block(vi, vinb, hi, hinb, buff, ptrb, mb)
   }
 }
 static2 Int 
-inter_len(hinb, hi, vinb, vi)
-  Int   hinb, vinb;
-  IDESC *hi, *vi;
+inter_len(Int hinb, IDESC *hi, Int vinb, IDESC *vi)
 {
   Int   hlen, vlen, h, v;
   hlen = 0;
@@ -699,9 +680,7 @@ inter_len(hinb, hi, vinb, vi)
   return hlen * vlen;
 }
 void 
-Clacpy(m, n, a, lda, b, ldb)
-  Int  *a, *b;
-  Int   m, n, lda, ldb;
+Clacpy(Int m, Int n, Int *a, Int lda, Int *b, Int ldb)
 {
   Int   i, j;
   lda -= m;
@@ -715,8 +694,7 @@ Clacpy(m, n, a, lda, b, ldb)
   }
 }
 static2 void 
-gridreshape(ctxtp)
-  Int  *ctxtp;
+gridreshape(Int *ctxtp)
 {
   Int   ori, final;	/* original context, and new context created, with
 			 * line form */

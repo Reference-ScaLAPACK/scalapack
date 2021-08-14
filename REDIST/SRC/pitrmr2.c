@@ -110,9 +110,7 @@ extern void Cpitrmr2d();
 /************************************************************************/
 /* Set the memory space with the malloc function */
 void
-setmemory(adpointer, blocksize)
-  Int **adpointer;
-  Int   blocksize;
+setmemory(Int **adpointer, Int blocksize)
 {
   assert(blocksize >= 0);
   if (blocksize == 0) {
@@ -125,8 +123,7 @@ setmemory(adpointer, blocksize)
 /******************************************************************/
 /* Free the memory space after the malloc */
 void
-freememory(ptrtobefreed)
-  Int  *ptrtobefreed;
+freememory(Int *ptrtobefreed)
 {
   if (ptrtobefreed == NULL)
     return;
@@ -173,21 +170,13 @@ insidemat(uplo, diag, i, j, m, n, offset)
  * action can be the filling of the memory buffer, the count of the memory
  * buffer size or the setting of the memory with the element received) */
 static2 void
-intersect(uplo, diag,
-	  j, start, end,
-	  action,
-	  ptrsizebuff, pptrbuff, ptrblock,
-	  m, n,
-	  ma, ia, ja, templateheight0, templatewidth0,
-	  mb, ib, jb, templateheight1, templatewidth1)
-  Int   action, *ptrsizebuff;
-  Int   j, start, end;
-  Int **pptrbuff, *ptrblock;
-  Int   templateheight0, templatewidth0;
-  Int   templateheight1, templatewidth1;
-  MDESC *ma, *mb;
-  Int   ia, ja, ib, jb, m, n;
-  char *uplo, *diag;
+intersect(char *uplo, char *diag,
+	  Int j, Int start, Int end,
+	  Int action,
+	  Int *ptrsizebuff, Int **pptrbuff, Int *ptrblock,
+	  Int m, Int n,
+	  MDESC *ma, Int ia, Int ja, Int templateheight0, Int templatewidth0,
+	  MDESC *mb, Int ib, Int jb, Int templateheight1, Int templatewidth1)
 /* Execute the action on the local memory for the current interval and
  * increment pptrbuff and ptrsizebuff of the intervalsize */
 /* Notice that if the interval is contigous in the virtual matrice, it is

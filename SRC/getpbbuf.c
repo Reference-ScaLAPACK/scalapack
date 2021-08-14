@@ -1,14 +1,6 @@
 #include "tools.h"
 
-char * getpbbuf( mess, length )
-/*
-*  .. Scalar Arguments ..
-*/
-   Int         length;
-/*
-*  .. Array Arguments ..
-*/
-   char        * mess;
+char * getpbbuf( char *mess, Int length )
 {
 /*
 *  Purpose
