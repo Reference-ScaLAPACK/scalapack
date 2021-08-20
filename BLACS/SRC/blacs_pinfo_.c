@@ -20,9 +20,9 @@ F_VOID_FUNC blacs_pinfo_(Int *mypnum, Int *nprocs)
 
       BI_COMM_WORLD = (Int *) malloc(sizeof(Int));
       *BI_COMM_WORLD = MPI_Comm_c2f(MPI_COMM_WORLD);
-      MPI_Comm_size(MPI_COMM_WORLD, &Np);
-      MPI_Comm_rank(MPI_COMM_WORLD, &Iam);
    }
+   MPI_Comm_size(MPI_COMM_WORLD, &Np);
+   MPI_Comm_rank(MPI_COMM_WORLD, &Iam);
    *mypnum = BI_Iam = Iam;
    *nprocs = BI_Np  = Np;
 }
