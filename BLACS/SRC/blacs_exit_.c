@@ -12,6 +12,7 @@ F_VOID_FUNC blacs_exit_(Int *NotDone)
    Int BI_BuffIsFree(BLACBUFF *, Int);
    BLACBUFF *bp;
    extern BLACBUFF *BI_ReadyB, *BI_ActiveQ, BI_AuxBuff;
+   extern MPI_Status *BI_Stats;
    Int i;
    extern Int BI_MaxNCtxt, BI_Np;
    extern BLACSCONTEXT **BI_MyContxts;
@@ -30,6 +31,7 @@ F_VOID_FUNC blacs_exit_(Int *NotDone)
       free(bp);
    }
    free (BI_AuxBuff.Aops);
+   free (BI_Stats);
 
 /*
  * Reset parameters to initial values
@@ -39,7 +41,12 @@ F_VOID_FUNC blacs_exit_(Int *NotDone)
    BI_Np = -1;
    if (!Mpval(NotDone))
    {
-      MPI_Finalize();
+     free(BI_COMM_WORLD);
+     BI_COMM_WORLD = NULL;
+     MPI_Finalize();
    }
    BI_ReadyB = NULL;
+   BI_ActiveQ = NULL;
+   BI_AuxBuff.Aops = NULL;
+   BI_Stats = NULL;
 }
