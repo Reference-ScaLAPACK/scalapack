@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.2)
 project(SCALAPACK C Fortran)
 # Configure the warning and code coverage suppression file
 configure_file(
@@ -312,4 +312,3 @@ install(FILES
 
 install(EXPORT scalapack-targets
   DESTINATION lib/cmake/scalapack-${SCALAPACK_VERSION})
-
