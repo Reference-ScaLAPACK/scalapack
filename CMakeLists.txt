@@ -56,7 +56,7 @@ if (MPI_FOUND)
    else()
       message(STATUS "--> MPI Fortran Compiler : ${MPI_Fortran_COMPILER}")
       SET(Fortran_COMPILER "${CMAKE_Fortran_COMPILER}")
-      SET(CMAKE_Fortran_COMPILER "${MPI_Fortran_COMPILER}")
+      #SET(CMAKE_Fortran_COMPILER "${MPI_Fortran_COMPILER}")
       message(STATUS "--> Fortran Compiler : ${CMAKE_Fortran_COMPILER}")
    endif()
 
