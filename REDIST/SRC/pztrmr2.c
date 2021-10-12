@@ -113,9 +113,7 @@ extern void Cpztrmr2d();
 /************************************************************************/
 /* Set the memory space with the malloc function */
 void
-setmemory(adpointer, blocksize)
-  dcomplex **adpointer;
-  Int   blocksize;
+setmemory(dcomplex **adpointer, Int blocksize)
 {
   assert(blocksize >= 0);
   if (blocksize == 0) {
@@ -128,8 +126,7 @@ setmemory(adpointer, blocksize)
 /******************************************************************/
 /* Free the memory space after the malloc */
 void
-freememory(ptrtobefreed)
-  dcomplex *ptrtobefreed;
+freememory(dcomplex *ptrtobefreed)
 {
   if (ptrtobefreed == NULL)
     return;

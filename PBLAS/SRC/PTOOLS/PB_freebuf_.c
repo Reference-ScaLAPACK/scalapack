@@ -16,7 +16,7 @@
 #include "../PBblacs.h"
 #include "../PBblas.h"
 
-void PB_freebuf_()
+void PB_freebuf_(void)
 {
 /*
 *  Purpose

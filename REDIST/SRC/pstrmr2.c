@@ -110,9 +110,7 @@ extern void Cpstrmr2d();
 /************************************************************************/
 /* Set the memory space with the malloc function */
 void
-setmemory(adpointer, blocksize)
-  float **adpointer;
-  Int   blocksize;
+setmemory(float **adpointer, Int blocksize)
 {
   assert(blocksize >= 0);
   if (blocksize == 0) {
@@ -125,8 +123,7 @@ setmemory(adpointer, blocksize)
 /******************************************************************/
 /* Free the memory space after the malloc */
 void
-freememory(ptrtobefreed)
-  float *ptrtobefreed;
+freememory(float *ptrtobefreed)
 {
   if (ptrtobefreed == NULL)
     return;

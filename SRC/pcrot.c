@@ -10,23 +10,11 @@
 */
 #include "pblas.h"
 
-void pcrot_( n, X, ix, jx, desc_X, incx, Y, iy, jy, desc_Y, incy, c, s )
+void pcrot_( Int *n, complex X[], Int *ix, Int *jx, Int desc_X[], Int *incx, complex Y[], Int *iy, Int *jy, Int desc_Y[], Int *incy, float *c, complex *s )
 /*
 *  Mark Fahey
 *  June 22, 2000
 */
-/*
-*  .. Scalar Arguments ..
-*/
-   Int         * incx, * incy, * ix, * iy, * jx, * jy, * n;
-   float       * c;
-   complex     * s;
-/*
-*  ..
-*  .. Array Arguments ..
-*/
-   Int         desc_X[], desc_Y[];
-   complex     X[], Y[];
 {
 /*
 *  Purpose
