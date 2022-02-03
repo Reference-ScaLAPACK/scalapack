@@ -26,6 +26,7 @@ ScaLAPACK README FILE
  
  VERSION 2.1 :  Nov, 2019
 
+ VERSION 2.2 :  Feb 2022
 
 ScaLAPACK, or Scalable LAPACK, is a library of high performance linear
 algebra routines for distributed memory computers supporting MPI.
