@@ -374,12 +374,8 @@ Cpsgemr2d(m, n,
     param[18] = ib;
     param[19] = jb;
   }
-  printf("Aproc0 = {%d,%d}\n", proc0[0], proc0[1]);
-  printf("Aproc1 = {%d,%d}\n", proc1[0], proc1[1]);
   Cigamn2d(gcontext, "All", "H", 2 * nprocs + NBPARAM, (Int)1, param, 2 * nprocs + NBPARAM,
 	   ra, ca, 2 * nprocs + NBPARAM, (Int)-1, (Int)-1);
-  printf("Bproc0 = {%d,%d}\n", proc0[0], proc0[1]);
-  printf("Bproc1 = {%d,%d}\n", proc1[0], proc1[1]);
   newa = *ma;
   newb = *mb;
   ma = &newa;
