@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
-project(SCALAPACK C Fortran)
+
+project(SCALAPACK VERSION 2.2.1 LANGUAGES C Fortran)
+
 # Configure the warning and code coverage suppression file
 configure_file(
   "${SCALAPACK_SOURCE_DIR}/CMAKE/CTestCustom.cmake.in"
@@ -232,13 +234,22 @@ append_subdir_files(src-C "SRC")
 
 if (UNIX)
    add_library(scalapack ${blacs} ${tools} ${tools-C} ${extra_lapack} ${pblas} ${pblas-F} ${ptzblas} ${ptools} ${pbblas} ${redist} ${src} ${src-C})
+   set_target_properties(scalapack PROPERTIES
+    VERSION ${SCALAPACK_VERSION}
+    SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
    target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
    scalapack_install_library(scalapack)
 else (UNIX) # Need to separate Fortran and C Code
    OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON )
    add_library(scalapack ${blacs} ${tools-C} ${pblas} ${ptools} ${redist} ${src-C})
+   set_target_properties(scalapack PROPERTIES
+    VERSION ${SCALAPACK_VERSION}
+    SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
    target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
    add_library(scalapack-F ${pblas-F} ${pbblas} ${ptzblas} ${tools} ${src} ${extra_lapack} )
+   set_target_properties(scalapack-F PROPERTIES
+    VERSION ${SCALAPACK_VERSION}
+    SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
    target_link_libraries( scalapack-F ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
    scalapack_install_library(scalapack)
    scalapack_install_library(scalapack-F)
@@ -255,10 +266,9 @@ endif()
 SET(CPACK_PACKAGE_NAME "ScaLAPACK")
 SET(CPACK_PACKAGE_VENDOR "University of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "ScaLAPACK- Linear Algebra Package")
-set(SCALAPACK_VERSION 2.1.0)
-set(CPACK_PACKAGE_VERSION_MAJOR 2)
-set(CPACK_PACKAGE_VERSION_MINOR 1)
-set(CPACK_PACKAGE_VERSION_PATCH 0)
+set(CPACK_PACKAGE_VERSION_MAJOR ${SCALAPACK_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${SCALAPACK_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${SCALAPACK_VERSION_PATCH})
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 SET(CPACK_PACKAGE_INSTALL_DIRECTORY "SCALAPACK")
 IF(WIN32 AND NOT UNIX)

@@ -153,3 +153,16 @@ Even then, the tests "xssep", "xsgsep" and "xssyevr" will fail, because they
 are already written with the assumption that an integer fits into memory
 occupied by a real number, which is mostly not true for combination of default
 Fortran real numbers and long integers.
+
+ScaLAPACK Library Versioning
+----------------------
+
+From v2.2.1, the ScaLAPACK library is generated with a versioned name
+(i.e. with a shared library ABI soname) according to the following pattern:
+
+- We assume that the ABI updates with each MINOR release.
+- An API update (and therefore an ABI update) will be expected with any MAJOR release.
+- No ABI update should occur between PATCH releases.
+
+Hence with the full version in triplet form as MAJOR.MINOR.PATCH,
+the shared library soname will be libscalapack.so.MAJOR.MINOR.
