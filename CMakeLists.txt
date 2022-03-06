@@ -21,10 +21,7 @@ endif ()
 #
 #   MPI
 #
-#set(MPI_BASE_DIR "/Users/julie/opt/openmpi/" CACHE PATH "MPI Path")
-#set(MPI_BASE_DIR "/Users/julie/opt/mpich2/" CACHE PATH "MPI Path")
 set(CMAKE_PREFIX_PATH "${MPI_BASE_DIR};${CMAKE_PREFIX_PATH}")
-#set(MPI_COMPILER ${MPI_BASE_DIR}/bin/mpicc)
 
 find_package(MPI)
 if (MPI_FOUND)
@@ -50,8 +47,6 @@ if (MPI_FOUND)
       PATH_SUFFIXES bin
       DOC "MPI Fortran compiler.")
    MARK_AS_ADVANCED(MPI_Fortran_COMPILER)
-
-
 
    if ("${MPI_Fortran_COMPILER}" STREQUAL "MPI_Fortran_COMPILER-NOTFOUND")
       message(ERROR "--> MPI Fortran Compiler NOT FOUND (please set MPI_BASE_DIR accordingly")
@@ -161,18 +156,18 @@ else(LAPACK_FOUND)
       message(STATUS "--> LAPACK and BLAS were not found. Reference LAPACK and BLAS will be downloaded and installed")
       include(ExternalProject)
       ExternalProject_Add(
-		lapack
-		URL http://www.netlib.org/lapack/lapack.tgz
-		CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${SCALAPACK_BINARY_DIR}
+        lapack
+        URL http://www.netlib.org/lapack/lapack.tgz
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${SCALAPACK_BINARY_DIR}
         PREFIX ${SCALAPACK_BINARY_DIR}/dependencies
       )
-	  if (UNIX)
+      if (NOT MSVC)
          SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/liblapack.a CACHE STRING "LAPACK library" FORCE)
          SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/libblas.a CACHE STRING "BLAS library" FORCE)
-	  else (UNIX) # On Windows
+      else () # MSVC
          SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/liblapack.lib CACHE STRING "LAPACK library" FORCE)
          SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/libblas.lib CACHE STRING "BLAS library" FORCE)
-      endif (UNIX)
+      endif ()
    ENDIF()
 ENDIF()
 
@@ -234,14 +229,14 @@ add_subdirectory(SRC)
 append_subdir_files(src "SRC")
 append_subdir_files(src-C "SRC")
 
-if (UNIX)
+if (NOT MSVC)
    add_library(scalapack ${blacs} ${tools} ${tools-C} ${extra_lapack} ${pblas} ${pblas-F} ${ptzblas} ${ptools} ${pbblas} ${redist} ${src} ${src-C})
    set_target_properties(scalapack PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
    target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
    scalapack_install_library(scalapack)
-else (UNIX) # Need to separate Fortran and C Code
+else () # Need to separate Fortran and C Code
    OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON )
    add_library(scalapack ${blacs} ${tools-C} ${pblas} ${ptools} ${redist} ${src-C})
    set_target_properties(scalapack PROPERTIES
@@ -255,7 +250,7 @@ else (UNIX) # Need to separate Fortran and C Code
    target_link_libraries( scalapack-F ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
    scalapack_install_library(scalapack)
    scalapack_install_library(scalapack-F)
-endif (UNIX)
+endif ()
 
 if(TARGET lapack)
    add_dependencies(scalapack lapack)
