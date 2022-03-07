@@ -49,7 +49,10 @@ PRECISIONS = single double complex complex16
 
 all: lib exe example
 
-lib: blacslib toolslib pblaslib redistlib scalapacklib
+SCALAPACKLIBS=toolslib pblaslib redistlib scalapacklib
+
+$(SCALAPACKLIBS): blacslib
+lib: $(SCALAPACKLIBS)
 
 exe: blacsexe pblasexe redistexe scalapackexe
 
