@@ -41,7 +41,7 @@ if (MPI_FOUND)
       message(ERROR "--> MPI C Compiler NOT FOUND (please set MPI_BASE_DIR accordingly")
    else()
       message(STATUS "--> MPI C Compiler : ${MPI_C_COMPILER}")
-      SET(CMAKE_C_COMPILER "${MPI_C_COMPILER}")
+      #SET(CMAKE_C_COMPILER "${MPI_C_COMPILER}")
       message(STATUS "--> C Compiler : ${CMAKE_C_COMPILER}")
    endif()
    find_program(MPI_Fortran_COMPILER
@@ -254,6 +254,10 @@ else (UNIX) # Need to separate Fortran and C Code
    scalapack_install_library(scalapack)
    scalapack_install_library(scalapack-F)
 endif (UNIX)
+
+if(TARGET lapack)
+   add_dependencies(scalapack lapack)
+endif()
 
 option(SCALAPACK_BUILD_TESTS "Build all tests of the ScaLAPACK library" ON)
 if(${SCALAPACK_BUILD_TESTS})
