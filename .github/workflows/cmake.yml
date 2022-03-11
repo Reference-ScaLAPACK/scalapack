@@ -1,0 +1,79 @@
+name: CMake CI
+
+on:
+  push:
+    paths-exclude:
+    - '.github/workflows/make.yml'
+    - '.gitignore'
+    - 'README'
+    - '**README'
+    - 'LICENSE'
+    - '**Makefile'
+    - 'SLmake.inc.example'
+  pull_request:
+    paths-exclude:
+    - '.github/workflows/make.yml'
+    - '.gitignore'
+    - 'README'
+    - '**README'
+    - 'LICENSE'
+    - '**Makefile'
+    - 'SLmake.inc.example'
+
+env:
+  CFLAGS: "-Wall -pedantic"
+  FFLAGS: "-fcheck=all,no-bounds"
+  BUILD_TYPE: Release
+  MPIEXEC_PREFLAGS: "--oversubscribe"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  build-all:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout ScaLAPACK
+      uses: actions/checkout@v2
+
+    - name: Install ninja-build tool
+      uses: seanmiddleditch/gha-setup-ninja@v3
+
+    - name: Setup MPI
+      # uses: mpi4py/setup-mpi@v1
+      run: |
+        sudo apt -y update
+        sudo apt -y install openmpi-bin libopenmpi-dev
+
+    - name: Install BLAS and LAPACK
+      run: sudo apt -y install libblas-dev liblapack-dev
+        
+    - name: CMake configuration
+      run: >
+        cmake -B build
+        -G Ninja
+        -D CMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/scalapack_install
+        -D BUILD_SHARED_LIBS=ON
+        -D SCALAPACK_BUILD_TESTING=ON
+        -D MPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
+        
+    - name: Build
+      working-directory: ${{github.workspace}}/build
+      run: |
+        ctest -D ExperimentalStart
+        ctest -D ExperimentalConfigure
+        ctest -D ExperimentalBuild
+
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      run: |
+        ctest -D ExperimentalTest --schedule-random --output-on-failure --timeout 180
+        ctest -D ExperimentalSubmit
+        
+    - name: Install
+      run: cmake --build build --target install

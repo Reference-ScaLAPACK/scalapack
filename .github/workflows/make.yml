@@ -1,0 +1,52 @@
+name: Makefile CI
+
+on:
+  push:
+    paths-exclude:
+    - '.github/workflows/cmake.yml'
+    - '.gitignore'
+    - 'README'
+    - '**README'
+    - 'LICENSE'
+    - 'CMAKE**'
+    - '**CMakeLists.txt'
+  pull_request:
+    paths-exclude:
+    - '.github/workflows/cmake.yml'
+    - '.gitignore'
+    - 'README'
+    - '**README'
+    - 'LICENSE'
+    - 'CMAKE**'
+    - '**CMakeLists.txt'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  build-all:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout ScaLAPACK
+      uses: actions/checkout@v2
+
+    - name: Setup MPI
+      uses: mpi4py/setup-mpi@v1
+
+    - name: Build ScaLAPACK
+      run: |
+        cp SLmake.inc.example SLmake.inc
+        make --silent -j lib
+        make --silent all
+        
+    - name: Run examples
+      working-directory: ${{github.workspace}}/EXAMPLE
+      run: |
+        mpiexec -n 4 ./xsscaex
+        mpiexec -n 4 ./xdscaex
+        mpiexec -n 4 ./xcscaex
+        mpiexec -n 4 ./xzscaex
