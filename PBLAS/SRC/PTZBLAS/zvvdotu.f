@@ -54,13 +54,16 @@
 *
 *  =====================================================================
 *
-*     .. External Functions ..
-      COMPLEX*16         ZDOTU
-      EXTERNAL           ZDOTU
+*     .. Local Scalars ..
+      COMPLEX*16         DOTU
+*     ..
+*     .. External Subroutines ..
+      EXTERNAL           ZZDOTU
 *     ..
 *     .. Executable Statements ..
 *
-      DOT = DOT + ZDOTU( N, X, INCX, Y, INCY )
+      CALL ZZDOTU( N, DOTU, X, INCX, Y, INCY )
+      DOT = DOT + DOTU
 *
       RETURN
 *

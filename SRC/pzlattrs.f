@@ -271,7 +271,7 @@
      $                   JINC, JLAST, LDA, LDX, MB, MYCOL, MYROW, NB,
      $                   NPCOL, NPROW, RSRC
       DOUBLE PRECISION   BIGNUM, GROW, REC, SMLNUM, TJJ, TMAX, TSCAL,
-     $                   XBND, XJ
+     $                   XBND, XJ, ZR, ZI
       COMPLEX*16         CSUMJ, TJJS, USCAL, XJTMP, ZDUM
       DOUBLE PRECISION   XMAX( 1 )
 *     ..
@@ -279,14 +279,13 @@
       LOGICAL            LSAME
       INTEGER            IDAMAX
       DOUBLE PRECISION   PDLAMCH
-      COMPLEX*16         ZLADIV
-      EXTERNAL           LSAME, IDAMAX, PDLAMCH, ZLADIV
+      EXTERNAL           LSAME, IDAMAX, PDLAMCH
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, DGSUM2D, DSCAL, INFOG2L,
      $                   PDLABAD, PDZASUM, PXERBLA, PZAMAX, PZAXPY,
      $                   PZDOTC, PZDOTU, PZDSCAL, PZLASET, PZSCAL,
-     $                   PZTRSV, ZGEBR2D, ZGEBS2D
+     $                   PZTRSV, ZGEBR2D, ZGEBS2D, DLADIV
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, DBLE, DCMPLX, DCONJG, DIMAG, MAX, MIN
@@ -657,7 +656,9 @@
                   END IF
 *                 X( J ) = ZLADIV( X( J ), TJJS )
 *                 XJ = CABS1( X( J ) )
-                  XJTMP = ZLADIV( XJTMP, TJJS )
+                  CALL DLADIV( DBLE( XJTMP ), DIMAG( XJTMP ),
+     $                         DBLE( TJJS ), DIMAG( TJJS ), ZR, ZI )
+                  XJTMP = DCMPLX( ZR, ZI )
                   XJ = CABS1( XJTMP )
                   IF( ( MYROW.EQ.ITMP1X ) .AND. ( MYCOL.EQ.ITMP2X ) )
      $                 THEN
@@ -687,7 +688,9 @@
                   END IF
 *                 X( J ) = ZLADIV( X( J ), TJJS )
 *                 XJ = CABS1( X( J ) )
-                  XJTMP = ZLADIV( XJTMP, TJJS )
+                  CALL DLADIV( DBLE( XJTMP ), DIMAG( XJTMP ),
+     $                         DBLE( TJJS ), DIMAG( TJJS ), ZR, ZI )
+                  XJTMP = DCMPLX( ZR, ZI )
                   XJ = CABS1( XJTMP )
                   IF( ( MYROW.EQ.ITMP1X ) .AND. ( MYCOL.EQ.ITMP2X ) )
      $                 THEN
@@ -815,7 +818,9 @@
 *                       Divide by A(j,j) when scaling x if A(j,j) > 1.
 *
                      REC = MIN( ONE, REC*TJJ )
-                     USCAL = ZLADIV( USCAL, TJJS )
+                     CALL DLADIV( DBLE( USCAL ), DIMAG( USCAL ),
+     $                            DBLE( TJJS ), DIMAG( TJJS ), ZR, ZI )
+                     USCAL = DCMPLX( ZR, ZI )
                   END IF
                   IF( REC.LT.ONE ) THEN
                      CALL PZDSCAL( N, REC, X, IX, JX, DESCX, 1 )
@@ -857,7 +862,9 @@
                      CALL PZSCAL( J-1, ZDUM, A, IA, JA+J-1, DESCA, 1 )
                      CALL PZDOTU( J-1, CSUMJ, A, IA, JA+J-1, DESCA, 1,
      $                            X, IX, JX, DESCX, 1 )
-                     ZDUM = ZLADIV( ZDUM, USCAL )
+                     CALL DLADIV( DBLE( ZDUM ), DIMAG( ZDUM ),
+     $                            DBLE( USCAL ), DIMAG( USCAL ), ZR, ZI)
+                     ZDUM = DCMPLX( ZR, ZI )
                      CALL PZSCAL( J-1, ZDUM, A, IA, JA+J-1, DESCA, 1 )
                   ELSE IF( J.LT.N ) THEN
 *                    DO 140 I = J + 1, N
@@ -867,7 +874,9 @@
                      CALL PZSCAL( N-J, ZDUM, A, IA+J, JA+J-1, DESCA, 1 )
                      CALL PZDOTU( N-J, CSUMJ, A, IA+J, JA+J-1, DESCA, 1,
      $                            X, IX+J, JX, DESCX, 1 )
-                     ZDUM = ZLADIV( ZDUM, USCAL )
+                     CALL DLADIV( DBLE( ZDUM ), DIMAG( ZDUM ),
+     $                            DBLE( USCAL ), DIMAG( USCAL ), ZR, ZI)
+                     ZDUM = DCMPLX( ZR, ZI )
                      CALL PZSCAL( N-J, ZDUM, A, IA+J, JA+J-1, DESCA, 1 )
                   END IF
                   IF( MYCOL.EQ.ITMP2X ) THEN
@@ -929,7 +938,9 @@
                         END IF
                      END IF
 *                    X( J ) = ZLADIV( X( J ), TJJS )
-                     XJTMP = ZLADIV( XJTMP, TJJS )
+                     CALL DLADIV( DBLE( XJTMP ), DIMAG( XJTMP ),
+     $                            DBLE( TJJS ), DIMAG( TJJS ), ZR, ZI )
+                     XJTMP = DCMPLX( ZR, ZI )
                      IF( ( MYROW.EQ.ITMP1X ) .AND. ( MYCOL.EQ.ITMP2X ) )
      $                    THEN
                         X( IROWX ) = XJTMP
@@ -949,7 +960,9 @@
                         XMAX( 1 ) = XMAX( 1 )*REC
                      END IF
 *                    X( J ) = ZLADIV( X( J ), TJJS )
-                     XJTMP = ZLADIV( XJTMP, TJJS )
+                     CALL DLADIV( DBLE( XJTMP ), DIMAG( XJTMP ),
+     $                            DBLE( TJJS ), DIMAG( TJJS ), ZR, ZI )
+                     XJTMP = DCMPLX( ZR, ZI )
                      IF( ( MYROW.EQ.ITMP1X ) .AND. ( MYCOL.EQ.ITMP2X ) )
      $                    THEN
                         X( IROWX ) = XJTMP
@@ -976,7 +989,9 @@
 *                 product has already been divided by 1/A(j,j).
 *
 *                 X( J ) = ZLADIV( X( J ), TJJS ) - CSUMJ
-                  XJTMP = ZLADIV( XJTMP, TJJS ) - CSUMJ
+                  CALL DLADIV( DBLE( XJTMP ), DIMAG( XJTMP ),
+     $                         DBLE( TJJS ), DIMAG( TJJS ), ZR, ZI )
+                  XJTMP = DCMPLX( ZR, ZI )
                   IF( ( MYROW.EQ.ITMP1X ) .AND. ( MYCOL.EQ.ITMP2X ) )
      $                 THEN
                      X( IROWX ) = XJTMP
@@ -1034,7 +1049,9 @@
 *                       Divide by A(j,j) when scaling x if A(j,j) > 1.
 *
                      REC = MIN( ONE, REC*TJJ )
-                     USCAL = ZLADIV( USCAL, TJJS )
+                     CALL DLADIV( DBLE( USCAL ), DIMAG( USCAL ),
+     $                            DBLE( TJJS ), DIMAG( TJJS ), ZR, ZI )
+                     USCAL = DCMPLX( ZR, ZI )
                   END IF
                   IF( REC.LT.ONE ) THEN
                      CALL PZDSCAL( N, REC, X, IX, JX, DESCX, 1 )
@@ -1077,7 +1094,9 @@
                      CALL PZSCAL( J-1, ZDUM, A, IA, JA+J-1, DESCA, 1 )
                      CALL PZDOTC( J-1, CSUMJ, A, IA, JA+J-1, DESCA, 1,
      $                            X, IX, JX, DESCX, 1 )
-                     ZDUM = ZLADIV( CONE, ZDUM )
+                     CALL DLADIV( ONE, ZERO,
+     $                            DBLE( ZDUM ), DIMAG( ZDUM ), ZR, ZI )
+                     ZDUM = DCMPLX( ZR, ZI )
                      CALL PZSCAL( J-1, ZDUM, A, IA, JA+J-1, DESCA, 1 )
                   ELSE IF( J.LT.N ) THEN
 *                    DO 190 I = J + 1, N
@@ -1088,7 +1107,9 @@
                      CALL PZSCAL( N-J, ZDUM, A, IA+J, JA+J-1, DESCA, 1 )
                      CALL PZDOTC( N-J, CSUMJ, A, IA+J, JA+J-1, DESCA, 1,
      $                            X, IX+J, JX, DESCX, 1 )
-                     ZDUM = ZLADIV( CONE, ZDUM )
+                     CALL DLADIV( ONE, ZERO,
+     $                            DBLE( ZDUM ), DIMAG( ZDUM ), ZR, ZI )
+                     ZDUM = DCMPLX( ZR, ZI )
                      CALL PZSCAL( N-J, ZDUM, A, IA+J, JA+J-1, DESCA, 1 )
                   END IF
                   IF( MYCOL.EQ.ITMP2X ) THEN
@@ -1150,7 +1171,9 @@
                         END IF
                      END IF
 *                    X( J ) = ZLADIV( X( J ), TJJS )
-                     XJTMP = ZLADIV( XJTMP, TJJS )
+                     CALL DLADIV( DBLE( XJTMP ), DIMAG( XJTMP ),
+     $                            DBLE( TJJS ), DIMAG( TJJS ), ZR, ZI )
+                     XJTMP = DCMPLX( ZR, ZI )
                      IF( ( MYROW.EQ.ITMP1X ) .AND. ( MYCOL.EQ.ITMP2X ) )
      $                  X( IROWX ) = XJTMP
                   ELSE IF( TJJ.GT.ZERO ) THEN
@@ -1168,7 +1191,9 @@
                         XMAX( 1 ) = XMAX( 1 )*REC
                      END IF
 *                    X( J ) = ZLADIV( X( J ), TJJS )
-                     XJTMP = ZLADIV( XJTMP, TJJS )
+                     CALL DLADIV( DBLE( XJTMP ), DIMAG( XJTMP ),
+     $                            DBLE( TJJS ), DIMAG( TJJS ), ZR, ZI )
+                     XJTMP = DCMPLX( ZR, ZI )
                      IF( ( MYROW.EQ.ITMP1X ) .AND. ( MYCOL.EQ.ITMP2X ) )
      $                  X( IROWX ) = XJTMP
                   ELSE
@@ -1191,7 +1216,9 @@
 *                 product has already been divided by 1/A(j,j).
 *
 *                 X( J ) = ZLADIV( X( J ), TJJS ) - CSUMJ
-                  XJTMP = ZLADIV( XJTMP, TJJS ) - CSUMJ
+                  CALL DLADIV( DBLE( XJTMP ), DIMAG( XJTMP ),
+     $                         DBLE( TJJS ), DIMAG( TJJS ), ZR, ZI )
+                  XJTMP = DCMPLX( ZR, ZI )
                   IF( ( MYROW.EQ.ITMP1X ) .AND. ( MYCOL.EQ.ITMP2X ) )
      $               X( IROWX ) = XJTMP
                END IF

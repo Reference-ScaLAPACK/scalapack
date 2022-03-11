@@ -54,13 +54,16 @@
 *
 *  =====================================================================
 *
-*     .. External Functions ..
-      COMPLEX            CDOTC
-      EXTERNAL           CDOTC
+*     .. Local Scalars ..
+      COMPLEX            DOTC
+*     ..
+*     .. External Subroutines ..
+      EXTERNAL           CCDOTC
 *     ..
 *     .. Executable Statements ..
 *
-      DOT = DOT + CDOTC( N, X, INCX, Y, INCY )
+      CALL CCDOTC( N, DOTC, X, INCX, Y, INCY )
+      DOT = DOT + DOTC
 *
       RETURN
 *

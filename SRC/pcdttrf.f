@@ -376,13 +376,14 @@
      $                   NB, NP, NPCOL, NPROW, NP_SAVE, ODD_SIZE,
      $                   PART_OFFSET, PART_SIZE, RETURN_CODE, STORE_N_A,
      $                   TEMP, WORK_SIZE_MIN, WORK_U
+      COMPLEX            DOTC
 *     ..
 *     .. Local Arrays ..
       INTEGER            DESCA_1XP( 7 ), PARAM_CHECK( 7, 3 )
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GET, BLACS_GRIDEXIT, BLACS_GRIDINFO,
-     $                   CAXPY, CGEMM, CGERV2D, CGESD2D, CLAMOV,
+     $                   CAXPY, CCDOTC, CGEMM, CGERV2D, CGESD2D, CLAMOV,
      $                   CLATCPY, CPBTRF, CPOTRF, CSYRK, CTBTRS, CTRMM,
      $                   CTRRV2D, CTRSD2D, CTRSM, CTRTRS, DESC_CONVERT,
      $                   GLOBCHK, PXERBLA, RESHAPE
@@ -390,8 +391,7 @@
 *     .. External Functions ..
       LOGICAL            LSAME
       INTEGER            NUMROC
-      COMPLEX            CDOTC
-      EXTERNAL           CDOTC, LSAME, NUMROC
+      EXTERNAL           LSAME, NUMROC
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ICHAR, MIN, MOD
@@ -741,8 +741,8 @@
 *
 *         Calculate the update block for previous proc, E_i = GL_i{GU_i}
 *
-          AF( ODD_SIZE+3 ) = -CONE *
-     $        CDOTC( ODD_SIZE, AF( 1 ), 1, AF( WORK_U+1 ), 1 )
+          CALL CCDOTC( ODD_SIZE, DOTC, AF( 1 ), 1, AF( WORK_U+1 ), 1 )
+          AF( ODD_SIZE+3 ) = -CONE * DOTC
 *
 *
 *         Initiate send of E_i to previous processor to overlap

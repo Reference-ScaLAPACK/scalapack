@@ -228,17 +228,16 @@
       INTEGER            IACOL, IAROW, ICOFFA, ICTXT, II, IK, IROFFA, J,
      $                   JJ, JK, JN, LDA, LWMIN, MYCOL, MYROW, NPCOL,
      $                   NPROW
-      COMPLEX            ALPHA, TAUI
+      COMPLEX            ALPHA, TAUI, DOTC
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           BLACS_ABORT, BLACS_GRIDINFO, CAXPY, CGEBR2D,
-     $                   CGEBS2D, CHK1MAT, CHEMV,
+      EXTERNAL           BLACS_ABORT, BLACS_GRIDINFO, CAXPY, CCDOTC,
+     $                   CGEBR2D, CGEBS2D, CHK1MAT, CHEMV,
      $                   CHER2, CLARFG, INFOG2L, PXERBLA
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
-      COMPLEX            CDOTC
-      EXTERNAL           LSAME, CDOTC
+      EXTERNAL           LSAME
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          CMPLX, REAL
@@ -333,8 +332,9 @@
 *
 *                    Compute  w := x - 1/2 * tau * (x'*v) * v
 *
-                     ALPHA = -HALF*TAUI*CDOTC( J, TAU( JJ ), 1,
-     $                                         A( II+JK*LDA ), 1 )
+                     CALL CCDOTC( J, DOTC, TAU( JJ ), 1, A( II+JK*LDA ),
+     $                           1 )
+                     ALPHA = -HALF*TAUI*DOTC
                      CALL CAXPY( J, ALPHA, A( II+JK*LDA ), 1,
      $                           TAU( JJ ), 1 )
 *
@@ -413,8 +413,9 @@
 *
 *                    Compute  w := x - 1/2 * tau * (x'*v) * v
 *
-                     ALPHA = -HALF*TAUI*CDOTC( N-J, TAU( JK ), 1,
-     $                        A( IK+1+(JK-1)*LDA ), 1 )
+                     CALL CCDOTC( N-J, DOTC, TAU( JK ), 1,
+     $                            A( IK+1+(JK-1)*LDA ), 1 )
+                     ALPHA = -HALF*TAUI*DOTC
                      CALL CAXPY( N-J, ALPHA, A( IK+1+(JK-1)*LDA ),
      $                           1, TAU( JK ), 1 )
 *

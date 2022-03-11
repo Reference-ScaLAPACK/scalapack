@@ -54,13 +54,16 @@
 *
 *  =====================================================================
 *
-*     .. External Functions ..
-      COMPLEX            CDOTU
-      EXTERNAL           CDOTU
+*     .. Local Scalars ..
+      COMPLEX            DOTU
+*     ..
+*     .. External Subroutines ..
+      EXTERNAL           CCDOTU
 *     ..
 *     .. Executable Statements ..
 *
-      DOT = DOT + CDOTU( N, X, INCX, Y, INCY )
+      CALL CCDOTU( N, DOTU, X, INCX, Y, INCY )
+      DOT = DOT + DOTU
 *
       RETURN
 *

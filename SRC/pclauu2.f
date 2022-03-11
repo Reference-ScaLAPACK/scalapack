@@ -131,15 +131,15 @@
       INTEGER            IACOL, IAROW, ICURR, IDIAG, IIA, IOFFA, JJA,
      $                   LDA, MYCOL, MYROW, NA, NPCOL, NPROW
       REAL               AII
+      COMPLEX            DOTC
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           BLACS_GRIDINFO, CGEMV, CLACGV,
+      EXTERNAL           BLACS_GRIDINFO, CCDOTC, CGEMV, CLACGV,
      $                   CSSCAL, INFOG2L
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
-      COMPLEX            CDOTC
-      EXTERNAL           CDOTC, LSAME
+      EXTERNAL           LSAME
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          CMPLX, REAL
@@ -170,8 +170,8 @@
             DO 10 NA = N-1, 1, -1
                AII = A( IDIAG )
                ICURR = IDIAG + LDA
-               A( IDIAG ) = AII*AII + REAL( CDOTC( NA, A( ICURR ), LDA,
-     $                                           A( ICURR ), LDA ) )
+               CALL CCDOTC( NA, DOTC, A( ICURR ), LDA, A( ICURR ), LDA )
+               A( IDIAG ) = AII*AII + REAL( DOTC )
                CALL CLACGV( NA, A( ICURR ), LDA )
                CALL CGEMV( 'No transpose', N-NA-1, NA, ONE,
      $                     A( IOFFA+LDA ), LDA, A( ICURR ), LDA,

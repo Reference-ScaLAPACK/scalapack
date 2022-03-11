@@ -153,17 +153,17 @@
 *     .. Local Scalars ..
       INTEGER            ICTXT, IIAX, INDXTAU, IXCOL, IXROW, J, JJAX,
      $                   KNT, MYCOL, MYROW, NPCOL, NPROW
-      DOUBLE PRECISION   ALPHI, ALPHR, BETA, RSAFMN, SAFMIN, XNORM
+      DOUBLE PRECISION   ALPHI, ALPHR, BETA, RSAFMN, SAFMIN, XNORM, ZR,
+     $                   ZI
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           BLACS_GRIDINFO, INFOG2L, PDZNRM2,
      $                   ZGEBR2D, ZGEBS2D, PZSCAL,
-     $                   PZDSCAL
+     $                   PZDSCAL, DLADIV
 *     ..
 *     .. External Functions ..
       DOUBLE PRECISION   DLAMCH, DLAPY3
-      COMPLEX*16         ZLADIV
-      EXTERNAL           DLAMCH, DLAPY3, ZLADIV
+      EXTERNAL           DLAMCH, DLAPY3
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, DBLE, DCMPLX, DIMAG, SIGN
@@ -266,7 +266,9 @@
             BETA = -SIGN( DLAPY3( ALPHR, ALPHI, XNORM ), ALPHR )
             TAU( INDXTAU ) = DCMPLX( ( BETA-ALPHR ) / BETA,
      $                                 -ALPHI / BETA )
-            ALPHA = ZLADIV( DCMPLX( ONE ), ALPHA-BETA )
+            CALL DLADIV( ONE, ZERO, DBLE( ALPHA-BETA ),
+     $              DIMAG( ALPHA-BETA ), ZR, ZI )
+            ALPHA = DCMPLX( ZR, ZI )
             CALL PZSCAL( N-1, ALPHA, X, IX, JX, DESCX, INCX )
 *
 *           If ALPHA is subnormal, it may lose relative accuracy
@@ -278,7 +280,9 @@
          ELSE
             TAU( INDXTAU ) = DCMPLX( ( BETA-ALPHR ) / BETA,
      $                               -ALPHI / BETA )
-            ALPHA = ZLADIV( DCMPLX( ONE ), ALPHA-BETA )
+            CALL DLADIV( ONE, ZERO, DBLE( ALPHA-BETA ),
+     $              DIMAG( ALPHA-BETA ), ZR, ZI )
+            ALPHA = DCMPLX( ZR, ZI )
             CALL PZSCAL( N-1, ALPHA, X, IX, JX, DESCX, INCX )
             ALPHA = BETA
          END IF

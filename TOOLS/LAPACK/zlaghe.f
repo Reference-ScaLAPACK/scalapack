@@ -64,16 +64,15 @@
 *     .. Local Scalars ..
       INTEGER            I, J
       DOUBLE PRECISION   WN
-      COMPLEX*16         ALPHA, TAU, WA, WB
+      COMPLEX*16         ALPHA, TAU, WA, WB, DOTC
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           XERBLA, ZAXPY, ZGEMV, ZGERC, ZHEMV, ZHER2,
-     $                   ZLARNV, ZSCAL
+     $                   ZLARNV, ZSCAL, ZZDOTC
 *     ..
 *     .. External Functions ..
       DOUBLE PRECISION   DZNRM2
-      COMPLEX*16         ZDOTC
-      EXTERNAL           DZNRM2, ZDOTC
+      EXTERNAL           DZNRM2
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, DBLE, DCONJG, MAX
@@ -134,7 +133,8 @@
 *
 *        compute  v := y - 1/2 * tau * ( y, u ) * u
 *
-         ALPHA = -HALF*TAU*ZDOTC( N-I+1, WORK( N+1 ), 1, WORK, 1 )
+         CALL ZZDOTC( N-I+1, DOTC, WORK( N+1 ), 1, WORK, 1 )
+         ALPHA = -HALF*TAU*DOTC
          CALL ZAXPY( N-I+1, ALPHA, WORK, 1, WORK( N+1 ), 1 )
 *
 *        apply the transformation as a rank-2 update to A(i:n,i:n)
@@ -176,7 +176,8 @@
 *
 *        compute  v := y - 1/2 * tau * ( y, u ) * u
 *
-         ALPHA = -HALF*TAU*ZDOTC( N-K-I+1, WORK, 1, A( K+I, I ), 1 )
+         CALL ZZDOTC( N-K-I+1, DOTC, WORK, 1, A( K+I, I ), 1 )
+         ALPHA = -HALF*TAU*DOTC
          CALL ZAXPY( N-K-I+1, ALPHA, A( K+I, I ), 1, WORK, 1 )
 *
 *        apply hermitian rank-2 update to A(k+i:n,k+i:n)
