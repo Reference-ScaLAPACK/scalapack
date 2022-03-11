@@ -1,9 +1,9 @@
 message("Running BLACS TESTS")
-message(STATUS "${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ./${TEST_PROG}")
+message(STATUS "${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./${TEST_PROG}")
 message(STATUS "Output out_${TEST_PROG}.txt")
 file(COPY ${RUNTIMEDIR}/${TEST_PROG} DESTINATION ${OUTPUTDIR})
 
-execute_process(COMMAND ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ./${TEST_PROG}
+execute_process(COMMAND ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./${TEST_PROG}
                 OUTPUT_FILE "out_${TEST_PROG}.txt"
                 ERROR_FILE "error_${TEST_PROG}.txt"
                 RESULT_VARIABLE HAD_ERROR)
