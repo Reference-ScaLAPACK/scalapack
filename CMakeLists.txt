@@ -102,6 +102,21 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${SCALAPACK_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SCALAPACK_BINARY_DIR}/lib)
 
 # --------------------------------------------------
+# By default static library
+function (invertBoolean varName varValue)
+  if (${varValue})
+    set(${varName} false PARENT_SCOPE)
+  else ()
+    set(${varName} true PARENT_SCOPE)
+  endif ()
+endfunction ()
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF )
+invertBoolean("BUILD_STATIC_LIBS" ${BUILD_SHARED_LIBS})
+if ((${BUILD_SHARED_LIBS} EQUAL ON) AND NOT CMAKE_POSITION_INDEPENDENT_CODE)
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+endif ()
+
+# --------------------------------------------------
 # Check for any necessary platform specific compiler flags
 include( CheckBLACSCompilerFlags )
 CheckBLACSCompilerFlags()
@@ -175,11 +190,6 @@ message(STATUS "BLAS library: ${BLAS_LIBRARIES}")
 message(STATUS "LAPACK library: ${LAPACK_LIBRARIES}")
 
 MESSAGE(STATUS "=========")
-
-# --------------------------------------------------
-# By default static library
-OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF )
-OPTION(BUILD_STATIC_LIBS "Build static libraries" ON )
 
 # --------------------------------------------------
 # Subdirectories that need to be processed
