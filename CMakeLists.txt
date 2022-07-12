@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.9)
 
 project(SCALAPACK VERSION 2.2.1 LANGUAGES C Fortran)
 
