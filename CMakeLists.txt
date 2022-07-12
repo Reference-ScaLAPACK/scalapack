@@ -26,8 +26,7 @@ set(CMAKE_PREFIX_PATH "${MPI_BASE_DIR};${CMAKE_PREFIX_PATH}")
 find_package(MPI)
 if (MPI_FOUND)
    message(STATUS "Found MPI_LIBRARY : ${MPI_FOUND} ")
-   INCLUDE_DIRECTORIES(${MPI_INCLUDE_PATH})
-
+   
    find_program(MPI_C_COMPILER
       NAMES mpicc
       HINTS "${MPI_BASE_DIR}"
@@ -244,11 +243,11 @@ if (NOT MSVC)
    set_target_properties(scalapack PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
-   target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
+   target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_C)
    scalapack_install_library(scalapack)
 else () # Need to separate Fortran and C Code
    OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON )
-   add_library(scalapack ${blacs} ${tools-C} ${pblas} ${ptools} ${redist} ${src-C})
+   add_library(scalapack ${blacs} ${tools-C} ${pblas} ${ptools} ${redist} ${src-C} MPI::MPI_C)
    set_target_properties(scalapack PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
@@ -257,7 +256,7 @@ else () # Need to separate Fortran and C Code
    set_target_properties(scalapack-F PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
-   target_link_libraries( scalapack-F ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
+   target_link_libraries( scalapack-F ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
    scalapack_install_library(scalapack)
    scalapack_install_library(scalapack-F)
 endif ()
