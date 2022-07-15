@@ -247,11 +247,11 @@ if (NOT MSVC)
    scalapack_install_library(scalapack)
 else () # Need to separate Fortran and C Code
    OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON )
-   add_library(scalapack ${blacs} ${tools-C} ${pblas} ${ptools} ${redist} ${src-C} MPI::MPI_C)
+   add_library(scalapack ${blacs} ${tools-C} ${pblas} ${ptools} ${redist} ${src-C})
    set_target_properties(scalapack PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
-   target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
+   target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_C)
    add_library(scalapack-F ${pblas-F} ${pbblas} ${ptzblas} ${tools} ${src} ${extra_lapack} )
    set_target_properties(scalapack-F PROPERTIES
     VERSION ${SCALAPACK_VERSION}
