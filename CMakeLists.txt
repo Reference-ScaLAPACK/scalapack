@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.9)
 
 project(SCALAPACK VERSION 2.2.1 LANGUAGES C Fortran)
 
@@ -26,8 +26,7 @@ set(CMAKE_PREFIX_PATH "${MPI_BASE_DIR};${CMAKE_PREFIX_PATH}")
 find_package(MPI)
 if (MPI_FOUND)
    message(STATUS "Found MPI_LIBRARY : ${MPI_FOUND} ")
-   INCLUDE_DIRECTORIES(${MPI_INCLUDE_PATH})
-
+   
    find_program(MPI_C_COMPILER
       NAMES mpicc
       HINTS "${MPI_BASE_DIR}"
@@ -244,7 +243,7 @@ if (NOT MSVC)
    set_target_properties(scalapack PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
-   target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
+   target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_C)
    scalapack_install_library(scalapack)
 else () # Need to separate Fortran and C Code
    OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON )
@@ -252,12 +251,12 @@ else () # Need to separate Fortran and C Code
    set_target_properties(scalapack PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
-   target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
+   target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_C)
    add_library(scalapack-F ${pblas-F} ${pbblas} ${ptzblas} ${tools} ${src} ${extra_lapack} )
    set_target_properties(scalapack-F PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
-   target_link_libraries( scalapack-F ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
+   target_link_libraries( scalapack-F ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
    scalapack_install_library(scalapack)
    scalapack_install_library(scalapack-F)
 endif ()
