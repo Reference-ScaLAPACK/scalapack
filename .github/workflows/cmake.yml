@@ -59,7 +59,7 @@ jobs:
         -D CMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
         -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/scalapack_install
         -D BUILD_SHARED_LIBS=ON
-        -D SCALAPACK_BUILD_TESTING=ON
+        -D SCALAPACK_BUILD_TESTS=ON
         -D MPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
         
     - name: Build
