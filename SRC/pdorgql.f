@@ -288,8 +288,8 @@
 *
    10 CONTINUE
 *
-      CALL PB_TOPGET( ICTXT, 'Broadcast', 'Rowwise', ROWBTOP )
-      CALL PB_TOPGET( ICTXT, 'Broadcast', 'Columnwise', COLBTOP )
+      CALL PB_TOPSET( ICTXT, 'Broadcast', 'Rowwise', ROWBTOP )
+      CALL PB_TOPSET( ICTXT, 'Broadcast', 'Columnwise', COLBTOP )
 *
       WORK( 1 ) = DBLE( LWMIN )
 *
