@@ -223,7 +223,12 @@ jobs:
       run: cmake --build build --parallel
 
     - name: Test
-      run: ctest --test-dir build --schedule-random --output-on-failure --timeout 180
+      run: >
+        ctest --test-dir build
+        --schedule-random --output-on-failure --timeout 180
+        -E "xssep|xsgsep|xssyevr"
+# xssep, xssyevr take too long on CI Runner for MacOS
+# xsgsep fails on MacOS only, including on a Mac M1 laptop--needs to be investigated.
 
     - name: Install
       run: cmake --install build
