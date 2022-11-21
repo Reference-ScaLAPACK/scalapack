@@ -2,6 +2,20 @@ cmake_minimum_required(VERSION 3.9)
 
 project(SCALAPACK VERSION 2.2.1 LANGUAGES C Fortran)
 
+# --------------------------------------------------
+# Precision to build
+# By default all precisions are generated
+option(BUILD_SINGLE "Build single precision real" ON)
+option(BUILD_DOUBLE "Build double precision real" ON)
+option(BUILD_COMPLEX "Build single precision complex" ON)
+option(BUILD_COMPLEX16 "Build double precision complex" ON)
+if(BUILD_COMPLEX)
+  set(BUILD_SINGLE true)
+endif()
+if(BUILD_COMPLEX16)
+  set(BUILD_DOUBLE true)
+endif()
+
 # Configure the warning and code coverage suppression file
 configure_file(
   "${SCALAPACK_SOURCE_DIR}/CMAKE/CTestCustom.cmake.in"
@@ -26,7 +40,7 @@ set(CMAKE_PREFIX_PATH "${MPI_BASE_DIR};${CMAKE_PREFIX_PATH}")
 find_package(MPI)
 if (MPI_FOUND)
    message(STATUS "Found MPI_LIBRARY : ${MPI_FOUND} ")
-   
+
    find_program(MPI_C_COMPILER
       NAMES mpicc
       HINTS "${MPI_BASE_DIR}"
@@ -89,9 +103,7 @@ endmacro()
 # Testing
 SET(DART_TESTING_TIMEOUT 600)
 
-enable_testing()
 include(CTest)
-enable_testing()
 # --------------------------------------------------
 
 # Organize output files.  On Windows this also keeps .dll files next
@@ -171,9 +183,15 @@ else(LAPACK_FOUND)
       include(ExternalProject)
       ExternalProject_Add(
         lapack
-        URL http://www.netlib.org/lapack/lapack.tgz
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${SCALAPACK_BINARY_DIR}
+        URL https://www.netlib.org/lapack/lapack.tgz
+        CMAKE_ARGS
+          -DCMAKE_INSTALL_PREFIX:PATH=${SCALAPACK_BINARY_DIR}
+          -DBUILD_SINGLE:BOOL=${BUILD_SINGLE}
+          -DBUILD_DOUBLE:BOOL=${BUILD_DOUBLE}
+          -DBUILD_COMPLEX:BOOL=${BUILD_COMPLEX}
+          -DBUILD_COMPLEX16:BOOL=${BUILD_COMPLEX16}
         PREFIX ${SCALAPACK_BINARY_DIR}/dependencies
+        TLS_VERIFY true
       )
       if (NOT MSVC)
          SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/liblapack.a CACHE STRING "LAPACK library" FORCE)
@@ -266,7 +284,7 @@ if(TARGET lapack)
 endif()
 
 option(SCALAPACK_BUILD_TESTS "Build all tests of the ScaLAPACK library" ON)
-if(${SCALAPACK_BUILD_TESTS})
+if(SCALAPACK_BUILD_TESTS)
   add_subdirectory(TESTING)
 endif()
 
@@ -332,3 +350,15 @@ install(FILES
 
 install(EXPORT scalapack-targets
   DESTINATION lib/cmake/scalapack-${SCALAPACK_VERSION})
+
+
+include(FeatureSummary)
+
+add_feature_info(real32 ${BUILD_SINGLE} "Build with single precision")
+add_feature_info(real64 ${BUILD_DOUBLE} "Build with double precision")
+add_feature_info(complex32 ${BUILD_COMPLEX} "Build with complex precision")
+add_feature_info(complex64 ${BUILD_COMPLEX16} "Build with complex16 precision")
+add_feature_info(tests ${SCALAPACK_BUILD_TESTS} "Build tests")
+add_feature_info(shared ${BUILD_SHARED_LIBS} "Build shared libraries")
+message(STATUS "${PROJECT_NAME} features enabled:")
+feature_summary(WHAT ENABLED_FEATURES)
