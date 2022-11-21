@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.9...3.25)
 
 project(SCALAPACK VERSION 2.2.1 LANGUAGES C Fortran)
 
@@ -179,6 +179,9 @@ else(LAPACK_FOUND)
    ENDIF(USE_OPTIMIZED_LAPACK_BLAS)
    if(NOT LAPACK_FOUND)
       message(STATUS "--> LAPACK and BLAS were not found. Reference LAPACK and BLAS will be downloaded and installed")
+      SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/liblapack${CMAKE_STATIC_LIBRARY_SUFFIX} CACHE STRING "LAPACK library" FORCE)
+      SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/libblas${CMAKE_STATIC_LIBRARY_SUFFIX} CACHE STRING "BLAS library" FORCE)
+
       include(ExternalProject)
       ExternalProject_Add(
         lapack
@@ -191,15 +194,9 @@ else(LAPACK_FOUND)
           -DBUILD_COMPLEX16:BOOL=${BUILD_COMPLEX16}
         PREFIX ${SCALAPACK_BINARY_DIR}/dependencies
         TLS_VERIFY true
+        BUILD_BYPRODUCTS ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES}
       )
-      if (NOT MSVC)
-         SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/liblapack.a CACHE STRING "LAPACK library" FORCE)
-         SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/libblas.a CACHE STRING "BLAS library" FORCE)
-      else () # MSVC
-         SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/liblapack.lib CACHE STRING "LAPACK library" FORCE)
-         SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/libblas.lib CACHE STRING "BLAS library" FORCE)
-      endif ()
-   ENDIF()
+    ENDIF()
 ENDIF()
 
 message(STATUS "BLAS library: ${BLAS_LIBRARIES}")
