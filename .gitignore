@@ -3,6 +3,7 @@
 BLACS/INSTALL/cmake_install.cmake
 BLACS/INSTALL/Makefile
 BLACS/INSTALL/x*
+BLACS/INSTALL/*ninja*
 TESTING/x*
 REDIST/TESTING/x*
 PBLAS/TESTING/x*
@@ -15,4 +16,3 @@ PBLAS/TIMING/PB_Cwarn.c
 BLACS/TESTING/xCbtest
 BLACS/TESTING/xFbtest
 SLmake.inc
-
