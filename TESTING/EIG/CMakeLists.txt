@@ -1,3 +1,8 @@
+if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU" AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
+  add_compile_options("$<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch;-std=legacy>")
+endif()
+
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/..)
 
 set (smatgen psmatgen.f pmatgeninc.f)
@@ -56,9 +61,4 @@ if(BUILD_SINGLE AND BUILD_COMPLEX16)
   _eig_test(xznep "pznepdriver.f;pznepinfo.f;pznepfchk.f;${zmatgen}" 2)
   _eig_test(xzevc "pzevcdriver.f;pzevcinfo.f;pzget22.f;${zmatgen}" 2)
   _eig_test(xzheevr "pzlasizesepr.f;pzlasizeheevr.f;pzseprdriver.f;pzseprreq.f;pzseprsubtst.f;pzsepchk.f;pzsepqtq.f;pzlatms.f;pzseprtst.f;pdsepinfo.f;pzlagsy.f;pzlasizesep.f;${zmatgen}" 4)
-endif()
-
-
-if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU" AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
-  add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-std=legacy>)  # local to this directory
 endif()

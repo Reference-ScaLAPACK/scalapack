@@ -1,3 +1,7 @@
+if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU" AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
+  add_compile_options("$<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch;-std=legacy>")
+endif()
+
 file(COPY ../SRC/PTOOLS/PB_Cwarn.c DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 file(COPY ../SRC/PTOOLS/PB_Cabort.c DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -43,8 +47,4 @@ if(BUILD_SINGLE AND BUILD_COMPLEX16)
   _pblas_test(zpb1tim "pzblas1tim.f;${zpbtcom}")
   _pblas_test(zpb2tim "pzblas2tim.f;${zpbtcom}")
   _pblas_test(zpb3tim "pzblas3tim.f;${zpbtcom}")
-endif()
-
-if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU" AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
-  add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-std=legacy>)  # local to this directory
 endif()

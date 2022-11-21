@@ -208,12 +208,13 @@ jobs:
     - name: Checkout ScaLAPACK
       uses: actions/checkout@v3
 
-    - name: Setup MPI
-      run: brew install open-mpi
+    - name: Setup MPI, Ninja
+      run: brew install open-mpi ninja
 
     - name: CMake configuration
       run: >
         cmake -B build
+        -G Ninja
         --install-prefix ${{ runner.temp }}
         -DBUILD_SINGLE=on -DBUILD_DOUBLE=off -DBUILD_COMPLEX=off -DBUILD_COMPLEX16=off
         -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}

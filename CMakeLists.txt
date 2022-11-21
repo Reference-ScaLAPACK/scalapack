@@ -26,11 +26,11 @@ configure_file(
 # Add the CMake directory for custon CMake modules
 set(CMAKE_MODULE_PATH "${SCALAPACK_SOURCE_DIR}/CMAKE" ${CMAKE_MODULE_PATH})
 
-if (UNIX)
-   if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Intel")
-      set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fltconsistency -fp_port" )
-   endif ()
-endif ()
+if(UNIX)
+  if(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+    add_compile_options("$<$<COMPILE_LANGUAGE:Fortran>:-fltconsistency;-fp_port>")
+  endif()
+endif()
 
 #
 #   MPI
@@ -85,12 +85,6 @@ else()
 endif()
 
 
-if (UNIX)
-   if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Intel")
-      set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fltconsistency -fp_port" )
-   endif ()
-endif ()
-
 macro(SCALAPACK_install_library lib)
   install(TARGETS ${lib} EXPORT scalapack-targets
     ARCHIVE DESTINATION lib${LIB_SUFFIX}
@@ -114,18 +108,11 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SCALAPACK_BINARY_DIR}/lib)
 
 # --------------------------------------------------
 # By default static library
-function (invertBoolean varName varValue)
-  if (${varValue})
-    set(${varName} false PARENT_SCOPE)
-  else ()
-    set(${varName} true PARENT_SCOPE)
-  endif ()
-endfunction ()
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF )
-invertBoolean("BUILD_STATIC_LIBS" ${BUILD_SHARED_LIBS})
-if ((${BUILD_SHARED_LIBS} EQUAL ON) AND NOT CMAKE_POSITION_INDEPENDENT_CODE)
+set(BUILD_STATIC_LIBS $<NOT:BUILD_SHARED_LIBS>)
+if(BUILD_SHARED_LIBS)
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-endif ()
+endif()
 
 # --------------------------------------------------
 # Check for any necessary platform specific compiler flags
@@ -166,13 +153,25 @@ IF(LAPACK_LIBRARIES)
   include(CheckFortranFunctionExists)
   message(STATUS "--> LAPACK supplied by user is ${LAPACK_LIBRARIES}.")
   set(CMAKE_REQUIRED_LIBRARIES ${LAPACK_LIBRARIES})
-  CHECK_FORTRAN_FUNCTION_EXISTS("dgesv" LAPACK_FOUND)
+  set(LAPACK_FOUND true)
+  if(BUILD_SINGLE)
+    check_fortran_function_exists("sgesv" LAPACK_s_FOUND)
+    if(NOT LAPACK_s_FOUND)
+      set(LAPACK_FOUND false)
+    endif()
+  endif()
+  if(BUILD_DOUBLE)
+    check_fortran_function_exists("dgesv" LAPACK_d_FOUND)
+    if(NOT LAPACK_d_FOUND)
+      set(LAPACK_FOUND false)
+    endif()
+  endif()
   unset( CMAKE_REQUIRED_LIBRARIES )
-  message(STATUS "--> LAPACK routine dgesv is found: ${LAPACK_FOUND}.")
+  message(STATUS "--> LAPACK routine gesv is found: ${LAPACK_FOUND}.")
 ENDIF()
 
 if(LAPACK_FOUND)
-      message(STATUS "--> LAPACK supplied by user is WORKING, will use ${LAPACK_LIBRARIES}.")
+  message(STATUS "--> LAPACK supplied by user is WORKING, will use ${LAPACK_LIBRARIES}.")
 else(LAPACK_FOUND)
    if(USE_OPTIMIZED_LAPACK_BLAS)
       message(STATUS "--> Searching for optimized LAPACK and BLAS libraries on your machine.")
@@ -258,26 +257,32 @@ append_subdir_files(src-C "SRC")
 
 if (NOT MSVC)
    add_library(scalapack ${blacs} ${tools} ${tools-C} ${extra_lapack} ${pblas} ${pblas-F} ${ptzblas} ${ptools} ${pbblas} ${redist} ${src} ${src-C})
-   set_target_properties(scalapack PROPERTIES
-    VERSION ${SCALAPACK_VERSION}
-    SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
-   target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_C)
-   scalapack_install_library(scalapack)
 else () # Need to separate Fortran and C Code
    OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON )
    add_library(scalapack ${blacs} ${tools-C} ${pblas} ${ptools} ${redist} ${src-C})
-   set_target_properties(scalapack PROPERTIES
-    VERSION ${SCALAPACK_VERSION}
-    SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
-   target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_C)
    add_library(scalapack-F ${pblas-F} ${pbblas} ${ptzblas} ${tools} ${src} ${extra_lapack} )
    set_target_properties(scalapack-F PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
-   target_link_libraries( scalapack-F ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-   scalapack_install_library(scalapack)
+   target_link_libraries( scalapack-F PRIVATE ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
    scalapack_install_library(scalapack-F)
 endif ()
+
+include(CheckCCompilerFlag)
+# C99+ default compilers such as Clang error without this
+# test the non-no form, otherwise always succeeds
+check_c_compiler_flag(-Wimplicit-function-declaration HAS_IMPLICIT_FUNC_FLAG)
+if(HAS_IMPLICIT_FUNC_FLAG)
+  target_compile_options(scalapack PRIVATE $<$<COMPILE_LANGUAGE:C>:-Wno-implicit-function-declaration>)
+endif()
+
+target_link_libraries(scalapack PRIVATE ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_C)
+
+set_target_properties(scalapack PROPERTIES
+  VERSION ${SCALAPACK_VERSION}
+  SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
+
+scalapack_install_library(scalapack)
 
 if(TARGET lapack)
    add_dependencies(scalapack lapack)
