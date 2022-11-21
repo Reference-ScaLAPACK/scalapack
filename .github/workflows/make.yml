@@ -10,6 +10,7 @@ on:
     - 'LICENSE'
     - 'CMAKE**'
     - '**CMakeLists.txt'
+    - '**.cmake'
   pull_request:
     paths-exclude:
     - '.github/workflows/cmake.yml'
@@ -19,10 +20,8 @@ on:
     - 'LICENSE'
     - 'CMAKE**'
     - '**CMakeLists.txt'
+    - '**.cmake'
 
-defaults:
-  run:
-    shell: bash
 
 jobs:
 
@@ -32,7 +31,7 @@ jobs:
     steps:
 
     - name: Checkout ScaLAPACK
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup MPI
       uses: mpi4py/setup-mpi@v1
@@ -42,7 +41,7 @@ jobs:
         cp SLmake.inc.example SLmake.inc
         make --silent -j lib
         make --silent all
-        
+
     - name: Run examples
       working-directory: ${{github.workspace}}/EXAMPLE
       run: |
