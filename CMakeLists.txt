@@ -180,6 +180,7 @@ else(LAPACK_FOUND)
       find_package(LAPACK)
    ENDIF(USE_OPTIMIZED_LAPACK_BLAS)
    if(NOT LAPACK_FOUND)
+      unset(BLAS_LIBRARIES)  # override "FALSE" variable that leaks from find_package(LAPACK) and Cache by defintion doesn't override
       message(STATUS "--> LAPACK and BLAS were not found. Reference LAPACK and BLAS will be downloaded and installed")
       SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/liblapack${CMAKE_STATIC_LIBRARY_SUFFIX} CACHE STRING "LAPACK library" FORCE)
       SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/libblas${CMAKE_STATIC_LIBRARY_SUFFIX} CACHE STRING "BLAS library" FORCE)
