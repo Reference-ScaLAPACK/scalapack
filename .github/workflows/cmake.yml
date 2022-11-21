@@ -73,3 +73,123 @@ jobs:
 
     - name: Install
       run: cmake --install build
+
+
+  real32:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout ScaLAPACK
+      uses: actions/checkout@v3
+
+    - name: Setup MPI
+      run: |
+        sudo apt update
+        sudo apt install --no-install-recommends openmpi-bin libopenmpi-dev
+
+    - name: CMake configuration
+      run: >
+        cmake -B build
+        --install-prefix ${{ runner.temp }}
+        -DBUILD_SINGLE=on -DBUILD_DOUBLE=off -DBUILD_COMPLEX=off -DBUILD_COMPLEX16=off
+        -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
+
+    - name: Build
+      run: cmake --build build --parallel
+
+    - name: Test
+      run: ctest --test-dir build --schedule-random --output-on-failure --timeout 180
+
+    - name: Install
+      run: cmake --install build
+
+
+  real64:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout ScaLAPACK
+      uses: actions/checkout@v3
+
+    - name: Setup MPI
+      run: |
+        sudo apt update
+        sudo apt install --no-install-recommends openmpi-bin libopenmpi-dev
+
+    - name: CMake configuration
+      run: >
+        cmake -B build
+        --install-prefix ${{ runner.temp }}
+        -DBUILD_SINGLE=off -DBUILD_DOUBLE=on -DBUILD_COMPLEX=off -DBUILD_COMPLEX16=off
+        -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
+
+    - name: Build
+      run: cmake --build build --parallel
+
+    - name: Test
+      run: ctest --test-dir build --schedule-random --output-on-failure --timeout 180
+
+    - name: Install
+      run: cmake --install build
+
+
+  complex32:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout ScaLAPACK
+      uses: actions/checkout@v3
+
+    - name: Setup MPI
+      run: |
+        sudo apt update
+        sudo apt install --no-install-recommends openmpi-bin libopenmpi-dev
+
+    - name: CMake configuration
+      run: >
+        cmake -B build
+        --install-prefix ${{ runner.temp }}
+        -DBUILD_SINGLE=off -DBUILD_DOUBLE=off -DBUILD_COMPLEX=on -DBUILD_COMPLEX16=off
+        -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
+
+    - name: Build
+      run: cmake --build build --parallel
+
+    - name: Test
+      run: ctest --test-dir build --schedule-random --output-on-failure --timeout 180
+
+    - name: Install
+      run: cmake --install build
+
+
+  complex64:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout ScaLAPACK
+      uses: actions/checkout@v3
+
+    - name: Setup MPI
+      run: |
+        sudo apt update
+        sudo apt install --no-install-recommends openmpi-bin libopenmpi-dev
+
+    - name: CMake configuration
+      run: >
+        cmake -B build
+        --install-prefix ${{ runner.temp }}
+        -DBUILD_SINGLE=off -DBUILD_DOUBLE=off -DBUILD_COMPLEX=off -DBUILD_COMPLEX16=on
+        -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
+
+    - name: Build
+      run: cmake --build build --parallel
+
+    - name: Test
+      run: ctest --test-dir build --schedule-random --output-on-failure --timeout 180
+
+    - name: Install
+      run: cmake --install build
