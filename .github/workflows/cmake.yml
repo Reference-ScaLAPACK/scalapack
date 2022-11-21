@@ -2,7 +2,7 @@ name: CMake CI
 
 on:
   push:
-    paths-exclude:
+    paths-ignore:
     - '.github/workflows/make.yml'
     - '.gitignore'
     - 'README'
@@ -11,7 +11,7 @@ on:
     - '**Makefile'
     - 'SLmake.inc.example'
   pull_request:
-    paths-exclude:
+    paths-ignore:
     - '.github/workflows/make.yml'
     - '.gitignore'
     - 'README'
@@ -183,6 +183,39 @@ jobs:
         cmake -B build
         --install-prefix ${{ runner.temp }}
         -DBUILD_SINGLE=off -DBUILD_DOUBLE=off -DBUILD_COMPLEX=off -DBUILD_COMPLEX16=on
+        -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
+
+    - name: Build
+      run: cmake --build build --parallel
+
+    - name: Test
+      run: ctest --test-dir build --schedule-random --output-on-failure --timeout 180
+
+    - name: Install
+      run: cmake --install build
+
+
+  macos-real32:
+    # just testing one precision to save time on MacOS runner
+    runs-on: macos-latest
+
+    env:
+      HOMEBREW_NO_INSTALL_CLEANUP: 1
+      FC: gfortran-11
+
+    steps:
+
+    - name: Checkout ScaLAPACK
+      uses: actions/checkout@v3
+
+    - name: Setup MPI
+      run: brew install open-mpi
+
+    - name: CMake configuration
+      run: >
+        cmake -B build
+        --install-prefix ${{ runner.temp }}
+        -DBUILD_SINGLE=on -DBUILD_DOUBLE=off -DBUILD_COMPLEX=off -DBUILD_COMPLEX16=off
         -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
 
     - name: Build
