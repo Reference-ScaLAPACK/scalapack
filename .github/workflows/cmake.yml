@@ -23,12 +23,9 @@ on:
 env:
   CFLAGS: "-Wall -pedantic"
   FFLAGS: "-fcheck=all,no-bounds"
-  BUILD_TYPE: Release
+  CMAKE_BUILD_TYPE: Release
   MPIEXEC_PREFLAGS: "--oversubscribe"
 
-defaults:
-  run:
-    shell: bash
 
 jobs:
 
@@ -38,42 +35,41 @@ jobs:
     steps:
 
     - name: Checkout ScaLAPACK
-      uses: actions/checkout@v2
-
-    - name: Install ninja-build tool
-      uses: seanmiddleditch/gha-setup-ninja@v3
+      uses: actions/checkout@v3
 
     - name: Setup MPI
       # uses: mpi4py/setup-mpi@v1
       run: |
-        sudo apt -y update
-        sudo apt -y install openmpi-bin libopenmpi-dev
+        sudo apt update
+        sudo apt install --no-install-recommends openmpi-bin libopenmpi-dev
+
+    - name: Setup Ninja
+      run: sudo apt install --no-install-recommends ninja-build
 
     - name: Install BLAS and LAPACK
-      run: sudo apt -y install libblas-dev liblapack-dev
-        
+      run: sudo apt install --no-install-recommends libblas-dev liblapack-dev
+
     - name: CMake configuration
       run: >
         cmake -B build
         -G Ninja
-        -D CMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-        -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/scalapack_install
-        -D BUILD_SHARED_LIBS=ON
-        -D SCALAPACK_BUILD_TESTS=ON
-        -D MPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
-        
+        --install-prefix ${{ github.workspace }}/scalapack_install
+        -DBUILD_SHARED_LIBS=ON
+        -DSCALAPACK_BUILD_TESTS=ON
+        -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
+
     - name: Build
-      working-directory: ${{github.workspace}}/build
+      working-directory: ${{ github.workspace }}/build
       run: |
         ctest -D ExperimentalStart
         ctest -D ExperimentalConfigure
         ctest -D ExperimentalBuild
 
     - name: Test
-      working-directory: ${{github.workspace}}/build
+      working-directory: ${{ github.workspace }}/build
       run: |
         ctest -D ExperimentalTest --schedule-random --output-on-failure --timeout 180
         ctest -D ExperimentalSubmit
-        
+
     - name: Install
-      run: cmake --build build --target install
+      run: cmake --install build
