@@ -16,6 +16,8 @@ if(BUILD_COMPLEX16)
   set(BUILD_DOUBLE true)
 endif()
 
+include(GNUInstallDirs)
+
 # Configure the warning and code coverage suppression file
 configure_file(
   "${SCALAPACK_SOURCE_DIR}/CMAKE/CTestCustom.cmake.in"
@@ -179,8 +181,8 @@ else(LAPACK_FOUND)
    ENDIF(USE_OPTIMIZED_LAPACK_BLAS)
    if(NOT LAPACK_FOUND)
       message(STATUS "--> LAPACK and BLAS were not found. Reference LAPACK and BLAS will be downloaded and installed")
-      SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/liblapack${CMAKE_STATIC_LIBRARY_SUFFIX} CACHE STRING "LAPACK library" FORCE)
-      SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/libblas${CMAKE_STATIC_LIBRARY_SUFFIX} CACHE STRING "BLAS library" FORCE)
+      SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/liblapack${CMAKE_STATIC_LIBRARY_SUFFIX} CACHE STRING "LAPACK library" FORCE)
+      SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/libblas${CMAKE_STATIC_LIBRARY_SUFFIX} CACHE STRING "BLAS library" FORCE)
 
       include(ExternalProject)
       ExternalProject_Add(
@@ -195,6 +197,10 @@ else(LAPACK_FOUND)
         PREFIX ${SCALAPACK_BINARY_DIR}/dependencies
         TLS_VERIFY true
         BUILD_BYPRODUCTS ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES}
+      )
+
+      install(FILES ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES}
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}
       )
     ENDIF()
 ENDIF()
@@ -324,13 +330,6 @@ INCLUDE(CPack)
 
 export(TARGETS scalapack FILE scalapack-targets.cmake)
 
-if( NOT LAPACK_FOUND )
- install(FILES
-  ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES}
-  DESTINATION lib
-   )
-endif( NOT LAPACK_FOUND )
-
 configure_file(${SCALAPACK_SOURCE_DIR}/CMAKE/scalapack-config-version.cmake.in
   ${SCALAPACK_BINARY_DIR}/scalapack-config-version.cmake @ONLY)
 configure_file(${SCALAPACK_SOURCE_DIR}/CMAKE/scalapack-config-build.cmake.in
@@ -347,11 +346,11 @@ configure_file(${SCALAPACK_SOURCE_DIR}/CMAKE/scalapack-config-install.cmake.in
 install(FILES
   ${SCALAPACK_BINARY_DIR}/CMakeFiles/scalapack-config.cmake
   ${SCALAPACK_BINARY_DIR}/scalapack-config-version.cmake
-  DESTINATION lib/cmake/scalapack-${SCALAPACK_VERSION}
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack-${SCALAPACK_VERSION}
   )
 
 install(EXPORT scalapack-targets
-  DESTINATION lib/cmake/scalapack-${SCALAPACK_VERSION})
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack-${SCALAPACK_VERSION})
 
 
 include(FeatureSummary)
