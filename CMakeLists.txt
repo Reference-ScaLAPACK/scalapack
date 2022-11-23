@@ -1,6 +1,22 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.9...3.25)
 
 project(SCALAPACK VERSION 2.2.1 LANGUAGES C Fortran)
+
+# --------------------------------------------------
+# Precision to build
+# By default all precisions are generated
+option(BUILD_SINGLE "Build single precision real" ON)
+option(BUILD_DOUBLE "Build double precision real" ON)
+option(BUILD_COMPLEX "Build single precision complex" ON)
+option(BUILD_COMPLEX16 "Build double precision complex" ON)
+if(BUILD_COMPLEX)
+  set(BUILD_SINGLE true)
+endif()
+if(BUILD_COMPLEX16)
+  set(BUILD_DOUBLE true)
+endif()
+
+include(GNUInstallDirs)
 
 # Configure the warning and code coverage suppression file
 configure_file(
@@ -12,11 +28,11 @@ configure_file(
 # Add the CMake directory for custon CMake modules
 set(CMAKE_MODULE_PATH "${SCALAPACK_SOURCE_DIR}/CMAKE" ${CMAKE_MODULE_PATH})
 
-if (UNIX)
-   if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Intel")
-      set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fltconsistency -fp_port" )
-   endif ()
-endif ()
+if(UNIX)
+  if(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+    add_compile_options("$<$<COMPILE_LANGUAGE:Fortran>:-fltconsistency;-fp_port>")
+  endif()
+endif()
 
 #
 #   MPI
@@ -26,7 +42,7 @@ set(CMAKE_PREFIX_PATH "${MPI_BASE_DIR};${CMAKE_PREFIX_PATH}")
 find_package(MPI)
 if (MPI_FOUND)
    message(STATUS "Found MPI_LIBRARY : ${MPI_FOUND} ")
-   
+
    find_program(MPI_C_COMPILER
       NAMES mpicc
       HINTS "${MPI_BASE_DIR}"
@@ -71,12 +87,6 @@ else()
 endif()
 
 
-if (UNIX)
-   if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Intel")
-      set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fltconsistency -fp_port" )
-   endif ()
-endif ()
-
 macro(SCALAPACK_install_library lib)
   install(TARGETS ${lib} EXPORT scalapack-targets
     ARCHIVE DESTINATION lib${LIB_SUFFIX}
@@ -89,9 +99,7 @@ endmacro()
 # Testing
 SET(DART_TESTING_TIMEOUT 600)
 
-enable_testing()
 include(CTest)
-enable_testing()
 # --------------------------------------------------
 
 # Organize output files.  On Windows this also keeps .dll files next
@@ -102,18 +110,11 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SCALAPACK_BINARY_DIR}/lib)
 
 # --------------------------------------------------
 # By default static library
-function (invertBoolean varName varValue)
-  if (${varValue})
-    set(${varName} false PARENT_SCOPE)
-  else ()
-    set(${varName} true PARENT_SCOPE)
-  endif ()
-endfunction ()
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF )
-invertBoolean("BUILD_STATIC_LIBS" ${BUILD_SHARED_LIBS})
-if ((${BUILD_SHARED_LIBS} EQUAL ON) AND NOT CMAKE_POSITION_INDEPENDENT_CODE)
+set(BUILD_STATIC_LIBS $<NOT:BUILD_SHARED_LIBS>)
+if(BUILD_SHARED_LIBS)
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-endif ()
+endif()
 
 # --------------------------------------------------
 # Check for any necessary platform specific compiler flags
@@ -154,35 +155,55 @@ IF(LAPACK_LIBRARIES)
   include(CheckFortranFunctionExists)
   message(STATUS "--> LAPACK supplied by user is ${LAPACK_LIBRARIES}.")
   set(CMAKE_REQUIRED_LIBRARIES ${LAPACK_LIBRARIES})
-  CHECK_FORTRAN_FUNCTION_EXISTS("dgesv" LAPACK_FOUND)
+  set(LAPACK_FOUND true)
+  if(BUILD_SINGLE)
+    check_fortran_function_exists("sgesv" LAPACK_s_FOUND)
+    if(NOT LAPACK_s_FOUND)
+      set(LAPACK_FOUND false)
+    endif()
+  endif()
+  if(BUILD_DOUBLE)
+    check_fortran_function_exists("dgesv" LAPACK_d_FOUND)
+    if(NOT LAPACK_d_FOUND)
+      set(LAPACK_FOUND false)
+    endif()
+  endif()
   unset( CMAKE_REQUIRED_LIBRARIES )
-  message(STATUS "--> LAPACK routine dgesv is found: ${LAPACK_FOUND}.")
+  message(STATUS "--> LAPACK routine gesv is found: ${LAPACK_FOUND}.")
 ENDIF()
 
 if(LAPACK_FOUND)
-      message(STATUS "--> LAPACK supplied by user is WORKING, will use ${LAPACK_LIBRARIES}.")
+  message(STATUS "--> LAPACK supplied by user is WORKING, will use ${LAPACK_LIBRARIES}.")
 else(LAPACK_FOUND)
    if(USE_OPTIMIZED_LAPACK_BLAS)
       message(STATUS "--> Searching for optimized LAPACK and BLAS libraries on your machine.")
       find_package(LAPACK)
    ENDIF(USE_OPTIMIZED_LAPACK_BLAS)
    if(NOT LAPACK_FOUND)
+      unset(BLAS_LIBRARIES)  # override "FALSE" variable that leaks from find_package(LAPACK) and Cache by defintion doesn't override
       message(STATUS "--> LAPACK and BLAS were not found. Reference LAPACK and BLAS will be downloaded and installed")
+      SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/liblapack${CMAKE_STATIC_LIBRARY_SUFFIX} CACHE STRING "LAPACK library" FORCE)
+      SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}/libblas${CMAKE_STATIC_LIBRARY_SUFFIX} CACHE STRING "BLAS library" FORCE)
+
       include(ExternalProject)
       ExternalProject_Add(
         lapack
-        URL http://www.netlib.org/lapack/lapack.tgz
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${SCALAPACK_BINARY_DIR}
+        URL https://www.netlib.org/lapack/lapack.tgz
+        CMAKE_ARGS
+          -DCMAKE_INSTALL_PREFIX:PATH=${SCALAPACK_BINARY_DIR}
+          -DBUILD_SINGLE:BOOL=${BUILD_SINGLE}
+          -DBUILD_DOUBLE:BOOL=${BUILD_DOUBLE}
+          -DBUILD_COMPLEX:BOOL=${BUILD_COMPLEX}
+          -DBUILD_COMPLEX16:BOOL=${BUILD_COMPLEX16}
         PREFIX ${SCALAPACK_BINARY_DIR}/dependencies
+        TLS_VERIFY true
+        BUILD_BYPRODUCTS ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES}
       )
-      if (NOT MSVC)
-         SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/liblapack.a CACHE STRING "LAPACK library" FORCE)
-         SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/libblas.a CACHE STRING "BLAS library" FORCE)
-      else () # MSVC
-         SET(LAPACK_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/liblapack.lib CACHE STRING "LAPACK library" FORCE)
-         SET(BLAS_LIBRARIES ${SCALAPACK_BINARY_DIR}/lib/libblas.lib CACHE STRING "BLAS library" FORCE)
-      endif ()
-   ENDIF()
+
+      install(FILES ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES}
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}
+      )
+    ENDIF()
 ENDIF()
 
 message(STATUS "BLAS library: ${BLAS_LIBRARIES}")
@@ -240,33 +261,39 @@ append_subdir_files(src-C "SRC")
 
 if (NOT MSVC)
    add_library(scalapack ${blacs} ${tools} ${tools-C} ${extra_lapack} ${pblas} ${pblas-F} ${ptzblas} ${ptools} ${pbblas} ${redist} ${src} ${src-C})
-   set_target_properties(scalapack PROPERTIES
-    VERSION ${SCALAPACK_VERSION}
-    SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
-   target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_C)
-   scalapack_install_library(scalapack)
 else () # Need to separate Fortran and C Code
    OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON )
    add_library(scalapack ${blacs} ${tools-C} ${pblas} ${ptools} ${redist} ${src-C})
-   set_target_properties(scalapack PROPERTIES
-    VERSION ${SCALAPACK_VERSION}
-    SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
-   target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_C)
    add_library(scalapack-F ${pblas-F} ${pbblas} ${ptzblas} ${tools} ${src} ${extra_lapack} )
    set_target_properties(scalapack-F PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
-   target_link_libraries( scalapack-F ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-   scalapack_install_library(scalapack)
+   target_link_libraries( scalapack-F PRIVATE ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
    scalapack_install_library(scalapack-F)
 endif ()
+
+include(CheckCCompilerFlag)
+# C99+ default compilers such as Clang error without this
+# test the non-no form, otherwise always succeeds
+check_c_compiler_flag(-Wimplicit-function-declaration HAS_IMPLICIT_FUNC_FLAG)
+if(HAS_IMPLICIT_FUNC_FLAG)
+  target_compile_options(scalapack PRIVATE $<$<COMPILE_LANGUAGE:C>:-Wno-implicit-function-declaration>)
+endif()
+
+target_link_libraries(scalapack PRIVATE ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_C)
+
+set_target_properties(scalapack PROPERTIES
+  VERSION ${SCALAPACK_VERSION}
+  SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
+
+scalapack_install_library(scalapack)
 
 if(TARGET lapack)
    add_dependencies(scalapack lapack)
 endif()
 
 option(SCALAPACK_BUILD_TESTS "Build all tests of the ScaLAPACK library" ON)
-if(${SCALAPACK_BUILD_TESTS})
+if(SCALAPACK_BUILD_TESTS)
   add_subdirectory(TESTING)
 endif()
 
@@ -304,13 +331,6 @@ INCLUDE(CPack)
 
 export(TARGETS scalapack FILE scalapack-targets.cmake)
 
-if( NOT LAPACK_FOUND )
- install(FILES
-  ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES}
-  DESTINATION lib
-   )
-endif( NOT LAPACK_FOUND )
-
 configure_file(${SCALAPACK_SOURCE_DIR}/CMAKE/scalapack-config-version.cmake.in
   ${SCALAPACK_BINARY_DIR}/scalapack-config-version.cmake @ONLY)
 configure_file(${SCALAPACK_SOURCE_DIR}/CMAKE/scalapack-config-build.cmake.in
@@ -327,8 +347,20 @@ configure_file(${SCALAPACK_SOURCE_DIR}/CMAKE/scalapack-config-install.cmake.in
 install(FILES
   ${SCALAPACK_BINARY_DIR}/CMakeFiles/scalapack-config.cmake
   ${SCALAPACK_BINARY_DIR}/scalapack-config-version.cmake
-  DESTINATION lib/cmake/scalapack-${SCALAPACK_VERSION}
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack-${SCALAPACK_VERSION}
   )
 
 install(EXPORT scalapack-targets
-  DESTINATION lib/cmake/scalapack-${SCALAPACK_VERSION})
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack-${SCALAPACK_VERSION})
+
+
+include(FeatureSummary)
+
+add_feature_info(real32 ${BUILD_SINGLE} "Build with single precision")
+add_feature_info(real64 ${BUILD_DOUBLE} "Build with double precision")
+add_feature_info(complex32 ${BUILD_COMPLEX} "Build with complex precision")
+add_feature_info(complex64 ${BUILD_COMPLEX16} "Build with complex16 precision")
+add_feature_info(tests ${SCALAPACK_BUILD_TESTS} "Build tests")
+add_feature_info(shared ${BUILD_SHARED_LIBS} "Build shared libraries")
+message(STATUS "${PROJECT_NAME} features enabled:")
+feature_summary(WHAT ENABLED_FEATURES)

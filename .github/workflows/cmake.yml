@@ -2,7 +2,7 @@ name: CMake CI
 
 on:
   push:
-    paths-exclude:
+    paths-ignore:
     - '.github/workflows/make.yml'
     - '.gitignore'
     - 'README'
@@ -11,7 +11,7 @@ on:
     - '**Makefile'
     - 'SLmake.inc.example'
   pull_request:
-    paths-exclude:
+    paths-ignore:
     - '.github/workflows/make.yml'
     - '.gitignore'
     - 'README'
@@ -23,12 +23,9 @@ on:
 env:
   CFLAGS: "-Wall -pedantic"
   FFLAGS: "-fcheck=all,no-bounds"
-  BUILD_TYPE: Release
+  CMAKE_BUILD_TYPE: Release
   MPIEXEC_PREFLAGS: "--oversubscribe"
 
-defaults:
-  run:
-    shell: bash
 
 jobs:
 
@@ -38,42 +35,200 @@ jobs:
     steps:
 
     - name: Checkout ScaLAPACK
-      uses: actions/checkout@v2
-
-    - name: Install ninja-build tool
-      uses: seanmiddleditch/gha-setup-ninja@v3
+      uses: actions/checkout@v3
 
     - name: Setup MPI
       # uses: mpi4py/setup-mpi@v1
       run: |
-        sudo apt -y update
-        sudo apt -y install openmpi-bin libopenmpi-dev
+        sudo apt update
+        sudo apt install --no-install-recommends openmpi-bin libopenmpi-dev
+
+    - name: Setup Ninja
+      run: sudo apt install --no-install-recommends ninja-build
 
     - name: Install BLAS and LAPACK
-      run: sudo apt -y install libblas-dev liblapack-dev
-        
+      run: sudo apt install --no-install-recommends libblas-dev liblapack-dev
+
     - name: CMake configuration
       run: >
         cmake -B build
         -G Ninja
-        -D CMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-        -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/scalapack_install
-        -D BUILD_SHARED_LIBS=ON
-        -D SCALAPACK_BUILD_TESTS=ON
-        -D MPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
-        
+        --install-prefix ${{ github.workspace }}/scalapack_install
+        -DBUILD_SHARED_LIBS=ON
+        -DSCALAPACK_BUILD_TESTS=ON
+        -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
+
     - name: Build
-      working-directory: ${{github.workspace}}/build
+      working-directory: ${{ github.workspace }}/build
       run: |
         ctest -D ExperimentalStart
         ctest -D ExperimentalConfigure
         ctest -D ExperimentalBuild
 
     - name: Test
-      working-directory: ${{github.workspace}}/build
+      working-directory: ${{ github.workspace }}/build
       run: |
         ctest -D ExperimentalTest --schedule-random --output-on-failure --timeout 180
         ctest -D ExperimentalSubmit
-        
+
     - name: Install
-      run: cmake --build build --target install
+      run: cmake --install build
+
+
+  real32:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout ScaLAPACK
+      uses: actions/checkout@v3
+
+    - name: Setup MPI
+      run: |
+        sudo apt update
+        sudo apt install --no-install-recommends openmpi-bin libopenmpi-dev
+
+    - name: CMake configuration
+      run: >
+        cmake -B build
+        --install-prefix ${{ runner.temp }}
+        -DBUILD_SINGLE=on -DBUILD_DOUBLE=off -DBUILD_COMPLEX=off -DBUILD_COMPLEX16=off
+        -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
+
+    - name: Build
+      run: cmake --build build --parallel
+
+    - name: Test
+      run: ctest --test-dir build --schedule-random --output-on-failure --timeout 180
+
+    - name: Install
+      run: cmake --install build
+
+
+  real64:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout ScaLAPACK
+      uses: actions/checkout@v3
+
+    - name: Setup MPI
+      run: |
+        sudo apt update
+        sudo apt install --no-install-recommends openmpi-bin libopenmpi-dev
+
+    - name: CMake configuration
+      run: >
+        cmake -B build
+        --install-prefix ${{ runner.temp }}
+        -DBUILD_SINGLE=off -DBUILD_DOUBLE=on -DBUILD_COMPLEX=off -DBUILD_COMPLEX16=off
+        -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
+
+    - name: Build
+      run: cmake --build build --parallel
+
+    - name: Test
+      run: ctest --test-dir build --schedule-random --output-on-failure --timeout 180
+
+    - name: Install
+      run: cmake --install build
+
+
+  complex32:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout ScaLAPACK
+      uses: actions/checkout@v3
+
+    - name: Setup MPI
+      run: |
+        sudo apt update
+        sudo apt install --no-install-recommends openmpi-bin libopenmpi-dev
+
+    - name: CMake configuration
+      run: >
+        cmake -B build
+        --install-prefix ${{ runner.temp }}
+        -DBUILD_SINGLE=off -DBUILD_DOUBLE=off -DBUILD_COMPLEX=on -DBUILD_COMPLEX16=off
+        -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
+
+    - name: Build
+      run: cmake --build build --parallel
+
+    - name: Test
+      run: ctest --test-dir build --schedule-random --output-on-failure --timeout 180
+
+    - name: Install
+      run: cmake --install build
+
+
+  complex64:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout ScaLAPACK
+      uses: actions/checkout@v3
+
+    - name: Setup MPI
+      run: |
+        sudo apt update
+        sudo apt install --no-install-recommends openmpi-bin libopenmpi-dev
+
+    - name: CMake configuration
+      run: >
+        cmake -B build
+        --install-prefix ${{ runner.temp }}
+        -DBUILD_SINGLE=off -DBUILD_DOUBLE=off -DBUILD_COMPLEX=off -DBUILD_COMPLEX16=on
+        -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
+
+    - name: Build
+      run: cmake --build build --parallel
+
+    - name: Test
+      run: ctest --test-dir build --schedule-random --output-on-failure --timeout 180
+
+    - name: Install
+      run: cmake --install build
+
+
+  macos-real32:
+    # just testing one precision to save time on MacOS runner
+    runs-on: macos-latest
+
+    env:
+      HOMEBREW_NO_INSTALL_CLEANUP: 1
+      FC: gfortran-11
+
+    steps:
+
+    - name: Checkout ScaLAPACK
+      uses: actions/checkout@v3
+
+    - name: Setup MPI, Ninja
+      run: brew install open-mpi ninja
+
+    - name: CMake configuration
+      run: >
+        cmake -B build
+        -G Ninja
+        --install-prefix ${{ runner.temp }}
+        -DBUILD_SINGLE=on -DBUILD_DOUBLE=off -DBUILD_COMPLEX=off -DBUILD_COMPLEX16=off
+        -DMPIEXEC_PREFLAGS=${{ env.MPIEXEC_PREFLAGS }}
+
+    - name: Build
+      run: cmake --build build --parallel
+
+    - name: Test
+      run: >
+        ctest --test-dir build
+        --schedule-random --output-on-failure --timeout 180
+        -E "xssep|xsgsep|xssyevr"
+# xssep, xssyevr take too long on CI Runner for MacOS
+# xsgsep fails on MacOS only, including on a Mac M1 laptop--needs to be investigated.
+
+    - name: Install
+      run: cmake --install build
