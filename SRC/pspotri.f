@@ -158,7 +158,7 @@
       ELSE
          UPPER = LSAME( UPLO, 'U' )
          CALL CHK1MAT( N, 2, N, 2, IA, JA, DESCA, 6, INFO )
-         IF( INFO.NE.0 ) THEN
+         IF( INFO.EQ.0 ) THEN
             IROFF = MOD( IA-1, DESCA( MB_ ) )
             ICOFF = MOD( JA-1, DESCA( NB_ ) )
             IF( .NOT.UPPER .AND. .NOT.LSAME( UPLO, 'L' ) ) THEN
