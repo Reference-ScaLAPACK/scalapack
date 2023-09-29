@@ -132,7 +132,7 @@
 *  DESCA   (global and local input) INTEGER array of dimension DLEN_.
 *          The array descriptor for the distributed matrix A.
 *
-*  TAU     (local input) DOUBLE PRECISION array, dimension LOCc(IA+K-1).
+*  TAU     (local input) DOUBLE PRECISION array, dimension LOCr(IA+K-1).
 *          This array contains the scalar factors TAU(i) of the
 *          elementary reflectors H(i) as returned by PDGERQF.
 *          TAU is tied to the distributed matrix A.
