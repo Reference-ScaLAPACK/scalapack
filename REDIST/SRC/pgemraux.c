@@ -104,7 +104,7 @@ extern void Cpigemr2d();
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-const size_t NEGFLAG = -1;
+const size_t NEGFLAG = ~( ((size_t)-1) >> 1);
 void *
 mr2d_malloc(size_t n)
 {
