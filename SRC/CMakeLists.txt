@@ -37,7 +37,7 @@ set (SLASRC
    pspotrs.f psrscl.f  psstein.f pssyev.f  pssyevd.f pssyevx.f 
    pssygs2.f pssygst.f 
    pssygvx.f pssyngst.f pssyntrd.f  pssyttrd.f pssytd2.f pssytrd.f 
-   pstrti2.f pstrtri.f pstrtrs.f 
+   pstrti2.f pstrtri.f pstrtrs.f pstrrfs.f
    pslaevswp.f 
    pslarzb.f pslarzt.f pslarz.f pslatrz.f pstzrzf.f psormr3.f psormrz.f 
    pslahqr.f pslaconsb.f pslacp3.f pslawil.f 
@@ -67,7 +67,7 @@ set (CLASRC
    pcpbsv.f  pcpbtrf.f pcpbtrs.f pcpbtrsv.f 
    pcptsv.f  pcpttrf.f pcpttrs.f pcpttrsv.f 
    pcposvx.f pcpotf2.f pcpotrf.f pcpotri.f pcpotrs.f pcsrscl.f pcstein.f 
-   pctrevc.f pctrti2.f pctrtri.f pctrtrs.f pcung2l.f pcung2r.f 
+   pctrevc.f pctrti2.f pctrtri.f pctrtrs.f pctrrfs.f pcung2l.f pcung2r.f 
              pcungl2.f pcunglq.f pcungql.f pcungqr.f pcungr2.f pcungrq.f 
              pcunm2l.f pcunm2r.f pcunmbr.f pcunmhr.f pcunml2.f pcunmlq.f 
    pcunmql.f pcunmqr.f pcunmr2.f pcunmrq.f pcunmtr.f 
@@ -100,7 +100,7 @@ set (DLASRC
    pdpotrs.f pdrscl.f  pdstein.f pdsyev.f  pdsyevd.f pdsyevx.f 
    pdsygs2.f pdsygst.f 
    pdsygvx.f pdsyngst.f pdsyntrd.f pdsyttrd.f pdsytd2.f pdsytrd.f pdtrti2.f 
-   pdtrtri.f pdtrtrs.f 
+   pdtrtri.f pdtrtrs.f pdtrrfs.f
    pdlaevswp.f 
    pdlarzb.f pdlarzt.f pdlarz.f pdlatrz.f pdtzrzf.f pdormr3.f pdormrz.f 
    pdlahqr.f pdlaconsb.f pdlacp3.f pdlawil.f 
@@ -131,7 +131,7 @@ set (ZLASRC
    pzpbsv.f  pzpbtrf.f pzpbtrs.f pzpbtrsv.f 
    pzptsv.f  pzpttrf.f pzpttrs.f pzpttrsv.f 
    pzposvx.f pzpotf2.f pzpotrf.f pzpotri.f pzpotrs.f pzdrscl.f pzstein.f 
-   pztrevc.f pztrti2.f pztrtri.f pztrtrs.f pzung2l.f pzung2r.f 
+   pztrevc.f pztrti2.f pztrtri.f pztrtrs.f pztrrfs.f pzung2l.f pzung2r.f 
              pzungl2.f pzunglq.f pzungql.f pzungqr.f pzungr2.f pzungrq.f 
              pzunm2l.f pzunm2r.f pzunmbr.f pzunmhr.f pzunml2.f pzunmlq.f 
    pzunmql.f pzunmqr.f pzunmr2.f pzunmrq.f pzunmtr.f 
