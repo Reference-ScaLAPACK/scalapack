@@ -86,7 +86,7 @@ SLASRC = \
    pspotrs.o psrscl.o  psstein.o pssyev.o  pssyevd.o pssyevx.o \
    pssygs2.o pssygst.o \
    pssygvx.o pssyngst.o pssyntrd.o  pssyttrd.o pssytd2.o pssytrd.o \
-   pstrti2.o pstrtri.o pstrtrs.o \
+   pstrti2.o pstrtri.o pstrtrs.o pstrrfs.o \
    pslaevswp.o \
    pslarzb.o pslarzt.o pslarz.o pslatrz.o pstzrzf.o psormr3.o psormrz.o \
    pslahqr.o pslaconsb.o pslacp3.o pslawil.o \
@@ -116,7 +116,7 @@ CLASRC = \
    pcpbsv.o  pcpbtrf.o pcpbtrs.o pcpbtrsv.o \
    pcptsv.o  pcpttrf.o pcpttrs.o pcpttrsv.o \
    pcposvx.o pcpotf2.o pcpotrf.o pcpotri.o pcpotrs.o pcsrscl.o pcstein.o \
-   pctrevc.o pctrti2.o pctrtri.o pctrtrs.o pcung2l.o pcung2r.o \
+   pctrevc.o pctrti2.o pctrtri.o pctrtrs.o pctrrfs.o pcung2l.o pcung2r.o \
              pcungl2.o pcunglq.o pcungql.o pcungqr.o pcungr2.o pcungrq.o \
              pcunm2l.o pcunm2r.o pcunmbr.o pcunmhr.o pcunml2.o pcunmlq.o \
    pcunmql.o pcunmqr.o pcunmr2.o pcunmrq.o pcunmtr.o \
@@ -149,7 +149,7 @@ DLASRC = \
    pdpotrs.o pdrscl.o  pdstein.o pdsyev.o  pdsyevd.o pdsyevx.o \
    pdsygs2.o pdsygst.o \
    pdsygvx.o pdsyngst.o pdsyntrd.o pdsyttrd.o pdsytd2.o pdsytrd.o pdtrti2.o \
-   pdtrtri.o pdtrtrs.o \
+   pdtrtri.o pdtrtrs.o pdtrrfs.o \
    pdlaevswp.o \
    pdlarzb.o pdlarzt.o pdlarz.o pdlatrz.o pdtzrzf.o pdormr3.o pdormrz.o \
    pdlahqr.o pdlaconsb.o pdlacp3.o pdlawil.o \
@@ -180,7 +180,7 @@ ZLASRC = \
    pzpbsv.o  pzpbtrf.o pzpbtrs.o pzpbtrsv.o \
    pzptsv.o  pzpttrf.o pzpttrs.o pzpttrsv.o \
    pzposvx.o pzpotf2.o pzpotrf.o pzpotri.o pzpotrs.o pzdrscl.o pzstein.o \
-   pztrevc.o pztrti2.o pztrtri.o pztrtrs.o pzung2l.o pzung2r.o \
+   pztrevc.o pztrti2.o pztrtri.o pztrtrs.o pztrrfs.o pzung2l.o pzung2r.o \
              pzungl2.o pzunglq.o pzungql.o pzungqr.o pzungr2.o pzungrq.o \
              pzunm2l.o pzunm2r.o pzunmbr.o pzunmhr.o pzunml2.o pzunmlq.o \
    pzunmql.o pzunmqr.o pzunmr2.o pzunmrq.o pzunmtr.o \
