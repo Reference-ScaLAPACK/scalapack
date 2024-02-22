@@ -6471,10 +6471,11 @@
       ISEED(3) = MOD( 1234 + TESTNUM + SRC*3, 4096 )
       ISEED(4) = MOD( 4311 + TESTNUM*10 + SRC*2, 4096 )
 *
-      DO 10 J = 1, N
-         DO 10 I = 1, M
+      DO J = 1, N
+         DO I = 1, M
             A(I, J) = IBTRAN( ISEED )
-   10 CONTINUE
+         END DO
+      END DO
 *
       RETURN
 *
@@ -7540,10 +7541,11 @@
       ISEED(3) = MOD( 1234 + TESTNUM + SRC*3, 4096 )
       ISEED(4) = MOD( 4311 + TESTNUM*10 + SRC*2, 4096 )
 *
-      DO 10 J = 1, N
-         DO 10 I = 1, M
+      DO J = 1, N
+         DO I = 1, M
             A(I, J) = SBTRAN( ISEED )
-   10 CONTINUE
+         END DO
+      END DO
 *
       RETURN
 *
@@ -8604,10 +8606,11 @@
       ISEED(3) = MOD( 1234 + TESTNUM + SRC*3, 4096 )
       ISEED(4) = MOD( 4311 + TESTNUM*10 + SRC*2, 4096 )
 *
-      DO 10 J = 1, N
-         DO 10 I = 1, M
+      DO J = 1, N
+         DO I = 1, M
             A(I, J) = DBTRAN( ISEED )
-   10 CONTINUE
+         END DO
+      END DO
 *
       RETURN
 *
@@ -9668,10 +9671,11 @@
       ISEED(3) = MOD( 1234 + TESTNUM + SRC*3, 4096 )
       ISEED(4) = MOD( 4311 + TESTNUM*10 + SRC*2, 4096 )
 *
-      DO 10 J = 1, N
-         DO 10 I = 1, M
+      DO J = 1, N
+         DO I = 1, M
             A(I, J) = CBTRAN( ISEED )
-   10 CONTINUE
+         END DO
+      END DO
 *
       RETURN
 *
@@ -9761,30 +9765,30 @@
 *     Put check buffer in front of A
 *
       IF( IPRE .GT. 0 ) THEN
-         DO 10 I = 1, IPRE
+         DO I = 1, IPRE
             MEM( I ) = CHECKVAL
-   10    CONTINUE
+         END DO
       END IF
 *
 *     Put check buffer in back of A
 *
       IF( IPOST .GT. 0 ) THEN
          J = IPRE + LDA*N + 1
-         DO 20 I = J, J+IPOST-1
+         DO I = J, J+IPOST-1
             MEM( I ) = CHECKVAL
-   20    CONTINUE
+         END DO
       END IF
 *
 *     Put check buffer in all (LDA-M) gaps
 *
       IF( LDA .GT. M ) THEN
          K = IPRE + M + 1
-         DO 40 J = 1, N
-            DO 30 I = K, K+LDA-M-1
+         DO J = 1, N
+            DO I = K, K+LDA-M-1
                MEM( I ) = CHECKVAL
-   30       CONTINUE
+            END DO
             K = K + LDA
-   40    CONTINUE
+         END DO
       END IF
 *
 *     If the matrix is upper or lower trapezoidal, calculate the
@@ -10736,10 +10740,11 @@
       ISEED(3) = MOD( 1234 + TESTNUM + SRC*3, 4096 )
       ISEED(4) = MOD( 4311 + TESTNUM*10 + SRC*2, 4096 )
 *
-      DO 10 J = 1, N
-         DO 10 I = 1, M
+      DO J = 1, N
+         DO I = 1, M
             A(I, J) = ZBTRAN( ISEED )
-   10 CONTINUE
+         END DO
+      END DO
 *
       RETURN
 *
