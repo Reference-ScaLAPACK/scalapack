@@ -658,7 +658,7 @@ void pcswap_( N, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
                                      YnprocsD );
                   PB_CVMinit( &VM, 0, XnpD, YnpD, Xinb1D, Yinb1D, XnbD, YnbD,
                               p, q, XnprocsD, YnprocsD, lcmb );
-                  if( npq = PB_CVMnpq( &VM ) )
+                  if( ( npq = PB_CVMnpq( &VM ) ) )
                   {
                      if( (    RRorCC   && ( Xroc ==   Yroc ) &&
                            ( XprocR == YprocR ) ) ||
