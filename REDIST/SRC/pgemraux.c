@@ -157,14 +157,14 @@ localsize(Int myprow, Int p, Int nbrow, Int m)
 	blockheight = (m / templateheight) * nbrow + nbrow;
       } else {	/* processor (myprow,mypcol)'s part is not complete */
 	blockheight = (m / templateheight) * nbrow + (m % nbrow);
-      };	/* if ((m%templateheight) > (nbrow*(myprow+1))) */
+      }	/* if ((m%templateheight) > (nbrow*(myprow+1))) */
     } else {	/* processor (myprow,mypcol) has no element in that
 		 * incomplete template */
       blockheight = (m / templateheight) * nbrow;
-    };	/* if ((m%templateheight) > (nbrow*myprow)) */
+    }	/* if ((m%templateheight) > (nbrow*myprow)) */
   } else {	/* exact boundary */
     blockheight = m / p;	/* (m/templateheight) * nbrow */
-  };	/* if (m%templateheight !=0) */
+  }	/* if (m%templateheight !=0) */
   return blockheight;
 }
 /****************************************************************/

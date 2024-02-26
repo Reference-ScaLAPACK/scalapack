@@ -154,7 +154,7 @@ Int BI_ContxtNum(BLACSCONTEXT *ctxt);
    (npcol0) = (ctxt)->rscp.Np;\
    (myrow0) = (ctxt)->cscp.Iam;\
    (mycol0) = (ctxt)->rscp.Iam;\
-}
+} (void)0
 
 /*
  * These routines return coordinates based on nodes number, or node number
@@ -166,9 +166,9 @@ Int BI_ContxtNum(BLACSCONTEXT *ctxt);
 {\
    (prow) = (node) / (ctxt)->rscp.Np;\
    (pcol) = (node) % (ctxt)->rscp.Np;\
-}
+} (void)0
 #define Mvpcoord(ctxt, node, prow, pcol) \
-        Mpcoord((ctxt), (node), (prow), (pcol));
+        Mpcoord((ctxt), (node), (prow), (pcol))
 
 #define Mkpnum(ctxt, prow, pcol)  ( (prow)*(ctxt)->rscp.Np+(pcol) )
 #define Mvkpnum(ctxt, prow, pcol) ( (prow)*(ctxt)->rscp.Np+(pcol) )
@@ -178,7 +178,7 @@ Int BI_ContxtNum(BLACSCONTEXT *ctxt);
  */
 #define Mscopeid(ctxt) (ctxt)->scp->ScpId; \
    if (++(ctxt)->scp->ScpId == (ctxt)->scp->MaxId) \
-      (ctxt)->scp->ScpId = (ctxt)->scp->MinId;
+      (ctxt)->scp->ScpId = (ctxt)->scp->MinId
 
 /*
  *  Get context, and check for validity if debug level is high
@@ -195,13 +195,13 @@ Int BI_ContxtNum(BLACSCONTEXT *ctxt);
       BI_BlacsErr(-1, __LINE__, __FILE__, "Invalid context, handle=%d",\
                   (Context));\
    (ctxtptr) = BI_MyContxts[(Context)];\
-}
+} (void)0
 #else
 #define MGetConTxt(Context, ctxtptr)\
 {\
    extern BLACSCONTEXT **BI_MyContxts;\
    (ctxtptr) = BI_MyContxts[(Context)];\
-}
+} (void)0
 #endif
 /*
  * This macro handles MPI errors
@@ -223,7 +223,7 @@ Int BI_ContxtNum(BLACSCONTEXT *ctxt);
 { \
    extern Int BI_Iam; \
    fprintf(stderr, "%d: line %d of file %s\n", BI_Iam, __LINE__, __FILE__); \
-}
+} (void)0
 
 /*
  * These macros allow for the funky function declarations and character handling
@@ -282,7 +282,7 @@ Int BI_ContxtNum(BLACSCONTEXT *ctxt);
    else\
       (length) = ( (m) * ( (n) - (m) ) + ( (m)*(m) ) - ( (m)*(m) )/2 +\
                    (m)/2 - (m) * (length) ) * (bytes);\
-}
+} (void)0
 
 /*
  * These macros call the correct packing/unpacking routines
