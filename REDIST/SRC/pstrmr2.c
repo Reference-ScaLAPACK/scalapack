@@ -156,7 +156,7 @@ insidemat(uplo, diag, i, j, m, n, offset)
     Int   virtualline;	/* virtual first line if the matrix was extended with
 			 * negative indices */
     Int   off;
-    diagcol = max(n - m, 0);;
+    diagcol = max(n - m, 0);
     virtualline = j - diagcol + (toupper(*diag) == 'U');
     firstline = max(0, virtualline);
     off = max(firstline - i, 0);
@@ -230,7 +230,7 @@ intersect(uplo, diag,
     printf("action is  %d outside the scope of the case [0..2] !! \n ", action);
     exit(0);
     break;
-  };	/* switch (action) */
+  }	/* switch (action) */
 }/* intersect() */
 /* scan_intervals: scans two distributions in one dimension, and compute the
  * intersections on the local processor. result must be long enough to

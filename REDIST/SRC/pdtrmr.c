@@ -473,11 +473,11 @@ Cpdtrmr2d(uplo, diag, m, n,
   if (myprow0 >= 0 && mypcol0 >= 0) {
     /* Initialize pointer variables */
     setmemory(&ptrsendbuff, memoryblocksize(ma));
-  };	/* if (mypnum < p0 * q0) */
+  }	/* if (mypnum < p0 * q0) */
   if (myprow1 >= 0 && mypcol1 >= 0) {
     /* Initialize pointer variables */
     setmemory(&ptrrecvbuff, memoryblocksize(mb));
-  };	/* if (mypnum < p1 * q1) */
+  }	/* if (mypnum < p1 * q1) */
   /* allocing room for the tabs, alloc for the worst case,local_n or local_m
    * intervals, in fact the worst case should be less, perhaps half that,I
    * should think of that one day. */
@@ -573,10 +573,10 @@ after_comm:
   /* don't forget to clean up things! */
   if (myprow1 >= 0 && mypcol1 >= 0) {
     freememory((char *) ptrrecvbuff);
-  };
+  }
   if (myprow0 >= 0 && mypcol0 >= 0) {
     freememory((char *) ptrsendbuff);
-  };
+  }
   if (nprow != 1)
     Cblacs_gridexit(gcontext);
   free(v_inter);

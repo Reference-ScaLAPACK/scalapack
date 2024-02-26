@@ -140,7 +140,7 @@
               inbt_ = (inb_) - (i_); \
               if( inbt_ <= 0 ) \
                  inbt_ = ( (-inbt_) / (nb_) + 1 ) * (nb_) + inbt_; \
-              inbt_ = MIN( inbt_, (n_) );
+              inbt_ = MIN( inbt_, (n_) )
 
 #define    Mlastnb( inbt_, n_, i_, inb_, nb_ ) \
               inbt_ = (i_) + (n_) - (inb_); \
@@ -149,7 +149,7 @@
                  inbt_ = -( ( (nb_)+inbt_-1 )/(nb_)-1 )*(nb_) + inbt_; \
                  inbt_ = MIN( inbt_, (n_) ); \
               } \
-              else { inbt_ = (n_); };
+              else { inbt_ = (n_); } (void)0
 /*
 *  Does the index interval i_:i_+n_-1 spans more than one process rows
 *  or columns ?
@@ -194,7 +194,7 @@
               { \
                  ig_ = (il_); \
               } \
-           }
+           } (void)0
 /*
 *  Mindxg2p returns the process coodinate owning the entry globally
 *  indexed by ig_.
@@ -211,7 +211,7 @@
               { \
                  proc_ = (srcproc_); \
               } \
-           }
+           } (void)0
 /*
 *  Mnumroc computes the # of local indexes np_ residing in the process
 *  of coordinate proc_ corresponding to the interval of global indexes
@@ -294,7 +294,7 @@
               { \
                  np_ = (n_); \
               } \
-           }
+           } (void)0
 
 #define    Mnpreroc( np_, n_, i_, inb_, nb_, proc_, srcproc_, nprocs_ ) \
            { \
@@ -367,7 +367,7 @@
               { \
                  np_ = 0; \
               } \
-           }
+           } (void)0
 
 #define    Mnnxtroc( np_, n_, i_, inb_, nb_, proc_, srcproc_, nprocs_ ) \
            { \
@@ -422,7 +422,7 @@
               } \
               else \
               { np_ = 0; } \
-           }
+           } (void)0
 
 
 #define    Minfog2l( i_, j_, desc_, nr_, nc_, r_, c_, ii_, jj_, pr_, pc_ ) \
@@ -491,7 +491,7 @@
               { \
                  jj_ = (j_); \
               } \
-           }
+           } (void)0
 
 /*
 *  The following macros initialize or translate descriptors.
@@ -509,7 +509,7 @@
               (desc)[RSRC_ ] = (rsrc);  \
               (desc)[CSRC_ ] = (csrc);  \
               (desc)[LLD_  ] = (lld);   \
-           }
+           } (void)0
 
 #define    MDescCopy(DescIn, DescOut) \
            { \
@@ -524,7 +524,7 @@
               (DescOut)[CSRC_ ] = (DescIn)[CSRC_ ];    \
               (DescOut)[CTXT_ ] = (DescIn)[CTXT_ ];    \
               (DescOut)[LLD_  ] = (DescIn)[LLD_  ];    \
-           }
+           } (void)0
 
 #define    MDescTrans(DescIn, DescOut) \
            { \
@@ -570,13 +570,13 @@
                  (DescOut)[CSRC_ ] = 0;           \
                  (DescOut)[LLD_  ] = 1;           \
               } \
-           }
+           } (void)0
 
 #define    MIndxTrans( I, J, i, j ) \
            { \
               i = *I - 1; \
               j = *J - 1; \
-           }
+           } (void)0
 
 #if( _F2C_CALL_ == _F2C_ADD_ )
 /*

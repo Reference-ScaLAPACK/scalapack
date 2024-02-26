@@ -654,7 +654,7 @@ void PB_Cpaxpby( TYPE, CONJUG, M, N, ALPHA, A, IA, JA, DESCA, AROC,
                                      BnprocsD );
                   PB_CVMinit( &VM, 0, AnpD, BnpD, Ainb1D, Binb1D, AnbD, BnbD,
                               p, q, AnprocsD, BnprocsD, lcmb );
-                  if( npq = PB_CVMnpq( &VM ) )
+                  if( ( npq = PB_CVMnpq( &VM ) ) )
                   {
                      if( ( RRorCC && ( Aroc == Broc ) &&
                            ( AisR || ( AprocR == BprocR ) ) ) ||
