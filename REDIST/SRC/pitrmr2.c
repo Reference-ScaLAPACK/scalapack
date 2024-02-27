@@ -118,7 +118,7 @@ setmemory(Int **adpointer, Int blocksize)
     return;
   }
   *adpointer = (Int *) mr2d_malloc(
-				   blocksize * sizeof(Int));
+				   (size_t)blocksize * sizeof(Int));
 }
 /******************************************************************/
 /* Free the memory space after the malloc */

@@ -104,11 +104,12 @@ extern void Cpigemr2d();
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+const size_t NEGFLAG = ~( ((size_t)-1) >> 1);
 void *
-mr2d_malloc(Int n)
+mr2d_malloc(size_t n)
 {
   void *ptr;
-  assert(n > 0);
+  assert((n & NEGFLAG) == 0);
   ptr = (void *) malloc(n);
   if (ptr == NULL) {
     fprintf(stderr, "xxmr2d:out of memory\n");
