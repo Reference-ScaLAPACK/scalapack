@@ -121,7 +121,7 @@ setmemory(complex **adpointer, Int blocksize)
     return;
   }
   *adpointer = (complex *) mr2d_malloc(
-				       blocksize * sizeof(complex));
+				       (size_t)blocksize * sizeof(complex));
 }
 /******************************************************************/
 /* Free the memory space after the malloc */
