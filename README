@@ -23,10 +23,12 @@ ScaLAPACK README FILE
  VERSION 2.0 :  November, 2011
    VERSION 2.0.1 :  January, 2012
    VERSION 2.0.2 :  May, 2012
- 
+
  VERSION 2.1 :  Nov, 2019
 
  VERSION 2.2 :  Feb 2022
+
+ VERSION 2.2.2 :  Jan 2025
 
 ScaLAPACK, or Scalable LAPACK, is a library of high performance linear
 algebra routines for distributed memory computers supporting MPI.
@@ -68,7 +70,7 @@ New in version 2.0:
   pssyevr, pdsyevr, pcheevr and pzheevr.
 
 - New Nonsymmetric Eigenvalue Problem QR routines for computing
-  eigenvalues of a Hessenberg matrix are included for real matrices:  
+  eigenvalues of a Hessenberg matrix are included for real matrices:
   pshseqr and pdhseqr.
 
 Unless otherwise noted, the current scalapack.tgz on netlib contains
@@ -88,11 +90,11 @@ The ScaLAPACK User's Guide for ScaLAPACK version 1.5 is available
 from SIAM at:
 
  http://www.ec-securehost.com/SIAM/SE04.html
- 
+
 To view an HTML version of the Users' Guide for version 1.5, see:
- 
+
  http://www.netlib.org/scalapack/slug/
- 
+
 A number of technical reports were written during the development of
 ScaLAPACK and published as LAPACK Working Notes by the University
 of Tennessee.  These working notes are available at:
@@ -112,13 +114,13 @@ directory structure below:
     |        |        |             |             |           |           |
     |        |        |             |             |           |           |
   BLACS/   EXAMPLE/ PBLAS/       REDIST/         SRC/      TESTING/     TOOLS/
-                                                           / Input \                
+                                                           / Input \
                                                           / Files & \
                                                          /Executables\
-                                   
+
 
 NOTE:  It is assumed that the BLAS and LAPACK libraries (and MPI)
-       are available on your machine.  These libraries are NOT included 
+       are available on your machine.  These libraries are NOT included
        with this distribution, and may be obtained at the sites below.
 
        http://www.netlib.org/blas/
@@ -131,7 +133,7 @@ All ScaLAPACK routines -- driver, computational, and auxiliary -- can be
 found in the SRC/ directory.  Testing routines and input files can be found
 in the TESTING/ directory.  All machine-specific parameters and the locations
 of BLAS and LAPACK libraries are specified in the SCALAPACK/SLmake.inc file.
-This include file is then referenced in all subdirectory Makefiles.  Once 
+This include file is then referenced in all subdirectory Makefiles.  Once
 the include file has been modified, the entire installation process (including
 the building of testing executables) can be performed by typing ``make''
 in the top-level ScaLAPACK directory.
