@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-project(SCALAPACK VERSION 2.2.1 LANGUAGES C Fortran)
+project(SCALAPACK VERSION 2.2.2 LANGUAGES C Fortran)
 
 # Configure the warning and code coverage suppression file
 configure_file(
@@ -26,7 +26,7 @@ set(CMAKE_PREFIX_PATH "${MPI_BASE_DIR};${CMAKE_PREFIX_PATH}")
 find_package(MPI)
 if (MPI_FOUND)
    message(STATUS "Found MPI_LIBRARY : ${MPI_FOUND} ")
-   
+
    find_program(MPI_C_COMPILER
       NAMES mpicc
       HINTS "${MPI_BASE_DIR}"
