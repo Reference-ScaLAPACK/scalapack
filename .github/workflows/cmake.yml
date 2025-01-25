@@ -24,7 +24,7 @@ env:
   CFLAGS: "-Wall -pedantic"
   FFLAGS: "-fcheck=all,no-bounds"
   BUILD_TYPE: Release
-  MPIEXEC_PREFLAGS: "--oversubscribe"
+  MPIEXEC_PREFLAGS: "--oversubscribe;--map-by;core"
 
 defaults:
   run:
@@ -60,7 +60,7 @@ jobs:
         -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/scalapack_install
         -D BUILD_SHARED_LIBS=ON
         -D SCALAPACK_BUILD_TESTS=ON
-        -D MPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
+        -D MPIEXEC_PREFLAGS="${{env.MPIEXEC_PREFLAGS}}"
         
     - name: Build
       working-directory: ${{github.workspace}}/build
