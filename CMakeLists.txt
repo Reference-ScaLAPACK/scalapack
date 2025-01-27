@@ -77,6 +77,15 @@ if (UNIX)
    endif ()
 endif ()
 
+
+if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
+  if(CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10.0)
+    # Fixes #73, ensure fallow-argument-mismatch is present for GCC >= 10 releases
+    message(STATUS "Adding '-fallow-argument-mismatch' for GNU >= 10.0")
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fallow-argument-mismatch")
+  endif()
+endif()
+
 macro(SCALAPACK_install_library lib)
   install(TARGETS ${lib} EXPORT scalapack-targets
     ARCHIVE DESTINATION lib${LIB_SUFFIX}
