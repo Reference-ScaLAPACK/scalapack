@@ -10,13 +10,6 @@ void Creshape( Int context_in, Int major_in, Int* context_out, Int major_out,
 column major (2) in the input and output grids */
 {
 
-   /** called subprograms **/
-   void proc_inc();
-   void Cblacs_gridinfo();
-   Int Cblacs_pnum();
-   void Cblacs_get();
-   void Cblacs_gridmap();
-
    /** variables **/
    Int i, j;
    Int nprow_in, npcol_in, myrow_in, mycol_in;
