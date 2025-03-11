@@ -79,8 +79,6 @@ endif ()
 
 macro(SCALAPACK_install_library lib)
   install(TARGETS ${lib} EXPORT scalapack-targets
-    ARCHIVE DESTINATION lib${LIB_SUFFIX}
-    LIBRARY DESTINATION lib${LIB_SUFFIX}
     RUNTIME DESTINATION Testing
   )
 endmacro()
@@ -120,9 +118,8 @@ endif ()
 include( CheckBLACSCompilerFlags )
 CheckBLACSCompilerFlags()
 
-set(prefix ${CMAKE_INSTALL_PREFIX})
-set(libdir ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX})
-set(PKG_CONFIG_DIR ${libdir}/pkgconfig)
+include(GNUInstallDirs)
+set(PKG_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/pkgconfig CACHE PATH "pkg-config install path")
 
 # --------------------------------------------------
 # BLACS Internal variables
@@ -307,7 +304,7 @@ export(TARGETS scalapack FILE scalapack-targets.cmake)
 if( NOT LAPACK_FOUND )
  install(FILES
   ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES}
-  DESTINATION lib
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}
    )
 endif( NOT LAPACK_FOUND )
 
@@ -327,8 +324,8 @@ configure_file(${SCALAPACK_SOURCE_DIR}/CMAKE/scalapack-config-install.cmake.in
 install(FILES
   ${SCALAPACK_BINARY_DIR}/CMakeFiles/scalapack-config.cmake
   ${SCALAPACK_BINARY_DIR}/scalapack-config-version.cmake
-  DESTINATION lib/cmake/scalapack-${SCALAPACK_VERSION}
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack-${SCALAPACK_VERSION}
   )
 
 install(EXPORT scalapack-targets
-  DESTINATION lib/cmake/scalapack-${SCALAPACK_VERSION})
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack-${SCALAPACK_VERSION})
