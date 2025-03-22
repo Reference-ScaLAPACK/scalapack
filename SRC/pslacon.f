@@ -186,6 +186,7 @@
 *
 *     Get grid parameters.
 *
+      EST = ZERO
       ESTWORK( 1 ) = EST
       ICTXT = DESCX( CTXT_ )
       CALL BLACS_GRIDINFO( ICTXT, NPROW, NPCOL, MYROW, MYCOL )
