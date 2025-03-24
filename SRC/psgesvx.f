@@ -422,7 +422,7 @@
      $                   IROFFX, IXCOL, IXROW, J, JJA, JJB, JJX,
      $                   LCM, LCMQ,
      $                   LIWMIN, LWMIN, MYCOL, MYROW, NP, NPCOL, NPROW,
-     $                   NQ, NQB, NRHSQ, RFSWRK
+     $                   NQ, NQB, NRHSQ, RFSWRK, ICOLEQU
       REAL               AMAX, ANORM, BIGNUM, COLCND, RCMAX, RCMIN,
      $                   ROWCND, SMLNUM
 *     ..
@@ -656,6 +656,12 @@
          RETURN
       END IF
 *
+*     COLEQU is local but when it is required, the column scaling factors need to be
+*     broadcast to all processes.
+*     The variable ICOLEQU is used to label if the current processs applies column
+*     equilibration, it is later communicated to all processes via a amx operation.
+*
+      ICOLEQU = 0
       IF( EQUIL ) THEN
 *
 *        Compute row and column scalings to equilibrate the matrix A.
@@ -670,6 +676,7 @@
      $                    AMAX, EQUED )
             ROWEQU = LSAME( EQUED, 'R' ) .OR. LSAME( EQUED, 'B' )
             COLEQU = LSAME( EQUED, 'C' ) .OR. LSAME( EQUED, 'B' )
+            IF( COLEQU ) ICOLEQU = 1
          END IF
       END IF
 *
@@ -781,7 +788,13 @@
      $   NRHSQ = NRHSQ-ICOFFX
 *
       IF( NOTRAN ) THEN
-         IF( COLEQU ) THEN
+*
+*        Apply a `amx` operation to see if any process requires column scaling
+*        factors.
+*
+         CALL IGAMX2D( ICTXT, 'All', ' ', 1, 1, ICOLEQU, 1, 0, 0, -1,
+     $                 -1, -1 )
+         IF( ICOLEQU.EQ.1 ) THEN
 *
 *           Transpose the column scaling factors
 *
@@ -797,6 +810,8 @@
      $                        WORK( IIX ), DESCX( LLD_ ), MYROW, IBCOL )
             END IF
 *
+         END IF
+         IF( COLEQU ) THEN
             DO 80 J = JJX, JJX+NRHSQ-1
                DO 70 I = IIX, IIX+NP-1
                   X( I+( J-1 )*DESCX( LLD_ ) ) = WORK( I )*
