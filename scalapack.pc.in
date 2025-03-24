@@ -1,5 +1,5 @@
-prefix=@prefix@
-libdir=@libdir@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
 
 Name: scalapack
 Description: SCALAPACK reference implementation
