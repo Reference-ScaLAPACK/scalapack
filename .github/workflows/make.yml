@@ -2,16 +2,9 @@ name: Makefile CI
 
 on:
   push:
-    paths-exclude:
-    - '.github/workflows/cmake.yml'
-    - '.gitignore'
-    - 'README'
-    - '**README'
-    - 'LICENSE'
-    - 'CMAKE**'
-    - '**CMakeLists.txt'
+    branches: [master]
   pull_request:
-    paths-exclude:
+    paths-ignore:
     - '.github/workflows/cmake.yml'
     - '.gitignore'
     - 'README'
@@ -19,6 +12,10 @@ on:
     - 'LICENSE'
     - 'CMAKE**'
     - '**CMakeLists.txt'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 defaults:
   run:

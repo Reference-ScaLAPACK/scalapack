@@ -2,16 +2,9 @@ name: CMake CI
 
 on:
   push:
-    paths-exclude:
-    - '.github/workflows/make.yml'
-    - '.gitignore'
-    - 'README'
-    - '**README'
-    - 'LICENSE'
-    - '**Makefile'
-    - 'SLmake.inc.example'
+    branches: [master]
   pull_request:
-    paths-exclude:
+    paths-ignore:
     - '.github/workflows/make.yml'
     - '.gitignore'
     - 'README'
@@ -20,10 +13,14 @@ on:
     - '**Makefile'
     - 'SLmake.inc.example'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   CFLAGS: "-Wall -pedantic"
   FFLAGS: "-fcheck=all,no-bounds"
-  BUILD_TYPE: Release
+  CMAKE_BUILD_TYPE: Release
   MPIEXEC_PREFLAGS: "--oversubscribe"
 
 defaults:
@@ -33,15 +30,22 @@ defaults:
 jobs:
 
   build-all:
+    name: >
+      CMake ${{ matrix.cmake }}
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        # CMake versions to test:
+        # - minimum and maximum in the `cmake_minimum_required`
+        #   (if needed expand this to add all intermediate values
+        #    for *temporary* CI testing)
+        # - latest version
+        cmake: ["3.26", "4.0", latest]
+      fail-fast: false
     steps:
 
     - name: Checkout ScaLAPACK
-      uses: actions/checkout@v2
-
-    - name: Install ninja-build tool
-      uses: seanmiddleditch/gha-setup-ninja@v3
+      uses: actions/checkout@v4
 
     - name: Setup MPI
       # uses: mpi4py/setup-mpi@v1
@@ -51,29 +55,32 @@ jobs:
 
     - name: Install BLAS and LAPACK
       run: sudo apt -y install libblas-dev liblapack-dev
-        
+
+    - name: Setup CMake
+      uses: jwlawson/actions-setup-cmake@v2
+      with:
+        cmake-version: ${{ matrix.cmake }}
+
     - name: CMake configuration
+      # TODO: Use cmake presets for newer versions
+      # TODO: Simplify the defaults to not require configuration
       run: >
-        cmake -B build
-        -G Ninja
-        -D CMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-        -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/scalapack_install
-        -D BUILD_SHARED_LIBS=ON
-        -D SCALAPACK_BUILD_TESTS=ON
-        -D MPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
-        
+        cmake -B build \
+          -G Ninja \
+          -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}} \
+          -DBUILD_SHARED_LIBS=ON \
+          -DSCALAPACK_BUILD_TESTS=ON \
+          -DMPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
+
     - name: Build
-      working-directory: ${{github.workspace}}/build
-      run: |
-        ctest -D ExperimentalStart
-        ctest -D ExperimentalConfigure
-        ctest -D ExperimentalBuild
+      run: >
+        cmake --build build
 
     - name: Test
+      # CMake<3.20 does not have -B option
       working-directory: ${{github.workspace}}/build
-      run: |
-        ctest -D ExperimentalTest --schedule-random --output-on-failure --timeout 180
-        ctest -D ExperimentalSubmit
-        
+      run: >
+        ctest --output-on-failure
+
     - name: Install
-      run: cmake --build build --target install
+      run: cmake --install build --prefix scalapack_install
