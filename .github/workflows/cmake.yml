@@ -2,16 +2,9 @@ name: CMake CI
 
 on:
   push:
-    paths-exclude:
-    - '.github/workflows/make.yml'
-    - '.gitignore'
-    - 'README'
-    - '**README'
-    - 'LICENSE'
-    - '**Makefile'
-    - 'SLmake.inc.example'
+    branches: [master]
   pull_request:
-    paths-exclude:
+    paths-ignore:
     - '.github/workflows/make.yml'
     - '.gitignore'
     - 'README'
@@ -19,6 +12,10 @@ on:
     - 'LICENSE'
     - '**Makefile'
     - 'SLmake.inc.example'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   CFLAGS: "-Wall -pedantic"
@@ -77,7 +74,7 @@ jobs:
           -DBUILD_SHARED_LIBS=ON \
           -DSCALAPACK_BUILD_TESTS=ON \
           -DMPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
-        
+
     - name: Build
       run: >
         cmake --build build
@@ -87,7 +84,7 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: >
         ctest --output-on-failure
-        
+
     - name: Install (CMake < 3.15)
       run: DESTDIR=scalapack_install cmake --build build --target install
       if: ${{ matrix.cmake == '3.9' }}
