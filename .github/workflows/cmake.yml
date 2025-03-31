@@ -40,7 +40,7 @@ jobs:
         #   (if needed expand this to add all intermediate values
         #    for *temporary* CI testing)
         # - latest version
-        cmake: ["3.9", "4.0", latest]
+        cmake: ["3.26", "4.0", latest]
       fail-fast: false
     steps:
 
@@ -64,11 +64,8 @@ jobs:
     - name: CMake configuration
       # TODO: Use cmake presets for newer versions
       # TODO: Simplify the defaults to not require configuration
-      run: |
-        # CMake<3.13 does not have -B option
-        mkdir build
-        cd build
-        cmake .. \
+      run: >
+        cmake -B build \
           -G Ninja \
           -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}} \
           -DBUILD_SHARED_LIBS=ON \
@@ -85,10 +82,5 @@ jobs:
       run: >
         ctest --output-on-failure
 
-    - name: Install (CMake < 3.15)
-      run: DESTDIR=scalapack_install cmake --build build --target install
-      if: ${{ matrix.cmake == '3.9' }}
-    - name: Install (CMake >= 3.15)
+    - name: Install
       run: cmake --install build --prefix scalapack_install
-      if: ${{ matrix.cmake != '3.9' }}
-    # TODO: Separate the test suite to be able to test the actual install package
