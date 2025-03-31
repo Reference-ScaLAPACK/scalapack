@@ -2,13 +2,6 @@ cmake_minimum_required(VERSION 3.9...4.0)
 
 project(SCALAPACK VERSION 2.2.2 LANGUAGES C Fortran)
 
-# Configure the warning and code coverage suppression file
-configure_file(
-  "${SCALAPACK_SOURCE_DIR}/CMAKE/CTestCustom.cmake.in"
-  "${SCALAPACK_BINARY_DIR}/CTestCustom.cmake"
-  COPYONLY
-)
-
 # Add the CMake directory for custon CMake modules
 set(CMAKE_MODULE_PATH "${SCALAPACK_SOURCE_DIR}/CMAKE" ${CMAKE_MODULE_PATH})
 
@@ -87,8 +80,6 @@ endmacro()
 # Testing
 SET(DART_TESTING_TIMEOUT 600)
 
-enable_testing()
-include(CTest)
 enable_testing()
 # --------------------------------------------------
 

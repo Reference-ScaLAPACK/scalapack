@@ -79,17 +79,14 @@ jobs:
           -DMPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
         
     - name: Build
-      working-directory: ${{github.workspace}}/build
-      run: |
-        ctest -D ExperimentalStart
-        ctest -D ExperimentalConfigure
-        ctest -D ExperimentalBuild
+      run: >
+        cmake --build build
 
     - name: Test
+      # CMake<3.20 does not have -B option
       working-directory: ${{github.workspace}}/build
-      run: |
-        ctest -D ExperimentalTest --schedule-random --output-on-failure --timeout 180
-        ctest -D ExperimentalSubmit
+      run: >
+        ctest --output-on-failure
         
     - name: Install (CMake < 3.15)
       run: DESTDIR=scalapack_install cmake --build build --target install
