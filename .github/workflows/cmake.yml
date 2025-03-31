@@ -23,7 +23,7 @@ on:
 env:
   CFLAGS: "-Wall -pedantic"
   FFLAGS: "-fcheck=all,no-bounds"
-  BUILD_TYPE: Release
+  CMAKE_BUILD_TYPE: Release
   MPIEXEC_PREFLAGS: "--oversubscribe"
 
 defaults:
@@ -48,10 +48,7 @@ jobs:
     steps:
 
     - name: Checkout ScaLAPACK
-      uses: actions/checkout@v2
-
-    - name: Install ninja-build tool
-      uses: seanmiddleditch/gha-setup-ninja@v3
+      uses: actions/checkout@v4
 
     - name: Setup MPI
       # uses: mpi4py/setup-mpi@v1
@@ -68,14 +65,18 @@ jobs:
         cmake-version: ${{ matrix.cmake }}
 
     - name: CMake configuration
-      run: >
-        cmake -B build
-        -G Ninja
-        -D CMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-        -D CMAKE_INSTALL_PREFIX=${{github.workspace}}/scalapack_install
-        -D BUILD_SHARED_LIBS=ON
-        -D SCALAPACK_BUILD_TESTS=ON
-        -D MPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
+      # TODO: Use cmake presets for newer versions
+      # TODO: Simplify the defaults to not require configuration
+      run: |
+        # CMake<3.13 does not have -B option
+        mkdir build
+        cd build
+        cmake .. \
+          -G Ninja \
+          -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}} \
+          -DBUILD_SHARED_LIBS=ON \
+          -DSCALAPACK_BUILD_TESTS=ON \
+          -DMPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
         
     - name: Build
       working-directory: ${{github.workspace}}/build
@@ -90,5 +91,10 @@ jobs:
         ctest -D ExperimentalTest --schedule-random --output-on-failure --timeout 180
         ctest -D ExperimentalSubmit
         
-    - name: Install
-      run: cmake --build build --target install
+    - name: Install (CMake < 3.15)
+      run: DESTDIR=scalapack_install cmake --build build --target install
+      if: ${{ matrix.cmake == '3.9' }}
+    - name: Install (CMake >= 3.15)
+      run: cmake --install build --prefix scalapack_install
+      if: ${{ matrix.cmake != '3.9' }}
+    # TODO: Separate the test suite to be able to test the actual install package
