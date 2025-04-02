@@ -15,3 +15,6 @@ enable_testing()
 
 # Old test-suite
 add_subdirectory(traditional)
+
+# Packaging tests
+add_subdirectory(package)
