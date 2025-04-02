@@ -259,6 +259,16 @@ endif()
 option(SCALAPACK_BUILD_TESTS "Build all tests of the ScaLAPACK library" ON)
 if(${SCALAPACK_BUILD_TESTS})
   add_subdirectory(TESTING)
+  # Make sure that the build artifacts are exported for the test-suite
+  foreach(target IN ITEMS scalapack scalapack-F)
+      if(TARGET ${target})
+          export(TARGETS ${target}
+              FILE scalapackTargets.cmake
+              NAMESPACE scalapack::
+              APPEND
+          )
+      endif()
+  endforeach()
 endif()
 
 # --------------------------------------------------
