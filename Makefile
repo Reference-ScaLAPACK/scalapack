@@ -81,8 +81,8 @@ pblasexe:
 	( cd PBLAS/TIMING; $(MAKE) $(PRECISIONS) )
 
 scalapackexe:
-	( cd TESTING/LIN; $(MAKE) $(PRECISIONS) )
-	( cd TESTING/EIG; $(MAKE) $(PRECISIONS) )
+	( cd TESTING/traditional/LIN; $(MAKE) $(PRECISIONS) )
+	( cd TESTING/traditional/EIG; $(MAKE) $(PRECISIONS) )
 
 redistexe:
 	( cd REDIST/TESTING; $(MAKE) integer $(PRECISIONS) )
@@ -93,11 +93,12 @@ example:
 cleanexe:
 	( cd PBLAS/TESTING; $(MAKE) clean )
 	( cd PBLAS/TIMING; $(MAKE) clean )
-	( cd TESTING/LIN; $(MAKE) clean )
-	( cd TESTING/EIG; $(MAKE) clean )
+	( cd TESTING/traditional/LIN; $(MAKE) clean )
+	( cd TESTING/traditional/EIG; $(MAKE) clean )
 	( cd REDIST/TESTING; $(MAKE) clean )
 	( cd BLACS/TESTING; $(MAKE) clean )
 	( cd TESTING; rm -f x* )
+	( cd TESTING/traditional; rm -f x* )
 
 cleanlib:
 	( cd BLACS; $(MAKE) clean )
