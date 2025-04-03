@@ -118,11 +118,7 @@ set(PKG_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/pkgconfig CACHE PATH "pkg-config inst
 #   Fortran Mangling, MPI Tests and BLACS settings
 #
 include(FortranMangling)
-COMPILE(install_COMPILED)
 
-if (NOT DEFINED CDEFS)
-  FORTRAN_MANGLING(CDEFS)
-endif ()
 #MESSAGE(STATUS "Setting CDEFS = ${CDEFS}")
 #set(CDEFS ${CDEFS} CACHE STRING "Fortran Mangling" FORCE)
 MESSAGE(STATUS "=========")
