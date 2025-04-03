@@ -1,13 +1,6 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.26...4.0)
 
 project(SCALAPACK VERSION 2.2.2 LANGUAGES C Fortran)
-
-# Configure the warning and code coverage suppression file
-configure_file(
-  "${SCALAPACK_SOURCE_DIR}/CMAKE/CTestCustom.cmake.in"
-  "${SCALAPACK_BINARY_DIR}/CTestCustom.cmake"
-  COPYONLY
-)
 
 # Add the CMake directory for custon CMake modules
 set(CMAKE_MODULE_PATH "${SCALAPACK_SOURCE_DIR}/CMAKE" ${CMAKE_MODULE_PATH})
@@ -88,8 +81,6 @@ endmacro()
 SET(DART_TESTING_TIMEOUT 600)
 
 enable_testing()
-include(CTest)
-enable_testing()
 # --------------------------------------------------
 
 # Organize output files.  On Windows this also keeps .dll files next
@@ -127,11 +118,7 @@ set(PKG_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/pkgconfig CACHE PATH "pkg-config inst
 #   Fortran Mangling, MPI Tests and BLACS settings
 #
 include(FortranMangling)
-COMPILE(install_COMPILED)
 
-if (NOT DEFINED CDEFS)
-  FORTRAN_MANGLING(CDEFS)
-endif ()
 #MESSAGE(STATUS "Setting CDEFS = ${CDEFS}")
 #set(CDEFS ${CDEFS} CACHE STRING "Fortran Mangling" FORCE)
 MESSAGE(STATUS "=========")
