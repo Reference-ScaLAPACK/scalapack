@@ -21,6 +21,21 @@ foreach(file_dat IN ITEMS
     configure_file(${file_dat} ${file_dat} COPYONLY)
 endforeach()
 
+set(traditional_test_workdir ${CMAKE_CURRENT_BINARY_DIR})
+function(add_traditional_test test num_proc)
+    add_test(NAME ${test}
+        COMMAND
+            ${MPIEXEC}
+                ${MPIEXEC_NUMPROC_FLAG} ${num_proc}
+                ${MPIEXEC_PREFLAGS}
+                $<TARGET_FILE:${test}>
+        WORKING_DIRECTORY ${traditional_test_workdir}
+    )
+    set_tests_properties(${test} PROPERTIES
+        PROCESSORS ${num_proc}
+    )
+endfunction()
+
 add_test(xslu ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 2 ${MPIEXEC_PREFLAGS} xslu)
 add_test(xdlu ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 2 ${MPIEXEC_PREFLAGS} xdlu)
 add_test(xclu ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 2 ${MPIEXEC_PREFLAGS} xclu)
