@@ -33,6 +33,24 @@ function(add_traditional_test test num_proc)
     )
 endfunction()
 
+# If gfortran >= 10
+set(genex_gfortran_10
+    "$<AND:$<Fortran_COMPILER_ID:GNU>,$<VERSION_GREATER_EQUAL:$<Fortran_COMPILER_VERSION>,10>>"
+)
+function(setup_test_target)
+    foreach(target IN LISTS ARGN)
+        target_link_libraries(${target} PRIVATE
+            scalapack
+            ${LAPACK_LIBRARIES}
+            ${BLAS_LIBRARIES}
+            MPI::MPI_Fortran
+        )
+        target_compile_options(${target} PRIVATE
+            "$<${genex_gfortran_10}:-std=legacy>"
+        )
+    endforeach()
+endfunction()
+
 add_subdirectory(LIN)
 add_subdirectory(EIG)
 

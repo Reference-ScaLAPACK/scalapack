@@ -58,62 +58,7 @@ add_executable(xdls pdlsdriver.f pdlsinfo.f pdqrt13.f pdqrt14.f pdqrt16.f pdqrt1
 add_executable(xcls pclsdriver.f pclsinfo.f pcqrt13.f pcqrt14.f pcqrt16.f pcqrt17.f ${cmatgen})
 add_executable(xzls pzlsdriver.f pzlsinfo.f pzqrt13.f pzqrt14.f pzqrt16.f pzqrt17.f ${zmatgen})
 
-
-target_link_libraries(xslu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xdlu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xclu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xzlu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-
-target_link_libraries(xsdblu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xddblu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xcdblu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xzdblu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-
-target_link_libraries(xsdtlu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xddtlu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xcdtlu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xzdtlu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-
-target_link_libraries(xsgblu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xdgblu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xcgblu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xzgblu scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-
-target_link_libraries(xsllt scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xdllt scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xcllt scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xzllt scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-
-target_link_libraries(xspbllt scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xdpbllt scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xcpbllt scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xzpbllt scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-
-target_link_libraries(xsptllt scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xdptllt scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xcptllt scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xzptllt scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-
-target_link_libraries(xsinv scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xdinv scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xcinv scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xzinv scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-
-target_link_libraries(xsqr scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xdqr scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xcqr scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xzqr scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-
-target_link_libraries(xsls scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xdls scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xcls scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-target_link_libraries(xzls scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-
-if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "GNU" AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
-    set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -std=legacy" )  # local to this directory
-endif()
-
-foreach(test IN ITEMS
+set(test_set
     xslu
     xdlu
     xclu
@@ -155,5 +100,7 @@ foreach(test IN ITEMS
     xcls
     xzls
 )
+foreach(test IN LISTS test_set)
     add_traditional_test(${test} 2)
 endforeach()
+setup_test_target(${test_set})
