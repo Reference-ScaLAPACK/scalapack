@@ -1,5 +1,3 @@
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SCALAPACK_BINARY_DIR}/TESTING)
-
 set (smatgen psmatgen.f pmatgeninc.f)
 set (dmatgen pdmatgen.f pmatgeninc.f)
 set (cmatgen pcmatgen.f pmatgeninc.f)
