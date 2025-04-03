@@ -112,3 +112,48 @@ target_link_libraries(xzls scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::
 if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "GNU" AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
     set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -std=legacy" )  # local to this directory
 endif()
+
+foreach(test IN ITEMS
+    xslu
+    xdlu
+    xclu
+    xzlu
+    xsdblu
+    xddblu
+    xcdblu
+    xzdblu
+    xsdtlu
+    xddtlu
+    xcdtlu
+    xzdtlu
+    xsgblu
+    xdgblu
+    xcgblu
+    xzgblu
+    xsllt
+    xdllt
+    xcllt
+    xzllt
+    xspbllt
+    xdpbllt
+    xcpbllt
+    xzpbllt
+    xsptllt
+    xdptllt
+    xcptllt
+    xzptllt
+    xsinv
+    xdinv
+    xcinv
+    xzinv
+    xsqr
+    xdqr
+    xcqr
+    xzqr
+    xsls
+    xdls
+    xcls
+    xzls
+)
+    add_traditional_test(${test} 2)
+endforeach()

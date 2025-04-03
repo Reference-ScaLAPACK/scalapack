@@ -98,3 +98,47 @@ target_link_libraries(xdhseqr scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MP
 if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "GNU" AND CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
     set( CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}" )  # local to this directory
 endif()
+
+foreach(test IN ITEMS
+    xsbrd
+    xdbrd
+    xcbrd
+    xzbrd
+    xshrd
+    xdhrd
+    xchrd
+    xzhrd
+    xstrd
+    xdtrd
+    xctrd
+    xztrd
+    xsnep
+    xdnep
+    xcnep
+    xznep
+    xcevc
+    xzevc
+    xshseqr
+    xdhseqr
+)
+    add_traditional_test(${test} 2)
+endforeach()
+
+foreach(test IN ITEMS
+    xssvd
+    xdsvd
+    xssep
+    xdsep
+    xcsep
+    xzsep
+    xsgsep
+    xdgsep
+    xcgsep
+    xzgsep
+    xssyevr
+    xdsyevr
+    xcheevr
+    xzheevr
+)
+    add_traditional_test(${test} 4)
+endforeach()
