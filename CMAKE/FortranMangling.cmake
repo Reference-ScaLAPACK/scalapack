@@ -8,67 +8,36 @@
 #    NoChange
 #    f77IsF2C
 #    UpCase
-#    
+#
 
-FUNCTION(COMPILE RESULT)
-    MESSAGE(STATUS "=========")
-    MESSAGE(STATUS "Compiling and Building BLACS INSTALL Testing to set correct variables")
+include_guard()
 
-    if(CMAKE_BUILD_TYPE)
-      SET(BUILD_TYPE -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE})
-    endif()
-
-   # Configure: 
-    EXECUTE_PROCESS(COMMAND ${CMAKE_COMMAND}  
-        "${PROJECT_SOURCE_DIR}/BLACS/INSTALL"
-        -G ${CMAKE_GENERATOR} ${BUILD_TYPE}
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/BLACS/INSTALL/
-        RESULT_VARIABLE RESVAR OUTPUT_VARIABLE LOG1_OUT ERROR_VARIABLE LOG1_ERR
+block()
+    # TODO: This path is hard-coded
+    set(BLACS_INSTALL_SRC
+        ${CMAKE_CURRENT_LIST_DIR}/../BLACS/INSTALL
     )
-    if(RESVAR EQUAL 0)
-    MESSAGE(STATUS "Configure in the INSTALL directory successful")
-    else()
-    MESSAGE(STATUS " Build Output:\n ${LOG1_OUT}")
-    MESSAGE(STATUS " Error Output:\n ${LOG1_ERR}")
-    MESSAGE(FATAL_ERROR " Configure in the BLACS INSTALL directory FAILED")
-    endif()
 
-    # Build:
-    EXECUTE_PROCESS(COMMAND ${CMAKE_COMMAND} --build
-        ${PROJECT_SOURCE_DIR}/BLACS/INSTALL/ 
-        RESULT_VARIABLE RESVAR OUTPUT_VARIABLE LOG2_OUT ERROR_VARIABLE LOG2_ERR
+    try_run(xintface_res xintface_compile_res
+        SOURCES
+            ${BLACS_INSTALL_SRC}/Fintface.f
+            ${BLACS_INSTALL_SRC}/Cintface.c
+        NO_CACHE
+        COMPILE_OUTPUT_VARIABLE xintface_compile_output
+        RUN_OUTPUT_VARIABLE xintface_output
     )
-    if(RESVAR  EQUAL 0)
-    MESSAGE(STATUS "Build in the BLACS INSTALL directory successful")
-    else()
-    MESSAGE(STATUS " Build Output:\n ${LOG2_OUT}")
-    MESSAGE(STATUS " Error Output:\n ${LOG2_ERR}")
-    MESSAGE(FATAL_ERROR " Build in the BLACS INSTALL directory FAILED")
+    if(NOT xintface_compile_res)
+        message(FATAL_ERROR
+            "Could not compile BLACS/INSTALL:\n"
+            "${xintface_compile_output}"
+        )
     endif()
-    # Clean up:
-    FILE(REMOVE_RECURSE ${PROJECT_SOURCE_DIR}/BLACS/INSTALL/CMakeCache.txt)
-    FILE(REMOVE_RECURSE ${PROJECT_SOURCE_DIR}/BLACS/INSTALL/CMakeFiles )
-ENDFUNCTION()
-
-
-macro(FORTRAN_MANGLING CDEFS)
-MESSAGE(STATUS "=========")
-MESSAGE(STATUS "Testing FORTRAN_MANGLING")
-   
-    execute_process ( COMMAND  ${PROJECT_SOURCE_DIR}/BLACS/INSTALL/xintface
-                         RESULT_VARIABLE xintface_RES
-                         OUTPUT_VARIABLE xintface_OUT
-                         ERROR_VARIABLE xintface_ERR)
-                         
-
-#    MESSAGE(STATUS "FORTRAN MANGLING:RUN \n${xintface_OUT}")
-
-       if (xintface_RES EQUAL 0)
-          STRING(REPLACE "\n" "" xintface_OUT "${xintface_OUT}")
-          MESSAGE(STATUS "CDEFS set to ${xintface_OUT}")
-          SET(CDEFS ${xintface_OUT} CACHE STRING "Fortran Mangling" FORCE)
-      else()
-          MESSAGE(STATUS " xintface Output:\n ${xintface_OUT}")
-          MESSAGE(FATAL_ERROR "FORTRAN_MANGLING:ERROR ${xintface_ERR}")
-      endif() 
-endmacro(FORTRAN_MANGLING)
+    if(NOT ${xintface_res} EQUAL 0)
+        message(FATAL_ERROR
+            "xintface did not execute properly:\n"
+            "${xintface_output}"
+        )
+    endif()
+    string(STRIP "${xintface_output}" xintface_output)
+    set(CDEFS ${xintface_output} CACHE STRING "Fortran Mangling")
+endblock()
