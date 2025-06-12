@@ -217,13 +217,13 @@ dlamov.o: dlamov.c
 clamov.o: clamov.c
 zlamov.o: zlamov.c
 slamov.o dlamov.o clamov.o zlamov.o: lamov.h
-	$(CC) -c $(CFLAGS) $(CDEFS) $(@:.o=.c) -o $@
+	$(CC) -c $(CCFLAGS) $(CDEFS) $(@:.o=.c) -o $@
 
 clean :
 	rm -f *.o
 
-.f.o : 
+.f.o :
 	$(FC) -c $(FCFLAGS) $*.f
 
-.c.o : 
+.c.o :
 	$(CC) -c $(CDEFS) $(CCFLAGS) $*.c
