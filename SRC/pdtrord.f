@@ -1084,6 +1084,10 @@
                   FLOPS = 0
                END IF
 *
+*              Skip update part for current WINDOW if NWIN = 0.
+*
+               IF( NWIN.LE.0 ) GO TO 295
+*
                IF( FLOPS.NE.0 .AND.
      $              ( FLOPS*100 ) / ( 2*NWIN*NWIN ) .GE. MMULT ) THEN
 *
