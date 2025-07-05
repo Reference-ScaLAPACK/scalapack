@@ -190,6 +190,7 @@ void pcrot_( Int *n, complex X[], Int *ix, Int *jx, Int desc_X[], Int *incx, com
    F_INTG_FCT  pbctrnv_();
    F_INTG_FCT  crot_();
    F_INTG_FCT  ilcm_();
+   F_INTG_FCT  numroc_();
 /* ..
 *  .. Executable Statements ..
 *

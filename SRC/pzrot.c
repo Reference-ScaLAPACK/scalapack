@@ -190,6 +190,7 @@ void pzrot_( Int *n, complex16 X[], Int *ix, Int *jx, Int desc_X[], Int *incx, c
    F_INTG_FCT  pbztrnv_();
    F_INTG_FCT  zrot_();
    F_INTG_FCT  ilcm_();
+   F_INTG_FCT  numroc_();
 /* ..
 *  .. Executable Statements ..
 *
