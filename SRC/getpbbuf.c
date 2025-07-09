@@ -18,7 +18,7 @@ char * getpbbuf( char *mess, Int length )
 /* ..
 *  .. External Functions ..
 */
-   void        blacs_abort_();
+   void        blacs_abort_( Int *ictxt, Int *errornum );
 /* ..
 *  .. Executable Statements ..
 */
