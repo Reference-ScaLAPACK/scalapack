@@ -166,13 +166,13 @@ F_VOID_FUNC igsum2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
          ierr=MPI_Reduce(bp->Buff, bp2->Buff, bp->N, bp->dtype, MPI_SUM,
                        dest, ctxt->scp->comm);
          if (ctxt->scp->Iam == dest)
-	    BI_ivmcopy(Mpval(m), Mpval(n), A, tlda, (int*)bp2->Buff);
+	    BI_ivmcopy(Mpval(m), Mpval(n), A, tlda, (Int*)bp2->Buff);
       }
       else
       {
          ierr=MPI_Allreduce(bp->Buff, bp2->Buff, bp->N, bp->dtype, MPI_SUM,
 		          ctxt->scp->comm);
-	 BI_ivmcopy(Mpval(m), Mpval(n), A, tlda, (int*)bp2->Buff);
+	 BI_ivmcopy(Mpval(m), Mpval(n), A, tlda, (Int*)bp2->Buff);
       }
       if (BI_ActiveQ) BI_UpdateBuffs(NULL);
       return;
