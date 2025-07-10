@@ -1,4 +1,5 @@
 #include "redist.h"
+#include <stddef.h>
 /* $Id: pdgemr2.c,v 1.1.1.1 2000/02/15 18:04:09 susan Exp $
  * 
  * some functions used by the pdgemr2d routine see file pdgemr.c for more
@@ -21,7 +22,7 @@
 #define dlacpy_ dlacpy
 #endif
 #define Clacpy Cdgelacpy
-void  Clacpy();
+void  Clacpy( Int m, Int n, double *a, Int lda, double *b, Int ldb );
 typedef struct {
   Int   desctype;
   Int   ctxt;
@@ -49,35 +50,35 @@ typedef struct {
 #define realloc myrealloc
 #endif
 /* Cblacs */
-extern void Cblacs_pcoord();
-extern Int Cblacs_pnum();
+extern void Cblacs_pcoord( Int context, Int pnum, Int* prow, Int* pcol );
+extern Int Cblacs_pnum( Int context, Int prow, Int pcol );
 extern void Csetpvmtids();
-extern void Cblacs_get();
-extern void Cblacs_pinfo();
-extern void Cblacs_gridinfo();
-extern void Cblacs_gridinit();
-extern void Cblacs_exit();
-extern void Cblacs_gridexit();
-extern void Cblacs_setup();
-extern void Cigebs2d();
-extern void Cigebr2d();
-extern void Cigesd2d();
-extern void Cigerv2d();
-extern void Cigsum2d();
-extern void Cigamn2d();
-extern void Cigamx2d();
-extern void Cdgesd2d();
-extern void Cdgerv2d();
+extern void Cblacs_get( Int context, Int what, Int* val );
+extern void Cblacs_pinfo( Int* mypnum, Int* nprocs );
+extern void Cblacs_gridinfo( Int context, Int* nprow, Int* npcol, Int* myrow, Int* mycol );
+extern void Cblacs_gridinit( Int* context, char* order, Int nprow, Int npcol );
+extern void Cblacs_exit( Int continue_blacs );
+extern void Cblacs_gridexit( Int context );
+extern void Cblacs_setup( Int* mypnum, Int* nprocs );
+extern void Cigebs2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda );
+extern void Cigebr2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int rsrc, Int csrc );
+extern void Cigesd2d( Int context, Int m, Int n, Int* A, Int lda, Int rdest, Int cdest );
+extern void Cigerv2d( Int context, Int m, Int n, Int* A, Int lda, Int rsrc, Int csrc );
+extern void Cigsum2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int rdest, Int cdest );
+extern void Cigamn2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int* RA, Int* CA, Int rcflag, Int rdest, Int cdest );
+extern void Cigamx2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int* RA, Int* CA, Int rcflag, Int rdest, Int cdest );
+extern void Cdgesd2d( Int context, Int m, Int n, double* A, Int lda, Int rdest, Int cdest );
+extern void Cdgerv2d( Int context, Int m, Int n, double* A, Int lda, Int rsrc, Int csrc );
 /* lapack */
 void  dlacpy_();
 /* aux fonctions */
-extern Int localindice();
-extern void *mr2d_malloc();
-extern Int ppcm();
-extern Int localsize();
-extern Int memoryblocksize();
-extern Int changeorigin();
-extern void paramcheck();
+extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
+extern void *mr2d_malloc( size_t n );
+extern Int ppcm( Int a, Int b );
+extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
+extern Int memoryblocksize( MDESC *a );
+extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
+extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
 #define scanD0 dgescanD0
 #define dispmat dgedispmat
@@ -86,9 +87,9 @@ extern void paramcheck();
 #define scan_intervals dgescan_intervals
 extern void scanD0();
 extern void dispmat();
-extern void setmemory();
-extern void freememory();
-extern Int scan_intervals();
+extern void setmemory( double** ptr, Int size );
+extern void freememory( double* ptr );
+extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
 extern void Cpdgemr2do();
 extern void Cpdgemr2d();
 /* some defines for Cpdgemr2do */

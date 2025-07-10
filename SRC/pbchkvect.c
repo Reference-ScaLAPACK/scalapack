@@ -111,7 +111,7 @@ void pbchkvect( Int n, Int npos0, Int ix, Int jx, Int desc_X[], Int incx, Int dp
 /* ..
 *  .. External Functions ..
 */
-   F_INTG_FCT  numroc_();
+   F_INTG_FCT  numroc_( Int *n, Int *nb, Int *iproc, Int *isrcproc, Int *nprocs );
 /*
 *  .. Executable Statements ..
 */

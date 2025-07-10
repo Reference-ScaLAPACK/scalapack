@@ -1,4 +1,5 @@
 #include "redist.h"
+#include <stddef.h>
 /* $Id: pztrmr2.c,v 1.1.1.1 2000/02/15 18:04:10 susan Exp $
  * 
  * some functions used by the pztrmr2d routine see file pztrmr.c for more
@@ -20,11 +21,11 @@
 #define zcopy_ zcopy
 #define zlacpy_ zlacpy
 #endif
-#define Clacpy Cztrlacpy
-void  Clacpy();
 typedef struct {
   double r, i;
 }     dcomplex;
+#define Clacpy Cztrlacpy
+void  Clacpy( Int m, Int n, dcomplex *a, Int lda, dcomplex *b, Int ldb );
 typedef struct {
   Int   desctype;
   Int   ctxt;
@@ -52,46 +53,46 @@ typedef struct {
 #define realloc myrealloc
 #endif
 /* Cblacs */
-extern void Cblacs_pcoord();
-extern Int Cblacs_pnum();
+extern void Cblacs_pcoord( Int context, Int pnum, Int* prow, Int* pcol );
+extern Int Cblacs_pnum( Int context, Int prow, Int pcol );
 extern void Csetpvmtids();
-extern void Cblacs_get();
-extern void Cblacs_pinfo();
-extern void Cblacs_gridinfo();
-extern void Cblacs_gridinit();
-extern void Cblacs_exit();
-extern void Cblacs_gridexit();
-extern void Cblacs_setup();
-extern void Cigebs2d();
-extern void Cigebr2d();
-extern void Cigesd2d();
-extern void Cigerv2d();
-extern void Cigsum2d();
-extern void Cigamn2d();
-extern void Cigamx2d();
-extern void Czgesd2d();
-extern void Czgerv2d();
+extern void Cblacs_get( Int context, Int what, Int* val );
+extern void Cblacs_pinfo( Int* mypnum, Int* nprocs );
+extern void Cblacs_gridinfo( Int context, Int* nprow, Int* npcol, Int* myrow, Int* mycol );
+extern void Cblacs_gridinit( Int* context, char* order, Int nprow, Int npcol );
+extern void Cblacs_exit( Int continue_blacs );
+extern void Cblacs_gridexit( Int context );
+extern void Cblacs_setup( Int* mypnum, Int* nprocs );
+extern void Cigebs2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda );
+extern void Cigebr2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int rsrc, Int csrc );
+extern void Cigesd2d( Int context, Int m, Int n, Int* A, Int lda, Int rdest, Int cdest );
+extern void Cigerv2d( Int context, Int m, Int n, Int* A, Int lda, Int rsrc, Int csrc );
+extern void Cigsum2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int rdest, Int cdest );
+extern void Cigamn2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int* RA, Int* CA, Int rcflag, Int rdest, Int cdest );
+extern void Cigamx2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int* RA, Int* CA, Int rcflag, Int rdest, Int cdest );
+extern void Czgesd2d( Int context, Int m, Int n, dcomplex* A, Int lda, Int rdest, Int cdest );
+extern void Czgerv2d( Int context, Int m, Int n, dcomplex* A, Int lda, Int rsrc, Int csrc );
 /* lapack */
 void  zlacpy_();
 /* aux fonctions */
-extern Int localindice();
-extern void *mr2d_malloc();
-extern Int ppcm();
-extern Int localsize();
-extern Int memoryblocksize();
-extern Int changeorigin();
-extern void paramcheck();
+extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
+extern void *mr2d_malloc( size_t n );
+extern Int ppcm( Int a, Int b );
+extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
+extern Int memoryblocksize( MDESC *a );
+extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
+extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
 #define scanD0 ztrscanD0
 #define dispmat ztrdispmat
 #define setmemory ztrsetmemory
 #define freememory ztrfreememory
 #define scan_intervals ztrscan_intervals
-extern void scanD0();
+extern void scanD0( char* uplo, char* diag, Int action, dcomplex* ptrbuff, Int* ptrsizebuff, Int m, Int n, MDESC* ma, Int ia, Int ja, Int p0, Int q0, MDESC* mb, Int ib, Int jb, Int p1, Int q1, IDESC* v_inter, Int vinter_nb, IDESC* h_inter, Int hinter_nb, dcomplex* ptrblock );
 extern void dispmat();
-extern void setmemory();
-extern void freememory();
-extern Int scan_intervals();
+extern void setmemory( dcomplex** ptr, Int size );
+extern void freememory( dcomplex* ptr );
+extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
 extern void Cpztrmr2do();
 extern void Cpztrmr2d();
 /* some defines for Cpztrmr2do */
