@@ -34,6 +34,9 @@ jobs:
     - name: Setup MPI
       uses: mpi4py/setup-mpi@v1
 
+    - name: Install BLAS and LAPACK
+      run: sudo apt -y install libblas-dev liblapack-dev
+
     - name: Build ScaLAPACK
       run: |
         cp SLmake.inc.example SLmake.inc
