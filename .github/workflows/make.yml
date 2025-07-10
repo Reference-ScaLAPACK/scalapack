@@ -12,8 +12,6 @@ on:
     - 'LICENSE'
     - 'CMAKE**'
     - '**CMakeLists.txt'
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -37,7 +35,9 @@ jobs:
       uses: mpi4py/setup-mpi@v1
 
     - name: Install OpenBLAS
-      run: apt-get -y install libopenblas0
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install libopenblas0
 
     - name: Build ScaLAPACK
       run: |
