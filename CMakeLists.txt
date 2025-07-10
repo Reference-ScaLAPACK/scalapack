@@ -223,6 +223,7 @@ append_subdir_files(src "SRC")
 append_subdir_files(src-C "SRC")
 
 if (NOT MSVC)
+   set_source_files_properties(TOOLS/SL_gridreshape.c PROPERTIES COMPILE_OPTIONS "-Wno-error=implicit-function-declaration")
    add_library(scalapack ${blacs} ${tools} ${tools-C} ${extra_lapack} ${pblas} ${pblas-F} ${ptzblas} ${ptools} ${pbblas} ${redist} ${src} ${src-C})
    set_target_properties(scalapack PROPERTIES
     VERSION ${SCALAPACK_VERSION}
