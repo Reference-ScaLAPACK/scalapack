@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.26...4.0)
 
 project(SCALAPACK VERSION 2.2.2 LANGUAGES C Fortran)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_EXTENSIONS OFF)
 
 # Add the CMake directory for custon CMake modules
 set(CMAKE_MODULE_PATH "${SCALAPACK_SOURCE_DIR}/CMAKE" ${CMAKE_MODULE_PATH})
