@@ -181,16 +181,15 @@ void pzrot_( Int *n, complex16 X[], Int *ix, Int *jx, Int desc_X[], Int *incx, c
 /* ..
 *  .. External Functions ..
 */
-   void        blacs_gridinfo_();
-   void        zgerv2d_();
-   void        zgesd2d_();
-   void        pbchkvect();
-   void        PB_Cabort();
-   char        * getpbbuf();
-   F_INTG_FCT  pbztrnv_();
-   F_INTG_FCT  zrot_();
-   F_INTG_FCT  ilcm_();
-   F_INTG_FCT  numroc_();
+   void        blacs_gridinfo_( Int *ictxt, Int *nprow, Int *npcol, Int *myrow, Int *mycol );
+   void        zgerv2d_( Int *ictxt, Int *m, Int *n, complex16 *A, Int *lda, Int *rsrc, Int *csrc );
+   void        zgesd2d_( Int *ictxt, Int *m, Int *n, complex16 *A, Int *lda, Int *rdest, Int *cdest );
+   void        pbchkvect( Int n, Int npos0, Int ix, Int jx, Int desc_X[], Int incx, Int dpos0, Int *iix, Int *jjx, Int *ixrow, Int *ixcol, Int nprow, Int npcol, Int myrow, Int mycol, Int *info );
+   void        PB_Cabort( Int ictxt, char *srname, Int info );
+   char        * getpbbuf( char *mess, Int length );
+   F_INTG_FCT  pbztrnv_( Int *ictxt, char *scope, char *trans, Int *n, Int *nb, Int *nz, complex16 *A, Int *lda, complex16 *beta, complex16 *work, Int *ldwork, Int *prow, Int *pcol, Int *qrow, Int *qcol, complex16 *buf );
+   F_INTG_FCT  zrot_( Int *n, complex16 *cx, Int *incx, complex16 *cy, Int *incy, double *c, complex16 *s );
+   F_INTG_FCT  ilcm_( Int *m, Int *n );
 /* ..
 *  .. Executable Statements ..
 *

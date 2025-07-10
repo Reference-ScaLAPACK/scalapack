@@ -181,16 +181,15 @@ void pcrot_( Int *n, complex X[], Int *ix, Int *jx, Int desc_X[], Int *incx, com
 /* ..
 *  .. External Functions ..
 */
-   void        blacs_gridinfo_();
-   void        cgerv2d_();
-   void        cgesd2d_();
-   void        pbchkvect();
-   void        PB_Cabort();
-   char        * getpbbuf();
-   F_INTG_FCT  pbctrnv_();
-   F_INTG_FCT  crot_();
-   F_INTG_FCT  ilcm_();
-   F_INTG_FCT  numroc_();
+   void        blacs_gridinfo_( Int *ictxt, Int *nprow, Int *npcol, Int *myrow, Int *mycol );
+   void        cgerv2d_( Int *ictxt, Int *m, Int *n, complex *A, Int *lda, Int *rsrc, Int *csrc );
+   void        cgesd2d_( Int *ictxt, Int *m, Int *n, complex *A, Int *lda, Int *rdest, Int *cdest );
+   void        pbchkvect( Int n, Int npos0, Int ix, Int jx, Int desc_X[], Int incx, Int dpos0, Int *iix, Int *jjx, Int *ixrow, Int *ixcol, Int nprow, Int npcol, Int myrow, Int mycol, Int *info );
+   void        PB_Cabort( Int ictxt, char *srname, Int info );
+   char        * getpbbuf( char *mess, Int length );
+   F_INTG_FCT  pbctrnv_( Int *ictxt, char *scope, char *trans, Int *n, Int *nb, Int *nz, complex *A, Int *lda, complex *beta, complex *work, Int *ldwork, Int *prow, Int *pcol, Int *qrow, Int *qcol, complex *buf );
+   F_INTG_FCT  crot_( Int *n, complex *cx, Int *incx, complex *cy, Int *incy, float *c, complex *s );
+   F_INTG_FCT  ilcm_( Int *m, Int *n );
 /* ..
 *  .. Executable Statements ..
 *
