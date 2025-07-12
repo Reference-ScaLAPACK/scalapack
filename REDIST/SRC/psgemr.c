@@ -192,6 +192,7 @@ extern void Cblacs_get( Int context, Int what, Int* val );
 extern void Cblacs_pinfo( Int* mypnum, Int* nprocs );
 extern void Cblacs_gridinfo( Int context, Int* nprow, Int* npcol, Int* myrow, Int* mycol );
 extern void Cblacs_gridinit( Int* context, char* order, Int nprow, Int npcol );
+extern void Cblacs_gridmap( Int* context, Int* usermap, Int ldumap, Int nprow, Int npcol );
 extern void Cblacs_exit( Int continue_blacs );
 extern void Cblacs_gridexit( Int context );
 extern void Cblacs_setup( Int* mypnum, Int* nprocs );
@@ -241,7 +242,7 @@ extern void Cpsgemr2d( Int m, Int n, float *ptrmyblock, Int ia, Int ja, MDESC *m
 #include <stdlib.h>
 #include <assert.h>
 #define DESCLEN 9
-void 
+void
 fortran_mr2d(Int *m, Int *n, float *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
 	     float *B, Int *ib, Int *jb, Int desc_B[DESCLEN])
 {
@@ -249,7 +250,7 @@ fortran_mr2d(Int *m, Int *n, float *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
 	     B, *ib, *jb, (MDESC *) desc_B);
   return;
 }
-void 
+void
 fortran_mr2dnew(Int *m, Int *n, float *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
 		float *B, Int *ib, Int *jb, Int desc_B[DESCLEN], Int *gcontext)
 {
@@ -562,7 +563,7 @@ after_comm:
   free(h_inter);
   free(param);
 }/* distrib */
-static2 void 
+static2 void
 init_chenille(Int mypnum, Int nprocs, Int n0, Int *proc0, Int n1, Int *proc1, Int **psend, Int **precv, Int *myrang)
 {
   Int   ns, nr, i, tot;
@@ -633,7 +634,7 @@ Int _m,_n,_lda,_ldb; \
       _a += _lda; \
     } \
 } (void)0
-static2 Int 
+static2 Int
 block2buff(IDESC *vi, Int vinb, IDESC *hi, Int hinb, float *ptra, MDESC *ma, float *buff)
 {
   Int   h, v, sizebuff;
@@ -651,7 +652,7 @@ block2buff(IDESC *vi, Int vinb, IDESC *hi, Int hinb, float *ptra, MDESC *ma, flo
   }
   return sizebuff;
 }
-static2 void 
+static2 void
 buff2block(IDESC *vi, Int vinb, IDESC *hi, Int hinb, float *buff, float *ptrb, MDESC *mb)
 {
   Int   h, v, sizebuff;
@@ -668,7 +669,7 @@ buff2block(IDESC *vi, Int vinb, IDESC *hi, Int hinb, float *buff, float *ptrb, M
     }
   }
 }
-static2 Int 
+static2 Int
 inter_len(Int hinb, IDESC *hi, Int vinb, IDESC *vi)
 {
   Int   hlen, vlen, h, v;
@@ -680,7 +681,7 @@ inter_len(Int hinb, IDESC *hi, Int vinb, IDESC *vi)
     vlen += vi[v].len;
   return hlen * vlen;
 }
-void 
+void
 Clacpy(Int m, Int n, float *a, Int lda, float *b, Int ldb)
 {
   Int   i, j;
@@ -694,7 +695,7 @@ Clacpy(Int m, Int n, float *a, Int lda, float *b, Int ldb)
     a += lda;
   }
 }
-static2 void 
+static2 void
 gridreshape(Int *ctxtp)
 {
   Int   ori, final;	/* original context, and new context created, with

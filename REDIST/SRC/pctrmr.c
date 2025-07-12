@@ -210,6 +210,7 @@ extern void Cblacs_get( Int context, Int what, Int* val );
 extern void Cblacs_pinfo( Int* mypnum, Int* nprocs );
 extern void Cblacs_gridinfo( Int context, Int* nprow, Int* npcol, Int* myrow, Int* mycol );
 extern void Cblacs_gridinit( Int* context, char* order, Int nprow, Int npcol );
+extern void Cblacs_gridmap( Int* context, Int* usermap, Int ldumap, Int nprow, Int npcol );
 extern void Cblacs_exit( Int continue_blacs );
 extern void Cblacs_gridexit( Int context );
 extern void Cblacs_setup( Int* mypnum, Int* nprocs );
@@ -259,7 +260,7 @@ extern void Cpctrmr2d( char* uplo, char* diag, Int m, Int n, complex *ptrmyblock
 #include <stdlib.h>
 #include <assert.h>
 #define DESCLEN 9
-void 
+void
 fortran_mr2d(char *uplo, char *diag, Int *m, Int *n, complex *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
 	     complex *B, Int *ib, Int *jb, Int desc_B[DESCLEN])
 {
@@ -267,7 +268,7 @@ fortran_mr2d(char *uplo, char *diag, Int *m, Int *n, complex *A, Int *ia, Int *j
 	     B, *ib, *jb, (MDESC *) desc_B);
   return;
 }
-void 
+void
 fortran_mr2dnew(char *uplo, char *diag, Int *m, Int *n, complex *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
 		complex *B, Int *ib, Int *jb, Int desc_B[DESCLEN], Int *gcontext)
 {
@@ -587,7 +588,7 @@ after_comm:
   free(h_inter);
   free(param);
 }/* distrib */
-static2 void 
+static2 void
 init_chenille(Int mypnum, Int nprocs, Int n0, Int *proc0, Int n1, Int *proc1, Int **psend, Int **precv, Int *myrang)
 {
   Int   ns, nr, i, tot;
@@ -641,7 +642,7 @@ init_chenille(Int mypnum, Int nprocs, Int n0, Int *proc0, Int n1, Int *proc1, In
       assert(nr <= n1);
     }
 }
-void 
+void
 Clacpy(Int m, Int n, complex *a, Int lda, complex *b, Int ldb)
 {
   Int   i, j;
@@ -655,7 +656,7 @@ Clacpy(Int m, Int n, complex *a, Int lda, complex *b, Int ldb)
     a += lda;
   }
 }
-static2 void 
+static2 void
 gridreshape(Int *ctxtp)
 {
   Int   ori, final;	/* original context, and new context created, with

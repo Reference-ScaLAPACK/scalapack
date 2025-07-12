@@ -201,7 +201,7 @@ F_VOID_FUNC dgamn2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
       bp = BI_GetBuff(i);
       bp2 = &BI_AuxBuff;
       bp2->Buff = &bp->Buff[length];
-      BI_dmvcopy(Mpval(m), Mpval(n), A, tlda, bp->Buff);
+      BI_dmvcopy(Mpval(m), Mpval(n), A, tlda, (double*)bp->Buff);
 /*
  *    Fill in distance vector
  */
@@ -254,7 +254,7 @@ F_VOID_FUNC dgamn2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
          bp = BI_GetBuff(length*2);
          bp2 = &BI_AuxBuff;
          bp2->Buff = &bp->Buff[length];
-         BI_dmvcopy(Mpval(m), Mpval(n), A, tlda, bp->Buff);
+         BI_dmvcopy(Mpval(m), Mpval(n), A, tlda, (double*)bp->Buff);
       }
       bp->N = bp2->N = N;
       bp->dtype = bp2->dtype = MPI_DOUBLE;
@@ -280,7 +280,7 @@ F_VOID_FUNC dgamn2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
 	 	       ctxt->scp->comm);
          if (ctxt->scp->Iam == dest)
 	 {
-	    BI_dvmcopy(Mpval(m), Mpval(n), A, tlda, bp2->Buff);
+	    BI_dvmcopy(Mpval(m), Mpval(n), A, tlda, (double*)bp2->Buff);
 	    if (Mpval(ldia) != -1)
                BI_TransDist(ctxt, tscope, Mpval(m), Mpval(n), rA, cA, tldia,
                             (BI_DistType *) &bp2->Buff[idist],
@@ -291,7 +291,7 @@ F_VOID_FUNC dgamn2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
       {
          ierr=MPI_Allreduce(bp->Buff, bp2->Buff, bp->N, bp->dtype, BlacComb,
 		          ctxt->scp->comm);
-	 BI_dvmcopy(Mpval(m), Mpval(n), A, tlda, bp2->Buff);
+	 BI_dvmcopy(Mpval(m), Mpval(n), A, tlda, (double*)bp2->Buff);
          if (Mpval(ldia) != -1)
             BI_TransDist(ctxt, tscope, Mpval(m), Mpval(n), rA, cA, tldia,
                          (BI_DistType *) &bp2->Buff[idist],
@@ -370,6 +370,6 @@ F_VOID_FUNC dgamn2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
 /*
  *    Unpack the amn array
  */
-      if (bp != &BI_AuxBuff) BI_dvmcopy(Mpval(m), Mpval(n), A, tlda, bp->Buff);
+      if (bp != &BI_AuxBuff) BI_dvmcopy(Mpval(m), Mpval(n), A, tlda, (double*)bp->Buff);
    }
 }
