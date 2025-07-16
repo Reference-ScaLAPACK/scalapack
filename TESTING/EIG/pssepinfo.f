@@ -121,7 +121,7 @@
 *     .. Scalar Arguments ..
       CHARACTER          SUBTESTS
       INTEGER            CONTEXT, IAM, INFO, MAXSETSIZE, MAXTYPE, NIN,
-     $                   NMATSIZES, NMATTYPES, NOUT, NPCONFIGS, NUPLOS,
+     $                   NOUT,
      $                   ORDER
       REAL               ABSTOL, THRESH
 *     ..
@@ -129,7 +129,8 @@
       CHARACTER          UPLOS( 2 )
       INTEGER            MATSIZES( MAXSETSIZE ), MATTYPES( MAXSETSIZE ),
      $                   NBS( MAXSETSIZE ), NPCOLS( MAXSETSIZE ),
-     $                   NPROWS( MAXSETSIZE )
+     $                   NPROWS( MAXSETSIZE ), NMATSIZES( 1 ),
+     $                   NMATTYPES( 1 ), NPCONFIGS( 1 ), NUPLOS( 1 )
 *     ..
 *     .. Parameters ..
       INTEGER            BLOCK_CYCLIC_2D, DLEN_, DTYPE_, CTXT_, M_, N_,
@@ -142,7 +143,7 @@
 *     ..
 *     .. Local Scalars ..
       CHARACTER*80       TESTSUMMRY
-      INTEGER            I, ISUBTESTS
+      INTEGER            I
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
@@ -155,7 +156,7 @@
 *     ..
 *
 *     .. Local Arrays ..
-      INTEGER            IUPLOS( 2 )
+      INTEGER            IUPLOS( 2 ), ISUBTESTS( 1 )
 *     ..
 *     .. Executable Statements ..
 *       This is just to keep ftnchek happy
@@ -173,18 +174,18 @@
       INFO = 0
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )NMATSIZES
+         READ( NIN, FMT = * )NMATSIZES( 1 )
          CALL IGEBS2D( CONTEXT, 'All', ' ', 1, 1, NMATSIZES, 1 )
       ELSE
          CALL IGEBR2D( CONTEXT, 'All', ' ', 1, 1, NMATSIZES, 1, 0, 0 )
       END IF
-      IF( NMATSIZES.EQ.-1 ) THEN
+      IF( NMATSIZES( 1 ).EQ.-1 ) THEN
          INFO = -1
          GO TO 70
       END IF
-      IF( NMATSIZES.LT.1 .OR. NMATSIZES.GT.MAXSETSIZE ) THEN
+      IF( NMATSIZES( 1 ).LT.1 .OR. NMATSIZES( 1 ).GT.MAXSETSIZE ) THEN
          IF( IAM.EQ.0 ) THEN
-            WRITE( NOUT, FMT = 9999 )'Matrix size', NMATSIZES, 1,
+            WRITE( NOUT, FMT = 9999 )'Matrix size', NMATSIZES( 1 ), 1,
      $         MAXSETSIZE
          END IF
          INFO = -2
@@ -193,41 +194,43 @@
 *
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )( MATSIZES( I ), I = 1, NMATSIZES )
-         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NMATSIZES, MATSIZES, 1 )
+         READ( NIN, FMT = * )( MATSIZES( I ), I = 1, NMATSIZES( 1 ) )
+         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NMATSIZES( 1 ), MATSIZES,
+     $                 1 )
       ELSE
-         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NMATSIZES, MATSIZES, 1,
-     $                 0, 0 )
+         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NMATSIZES( 1 ), MATSIZES,
+     $                 1, 0, 0 )
       END IF
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )NUPLOS
+         READ( NIN, FMT = * )NUPLOS( 1 )
          CALL IGEBS2D( CONTEXT, 'All', ' ', 1, 1, NUPLOS, 1 )
       ELSE
          CALL IGEBR2D( CONTEXT, 'All', ' ', 1, 1, NUPLOS, 1, 0, 0 )
       END IF
-      IF( NUPLOS.LT.1 .OR. NUPLOS.GT.2 ) THEN
+      IF( NUPLOS( 1 ).LT.1 .OR. NUPLOS( 1 ).GT.2 ) THEN
          IF( IAM.EQ.0 ) THEN
-            WRITE( NOUT, FMT = 9999 )'# of UPLOs', NUPLOS, 1, 2
+            WRITE( NOUT, FMT = 9999 )'# of UPLOs', NUPLOS( 1 ), 1, 2
          END IF
          INFO = -2
          GO TO 70
       END IF
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )( UPLOS( I ), I = 1, NUPLOS )
-         DO 10 I = 1, NUPLOS
+         READ( NIN, FMT = * )( UPLOS( I ), I = 1, NUPLOS( 1 ) )
+         DO 10 I = 1, NUPLOS( 1 )
             IF( LSAME( UPLOS( I ), 'L' ) ) THEN
                IUPLOS( I ) = 1
             ELSE
                IUPLOS( I ) = 2
             END IF
    10    CONTINUE
-         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NUPLOS, IUPLOS, 1 )
+         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NUPLOS( 1 ), IUPLOS, 1 )
       ELSE
-         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NUPLOS, IUPLOS, 1, 0, 0 )
+         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NUPLOS( 1 ), IUPLOS, 1,
+     $                 0, 0 )
       END IF
-      DO 20 I = 1, NUPLOS
+      DO 20 I = 1, NUPLOS( 1 )
          IF( IUPLOS( I ).EQ.1 ) THEN
             UPLOS( I ) = 'L'
          ELSE
@@ -236,28 +239,29 @@
    20 CONTINUE
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )NPCONFIGS
+         READ( NIN, FMT = * )NPCONFIGS( 1 )
          CALL IGEBS2D( CONTEXT, 'All', ' ', 1, 1, NPCONFIGS, 1 )
       ELSE
          CALL IGEBR2D( CONTEXT, 'All', ' ', 1, 1, NPCONFIGS, 1, 0, 0 )
       END IF
-      IF( NPCONFIGS.LT.1 .OR. NPCONFIGS.GT.MAXSETSIZE ) THEN
+      IF( NPCONFIGS( 1 ).LT.1 .OR. NPCONFIGS( 1 ).GT.MAXSETSIZE ) THEN
          IF( IAM.EQ.0 ) THEN
-            WRITE( NOUT, FMT = 9999 )'# proc configs', NPCONFIGS, 1,
-     $         MAXSETSIZE
+            WRITE( NOUT, FMT = 9999 )'# proc configs', NPCONFIGS( 1 ),
+     $         1, MAXSETSIZE
          END IF
          INFO = -2
          GO TO 70
       END IF
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )( NPROWS( I ), I = 1, NPCONFIGS )
-         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NPCONFIGS, NPROWS, 1 )
+         READ( NIN, FMT = * )( NPROWS( I ), I = 1, NPCONFIGS( 1 ) )
+         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NPCONFIGS( 1 ), NPROWS,
+     $      1 )
       ELSE
-         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NPCONFIGS, NPROWS, 1, 0,
-     $                 0 )
+         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NPCONFIGS( 1 ), NPROWS,
+     $      1, 0, 0 )
       END IF
-      DO 30 I = 1, NPCONFIGS
+      DO 30 I = 1, NPCONFIGS( 1 )
          IF( NPROWS( I ).LE.0 )
      $      INFO = -2
    30 CONTINUE
@@ -269,13 +273,14 @@
       END IF
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )( NPCOLS( I ), I = 1, NPCONFIGS )
-         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NPCONFIGS, NPCOLS, 1 )
+         READ( NIN, FMT = * )( NPCOLS( I ), I = 1, NPCONFIGS( 1 ) )
+         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NPCONFIGS( 1 ), NPCOLS,
+     $                  1 )
       ELSE
-         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NPCONFIGS, NPCOLS, 1, 0,
-     $                 0 )
+         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NPCONFIGS( 1 ), NPCOLS,
+     $                  1, 0, 0 )
       END IF
-      DO 40 I = 1, NPCONFIGS
+      DO 40 I = 1, NPCONFIGS( 1 )
          IF( NPCOLS( I ).LE.0 )
      $      INFO = -2
    40 CONTINUE
@@ -288,12 +293,13 @@
 *
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )( NBS( I ), I = 1, NPCONFIGS )
-         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NPCONFIGS, NBS, 1 )
+         READ( NIN, FMT = * )( NBS( I ), I = 1, NPCONFIGS( 1 ) )
+         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NPCONFIGS( 1 ), NBS, 1 )
       ELSE
-         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NPCONFIGS, NBS, 1, 0, 0 )
+         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NPCONFIGS( 1 ), NBS, 1,
+     $                 0, 0 )
       END IF
-      DO 50 I = 1, NPCONFIGS
+      DO 50 I = 1, NPCONFIGS( 1 )
          IF( NBS( I ).LE.0 )
      $      INFO = -2
    50 CONTINUE
@@ -306,14 +312,14 @@
 *
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )NMATTYPES
+         READ( NIN, FMT = * )NMATTYPES( 1 )
          CALL IGEBS2D( CONTEXT, 'All', ' ', 1, 1, NMATTYPES, 1 )
       ELSE
          CALL IGEBR2D( CONTEXT, 'All', ' ', 1, 1, NMATTYPES, 1, 0, 0 )
       END IF
-      IF( NMATTYPES.LT.1 .OR. NMATTYPES.GT.MAXSETSIZE ) THEN
+      IF( NMATTYPES( 1 ).LT.1 .OR. NMATTYPES( 1 ).GT.MAXSETSIZE ) THEN
          IF( IAM.EQ.0 ) THEN
-            WRITE( NOUT, FMT = 9999 )'matrix types', NMATTYPES, 1,
+            WRITE( NOUT, FMT = 9999 )'matrix types', NMATTYPES( 1 ), 1,
      $         MAXSETSIZE
          END IF
          INFO = -2
@@ -321,14 +327,15 @@
       END IF
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )( MATTYPES( I ), I = 1, NMATTYPES )
-         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NMATTYPES, MATTYPES, 1 )
+         READ( NIN, FMT = * )( MATTYPES( I ), I = 1, NMATTYPES( 1 ) )
+         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NMATTYPES( 1 ), MATTYPES,
+     $                  1 )
       ELSE
-         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NMATTYPES, MATTYPES, 1,
-     $                 0, 0 )
+         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NMATTYPES( 1 ), MATTYPES,
+     $                  1, 0, 0 )
       END IF
 *
-      DO 60 I = 1, NMATTYPES
+      DO 60 I = 1, NMATTYPES( 1 )
          IF( MATTYPES( I ).LT.1 .OR. MATTYPES( I ).GT.MAXTYPE ) THEN
             IF( IAM.EQ.0 ) THEN
                WRITE( NOUT, FMT = 9999 )'matrix type', MATTYPES( I ),
@@ -341,15 +348,15 @@
       IF( IAM.EQ.0 ) THEN
          READ( NIN, FMT = * )SUBTESTS
          IF( LSAME( SUBTESTS, 'Y' ) ) THEN
-            ISUBTESTS = 2
+            ISUBTESTS( 1 ) = 2
          ELSE
-            ISUBTESTS = 1
+            ISUBTESTS( 1 ) = 1
          END IF
          CALL IGEBS2D( CONTEXT, 'All', ' ', 1, 1, ISUBTESTS, 1 )
       ELSE
          CALL IGEBR2D( CONTEXT, 'All', ' ', 1, 1, ISUBTESTS, 1, 0, 0 )
       END IF
-      IF( ISUBTESTS.EQ.2 ) THEN
+      IF( ISUBTESTS( 1 ).EQ.2 ) THEN
          SUBTESTS = 'Y'
       ELSE
          SUBTESTS = 'N'

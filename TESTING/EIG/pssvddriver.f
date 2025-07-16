@@ -43,7 +43,7 @@
 *     .. Local Scalars ..
       CHARACTER*80       SUMMARY
       INTEGER            CONTEXT, ERR, I, IAM, J, K, LWORK, MAXNODES,
-     $                   NMATSIZES, NOUT, NPCONFIGS, NPROCS
+     $                   NOUT, NPROCS
       REAL               THRESH
 *     ..
 *     .. Parameters ..
@@ -55,7 +55,7 @@
       INTEGER            ISEED( 4 ), MM( MAXSETSIZE ),
      $                   NBS( MAXSETSIZE ), NN( MAXSETSIZE ),
      $                   NPCOLS( MAXSETSIZE ), NPROWS( MAXSETSIZE ),
-     $                   RESULT( 9 )
+     $                   RESULT( 9 ), NMATSIZES( 1 ), NPCONFIGS( 1 )
       REAL               WORK( MEMSIZ )
 *     ..
 *     .. External Subroutines ..
@@ -89,8 +89,8 @@
 *     Initialize variables, arrays, and grids.
 *
       ERR = 0
-      NMATSIZES = 0
-      NPCONFIGS = 0
+      NMATSIZES( 1 ) = 0
+      NPCONFIGS( 1 ) = 0
       LWORK = MEMSIZ
       ISEED( 1 ) = 139
       ISEED( 2 ) = 1139
@@ -146,15 +146,15 @@
       END IF
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )NMATSIZES
+         READ( NIN, FMT = * )NMATSIZES( 1 )
          CALL IGEBS2D( CONTEXT, 'All', ' ', 1, 1, NMATSIZES, 1 )
       ELSE
          CALL IGEBR2D( CONTEXT, 'All', ' ', 1, 1, NMATSIZES, 1, 0, 0 )
       END IF
 *     Deal with error
-      IF( NMATSIZES.LT.1 .OR. NMATSIZES.GT.MAXSETSIZE ) THEN
+      IF( NMATSIZES( 1 ).LT.1 .OR. NMATSIZES( 1 ).GT.MAXSETSIZE ) THEN
          IF( IAM.EQ.0 ) THEN
-            WRITE( NOUT, FMT = 9999 )'Matrix size', NMATSIZES, 1,
+            WRITE( NOUT, FMT = 9999 )'Matrix size', NMATSIZES( 1 ), 1,
      $         MAXSETSIZE
          END IF
          ERR = -1
@@ -164,32 +164,34 @@
 *     Read array of MATSIZES.
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )( MM( I ), I = 1, NMATSIZES )
-         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NMATSIZES, MM, 1 )
+         READ( NIN, FMT = * )( MM( I ), I = 1, NMATSIZES( 1 ) )
+         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NMATSIZES( 1 ), MM, 1 )
       ELSE
-         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NMATSIZES, MM, 1, 0, 0 )
+         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NMATSIZES( 1 ), MM, 1,
+     $                 0, 0 )
       END IF
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )( NN( I ), I = 1, NMATSIZES )
-         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NMATSIZES, NN, 1 )
+         READ( NIN, FMT = * )( NN( I ), I = 1, NMATSIZES( 1 ) )
+         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NMATSIZES( 1 ), NN, 1 )
       ELSE
-         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NMATSIZES, NN, 1, 0, 0 )
+         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NMATSIZES( 1 ), NN, 1,
+     $                 0, 0 )
       END IF
 *
 *     Read and broadcast NPCONFIGS.
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )NPCONFIGS
+         READ( NIN, FMT = * )NPCONFIGS( 1 )
          CALL IGEBS2D( CONTEXT, 'All', ' ', 1, 1, NPCONFIGS, 1 )
       ELSE
          CALL IGEBR2D( CONTEXT, 'All', ' ', 1, 1, NPCONFIGS, 1, 0, 0 )
       END IF
 *     Deal with error
-      IF( NPCONFIGS.LT.1 .OR. NPCONFIGS.GT.MAXSETSIZE ) THEN
+      IF( NPCONFIGS( 1 ).LT.1 .OR. NPCONFIGS( 1 ).GT.MAXSETSIZE ) THEN
          IF( IAM.EQ.0 ) THEN
-            WRITE( NOUT, FMT = 9999 )'# proc configs', NPCONFIGS, 1,
-     $         MAXSETSIZE
+            WRITE( NOUT, FMT = 9999 )'# proc configs', NPCONFIGS( 1 ),
+     $         1, MAXSETSIZE
          END IF
          ERR = -1
          GO TO 80
@@ -198,15 +200,16 @@
 *     Read and broadcast array of NPROWS.
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )( NPROWS( I ), I = 1, NPCONFIGS )
+         READ( NIN, FMT = * )( NPROWS( I ), I = 1, NPCONFIGS( 1 ) )
 *
-         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NPCONFIGS, NPROWS, 1 )
+         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NPCONFIGS( 1 ), NPROWS,
+     $                 1 )
       ELSE
-         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NPCONFIGS, NPROWS, 1, 0,
-     $                 0 )
+         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NPCONFIGS( 1 ), NPROWS,
+     $                 1, 0, 0 )
       END IF
 *     Deal with error
-      DO 20 I = 1, NPCONFIGS
+      DO 20 I = 1, NPCONFIGS( 1 )
          IF( NPROWS( I ).LE.0 )
      $      ERR = -1
    20 CONTINUE
@@ -220,16 +223,17 @@
 *     Read and broadcast array of NPCOLS.
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )( NPCOLS( I ), I = 1, NPCONFIGS )
-         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NPCONFIGS, NPCOLS, 1 )
+         READ( NIN, FMT = * )( NPCOLS( I ), I = 1, NPCONFIGS( 1 ) )
+         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NPCONFIGS( 1 ), NPCOLS,
+     $                 1 )
       ELSE
-         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NPCONFIGS, NPCOLS, 1, 0,
-     $                 0 )
+         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NPCONFIGS( 1 ), NPCOLS,
+     $                 1, 0, 0 )
       END IF
 *
 *     Deal with error.
 *
-      DO 30 I = 1, NPCONFIGS
+      DO 30 I = 1, NPCONFIGS( 1 )
          IF( NPCOLS( I ).LE.0 )
      $      ERR = -1
    30 CONTINUE
@@ -243,13 +247,14 @@
 *     Read and broadcast array of NBs.
 *
       IF( IAM.EQ.0 ) THEN
-         READ( NIN, FMT = * )( NBS( I ), I = 1, NPCONFIGS )
-         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NPCONFIGS, NBS, 1 )
+         READ( NIN, FMT = * )( NBS( I ), I = 1, NPCONFIGS( 1 ) )
+         CALL IGEBS2D( CONTEXT, 'All', ' ', 1, NPCONFIGS( 1 ), NBS, 1 )
       ELSE
-         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NPCONFIGS, NBS, 1, 0, 0 )
+         CALL IGEBR2D( CONTEXT, 'All', ' ', 1, NPCONFIGS( 1 ), NBS,
+     $                 1, 0, 0 )
       END IF
 *     Deal with error
-      DO 40 I = 1, NPCONFIGS
+      DO 40 I = 1, NPCONFIGS( 1 )
          IF( NBS( I ).LE.0 )
      $      ERR = -1
    40 CONTINUE
@@ -260,8 +265,8 @@
          GO TO 80
       END IF
 *
-      DO 70 J = 1, NMATSIZES
-         DO 60 I = 1, NPCONFIGS
+      DO 70 J = 1, NMATSIZES( 1 )
+         DO 60 I = 1, NPCONFIGS( 1 )
 *
             DO 50 K = 1, 9
                RESULT( K ) = 0

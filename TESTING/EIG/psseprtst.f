@@ -203,7 +203,7 @@
       LOGICAL            WKNOWN
       CHARACTER          JOBZ, RANGE
       CHARACTER*14       PASSED
-      INTEGER            CONTEXT, I, IAM, IHETERO, IINFO, IL, IMODE, IN,
+      INTEGER            CONTEXT, I, IAM, IINFO, IL, IMODE, IN,
      $                   INDD, INDWORK, ISIZESUBTST, ISIZEEVR,
      $                   ISIZETST, ITYPE, IU, J, LLWORK, LEVRSIZE,
      $                   MAXSIZE, MYCOL, MYROW, NB, NGEN, NLOC,
@@ -217,7 +217,7 @@
 *     ..
 *     .. Local Arrays ..
       INTEGER            ISEEDIN( 4 ), KMAGN( MAXTYP ), KMODE( MAXTYP ),
-     $                   KTYPE( MAXTYP )
+     $                   KTYPE( MAXTYP ), IHETERO( 1 )
       DOUBLE PRECISION   CTIME( 10 ), WTIME( 10 )
 *     ..
 *     .. External Functions ..
@@ -258,15 +258,15 @@
 *
       IF( IAM.EQ.0 ) THEN
          IF( LSAME( HETERO, 'Y' ) ) THEN
-            IHETERO = 2
+            IHETERO( 1 ) = 2
          ELSE
-            IHETERO = 1
+            IHETERO( 1 ) = 1
          END IF
          CALL IGEBS2D( CONTEXT, 'All', ' ', 1, 1, IHETERO, 1 )
       ELSE
          CALL IGEBR2D( CONTEXT, 'All', ' ', 1, 1, IHETERO, 1, 0, 0 )
       END IF
-      IF( IHETERO.EQ.2 ) THEN
+      IF( IHETERO( 1 ).EQ.2 ) THEN
          HETERO = 'Y'
       ELSE
          HETERO = 'N'
