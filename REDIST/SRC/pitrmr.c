@@ -1,4 +1,5 @@
 #include "redist.h"
+#include <stddef.h>
 /** $Id: pitrmr.c,v 1.1.1.1 2000/02/15 18:04:08 susan Exp $
   ------------------------------------------------------------------------
 
@@ -171,7 +172,7 @@
 #define ilacpy_ ilacpy
 #endif
 #define Clacpy Citrlacpy
-void  Clacpy();
+void  Clacpy( Int m, Int n, Int *a, Int lda, Int *b, Int ldb );
 typedef struct {
   Int   desctype;
   Int   ctxt;
@@ -199,48 +200,47 @@ typedef struct {
 #define realloc myrealloc
 #endif
 /* Cblacs */
-extern void Cblacs_pcoord();
-extern Int Cblacs_pnum();
+extern void Cblacs_pcoord( Int context, Int pnum, Int* prow, Int* pcol );
+extern Int Cblacs_pnum( Int context, Int prow, Int pcol );
 extern void Csetpvmtids();
-extern void Cblacs_get();
-extern void Cblacs_pinfo();
-extern void Cblacs_gridinfo();
-extern void Cblacs_gridinit();
-extern void Cblacs_exit();
-extern void Cblacs_gridexit();
-extern void Cblacs_setup();
-extern void Cigebs2d();
-extern void Cigebr2d();
-extern void Cigesd2d();
-extern void Cigerv2d();
-extern void Cigsum2d();
-extern void Cigamn2d();
-extern void Cigamx2d();
-extern void Cigesd2d();
-extern void Cigerv2d();
+extern void Cblacs_get( Int context, Int what, Int* val );
+extern void Cblacs_pinfo( Int* mypnum, Int* nprocs );
+extern void Cblacs_gridinfo( Int context, Int* nprow, Int* npcol, Int* myrow, Int* mycol );
+extern void Cblacs_gridinit( Int* context, char* order, Int nprow, Int npcol );
+extern void Cblacs_gridmap( Int* context, Int* usermap, Int ldumap, Int nprow, Int npcol );
+extern void Cblacs_exit( Int continue_blacs );
+extern void Cblacs_gridexit( Int context );
+extern void Cblacs_setup( Int* mypnum, Int* nprocs );
+extern void Cigebs2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda );
+extern void Cigebr2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int rsrc, Int csrc );
+extern void Cigesd2d( Int context, Int m, Int n, Int* A, Int lda, Int rdest, Int cdest );
+extern void Cigerv2d( Int context, Int m, Int n, Int* A, Int lda, Int rsrc, Int csrc );
+extern void Cigsum2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int rdest, Int cdest );
+extern void Cigamn2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int* RA, Int* CA, Int rcflag, Int rdest, Int cdest );
+extern void Cigamx2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int* RA, Int* CA, Int rcflag, Int rdest, Int cdest );
 /* lapack */
 void  ilacpy_();
 /* aux fonctions */
-extern Int localindice();
-extern void *mr2d_malloc();
-extern Int ppcm();
-extern Int localsize();
-extern Int memoryblocksize();
-extern Int changeorigin();
-extern void paramcheck();
+extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
+extern void *mr2d_malloc( size_t n );
+extern Int ppcm( Int a, Int b );
+extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
+extern Int memoryblocksize( MDESC *a );
+extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
+extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
 #define scanD0 itrscanD0
 #define dispmat itrdispmat
 #define setmemory itrsetmemory
 #define freememory itrfreememory
 #define scan_intervals itrscan_intervals
-extern void scanD0();
+extern void scanD0( char* uplo, char* diag, Int action, Int* ptrbuff, Int* ptrsizebuff, Int m, Int n, MDESC* ma, Int ia, Int ja, Int p0, Int q0, MDESC* mb, Int ib, Int jb, Int p1, Int q1, IDESC* v_inter, Int vinter_nb, IDESC* h_inter, Int hinter_nb, Int* ptrblock );
 extern void dispmat();
-extern void setmemory();
-extern void freememory();
-extern Int scan_intervals();
-extern void Cpitrmr2do();
-extern void Cpitrmr2d();
+extern void setmemory( Int** ptr, Int size );
+extern void freememory( char* ptr );
+extern Int scan_intervals( char rc, Int i0, Int i1, Int len, MDESC *m0, MDESC *m1, Int p0, Int p1, Int myp, Int otherp, IDESC *inter );
+extern void Cpitrmr2do( char* uplo, char* diag, Int m, Int n, Int *ptrmyblock, Int ia, Int ja, MDESC *ma, Int *ptrmynewblock, Int ib, Int jb, MDESC *mb );
+extern void Cpitrmr2d( char* uplo, char* diag, Int m, Int n, Int *ptrmyblock, Int ia, Int ja, MDESC *ma, Int *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
 /* some defines for Cpitrmr2do */
 #define SENDBUFF 0
 #define RECVBUFF 1
@@ -255,7 +255,7 @@ extern void Cpitrmr2d();
 #include <stdlib.h>
 #include <assert.h>
 #define DESCLEN 9
-void 
+void
 fortran_mr2d(char *uplo, char *diag, Int *m, Int *n, Int *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
 	     Int *B, Int *ib, Int *jb, Int desc_B[DESCLEN])
 {
@@ -263,7 +263,7 @@ fortran_mr2d(char *uplo, char *diag, Int *m, Int *n, Int *A, Int *ia, Int *ja, I
 	     B, *ib, *jb, (MDESC *) desc_B);
   return;
 }
-void 
+void
 fortran_mr2dnew(char *uplo, char *diag, Int *m, Int *n, Int *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
 		Int *B, Int *ib, Int *jb, Int desc_B[DESCLEN], Int *gcontext)
 {
@@ -271,11 +271,11 @@ fortran_mr2dnew(char *uplo, char *diag, Int *m, Int *n, Int *A, Int *ia, Int *ja
 	    B, *ib, *jb, (MDESC *) desc_B, *gcontext);
   return;
 }
-static2 void init_chenille();
-static2 Int inter_len();
-static2 Int block2buff();
-static2 void buff2block();
-static2 void gridreshape();
+static2 void init_chenille( Int mypnum, Int nprocs, Int n0, Int *proc0, Int n1, Int *proc1, Int **psend, Int **precv, Int *myrang );
+static2 Int inter_len( Int hinb, IDESC *hi, Int vinb, IDESC *vi );
+static2 Int block2buff( IDESC *vi, Int vinb, IDESC *hi, Int hinb, Int *ptra, MDESC *ma, Int *buff );
+static2 void buff2block( IDESC *vi, Int vinb, IDESC *hi, Int hinb, Int *buff, Int *ptrb, MDESC *mb );
+static2 void gridreshape( Int *ctxtp );
 void
 Cpitrmr2do(uplo, diag, m, n,
 	   ptrmyblock, ia, ja, ma,
@@ -583,7 +583,7 @@ after_comm:
   free(h_inter);
   free(param);
 }/* distrib */
-static2 void 
+static2 void
 init_chenille(Int mypnum, Int nprocs, Int n0, Int *proc0, Int n1, Int *proc1, Int **psend, Int **precv, Int *myrang)
 {
   Int   ns, nr, i, tot;
@@ -637,7 +637,7 @@ init_chenille(Int mypnum, Int nprocs, Int n0, Int *proc0, Int n1, Int *proc1, In
       assert(nr <= n1);
     }
 }
-void 
+void
 Clacpy(Int m, Int n, Int *a, Int lda, Int *b, Int ldb)
 {
   Int   i, j;
@@ -651,7 +651,7 @@ Clacpy(Int m, Int n, Int *a, Int lda, Int *b, Int ldb)
     a += lda;
   }
 }
-static2 void 
+static2 void
 gridreshape(Int *ctxtp)
 {
   Int   ori, final;	/* original context, and new context created, with

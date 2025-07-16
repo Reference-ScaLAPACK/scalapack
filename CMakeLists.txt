@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.26...4.0)
 
 project(SCALAPACK VERSION 2.2.2 LANGUAGES C Fortran)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_EXTENSIONS OFF)
 
 # Add the CMake directory for custon CMake modules
 set(CMAKE_MODULE_PATH "${SCALAPACK_SOURCE_DIR}/CMAKE" ${CMAKE_MODULE_PATH})
@@ -223,6 +225,7 @@ append_subdir_files(src "SRC")
 append_subdir_files(src-C "SRC")
 
 if (NOT MSVC)
+   set_source_files_properties(TOOLS/SL_gridreshape.c PROPERTIES COMPILE_OPTIONS "-Wno-error=implicit-function-declaration")
    add_library(scalapack ${blacs} ${tools} ${tools-C} ${extra_lapack} ${pblas} ${pblas-F} ${ptzblas} ${ptools} ${pbblas} ${redist} ${src} ${src-C})
    set_target_properties(scalapack PROPERTIES
     VERSION ${SCALAPACK_VERSION}
