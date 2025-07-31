@@ -14,7 +14,7 @@
 #
 ############################################################################
 
-include ../../SLmake.inc
+include ../../../SLmake.inc
 
 shrdexe = ../xshrd
 dhrdexe = ../xdhrd
@@ -143,107 +143,107 @@ double:    $(dhrdexe) $(dtrdexe) $(dbrdexe) $(dsepexe) $(dgsepexe) $(dnepexe) $(
 complex:   $(chrdexe) $(ctrdexe) $(cbrdexe) $(csepexe) $(cgsepexe) $(cnepexe) $(cevcexe) $(cheevrexe)
 complex16: $(zhrdexe) $(ztrdexe) $(zbrdexe) $(zsepexe) $(zgsepexe) $(znepexe) $(zevcexe) $(zheevrexe)
 
-$(sbrdexe) : ../../$(SCALAPACKLIB) $(sbrd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(sbrdexe) $(sbrd) ../../$(SCALAPACKLIB) $(LIBS)
+$(sbrdexe) : ../../../$(SCALAPACKLIB) $(sbrd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(sbrdexe) $(sbrd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(dbrdexe) : ../../$(SCALAPACKLIB) $(dbrd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(dbrdexe) $(dbrd) ../../$(SCALAPACKLIB) $(LIBS)
+$(dbrdexe) : ../../../$(SCALAPACKLIB) $(dbrd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dbrdexe) $(dbrd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(cbrdexe) : ../../$(SCALAPACKLIB) $(cbrd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(cbrdexe) $(cbrd) ../../$(SCALAPACKLIB) $(LIBS)
+$(cbrdexe) : ../../../$(SCALAPACKLIB) $(cbrd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cbrdexe) $(cbrd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(zbrdexe) : ../../$(SCALAPACKLIB) $(zbrd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(zbrdexe) $(zbrd) ../../$(SCALAPACKLIB) $(LIBS)
+$(zbrdexe) : ../../../$(SCALAPACKLIB) $(zbrd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zbrdexe) $(zbrd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(shrdexe) : ../../$(SCALAPACKLIB) $(shrd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(shrdexe) $(shrd) ../../$(SCALAPACKLIB) $(LIBS)
+$(shrdexe) : ../../../$(SCALAPACKLIB) $(shrd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(shrdexe) $(shrd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(dhrdexe) : ../../$(SCALAPACKLIB) $(dhrd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(dhrdexe) $(dhrd) ../../$(SCALAPACKLIB) $(LIBS)
+$(dhrdexe) : ../../../$(SCALAPACKLIB) $(dhrd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dhrdexe) $(dhrd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(chrdexe) : ../../$(SCALAPACKLIB) $(chrd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(chrdexe) $(chrd) ../../$(SCALAPACKLIB) $(LIBS)
+$(chrdexe) : ../../../$(SCALAPACKLIB) $(chrd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(chrdexe) $(chrd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(zhrdexe) : ../../$(SCALAPACKLIB) $(zhrd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(zhrdexe) $(zhrd) ../../$(SCALAPACKLIB) $(LIBS)
+$(zhrdexe) : ../../../$(SCALAPACKLIB) $(zhrd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zhrdexe) $(zhrd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(strdexe) : ../../$(SCALAPACKLIB) $(strd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(strdexe) $(strd) ../../$(SCALAPACKLIB) $(LIBS)
+$(strdexe) : ../../../$(SCALAPACKLIB) $(strd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(strdexe) $(strd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(dtrdexe) : ../../$(SCALAPACKLIB) $(dtrd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(dtrdexe) $(dtrd) ../../$(SCALAPACKLIB) $(LIBS)
+$(dtrdexe) : ../../../$(SCALAPACKLIB) $(dtrd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dtrdexe) $(dtrd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(ctrdexe) : ../../$(SCALAPACKLIB) $(ctrd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(ctrdexe) $(ctrd) ../../$(SCALAPACKLIB) $(LIBS)
+$(ctrdexe) : ../../../$(SCALAPACKLIB) $(ctrd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(ctrdexe) $(ctrd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(ztrdexe) : ../../$(SCALAPACKLIB) $(ztrd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(ztrdexe) $(ztrd) ../../$(SCALAPACKLIB) $(LIBS)
+$(ztrdexe) : ../../../$(SCALAPACKLIB) $(ztrd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(ztrdexe) $(ztrd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(ssvdexe) : ../../$(SCALAPACKLIB) $(ssvd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(ssvdexe) $(ssvd) ../../$(SCALAPACKLIB) $(LIBS)
+$(ssvdexe) : ../../../$(SCALAPACKLIB) $(ssvd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(ssvdexe) $(ssvd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(dsvdexe) : ../../$(SCALAPACKLIB) $(dsvd)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(dsvdexe) $(dsvd) ../../$(SCALAPACKLIB) $(LIBS)
+$(dsvdexe) : ../../../$(SCALAPACKLIB) $(dsvd)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dsvdexe) $(dsvd) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(ssepexe) : ../../$(SCALAPACKLIB) $(ssep)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(ssepexe) $(ssep) ../../$(SCALAPACKLIB) $(LIBS)
+$(ssepexe) : ../../../$(SCALAPACKLIB) $(ssep)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(ssepexe) $(ssep) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(dsepexe) : ../../$(SCALAPACKLIB) $(dsep)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(dsepexe) $(dsep) ../../$(SCALAPACKLIB) $(LIBS)
+$(dsepexe) : ../../../$(SCALAPACKLIB) $(dsep)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dsepexe) $(dsep) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(csepexe) : ../../$(SCALAPACKLIB) $(csep)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(csepexe) $(csep) ../../$(SCALAPACKLIB) $(LIBS)
+$(csepexe) : ../../../$(SCALAPACKLIB) $(csep)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(csepexe) $(csep) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(zsepexe) : ../../$(SCALAPACKLIB) $(zsep)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(zsepexe) $(zsep) ../../$(SCALAPACKLIB) $(LIBS)
+$(zsepexe) : ../../../$(SCALAPACKLIB) $(zsep)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zsepexe) $(zsep) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(sgsepexe) : ../../$(SCALAPACKLIB) $(sgsep)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(sgsepexe) $(sgsep) ../../$(SCALAPACKLIB) $(LIBS)
+$(sgsepexe) : ../../../$(SCALAPACKLIB) $(sgsep)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(sgsepexe) $(sgsep) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(dgsepexe) : ../../$(SCALAPACKLIB) $(dgsep)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(dgsepexe) $(dgsep) ../../$(SCALAPACKLIB) $(LIBS)
+$(dgsepexe) : ../../../$(SCALAPACKLIB) $(dgsep)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dgsepexe) $(dgsep) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(cgsepexe) : ../../$(SCALAPACKLIB) $(cgsep)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(cgsepexe) $(cgsep) ../../$(SCALAPACKLIB) $(LIBS)
+$(cgsepexe) : ../../../$(SCALAPACKLIB) $(cgsep)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cgsepexe) $(cgsep) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(zgsepexe) : ../../$(SCALAPACKLIB) $(zgsep)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(zgsepexe) $(zgsep) ../../$(SCALAPACKLIB) $(LIBS)
+$(zgsepexe) : ../../../$(SCALAPACKLIB) $(zgsep)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zgsepexe) $(zgsep) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(snepexe) : ../../$(SCALAPACKLIB) $(snep)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(snepexe) $(snep) ../../$(SCALAPACKLIB) $(LIBS)
+$(snepexe) : ../../../$(SCALAPACKLIB) $(snep)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(snepexe) $(snep) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(dnepexe) : ../../$(SCALAPACKLIB) $(dnep)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(dnepexe) $(dnep) ../../$(SCALAPACKLIB) $(LIBS)
+$(dnepexe) : ../../../$(SCALAPACKLIB) $(dnep)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dnepexe) $(dnep) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(cnepexe) : ../../$(SCALAPACKLIB) $(cnep)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(cnepexe) $(cnep) ../../$(SCALAPACKLIB) $(LIBS)
+$(cnepexe) : ../../../$(SCALAPACKLIB) $(cnep)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cnepexe) $(cnep) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(znepexe) : ../../$(SCALAPACKLIB) $(znep)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(znepexe) $(znep) ../../$(SCALAPACKLIB) $(LIBS)
+$(znepexe) : ../../../$(SCALAPACKLIB) $(znep)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(znepexe) $(znep) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(cevcexe): ../../$(SCALAPACKLIB) $(cevc)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(cevcexe) $(cevc) ../../$(SCALAPACKLIB) $(LIBS)
+$(cevcexe): ../../../$(SCALAPACKLIB) $(cevc)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cevcexe) $(cevc) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(zevcexe): ../../$(SCALAPACKLIB) $(zevc)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(zevcexe) $(zevc) ../../$(SCALAPACKLIB) $(LIBS)
+$(zevcexe): ../../../$(SCALAPACKLIB) $(zevc)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zevcexe) $(zevc) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(ssyevrexe): ../../$(SCALAPACKLIB) $(ssyevr)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(ssyevrexe) $(ssyevr) ../../$(SCALAPACKLIB) $(LIBS)
+$(ssyevrexe): ../../../$(SCALAPACKLIB) $(ssyevr)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(ssyevrexe) $(ssyevr) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(dsyevrexe): ../../$(SCALAPACKLIB) $(dsyevr)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(dsyevrexe) $(dsyevr) ../../$(SCALAPACKLIB) $(LIBS)
+$(dsyevrexe): ../../../$(SCALAPACKLIB) $(dsyevr)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dsyevrexe) $(dsyevr) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(cheevrexe): ../../$(SCALAPACKLIB) $(cheevr)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(cheevrexe) $(cheevr) ../../$(SCALAPACKLIB) $(LIBS)
+$(cheevrexe): ../../../$(SCALAPACKLIB) $(cheevr)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(cheevrexe) $(cheevr) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(zheevrexe): ../../$(SCALAPACKLIB) $(zheevr)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(zheevrexe) $(zheevr) ../../$(SCALAPACKLIB) $(LIBS)
+$(zheevrexe): ../../../$(SCALAPACKLIB) $(zheevr)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(zheevrexe) $(zheevr) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(shseqrexe): ../../$(SCALAPACKLIB) $(shseqr)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(shseqrexe) $(shseqr) ../../$(SCALAPACKLIB) $(LIBS)
+$(shseqrexe): ../../../$(SCALAPACKLIB) $(shseqr)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(shseqrexe) $(shseqr) ../../../$(SCALAPACKLIB) $(LIBS)
 
-$(dhseqrexe): ../../$(SCALAPACKLIB) $(dhseqr)
-	$(FCLOADER) $(FCLOADFLAGS) -o $(dhseqrexe) $(dhseqr) ../../$(SCALAPACKLIB) $(LIBS)
+$(dhseqrexe): ../../../$(SCALAPACKLIB) $(dhseqr)
+	$(FCLOADER) $(FCLOADFLAGS) -o $(dhseqrexe) $(dhseqr) ../../../$(SCALAPACKLIB) $(LIBS)
 
 clean:
 	rm -f *.o

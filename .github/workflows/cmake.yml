@@ -80,7 +80,7 @@ jobs:
       # CMake<3.20 does not have -B option
       working-directory: ${{github.workspace}}/build
       run: >
-        ctest --output-on-failure
+        ctest --output-on-failure -j $(nproc)
 
     - name: Install
       run: cmake --install build --prefix scalapack_install
