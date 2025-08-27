@@ -1,5 +1,6 @@
       SUBROUTINE PZNEPFCHK( N, A, IA, JA, DESCA, IASEED, Z, IZ, JZ,
      $                      DESCZ, ANORM, FRESID, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK testing routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

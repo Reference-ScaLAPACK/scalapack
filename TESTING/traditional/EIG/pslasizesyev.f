@@ -1,6 +1,7 @@
 *
 *
       SUBROUTINE PSLASIZESYEV( JOBZ, N, DESCA, MINSIZE )
+      IMPLICIT NONE
 *
 *
 *  -- ScaLAPACK routine (version 1.7) --

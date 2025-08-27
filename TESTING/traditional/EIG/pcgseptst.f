@@ -5,6 +5,7 @@
      $                      COPYB, Z, LDA, WIN, WNEW, IFAIL, ICLUSTR,
      $                      GAP, IPREPAD, IPOSTPAD, WORK, LWORK, RWORK,
      $                      LRWORK, IWORK, LIWORK, NOUT, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

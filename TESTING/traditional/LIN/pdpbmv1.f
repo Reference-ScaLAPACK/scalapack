@@ -1,5 +1,6 @@
       SUBROUTINE PDPBDCMV( LDBW, BW, UPLO, N, A, JA, DESCA, NRHS, B, IB,
      $                     DESCB, X, WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *
 *

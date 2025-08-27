@@ -1,6 +1,7 @@
       SUBROUTINE PDDBLASCHK( SYMM, UPLO, TRANS, N, BWL, BWU, NRHS, X,
      $                       IX, JX, DESCX, IASEED, A, IA, JA, DESCA,
      $                       IBSEED, ANORM, RESID, WORK, WORKSIZ )
+      IMPLICIT NONE
 *
 *
 *  -- ScaLAPACK routine (version 1.7) --

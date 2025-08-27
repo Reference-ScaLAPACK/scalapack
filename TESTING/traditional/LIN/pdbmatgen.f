@@ -2,6 +2,7 @@
      $                     MB, NB, A,
      $                     LDA, IAROW, IACOL, ISEED,
      $                     MYROW, MYCOL, NPROW, NPCOL )
+      IMPLICIT NONE
 *
 *
 *

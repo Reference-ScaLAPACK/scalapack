@@ -1,4 +1,5 @@
       PROGRAM PDGBDRIVER
+      IMPLICIT NONE
 *
 *
 *  -- ScaLAPACK routine (version 1.7) --

@@ -1,6 +1,7 @@
       SUBROUTINE PSMATGEN2( ICTXT, AFORM, DIAG, M, N, MB, NB, A, LDA,
      $                     IAROW, IACOL, ISEED, IROFF, IRNUM, ICOFF,
      $                     ICNUM, MYROW, MYCOL, NPROW, NPCOL )
+      IMPLICIT NONE
 *
 *
 *	 Modified  version by K. L. Dackland (U added)

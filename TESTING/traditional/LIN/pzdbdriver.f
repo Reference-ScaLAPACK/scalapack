@@ -1,4 +1,5 @@
       PROGRAM PZDBDRIVER
+      IMPLICIT NONE
 *
 *
 *  -- ScaLAPACK routine (version 1.7) --

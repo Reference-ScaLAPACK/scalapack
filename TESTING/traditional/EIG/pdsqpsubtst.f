@@ -4,6 +4,7 @@
      $                        COPYA, Z, IA, JA, DESCA, WIN, WNEW,
      $                        IPREPAD, IPOSTPAD, WORK, LWORK, LWORK1,
      $                        RESULT, TSTNRM, QTQNRM, NOUT )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

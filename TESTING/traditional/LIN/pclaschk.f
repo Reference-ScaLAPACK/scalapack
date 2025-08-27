@@ -1,6 +1,7 @@
       SUBROUTINE PCLASCHK( SYMM, DIAG, N, NRHS, X, IX, JX, DESCX,
      $                     IASEED, IA, JA, DESCA, IBSEED, ANORM, RESID,
      $                     WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

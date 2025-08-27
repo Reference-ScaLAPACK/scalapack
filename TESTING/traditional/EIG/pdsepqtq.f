@@ -3,6 +3,7 @@
       SUBROUTINE PDSEPQTQ( MS, NV, THRESH, Q, IQ, JQ, DESCQ, C, IC, JC,
      $                     DESCC, PROCDIST, ICLUSTR, GAP, WORK, LWORK,
      $                     QTQNRM, INFO, RES )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

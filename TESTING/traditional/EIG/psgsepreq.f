@@ -2,6 +2,7 @@
 *
       SUBROUTINE PSGSEPREQ( NIN, MEM, MEMSIZE, NOUT, ISEED, NTESTS,
      $                      NSKIPPED, NNOCHECK, NPASSED, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK test routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

@@ -3,6 +3,7 @@
       SUBROUTINE PDSEPCHK( MS, NV, A, IA, JA, DESCA, EPSNORMA, THRESH,
      $                     Q, IQ, JQ, DESCQ, C, IC, JC, DESCC, W, WORK,
      $                     LWORK, TSTNRM, RESULT )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 2.0.2) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver

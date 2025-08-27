@@ -2,6 +2,7 @@
 *
       SUBROUTINE PZLAGHE( N, K, D, A, IA, JA, DESCA, ISEED, ORDER, WORK,
      $                    LWORK, INFO )
+      IMPLICIT NONE
 *
 *
 *  -- ScaLAPACK routine (version 1.7) --

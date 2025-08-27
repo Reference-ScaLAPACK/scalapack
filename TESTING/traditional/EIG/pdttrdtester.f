@@ -1,5 +1,6 @@
       SUBROUTINE PDTTRDTESTER( IAM, NPROCS, CHECK, NOUT, THRESH, NVAL,
      $                         NMAT, MEM, TOTMEM, KPASS, KFAIL, KSKIP )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK test routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

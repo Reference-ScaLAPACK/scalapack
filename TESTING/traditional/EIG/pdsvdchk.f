@@ -1,6 +1,7 @@
       SUBROUTINE PDSVDCHK( M, N, A, IA, JA, DESCA, U, IU, JU, DESCU, VT,
      $                     IVT, JVT, DESCVT, S, THRESH, WORK, LWORK,
      $                     RESULT, CHK, MTM )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

@@ -1,5 +1,6 @@
       SUBROUTINE PCGET22( TRANSA, TRANSE, TRANSW, N, A, DESCA, E, DESCE,
      $                    W, WORK, DESCW, RWORK, RESULT )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK testing routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

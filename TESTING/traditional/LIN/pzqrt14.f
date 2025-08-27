@@ -1,5 +1,6 @@
       DOUBLE PRECISION FUNCTION PZQRT14( TRANS, M, N, NRHS, A, IA, JA,
      $                                   DESCA, X, IX, JX, DESCX, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
