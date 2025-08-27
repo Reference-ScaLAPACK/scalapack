@@ -1,4 +1,5 @@
       SUBROUTINE CLAGGE( M, N, KL, KU, D, A, LDA, ISEED, WORK, INFO )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary test routine (version 3.1) --
 *     Univ. of Tennessee, Univ. of California Berkeley and NAG Ltd..

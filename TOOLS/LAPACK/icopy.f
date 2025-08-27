@@ -1,4 +1,5 @@
       SUBROUTINE ICOPY( N, SX, INCX, SY, INCY )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary test routine (version 3.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,

@@ -1,5 +1,6 @@
       SUBROUTINE CLATMS( M, N, DIST, ISEED, SYM, D, MODE, COND, DMAX,
      $                   KL, KU, PACK, A, LDA, WORK, INFO )
+      IMPLICIT NONE
 *
 *  -- LAPACK test routine (version 3.1) --
 *     Univ. of Tennessee, Univ. of California Berkeley and NAG Ltd..

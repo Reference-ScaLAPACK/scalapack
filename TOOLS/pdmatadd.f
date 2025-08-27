@@ -1,5 +1,6 @@
       SUBROUTINE PDMATADD( M, N, ALPHA, A, IA, JA, DESCA, BETA, C, IC,
      $                     JC, DESCC )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

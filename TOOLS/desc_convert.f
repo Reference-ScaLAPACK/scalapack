@@ -1,4 +1,5 @@
       SUBROUTINE DESC_CONVERT( DESC_IN, DESC_OUT, INFO )
+      IMPLICIT NONE
 *
 *
 *     .. Array Arguments ..

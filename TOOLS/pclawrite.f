@@ -1,5 +1,6 @@
       SUBROUTINE PCLAWRITE( FILNAM, M, N, A, IA, JA, DESCA, IRWRIT,
      $                      ICWRIT, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.8) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

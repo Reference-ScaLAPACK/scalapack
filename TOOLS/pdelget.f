@@ -1,4 +1,5 @@
       SUBROUTINE PDELGET( SCOPE, TOP, ALPHA, A, IA, JA, DESCA )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

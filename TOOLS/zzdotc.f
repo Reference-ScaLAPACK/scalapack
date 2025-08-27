@@ -1,4 +1,5 @@
       SUBROUTINE ZZDOTC( N, DOTC, X, INCX, Y, INCY )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

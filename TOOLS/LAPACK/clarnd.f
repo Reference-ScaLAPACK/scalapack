@@ -1,4 +1,5 @@
       COMPLEX FUNCTION CLARND( IDIST, ISEED )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 3.1) --
 *     Univ. of Tennessee, Univ. of California Berkeley and NAG Ltd..
