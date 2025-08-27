@@ -1,4 +1,5 @@
       SUBROUTINE PXERBLA( ICTXT, SRNAME, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

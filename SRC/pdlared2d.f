@@ -1,4 +1,5 @@
       SUBROUTINE PDLARED2D( N, IA, JA, DESC, BYROW, BYALL, WORK, LWORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

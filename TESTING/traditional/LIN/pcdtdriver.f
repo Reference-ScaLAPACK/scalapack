@@ -1,4 +1,5 @@
       PROGRAM PCDTDRIVER
+      IMPLICIT NONE
 *
 *
 *  -- ScaLAPACK routine (version 1.7) --

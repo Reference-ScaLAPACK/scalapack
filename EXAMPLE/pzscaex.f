@@ -1,4 +1,5 @@
       PROGRAM PZSCAEX
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK example code --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

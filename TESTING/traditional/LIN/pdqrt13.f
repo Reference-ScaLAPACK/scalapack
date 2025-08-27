@@ -1,5 +1,6 @@
       SUBROUTINE PDQRT13( SCALE, M, N, A, IA, JA, DESCA, NORMA, ISEED,
      $                    WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

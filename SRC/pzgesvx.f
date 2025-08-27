@@ -2,6 +2,7 @@
      $                    IAF, JAF, DESCAF, IPIV, EQUED, R, C, B, IB,
      $                    JB, DESCB, X, IX, JX, DESCX, RCOND, FERR,
      $                    BERR, WORK, LWORK, RWORK, LRWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

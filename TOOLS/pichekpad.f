@@ -1,5 +1,6 @@
       SUBROUTINE PICHEKPAD( ICTXT, MESS, M, N, A, LDA, IPRE, IPOST,
      $                     CHKVAL )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

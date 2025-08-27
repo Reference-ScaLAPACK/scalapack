@@ -1,5 +1,6 @@
       SUBROUTINE PSDBSV( N, BWL, BWU, NRHS, A, JA, DESCA, B, IB, DESCB,
      $                   WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *
 *

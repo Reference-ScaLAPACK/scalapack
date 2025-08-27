@@ -1,4 +1,5 @@
       SUBROUTINE PZLAREAD( FILNAM, A, DESCA, IRREAD, ICREAD, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.8) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

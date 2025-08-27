@@ -1,5 +1,6 @@
       SUBROUTINE PCGEHRD( N, ILO, IHI, A, IA, JA, DESCA, TAU, WORK,
      $                    LWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

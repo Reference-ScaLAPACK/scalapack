@@ -1,5 +1,6 @@
       SUBROUTINE PZLACP2( UPLO, M, N, A, IA, JA, DESCA, B, IB, JB,
      $                     DESCB )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 2.0.2) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver

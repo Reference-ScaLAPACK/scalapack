@@ -1,4 +1,5 @@
       SUBROUTINE ZSTEQR2( COMPZ, N, D, E, Z, LDZ, NR, WORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,

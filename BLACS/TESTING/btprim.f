@@ -1,6 +1,7 @@
       SUBROUTINE BTSETUP( MEM, MEMLEN, CMEM, CMEMLEN, OUTNUM,
      $                    TESTSDRV, TESTBSBR, TESTCOMB, TESTAUX,
      $                    IAM, NNODES )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -44,6 +45,7 @@
       RETURN
       END
       INTEGER FUNCTION IBTMYPROC()
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -78,6 +80,7 @@
       END
 *
       INTEGER FUNCTION IBTNPROCS()
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -112,6 +115,7 @@
       END
 *
       SUBROUTINE BTSEND(DTYPE, N, BUFF, DEST, MSGID)
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -204,6 +208,7 @@
       END
 *
       SUBROUTINE BTRECV(DTYPE, N, BUFF, SRC, MSGID)
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -283,6 +288,7 @@
       END
 *
       INTEGER FUNCTION IBTSIZEOF(TYPE)
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -359,6 +365,7 @@
       RETURN
       END
       SUBROUTINE BTMPIERR(ROUT, IERR0)
+      IMPLICIT NONE
       CHARACTER*(*) ROUT
       INTEGER IERR0
 *     ..

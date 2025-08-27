@@ -1,5 +1,6 @@
       SUBROUTINE PSLARZB( SIDE, TRANS, DIRECT, STOREV, M, N, K, L, V,
      $                    IV, JV, DESCV, T, C, IC, JC, DESCC, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

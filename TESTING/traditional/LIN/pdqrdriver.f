@@ -1,4 +1,5 @@
       PROGRAM PDQRDRIVER
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK testing driver (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -865,6 +866,7 @@
       END
 *
       SUBROUTINE PDQPPIV( M, N, A, IA, JA, DESCA, IPIV )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

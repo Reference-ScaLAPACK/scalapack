@@ -1,4 +1,5 @@
       SUBROUTINE SSTEQR2( COMPZ, N, D, E, Z, LDZ, NR, WORK, INFO )
+      IMPLICIT NONE
 *
 *  -- LAPACK routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,

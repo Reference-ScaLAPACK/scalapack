@@ -1,5 +1,6 @@
       SUBROUTINE PDSCAEXINFO( SUMMRY, NOUT, N, NRHS, NB, NPROW, NPCOL,
      $                        WORK, IAM, NPROCS )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK example code --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

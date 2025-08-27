@@ -3,6 +3,7 @@
 *  =====================================================================
 *
       SUBROUTINE LADD( J, K, I )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -38,6 +39,7 @@
 *  =====================================================================
 *
       SUBROUTINE LMUL( K, J, I )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -82,6 +84,7 @@
 *  =====================================================================
 *
       SUBROUTINE XJUMPM( JUMPM, MULT, IADD, IRANN, IRANM, IAM, ICM )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -139,6 +142,7 @@
 *  =====================================================================
 *
       SUBROUTINE SETRAN( IRAN, IA, IC )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -180,6 +184,7 @@
 *  =====================================================================
 *
       SUBROUTINE JUMPIT( MULT, IADD, IRANN, IRANM )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -221,6 +226,7 @@
 *  =====================================================================
 *
       REAL FUNCTION PSRAND( IDUMM )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -269,6 +275,7 @@
 *  =====================================================================
 *
       DOUBLE PRECISION FUNCTION PDRAND( IDUMM )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

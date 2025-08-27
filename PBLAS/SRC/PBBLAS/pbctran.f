@@ -1,5 +1,6 @@
       SUBROUTINE PBCTRAN( ICONTXT, ADIST, TRANS, M, N, NB, A, LDA, BETA,
      $                    C, LDC, IAROW, IACOL, ICROW, ICCOL, WORK )
+      IMPLICIT NONE
 *
 *  -- PB-BLAS routine (version 2.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory.
@@ -612,6 +613,7 @@
 *
       SUBROUTINE PBCTR2AT( ICONTXT, ADIST, TRANS, M, N, NB, A, LDA,
      $                     BETA, B, LDB, LCMP, LCMQ )
+      IMPLICIT NONE
 *
 *  -- PB-BLAS routine (version 2.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory.
@@ -703,6 +705,7 @@
 *
       SUBROUTINE PBCTR2BT( ICONTXT, ADIST, TRANS, M, N, NB, A, LDA,
      $                     BETA, B, LDB, INTV )
+      IMPLICIT NONE
 *
 *  -- PB-BLAS routine (version 2.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory.
@@ -790,6 +793,7 @@
 *
       SUBROUTINE PBCTR2AF( ICONTXT, ADIST, M, N, NB, A, LDA, BETA, B,
      $                     LDB, LCMP, LCMQ, NINT )
+      IMPLICIT NONE
 *
 *  -- PB-BLAS routine (version 2.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory.

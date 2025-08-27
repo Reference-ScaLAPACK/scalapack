@@ -9,6 +9,7 @@
       END BLOCK DATA
       
       PROGRAM PDBLA1TIM
+      IMPLICIT NONE
 *
 *  -- PBLAS timing driver (version 2.0.2) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
@@ -547,6 +548,7 @@
      $                          IYVAL, JYVAL, INCYVAL, LDVAL, NGRIDS,
      $                          PVAL, LDPVAL, QVAL, LDQVAL, LTEST, IAM,
      $                          NPROCS, ALPHA, WORK )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

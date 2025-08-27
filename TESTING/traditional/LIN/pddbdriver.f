@@ -1,4 +1,5 @@
       PROGRAM PDDBDRIVER
+      IMPLICIT NONE
 *
 *
 *  -- ScaLAPACK routine (version 1.7) --

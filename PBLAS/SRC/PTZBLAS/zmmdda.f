@@ -1,4 +1,5 @@
       SUBROUTINE ZMMDDA( M, N, ALPHA, A, LDA, BETA, B, LDB )
+      IMPLICIT NONE
 *
 *  -- PBLAS auxiliary routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

@@ -2,6 +2,7 @@
      $                    RELTOL, D, E, E2, PIVMIN, NSPLIT, ISPLIT, 
      $                    M, W, WERR, WL, WU, IBLOCK, INDEXW, 
      $                    WORK, IWORK, DOL, DOU, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver

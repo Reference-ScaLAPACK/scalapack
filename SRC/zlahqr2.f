@@ -1,5 +1,6 @@
       SUBROUTINE ZLAHQR2( WANTT, WANTZ, N, ILO, IHI, H, LDH, W, ILOZ,
      $                    IHIZ, Z, LDZ, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,

@@ -1,6 +1,7 @@
       SUBROUTINE PSLAED3( ICTXT, K, N, NB, D, DROW, DCOL, RHO, DLAMDA,
      $                    W, Z, U, LDU, BUF, INDX, INDCOL, INDROW,
      $                    INDXR, INDXC, CTOT, NPCOL, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

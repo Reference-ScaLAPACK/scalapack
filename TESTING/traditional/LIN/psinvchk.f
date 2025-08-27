@@ -1,5 +1,6 @@
       SUBROUTINE PSINVCHK( MATTYP, N, A, IA, JA, DESCA, IASEED, ANORM,
      $                     FRESID, RCOND, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

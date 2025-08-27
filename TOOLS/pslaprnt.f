@@ -1,5 +1,6 @@
       SUBROUTINE PSLAPRNT( M, N, A, IA, JA, DESCA, IRPRNT, ICPRNT,
      $                     CMATNM, NOUT, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

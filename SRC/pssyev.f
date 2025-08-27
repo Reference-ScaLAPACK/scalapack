@@ -1,5 +1,6 @@
       SUBROUTINE PSSYEV( JOBZ, UPLO, N, A, IA, JA, DESCA, W,
      $                   Z, IZ, JZ, DESCZ, WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

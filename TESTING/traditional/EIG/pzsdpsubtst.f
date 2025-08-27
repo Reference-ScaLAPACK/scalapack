@@ -3,6 +3,7 @@
      $                        IPOSTPAD, WORK, LWORK, RWORK, LRWORK,
      $                        LWORK1, IWORK, LIWORK, RESULT, TSTNRM,
      $                        QTQNRM, NOUT )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK testing routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

@@ -1,5 +1,6 @@
       SUBROUTINE PCPBTRS( UPLO, N, BW, NRHS, A, JA, DESCA, B, IB, DESCB,
      $                    AF, LAF, WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *
 *

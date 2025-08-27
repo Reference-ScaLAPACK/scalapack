@@ -1,5 +1,6 @@
       SUBROUTINE PSTREECOMB( ICTXT, SCOPE, N, MINE, RDEST0, CDEST0,
      $                       SUBPTR )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -209,6 +210,7 @@
       END
 *
       SUBROUTINE SCOMBAMAX( V1, V2 )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -255,6 +257,7 @@
       END
 *
       SUBROUTINE SCOMBSSQ( V1, V2 )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -303,6 +306,7 @@
       END
 *
       SUBROUTINE SCOMBNRM2( X, Y )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

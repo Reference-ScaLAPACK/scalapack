@@ -1,6 +1,7 @@
       SUBROUTINE PZMATGEN( ICTXT, AFORM, DIAG, M, N, MB, NB, A, LDA,
      $                     IAROW, IACOL, ISEED, IROFF, IRNUM, ICOFF,
      $                     ICNUM, MYROW, MYCOL, NPROW, NPCOL )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

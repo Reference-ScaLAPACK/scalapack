@@ -2,6 +2,7 @@
 *
       SUBROUTINE PZLASIZEHEEVX( WKNOWN, RANGE, N, DESCA, VL, VU, IL, IU,
      $                          ISEED, WIN, MAXSIZE, VECSIZE, VALSIZE )
+      IMPLICIT NONE
 *
 *
 *  -- ScaLAPACK routine (version 1.7) --

@@ -1,5 +1,6 @@
       SUBROUTINE INFOG2L( GRINDX, GCINDX, DESC, NPROW, NPCOL, MYROW,
      $                    MYCOL, LRINDX, LCINDX, RSRC, CSRC )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

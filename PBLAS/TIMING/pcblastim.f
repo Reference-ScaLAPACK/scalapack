@@ -1,4 +1,5 @@
       SUBROUTINE PCLASCAL( TYPE, M, N, ALPHA, A, IA, JA, DESCA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -507,6 +508,7 @@
       END
       SUBROUTINE PCLAGEN( INPLACE, AFORM, DIAG, OFFA, M, N, IA, JA,
      $                    DESCA, IASEED, A, LDA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -910,6 +912,7 @@
 *
       END
       SUBROUTINE PCLADOM( INPLACE, N, ALPHA, A, IA, JA, DESCA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -1317,6 +1320,7 @@
 *
       END
       SUBROUTINE PB_CLASCAL( UPLO, M, N, IOFFD, ALPHA, A, LDA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -1498,6 +1502,7 @@
       SUBROUTINE PB_CLAGEN( UPLO, AFORM, A, LDA, LCMT00, IRAN, MBLKS,
      $                      IMBLOC, MB, LMBLOC, NBLKS, INBLOC, NB,
      $                      LNBLOC, JMP, IMULADD )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2563,6 +2568,7 @@
 *
       END
       REAL               FUNCTION PB_SRAND( IDUMM )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2625,6 +2631,7 @@
 *
       END
       REAL               FUNCTION PB_SRAN( IDUMM )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

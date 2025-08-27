@@ -1,5 +1,6 @@
       SUBROUTINE PDPBTRS( UPLO, N, BW, NRHS, A, JA, DESCA, B, IB, DESCB,
      $                    AF, LAF, WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

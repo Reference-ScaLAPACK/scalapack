@@ -1,5 +1,6 @@
       SUBROUTINE PSLASRT( ID, N, D, Q, IQ, JQ, DESCQ, WORK, LWORK, 
      $                    IWORK, LIWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 2.0.2) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver

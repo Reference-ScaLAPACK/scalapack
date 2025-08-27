@@ -1,5 +1,6 @@
       SUBROUTINE PDGBDCMV( LDBW, BWL, BWU, TRANS, N, A, JA, DESCA, NRHS,
      $                     B, IB, DESCB, X, WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *
 *

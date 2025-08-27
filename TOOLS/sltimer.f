@@ -1,4 +1,5 @@
       SUBROUTINE SLBOOT()
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -44,6 +45,7 @@
       END
 *
       SUBROUTINE SLTIMER( I )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -120,6 +122,7 @@
       END
 *
       SUBROUTINE SLENABLE()
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -152,6 +155,7 @@
       END
 *
       SUBROUTINE SLDISABLE()
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -186,6 +190,7 @@
       END
 *
       DOUBLE PRECISION FUNCTION SLINQUIRE( TIMETYPE, I )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -264,6 +269,7 @@
 *
       SUBROUTINE SLCOMBINE( ICTXT, SCOPE, OP, TIMETYPE, N, IBEG,
      $                      TIMES )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

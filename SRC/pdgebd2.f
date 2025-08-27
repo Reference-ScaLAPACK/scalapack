@@ -1,5 +1,6 @@
       SUBROUTINE PDGEBD2( M, N, A, IA, JA, DESCA, D, E, TAUQ, TAUP,
      $                    WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

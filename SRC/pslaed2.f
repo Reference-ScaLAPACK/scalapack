@@ -2,6 +2,7 @@
      $                    RHO, Z, W, DLAMDA, Q2, LDQ2, QBUF, CTOT, PSM,
      $                    NPCOL, INDX, INDXC, INDXP, INDCOL, COLTYP, NN,
      $                    NN1, NN2, IB1, IB2 )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

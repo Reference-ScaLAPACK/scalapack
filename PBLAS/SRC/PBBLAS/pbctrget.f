@@ -1,5 +1,6 @@
       SUBROUTINE PBCTRGET( ICONTXT, ADIST, M, N, MNB, A, LDA, MCROW,
      $                     MCCOL, IGD, MYROW, MYCOL, NPROW, NPCOL )
+      IMPLICIT NONE
 *
 *  -- PB-BLAS routine (version 2.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory.

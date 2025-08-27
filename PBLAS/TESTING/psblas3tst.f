@@ -9,6 +9,7 @@
       END BLOCK DATA
 
       PROGRAM PSBLA3TST
+      IMPLICIT NONE
 *
 *  -- PBLAS testing driver (version 2.0.2) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
@@ -1314,6 +1315,7 @@
      $                          LDPVAL, QVAL, LDQVAL, NBLOG, LTEST, SOF,
      $                          TEE, IAM, IGAP, IVERB, NPROCS, THRESH,
      $                          ALPHA, BETA, WORK )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2189,6 +2191,7 @@
 *
       END
       SUBROUTINE PSBLAS3TSTCHKE( LTEST, INOUT, NPROCS )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2401,6 +2404,7 @@
      $                      TRANSB, DIAG, M, N, K, ALPHA, IA, JA,
      $                      DESCA, IB, JB, DESCB, BETA, IC, JC, DESCC,
      $                      INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2732,6 +2736,7 @@
      $                          JA, DESCA, B, PB, IB, JB, DESCB, BETA,
      $                          C, PC, IC, JC, DESCC, THRESH, ROGUE,
      $                          WORK, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

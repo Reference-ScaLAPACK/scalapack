@@ -3,6 +3,7 @@
       SUBROUTINE PZLATMS( M, N, DIST, ISEED, SYM, D, MODE, COND, DMAX,
      $                    KL, KU, PACK, A, IA, JA, DESCA, ORDER, WORK,
      $                    LWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

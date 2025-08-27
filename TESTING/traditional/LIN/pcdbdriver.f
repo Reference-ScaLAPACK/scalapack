@@ -1,4 +1,5 @@
       PROGRAM PCDBDRIVER
+      IMPLICIT NONE
 *
 *
 *  -- ScaLAPACK routine (version 1.7) --

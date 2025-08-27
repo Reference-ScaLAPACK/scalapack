@@ -1,5 +1,6 @@
       SUBROUTINE PZLATTRS( UPLO, TRANS, DIAG, NORMIN, N, A, IA, JA,
      $                     DESCA, X, IX, JX, DESCX, SCALE, CNORM, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

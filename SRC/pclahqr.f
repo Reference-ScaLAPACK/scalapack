@@ -1,6 +1,7 @@
       SUBROUTINE PCLAHQR( WANTT, WANTZ, N, ILO, IHI, A, DESCA, W, ILOZ,
      $                    IHIZ, Z, DESCZ, WORK, LWORK, IWORK, ILWORK,
      $                    INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7.3) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

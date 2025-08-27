@@ -1,5 +1,6 @@
       SUBROUTINE PDPBSV( UPLO, N, BW, NRHS, A, JA, DESCA, B, IB, DESCB,
      $                   WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *
 *

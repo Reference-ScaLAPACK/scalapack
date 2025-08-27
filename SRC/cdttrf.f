@@ -1,4 +1,5 @@
       SUBROUTINE CDTTRF( N, DL, D, DU, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver

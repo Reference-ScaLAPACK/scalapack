@@ -1,5 +1,6 @@
       SUBROUTINE CLAROT( LROWS, LLEFT, LRIGHT, NL, C, S, A, LDA, XLEFT,
      $                   XRIGHT )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary test routine (version 3.1) --
 *     Univ. of Tennessee, Univ. of California Berkeley and NAG Ltd..

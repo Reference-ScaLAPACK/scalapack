@@ -1,4 +1,5 @@
       PROGRAM PDHRDDRIVER
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK testing driver (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

@@ -1,6 +1,7 @@
 
       SUBROUTINE PCGESVD(JOBU,JOBVT,M,N,A,IA,JA,DESCA,S,U,IU,JU,DESCU,
      +                   VT,IVT,JVT,DESCVT,WORK,LWORK,RWORK,INFO)
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     Univ. of Tennessee, Oak Ridge National Laboratory

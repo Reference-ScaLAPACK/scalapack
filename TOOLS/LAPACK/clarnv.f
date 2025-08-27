@@ -1,4 +1,5 @@
       SUBROUTINE CLARNV( IDIST, ISEED, N, X )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 3.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,

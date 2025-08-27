@@ -1,4 +1,5 @@
       REAL               FUNCTION PSLAMCH( ICTXT, CMACH )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
