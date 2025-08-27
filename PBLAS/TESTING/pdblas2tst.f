@@ -9,6 +9,7 @@
       END BLOCK DATA
       
       PROGRAM PDBLA2TST
+      IMPLICIT NONE
 *
 *  -- PBLAS testing driver (version 2.0.2) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
@@ -1118,6 +1119,7 @@
      $                          QVAL, LDQVAL, NBLOG, LTEST, SOF, TEE,
      $                          IAM, IGAP, IVERB, NPROCS, THRESH, ALPHA,
      $                          BETA, WORK )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -1988,6 +1990,7 @@
 *
       END
       SUBROUTINE PDBLAS2TSTCHKE( LTEST, INOUT, NPROCS )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2195,6 +2198,7 @@
       SUBROUTINE PDCHKARG2( ICTXT, NOUT, SNAME, UPLO, TRANS, DIAG, M,
      $                      N, ALPHA, IA, JA, DESCA, IX, JX, DESCX,
      $                      INCX, BETA, IY, JY, DESCY, INCY, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2522,6 +2526,7 @@
      $                          PX, IX, JX, DESCX, INCX, BETA, Y, PY,
      $                          IY, JY, DESCY, INCY, THRESH, ROGUE,
      $                          WORK, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

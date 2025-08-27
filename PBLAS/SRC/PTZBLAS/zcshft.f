@@ -1,4 +1,5 @@
       SUBROUTINE ZCSHFT( M, N, OFFSET, A, LDA )
+      IMPLICIT NONE
 *
 *  -- PBLAS auxiliary routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

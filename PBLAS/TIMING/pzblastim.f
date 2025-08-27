@@ -1,4 +1,5 @@
       SUBROUTINE PZLASCAL( TYPE, M, N, ALPHA, A, IA, JA, DESCA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -507,6 +508,7 @@
       END
       SUBROUTINE PZLAGEN( INPLACE, AFORM, DIAG, OFFA, M, N, IA, JA,
      $                    DESCA, IASEED, A, LDA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -911,6 +913,7 @@
 *
       END
       SUBROUTINE PZLADOM( INPLACE, N, ALPHA, A, IA, JA, DESCA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -1318,6 +1321,7 @@
 *
       END
       SUBROUTINE PB_ZLASCAL( UPLO, M, N, IOFFD, ALPHA, A, LDA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -1499,6 +1503,7 @@
       SUBROUTINE PB_ZLAGEN( UPLO, AFORM, A, LDA, LCMT00, IRAN, MBLKS,
      $                      IMBLOC, MB, LMBLOC, NBLKS, INBLOC, NB,
      $                      LNBLOC, JMP, IMULADD )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2567,6 +2572,7 @@
 *
       END
       DOUBLE PRECISION   FUNCTION PB_DRAND( IDUMM )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2629,6 +2635,7 @@
 *
       END
       DOUBLE PRECISION   FUNCTION PB_DRAN( IDUMM )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

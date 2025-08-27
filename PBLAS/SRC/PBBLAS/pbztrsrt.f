@@ -1,5 +1,6 @@
       SUBROUTINE PBZTRSRT( ICONTXT, ADIST, M, N, NB, A, LDA, BETA, B,
      $                     LDB, LCMP, LCMQ, NINT )
+      IMPLICIT NONE
 *
 *  -- PB-BLAS routine (version 2.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory.
