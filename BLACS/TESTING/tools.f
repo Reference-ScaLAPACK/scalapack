@@ -7,6 +7,7 @@
 *  ================================================================
 
       DOUBLE PRECISION FUNCTION DLAMCH( CMACH )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -137,6 +138,7 @@
 ************************************************************************
 *
       SUBROUTINE DLAMC1( BETA, T, RND, IEEE1 )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -324,6 +326,7 @@
 ************************************************************************
 *
       SUBROUTINE DLAMC2( BETA, T, RND, EPS, EMIN, RMIN, EMAX, RMAX )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -583,6 +586,7 @@
 ************************************************************************
 *
       DOUBLE PRECISION FUNCTION DLAMC3( A, B )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -621,6 +625,7 @@
 ************************************************************************
 *
       SUBROUTINE DLAMC4( EMIN, START, BASE )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -705,6 +710,7 @@
 ************************************************************************
 *
       SUBROUTINE DLAMC5( BETA, P, EMIN, IEEE, EMAX, RMAX )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -864,6 +870,7 @@
 *
       END
       REAL             FUNCTION SLAMCH( CMACH )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -994,6 +1001,7 @@
 ************************************************************************
 *
       SUBROUTINE SLAMC1( BETA, T, RND, IEEE1 )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -1181,6 +1189,7 @@
 ************************************************************************
 *
       SUBROUTINE SLAMC2( BETA, T, RND, EPS, EMIN, RMIN, EMAX, RMAX )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -1440,6 +1449,7 @@
 ************************************************************************
 *
       REAL             FUNCTION SLAMC3( A, B )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -1478,6 +1488,7 @@
 ************************************************************************
 *
       SUBROUTINE SLAMC4( EMIN, START, BASE )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -1562,6 +1573,7 @@
 ************************************************************************
 *
       SUBROUTINE SLAMC5( BETA, P, EMIN, IEEE, EMAX, RMAX )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -1721,6 +1733,7 @@
 *
       END
       LOGICAL          FUNCTION LSAME( CA, CB )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -1808,6 +1821,7 @@
 *
       END
       DOUBLE PRECISION FUNCTION DLARND( IDIST, ISEED )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -1997,6 +2011,7 @@
 *
       END
       DOUBLE PRECISION FUNCTION DLARAN( ISEED )
+      IMPLICIT NONE
 *
 *  -- LAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,

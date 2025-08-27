@@ -1,4 +1,5 @@
       PROGRAM BLACSTEST
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -178,6 +179,7 @@
       SUBROUTINE RUNTESTS( MEM, MEMLEN, CMEM, CMEMLEN, PREC, NPREC,
      $                     OUTNUM, VERB, TESTSDRV, TESTBSBR, TESTCOMB,
      $                     TESTAUX )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       INTEGER MEMLEN, CMEMLEN, NPREC, OUTNUM, VERB, IAM, NNODES
@@ -637,6 +639,7 @@
       END
 *
       SUBROUTINE MAKEGRIDS( CONTEXTS, OUTNUM, NGRIDS, P, Q )
+      IMPLICIT NONE
       INTEGER NGRIDS, OUTNUM
       INTEGER CONTEXTS(NGRIDS), P(NGRIDS), Q(NGRIDS)
       INTEGER  IBTMYPROC
@@ -665,6 +668,7 @@
       END
 *
       SUBROUTINE FREEGRIDS( NGRIDS, CONTEXTS )
+      IMPLICIT NONE
       INTEGER NGRIDS
       INTEGER CONTEXTS(NGRIDS)
       INTEGER I, NPROW, NPCOL, MYROW, MYCOL
@@ -678,6 +682,7 @@
       END
 *
       SUBROUTINE AUXTEST( OUTNUM, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       INTEGER OUTNUM, MEMLEN
@@ -1036,6 +1041,7 @@
       END
 *
       SUBROUTINE BTTRANSCHAR(TRANSTO, N, CMEM, IMEM)
+      IMPLICIT NONE
       CHARACTER TRANSTO
       INTEGER N
       CHARACTER*1 CMEM(N)
@@ -1060,6 +1066,7 @@
      $                   TOPPTR, UPLOPTR, DIAGPTR, MPTR, NPTR, LDSPTR,
      $                   LDDPTR, LDIPTR, RSRCPTR, CSRCPTR, RDESTPTR,
      $                   CDESTPTR, PPTR, QPTR )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 TEST
@@ -1142,6 +1149,7 @@
 *
       SUBROUTINE RDBTIN( TESTSDRV, TESTBSBR, TESTCOMB, TESTAUX, NPREC,
      $                   PREC, VERB, OUTNUM )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -1358,6 +1366,7 @@
       END
 *
       INTEGER FUNCTION IBTMSGID()
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -1394,6 +1403,7 @@
      $                    SCOPEPTR, TOPPTR, UPLOPTR, DIAGPTR, MPTR,
      $                    NPTR, LDSPTR, LDDPTR, LDIPTR, RSRCPTR,
      $                    CSRCPTR, RDESTPTR, CDESTPTR, PPTR, QPTR)
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -1514,6 +1524,7 @@
       END
 *
       INTEGER FUNCTION SAFEINDEX(INDX, SIZE1, SIZE2)
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       INTEGER INDX, SIZE1, SIZE2
@@ -1545,6 +1556,7 @@
 *
       SUBROUTINE RDSDRV( MEMUSED, MEM, MEMLEN, CMEMUSED, CMEM, CMEMLEN,
      $                   OUTNUM )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -1788,6 +1800,7 @@
 *
       SUBROUTINE CHKMATDAT( NOUT, INFILE, TSTFLAG, NMAT, M0, N0,
      $                      LDAS0, LDAD0, LDI0 )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -1878,6 +1891,7 @@
       END
 *
       LOGICAL FUNCTION ALLPASS( THISTEST )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -1911,6 +1925,7 @@
 *
       SUBROUTINE RDBSBR( MEMUSED, MEM, MEMLEN, CMEMUSED, CMEM, CMEMLEN,
      $                   OUTNUM )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -2202,6 +2217,7 @@
      $                      NMAT, M0, N0, LDAS0, LDAD0, NSRC, RSRC0,
      $                      CSRC0, RDEST0, CDEST0, NGRID, CONTEXT0,
      $                      P0, Q0, TFAIL, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -2546,6 +2562,7 @@
      $                      NMAT, M0, N0, LDAS0, LDAD0, NSRC, RSRC0,
      $                      CSRC0, RDEST0, CDEST0, NGRID, CONTEXT0,
      $                      P0, Q0, TFAIL, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -2890,6 +2907,7 @@
      $                      NMAT, M0, N0, LDAS0, LDAD0, NSRC, RSRC0,
      $                      CSRC0, RDEST0, CDEST0, NGRID, CONTEXT0,
      $                      P0, Q0, TFAIL, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -3234,6 +3252,7 @@
      $                      NMAT, M0, N0, LDAS0, LDAD0, NSRC, RSRC0,
      $                      CSRC0, RDEST0, CDEST0, NGRID, CONTEXT0,
      $                      P0, Q0, TFAIL, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -3578,6 +3597,7 @@
      $                      NMAT, M0, N0, LDAS0, LDAD0, NSRC, RSRC0,
      $                      CSRC0, RDEST0, CDEST0, NGRID, CONTEXT0,
      $                      P0, Q0, TFAIL, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -3922,6 +3942,7 @@
      $                      NSHAPE, UPLO0, DIAG0, NMAT, M0, N0, LDAS0,
      $                      LDAD0, NSRC, RSRC0, CSRC0, NGRID, CONTEXT0,
      $                      P0, Q0, TFAIL, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -4337,6 +4358,7 @@
      $                      NSHAPE, UPLO0, DIAG0, NMAT, M0, N0, LDAS0,
      $                      LDAD0, NSRC, RSRC0, CSRC0, NGRID, CONTEXT0,
      $                      P0, Q0, TFAIL, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -4752,6 +4774,7 @@
      $                      NSHAPE, UPLO0, DIAG0, NMAT, M0, N0, LDAS0,
      $                      LDAD0, NSRC, RSRC0, CSRC0, NGRID, CONTEXT0,
      $                      P0, Q0, TFAIL, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -5167,6 +5190,7 @@
      $                      NSHAPE, UPLO0, DIAG0, NMAT, M0, N0, LDAS0,
      $                      LDAD0, NSRC, RSRC0, CSRC0, NGRID, CONTEXT0,
      $                      P0, Q0, TFAIL, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -5582,6 +5606,7 @@
      $                      NSHAPE, UPLO0, DIAG0, NMAT, M0, N0, LDAS0,
      $                      LDAD0, NSRC, RSRC0, CSRC0, NGRID, CONTEXT0,
      $                      P0, Q0, TFAIL, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -5995,6 +6020,7 @@
 *
       SUBROUTINE RDCOMB( MEMUSED, MEM, MEMLEN, CMEMUSED, CMEM, CMEMLEN,
      $                   OUTNUM )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -6269,6 +6295,7 @@
 *
       SUBROUTINE IBTCHECKIN( NFTESTS, OUTNUM, MAXERR, NERR, IERR,
      $                       IVAL, TFAILED )
+      IMPLICIT NONE
       INTEGER NFTESTS, OUTNUM, MAXERR, NERR
       INTEGER IERR(*), TFAILED(*)
       INTEGER IVAL(*)
@@ -6391,6 +6418,7 @@
 *
       SUBROUTINE IINITMAT(UPLO, DIAG, M, N, MEM, LDA, IPRE, IPOST,
      $                    CHECKVAL, TESTNUM, MYROW, MYCOL)
+      IMPLICIT NONE
       CHARACTER*1 UPLO, DIAG
       INTEGER M, N, LDA, IPRE, IPOST, TESTNUM, MYROW, MYCOL
       INTEGER CHECKVAL
@@ -6408,6 +6436,7 @@
       END
 *
       SUBROUTINE IGENMAT( M, N, A, LDA, TESTNUM, MYROW, MYCOL )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -6484,6 +6513,7 @@
       END
 *
       INTEGER FUNCTION IBTRAN(ISEED)
+      IMPLICIT NONE
       INTEGER ISEED(*)
 *
 *     .. External Functions ..
@@ -6506,6 +6536,7 @@
 *
       SUBROUTINE IPADMAT( UPLO, DIAG, M, N, MEM, LDA, IPRE, IPOST,
      $                    CHECKVAL )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -6680,6 +6711,7 @@
       SUBROUTINE ICHKPAD( UPLO, DIAG, M, N, MEM, LDA, RSRC, CSRC,
      $                    MYROW, MYCOL, IPRE, IPOST, CHECKVAL,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -6941,6 +6973,7 @@
       SUBROUTINE ICHKMAT( UPLO, DIAG, M, N, A, LDA, RSRC, CSRC,
      $                    MYROW, MYCOL, TESTNUM, MAXERR, NERR,
      $                    ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -7146,6 +7179,7 @@
 *
       SUBROUTINE IPRINTERRS( OUTNUM, MAXERR, NERR,
      $                       ERRIBUF, ERRDBUF, COUNTING, TFAILED )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -7339,6 +7373,7 @@
 *
       SUBROUTINE SBTCHECKIN( NFTESTS, OUTNUM, MAXERR, NERR, IERR,
      $                       SVAL, TFAILED )
+      IMPLICIT NONE
       INTEGER NFTESTS, OUTNUM, MAXERR, NERR
       INTEGER IERR(*), TFAILED(*)
       REAL SVAL(*)
@@ -7461,6 +7496,7 @@
 *
       SUBROUTINE SINITMAT(UPLO, DIAG, M, N, MEM, LDA, IPRE, IPOST,
      $                    CHECKVAL, TESTNUM, MYROW, MYCOL)
+      IMPLICIT NONE
       CHARACTER*1 UPLO, DIAG
       INTEGER M, N, LDA, IPRE, IPOST, TESTNUM, MYROW, MYCOL
       REAL CHECKVAL
@@ -7478,6 +7514,7 @@
       END
 *
       SUBROUTINE SGENMAT( M, N, A, LDA, TESTNUM, MYROW, MYCOL )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -7554,6 +7591,7 @@
       END
 *
       REAL FUNCTION SBTRAN(ISEED)
+      IMPLICIT NONE
       INTEGER ISEED(*)
 *
 *     .. External Functions ..
@@ -7571,6 +7609,7 @@
 *
       SUBROUTINE SPADMAT( UPLO, DIAG, M, N, MEM, LDA, IPRE, IPOST,
      $                    CHECKVAL )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -7745,6 +7784,7 @@
       SUBROUTINE SCHKPAD( UPLO, DIAG, M, N, MEM, LDA, RSRC, CSRC,
      $                    MYROW, MYCOL, IPRE, IPOST, CHECKVAL,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -8006,6 +8046,7 @@
       SUBROUTINE SCHKMAT( UPLO, DIAG, M, N, A, LDA, RSRC, CSRC,
      $                    MYROW, MYCOL, TESTNUM, MAXERR, NERR,
      $                    ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -8211,6 +8252,7 @@
 *
       SUBROUTINE SPRINTERRS( OUTNUM, MAXERR, NERR,
      $                       ERRIBUF, ERRDBUF, COUNTING, TFAILED )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -8404,6 +8446,7 @@
 *
       SUBROUTINE DBTCHECKIN( NFTESTS, OUTNUM, MAXERR, NERR, IERR,
      $                       DVAL, TFAILED )
+      IMPLICIT NONE
       INTEGER NFTESTS, OUTNUM, MAXERR, NERR
       INTEGER IERR(*), TFAILED(*)
       DOUBLE PRECISION DVAL(*)
@@ -8526,6 +8569,7 @@
 *
       SUBROUTINE DINITMAT(UPLO, DIAG, M, N, MEM, LDA, IPRE, IPOST,
      $                    CHECKVAL, TESTNUM, MYROW, MYCOL)
+      IMPLICIT NONE
       CHARACTER*1 UPLO, DIAG
       INTEGER M, N, LDA, IPRE, IPOST, TESTNUM, MYROW, MYCOL
       DOUBLE PRECISION CHECKVAL
@@ -8543,6 +8587,7 @@
       END
 *
       SUBROUTINE DGENMAT( M, N, A, LDA, TESTNUM, MYROW, MYCOL )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -8619,6 +8664,7 @@
       END
 *
       DOUBLE PRECISION FUNCTION DBTRAN(ISEED)
+      IMPLICIT NONE
       INTEGER ISEED(*)
 *
 *     .. External Functions ..
@@ -8636,6 +8682,7 @@
 *
       SUBROUTINE DPADMAT( UPLO, DIAG, M, N, MEM, LDA, IPRE, IPOST,
      $                    CHECKVAL )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -8810,6 +8857,7 @@
       SUBROUTINE DCHKPAD( UPLO, DIAG, M, N, MEM, LDA, RSRC, CSRC,
      $                    MYROW, MYCOL, IPRE, IPOST, CHECKVAL,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -9071,6 +9119,7 @@
       SUBROUTINE DCHKMAT( UPLO, DIAG, M, N, A, LDA, RSRC, CSRC,
      $                    MYROW, MYCOL, TESTNUM, MAXERR, NERR,
      $                    ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -9276,6 +9325,7 @@
 *
       SUBROUTINE DPRINTERRS( OUTNUM, MAXERR, NERR,
      $                       ERRIBUF, ERRDBUF, COUNTING, TFAILED )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -9469,6 +9519,7 @@
 *
       SUBROUTINE CBTCHECKIN( NFTESTS, OUTNUM, MAXERR, NERR, IERR,
      $                       CVAL, TFAILED )
+      IMPLICIT NONE
       INTEGER NFTESTS, OUTNUM, MAXERR, NERR
       INTEGER IERR(*), TFAILED(*)
       COMPLEX CVAL(*)
@@ -9591,6 +9642,7 @@
 *
       SUBROUTINE CINITMAT(UPLO, DIAG, M, N, MEM, LDA, IPRE, IPOST,
      $                    CHECKVAL, TESTNUM, MYROW, MYCOL)
+      IMPLICIT NONE
       CHARACTER*1 UPLO, DIAG
       INTEGER M, N, LDA, IPRE, IPOST, TESTNUM, MYROW, MYCOL
       COMPLEX CHECKVAL
@@ -9608,6 +9660,7 @@
       END
 *
       SUBROUTINE CGENMAT( M, N, A, LDA, TESTNUM, MYROW, MYCOL )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -9684,6 +9737,7 @@
       END
 *
       COMPLEX FUNCTION CBTRAN(ISEED)
+      IMPLICIT NONE
       INTEGER ISEED(*)
 *
 *     .. External Functions ..
@@ -9699,6 +9753,7 @@
 *
       SUBROUTINE CPADMAT( UPLO, DIAG, M, N, MEM, LDA, IPRE, IPOST,
      $                    CHECKVAL )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -9873,6 +9928,7 @@
       SUBROUTINE CCHKPAD( UPLO, DIAG, M, N, MEM, LDA, RSRC, CSRC,
      $                    MYROW, MYCOL, IPRE, IPOST, CHECKVAL,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -10134,6 +10190,7 @@
       SUBROUTINE CCHKMAT( UPLO, DIAG, M, N, A, LDA, RSRC, CSRC,
      $                    MYROW, MYCOL, TESTNUM, MAXERR, NERR,
      $                    ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -10339,6 +10396,7 @@
 *
       SUBROUTINE CPRINTERRS( OUTNUM, MAXERR, NERR,
      $                       ERRIBUF, ERRDBUF, COUNTING, TFAILED )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -10538,6 +10596,7 @@
 *
       SUBROUTINE ZBTCHECKIN( NFTESTS, OUTNUM, MAXERR, NERR, IERR,
      $                       ZVAL, TFAILED )
+      IMPLICIT NONE
       INTEGER NFTESTS, OUTNUM, MAXERR, NERR
       INTEGER IERR(*), TFAILED(*)
       DOUBLE COMPLEX ZVAL(*)
@@ -10660,6 +10719,7 @@
 *
       SUBROUTINE ZINITMAT(UPLO, DIAG, M, N, MEM, LDA, IPRE, IPOST,
      $                    CHECKVAL, TESTNUM, MYROW, MYCOL)
+      IMPLICIT NONE
       CHARACTER*1 UPLO, DIAG
       INTEGER M, N, LDA, IPRE, IPOST, TESTNUM, MYROW, MYCOL
       DOUBLE COMPLEX CHECKVAL
@@ -10677,6 +10737,7 @@
       END
 *
       SUBROUTINE ZGENMAT( M, N, A, LDA, TESTNUM, MYROW, MYCOL )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -10768,6 +10829,7 @@
 *
       SUBROUTINE ZPADMAT( UPLO, DIAG, M, N, MEM, LDA, IPRE, IPOST,
      $                    CHECKVAL )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -10942,6 +11004,7 @@
       SUBROUTINE ZCHKPAD( UPLO, DIAG, M, N, MEM, LDA, RSRC, CSRC,
      $                    MYROW, MYCOL, IPRE, IPOST, CHECKVAL,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -11203,6 +11266,7 @@
       SUBROUTINE ZCHKMAT( UPLO, DIAG, M, N, A, LDA, RSRC, CSRC,
      $                    MYROW, MYCOL, TESTNUM, MAXERR, NERR,
      $                    ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -11408,6 +11472,7 @@
 *
       SUBROUTINE ZPRINTERRS( OUTNUM, MAXERR, NERR,
      $                       ERRIBUF, ERRDBUF, COUNTING, TFAILED )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -11609,6 +11674,7 @@
      $                     SCOPE0, NTOP, TOP0, NMAT, M0, N0, LDAS0,
      $                     LDAD0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -12029,6 +12095,7 @@
       END
 *
       INTEGER FUNCTION IBTABS(VAL)
+      IMPLICIT NONE
       INTEGER VAL
       IBTABS = ABS(VAL)
       RETURN
@@ -12036,6 +12103,7 @@
 *
       SUBROUTINE ICHKSUM( SCOPE, ICTXT, M, N, A, LDA, TESTNUM, MAXERR,
      $                    NERR, ERRIBUF, ERRDBUF, ISEED )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -12133,6 +12201,7 @@
      $                     SCOPE0, NTOP, TOP0, NMAT, M0, N0, LDAS0,
      $                     LDAD0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -12554,12 +12623,14 @@
       END
 *
       REAL FUNCTION SBTABS(VAL)
+      IMPLICIT NONE
       REAL VAL
       SBTABS = ABS(VAL)
       RETURN
       END
 *
       REAL FUNCTION SBTEPS()
+      IMPLICIT NONE
 *
 *     .. External Functions ..
       INTEGER IBTMYPROC, IBTNPROCS, IBTMSGID
@@ -12603,6 +12674,7 @@
 *
       SUBROUTINE SCHKSUM( SCOPE, ICTXT, M, N, A, LDA, TESTNUM, MAXERR,
      $                    NERR, ERRIBUF, ERRDBUF, ISEED )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -12711,6 +12783,7 @@
      $                     SCOPE0, NTOP, TOP0, NMAT, M0, N0, LDAS0,
      $                     LDAD0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -13132,12 +13205,14 @@
       END
 *
       DOUBLE PRECISION FUNCTION DBTABS(VAL)
+      IMPLICIT NONE
       DOUBLE PRECISION VAL
       DBTABS = ABS(VAL)
       RETURN
       END
 *
       DOUBLE PRECISION FUNCTION DBTEPS()
+      IMPLICIT NONE
 *
 *     .. External Functions ..
       INTEGER IBTMYPROC, IBTNPROCS, IBTMSGID
@@ -13181,6 +13256,7 @@
 *
       SUBROUTINE DCHKSUM( SCOPE, ICTXT, M, N, A, LDA, TESTNUM, MAXERR,
      $                    NERR, ERRIBUF, ERRDBUF, ISEED )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -13289,6 +13365,7 @@
      $                     SCOPE0, NTOP, TOP0, NMAT, M0, N0, LDAS0,
      $                     LDAD0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -13710,6 +13787,7 @@
       END
 *
       REAL FUNCTION CBTABS(VAL)
+      IMPLICIT NONE
       COMPLEX VAL
       CBTABS = ABS( REAL(VAL) ) + ABS( AIMAG(VAL) )
       RETURN
@@ -13717,6 +13795,7 @@
 *
       SUBROUTINE CCHKSUM( SCOPE, ICTXT, M, N, A, LDA, TESTNUM, MAXERR,
      $                    NERR, ERRIBUF, ERRDBUF, ISEED )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -13838,6 +13917,7 @@
      $                     SCOPE0, NTOP, TOP0, NMAT, M0, N0, LDAS0,
      $                     LDAD0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -14259,6 +14339,7 @@
       END
 *
       DOUBLE PRECISION FUNCTION ZBTABS(VAL)
+      IMPLICIT NONE
       DOUBLE COMPLEX VAL
       ZBTABS = ABS( DBLE(VAL) ) + ABS( DIMAG(VAL) )
       RETURN
@@ -14266,6 +14347,7 @@
 *
       SUBROUTINE ZCHKSUM( SCOPE, ICTXT, M, N, A, LDA, TESTNUM, MAXERR,
      $                    NERR, ERRIBUF, ERRDBUF, ISEED )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -14388,6 +14470,7 @@
      $                     LDAD0, LDI0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, RMEM, CMEM, RCLEN,
      $                     MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -14852,6 +14935,7 @@
 *
       SUBROUTINE IBTSPCOORD( SCOPE, PNUM, MYROW, MYCOL, NPCOL,
      $                       PROW, PCOL )
+      IMPLICIT NONE
       CHARACTER*1 SCOPE
       INTEGER PNUM, MYROW, MYCOL, NPCOL, PROW, PCOL
 *
@@ -14872,6 +14956,7 @@
       END
 *
       INTEGER FUNCTION IBTSPNUM( SCOPE, PROW, PCOL, NPCOL )
+      IMPLICIT NONE
       CHARACTER*1 SCOPE
       INTEGER PROW, PCOL, NPCOL
       IF( SCOPE .EQ. 'R' ) THEN
@@ -14891,6 +14976,7 @@
       SUBROUTINE IRCCHK( IPRE, IPOST, PADVAL, M, N, RA, CA, LDI, MYROW,
      $                   MYCOL, TESTNUM, MAXERR, NERR,
      $                   ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       INTEGER IPRE, IPOST, PADVAL, M, N, LDI, MYROW, MYCOL, TESTNUM
@@ -15060,6 +15146,7 @@
       SUBROUTINE ICHKAMX( SCOPE, ICTXT, M, N, A, LDA, RA, CA, LDI,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF,
      $                    ISEED, VALS )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -15237,6 +15324,7 @@
      $                     LDAD0, LDI0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, RMEM, CMEM, RCLEN,
      $                     MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -15703,6 +15791,7 @@
       SUBROUTINE SRCCHK( IPRE, IPOST, PADVAL, M, N, RA, CA, LDI, MYROW,
      $                   MYCOL, TESTNUM, MAXERR, NERR,
      $                   ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       INTEGER IPRE, IPOST, PADVAL, M, N, LDI, MYROW, MYCOL, TESTNUM
@@ -15872,6 +15961,7 @@
       SUBROUTINE SCHKAMX( SCOPE, ICTXT, M, N, A, LDA, RA, CA, LDI,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF,
      $                    ISEED, VALS )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -16052,6 +16142,7 @@
      $                     LDAD0, LDI0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, RMEM, CMEM, RCLEN,
      $                     MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -16518,6 +16609,7 @@
       SUBROUTINE DRCCHK( IPRE, IPOST, PADVAL, M, N, RA, CA, LDI, MYROW,
      $                   MYCOL, TESTNUM, MAXERR, NERR,
      $                   ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       INTEGER IPRE, IPOST, PADVAL, M, N, LDI, MYROW, MYCOL, TESTNUM
@@ -16687,6 +16779,7 @@
       SUBROUTINE DCHKAMX( SCOPE, ICTXT, M, N, A, LDA, RA, CA, LDI,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF,
      $                    ISEED, VALS )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -16867,6 +16960,7 @@
      $                     LDAD0, LDI0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, RMEM, CMEM, RCLEN,
      $                     MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -17333,6 +17427,7 @@
       SUBROUTINE CRCCHK( IPRE, IPOST, PADVAL, M, N, RA, CA, LDI, MYROW,
      $                   MYCOL, TESTNUM, MAXERR, NERR,
      $                   ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       INTEGER IPRE, IPOST, PADVAL, M, N, LDI, MYROW, MYCOL, TESTNUM
@@ -17502,6 +17597,7 @@
       SUBROUTINE CCHKAMX( SCOPE, ICTXT, M, N, A, LDA, RA, CA, LDI,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF,
      $                    ISEED, VALS )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -17684,6 +17780,7 @@
      $                     LDAD0, LDI0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, RMEM, CMEM, RCLEN,
      $                     MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -18150,6 +18247,7 @@
       SUBROUTINE ZRCCHK( IPRE, IPOST, PADVAL, M, N, RA, CA, LDI, MYROW,
      $                   MYCOL, TESTNUM, MAXERR, NERR,
      $                   ERRIBUF, ERRDBUF )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       INTEGER IPRE, IPOST, PADVAL, M, N, LDI, MYROW, MYCOL, TESTNUM
@@ -18319,6 +18417,7 @@
       SUBROUTINE ZCHKAMX( SCOPE, ICTXT, M, N, A, LDA, RA, CA, LDI,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF,
      $                    ISEED, VALS )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -18501,6 +18600,7 @@
      $                     LDAD0, LDI0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, RMEM, CMEM, RCLEN,
      $                     MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -18966,6 +19066,7 @@
       SUBROUTINE ICHKAMN( SCOPE, ICTXT, M, N, A, LDA, RA, CA, LDI,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF,
      $                    ISEED, VALS )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -19143,6 +19244,7 @@
      $                     LDAD0, LDI0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, RMEM, CMEM, RCLEN,
      $                     MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -19609,6 +19711,7 @@
       SUBROUTINE SCHKAMN( SCOPE, ICTXT, M, N, A, LDA, RA, CA, LDI,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF,
      $                    ISEED, VALS )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -19789,6 +19892,7 @@
      $                     LDAD0, LDI0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, RMEM, CMEM, RCLEN,
      $                     MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -20255,6 +20359,7 @@
       SUBROUTINE DCHKAMN( SCOPE, ICTXT, M, N, A, LDA, RA, CA, LDI,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF,
      $                    ISEED, VALS )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -20435,6 +20540,7 @@
      $                     LDAD0, LDI0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, RMEM, CMEM, RCLEN,
      $                     MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -20901,6 +21007,7 @@
       SUBROUTINE CCHKAMN( SCOPE, ICTXT, M, N, A, LDA, RA, CA, LDI,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF,
      $                    ISEED, VALS )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
@@ -21083,6 +21190,7 @@
      $                     LDAD0, LDI0, NDEST, RDEST0, CDEST0, NGRID,
      $                     CONTEXT0, P0, Q0, ISEED, RMEM, CMEM, RCLEN,
      $                     MEM, MEMLEN )
+      IMPLICIT NONE
 *
 *  -- BLACS tester (version 1.0) --
 *  University of Tennessee
@@ -21549,6 +21657,7 @@
       SUBROUTINE ZCHKAMN( SCOPE, ICTXT, M, N, A, LDA, RA, CA, LDI,
      $                    TESTNUM, MAXERR, NERR, ERRIBUF, ERRDBUF,
      $                    ISEED, VALS )
+      IMPLICIT NONE
 *
 *     .. Scalar Arguments ..
       CHARACTER*1 SCOPE
