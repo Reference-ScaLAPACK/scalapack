@@ -1,4 +1,5 @@
       SUBROUTINE PCLAUU2( UPLO, N, A, IA, JA, DESCA )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -139,7 +140,8 @@
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
-      EXTERNAL           LSAME
+      COMPLEX            CDOTC
+      EXTERNAL           LSAME, CDOTC
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          CMPLX, REAL

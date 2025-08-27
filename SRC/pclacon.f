@@ -1,5 +1,6 @@
       SUBROUTINE PCLACON( N, V, IV, JV, DESCV, X, IX, JX, DESCX, EST,
      $                    KASE )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -150,8 +151,8 @@
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9 )
       INTEGER            ITMAX
       PARAMETER          ( ITMAX = 5 )
-      REAL               ONE, TWO
-      PARAMETER          ( ONE = 1.0E+0, TWO = 2.0E+0 )
+      REAL               ZERO, ONE, TWO
+      PARAMETER          ( ZERO = 0.0E+0, ONE = 1.0E+0, TWO = 2.0E+0 )
       COMPLEX            CZERO, CONE
       PARAMETER          ( CZERO = ( 0.0E+0, 0.0E+0 ),
      $                   CONE = ( 1.0E+0, 0.0E+0 ) )
