@@ -1,5 +1,6 @@
       SUBROUTINE PZLARFB( SIDE, TRANS, DIRECT, STOREV, M, N, K, V, IV,
      $                    JV, DESCV, T, C, IC, JC, DESCC, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 2.0.2) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver

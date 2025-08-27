@@ -1,5 +1,6 @@
       SUBROUTINE PZTREVC( SIDE, HOWMNY, SELECT, N, T, DESCT, VL, DESCVL,
      $                    VR, DESCVR, MM, M, WORK, RWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

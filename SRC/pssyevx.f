@@ -2,11 +2,12 @@
      $                    VU, IL, IU, ABSTOL, M, NZ, W, ORFAC, Z, IZ,
      $                    JZ, DESCZ, WORK, LWORK, IWORK, LIWORK, IFAIL,
      $                    ICLUSTR, GAP, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
 *     and University of California, Berkeley.
-*     May 25, 2001 
+*     May 25, 2001
 *
 *     .. Scalar Arguments ..
       CHARACTER          JOBZ, RANGE, UPLO

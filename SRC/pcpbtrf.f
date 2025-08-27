@@ -1,5 +1,6 @@
       SUBROUTINE PCPBTRF( UPLO, N, BW, A, JA, DESCA, AF, LAF, WORK,
      $                    LWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 2.0.2) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver

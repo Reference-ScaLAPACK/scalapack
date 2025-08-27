@@ -1,4 +1,5 @@
       SUBROUTINE PDLAWIL( II, JJ, M, A, DESCA, H44, H33, H43H34, V )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

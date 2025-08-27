@@ -3,6 +3,7 @@
      $                    ABSTOL, M, NZ, W, ORFAC, Z, IZ, JZ, DESCZ,
      $                    WORK, LWORK, IWORK, LIWORK, IFAIL, ICLUSTR,
      $                    GAP, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

@@ -1,5 +1,6 @@
       SUBROUTINE PZLATRD( UPLO, N, NB, A, IA, JA, DESCA, D, E, TAU, W,
      $                    IW, JW, DESCW, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

@@ -1,4 +1,5 @@
       SUBROUTINE CLANV2( A, B, C, D, RT1, RT2, CS, SN )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,

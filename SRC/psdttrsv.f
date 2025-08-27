@@ -1,5 +1,6 @@
       SUBROUTINE PSDTTRSV( UPLO, TRANS, N, NRHS, DL, D, DU, JA, DESCA,
      $                     B, IB, DESCB, AF, LAF, WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

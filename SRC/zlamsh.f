@@ -1,4 +1,5 @@
       SUBROUTINE ZLAMSH( S, LDS, NBULGE, JBLK, H, LDH, N, ULP )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,

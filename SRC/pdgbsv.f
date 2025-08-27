@@ -1,5 +1,6 @@
       SUBROUTINE PDGBSV( N, BWL, BWU, NRHS, A, JA, DESCA, IPIV, B, IB,
      $                   DESCB, WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *
 *

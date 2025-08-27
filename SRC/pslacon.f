@@ -1,5 +1,6 @@
       SUBROUTINE PSLACON( N, V, IV, JV, DESCV, X, IX, JX, DESCX, ISGN,
      $                    EST, KASE )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

@@ -1,5 +1,6 @@
       INTEGER          FUNCTION PJLAENV( ICTXT, ISPEC, NAME, OPTS, N1,
      $                 N2, N3, N4 )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK test routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

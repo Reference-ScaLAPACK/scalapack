@@ -1,5 +1,6 @@
       SUBROUTINE DTRMVT( UPLO, N, T, LDT, X, INCX, Y, INCY, W, INCW, Z,
      $                   INCZ )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

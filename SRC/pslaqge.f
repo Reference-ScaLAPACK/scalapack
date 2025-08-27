@@ -1,5 +1,6 @@
       SUBROUTINE PSLAQGE( M, N, A, IA, JA, DESCA, R, C, ROWCND, COLCND,
      $                    AMAX, EQUED )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

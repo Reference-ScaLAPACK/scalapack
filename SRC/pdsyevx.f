@@ -2,6 +2,7 @@
      $                    VU, IL, IU, ABSTOL, M, NZ, W, ORFAC, Z, IZ,
      $                    JZ, DESCZ, WORK, LWORK, IWORK, LIWORK, IFAIL,
      $                    ICLUSTR, GAP, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -351,7 +352,7 @@
 *          required for optimal performance for all work arrays. Each of
 *          these values is returned in the first entry of the
 *          corresponding work arrays, and no error message is issued by
-*          PXERBLA. 
+*          PXERBLA.
 *
 *  IWORK   (local workspace) INTEGER array
 *          On return, IWORK(1) contains the amount of integer workspace

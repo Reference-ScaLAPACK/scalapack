@@ -1,5 +1,6 @@
       SUBROUTINE PZDTSV( N, NRHS, DL, D, DU, JA, DESCA, B, IB, DESCB,
      $                   WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *
 *

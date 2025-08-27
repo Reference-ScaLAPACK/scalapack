@@ -1,5 +1,6 @@
       SUBROUTINE PZLAQSY( UPLO, N, A, IA, JA, DESCA, SR, SC, SCOND,
      $                    AMAX, EQUED )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

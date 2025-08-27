@@ -1,6 +1,7 @@
       SUBROUTINE SSTEGR2( JOBZ, RANGE, N, D, E, VL, VU, IL, IU,
      $                   M, W, Z, LDZ, NZC, ISUPPZ, WORK, LWORK, IWORK,
      $                   LIWORK, DOL, DOU, ZOFFSET, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver

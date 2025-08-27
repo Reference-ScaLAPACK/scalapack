@@ -1,6 +1,7 @@
       SUBROUTINE PDLAHQR( WANTT, WANTZ, N, ILO, IHI, A, DESCA, WR, WI,
      $                    ILOZ, IHIZ, Z, DESCZ, WORK, LWORK, IWORK,
      $                    ILWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 2.0.2) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver

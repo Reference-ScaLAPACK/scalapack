@@ -1,6 +1,7 @@
       SUBROUTINE PSSTEBZ( ICTXT, RANGE, ORDER, N, VL, VU, IL, IU,
      $                    ABSTOL, D, E, M, NSPLIT, W, IBLOCK, ISPLIT,
      $                    WORK, LWORK, IWORK, LIWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -873,6 +874,7 @@
       SUBROUTINE PSLAEBZ( IJOB, N, MMAX, MINP, ABSTOL, RELTOL, PIVMIN,
      $                    D, NVAL, INTVL, INTVLCT, MOUT, LSAVE, IEFLAG,
      $                    INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -1198,6 +1200,7 @@
 *
       SUBROUTINE PSLAECV( IJOB, KF, KL, INTVL, INTVLCT, NVAL, ABSTOL,
      $                    RELTOL )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -1346,6 +1349,7 @@
       END
 *
       SUBROUTINE PSLAPDCT( SIGMA, N, D, PIVMIN, COUNT )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

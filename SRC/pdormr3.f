@@ -1,5 +1,6 @@
       SUBROUTINE PDORMR3( SIDE, TRANS, M, N, K, L, A, IA, JA, DESCA,
      $                    TAU, C, IC, JC, DESCC, WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

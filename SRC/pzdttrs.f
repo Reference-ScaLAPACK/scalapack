@@ -1,5 +1,6 @@
       SUBROUTINE PZDTTRS( TRANS, N, NRHS, DL, D, DU, JA, DESCA, B, IB,
      $                    DESCB, AF, LAF, WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *
 *
