@@ -84,3 +84,33 @@ jobs:
 
     - name: Install
       run: cmake --install build --prefix scalapack_install
+
+  freebsd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v4
+      - uses: cross-platform-actions/action@v0.29.0
+        with:
+          operating_system: 'freebsd'
+          version: '14.3'
+          architecture: 'x86_64'
+          run: |
+            # Use latest package set
+            sudo mkdir -p /usr/local/etc/pkg/repos/
+            sudo cp /etc/pkg/FreeBSD.conf /usr/local/etc/pkg/repos/FreeBSD.conf
+            sudo sed -i.bak -e 's|/quarterly|/latest|' /usr/local/etc/pkg/repos/FreeBSD.conf
+
+            echo "::group::Dependencies installation"
+            sudo -E pkg install -y \
+                cmake ninja mpich gcc13 openblas
+            echo "::endgroup::"
+
+            echo "::group::CMake configuration"
+            cmake -B build -G Ninja \
+                -DCMAKE_Fortran_COMPILER="/usr/local/bin/gfortran13"
+            echo "::endgroup::"
+
+            echo "::group::Building"
+            cmake --build build
+            echo "::endgroup::"
