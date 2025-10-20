@@ -21,8 +21,26 @@
 #ifndef Int
 #define Int int
 #endif
-#ifndef MpiInt
+
+#if MPI_VERSION==4
+#define MpiInt MPI_Count
+inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
+		int source, int tag, MPI_Comm comm, MPI_Request *request) {
+	return MPI_Irecv_c (buf, count, datatype, source, tag, comm, request);
+}
+#else
+#ifdef BIGMPI
+#define MpiInt MPI_Count
+inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
+		int source, int tag, MPI_Comm comm, MPI_Request *request) {
+	return MPIX_Irecv_x (buf, count, datatype, source, tag, comm, request);
+}
+#else
 #define MpiInt int
+inline int _MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
+		int source, int tag, MPI_Comm comm, MPI_Request *request) {
+	return MPI_Irecv (buf, count, datatype, source, tag, comm, request);
+}
 #endif
 
 /*
