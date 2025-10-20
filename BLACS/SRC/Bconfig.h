@@ -22,19 +22,36 @@
 #define Int int
 #endif
 
-#if MPI_VERSION==4
-#define MpiInt MPI_Count
-inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
-		int source, int tag, MPI_Comm comm, MPI_Request *request) {
-	return MPI_Irecv_c (buf, count, datatype, source, tag, comm, request);
-}
-#else
+/* If somebody is building with BigMPI
+ * give it priority compared to other
+ * solutions since otherwise they would
+ * not have bothered to configure BLACS
+ * with BigMPI
+ */
 #ifdef BIGMPI
 #define MpiInt MPI_Count
 inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
 		int source, int tag, MPI_Comm comm, MPI_Request *request) {
 	return MPIX_Irecv_x (buf, count, datatype, source, tag, comm, request);
 }
+#else
+/* If there is no BigMPI, but there is
+ * an MPI implementation v4.x use
+ * that for large tranfers. Caveat:
+ * there are some incomplete v4.x
+ * implementations around which will fail.
+ * Hopefully they will be fixed
+ * before this goes to production
+ */
+#if MPI_VERSION==4
+#define MpiInt MPI_Count
+inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
+		int source, int tag, MPI_Comm comm, MPI_Request *request) {
+	return MPI_Irecv_c (buf, count, datatype, source, tag, comm, request);
+}
+/* Otherwise default to non-big
+ * transfers
+ */
 #else
 #define MpiInt int
 inline int _MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
