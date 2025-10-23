@@ -75,10 +75,11 @@ if (UNIX)
    endif ()
 endif ()
 
+# TODO: Remove this macro
 macro(SCALAPACK_install_library lib)
-  install(TARGETS ${lib} EXPORT scalapack-targets
-    RUNTIME DESTINATION Testing
-  )
+install(TARGETS ${lib}
+    EXPORT scalapackTargets
+)
 endmacro()
 
 # --------------------------------------------------
@@ -230,6 +231,7 @@ append_subdir_files(src-C "SRC")
 if (NOT MSVC)
    set_source_files_properties(TOOLS/SL_gridreshape.c PROPERTIES COMPILE_OPTIONS "-Wno-error=implicit-function-declaration")
    add_library(scalapack ${blacs} ${tools} ${tools-C} ${extra_lapack} ${pblas} ${pblas-F} ${ptzblas} ${ptools} ${pbblas} ${redist} ${src} ${src-C})
+   add_library(scalapack::scalapack ALIAS scalapack)
    set_target_properties(scalapack PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
@@ -238,11 +240,13 @@ if (NOT MSVC)
 else () # Need to separate Fortran and C Code
    OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON )
    add_library(scalapack ${blacs} ${tools-C} ${pblas} ${ptools} ${redist} ${src-C})
+   add_library(scalapack::scalapack ALIAS scalapack)
    set_target_properties(scalapack PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
    target_link_libraries( scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_C)
    add_library(scalapack-F ${pblas-F} ${pbblas} ${ptzblas} ${tools} ${src} ${extra_lapack} )
+   add_library(scalapack::scalapack-F ALIAS scalapack-F)
    set_target_properties(scalapack-F PROPERTIES
     VERSION ${SCALAPACK_VERSION}
     SOVERSION ${SCALAPACK_VERSION_MAJOR}.${SCALAPACK_VERSION_MINOR})
@@ -258,6 +262,16 @@ endif()
 option(SCALAPACK_BUILD_TESTS "Build all tests of the ScaLAPACK library" ON)
 if(${SCALAPACK_BUILD_TESTS})
   add_subdirectory(TESTING)
+  # Make sure that the build artifacts are exported for the test-suite
+  foreach(target IN ITEMS scalapack scalapack-F)
+      if(TARGET ${target})
+          export(TARGETS ${target}
+              FILE scalapackTargets.cmake
+              NAMESPACE scalapack::
+              APPEND
+          )
+      endif()
+  endforeach()
 endif()
 
 # --------------------------------------------------
@@ -292,8 +306,6 @@ INCLUDE(CPack)
 # --------------------------------------------------
 
 
-export(TARGETS scalapack FILE scalapack-targets.cmake)
-
 if( NOT LAPACK_FOUND )
  install(FILES
   ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES}
@@ -301,24 +313,29 @@ if( NOT LAPACK_FOUND )
    )
 endif( NOT LAPACK_FOUND )
 
-configure_file(${SCALAPACK_SOURCE_DIR}/CMAKE/scalapack-config-version.cmake.in
-  ${SCALAPACK_BINARY_DIR}/scalapack-config-version.cmake @ONLY)
-configure_file(${SCALAPACK_SOURCE_DIR}/CMAKE/scalapack-config-build.cmake.in
-  ${SCALAPACK_BINARY_DIR}/scalapack-config.cmake @ONLY)
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    CMAKE/scalapackConfig.cmake.in
+    scalapackConfig.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack
+)
+write_basic_package_version_file(
+    scalapackConfigVersion.cmake
+    COMPATIBILITY SameMajorVersion
+)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scalapack.pc.in ${CMAKE_CURRENT_BINARY_DIR}/scalapack.pc)
- install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/scalapack.pc
-  DESTINATION ${PKG_CONFIG_DIR}
-   )
+install(EXPORT scalapackTargets
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack
+    NAMESPACE scalapack
+)
 
-configure_file(${SCALAPACK_SOURCE_DIR}/CMAKE/scalapack-config-install.cmake.in
-  ${SCALAPACK_BINARY_DIR}/CMakeFiles/scalapack-config.cmake @ONLY)
+configure_file(scalapack.pc.in scalapack.pc @ONLY)
 install(FILES
-  ${SCALAPACK_BINARY_DIR}/CMakeFiles/scalapack-config.cmake
-  ${SCALAPACK_BINARY_DIR}/scalapack-config-version.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack-${SCALAPACK_VERSION}
-  )
-
-install(EXPORT scalapack-targets
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack-${SCALAPACK_VERSION})
+    ${CMAKE_CURRENT_BINARY_DIR}/scalapack.pc
+    DESTINATION ${PKG_CONFIG_DIR}
+)
+install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/scalapackConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/scalapackConfigVersion.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack
+)
