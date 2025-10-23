@@ -5,7 +5,7 @@ void BI_Arecv(BLACSCONTEXT *ctxt, Int src, Int msgid, BLACBUFF *bp)
    Int i, info;
    MpiInt errclass;
 
-   info=MPI_Irecv(bp->Buff, bp->N, bp->dtype, src, msgid, ctxt->scp->comm,
+   info=_MPI_Irecv(bp->Buff, bp->N, bp->dtype, src, msgid, ctxt->scp->comm,
                 &bp->Aops[bp->nAops]);
    while(info != MPI_SUCCESS)
    {
@@ -22,7 +22,7 @@ void BI_Arecv(BLACSCONTEXT *ctxt, Int src, Int msgid, BLACBUFF *bp)
 "MPI error %d assumed to mean out of non-blocking resources on call to MPI_Irecv",
                      info);
 #endif
-      info=MPI_Irecv(bp->Buff, bp->N, bp->dtype, src, msgid, ctxt->scp->comm,
+      info=_MPI_Irecv(bp->Buff, bp->N, bp->dtype, src, msgid, ctxt->scp->comm,
                    &bp->Aops[bp->nAops]);
    }
    bp->nAops++;
