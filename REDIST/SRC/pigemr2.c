@@ -1,4 +1,5 @@
 #include "redist.h"
+#include <stddef.h>
 /* $Id: pigemr2.c,v 1.1.1.1 2000/02/15 18:04:08 susan Exp $
  * 
  * some functions used by the pigemr2d routine see file pigemr.c for more
@@ -71,13 +72,13 @@ extern void Cigerv2d();
 /* lapack */
 void  ilacpy_();
 /* aux fonctions */
-extern Int localindice();
-extern void *mr2d_malloc();
-extern Int ppcm();
-extern Int localsize();
-extern Int memoryblocksize();
-extern Int changeorigin();
-extern void paramcheck();
+extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
+extern void *mr2d_malloc( size_t n );
+extern Int ppcm( Int a, Int b );
+extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
+extern Int memoryblocksize( MDESC *a );
+extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
+extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
 #define scanD0 igescanD0
 #define dispmat igedispmat
@@ -86,9 +87,9 @@ extern void paramcheck();
 #define scan_intervals igescan_intervals
 extern void scanD0();
 extern void dispmat();
-extern void setmemory();
-extern void freememory();
-extern Int scan_intervals();
+extern void setmemory( Int** ptr, Int size );
+extern void freememory( Int* ptr );
+extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
 extern void Cpigemr2do();
 extern void Cpigemr2d();
 /* some defines for Cpigemr2do */
@@ -118,7 +119,7 @@ setmemory(Int **adpointer, Int blocksize)
     return;
   }
   *adpointer = (Int *) mr2d_malloc(
-				   blocksize * sizeof(Int));
+				   (size_t)blocksize * sizeof(Int));
 }
 /******************************************************************/
 /* Free the memory space after the malloc */

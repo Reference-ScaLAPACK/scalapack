@@ -525,7 +525,7 @@ void pddot_( N, DOT, X, IX, JX, DESCX, INCX, Y, IY, JY, DESCY, INCY )
 *  distributed in the same direction, or there is just one block to be exchanged
 *  or if both operands are similarly distributed in their respective direction.
 */
-         if( ( YmyprocR == YprocR ) )
+         if( YmyprocR == YprocR )
          {
 /*
 *  The processes owning a piece of sub( Y ) send it to the corresponding

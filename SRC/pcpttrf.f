@@ -1,5 +1,6 @@
       SUBROUTINE PCPTTRF( N, D, E, JA, DESCA, AF, LAF, WORK, LWORK,
      $                    INFO )
+      IMPLICIT NONE
 *
 *
 *

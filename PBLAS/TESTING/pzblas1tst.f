@@ -10,6 +10,7 @@
       END BLOCK DATA
 
       PROGRAM PZBLA1TST
+      IMPLICIT NONE
 *
 *  -- PBLAS testing driver (version 2.0.2) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver
@@ -799,6 +800,7 @@
      $                          LDVAL, NGRIDS, PVAL, LDPVAL, QVAL,
      $                          LDQVAL, LTEST, SOF, TEE, IAM, IGAP,
      $                          IVERB, NPROCS, ALPHA, WORK )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -1492,6 +1494,7 @@
 *
       END
       SUBROUTINE PZBLAS1TSTCHKE( LTEST, INOUT, NPROCS )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -1775,6 +1778,7 @@
       END
       SUBROUTINE PZCHKARG1( ICTXT, NOUT, SNAME, N, ALPHA, IX, JX,
      $                      DESCX, INCX, IY, JY, DESCY, INCY, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2075,6 +2079,7 @@
 *
       END
       LOGICAL FUNCTION PISINSCOPE( ICTXT, N, IX, JX, DESCX, INCX )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2252,6 +2257,7 @@
       SUBROUTINE PZBLAS1TSTCHK( ICTXT, NOUT, NROUT, N, PSCLR, PUSCLR,
      $                          PISCLR, X, PX, IX, JX, DESCX, INCX, Y,
      $                          PY, IY, JY, DESCY, INCY, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -3134,6 +3140,7 @@
 *
       END
       SUBROUTINE PZERRDOTU( ERRBND, N, SCLR, X, INCX, Y, INCY, PREC )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -3278,6 +3285,7 @@
 *
       END
       SUBROUTINE PZERRDOTC( ERRBND, N, SCLR, X, INCX, Y, INCY, PREC )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -3422,6 +3430,7 @@
 *
       END
       SUBROUTINE PZERRNRM2( ERRBND, N, USCLR, X, INCX, PREC )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -3555,6 +3564,7 @@
 *
       END
       SUBROUTINE PZERRASUM( ERRBND, N, USCLR, X, INCX, PREC )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -3638,6 +3648,7 @@
 *
       END
       SUBROUTINE PZERRSCAL( ERRBND, PSCLR, X, PREC )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -3706,6 +3717,7 @@
 *
       END
       SUBROUTINE PZDERRSCAL( ERRBND, PUSCLR, X, PREC )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -3774,6 +3786,7 @@
 *
       END
       SUBROUTINE PZERRAXPY( ERRBND, PSCLR, X, Y, PREC )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

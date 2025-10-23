@@ -1,4 +1,5 @@
       SUBROUTINE CLATCPY( UPLO, M, N, A, LDA, B, LDB )
+      IMPLICIT NONE
 *
 *
 *     .. Scalar Arguments ..

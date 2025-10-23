@@ -1,5 +1,6 @@
       SUBROUTINE PDLACON( N, V, IV, JV, DESCV, X, IX, JX, DESCX, ISGN,
      $                    EST, KASE )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -184,6 +185,7 @@
 *
 *     Get grid parameters.
 *
+      EST = ZERO
       ESTWORK( 1 ) = EST
       ICTXT = DESCX( CTXT_ )
       CALL BLACS_GRIDINFO( ICTXT, NPROW, NPCOL, MYROW, MYCOL )

@@ -1,4 +1,5 @@
       SUBROUTINE PILAVER( VERS_MAJOR, VERS_MINOR, VERS_PATCH )
+      IMPLICIT NONE
 C
 C  -- ScaLAPACK computational routine (version 2.0.1 ) --
 C  -- ScaLAPACK is a software package provided by Univ. of Tennessee,    --

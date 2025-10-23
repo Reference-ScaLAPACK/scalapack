@@ -1,6 +1,7 @@
       SUBROUTINE ZLAREF( TYPE, A, LDA, WANTZ, Z, LDZ, BLOCK, IROW1,
      $                   ICOL1, ISTART, ISTOP, ITMP1, ITMP2, LILOZ,
      $                   LIHIZ, VECS, V2, V3, T1, T2, T3 )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,

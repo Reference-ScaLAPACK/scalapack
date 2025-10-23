@@ -1,13 +1,8 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.26...4.0)
 
-project(SCALAPACK VERSION 2.2.1 LANGUAGES C Fortran)
-
-# Configure the warning and code coverage suppression file
-configure_file(
-  "${SCALAPACK_SOURCE_DIR}/CMAKE/CTestCustom.cmake.in"
-  "${SCALAPACK_BINARY_DIR}/CTestCustom.cmake"
-  COPYONLY
-)
+project(SCALAPACK VERSION 2.2.2 LANGUAGES C Fortran)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_EXTENSIONS OFF)
 
 # Add the CMake directory for custon CMake modules
 set(CMAKE_MODULE_PATH "${SCALAPACK_SOURCE_DIR}/CMAKE" ${CMAKE_MODULE_PATH})
@@ -23,8 +18,50 @@ endif ()
 #
 
 find_package(MPI)
-if(NOT MPI_FOUND)
-   message(FATAL_ERROR "--> MPI Library NOT FOUND -- please set MPI_ROOT accordingly: https://cmake.org/cmake/help/latest/module/FindMPI.html")
+if (MPI_FOUND)
+   message(STATUS "Found MPI_LIBRARY : ${MPI_FOUND} ")
+
+   find_program(MPI_C_COMPILER
+      NAMES mpicc
+      HINTS "${MPI_BASE_DIR}"
+      PATH_SUFFIXES bin
+      DOC "MPI C compiler.")
+   MARK_AS_ADVANCED(MPI_C_COMPILER)
+   if ("${MPI_C_COMPILER}" STREQUAL "MPI_C_COMPILER-NOTFOUND")
+      message(ERROR "--> MPI C Compiler NOT FOUND (please set MPI_BASE_DIR accordingly")
+   else()
+      message(STATUS "--> MPI C Compiler : ${MPI_C_COMPILER}")
+      #SET(CMAKE_C_COMPILER "${MPI_C_COMPILER}")
+      message(STATUS "--> C Compiler : ${CMAKE_C_COMPILER}")
+   endif()
+   find_program(MPI_Fortran_COMPILER
+      NAMES mpif77
+      HINTS "${MPI_BASE_DIR}"
+      PATH_SUFFIXES bin
+      DOC "MPI Fortran compiler.")
+   MARK_AS_ADVANCED(MPI_Fortran_COMPILER)
+
+   if ("${MPI_Fortran_COMPILER}" STREQUAL "MPI_Fortran_COMPILER-NOTFOUND")
+      message(ERROR "--> MPI Fortran Compiler NOT FOUND (please set MPI_BASE_DIR accordingly")
+   else()
+      message(STATUS "--> MPI Fortran Compiler : ${MPI_Fortran_COMPILER}")
+      SET(Fortran_COMPILER "${CMAKE_Fortran_COMPILER}")
+      #SET(CMAKE_Fortran_COMPILER "${MPI_Fortran_COMPILER}")
+      message(STATUS "--> Fortran Compiler : ${CMAKE_Fortran_COMPILER}")
+   endif()
+
+else()
+   message(STATUS "Found MPI_LIBRARY : ${MPI_FOUND} ")
+   set(MPI_BASE_DIR ${MPI_BASE_DIR} CACHE PATH "MPI Path")
+   UNSET(MPIEXEC CACHE)
+   UNSET(MPIEXEC_POSTFLAGS CACHE)
+   UNSET(MPIEXEC_PREFLAGS CACHE)
+   UNSET(MPIEXEC_MAX_NUMPROCS CACHE)
+   UNSET(MPIEXEC_NUMPROC_FLAG CACHE)
+   UNSET(MPI_COMPILE_FLAGS CACHE)
+   UNSET(MPI_LINK_FLAGS CACHE)
+   UNSET(MPI_INCLUDE_PATH CACHE)
+   message(FATAL_ERROR "--> MPI Library NOT FOUND -- please set MPI_BASE_DIR accordingly --")
 endif()
 
 message(STATUS "--> MPI C Compiler : ${MPI_C_COMPILER}")
@@ -40,8 +77,6 @@ endif ()
 
 macro(SCALAPACK_install_library lib)
   install(TARGETS ${lib} EXPORT scalapack-targets
-    ARCHIVE DESTINATION lib${LIB_SUFFIX}
-    LIBRARY DESTINATION lib${LIB_SUFFIX}
     RUNTIME DESTINATION Testing
   )
 endmacro()
@@ -50,8 +85,6 @@ endmacro()
 # Testing
 SET(DART_TESTING_TIMEOUT 600)
 
-enable_testing()
-include(CTest)
 enable_testing()
 # --------------------------------------------------
 
@@ -81,9 +114,8 @@ endif ()
 include( CheckBLACSCompilerFlags )
 CheckBLACSCompilerFlags()
 
-set(prefix ${CMAKE_INSTALL_PREFIX})
-set(libdir ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX})
-set(PKG_CONFIG_DIR ${libdir}/pkgconfig)
+include(GNUInstallDirs)
+set(PKG_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/pkgconfig CACHE PATH "pkg-config install path")
 
 # --------------------------------------------------
 # BLACS Internal variables
@@ -91,11 +123,7 @@ set(PKG_CONFIG_DIR ${libdir}/pkgconfig)
 #   Fortran Mangling, MPI Tests and BLACS settings
 #
 include(FortranMangling)
-COMPILE(install_COMPILED)
 
-if (NOT DEFINED CDEFS)
-  FORTRAN_MANGLING(CDEFS)
-endif ()
 #MESSAGE(STATUS "Setting CDEFS = ${CDEFS}")
 #set(CDEFS ${CDEFS} CACHE STRING "Fortran Mangling" FORCE)
 MESSAGE(STATUS "=========")
@@ -200,6 +228,7 @@ append_subdir_files(src "SRC")
 append_subdir_files(src-C "SRC")
 
 if (NOT MSVC)
+   set_source_files_properties(TOOLS/SL_gridreshape.c PROPERTIES COMPILE_OPTIONS "-Wno-error=implicit-function-declaration")
    add_library(scalapack ${blacs} ${tools} ${tools-C} ${extra_lapack} ${pblas} ${pblas-F} ${ptzblas} ${ptools} ${pbblas} ${redist} ${src} ${src-C})
    set_target_properties(scalapack PROPERTIES
     VERSION ${SCALAPACK_VERSION}
@@ -268,7 +297,7 @@ export(TARGETS scalapack FILE scalapack-targets.cmake)
 if( NOT LAPACK_FOUND )
  install(FILES
   ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES}
-  DESTINATION lib
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}
    )
 endif( NOT LAPACK_FOUND )
 
@@ -288,8 +317,8 @@ configure_file(${SCALAPACK_SOURCE_DIR}/CMAKE/scalapack-config-install.cmake.in
 install(FILES
   ${SCALAPACK_BINARY_DIR}/CMakeFiles/scalapack-config.cmake
   ${SCALAPACK_BINARY_DIR}/scalapack-config-version.cmake
-  DESTINATION lib/cmake/scalapack-${SCALAPACK_VERSION}
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack-${SCALAPACK_VERSION}
   )
 
 install(EXPORT scalapack-targets
-  DESTINATION lib/cmake/scalapack-${SCALAPACK_VERSION})
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scalapack-${SCALAPACK_VERSION})

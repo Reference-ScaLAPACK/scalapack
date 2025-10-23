@@ -1,5 +1,6 @@
       SUBROUTINE PZLAPIV( DIREC, ROWCOL, PIVROC, M, N, A, IA, JA,
      $                    DESCA, IPIV, IP, JP, DESCIP, IWORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

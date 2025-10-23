@@ -1,4 +1,5 @@
 #include "redist.h"
+#include <stddef.h>
 /** $Id: pdgemr.c,v 1.1.1.1 2000/02/15 18:04:09 susan Exp $
   ------------------------------------------------------------------------
 
@@ -156,7 +157,7 @@
 #define dlacpy_ dlacpy
 #endif
 #define Clacpy Cdgelacpy
-void  Clacpy();
+void  Clacpy( Int m, Int n, double *a, Int lda, double *b, Int ldb );
 typedef struct {
   Int   desctype;
   Int   ctxt;
@@ -184,35 +185,36 @@ typedef struct {
 #define realloc myrealloc
 #endif
 /* Cblacs */
-extern void Cblacs_pcoord();
-extern Int Cblacs_pnum();
+extern void Cblacs_pcoord( Int context, Int pnum, Int* prow, Int* pcol );
+extern Int Cblacs_pnum( Int context, Int prow, Int pcol );
 extern void Csetpvmtids();
-extern void Cblacs_get();
-extern void Cblacs_pinfo();
-extern void Cblacs_gridinfo();
-extern void Cblacs_gridinit();
-extern void Cblacs_exit();
-extern void Cblacs_gridexit();
-extern void Cblacs_setup();
-extern void Cigebs2d();
-extern void Cigebr2d();
-extern void Cigesd2d();
-extern void Cigerv2d();
-extern void Cigsum2d();
-extern void Cigamn2d();
-extern void Cigamx2d();
-extern void Cdgesd2d();
-extern void Cdgerv2d();
+extern void Cblacs_get( Int context, Int what, Int* val );
+extern void Cblacs_pinfo( Int* mypnum, Int* nprocs );
+extern void Cblacs_gridinfo( Int context, Int* nprow, Int* npcol, Int* myrow, Int* mycol );
+extern void Cblacs_gridinit( Int* context, char* order, Int nprow, Int npcol );
+extern void Cblacs_gridmap( Int* context, Int* usermap, Int ldumap, Int nprow, Int npcol );
+extern void Cblacs_exit( Int continue_blacs );
+extern void Cblacs_gridexit( Int context );
+extern void Cblacs_setup( Int* mypnum, Int* nprocs );
+extern void Cigebs2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda );
+extern void Cigebr2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int rsrc, Int csrc );
+extern void Cigesd2d( Int context, Int m, Int n, Int* A, Int lda, Int rdest, Int cdest );
+extern void Cigerv2d( Int context, Int m, Int n, Int* A, Int lda, Int rsrc, Int csrc );
+extern void Cigsum2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int rdest, Int cdest );
+extern void Cigamn2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int* RA, Int* CA, Int rcflag, Int rdest, Int cdest );
+extern void Cigamx2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int* RA, Int* CA, Int rcflag, Int rdest, Int cdest );
+extern void Cdgesd2d( Int context, Int m, Int n, double* A, Int lda, Int rdest, Int cdest );
+extern void Cdgerv2d( Int context, Int m, Int n, double* A, Int lda, Int rsrc, Int csrc );
 /* lapack */
 void  dlacpy_();
 /* aux fonctions */
-extern Int localindice();
-extern void *mr2d_malloc();
-extern Int ppcm();
-extern Int localsize();
-extern Int memoryblocksize();
-extern Int changeorigin();
-extern void paramcheck();
+extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
+extern void *mr2d_malloc( size_t n );
+extern Int ppcm( Int a, Int b );
+extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
+extern Int memoryblocksize( MDESC *a );
+extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
+extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
 #define scanD0 dgescanD0
 #define dispmat dgedispmat
@@ -221,11 +223,11 @@ extern void paramcheck();
 #define scan_intervals dgescan_intervals
 extern void scanD0();
 extern void dispmat();
-extern void setmemory();
-extern void freememory();
-extern Int scan_intervals();
-extern void Cpdgemr2do();
-extern void Cpdgemr2d();
+extern void setmemory( double** ptr, Int size );
+extern void freememory( char* ptr );
+extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
+extern void Cpdgemr2do( Int m, Int n, double *ptrmyblock, Int ia, Int ja, MDESC *ma, double *ptrmynewblock, Int ib, Int jb, MDESC *mb );
+extern void Cpdgemr2d( Int m, Int n, double *ptrmyblock, Int ia, Int ja, MDESC *ma, double *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
 /* some defines for Cpdgemr2do */
 #define SENDBUFF 0
 #define RECVBUFF 1
@@ -240,7 +242,7 @@ extern void Cpdgemr2d();
 #include <stdlib.h>
 #include <assert.h>
 #define DESCLEN 9
-void 
+void
 fortran_mr2d(Int *m, Int *n, double *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
 	     double *B, Int *ib, Int *jb, Int desc_B[DESCLEN])
 {
@@ -248,7 +250,7 @@ fortran_mr2d(Int *m, Int *n, double *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
 	     B, *ib, *jb, (MDESC *) desc_B);
   return;
 }
-void 
+void
 fortran_mr2dnew(Int *m, Int *n, double *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
 		double *B, Int *ib, Int *jb, Int desc_B[DESCLEN], Int *gcontext)
 {
@@ -256,11 +258,11 @@ fortran_mr2dnew(Int *m, Int *n, double *A, Int *ia, Int *ja, Int desc_A[DESCLEN]
 	    B, *ib, *jb, (MDESC *) desc_B, *gcontext);
   return;
 }
-static2 void init_chenille();
-static2 Int inter_len();
-static2 Int block2buff();
-static2 void buff2block();
-static2 void gridreshape();
+static2 void init_chenille( Int mypnum, Int nprocs, Int n0, Int *proc0, Int n1, Int *proc1, Int **psend, Int **precv, Int *myrang );
+static2 Int inter_len( Int hinb, IDESC *hi, Int vinb, IDESC *vi );
+static2 Int block2buff( IDESC *vi, Int vinb, IDESC *hi, Int hinb, double *ptra, MDESC *ma, double *buff );
+static2 void buff2block( IDESC *vi, Int vinb, IDESC *hi, Int hinb, double *buff, double *ptrb, MDESC *mb );
+static2 void gridreshape( Int *ctxtp );
 void
 Cpdgemr2do(m, n,
 	   ptrmyblock, ia, ja, ma,
@@ -339,7 +341,7 @@ Cpdgemr2d(m, n,
   assert((myprow1 < p1 && mypcol1 < q1) || (myprow1 == -1 && mypcol1 == -1));
   /* exchange the missing parameters among the processors: shape of grids and
    * location of the processors */
-  param = (Int *) mr2d_malloc(3 * (nprocs * 2 + NBPARAM) * sizeof(Int));
+  param = (Int *) mr2d_malloc(3 * ((size_t)nprocs * 2 + NBPARAM) * sizeof(Int));
   ra = param + nprocs * 2 + NBPARAM;
   ca = param + (nprocs * 2 + NBPARAM) * 2;
   for (i = 0; i < nprocs * 2 + NBPARAM; i++)
@@ -456,18 +458,18 @@ Cpdgemr2d(m, n,
   if (myprow0 >= 0 && mypcol0 >= 0) {
     /* Initialize pointer variables */
     setmemory(&ptrsendbuff, memoryblocksize(ma));
-  };	/* if (mypnum < p0 * q0) */
+  }	/* if (mypnum < p0 * q0) */
   if (myprow1 >= 0 && mypcol1 >= 0) {
     /* Initialize pointer variables */
     setmemory(&ptrrecvbuff, memoryblocksize(mb));
-  };	/* if (mypnum < p1 * q1) */
+  }	/* if (mypnum < p1 * q1) */
   /* allocing room for the tabs, alloc for the worst case,local_n or local_m
    * intervals, in fact the worst case should be less, perhaps half that,I
    * should think of that one day. */
-  h_inter = (IDESC *) mr2d_malloc(DIVUP(ma->n, q0 * ma->nbcol) *
-				  ma->nbcol * sizeof(IDESC));
-  v_inter = (IDESC *) mr2d_malloc(DIVUP(ma->m, p0 * ma->nbrow)
-				  * ma->nbrow * sizeof(IDESC));
+  h_inter = (IDESC *) mr2d_malloc((size_t)(DIVUP(ma->n, q0 * ma->nbcol)) *
+				  (size_t)ma->nbcol * sizeof(IDESC));
+  v_inter = (IDESC *) mr2d_malloc((size_t)(DIVUP(ma->m, p0 * ma->nbrow))
+				  * (size_t)ma->nbrow * sizeof(IDESC));
   /* We go for the scanning of indices. For each processor including mypnum,
    * we fill the sendbuff buffer (scanD0(SENDBUFF)) and when it is done send
    * it. Then for each processor, we compute the size of message to be
@@ -551,17 +553,17 @@ after_comm:
   /* don't forget to clean up things! */
   if (myprow1 >= 0 && mypcol1 >= 0) {
     freememory((char *) ptrrecvbuff);
-  };
+  }
   if (myprow0 >= 0 && mypcol0 >= 0) {
     freememory((char *) ptrsendbuff);
-  };
+  }
   if (nprow != 1)
     Cblacs_gridexit(gcontext);
   free(v_inter);
   free(h_inter);
   free(param);
 }/* distrib */
-static2 void 
+static2 void
 init_chenille(mypnum, nprocs, n0, proc0, n1, proc1, psend, precv, myrang)
   Int   nprocs, mypnum, n0, n1;
   Int  *proc0, *proc1, **psend, **precv, *myrang;
@@ -569,7 +571,7 @@ init_chenille(mypnum, nprocs, n0, proc0, n1, proc1, psend, precv, myrang)
   Int   ns, nr, i, tot;
   Int  *sender, *recver, *g0, *g1;
   tot = max(n0, n1);
-  sender = (Int *) mr2d_malloc((nprocs + tot) * sizeof(Int) * 2);
+  sender = (Int *) mr2d_malloc((size_t)(nprocs + tot) * sizeof(Int) * 2);
   recver = sender + tot;
   *psend = sender;
   *precv = recver;
@@ -633,8 +635,8 @@ Int _m,_n,_lda,_ldb; \
       _b += _ldb; \
       _a += _lda; \
     } \
-}
-static2 Int 
+} (void)0
+static2 Int
 block2buff(vi, vinb, hi, hinb, ptra, ma, buff)
   Int   hinb, vinb;
   IDESC *hi, *vi;
@@ -656,7 +658,7 @@ block2buff(vi, vinb, hi, hinb, ptra, ma, buff)
   }
   return sizebuff;
 }
-static2 void 
+static2 void
 buff2block(vi, vinb, hi, hinb, buff, ptrb, mb)
   Int   hinb, vinb;
   IDESC *hi, *vi;
@@ -677,7 +679,7 @@ buff2block(vi, vinb, hi, hinb, buff, ptrb, mb)
     }
   }
 }
-static2 Int 
+static2 Int
 inter_len(Int hinb, IDESC *hi, Int vinb, IDESC *vi)
 {
   Int   hlen, vlen, h, v;
@@ -689,7 +691,7 @@ inter_len(Int hinb, IDESC *hi, Int vinb, IDESC *vi)
     vlen += vi[v].len;
   return hlen * vlen;
 }
-void 
+void
 Clacpy(Int m, Int n, double *a, Int lda, double *b, Int ldb)
 {
   Int   i, j;
@@ -703,7 +705,7 @@ Clacpy(Int m, Int n, double *a, Int lda, double *b, Int ldb)
     a += lda;
   }
 }
-static2 void 
+static2 void
 gridreshape(Int *ctxtp)
 {
   Int   ori, final;	/* original context, and new context created, with
@@ -713,7 +715,7 @@ gridreshape(Int *ctxtp)
   Int   i, j;
   ori = *ctxtp;
   Cblacs_gridinfo(ori, &nprow, &npcol, &myrow, &mycol);
-  usermap = mr2d_malloc(sizeof(Int) * nprow * npcol);
+  usermap = mr2d_malloc(sizeof(Int) * (size_t)nprow * (size_t)npcol);
   for (i = 0; i < nprow; i++)
     for (j = 0; j < npcol; j++) {
       usermap[i + j * nprow] = Cblacs_pnum(ori, i, j);

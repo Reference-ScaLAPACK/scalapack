@@ -1,5 +1,6 @@
       SUBROUTINE DDTTRSV( UPLO, TRANS, N, NRHS, DL, D, DU,
      $                   B, LDB, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 2.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver

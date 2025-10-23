@@ -1,4 +1,5 @@
       DOUBLE PRECISION   FUNCTION DSCASUM( N, X, INCX )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

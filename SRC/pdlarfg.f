@@ -1,5 +1,6 @@
       SUBROUTINE PDLARFG( N, ALPHA, IAX, JAX, X, IX, JX, DESCX, INCX,
      $                    TAU )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

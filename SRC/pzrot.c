@@ -159,7 +159,7 @@ void pzrot_( Int *n, complex16 X[], Int *ix, Int *jx, Int desc_X[], Int *incx, c
 *          The global increment for the elements of Y. Only two values
 *          of INCY are supported in this version, namely 1 and M_Y.
 *
-*  C       (input) pointer to DOUBLE 
+*  C       (input) pointer to DOUBLE
 *  S       (input) pointer COMPLEX
 *          C and S define a rotation
 *             [  C          S  ]
@@ -181,15 +181,16 @@ void pzrot_( Int *n, complex16 X[], Int *ix, Int *jx, Int desc_X[], Int *incx, c
 /* ..
 *  .. External Functions ..
 */
-   void        blacs_gridinfo_();
-   void        zgerv2d_();
-   void        zgesd2d_();
-   void        pbchkvect();
-   void        PB_Cabort();
-   char        * getpbbuf();
-   F_INTG_FCT  pbztrnv_();
-   F_INTG_FCT  zrot_();
-   F_INTG_FCT  ilcm_();
+   void        blacs_gridinfo_( Int *ictxt, Int *nprow, Int *npcol, Int *myrow, Int *mycol );
+   void        zgerv2d_( Int *ictxt, Int *m, Int *n, complex16 *A, Int *lda, Int *rsrc, Int *csrc );
+   void        zgesd2d_( Int *ictxt, Int *m, Int *n, complex16 *A, Int *lda, Int *rdest, Int *cdest );
+   void        pbchkvect( Int n, Int npos0, Int ix, Int jx, Int desc_X[], Int incx, Int dpos0, Int *iix, Int *jjx, Int *ixrow, Int *ixcol, Int nprow, Int npcol, Int myrow, Int mycol, Int *info );
+   void        PB_Cabort( Int ictxt, char *srname, Int info );
+   char        * getpbbuf( char *mess, Int length );
+   F_INTG_FCT  pbztrnv_( Int *ictxt, char *scope, char *trans, Int *n, Int *nb, Int *nz, complex16 *A, Int *lda, complex16 *beta, complex16 *work, Int *ldwork, Int *prow, Int *pcol, Int *qrow, Int *qcol, complex16 *buf );
+   F_INTG_FCT  zrot_( Int *n, complex16 *cx, Int *incx, complex16 *cy, Int *incy, double *c, complex16 *s );
+   F_INTG_FCT  ilcm_( Int *m, Int *n );
+   Int         numroc_( Int*, Int*, Int*, Int*, Int* );
 /* ..
 *  .. Executable Statements ..
 *
@@ -313,7 +314,7 @@ void pzrot_( Int *n, complex16 X[], Int *ix, Int *jx, Int desc_X[], Int *incx, c
       }
       return;
    }
- 
+
    if( ( *incx == desc_X[M_] ) && ( *incy == desc_Y[M_] ) )
    {               /* X and Y are both distributed over a process row */
       nz = (*jx-1) % desc_Y[NB_];
@@ -407,9 +408,9 @@ void pzrot_( Int *n, complex16 X[], Int *ix, Int *jx, Int desc_X[], Int *incx, c
          tmp1 = np0 / desc_X[MB_];
          wksz = MYROC0( tmp1, np0, desc_X[MB_], lcmp );
          wksz = np + wksz;
- 
+
          buff = (complex16 *)getpbbuf( "PZROT", wksz*sizeof(complex16) );
- 
+
          if( mycol == iycol )
             jjy -= nz;
          if( myrow == ixrow )
@@ -424,8 +425,8 @@ void pzrot_( Int *n, complex16 X[], Int *ix, Int *jx, Int desc_X[], Int *incx, c
                      incx, buff, &ione, c, s );
          }
          pbztrnv_( &ictxt, C2F_CHAR( "R" ), C2F_CHAR( "T" ), n,
-                   &desc_Y[NB_], &nz, buff, &ione, &zero, 
-                   &Y[iiy-1+(jjy-1)*desc_Y[LLD_]], &desc_Y[LLD_], 
+                   &desc_Y[NB_], &nz, buff, &ione, &zero,
+                   &Y[iiy-1+(jjy-1)*desc_Y[LLD_]], &desc_Y[LLD_],
                    &ixrow, &ixcol,  &iyrow, &iycol, buff+np );
       }
       else                  /* Y is distributed over a process column */
@@ -439,9 +440,9 @@ void pzrot_( Int *n, complex16 X[], Int *ix, Int *jx, Int desc_X[], Int *incx, c
          tmp1 = np0 / desc_Y[MB_];
          wksz = MYROC0( tmp1, np0, desc_Y[MB_], lcmp );
          wksz = np + wksz;
- 
+
          buff = (complex16 *)getpbbuf( "PZROT", wksz*sizeof(complex16) );
- 
+
          if( myrow == iyrow )
             np -= nz;
          pbztrnv_( &ictxt, C2F_CHAR( "R" ), C2F_CHAR( "T" ), n,
@@ -455,7 +456,7 @@ void pzrot_( Int *n, complex16 X[], Int *ix, Int *jx, Int desc_X[], Int *incx, c
          }
          pbztrnv_( &ictxt, C2F_CHAR( "R" ), C2F_CHAR( "T" ), n,
                    &desc_X[NB_], &nz, buff, &ione, &zero,
-                   &X[iix-1+(jjx-1)*desc_X[LLD_]], &desc_X[LLD_], 
+                   &X[iix-1+(jjx-1)*desc_X[LLD_]], &desc_X[LLD_],
                    &iyrow, &iycol, &ixrow, &ixcol, buff+np );
       }
    }

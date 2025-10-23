@@ -1,6 +1,7 @@
       SUBROUTINE PBSTRNV( ICONTXT, XDIST, TRANS, N, NB, NZ, X, INCX,
      $                    BETA, Y, INCY, IXROW, IXCOL, IYROW, IYCOL,
      $                    WORK )
+      IMPLICIT NONE
 *
 *  -- PB-BLAS routine (version 2.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory.
@@ -645,6 +646,7 @@
 *
       SUBROUTINE PBSTR2A1( ICONTXT, N, NB, NZ, X, INCX, BETA, Y, INCY,
      $                     INTV )
+      IMPLICIT NONE
 *
 *  -- PB-BLAS routine (version 2.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory.
@@ -717,6 +719,7 @@
 *
       SUBROUTINE PBSTR2B1( ICONTXT, TRANS, N, NB, NZ, X, INCX, BETA, Y,
      $                     INCY, JINX, JINY )
+      IMPLICIT NONE
 *
 *  -- PB-BLAS routine (version 2.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory.

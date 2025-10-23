@@ -1,5 +1,6 @@
       SUBROUTINE PZLACON( N, V, IV, JV, DESCV, X, IX, JX, DESCX, EST,
      $                    KASE )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -150,8 +151,8 @@
      $                     RSRC_ = 7, CSRC_ = 8, LLD_ = 9 )
       INTEGER            ITMAX
       PARAMETER          ( ITMAX = 5 )
-      DOUBLE PRECISION   ONE, TWO
-      PARAMETER          ( ONE = 1.0D+0, TWO = 2.0D+0 )
+      DOUBLE PRECISION   ZERO, ONE, TWO
+      PARAMETER          ( ZERO = 0.0D+0, ONE = 1.0D+0, TWO = 2.0D+0 )
       COMPLEX*16         CZERO, CONE
       PARAMETER          ( CZERO = ( 0.0D+0, 0.0D+0 ),
      $                   CONE = ( 1.0D+0, 0.0D+0 ) )
@@ -186,6 +187,7 @@
 *
 *     Get grid parameters.
 *
+      EST = ZERO
       ICTXT = DESCX( CTXT_ )
       CALL BLACS_GRIDINFO( ICTXT, NPROW, NPCOL, MYROW, MYCOL )
 *

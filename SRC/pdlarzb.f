@@ -1,5 +1,6 @@
       SUBROUTINE PDLARZB( SIDE, TRANS, DIRECT, STOREV, M, N, K, L, V,
      $                    IV, JV, DESCV, T, C, IC, JC, DESCC, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 2.0.2) --
 *     Univ. of Tennessee, Univ. of California Berkeley, Univ. of Colorado Denver

@@ -1,4 +1,5 @@
       SUBROUTINE PSOPTEE( ICTXT, NOUT, SUBPTR, SCODE, SNAME )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -263,6 +264,7 @@
       END
       SUBROUTINE PSCHKOPT( ICTXT, NOUT, SUBPTR, SCODE, SNAME, ARGNAM,
      $                     ARGPOS )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -452,6 +454,7 @@
 *
       END
       SUBROUTINE PSDIMEE( ICTXT, NOUT, SUBPTR, SCODE, SNAME )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -756,6 +759,7 @@
       END
       SUBROUTINE PSCHKDIM( ICTXT, NOUT, SUBPTR, SCODE, SNAME, ARGNAM,
      $                     ARGPOS )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -933,6 +937,7 @@
 *
       END
       SUBROUTINE PSVECEE( ICTXT, NOUT, SUBPTR, SCODE, SNAME )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -1187,6 +1192,7 @@
 *
       END
       SUBROUTINE PSMATEE( ICTXT, NOUT, SUBPTR, SCODE, SNAME )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -1475,6 +1481,7 @@
 *
       END
       SUBROUTINE PSSETPBLAS( ICTXT )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -1671,6 +1678,7 @@
       END
       SUBROUTINE PSCHKMAT( ICTXT, NOUT, SUBPTR, SCODE, SNAME, ARGNAM,
      $                     ARGPOS )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2177,6 +2185,7 @@
 *
       END
       SUBROUTINE PSCALLSUB( SUBPTR, SCODE )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2453,6 +2462,7 @@
 *
       END
       SUBROUTINE PSERRSET( ERR, ERRMAX, XTRUE, X )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2573,6 +2583,7 @@
       END
       SUBROUTINE PSCHKVIN( ERRMAX, N, X, PX, IX, JX, DESCX, INCX,
      $                     INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -2867,6 +2878,7 @@
 *
       END
       SUBROUTINE PSCHKVOUT( N, X, PX, IX, JX, DESCX, INCX, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -3323,6 +3335,7 @@
 *
       END
       SUBROUTINE PSCHKMIN( ERRMAX, M, N, A, PA, IA, JA, DESCA, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -3624,6 +3637,7 @@
 *
       END
       SUBROUTINE PSCHKMOUT( M, N, A, PA, IA, JA, DESCA, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -3946,6 +3960,7 @@
       END
       SUBROUTINE PSMPRNT( ICTXT, NOUT, M, N, A, LDA, IRPRNT, ICPRNT,
      $                    CMATNM )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -4053,6 +4068,7 @@
       END
       SUBROUTINE PSVPRNT( ICTXT, NOUT, N, X, INCX, IRPRNT, ICPRNT,
      $                    CVECNM )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -4154,6 +4170,7 @@
       SUBROUTINE PSMVCH( ICTXT, TRANS, M, N, ALPHA, A, IA, JA, DESCA,
      $                   X, IX, JX, DESCX, INCX, BETA, Y, PY, IY, JY,
      $                   DESCY, INCY, G, ERR, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -4567,6 +4584,7 @@
       SUBROUTINE PSVMCH( ICTXT, UPLO, M, N, ALPHA, X, IX, JX, DESCX,
      $                   INCX, Y, IY, JY, DESCY, INCY, A, PA, IA, JA,
      $                   DESCA, G, ERR, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -4916,6 +4934,7 @@
       SUBROUTINE PSVMCH2( ICTXT, UPLO, M, N, ALPHA, X, IX, JX, DESCX,
      $                    INCX, Y, IY, JY, DESCY, INCY, A, PA, IA,
      $                    JA, DESCA, G, ERR, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -5269,6 +5288,7 @@
       SUBROUTINE PSMMCH( ICTXT, TRANSA, TRANSB, M, N, K, ALPHA, A, IA,
      $                   JA, DESCA, B, IB, JB, DESCB, BETA, C, PC, IC,
      $                   JC, DESCC, CT, G, ERR, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -5646,6 +5666,7 @@
       SUBROUTINE PSMMCH1( ICTXT, UPLO, TRANS, N, K, ALPHA, A, IA, JA,
      $                    DESCA, BETA, C, PC, IC, JC, DESCC, CT, G,
      $                    ERR, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -5993,6 +6014,7 @@
       SUBROUTINE PSMMCH2( ICTXT, UPLO, TRANS, N, K, ALPHA, A, IA, JA,
      $                    DESCA, B, IB, JB, DESCB, BETA, C, PC, IC,
      $                    JC, DESCC, CT, G, ERR, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -6369,6 +6391,7 @@
       END
       SUBROUTINE PSMMCH3( UPLO, TRANS, M, N, ALPHA, A, IA, JA, DESCA,
      $                    BETA, C, PC, IC, JC, DESCC, ERR, INFO )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -6681,6 +6704,7 @@
 *
       END
       SUBROUTINE PSERRAXPBY( ERRBND, ALPHA, X, BETA, Y, PREC )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -6766,6 +6790,7 @@
 *
       END
       REAL               FUNCTION PSLAMCH( ICTXT, CMACH )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -6860,6 +6885,7 @@
 *
       END
       SUBROUTINE PSLASET( UPLO, M, N, ALPHA, BETA, A, IA, JA, DESCA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -7335,6 +7361,7 @@
 *
       END
       SUBROUTINE PSLASCAL( TYPE, M, N, ALPHA, A, IA, JA, DESCA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -7843,6 +7870,7 @@
       END
       SUBROUTINE PSLAGEN( INPLACE, AFORM, DIAG, OFFA, M, N, IA, JA,
      $                    DESCA, IASEED, A, LDA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -8241,6 +8269,7 @@
 *
       END
       SUBROUTINE PSLADOM( INPLACE, N, ALPHA, A, IA, JA, DESCA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -8633,6 +8662,7 @@
       END
       SUBROUTINE PB_PSLAPRNT( M, N, A, IA, JA, DESCA, IRPRNT, ICPRNT,
      $                        CMATNM, NOUT, WORK )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -8847,6 +8877,7 @@
       END
       SUBROUTINE PB_PSLAPRN2( M, N, A, IA, JA, DESCA, IRPRNT, ICPRNT,
      $                        CMATNM, NOUT, PROW, PCOL, WORK )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -9078,6 +9109,7 @@
 *
       END
       SUBROUTINE PB_SFILLPAD( ICTXT, M, N, A, LDA, IPRE, IPOST, CHKVAL )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -9191,6 +9223,7 @@
       END
       SUBROUTINE PB_SCHEKPAD( ICTXT, MESS, M, N, A, LDA, IPRE, IPOST,
      $                        CHKVAL )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -9358,6 +9391,7 @@
 *
       END
       SUBROUTINE PB_SLASET( UPLO, M, N, IOFFD, ALPHA, BETA, A, LDA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -9555,6 +9589,7 @@
 *
       END
       SUBROUTINE PB_SLASCAL( UPLO, M, N, IOFFD, ALPHA, A, LDA )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -9736,6 +9771,7 @@
       SUBROUTINE PB_SLAGEN( UPLO, AFORM, A, LDA, LCMT00, IRAN, MBLKS,
      $                      IMBLOC, MB, LMBLOC, NBLKS, INBLOC, NB,
      $                      LNBLOC, JMP, IMULADD )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -10377,6 +10413,7 @@
 *
       END
       REAL               FUNCTION PB_SRAND( IDUMM )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -10439,6 +10476,7 @@
 *
       END
       REAL               FUNCTION PB_SRAN( IDUMM )
+      IMPLICIT NONE
 *
 *  -- PBLAS test routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

@@ -1,5 +1,6 @@
       SUBROUTINE PCPTTRSV( UPLO, TRANS, N, NRHS, D, E, JA, DESCA, B, IB,
      $                     DESCB, AF, LAF, WORK, LWORK, INFO )
+      IMPLICIT NONE
 *
 *
 *

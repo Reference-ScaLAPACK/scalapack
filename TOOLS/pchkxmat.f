@@ -1,5 +1,6 @@
       SUBROUTINE PCHK1MAT( MA, MAPOS0, NA, NAPOS0, IA, JA, DESCA,
      $                     DESCAPOS0, NEXTRA, EX, EXPOS, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -172,6 +173,7 @@
       SUBROUTINE PCHK2MAT( MA, MAPOS0, NA, NAPOS0, IA, JA, DESCA,
      $                     DESCAPOS0, MB, MBPOS0, NB, NBPOS0, IB, JB,
      $                     DESCB, DESCBPOS0, NEXTRA, EX, EXPOS, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -400,6 +402,7 @@
       END
 *
       SUBROUTINE GLOBCHK( ICTXT, N, X, LDX, IWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

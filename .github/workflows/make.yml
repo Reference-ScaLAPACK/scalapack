@@ -2,16 +2,9 @@ name: Makefile CI
 
 on:
   push:
-    paths-exclude:
-    - '.github/workflows/cmake.yml'
-    - '.gitignore'
-    - 'README'
-    - '**README'
-    - 'LICENSE'
-    - 'CMAKE**'
-    - '**CMakeLists.txt'
+    branches: [master]
   pull_request:
-    paths-exclude:
+    paths-ignore:
     - '.github/workflows/cmake.yml'
     - '.gitignore'
     - 'README'
@@ -19,6 +12,10 @@ on:
     - 'LICENSE'
     - 'CMAKE**'
     - '**CMakeLists.txt'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 defaults:
   run:
@@ -37,12 +34,16 @@ jobs:
     - name: Setup MPI
       uses: mpi4py/setup-mpi@v1
 
+    - name: Install BLAS and LAPACK
+      run: sudo apt -y install libblas-dev liblapack-dev
+
     - name: Build ScaLAPACK
       run: |
         cp SLmake.inc.example SLmake.inc
-        make --silent -j lib
-        make --silent all
-        
+        # make -j is buggy; see #54.
+        make lib
+        make all
+
     - name: Run examples
       working-directory: ${{github.workspace}}/EXAMPLE
       run: |

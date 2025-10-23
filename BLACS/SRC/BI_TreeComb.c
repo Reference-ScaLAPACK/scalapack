@@ -85,7 +85,7 @@ void BI_TreeComb(BLACSCONTEXT *ctxt, BLACBUFF *bp, BLACBUFF *bp2,
    Iam = ctxt->scp->Iam;
    msgid = Mscopeid(ctxt);
    Rmsgid = Mscopeid(ctxt);
-   if (REBS = (dest == -1)) dest = 0;
+   if ( ( REBS = (dest == -1) ) ) dest = 0;
 
    mydist = (Np + Iam - dest) % Np;
    if (REBS)

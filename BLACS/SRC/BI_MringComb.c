@@ -16,7 +16,7 @@ void BI_MringComb(BLACSCONTEXT *ctxt, BLACBUFF *bp, BLACBUFF *bp2,
    if (Np < 2) return;
    Iam = ctxt->scp->Iam;
    msgid = Mscopeid(ctxt);
-   if (REBS = (dest == -1)) dest = 0;
+   if ( ( REBS = (dest == -1) ) ) dest = 0;
 
    if (nrings > 0)
    {

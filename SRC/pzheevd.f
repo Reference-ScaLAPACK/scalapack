@@ -1,6 +1,7 @@
       SUBROUTINE PZHEEVD( JOBZ, UPLO, N, A, IA, JA, DESCA, W, Z, IZ, JZ,
      $                    DESCZ, WORK, LWORK, RWORK, LRWORK, IWORK,
      $                    LIWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -10,12 +11,13 @@
 *     .. Scalar Arguments ..
       CHARACTER          JOBZ, UPLO
       INTEGER            IA, INFO, IZ, JA, JZ, LIWORK, LRWORK, LWORK, N
+      INTEGER            ICTXT
 *     ..
 *     .. Array Arguments ..
       INTEGER            DESCA( * ), DESCZ( * ), IWORK( * )
       DOUBLE PRECISION   RWORK( * ), W( * )
       COMPLEX*16         A( * ), WORK( * ), Z( * )
-*     
+*
 *
 *  Purpose
 *  =======
@@ -221,7 +223,7 @@
 *
       IF( NPROW.EQ.-1 ) THEN
          INFO = -( 700+CTXT_ )
-      ELSE 
+      ELSE
          CALL CHK1MAT( N, 3, N, 3, IA, JA, DESCA, 7, INFO )
          CALL CHK1MAT( N, 3, N, 3, IZ, JZ, DESCZ, 12, INFO )
          IF( INFO.EQ.0 ) THEN

@@ -1,5 +1,6 @@
       SUBROUTINE PSGEQPF( M, N, A, IA, JA, DESCA, IPIV, TAU, WORK,
      $                    LWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 2.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

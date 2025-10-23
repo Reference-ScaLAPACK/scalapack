@@ -1,6 +1,7 @@
       SUBROUTINE PCPORFS( UPLO, N, NRHS, A, IA, JA, DESCA, AF, IAF, JAF,
      $                    DESCAF, B, IB, JB, DESCB, X, IX, JX, DESCX,
      $                    FERR, BERR, WORK, LWORK, RWORK, LRWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

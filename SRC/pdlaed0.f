@@ -1,4 +1,5 @@
       SUBROUTINE PDLAED0( N, D, E, Q, IQ, JQ, DESCQ, WORK, IWORK, INFO )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

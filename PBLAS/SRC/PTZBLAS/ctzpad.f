@@ -1,4 +1,5 @@
       SUBROUTINE CTZPAD( UPLO, HERM, M, N, IOFFD, ALPHA, BETA, A, LDA )
+      IMPLICIT NONE
 *
 *  -- PBLAS auxiliary routine (version 2.0) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

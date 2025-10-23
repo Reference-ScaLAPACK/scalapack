@@ -1,5 +1,6 @@
       SUBROUTINE PBDVECADD( ICONTXT, MODE, N, ALPHA, X, INCX, BETA, Y,
      $                      INCY )
+      IMPLICIT NONE
 *
 *  -- PB-BLAS routine (version 2.1) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory.

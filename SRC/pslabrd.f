@@ -1,5 +1,6 @@
       SUBROUTINE PSLABRD( M, N, NB, A, IA, JA, DESCA, D, E, TAUQ, TAUP,
      $                    X, IX, JX, DESCX, Y, IY, JY, DESCY, WORK )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK auxiliary routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,

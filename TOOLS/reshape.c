@@ -11,11 +11,11 @@ column major (2) in the input and output grids */
 {
 
    /** called subprograms **/
-   void proc_inc();
-   void Cblacs_gridinfo();
-   Int Cblacs_pnum();
-   void Cblacs_get();
-   void Cblacs_gridmap();
+   void proc_inc( Int* myrow, Int* mycol, Int nprow, Int npcol, Int major );
+   void Cblacs_gridinfo( Int context, Int* nprow, Int* npcol, Int* myrow, Int* mycol );
+   Int Cblacs_pnum( Int context, Int prow, Int pcol );
+   void Cblacs_get( Int context, Int what, Int* val );
+   void Cblacs_gridmap( Int* context, Int* usermap, Int ldumap, Int nprow, Int npcol );
 
    /** variables **/
    Int i, j;

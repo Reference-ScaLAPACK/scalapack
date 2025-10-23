@@ -1,5 +1,6 @@
       SUBROUTINE PCTREECOMB( ICTXT, SCOPE, N, MINE, RDEST0, CDEST0,
      $                       SUBPTR )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
@@ -210,6 +211,7 @@
       END
 *
       SUBROUTINE CCOMBAMAX( V1, V2 )
+      IMPLICIT NONE
 *
 *  -- ScaLAPACK tools routine (version 1.7) --
 *     University of Tennessee, Knoxville, Oak Ridge National Laboratory,
