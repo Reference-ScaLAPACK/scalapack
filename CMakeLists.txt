@@ -16,7 +16,6 @@ endif ()
 #
 #   MPI
 #
-set(CMAKE_PREFIX_PATH "${MPI_BASE_DIR};${CMAKE_PREFIX_PATH}")
 
 find_package(MPI)
 if (MPI_FOUND)
@@ -65,6 +64,10 @@ else()
    message(FATAL_ERROR "--> MPI Library NOT FOUND -- please set MPI_BASE_DIR accordingly --")
 endif()
 
+message(STATUS "--> MPI C Compiler : ${MPI_C_COMPILER}")
+message(STATUS "--> C Compiler : ${CMAKE_C_COMPILER}")
+message(STATUS "--> MPI Fortran Compiler : ${MPI_Fortran_COMPILER}")
+message(STATUS "--> Fortran Compiler : ${CMAKE_Fortran_COMPILER}")
 
 if (UNIX)
    if ("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Intel")
