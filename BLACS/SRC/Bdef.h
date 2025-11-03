@@ -65,7 +65,7 @@ struct bLaCbUfF
 /*
  * Pointer to the combine's vector-vector functions
  */
-typedef void (*VVFUNPTR)(Int, char *, char *);
+typedef void (*VVFUNPTR)(MpiInt, char *, char *);
 typedef void (*SDRVPTR)(BLACSCONTEXT *, Int, Int, BLACBUFF *);
 
 

@@ -70,7 +70,7 @@ F_VOID_FUNC sgsum2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
    void BI_TreeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR,
                     Int, Int);
    void BI_BeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR);
-   void BI_svvsum(Int, char *, char *);
+   void BI_svvsum(MpiInt, char *, char *);
 /*
  *  Variable Declarations
  */

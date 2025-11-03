@@ -70,7 +70,7 @@ F_VOID_FUNC zgsum2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
    void BI_TreeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR,
                     Int, Int);
    void BI_BeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR);
-   void BI_zvvsum(Int, char *, char *);
+   void BI_zvvsum(MpiInt, char *, char *);
    void BI_zMPI_sum(void *, void *, MpiInt *, MPI_Datatype *);
 /*
  *  Variable Declarations
