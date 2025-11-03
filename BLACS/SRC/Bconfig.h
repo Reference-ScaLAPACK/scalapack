@@ -37,6 +37,13 @@ inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
 inline int _MPI_Op_create(MPI_User_function_c *user_fn, int commute, MPI_Op *op) {
 	return BigMPI_Op_create (user_fn, commute, op);
 }
+inline int _MPI_Type_create_struct(MPI_Count count,
+                             const MPI_Count array_of_blocklengths[],
+                             const MPI_Count array_of_displacements[],
+                             const MPI_Datatype array_of_types[],
+                             MPI_Datatype *newtype) {
+	// not sure what to do here
+}
 #else // no BIGMPI
 /* If there is no BigMPI, but there is
  * an MPI implementation v4.x use
@@ -55,6 +62,15 @@ inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
 inline int _MPI_Op_create(MPI_User_function_c *user_fn, int commute, MPI_Op *op) {
 	return MPI_Op_create_c (user_fn, commute, op);
 }
+inline int _MPI_Type_create_struct(MPI_Count count,
+                             const MPI_Count array_of_blocklengths[],
+                             const MPI_Count array_of_displacements[],
+                             const MPI_Datatype array_of_types[],
+                             MPI_Datatype *newtype) {
+	return MPI_Type_create_struct_c(count, array_of_blocklengths,
+                             array_of_displacements, array_of_types,
+                             newtype);
+}
 /* Otherwise default to non-big
  * transfers
  */
@@ -66,6 +82,14 @@ inline int _MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
 }
 inline int _MPI_Op_create(MPI_User_function *user_fn, int commute, MPI_Op *op) {
 	return MPI_Op_create (user_fn, commute, op);
+}
+inline int _MPI_Type_create_struct(int count, const int array_of_blocklengths[],
+                           const MPI_Aint array_of_displacements[],
+                           const MPI_Datatype array_of_types[],
+                           MPI_Datatype *newtype)
+	return MPI_Type_create_struct(count, array_of_blocklengths,
+                             array_of_displacements, array_of_types,
+                             newtype);
 }
 #endif // MPI version
 #endif // BIGMPI
