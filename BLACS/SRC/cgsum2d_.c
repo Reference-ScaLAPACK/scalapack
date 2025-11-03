@@ -70,7 +70,7 @@ F_VOID_FUNC cgsum2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
    void BI_TreeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR,
                     Int, Int);
    void BI_BeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR);
-   void BI_cvvsum(Int, char *, char *);
+   void BI_cvvsum(MpiInt, char *, char *);
    void BI_cMPI_sum(void *, void *, MpiInt *, MPI_Datatype *);
 /*
  *  Variable Declarations
@@ -158,7 +158,7 @@ F_VOID_FUNC cgsum2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
    {
    case ' ':         /* use MPI's reduction by default */
       length = 1;
-      ierr=MPI_Op_create(BI_cMPI_sum, length, &BlacComb);
+      ierr=_MPI_Op_create(BI_cMPI_sum, length, &BlacComb);
       if (dest != -1)
       {
          ierr=MPI_Reduce(bp->Buff, bp2->Buff, bp->N, bp->dtype, BlacComb,

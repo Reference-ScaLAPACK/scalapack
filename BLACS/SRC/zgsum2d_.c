@@ -160,7 +160,7 @@ F_VOID_FUNC zgsum2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
    {
    case ' ':         /* use MPI's reduction by default */
       length = 1;
-      ierr=MPI_Op_create(BI_zMPI_sum, length, &BlacComb);
+      ierr=_MPI_Op_create(BI_zMPI_sum, length, &BlacComb);
       if (dest != -1)
       {
          ierr=MPI_Reduce(bp->Buff, bp2->Buff, bp->N, bp->dtype, BlacComb,

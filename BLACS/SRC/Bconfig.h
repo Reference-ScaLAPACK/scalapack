@@ -34,6 +34,9 @@ inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
 		int source, int tag, MPI_Comm comm, MPI_Request *request) {
 	return MPIX_Irecv_x (buf, count, datatype, source, tag, comm, request);
 }
+inline int _MPI_Op_create(MPI_User_function_c *user_fn, int commute, MPI_Op *op) {
+	return BigMPI_Op_create (user_fn, commute, op);
+}
 #else // no BIGMPI
 /* If there is no BigMPI, but there is
  * an MPI implementation v4.x use
@@ -49,6 +52,9 @@ inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
 		int source, int tag, MPI_Comm comm, MPI_Request *request) {
 	return MPI_Irecv_c (buf, count, datatype, source, tag, comm, request);
 }
+inline int _MPI_Op_create(MPI_User_function_c *user_fn, int commute, MPI_Op *op) {
+	return MPI_Op_create_c (user_fn, commute, op);
+}
 /* Otherwise default to non-big
  * transfers
  */
@@ -57,6 +63,9 @@ inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
 inline int _MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
 		int source, int tag, MPI_Comm comm, MPI_Request *request) {
 	return MPI_Irecv (buf, count, datatype, source, tag, comm, request);
+}
+inline int _MPI_Op_create(MPI_User_function *user_fn, int commute, MPI_Op *op) {
+	return MPI_Op_create (user_fn, commute, op);
 }
 #endif // MPI version
 #endif // BIGMPI

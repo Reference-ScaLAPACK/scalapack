@@ -264,11 +264,11 @@ F_VOID_FUNC sgamn2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
       i = 1;
       if (Mpval(ldia) == -1)
       {
-         ierr=MPI_Op_create(BI_sMPI_amn2, i, &BlacComb);
+         ierr=_MPI_Op_create(BI_sMPI_amn2, i, &BlacComb);
       }
       else
       {
-         ierr=MPI_Op_create(BI_sMPI_amn, i, &BlacComb);
+         ierr=_MPI_Op_create(BI_sMPI_amn, i, &BlacComb);
          BI_AuxBuff.Len = N;  /* set this up for the MPI OP wrappers */
       }
 
