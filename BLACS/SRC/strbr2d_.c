@@ -79,7 +79,7 @@ F_VOID_FUNC strbr2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, F_CHAR uplo,
    BLACBUFF *BI_GetBuff(Int);
    Int BI_BuffIsFree(BLACBUFF *, Int);
    MPI_Datatype BI_GetMpiTrType(BLACSCONTEXT *, char, char, Int, Int, Int,
-                                   MPI_Datatype, Int *);
+                                   MPI_Datatype, MpiInt *);
    void BI_Unpack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
    void BI_Ssend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
    void BI_Asend(BLACSCONTEXT *, Int, Int, BLACBUFF *);

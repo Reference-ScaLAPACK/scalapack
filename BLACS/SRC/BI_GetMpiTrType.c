@@ -2,7 +2,7 @@
 
 MPI_Datatype BI_GetMpiTrType(BLACSCONTEXT *ctxt, char uplo, char diag,
                                 Int m, Int n, Int lda, MPI_Datatype Dtype,
-                                Int *N)
+                                MpiInt *N)
 {
    BLACBUFF *BI_GetBuff(Int);
    MPI_Datatype TrType;
