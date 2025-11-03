@@ -62,10 +62,8 @@ F_VOID_FUNC igsum2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
    BLACBUFF *BI_GetBuff(Int);
    Int BI_BuffIsFree(BLACBUFF *, Int);
    MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, Int, Int, Int,
-                                   MPI_Datatype, Int *);
+                                   MPI_Datatype, MpiInt *);
    BLACBUFF *BI_Pack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
-   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, Int, Int, Int,
-                                   MPI_Datatype, Int *);
    void BI_Unpack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
    void BI_MringComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR,
                      Int, Int);
