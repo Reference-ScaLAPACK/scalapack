@@ -3,7 +3,7 @@
 void BI_Asend(BLACSCONTEXT *ctxt, Int dest, Int msgid, BLACBUFF *bp)
 {
    Int i, info;
-   MpiInt errclass;
+   int errclass;
 
    info=_MPI_Isend(bp->Buff, bp->N, bp->dtype, dest, msgid, ctxt->scp->comm,
                 &bp->Aops[bp->nAops]);

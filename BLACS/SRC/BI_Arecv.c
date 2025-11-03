@@ -3,7 +3,7 @@
 void BI_Arecv(BLACSCONTEXT *ctxt, Int src, Int msgid, BLACBUFF *bp)
 {
    Int i, info;
-   MpiInt errclass;
+   int errclass;
 
    info=_MPI_Irecv(bp->Buff, bp->N, bp->dtype, src, msgid, ctxt->scp->comm,
                 &bp->Aops[bp->nAops]);
