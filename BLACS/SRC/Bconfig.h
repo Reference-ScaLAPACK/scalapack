@@ -34,7 +34,7 @@ inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
 		int source, int tag, MPI_Comm comm, MPI_Request *request) {
 	return MPIX_Irecv_x (buf, count, datatype, source, tag, comm, request);
 }
-#else
+#else // no BIGMPI
 /* If there is no BigMPI, but there is
  * an MPI implementation v4.x use
  * that for large tranfers. Caveat:
@@ -52,13 +52,14 @@ inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
 /* Otherwise default to non-big
  * transfers
  */
-#else
+#else // no MPI v4
 #define MpiInt int
 inline int _MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
 		int source, int tag, MPI_Comm comm, MPI_Request *request) {
 	return MPI_Irecv (buf, count, datatype, source, tag, comm, request);
 }
-#endif
+#endif // MPI version
+#endif // BIGMPI
 
 /*
  * These macros define the naming strategy needed for a fortran
