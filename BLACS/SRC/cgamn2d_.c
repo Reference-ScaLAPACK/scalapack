@@ -94,8 +94,8 @@ F_VOID_FUNC cgamn2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
    void BI_TreeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR,
                     Int, Int);
    void BI_BeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR);
-   void BI_cvvamn(Int, char *, char *);
-   void BI_cvvamn2(Int, char *, char *);
+   void BI_cvvamn(MpiInt, char *, char *);
+   void BI_cvvamn2(MpiInt, char *, char *);
    void BI_cMPI_amn(void *, void *, MpiInt *, MPI_Datatype *);
    void BI_cMPI_amn2(void *, void *, MpiInt *, MPI_Datatype *);
 /*
@@ -221,7 +221,7 @@ F_VOID_FUNC cgamn2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
       {
 #endif
       i = 2;
-      ierr=MPI_Type_create_struct(i, len, disp, dtypes, &MyType);
+      ierr=_MPI_Type_create_struct(i, len, disp, dtypes, &MyType);
       ierr=MPI_Type_commit(&MyType);
       bp->N = bp2->N = 1;
       bp->dtype = bp2->dtype = MyType;
