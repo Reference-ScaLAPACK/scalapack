@@ -1,7 +1,7 @@
 #include "Bdef.h"
 
 MPI_Datatype BI_GetMpiTrType(BLACSCONTEXT *ctxt, char uplo, char diag,
-                                Int m, Int n, Int lda, MPI_Datatype Dtype,
+                                MpiInt m, MpiInt n, Int lda, MPI_Datatype Dtype,
                                 MpiInt *N)
 {
    BLACBUFF *BI_GetBuff(Int);
@@ -116,7 +116,7 @@ MPI_Datatype BI_GetMpiTrType(BLACSCONTEXT *ctxt, char uplo, char diag,
    }
 #endif
 
-   i=MPI_Type_indexed(n, len, disp, Dtype, &TrType);
+   i=_MPI_Type_indexed(n, len, disp, Dtype, &TrType);
    i=MPI_Type_commit(&TrType);
    return(TrType);
 }

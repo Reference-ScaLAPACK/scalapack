@@ -46,7 +46,12 @@ inline int _MPI_Type_create_struct(MPI_Count count,
                              const MPI_Count array_of_displacements[],
                              const MPI_Datatype array_of_types[],
                              MPI_Datatype *newtype) {
-	// not sure what to do here
+	// TODO not sure what to do here
+}
+inline int _MPI_Type_indexed(MPI_Count count, const MPI_Count array_of_blocklengths[],
+                       const MPI_Count array_of_displacements[],
+                       MPI_Datatype oldtype, MPI_Datatype *newtype) {
+	// TODO not sure what to do here
 }
 #else // no BIGMPI
 /* If there is no BigMPI, but there is
@@ -79,6 +84,12 @@ inline int _MPI_Type_create_struct(MPI_Count count,
                              array_of_displacements, array_of_types,
                              newtype);
 }
+inline int _MPI_Type_indexed(MPI_Count count, const MPI_Count array_of_blocklengths[],
+                       const MPI_Count array_of_displacements[],
+                       MPI_Datatype oldtype, MPI_Datatype *newtype) {
+	return MPI_Type_indexed_c(count, array_of_blocklengths, array_of_displacements,
+                       oldtype, newtype);
+}
 /* Otherwise default to non-big
  * transfers
  */
@@ -102,6 +113,12 @@ inline int _MPI_Type_create_struct(int count, const int array_of_blocklengths[],
 	return MPI_Type_create_struct(count, array_of_blocklengths,
                              array_of_displacements, array_of_types,
                              newtype);
+}
+int MPI_Type_indexed(int count, const int array_of_blocklengths[],
+                     const int array_of_displacements[], MPI_Datatype oldtype,
+                     MPI_Datatype *newtype) {
+	return MPI_Type_indexed(count, array_of_blocklengths, array_of_displacements,
+                       oldtype, newtype);
 }
 #endif // MPI version
 #endif // BIGMPI
