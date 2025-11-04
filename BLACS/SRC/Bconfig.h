@@ -30,6 +30,10 @@
  */
 #ifdef BIGMPI
 #define MpiInt MPI_Count
+inline int _MPI_Isend(const void *buf, MPI_Count count, MPI_Datatype datatype, int dest,
+              int tag, MPI_Comm comm, MPI_Request *request) {
+	return MPIX_Isend_x(buf, count, datatype, dest, tag, comm, request);
+}
 inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
 		int source, int tag, MPI_Comm comm, MPI_Request *request) {
 	return MPIX_Irecv_x (buf, count, datatype, source, tag, comm, request);
@@ -55,6 +59,10 @@ inline int _MPI_Type_create_struct(MPI_Count count,
  */
 #if MPI_VERSION==4
 #define MpiInt MPI_Count
+inline int _MPI_Isend(const void *buf, MPI_Count count, MPI_Datatype datatype, int dest,
+              int tag, MPI_Comm comm, MPI_Request *request) {
+	return MPI_Isend_c(buf, count, datatype, dest, tag, comm, request);
+}
 inline int _MPI_Irecv(void *buf, MPI_Count count, MPI_Datatype datatype,
 		int source, int tag, MPI_Comm comm, MPI_Request *request) {
 	return MPI_Irecv_c (buf, count, datatype, source, tag, comm, request);
@@ -76,6 +84,10 @@ inline int _MPI_Type_create_struct(MPI_Count count,
  */
 #else // no MPI v4
 #define MpiInt int
+inline int _MPI_Isend(const void *buf, int count, MPI_Datatype datatype, int dest,
+              int tag, MPI_Comm comm, MPI_Request *request) {
+	return MPI_Isend(buf, count, datatype, dest, tag, comm, request);
+}
 inline int _MPI_Irecv(void *buf, int count, MPI_Datatype datatype,
 		int source, int tag, MPI_Comm comm, MPI_Request *request) {
 	return MPI_Irecv (buf, count, datatype, source, tag, comm, request);
