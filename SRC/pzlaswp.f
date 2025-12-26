@@ -171,7 +171,7 @@
      $                         JA, DESCA, DESCA( M_ ) )
    10       CONTINUE
          ELSE
-            CALL INFOG2L( K2, JA, DESCA, NPROW, NPCOL, MYROW, MYCOL,
+            CALL INFOG2L( K1, JA, DESCA, NPROW, NPCOL, MYROW, MYCOL,
      $                    IIA, JJA, ICURROW, ICURCOL )
             DO 20 I = K2, K1, -1
                IP = IPIV( IIA+I-K1 )
@@ -191,7 +191,7 @@
      $                         DESCA, 1 )
    30       CONTINUE
          ELSE
-            CALL INFOG2L( IA, K2, DESCA, NPROW, NPCOL, MYROW, MYCOL,
+            CALL INFOG2L( IA, K1, DESCA, NPROW, NPCOL, MYROW, MYCOL,
      $                    IIA, JJA, ICURROW, ICURCOL )
             DO 40 J = K2, K1, -1
                JP = IPIV( JJA+J-K1 )
