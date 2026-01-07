@@ -22,11 +22,12 @@
 #define Int int
 #endif
 
-/* If somebody is building with BigMPI
- * give it priority compared to other
- * solutions since otherwise they would
- * not have bothered to configure BLACS
- * with BigMPI
+/*
+ * MPI wrapper definitions for ILP64 support
+ * Can be compiled in three way (in order of priority)
+ * 1. BigMPI
+ * 2. MPI 4.0+ with MPI_count variants
+ * 3. Standard MPI with int counts
  */
 #ifdef BIGMPI
 #define MpiInt MPI_Count
@@ -46,12 +47,16 @@ inline int _MPI_Type_create_struct(MPI_Count count,
                              const MPI_Count array_of_displacements[],
                              const MPI_Datatype array_of_types[],
                              MPI_Datatype *newtype) {
-	// TODO not sure what to do here
+	// TODO BigMPI doesn't have a _x variant for Type_create_struct
+	// perhaps fall back to Standar MPI if count fits an int
+	return MPI_ERR_COUNT;
 }
 inline int _MPI_Type_indexed(MPI_Count count, const MPI_Count array_of_blocklengths[],
                        const MPI_Count array_of_displacements[],
                        MPI_Datatype oldtype, MPI_Datatype *newtype) {
-	// TODO not sure what to do here
+	// TODO BigMPI doesn't have a _x variant for Type_indexed
+	// perhaps fall back to Standar MPI if count fits an int
+	return MPI_ERR_COUNT;
 }
 #else // no BIGMPI
 /* If there is no BigMPI, but there is
@@ -109,7 +114,7 @@ inline int _MPI_Op_create(MPI_User_function *user_fn, int commute, MPI_Op *op) {
 inline int _MPI_Type_create_struct(int count, const int array_of_blocklengths[],
                            const MPI_Aint array_of_displacements[],
                            const MPI_Datatype array_of_types[],
-                           MPI_Datatype *newtype)
+                           MPI_Datatype *newtype) {
 	return MPI_Type_create_struct(count, array_of_blocklengths,
                              array_of_displacements, array_of_types,
                              newtype);
@@ -122,6 +127,11 @@ int MPI_Type_indexed(int count, const int array_of_blocklengths[],
 }
 #endif // MPI version
 #endif // BIGMPI
+
+#if defined(BIGMPI) && (MPI_VERSION >= 4)
+  #warning "Both BIGMPI and MPI 4.0 are available. BIGMPI takes precedence."
+#endif
+
 
 /*
  * These macros define the naming strategy needed for a fortran
