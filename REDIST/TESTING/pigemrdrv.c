@@ -125,7 +125,7 @@ extern Int localindice(Int, Int, Int, Int);
 extern void *mr2d_malloc(Int);
 extern Int ppcm(Int, Int);
 extern Int localsize(Int, Int, Int, Int);
-extern Int memoryblocksize(Int, Int, Int, Int, Int, Int);
+extern Int memoryblocksize(MDESC *desc);
 extern Int changeorigin(Int, Int, Int);
 extern void paramcheck(Int, char*, char*, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int*, Int*);
 /* tools and others function */
@@ -140,7 +140,7 @@ extern void setmemory(void**, Int);
 extern void freememory(void*);
 extern Int  scan_intervals(Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int*, Int**, Int**, Int**);
 extern void Cpigemr2do(Int, Int, Int*, Int, Int, Int, Int, Int*, Int, Int, Int, Int, Int);
-extern void Cpigemr2d(Int, Int, Int*, Int, Int, Int, Int, Int*, Int, Int, Int, Int, Int);
+extern void Cpigemr2d(Int, Int, Int*, Int, Int, Int*, Int*, Int, Int, Int*, Int);
 /* some defines for Cpigemr2do */
 #define SENDBUFF 0
 #define RECVBUFF 1
@@ -399,29 +399,29 @@ m1  n1  sr1 sc1 i1  j1  p1  q1 nbr1 nbc1\n\n");
     if (myprow0 >= 0 && mypcol0 >= 0) {
       blocksize0 = memoryblocksize(&ma);
       ma.lda = localsize(SHIFT(myprow0, ma.sprow, p0), p0, ma.nbrow, ma.m);
-      setmemory(&ptrmyblock, blocksize0);
+      setmemory((void **)&ptrmyblock, blocksize0);
       initblock(ptrmyblock, 1, blocksize0);
-      setmemory(&ptrmyblockcopy, blocksize0);
+      setmemory((void **)&ptrmyblockcopy, blocksize0);
       memcpy((char *) ptrmyblockcopy, (char *) ptrmyblock,
 	     blocksize0 * sizeof(int));
-      setmemory(&ptrmyblockvide, blocksize0);
+      setmemory((void **)&ptrmyblockvide, blocksize0);
       for (i = 0; i < blocksize0; i++)
 	ptrmyblockvide[i] = -1;
     };	/* if (mypnum < p0 * q0) */
     if (myprow1 >= 0 && mypcol1 >= 0) {
-      setmemory(&ptrsavemyblock, memoryblocksize(&mb));
+      setmemory((void **)&ptrsavemyblock, memoryblocksize(&mb));
       mb.lda = localsize(SHIFT(myprow1, mb.sprow, p1), p1, mb.nbrow, mb.m);
     };	/* if (mypnum < p1 * q1)  */
     /* Redistribute the matrix from grid 0 to grid 1 (memory location
      * ptrmyblock to ptrsavemyblock) */
     Cpigemr2d(m, n,
-	      ptrmyblock, ia, ja, &ma,
-	      ptrsavemyblock, ib, jb, &mb, gcontext);
+	      ptrmyblock, ia, ja, (Int*)&ma,
+	      ptrsavemyblock, ib, jb, (Int*)&mb, gcontext);
     /* Perform the inverse redistribution of the matrix from grid 1 to grid 0
      * (memory location ptrsavemyblock to ptrmyblockvide) */
     Cpigemr2d(m, n,
-	      ptrsavemyblock, ib, jb, &mb,
-	      ptrmyblockvide, ia, ja, &ma, gcontext);
+	      ptrsavemyblock, ib, jb, (Int*)&mb,
+	      ptrmyblockvide, ia, ja, (Int*)&ma, gcontext);
     /* Check the differences */
     nberrors = 0;
     if (myprow0 >= 0 && mypcol0 >= 0) {

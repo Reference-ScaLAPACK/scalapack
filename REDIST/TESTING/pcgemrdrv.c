@@ -105,48 +105,48 @@ typedef struct {
 #define realloc myrealloc
 #endif
 /* Cblacs */
-extern void Cblacs_pcoord();
-extern Int Cblacs_pnum();
-extern void Csetpvmtids();
-extern void Cblacs_get();
-extern void Cblacs_pinfo();
-extern void Cblacs_gridinfo();
-extern void Cblacs_gridinit();
-extern void Cblacs_exit();
-extern void Cblacs_gridexit();
-extern void Cblacs_setup();
-extern void Cigebs2d();
-extern void Cigebr2d();
-extern void Cigesd2d();
-extern void Cigerv2d();
-extern void Cigsum2d();
-extern void Cigamn2d();
-extern void Cigamx2d();
-extern void Ccgesd2d();
-extern void Ccgerv2d();
+extern void Cblacs_pcoord(Int, Int, Int*, Int*);
+extern Int  Cblacs_pnum(Int, Int, Int);
+extern void Csetpvmtids(Int, Int*);
+extern void Cblacs_get(Int, Int, Int*);
+extern void Cblacs_pinfo(Int*, Int*);
+extern void Cblacs_gridinfo(Int, Int*, Int*, Int*, Int*);
+extern void Cblacs_gridinit(Int*, char*, Int, Int);
+extern void Cblacs_exit(Int);
+extern void Cblacs_gridexit(Int);
+extern void Cblacs_setup(Int*, Int*);
+extern void Cigebs2d(Int, char*, char*, Int, Int, Int*, Int);
+extern void Cigebr2d(Int, char*, char*, Int, Int, Int*, Int, Int, Int);
+extern void Cigesd2d(Int, Int, Int, Int*, Int, Int, Int);
+extern void Cigerv2d(Int, Int, Int, Int*, Int, Int, Int);
+extern void Cigsum2d(Int, char*, char*, Int, Int, Int*, Int, Int, Int);
+extern void Cigamn2d(Int, char*, char*, Int, Int, Int*, Int, Int*, Int*, Int, Int, Int);
+extern void Cigamx2d(Int, char*, char*, Int, Int, Int*, Int, Int*, Int*, Int, Int, Int);
+extern void Ccgesd2d(Int, Int, Int, float*, Int, Int, Int);
+extern void Ccgerv2d(Int, Int, Int, float*, Int, Int, Int);
 /* lapack */
 void  clacpy_();
 /* aux fonctions */
-extern Int localindice();
-extern void *mr2d_malloc();
-extern Int ppcm();
-extern Int localsize();
-extern Int memoryblocksize();
-extern Int changeorigin();
-extern void paramcheck();
+extern Int localindice(Int, Int, Int, Int);
+extern void *mr2d_malloc(Int);
+extern Int ppcm(Int, Int);
+extern Int localsize(Int, Int, Int, Int);
+extern Int memoryblocksize(MDESC*);
+extern Int changeorigin(Int, Int, Int);
+extern void paramcheck(Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int);
 /* tools and others function */
 #define scanD0 cgescanD0
 #define dispmat cgedispmat
 #define setmemory cgesetmemory
 #define freememory cgefreememory
 #define scan_intervals cgescan_intervals
-extern void scanD0();
-extern void dispmat();
-extern void setmemory();
-extern void freememory();
-extern Int scan_intervals();
-extern void Cpcgemr2do();
-extern void Cpcgemr2d();
+extern void scanD0(char*, Int*, Int*, Int*, Int*, Int*, Int*, Int*, Int*, Int*);
+extern void dispmat(float*, Int, Int, Int, Int, Int, Int, Int*);
+extern void setmemory(complex**, Int);
+extern void freememory(char*);
+extern Int scan_intervals(Int, Int, Int, Int, Int, Int, Int**, Int**, Int**, Int**);
+extern void Cpcgemr2do( Int m, Int n, complex *ptrmyblock, Int ia, Int ja, MDESC *ma, complex *ptrmynewblock, Int ib, Int jb, MDESC *mb );
+extern void Cpcgemr2d( Int m, Int n, complex *ptrmyblock, Int ia, Int ja, MDESC *ma, complex *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
 /* some defines for Cpcgemr2do */
 #define SENDBUFF 0
 #define RECVBUFF 1
