@@ -125,7 +125,6 @@ extern void Cdgerv2d( Int context, Int m, Int n, double* A, Int lda, Int rsrc, I
 void  dlacpy_();
 /* aux fonctions */
 extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
-extern void *mr2d_malloc( size_t n );
 extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
 extern Int memoryblocksize( MDESC *a );
