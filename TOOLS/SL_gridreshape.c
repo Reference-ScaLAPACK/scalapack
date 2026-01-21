@@ -7,12 +7,11 @@
 
 Int SL_Cgridreshape(Int ctxt, Int pstart, Int row_major_in, Int row_major_out, Int P, Int Q)
 {
-
    /** called subprograms **/
-   void Cblacs_gridinfo(Int context, Int* nprow, Int* npcol, Int* myrow, Int* mycol);
-   void Cblacs_abort(Int ConTxt, Int ErrNo);
-   void Cblacs_get(Int context, Int what, Int * val);
-   void Cblacs_gridmap(Int* context, Int* usermap, Int ldumap, Int nprow, Int npcol);
+   void Cblacs_gridinfo( Int context, Int* nprow, Int* npcol, Int* myrow, Int* mycol );
+   void Cblacs_abort( Int ConTxt, Int ErrNo );
+   void Cblacs_get( Int context, Int what, Int * val );
+   void Cblacs_gridmap( Int* context, Int* usermap, Int ldumap, Int nprow, Int npcol );
 
    Int Cblacs_pnum( Int context, Int prow, Int pcol );
    Int nctxt, P0, Q0, Np, i, *g;
