@@ -101,9 +101,6 @@ typedef struct {
 #define realloc myrealloc
 #endif
 /* Cblacs */
-extern void Cblacs_pcoord( Int context, Int pnum, Int* prow, Int* pcol );
-extern Int Cblacs_pnum( Int context, Int prow, Int pcol );
-extern void Csetpvmtids();
 extern void Cblacs_get( Int context, Int what, Int* val );
 extern void Cblacs_pinfo( Int* mypnum, Int* nprocs );
 extern void Cblacs_gridinfo( Int context, Int* nprow, Int* npcol, Int* myrow, Int* mycol );
@@ -113,13 +110,7 @@ extern void Cblacs_gridexit( Int context );
 extern void Cblacs_setup( Int* mypnum, Int* nprocs );
 extern void Cigebs2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda );
 extern void Cigebr2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int rsrc, Int csrc );
-extern void Cigesd2d( Int context, Int m, Int n, Int* A, Int lda, Int rdest, Int cdest );
-extern void Cigerv2d( Int context, Int m, Int n, Int* A, Int lda, Int rsrc, Int csrc );
 extern void Cigsum2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int rdest, Int cdest );
-extern void Cigamn2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int* RA, Int* CA, Int rcflag, Int rdest, Int cdest );
-extern void Cigamx2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int* RA, Int* CA, Int rcflag, Int rdest, Int cdest );
-extern void Csgesd2d( Int context, Int m, Int n, float* A, Int lda, Int rdest, Int cdest );
-extern void Csgerv2d( Int context, Int m, Int n, float* A, Int lda, Int rsrc, Int csrc );
 /* lapack */
 void  slacpy_();
 /* aux fonctions */
