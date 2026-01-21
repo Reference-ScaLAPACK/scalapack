@@ -3,7 +3,7 @@
 BLACS/INSTALL/cmake_install.cmake
 BLACS/INSTALL/Makefile
 BLACS/INSTALL/x*
-TESTING/x*
+TESTING/traditional/x*
 REDIST/TESTING/x*
 PBLAS/TESTING/x*
 PBLAS/TESTING/PB_Cabort.c
