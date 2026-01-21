@@ -109,6 +109,7 @@ extern void Cblacs_get( Int context, Int what, Int* val );
 extern void Cblacs_pinfo( Int* mypnum, Int* nprocs );
 extern void Cblacs_gridinfo( Int context, Int* nprow, Int* npcol, Int* myrow, Int* mycol );
 extern void Cblacs_gridinit( Int* context, char* order, Int nprow, Int npcol );
+extern void Cblacs_gridmap( Int* context, Int* usermap, Int ldumap, Int nprow, Int npcol );
 extern void Cblacs_exit( Int continue_blacs );
 extern void Cblacs_gridexit( Int context );
 extern void Cblacs_setup( Int* mypnum, Int* nprocs );
