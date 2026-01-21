@@ -338,4 +338,92 @@ void ctrbr2d_(Int *ConTxt, char *scope, char *top, char *uplo, char *diag, Int *
    void Cctrbr2d(Int ConTxt, char *scope, char *top, char *uplo, char *diag, Int m, Int n, float *A, Int lda, Int rsrc, Int csrc);
    Cctrbr2d(*ConTxt, scope, top, uplo, diag, *m, *n, A, *lda, *rsrc, *csrc);
 }
+
+void cgsum2d_(Int *ConTxt, char *scope, char *top, Int *m, Int *n, float *A, Int *lda, Int *rdest, Int *cdest)
+{
+   void Ccgsum2d(Int ConTxt, char *scope, char *top, Int m, Int n, float *A, Int lda, Int rdest, Int cdest);
+   Ccgsum2d(*ConTxt, scope, top, *m, *n, A, *lda, *rdest, *cdest);
+}
+
+void cgamx2d_(Int *ConTxt, char *scope, char *top, Int *m, Int *n, float *A, Int *lda, Int *rA, Int *cA, Int *ldia, Int *rdest, Int *cdest)
+{
+   void Ccgamx2d(Int ConTxt, char *scope, char *top, Int m, Int n, float *A, Int lda, Int *rA, Int *cA, Int ldia, Int rdest, Int cdest);
+   Ccgamx2d(*ConTxt, scope, top, *m, *n, A, *lda,  rA, cA, *ldia,
+            *rdest, *cdest);
+}
+
+void cgamn2d_(Int *ConTxt, char *scope, char *top, Int *m, Int *n, float *A, Int *lda, Int *rA, Int *cA, Int *ldia, Int *rdest, Int *cdest)
+{
+   void Ccgamn2d(Int ConTxt, char *scope, char *top, Int m, Int n, float *A, Int lda, Int *rA, Int *cA, Int ldia, Int rdest, Int cdest);
+   Ccgamn2d(*ConTxt, scope, top, *m, *n, A, *lda, rA, cA, *ldia,
+            *rdest, *cdest);
+}
+
+void zgesd2d_(Int *ConTxt, Int *m, Int *n, double *A, Int *lda, Int *rdest, Int *cdest)
+{
+   void Czgesd2d(Int ConTxt, Int m, Int n, double *A, Int lda, Int rdest, Int cdest);
+   Czgesd2d(*ConTxt, *m, *n, A, *lda, *rdest, *cdest);
+}
+
+void zgerv2d_(Int *ConTxt, Int *m, Int *n, double *A, Int *lda, Int *rsrc, Int *csrc)
+{
+   void Czgerv2d(Int ConTxt, Int m, Int n, double *A, Int lda, Int rsrc, Int csrc);
+   Czgerv2d(*ConTxt, *m, *n, A, *lda, *rsrc, *csrc);
+}
+
+void zgebs2d_(Int *ConTxt, char *scope, char *top, Int *m, Int *n, double *A, Int *lda)
+{
+   void Czgebs2d(Int ConTxt, char *scope, char *top, Int m, Int n, double *A, Int lda);
+   Czgebs2d(*ConTxt, scope, top, *m, *n, A, *lda);
+}
+
+void zgebr2d_(Int *ConTxt, char *scope, char *top, Int *m, Int *n, double *A, Int *lda, Int *rsrc, Int *csrc)
+{
+   void Czgebr2d(Int ConTxt, char *scope, char *top, Int m, Int n, double *A, Int lda, Int rsrc, Int csrc);
+   Czgebr2d(*ConTxt, scope, top, *m, *n, A, *lda, *rsrc, *csrc);
+}
+
+void ztrsd2d_(Int *ConTxt, char *uplo, char *diag, Int *m, Int *n, double *A, Int *lda, Int *rdest, Int *cdest)
+{
+   void Cztrsd2d(Int ConTxt, char *uplo, char *diag, Int m, Int n, double *A, Int lda, Int rdest, Int cdest);
+   Cztrsd2d(*ConTxt, uplo, diag, *m, *n, A, *lda, *rdest, *cdest);
+}
+
+void ztrrv2d_(Int *ConTxt, char *uplo, char *diag, Int *m, Int *n, double *A, Int *lda, Int *rsrc, Int *csrc)
+{
+   void Cztrrv2d(Int ConTxt, char *uplo, char *diag, Int m, Int n, double *A, Int lda, Int rsrc, Int csrc);
+   Cztrrv2d(*ConTxt, uplo, diag, *m, *n, A, *lda, *rsrc, *csrc);
+}
+
+void ztrbs2d_(Int *ConTxt, char *scope, char *top, char *uplo, char *diag, Int *m, Int *n, double *A, Int *lda)
+{
+   void Cztrbs2d(Int ConTxt, char *scope, char *top, char *uplo, char *diag, Int m, Int n, double *A, Int lda);
+   Cztrbs2d(*ConTxt, scope, top, uplo, diag, *m, *n, A, *lda);
+}
+
+void ztrbr2d_(Int *ConTxt, char *scope, char *top, char *uplo, char *diag, Int *m, Int *n, double *A, Int *lda, Int *rsrc, Int *csrc)
+{
+   void Cztrbr2d(Int ConTxt, char *scope, char *top, char *uplo, char *diag, Int m, Int n, double *A, Int lda, Int rsrc, Int csrc);
+   Cztrbr2d(*ConTxt, scope, top, uplo, diag, *m, *n, A, *lda, *rsrc, *csrc);
+}
+
+void zgsum2d_(Int *ConTxt, char *scope, char *top, Int *m, Int *n, double *A, Int *lda, Int *rdest, Int *cdest)
+{
+   void Czgsum2d(Int ConTxt, char *scope, char *top, Int m, Int n, double *A, Int lda, Int rdest, Int cdest);
+   Czgsum2d(*ConTxt, scope, top, *m, *n, A, *lda, *rdest, *cdest);
+}
+
+void zgamx2d_(Int *ConTxt, char *scope, char *top, Int *m, Int *n, double *A, Int *lda, Int *rA, Int *cA, Int *ldia, Int *rdest, Int *cdest)
+{
+   void Czgamx2d(Int ConTxt, char *scope, char *top, Int m, Int n, double *A, Int lda, Int *rA, Int *cA, Int ldia, Int rdest, Int cdest);
+   Czgamx2d(*ConTxt, scope, top, *m, *n, A, *lda,  rA, cA, *ldia,
+            *rdest, *cdest);
+}
+
+void zgamn2d_(Int *ConTxt, char *scope, char *top, Int *m, Int *n, double *A, Int *lda, Int *rA, Int *cA, Int *ldia, Int *rdest, Int *cdest)
+{
+   void Czgamn2d(Int ConTxt, char *scope, char *top, Int m, Int n, double *A, Int lda, Int *rA, Int *cA, Int ldia, Int rdest, Int cdest);
+   Czgamn2d(*ConTxt, scope, top, *m, *n, A, *lda, rA, cA, *ldia,
+            *rdest, *cdest);
+}
 #endif
