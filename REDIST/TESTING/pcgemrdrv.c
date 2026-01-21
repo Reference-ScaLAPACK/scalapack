@@ -132,10 +132,8 @@ extern Int memoryblocksize( MDESC *a );
 /* tools and others function */
 #define setmemory cgesetmemory
 #define freememory cgefreememory
-#define scan_intervals cgescan_intervals
 extern void setmemory( complex** ptr, Int size );
 extern void freememory( char* ptr );
-extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
 extern void Cpcgemr2d( Int m, Int n, complex *ptrmyblock, Int ia, Int ja, MDESC *ma, complex *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
 #if 0
 #define DEBUG

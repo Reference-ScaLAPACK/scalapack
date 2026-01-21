@@ -123,12 +123,8 @@ extern void Csgerv2d( Int context, Int m, Int n, float* A, Int lda, Int rsrc, In
 /* lapack */
 void  slacpy_();
 /* aux fonctions */
-extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
-extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
 extern Int memoryblocksize( MDESC *a );
-extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
-extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
 #define setmemory strsetmemory
 #define freememory strfreememory
