@@ -398,17 +398,17 @@ m1  n1  sr1 sc1 i1  j1  p1  q1 nbr1 nbc1\n\n");
     if (myprow0 >= 0 && mypcol0 >= 0) {
       blocksize0 = memoryblocksize(&ma);
       ma.lda = localsize(SHIFT(myprow0, ma.sprow, p0), p0, ma.nbrow, ma.m);
-      setmemory((void **)&ptrmyblock, blocksize0);
+      setmemory(&ptrmyblock, blocksize0);
       initblock(ptrmyblock, 1, blocksize0);
-      setmemory((void **)&ptrmyblockcopy, blocksize0);
+      setmemory(&ptrmyblockcopy, blocksize0);
       memcpy((char *) ptrmyblockcopy, (char *) ptrmyblock,
 	     blocksize0 * sizeof(int));
-      setmemory((void **)&ptrmyblockvide, blocksize0);
+      setmemory(&ptrmyblockvide, blocksize0);
       for (i = 0; i < blocksize0; i++)
 	ptrmyblockvide[i] = -1;
     };	/* if (mypnum < p0 * q0) */
     if (myprow1 >= 0 && mypcol1 >= 0) {
-      setmemory((void **)&ptrsavemyblock, memoryblocksize(&mb));
+      setmemory((&ptrsavemyblock, memoryblocksize(&mb));
       mb.lda = localsize(SHIFT(myprow1, mb.sprow, p1), p1, mb.nbrow, mb.m);
     };	/* if (mypnum < p1 * q1)  */
     /* Redistribute the matrix from grid 0 to grid 1 (memory location
