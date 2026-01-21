@@ -4,5 +4,4 @@
 
        call c_intface(i)
 
-       stop
        end
