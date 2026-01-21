@@ -127,29 +127,14 @@ extern void Czgerv2d( Int context, Int m, Int n, dcomplex* A, Int lda, Int rsrc,
 /* lapack */
 void  zlacpy_();
 /* aux fonctions */
-extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
-extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
 extern Int memoryblocksize( MDESC *a );
-extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
-extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
-#define scanD0 zgescanD0
-#define dispmat zgedispmat
 #define setmemory zgesetmemory
 #define freememory zgefreememory
-#define scan_intervals zgescan_intervals
-extern void scanD0(char*, Int*, Int*, Int*, Int*, Int*, Int*, Int*, Int*, Int*);
-extern void dispmat(double*, Int, Int, Int, Int, Int, Int, Int*);
 extern void setmemory( dcomplex** ptr, Int size );
 extern void freememory( char* ptr );
-extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
-extern void Cpzgemr2do( Int m, Int n, dcomplex *ptrmyblock, Int ia, Int ja, MDESC *ma, dcomplex *ptrmynewblock, Int ib, Int jb, MDESC *mb );
 extern void Cpzgemr2d( Int m, Int n, dcomplex *ptrmyblock, Int ia, Int ja, MDESC *ma, dcomplex *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
-/* some defines for Cpzgemr2do */
-#define SENDBUFF 0
-#define RECVBUFF 1
-#define SIZEBUFF 2
 #if 0
 #define DEBUG
 #endif

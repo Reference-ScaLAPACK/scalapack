@@ -123,29 +123,14 @@ extern void Csgerv2d( Int context, Int m, Int n, float* A, Int lda, Int rsrc, In
 /* lapack */
 void  slacpy_();
 /* aux fonctions */
-extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
-extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
 extern Int memoryblocksize( MDESC *a );
-extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
-extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
-#define scanD0 sgescanD0
-#define dispmat sgedispmat
 #define setmemory sgesetmemory
 #define freememory sgefreememory
-#define scan_intervals sgescan_intervals
-extern void scanD0( char* uplo, char* diag, Int action, float* ptrbuff, Int* ptrsizebuff, Int m, Int n, MDESC* ma, Int ia, Int ja, Int p0, Int q0, MDESC* mb, Int ib, Int jb, Int p1, Int q1, IDESC* v_inter, Int vinter_nb, IDESC* h_inter, Int hinter_nb, float* ptrblock );
-extern void dispmat();
 extern void setmemory( float** ptr, Int size );
 extern void freememory( char* ptr );
-extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
-extern void Cpsgemr2do( Int m, Int n, float *ptrmyblock, Int ia, Int ja, MDESC *ma, float *ptrmynewblock, Int ib, Int jb, MDESC *mb );
 extern void Cpsgemr2d( Int m, Int n, float *ptrmyblock, Int ia, Int ja, MDESC *ma, float *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
-/* some defines for Cpsgemr2do */
-#define SENDBUFF 0
-#define RECVBUFF 1
-#define SIZEBUFF 2
 #if 0
 #define DEBUG
 #endif

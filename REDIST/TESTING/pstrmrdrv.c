@@ -130,22 +130,11 @@ extern Int memoryblocksize( MDESC *a );
 extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
 extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
-#define scanD0 strscanD0
-#define dispmat strdispmat
 #define setmemory strsetmemory
 #define freememory strfreememory
-#define scan_intervals strscan_intervals
-extern void scanD0( char* uplo, char* diag, Int action, float* ptrbuff, Int* ptrsizebuff, Int m, Int n, MDESC* ma, Int ia, Int ja, Int p0, Int q0, MDESC* mb, Int ib, Int jb, Int p1, Int q1, IDESC* v_inter, Int vinter_nb, IDESC* h_inter, Int hinter_nb, float* ptrblock );
-extern void dispmat();
 extern void setmemory( float** ptr, Int size );
 extern void freememory( char* ptr );
-extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
-extern void Cpstrmr2do( char* uplo, char* diag, Int m, Int n, float *ptrmyblock, Int ia, Int ja, MDESC *ma, float *ptrmynewblock, Int ib, Int jb, MDESC *mb );
 extern void Cpstrmr2d( char* uplo, char* diag, Int m, Int n, float *ptrmyblock, Int ia, Int ja, MDESC *ma, float *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
-/* some defines for Cpstrmr2do */
-#define SENDBUFF 0
-#define RECVBUFF 1
-#define SIZEBUFF 2
 #if 0
 #define DEBUG
 #endif
