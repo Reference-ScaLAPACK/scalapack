@@ -58,8 +58,8 @@ F_VOID_FUNC itrsd2d_(Int *ConTxt, F_CHAR uplo, F_CHAR diag, Int *m, Int *n,
 {
    void BI_ArgCheck(Int, Int, char *, char, char, char, Int, Int, Int, Int,
                     Int *, Int *);
-   MPI_Datatype BI_GetMpiTrType(BLACSCONTEXT *, char, char, Int, Int, Int,
-                                   MPI_Datatype, Int *);
+   MPI_Datatype BI_GetMpiTrType(BLACSCONTEXT *, char, char, MpiInt, MpiInt, Int,
+                                   MPI_Datatype, MpiInt *);
    BLACBUFF *BI_Pack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
    void BI_Ssend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
    void BI_Asend(BLACSCONTEXT *, Int, Int, BLACBUFF *);

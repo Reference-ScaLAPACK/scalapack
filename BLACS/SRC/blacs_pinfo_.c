@@ -6,10 +6,10 @@ void Cblacs_pinfo(Int *mypnum, Int *nprocs)
 F_VOID_FUNC blacs_pinfo_(Int *mypnum, Int *nprocs)
 #endif
 {
-   Int ierr;
+   int ierr;
    extern Int BI_Iam, BI_Np;
-   MpiInt flag, Iam = BI_Iam, Np = BI_Np;
-   MpiInt argc=0;
+   int flag, Iam = BI_Iam, Np = BI_Np;
+   int argc=0;
    char **argv=NULL;
    if (BI_COMM_WORLD == NULL)
    {
