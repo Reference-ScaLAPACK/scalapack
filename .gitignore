@@ -15,4 +15,5 @@ PBLAS/TIMING/PB_Cwarn.c
 BLACS/TESTING/xCbtest
 BLACS/TESTING/xFbtest
 SLmake.inc
+.DS_Store
 
