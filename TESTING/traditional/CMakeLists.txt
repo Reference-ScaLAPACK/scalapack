@@ -40,7 +40,7 @@ set(genex_gfortran_10
 function(setup_test_target)
     foreach(target IN LISTS ARGN)
         target_link_libraries(${target} PRIVATE
-            scalapack
+            scalapack::scalapack
             ${LAPACK_LIBRARIES}
             ${BLAS_LIBRARIES}
             MPI::MPI_Fortran
