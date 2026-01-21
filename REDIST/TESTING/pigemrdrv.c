@@ -414,13 +414,13 @@ m1  n1  sr1 sc1 i1  j1  p1  q1 nbr1 nbc1\n\n");
     /* Redistribute the matrix from grid 0 to grid 1 (memory location
      * ptrmyblock to ptrsavemyblock) */
     Cpigemr2d(m, n,
-	      ptrmyblock, ia, ja, (Int*)&ma,
-	      ptrsavemyblock, ib, jb, (Int*)&mb, gcontext);
+	      ptrmyblock, ia, ja, &ma,
+	      ptrsavemyblock, ib, jb, &mb, gcontext);
     /* Perform the inverse redistribution of the matrix from grid 1 to grid 0
      * (memory location ptrsavemyblock to ptrmyblockvide) */
     Cpigemr2d(m, n,
-	      ptrsavemyblock, ib, jb, (Int*)&mb,
-	      ptrmyblockvide, ia, ja, (Int*)&ma, gcontext);
+	      ptrsavemyblock, ib, jb, &mb,
+	      ptrmyblockvide, ia, ja, &ma, gcontext);
     /* Check the differences */
     nberrors = 0;
     if (myprow0 >= 0 && mypcol0 >= 0) {
