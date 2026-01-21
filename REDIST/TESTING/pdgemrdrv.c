@@ -124,29 +124,16 @@ extern void Cdgerv2d( Int context, Int m, Int n, double* A, Int lda, Int rsrc, I
 /* lapack */
 void  dlacpy_();
 /* aux fonctions */
-extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
-extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
 extern Int memoryblocksize( MDESC *a );
 extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
 extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
-#define scanD0 dgescanD0
-#define dispmat dgedispmat
 #define setmemory dgesetmemory
 #define freememory dgefreememory
-#define scan_intervals dgescan_intervals
-extern void scanD0(char*, Int*, Int*, Int*, Int*, Int*, Int*, Int*, Int*, Int*);
-extern void dispmat(double*, Int, Int, Int, Int, Int, Int, Int*);
 extern void setmemory( double** ptr, Int size );
 extern void freememory( char* ptr );
-extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
-extern void Cpdgemr2do( Int m, Int n, double *ptrmyblock, Int ia, Int ja, MDESC *ma, double *ptrmynewblock, Int ib, Int jb, MDESC *mb );
 extern void Cpdgemr2d( Int m, Int n, double *ptrmyblock, Int ia, Int ja, MDESC *ma, double *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
-/* some defines for Cpdgemr2do */
-#define SENDBUFF 0
-#define RECVBUFF 1
-#define SIZEBUFF 2
 #if 0
 #define DEBUG
 #endif

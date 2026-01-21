@@ -121,29 +121,14 @@ extern void Cigamx2d( Int context, char* scope, char* top, Int m, Int n, Int* A,
 /* lapack */
 void  ilacpy_();
 /* aux fonctions */
-extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
-extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
 extern Int memoryblocksize( MDESC *a );
-extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
-extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
-#define scanD0 igescanD0
-#define dispmat igedispmat
 #define setmemory igesetmemory
 #define freememory igefreememory
-#define scan_intervals igescan_intervals
-extern void scanD0(Int, Int, Int, Int, Int, Int, Int, Int*, Int*, Int*, Int*, Int*);
-extern void dispmat(char*, Int, Int, Int, Int, Int, Int, double*, Int, Int, Int);
 extern void setmemory( Int** ptr, Int size );
 extern void freememory( char* ptr );
-extern Int scan_intervals( char rc, Int i0, Int i1, Int len, MDESC *m0, MDESC *m1, Int p0, Int p1, Int myp, Int otherp, IDESC *inter );
-extern void Cpigemr2do( Int m, Int n, Int *ptrmyblock, Int ia, Int ja, MDESC *ma, Int *ptrmynewblock, Int ib, Int jb, MDESC *mb );
 extern void Cpigemr2d( Int m, Int n, Int *ptrmyblock, Int ia, Int ja, MDESC *ma, Int *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
-/* some defines for Cpigemr2do */
-#define SENDBUFF 0
-#define RECVBUFF 1
-#define SIZEBUFF 2
 #if 0
 #define DEBUG
 #endif
