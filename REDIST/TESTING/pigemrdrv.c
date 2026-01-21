@@ -408,7 +408,7 @@ m1  n1  sr1 sc1 i1  j1  p1  q1 nbr1 nbc1\n\n");
 	ptrmyblockvide[i] = -1;
     };	/* if (mypnum < p0 * q0) */
     if (myprow1 >= 0 && mypcol1 >= 0) {
-      setmemory((&ptrsavemyblock, memoryblocksize(&mb));
+      setmemory(&ptrsavemyblock, memoryblocksize(&mb));
       mb.lda = localsize(SHIFT(myprow1, mb.sprow, p1), p1, mb.nbrow, mb.m);
     };	/* if (mypnum < p1 * q1)  */
     /* Redistribute the matrix from grid 0 to grid 1 (memory location
