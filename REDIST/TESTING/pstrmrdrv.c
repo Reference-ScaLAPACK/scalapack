@@ -101,52 +101,27 @@ typedef struct {
 #define realloc myrealloc
 #endif
 /* Cblacs */
-extern void Cblacs_pcoord();
-extern Int Cblacs_pnum();
-extern void Csetpvmtids();
-extern void Cblacs_get();
-extern void Cblacs_pinfo();
-extern void Cblacs_gridinfo();
-extern void Cblacs_gridinit();
-extern void Cblacs_exit();
-extern void Cblacs_gridexit();
-extern void Cblacs_setup();
-extern void Cigebs2d();
-extern void Cigebr2d();
-extern void Cigesd2d();
-extern void Cigerv2d();
-extern void Cigsum2d();
-extern void Cigamn2d();
-extern void Cigamx2d();
-extern void Csgesd2d();
-extern void Csgerv2d();
+extern void Cblacs_get( Int context, Int what, Int* val );
+extern void Cblacs_pinfo( Int* mypnum, Int* nprocs );
+extern void Cblacs_gridinfo( Int context, Int* nprow, Int* npcol, Int* myrow, Int* mycol );
+extern void Cblacs_gridinit( Int* context, char* order, Int nprow, Int npcol );
+extern void Cblacs_exit( Int continue_blacs );
+extern void Cblacs_gridexit( Int context );
+extern void Cblacs_setup( Int* mypnum, Int* nprocs );
+extern void Cigebs2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda );
+extern void Cigebr2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int rsrc, Int csrc );
+extern void Cigsum2d( Int context, char* scope, char* top, Int m, Int n, Int* A, Int lda, Int rdest, Int cdest );
 /* lapack */
 void  slacpy_();
 /* aux fonctions */
-extern Int localindice();
-extern void *mr2d_malloc();
-extern Int ppcm();
-extern Int localsize();
-extern Int memoryblocksize();
-extern Int changeorigin();
-extern void paramcheck();
+extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
+extern Int memoryblocksize( MDESC *a );
 /* tools and others function */
-#define scanD0 strscanD0
-#define dispmat strdispmat
 #define setmemory strsetmemory
 #define freememory strfreememory
-#define scan_intervals strscan_intervals
-extern void scanD0();
-extern void dispmat();
-extern void setmemory();
-extern void freememory();
-extern Int scan_intervals();
-extern void Cpstrmr2do();
-extern void Cpstrmr2d();
-/* some defines for Cpstrmr2do */
-#define SENDBUFF 0
-#define RECVBUFF 1
-#define SIZEBUFF 2
+extern void setmemory( float** ptr, Int size );
+extern void freememory( char* ptr );
+extern void Cpstrmr2d( char* uplo, char* diag, Int m, Int n, float *ptrmyblock, Int ia, Int ja, MDESC *ma, float *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
 #if 0
 #define DEBUG
 #endif

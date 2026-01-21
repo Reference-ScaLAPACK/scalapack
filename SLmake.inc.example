@@ -28,8 +28,8 @@ CDEFS         = -DAdd_
 
 FC            = mpif90
 CC            = mpicc 
-NOOPT         = -O0
-FCFLAGS       = -O3
+NOOPT         = -O0 -fallow-argument-mismatch
+FCFLAGS       = -O3 -fallow-argument-mismatch
 CCFLAGS       = -O3
 FCLOADER      = $(FC)
 CCLOADER      = $(CC)
