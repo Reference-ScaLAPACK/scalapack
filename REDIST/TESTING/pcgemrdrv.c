@@ -134,13 +134,9 @@ extern Int memoryblocksize( MDESC *a );
 extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
 extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
-#define scanD0 cgescanD0
-#define dispmat cgedispmat
 #define setmemory cgesetmemory
 #define freememory cgefreememory
 #define scan_intervals cgescan_intervals
-extern void scanD0(char*, Int*, Int*, Int*, Int*, Int*, Int*, Int*, Int*, Int*);
-extern void dispmat(float*, Int, Int, Int, Int, Int, Int, Int*);
 extern void setmemory( complex** ptr, Int size );
 extern void freememory( char* ptr );
 extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
