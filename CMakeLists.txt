@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.26...4.0)
 
-project(SCALAPACK VERSION 2.2.2 LANGUAGES C Fortran)
+project(SCALAPACK VERSION 2.2.3 LANGUAGES C Fortran)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_EXTENSIONS OFF)
 
