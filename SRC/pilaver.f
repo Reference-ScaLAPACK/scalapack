@@ -24,8 +24,8 @@ C
       INTEGER VERS_MAJOR, VERS_MINOR, VERS_PATCH
 C  =====================================================================
       VERS_MAJOR = 2
-      VERS_MINOR = 0
-      VERS_PATCH = 2
+      VERS_MINOR = 3
+      VERS_PATCH = 0
 C  =====================================================================
 C
       RETURN
