@@ -44,16 +44,19 @@ jobs:
       fail-fast: false
     steps:
 
-    - name: Checkout ScaLAPACK
-      uses: actions/checkout@v4
+    - &checkout
+      name: Checkout ScaLAPACK
+      uses: actions/checkout@v6
 
-    - name: Setup MPI
+    - &setup-mpi
+      name: Setup MPI
       # uses: mpi4py/setup-mpi@v1
       run: |
         sudo apt -y update
         sudo apt -y install openmpi-bin libopenmpi-dev
 
-    - name: Install BLAS and LAPACK
+    - &setup-num
+      name: Install BLAS and LAPACK
       run: sudo apt -y install libblas-dev liblapack-dev
 
     - name: Setup CMake
@@ -72,24 +75,91 @@ jobs:
           -DSCALAPACK_BUILD_TESTS=ON \
           -DMPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
 
-    - name: Build
+    - &cmake-build
+      name: Build
       run: >
         cmake --build build
 
-    - name: Test
-      # CMake<3.20 does not have -B option
-      working-directory: ${{github.workspace}}/build
+    - &cmake-test
+      name: Test
       run: >
-        ctest --output-on-failure -j $(nproc)
+        ctest --test-dir build --output-on-failure -j $(nproc)
 
-    - name: Install
+    - &cmake-install
+      name: Install
       run: cmake --install build --prefix scalapack_install
+
+  select-precision:
+    name: >
+      Precision
+      ${{ matrix.single && 'single' || '' }}
+      ${{ matrix.double && 'double' || '' }}
+      ${{ matrix.complex && 'complex' || '' }}
+      ${{ matrix.complex16 && 'complex16' || '' }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - single: true
+            double: false
+            complex: false
+            complex16: false
+          - single: false
+            double: true
+            complex: false
+            complex16: false
+          - single: false
+            double: false
+            complex: true
+            complex16: false
+          - single: false
+            double: false
+            complex: false
+            complex16: true
+          - single: true
+            double: false
+            complex: true
+            complex16: false
+          - single: false
+            double: true
+            complex: false
+            complex16: true
+          - single: true
+            double: true
+            complex: false
+            complex16: false
+      fail-fast: true
+
+    steps:
+
+    - *checkout
+    - *setup-mpi
+    - *setup-num
+
+    - name: CMake configuration
+      # TODO: Use cmake presets for newer versions
+      # TODO: Simplify the defaults to not require configuration
+      run: >
+        cmake -B build \
+          -G Ninja \
+          -DBUILD_SHARED_LIBS=ON \
+          -DSCALAPACK_BUILD_TESTS=ON \
+          -DMPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}} \
+          -DBUILD_SINGLE:BOOL=${{ matrix.single }} \
+          -DBUILD_DOUBLE:BOOL=${{ matrix.double }} \
+          -DBUILD_COMPLEX:BOOL=${{ matrix.complex }} \
+          -DBUILD_COMPLEX16:BOOL=${{ matrix.complex16 }}
+
+    - *cmake-build
+
+    - *cmake-test
+
+    - *cmake-install
 
   freebsd:
     runs-on: ubuntu-latest
     steps:
-      - name: Repository checkout
-        uses: actions/checkout@v4
+      - *checkout
       - uses: cross-platform-actions/action@v0.29.0
         with:
           operating_system: 'freebsd'
