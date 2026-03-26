@@ -95,6 +95,28 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${SCALAPACK_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SCALAPACK_BINARY_DIR}/lib)
 
 # --------------------------------------------------
+# Precision to build
+# By default all precisions are generated
+option(BUILD_SINGLE "Build single precision real" ON)
+option(BUILD_DOUBLE "Build double precision real" ON)
+option(BUILD_COMPLEX "Build single precision complex" ON)
+option(BUILD_COMPLEX16 "Build double precision complex" ON)
+if(BUILD_COMPLEX)
+  set(BUILD_SINGLE true CACHE BOOL "Build single precision real" FORCE)
+  message(STATUS "Building single precision real because single precision complex is enabled")
+endif()
+if(BUILD_COMPLEX16)
+  set(BUILD_DOUBLE true CACHE BOOL "Build double precision real" FORCE)
+  message(STATUS "Building double precision real because double precision complex is enabled")
+endif()
+
+message(STATUS "Build single precision real: ${BUILD_SINGLE}")
+message(STATUS "Build double precision real: ${BUILD_DOUBLE}")
+message(STATUS "Build single precision complex: ${BUILD_COMPLEX}")
+message(STATUS "Build double precision complex: ${BUILD_COMPLEX16}")
+
+
+# --------------------------------------------------
 # By default static library
 function (invertBoolean varName varValue)
   if (${varValue})
@@ -130,7 +152,7 @@ MESSAGE(STATUS "=========")
 
 # --------------------------------------------------
 # Compiler Flags
-ADD_DEFINITIONS( "-D${CDEFS}")
+add_compile_definitions("${CDEFS}")
 
 # --------------------------------------------------
 # ScaLAPACK needs BLAS and LAPACK
@@ -256,7 +278,7 @@ if(TARGET lapack)
 endif()
 
 option(SCALAPACK_BUILD_TESTS "Build all tests of the ScaLAPACK library" ON)
-if(${SCALAPACK_BUILD_TESTS})
+if(SCALAPACK_BUILD_TESTS)
   add_subdirectory(TESTING)
 endif()
 

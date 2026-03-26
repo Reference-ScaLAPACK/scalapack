@@ -1,3 +1,7 @@
+if(NOT (BUILD_SINGLE AND BUILD_DOUBLE AND BUILD_COMPLEX AND BUILD_COMPLEX16))
+  return()
+endif()
+
 set(FTestObj
    blacstest.f btprim.f tools.f)
 

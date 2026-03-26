@@ -51,6 +51,8 @@ function(setup_test_target)
     endforeach()
 endfunction()
 
-add_subdirectory(LIN)
-add_subdirectory(EIG)
 
+if(BUILD_SINGLE)
+  add_subdirectory(LIN)
+  add_subdirectory(EIG)
+endif()
