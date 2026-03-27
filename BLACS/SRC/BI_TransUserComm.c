@@ -1,12 +1,12 @@
 #include "Bdef.h"
 
-MPI_Comm BI_TransUserComm(Int Ucomm, Int Np, Int *pmap)
+MPI_Comm BI_TransUserComm(Int Ucomm, int Np, Int *pmap)
 {
    MPI_Comm bcomm, ucomm;
    MPI_Group bgrp, ugrp;
    Int i;
 
-   MpiInt *mpmap = (MpiInt *)malloc(Np * sizeof(MpiInt));
+   int *mpmap = (int *)malloc(Np * sizeof(int));
    for (i=0; i<Np; i++) mpmap[i] = pmap[i];
 
    ucomm = MPI_Comm_f2c(Ucomm);

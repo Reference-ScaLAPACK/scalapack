@@ -7,7 +7,7 @@ F_VOID_FUNC blacs_get_(Int *ConTxt, Int *what, Int *val)
 {
    Int Csys2blacs_handle(MPI_Comm);
    Int ierr, *iptr;
-   MpiInt flag;
+   int flag;
    Int comm;
    BLACSCONTEXT *ctxt;
 

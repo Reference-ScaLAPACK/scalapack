@@ -47,7 +47,7 @@ F_VOID_FUNC sgesd2d_(Int *ConTxt, Int *m, Int *n, float *A, Int *lda,
    void BI_ArgCheck(Int, Int, char *, char, char, char, Int, Int, Int, Int,
                     Int *, Int *);
    MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, Int, Int, Int,
-                                   MPI_Datatype, Int *);
+                                   MPI_Datatype, MpiInt *);
    BLACBUFF *BI_Pack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
    void BI_Ssend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
    void BI_Asend(BLACSCONTEXT *, Int, Int, BLACBUFF *);

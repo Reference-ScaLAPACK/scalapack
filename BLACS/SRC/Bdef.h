@@ -58,14 +58,14 @@ struct bLaCbUfF
    Int nAops;              /* number of asynchronous operations out of buff */
    MPI_Request *Aops;   /* list of async. operations out of buff */
    MPI_Datatype dtype;  /* data type of buffer */
-   Int N;                  /* number of elements of data type in buff */
+   MpiInt N;               /* number of elements of data type in buff */
    BLACBUFF *prev, *next;  /* pointer to the other BLACBUFF in queue */
 };
 
 /*
  * Pointer to the combine's vector-vector functions
  */
-typedef void (*VVFUNPTR)(Int, char *, char *);
+typedef void (*VVFUNPTR)(MpiInt, char *, char *);
 typedef void (*SDRVPTR)(BLACSCONTEXT *, Int, Int, BLACBUFF *);
 
 
