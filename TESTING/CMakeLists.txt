@@ -1,16 +1,20 @@
 cmake_minimum_required(VERSION 3.26...4.0)
 
-## Old test-suite to be modernized
-# include only if this is included via `add_subdirectory`
-
-if(DEFINED SCALAPACK_SOURCE_DIR)
-    add_subdirectory(traditional)
-endif()
-
-## Modern test-suite is an independent project
-
-# TODO: Add the implementations
 project(scalapack-tests
     LANGUAGES C Fortran
 )
+
+if(NOT TARGET scalapack::scalapack)
+    find_package(scalapack REQUIRED CONFIG)
+endif()
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+include(scalapack_tests_helpers)
+
 enable_testing()
+
+# Old test-suite
+add_subdirectory(traditional)
+
+# Packaging tests
+add_subdirectory(package)
