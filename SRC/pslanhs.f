@@ -221,6 +221,7 @@
                JJ = JJ + JB
             END IF
 *
+            II = II + JB
             IACOL = MOD( IACOL+1, NPCOL )
 *
 *           Loop over remaining block of columns
@@ -343,6 +344,7 @@
                JJ = JJ + JB
             END IF
 *
+            II = II + JB
             IACOL = MOD( IACOL+1, NPCOL )
 *
 *           Loop over remaining block of columns
@@ -491,6 +493,7 @@
                JJ = JJ + JB
             END IF
 *
+            II = II + JB
             IACOL = MOD( IACOL+1, NPCOL )
 *
 *           Loop over remaining block of columns
@@ -630,6 +633,7 @@
                JJ = JJ + JB
             END IF
 *
+            II = II + JB
             IACOL = MOD( IACOL+1, NPCOL )
 *
 *           Loop over remaining block of columns
