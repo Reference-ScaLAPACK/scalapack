@@ -57,7 +57,7 @@ F_VOID_FUNC dgebs2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
    BLACBUFF *BI_GetBuff(Int);
    Int BI_BuffIsFree(BLACBUFF *, Int);
    MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, Int, Int, Int,
-                                   MPI_Datatype, Int *);
+                                   MPI_Datatype, MpiInt *);
    BLACBUFF *BI_Pack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
    void BI_Ssend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
    void BI_Asend(BLACSCONTEXT *, Int, Int, BLACBUFF *);
