@@ -477,7 +477,7 @@
             IF( MYROW.EQ.ICURROW )
      $         II = II + JB
             ICURROW = INXTROW
-            ICURROW = MOD( ICURROW+1, NPROW )
+            INXTROW = MOD( ICURROW+1, NPROW )
             ICURCOL = MOD( ICURCOL+1, NPCOL )
 *
 *           Loop over remaining block of columns
@@ -510,7 +510,7 @@
                IF( MYROW.EQ.ICURROW )
      $            II = II + JB
                ICURROW = INXTROW
-               ICURROW = MOD( ICURROW+1, NPROW )
+               INXTROW = MOD( ICURROW+1, NPROW )
                ICURCOL = MOD( ICURCOL+1, NPCOL )
 *
   350       CONTINUE
