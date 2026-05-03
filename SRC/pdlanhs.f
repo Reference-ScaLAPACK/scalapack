@@ -273,7 +273,7 @@
             IF( MYROW.EQ.IAROW )
      $         II = II + JB
             IAROW = INXTROW
-            IAROW = MOD( IAROW+1, NPROW )
+            INXTROW = MOD( IAROW+1, NPROW )
             IACOL = MOD( IACOL+1, NPCOL )
 *
 *           Loop over remaining block of columns
@@ -306,7 +306,7 @@
                IF( MYROW.EQ.IAROW )
      $            II = II + JB
                IAROW = INXTROW
-               IAROW = MOD( IAROW+1, NPROW )
+               INXTROW = MOD( IAROW+1, NPROW )
                IACOL = MOD( IACOL+1, NPCOL )
 *
   140       CONTINUE
@@ -403,7 +403,7 @@
             IF( MYROW.EQ.IAROW )
      $         II = II + JB
             IAROW = INXTROW
-            IAROW = MOD( IAROW+1, NPROW )
+            INXTROW = MOD( IAROW+1, NPROW )
             IACOL = MOD( IACOL+1, NPCOL )
 *
 *           Loop over remaining block of columns
@@ -440,7 +440,7 @@
                IF( MYROW.EQ.IAROW )
      $            II = II + JB
                IAROW = INXTROW
-               IAROW = MOD( IAROW+1, NPROW )
+               INXTROW = MOD( IAROW+1, NPROW )
                IACOL = MOD( IACOL+1, NPCOL )
 *
   280       CONTINUE
@@ -549,7 +549,7 @@
             IF( MYROW.EQ.IAROW )
      $         II = II + JB
             IAROW = INXTROW
-            IAROW = MOD( IAROW+1, NPROW )
+            INXTROW = MOD( IAROW+1, NPROW )
             IACOL = MOD( IACOL+1, NPCOL )
 *
 *           Loop over remaining block of columns
@@ -584,7 +584,7 @@
                IF( MYROW.EQ.IAROW )
      $            II = II + JB
                IAROW = INXTROW
-               IAROW = MOD( IAROW+1, NPROW )
+               INXTROW = MOD( IAROW+1, NPROW )
                IACOL = MOD( IACOL+1, NPCOL )
 *
   430       CONTINUE
@@ -683,7 +683,7 @@
             IF( MYROW.EQ.IAROW )
      $         II = II + JB
             IAROW = INXTROW
-            IAROW = MOD( IAROW+1, NPROW )
+            INXTROW = MOD( IAROW+1, NPROW )
             IACOL = MOD( IACOL+1, NPCOL )
 *
 *           Loop over remaining block of columns
@@ -714,7 +714,7 @@
                IF( MYROW.EQ.IAROW )
      $            II = II + JB
                IAROW = INXTROW
-               IAROW = MOD( IAROW+1, NPROW )
+               INXTROW = MOD( IAROW+1, NPROW )
                IACOL = MOD( IACOL+1, NPCOL )
 *
   510       CONTINUE
