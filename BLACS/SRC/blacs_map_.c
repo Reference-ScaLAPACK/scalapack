@@ -13,7 +13,7 @@ F_VOID_FUNC blacs_gridmap_(Int *ConTxt, Int *usermap, Int *ldup, Int *nprow0,
    MPI_Comm Cblacs2sys_handle(Int BlacsCtxt);
    MPI_Comm BI_TransUserComm(Int, Int, Int *);
 
-   MpiInt Iam;
+   int Iam;
    Int info, i, j, *iptr;
    Int myrow, mycol, nprow, npcol, Ng;
    BLACSCONTEXT *ctxt, **tCTxts;
@@ -53,7 +53,7 @@ F_VOID_FUNC blacs_gridmap_(Int *ConTxt, Int *usermap, Int *ldup, Int *nprow0,
       for (i=0; i < nprow; i++) iptr[i*npcol+j] = usermap[j*Mpval(ldup)+i];
    }
 #if (INTFACE == C_CALL)
-   MpiInt *miptr = (MpiInt *) malloc(Ng*sizeof(MpiInt));
+   int *miptr = (int *) malloc(Ng*sizeof(int));
    for (j=0; j < Ng; j++) miptr[j] = iptr[j];
    tcomm = Cblacs2sys_handle(*ConTxt);
    MPI_Comm_group(tcomm, &grp);           /* find input comm's group */

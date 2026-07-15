@@ -86,18 +86,16 @@ F_VOID_FUNC dgamn2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
    BLACBUFF *BI_GetBuff(Int);
    Int BI_BuffIsFree(BLACBUFF *, Int);
    MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, Int, Int, Int,
-                                   MPI_Datatype, Int *);
+                                   MPI_Datatype, MpiInt *);
    BLACBUFF *BI_Pack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
-   MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *, Int, Int, Int,
-                                   MPI_Datatype, Int *);
    void BI_Unpack(BLACSCONTEXT *, BVOID *, BLACBUFF *, MPI_Datatype);
    void BI_MringComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR,
                      Int, Int);
    void BI_TreeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR,
                     Int, Int);
    void BI_BeComb(BLACSCONTEXT *, BLACBUFF *, BLACBUFF *, Int, VVFUNPTR);
-   void BI_dvvamn(Int, char *, char *);
-   void BI_dvvamn2(Int, char *, char *);
+   void BI_dvvamn(MpiInt, char *, char *);
+   void BI_dvvamn2(MpiInt, char *, char *);
    void BI_dMPI_amn(void *, void *, MpiInt *, MPI_Datatype *);
    void BI_dMPI_amn2(void *, void *, MpiInt *, MPI_Datatype *);
 /*
@@ -223,7 +221,7 @@ F_VOID_FUNC dgamn2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
       {
 #endif
       i = 2;
-      ierr=MPI_Type_create_struct(i, len, disp, dtypes, &MyType);
+      ierr=_MPI_Type_create_struct(i, len, disp, dtypes, &MyType);
       ierr=MPI_Type_commit(&MyType);
       bp->N = bp2->N = 1;
       bp->dtype = bp2->dtype = MyType;
@@ -266,11 +264,11 @@ F_VOID_FUNC dgamn2d_(Int *ConTxt, F_CHAR scope, F_CHAR top, Int *m, Int *n,
       i = 1;
       if (Mpval(ldia) == -1)
       {
-         ierr=MPI_Op_create(BI_dMPI_amn2, i, &BlacComb);
+         ierr=_MPI_Op_create(BI_dMPI_amn2, i, &BlacComb);
       }
       else
       {
-         ierr=MPI_Op_create(BI_dMPI_amn, i, &BlacComb);
+         ierr=_MPI_Op_create(BI_dMPI_amn, i, &BlacComb);
          BI_AuxBuff.Len = N;  /* set this up for the MPI OP wrappers */
       }
 
