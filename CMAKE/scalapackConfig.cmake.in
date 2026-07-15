@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.17...4.0)
+
+@PACKAGE_INIT@
+
+include(${CMAKE_CURRENT_LIST_DIR}/scalapackTargets.cmake)
+
+# Deprecated compatibility shims
+if(TARGET scalapack::scalapack)
+    add_library(scalapack INTERFACE IMPORTED)
+    target_link_libraries(scalapack INTERFACE scalapack::scalapack)
+    set_target_properties(scalapack PROPERTIES
+        DEPRECATION "Target scalapack is deprecated, use scalapack::scalapack instead."
+    )
+endif()
+if(TARGET scalapack::scalapack-F)
+    add_library(scalapack-F INTERFACE IMPORTED)
+    target_link_libraries(scalapack-F INTERFACE scalapack::scalapack-F)
+    set_target_properties(scalapack-F PROPERTIES
+        DEPRECATION "Target scalapack-F is deprecated, use scalapack::scalapack-F instead."
+    )
+endif()

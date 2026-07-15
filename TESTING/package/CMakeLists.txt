@@ -1,0 +1,2 @@
+scalapack_add_test(find_package)
+scalapack_add_test(deprecated_targets)
