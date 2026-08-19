@@ -13,7 +13,7 @@ if(HAD_ERROR)
     # So we are going to check that the output have the last line of the testing : DONE BLACS_GRIDEXIT
     file(READ "out_${TEST_PROG}.txt" TESTSTRING)
 
-    STRING(REPLACE "DONE BLACS_GRIDEXIT" "BLACS OK" tmp ${TESTSTRING})
+    STRING(REPLACE "DONE BLACS_GRIDEXIT" "BLACS OK" tmp "${TESTSTRING}")
 
 if("${tmp}" STREQUAL "${TESTSTRING}")
        message( STATUS "Error in error_${TEST_PROG}.txt")
