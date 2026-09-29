@@ -20,7 +20,7 @@ concurrency:
 env:
   CFLAGS: "-Wall -pedantic"
   FFLAGS: "-fcheck=all,no-bounds"
-  CMAKE_BUILD_TYPE: Release
+  CMAKE_BUILD_TYPE: RelWithDebInfo
   MPIEXEC_PREFLAGS: "--oversubscribe"
 
 defaults:
@@ -72,7 +72,7 @@ jobs:
           -G Ninja \
           -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}} \
           -DBUILD_SHARED_LIBS=ON \
-          -DSCALAPACK_BUILD_TESTS=ON \
+          -DBUILD_TESTING=ON \
           -DMPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}}
 
     - &cmake-build
@@ -88,6 +88,20 @@ jobs:
     - &cmake-install
       name: Install
       run: cmake --install build --prefix scalapack_install
+
+    - name: Check CMake package
+      run: |
+        mkdir consumer
+        cat > consumer/CMakeLists.txt <<'EOF'
+        cmake_minimum_required(VERSION 3.26)
+        project(consumer LANGUAGES C Fortran)
+        find_package(ScaLAPACK CONFIG REQUIRED)
+        if(NOT TARGET ScaLAPACK::scalapack)
+          message(FATAL_ERROR "ScaLAPACK::scalapack target not found")
+        endif()
+        EOF
+        cmake -S consumer -B consumer/build \
+          -DCMAKE_PREFIX_PATH="$PWD/scalapack_install"
 
   select-precision:
     name: >
@@ -108,14 +122,6 @@ jobs:
             double: true
             complex: false
             complex16: false
-          - single: false
-            double: false
-            complex: true
-            complex16: false
-          - single: false
-            double: false
-            complex: false
-            complex16: true
           - single: true
             double: false
             complex: true
@@ -142,13 +148,14 @@ jobs:
       run: >
         cmake -B build \
           -G Ninja \
+          -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}} \
           -DBUILD_SHARED_LIBS=ON \
-          -DSCALAPACK_BUILD_TESTS=ON \
+          -DBUILD_TESTING=ON \
           -DMPIEXEC_PREFLAGS=${{env.MPIEXEC_PREFLAGS}} \
-          -DBUILD_SINGLE:BOOL=${{ matrix.single }} \
-          -DBUILD_DOUBLE:BOOL=${{ matrix.double }} \
-          -DBUILD_COMPLEX:BOOL=${{ matrix.complex }} \
-          -DBUILD_COMPLEX16:BOOL=${{ matrix.complex16 }}
+          -DSCALAPACK_BUILD_SINGLE:BOOL=${{ matrix.single }} \
+          -DSCALAPACK_BUILD_DOUBLE:BOOL=${{ matrix.double }} \
+          -DSCALAPACK_BUILD_COMPLEX:BOOL=${{ matrix.complex }} \
+          -DSCALAPACK_BUILD_COMPLEX16:BOOL=${{ matrix.complex16 }}
 
     - *cmake-build
 

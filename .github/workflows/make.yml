@@ -40,12 +40,13 @@ jobs:
     - name: Build ScaLAPACK
       run: |
         cp SLmake.inc.example SLmake.inc
-        # make -j is buggy; see #54.
-        make lib
-        make all
+        make lib -j "$(nproc)"
+        make all -j "$(nproc)"
 
     - name: Run examples
       working-directory: ${{github.workspace}}/EXAMPLE
+      env:
+        UCX_TLS: tcp,self
       run: |
         mpiexec -n 4 ./xsscaex
         mpiexec -n 4 ./xdscaex
