@@ -1,17 +1,8 @@
-file(COPY ../SRC/PTOOLS/PB_Cwarn.c DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
-file(COPY ../SRC/PTOOLS/PB_Cabort.c DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
-
-set (PblasErrorHandler  PB_Cwarn.c PB_Cabort.c)
-set (pbtcom pblastim.f ${PblasErrorHandler})
+set (pbtcom pblastim.f)
 set (spbtcom psblastim.f ${pbtcom})
 set (dpbtcom pdblastim.f ${pbtcom})
 set (cpbtcom pcblastim.f ${pbtcom})
 set (zpbtcom pzblastim.f ${pbtcom})
-
-set_property(
-   SOURCE ${PblasErrorHandler}
-   APPEND PROPERTY COMPILE_DEFINITIONS TestingPblas
-   )
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SCALAPACK_BINARY_DIR}/PBLAS/TIMING)
 
@@ -29,56 +20,56 @@ file(COPY PZBLAS2TIM.dat DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 file(COPY PZBLAS3TIM.dat DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 
-if(BUILD_SINGLE)
+if(SCALAPACK_BUILD_SINGLE)
     add_executable(spb1tim psblas1tim.f ${spbtcom})
     add_executable(spb2tim psblas2tim.f ${spbtcom})
     add_executable(spb3tim psblas3tim.f ${spbtcom})
 
-    target_link_libraries(spb1tim scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-    target_link_libraries(spb2tim scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-    target_link_libraries(spb3tim scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
+    target_link_libraries(spb1tim pblas-test-support scalapack LAPACK::LAPACK MPI::MPI_Fortran)
+    target_link_libraries(spb2tim pblas-test-support scalapack LAPACK::LAPACK MPI::MPI_Fortran)
+    target_link_libraries(spb3tim pblas-test-support scalapack LAPACK::LAPACK MPI::MPI_Fortran)
 
     add_test(spb1tim ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./spb1tim)
     add_test(spb2tim ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./spb2tim)
     add_test(spb3tim ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./spb3tim)
 endif()
 
-if(BUILD_DOUBLE)
+if(SCALAPACK_BUILD_DOUBLE)
     add_executable(dpb1tim pdblas1tim.f ${dpbtcom})
     add_executable(dpb2tim pdblas2tim.f ${dpbtcom})
     add_executable(dpb3tim pdblas3tim.f ${dpbtcom})
 
-    target_link_libraries(dpb1tim scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-    target_link_libraries(dpb2tim scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-    target_link_libraries(dpb3tim scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
+    target_link_libraries(dpb1tim pblas-test-support scalapack LAPACK::LAPACK MPI::MPI_Fortran)
+    target_link_libraries(dpb2tim pblas-test-support scalapack LAPACK::LAPACK MPI::MPI_Fortran)
+    target_link_libraries(dpb3tim pblas-test-support scalapack LAPACK::LAPACK MPI::MPI_Fortran)
 
     add_test(dpb1tim ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./dpb1tim)
     add_test(dpb2tim ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./dpb2tim)
     add_test(dpb3tim ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./dpb3tim)
 endif()
 
-if(BUILD_COMPLEX)
+if(SCALAPACK_BUILD_COMPLEX)
     add_executable(cpb1tim pcblas1tim.f ${cpbtcom})
     add_executable(cpb2tim pcblas2tim.f ${cpbtcom})
     add_executable(cpb3tim pcblas3tim.f ${cpbtcom})
 
-    target_link_libraries(cpb1tim scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-    target_link_libraries(cpb2tim scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-    target_link_libraries(cpb3tim scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
+    target_link_libraries(cpb1tim pblas-test-support scalapack LAPACK::LAPACK MPI::MPI_Fortran)
+    target_link_libraries(cpb2tim pblas-test-support scalapack LAPACK::LAPACK MPI::MPI_Fortran)
+    target_link_libraries(cpb3tim pblas-test-support scalapack LAPACK::LAPACK MPI::MPI_Fortran)
 
     add_test(cpb1tim ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./cpb1tim)
     add_test(cpb2tim ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./cpb2tim)
     add_test(cpb3tim ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./cpb3tim)
 endif()
 
-if(BUILD_COMPLEX16)
+if(SCALAPACK_BUILD_COMPLEX16)
     add_executable(zpb1tim pzblas1tim.f ${zpbtcom})
     add_executable(zpb2tim pzblas2tim.f ${zpbtcom})
     add_executable(zpb3tim pzblas3tim.f ${zpbtcom})
 
-    target_link_libraries(zpb1tim scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-    target_link_libraries(zpb2tim scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
-    target_link_libraries(zpb3tim scalapack ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} MPI::MPI_Fortran)
+    target_link_libraries(zpb1tim pblas-test-support scalapack LAPACK::LAPACK MPI::MPI_Fortran)
+    target_link_libraries(zpb2tim pblas-test-support scalapack LAPACK::LAPACK MPI::MPI_Fortran)
+    target_link_libraries(zpb3tim pblas-test-support scalapack LAPACK::LAPACK MPI::MPI_Fortran)
 
     add_test(zpb1tim ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./zpb1tim)
     add_test(zpb2tim ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} 4 ${MPIEXEC_PREFLAGS} ./zpb2tim)

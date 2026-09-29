@@ -59,17 +59,18 @@ set (PZBLAS3  pzgeadd_.c pzgemm_.c pzhemm_.c  pzher2k_.c pzherk_.c  pzsymm_.c
 #---------------------------------------------------------------------------
 
 set(pblas ${PIBLAS1})
-if(BUILD_SINGLE)
+if(SCALAPACK_BUILD_SINGLE)
   list(APPEND pblas ${PSBLAS1} ${PSBLAS2} ${PSBLAS3})
 endif()
-if(BUILD_DOUBLE)
+if(SCALAPACK_BUILD_DOUBLE)
   list(APPEND pblas ${PDBLAS1} ${PDBLAS2} ${PDBLAS3})
 endif()
-if(BUILD_COMPLEX)
+if(SCALAPACK_BUILD_COMPLEX)
   list(APPEND pblas ${PCBLAS1} ${PCBLAS2} ${PCBLAS3})
 endif()
-if(BUILD_COMPLEX16)
+if(SCALAPACK_BUILD_COMPLEX16)
   list(APPEND pblas ${PZBLAS1} ${PZBLAS2} ${PZBLAS3})
 endif()
 
-set (pblas-F ${APPBLAS} )
+target_sources(scalapack PRIVATE ${pblas})
+target_sources(${SCALAPACK_FORTRAN_TARGET} PRIVATE ${APPBLAS})

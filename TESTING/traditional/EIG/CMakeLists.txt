@@ -32,7 +32,7 @@ list(APPEND test_set_4
     xssyevr
 )
 
-if(BUILD_DOUBLE)
+if(SCALAPACK_BUILD_DOUBLE)
     add_executable(xdbrd pdbrddriver.f pdbrdinfo.f pdgebdrv.f pdlafchk.f ${dmatgen})
     add_executable(xdhrd pdhrddriver.f pdhrdinfo.f pdgehdrv.f pdlafchk.f ${dmatgen})
     add_executable(xdtrd pdtrddriver.f pdttrdtester.f pdlatran.f pdtrdinfo.f pdsytdrv.f pdlafchk.f xpjlaenv.f ${dmatgen})
@@ -60,7 +60,7 @@ pdsepchk.f pdsepqtq.f pdlatms.f pdseprtst.f pdsepinfo.f pdlagsy.f pdlasizesep.f 
     )
 endif()
 
-if(BUILD_COMPLEX)
+if(SCALAPACK_BUILD_COMPLEX)
     add_executable(xcbrd pcbrddriver.f pcbrdinfo.f pcgebdrv.f pclafchk.f ${cmatgen})
     add_executable(xchrd pchrddriver.f pchrdinfo.f pcgehdrv.f pclafchk.f ${cmatgen})
     add_executable(xctrd pctrddriver.f pcttrdtester.f pclatran.f pctrdinfo.f pchetdrv.f pclafchk.f xpjlaenv.f ${cmatgen})
@@ -86,7 +86,7 @@ pcsepchk.f pcsepqtq.f pclatms.f pcseprtst.f pssepinfo.f pclagsy.f pclasizesep.f 
     )
 endif()
 
-if(BUILD_COMPLEX16)
+if(SCALAPACK_BUILD_COMPLEX16)
     add_executable(xzbrd pzbrddriver.f pzbrdinfo.f pzgebdrv.f pzlafchk.f ${zmatgen})
     add_executable(xzhrd pzhrddriver.f pzhrdinfo.f pzgehdrv.f pzlafchk.f ${zmatgen})
     add_executable(xztrd pztrddriver.f pzttrdtester.f pzlatran.f pztrdinfo.f pzhetdrv.f pzlafchk.f xpjlaenv.f ${zmatgen})

@@ -41,8 +41,7 @@ function(setup_test_target)
     foreach(target IN LISTS ARGN)
         target_link_libraries(${target} PRIVATE
             scalapack
-            ${LAPACK_LIBRARIES}
-            ${BLAS_LIBRARIES}
+            LAPACK::LAPACK
             MPI::MPI_Fortran
         )
         target_compile_options(${target} PRIVATE
@@ -52,7 +51,7 @@ function(setup_test_target)
 endfunction()
 
 
-if(BUILD_SINGLE)
+if(SCALAPACK_BUILD_SINGLE)
   add_subdirectory(LIN)
   add_subdirectory(EIG)
 endif()
