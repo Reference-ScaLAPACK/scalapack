@@ -34,7 +34,7 @@ list(APPEND test_set
     xsls
 )
 
-if(BUILD_DOUBLE)
+if(SCALAPACK_BUILD_DOUBLE)
     add_executable(xdlu pdludriver.f pdluinfo.f pdgetrrv.f ${dmatgen} ${dlinchk})
     add_executable(xddblu pddbdriver.f pddbinfo.f pddblaschk.f pddbmv1.f pdbmatgen.f ${dmatgen})
     add_executable(xddtlu pddtdriver.f pddtinfo.f pddtlaschk.f pddbmv1.f pdbmatgen.f ${dmatgen})
@@ -60,7 +60,7 @@ if(BUILD_DOUBLE)
     )
 endif()
 
-if(BUILD_COMPLEX)
+if(SCALAPACK_BUILD_COMPLEX)
     add_executable(xclu pcludriver.f pcluinfo.f pcgetrrv.f ${cmatgen} ${clinchk})
     add_executable(xcdblu pcdbdriver.f pcdbinfo.f pcdblaschk.f pcdbmv1.f pcbmatgen.f ${cmatgen})
     add_executable(xcdtlu pcdtdriver.f pcdtinfo.f pcdtlaschk.f pcdbmv1.f pcbmatgen.f ${cmatgen})
@@ -86,7 +86,7 @@ if(BUILD_COMPLEX)
     )
 endif()
 
-if(BUILD_COMPLEX16)
+if(SCALAPACK_BUILD_COMPLEX16)
     add_executable(xzlu pzludriver.f pzluinfo.f pzgetrrv.f ${zmatgen} ${zlinchk})
     add_executable(xzdblu pzdbdriver.f pzdbinfo.f pzdblaschk.f pzdbmv1.f pzbmatgen.f ${zmatgen})
     add_executable(xzdtlu pzdtdriver.f pzdtinfo.f pzdtlaschk.f pzdbmv1.f pzbmatgen.f ${zmatgen})
