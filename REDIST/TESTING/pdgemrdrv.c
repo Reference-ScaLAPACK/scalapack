@@ -1,4 +1,5 @@
 #include "redist.h"
+#include <stddef.h>
 /* $Id: pdgemrdrv.c,v 1.1.1.1 2000/02/15 18:04:11 susan Exp $
  * 
  * pdgemrdrv.c :
@@ -116,11 +117,11 @@ extern void Cigsum2d( Int context, char* scope, char* top, Int m, Int n, Int* A,
 void  dlacpy_();
 /* aux fonctions */
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
-extern Int memoryblocksize( MDESC *a );
+extern size_t memoryblocksize( MDESC *a );
 /* tools and others function */
 #define setmemory dgesetmemory
 #define freememory dgefreememory
-extern void setmemory( double** ptr, Int size );
+extern void setmemory( double** ptr, size_t size );
 extern void freememory( char* ptr );
 extern void Cpdgemr2d( Int m, Int n, double *ptrmyblock, Int ia, Int ja, MDESC *ma, double *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
 #if 0

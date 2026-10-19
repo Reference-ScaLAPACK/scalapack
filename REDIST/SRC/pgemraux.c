@@ -70,11 +70,11 @@ extern void Cigamx2d( Int context, char* scope, char* top, Int m, Int n, Int* A,
 /* lapack */
 void  ilacpy_();
 /* aux fonctions */
-extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
+extern size_t localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
 extern void *mr2d_malloc( size_t n );
 extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
-extern Int memoryblocksize( MDESC *a );
+extern size_t memoryblocksize( MDESC *a );
 extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
 extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
@@ -169,7 +169,7 @@ localsize(Int myprow, Int p, Int nbrow, Int m)
 }
 /****************************************************************/
 /* Returns the exact memory block size corresponding to the parameters */
-Int
+size_t
 memoryblocksize(MDESC *a)
 {
   Int   myprow, mypcol, p, q;
@@ -179,7 +179,7 @@ memoryblocksize(MDESC *a)
   myprow = SHIFT(myprow, a->sprow, p);
   mypcol = SHIFT(mypcol, a->spcol, q);
   assert(myprow >= 0 && mypcol >= 0);
-  return localsize(myprow, p, a->nbrow, a->m) *
+  return (size_t) localsize(myprow, p, a->nbrow, a->m) *
 	localsize(mypcol, q, a->nbcol, a->n);
 }
 void 
@@ -263,7 +263,7 @@ changeorigin(Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp)
 }
 /******************************************************************/
 /* Return the indice in local memory of element of indice a in the matrix */
-Int
+size_t
 localindice(Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a)
 /* Return the indice in local memory (scattered distribution) of the element
  * of indice a in global matrix */
@@ -295,5 +295,5 @@ localindice(Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a)
     assert(lq == SHIFT(pc, a->spcol, q));
   }
 #endif
-  return (jl * a->lda + il);
+  return (size_t) jl * a->lda + il;
 }

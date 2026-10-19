@@ -157,7 +157,7 @@
 #define ilacpy_ ilacpy
 #endif
 #define Clacpy Cigelacpy
-void  Clacpy( Int m, Int n, Int *a, Int lda, Int *b, Int ldb );
+void  Clacpy( size_t m, size_t n, Int *a, size_t lda, Int *b, size_t ldb );
 typedef struct {
   Int   desctype;
   Int   ctxt;
@@ -206,11 +206,11 @@ extern void Cigamx2d( Int context, char* scope, char* top, Int m, Int n, Int* A,
 /* lapack */
 void  ilacpy_();
 /* aux fonctions */
-extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
+extern size_t localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
 extern void *mr2d_malloc( size_t n );
 extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
-extern Int memoryblocksize( MDESC *a );
+extern size_t memoryblocksize( MDESC *a );
 extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
 extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
@@ -221,7 +221,7 @@ extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int 
 #define scan_intervals igescan_intervals
 extern void scanD0();
 extern void dispmat();
-extern void setmemory( Int** ptr, Int size );
+extern void setmemory( Int** ptr, size_t size );
 extern void freememory( char* ptr );
 extern Int scan_intervals( char rc, Int i0, Int i1, Int len, MDESC *m0, MDESC *m1, Int p0, Int p1, Int myp, Int otherp, IDESC *inter );
 extern void Cpigemr2do( Int m, Int n, Int *ptrmyblock, Int ia, Int ja, MDESC *ma, Int *ptrmynewblock, Int ib, Int jb, MDESC *mb );
@@ -257,8 +257,8 @@ fortran_mr2dnew(Int *m, Int *n, Int *A, Int *ia, Int *ja, Int desc_A[DESCLEN],
   return;
 }
 static2 void init_chenille( Int mypnum, Int nprocs, Int n0, Int *proc0, Int n1, Int *proc1, Int **psend, Int **precv, Int *myrang );
-static2 Int inter_len( Int hinb, IDESC *hi, Int vinb, IDESC *vi );
-static2 Int block2buff( IDESC *vi, Int vinb, IDESC *hi, Int hinb, Int *ptra, MDESC *ma, Int *buff );
+static2 size_t inter_len( Int hinb, IDESC *hi, Int vinb, IDESC *vi );
+static2 size_t block2buff( IDESC *vi, Int vinb, IDESC *hi, Int hinb, Int *ptra, MDESC *ma, Int *buff );
 static2 void buff2block( IDESC *vi, Int vinb, IDESC *hi, Int hinb, Int *buff, Int *ptrb, MDESC *mb );
 static2 void gridreshape( Int *ctxtp );
 void
@@ -282,6 +282,20 @@ Cpigemr2do(m, n,
 	    ptrmynewblock, ib, jb, mb, gcontext);
   Cblacs_gridexit(gcontext);
 }
+/* send (recv == 0) or receive size elements in messages of at most 1 GiB,
+ * keeping the BLACS counts and the MPI message sizes within 32-bit range */
+static2 void
+xferbuff(Int ctxt, Int *buff, size_t size, Int proc, Int recv)
+{
+  size_t chunk;
+  for (; size > 0; buff += chunk, size -= chunk) {
+    chunk = min(size, ((size_t) 1 << 30) / sizeof(Int));
+    if (recv)
+      Cigerv2d(ctxt, (Int)chunk, (Int)1, buff, (Int)chunk, (Int)0, proc);
+    else
+      Cigesd2d(ctxt, (Int)chunk, (Int)1, buff, (Int)chunk, (Int)0, proc);
+  }
+}
 #define NBPARAM 20	/* p0,q0,p1,q1, puis ma,na,mba,nba,rowa,cola puis
 			 * idem B puis ia,ja puis ib,jb */
 #define MAGIC_MAX 100000000
@@ -302,7 +316,7 @@ Cpigemr2d(m, n,
   Int   mypnum, myprow0, mypcol0, myprow1, mypcol1, nprocs;
   Int   i, j;
   Int   nprow, npcol, gcontext;
-  Int   recvsize, sendsize;
+  size_t recvsize, sendsize;
   IDESC *h_inter;	/* to store the horizontal intersections */
   IDESC *v_inter;	/* to store the vertical intersections */
   Int   hinter_nb, vinter_nb;	/* number of intrsections in both directions */
@@ -427,7 +441,7 @@ Cpigemr2d(m, n,
     ptrmyblock += decal;
     ja = changeorigin(mypcol0, ma->spcol, q0,
 		      ma->nbcol, ja, &decal, &ma->spcol);
-    ptrmyblock += decal * ma->lda;
+    ptrmyblock += (size_t) decal * ma->lda;
     ma->m = ia + m;
     ma->n = ja + n;
     ib = changeorigin(myprow1, mb->sprow, p1,
@@ -435,7 +449,7 @@ Cpigemr2d(m, n,
     ptrmynewblock += decal;
     jb = changeorigin(mypcol1, mb->spcol, q1,
 		      mb->nbcol, jb, &decal, &mb->spcol);
-    ptrmynewblock += decal * mb->lda;
+    ptrmynewblock += (size_t) decal * mb->lda;
     mb->m = ib + m;
     mb->n = jb + n;
     if (p0 == 1)
@@ -512,8 +526,7 @@ Cpigemr2d(m, n,
 	  if (sendsize > 0
 	      && (step != myrang || !merecving)
 		) {
-	    Cigesd2d(gcontext, sendsize, (Int)1, ptrsendbuff, sendsize,
-		     (Int)0, proc1[i * q1 + j]);
+	    xferbuff(gcontext, ptrsendbuff, sendsize, proc1[i * q1 + j], 0);
 	  }	/* sendsize > 0 */
 	}	/* if (mesending ... */
 	if (merecving && sender[step] >= 0 &&
@@ -531,8 +544,7 @@ Cpigemr2d(m, n,
 		     ptrsendbuff, recvsize,
 		     ptrrecvbuff, recvsize);
 	    } else {
-	      Cigerv2d(gcontext, recvsize, (Int)1, ptrrecvbuff, recvsize,
-		       (Int)0, proc0[i * q0 + j]);
+	      xferbuff(gcontext, ptrrecvbuff, recvsize, proc0[i * q0 + j], 1);
 	    }
 	  }	/* recvsize > 0 */
 	}	/* if (merecving ...) */
@@ -632,20 +644,21 @@ Int _m,_n,_lda,_ldb; \
       _a += _lda; \
     } \
 } (void)0
-static2 Int
+static2 size_t
 block2buff(IDESC *vi, Int vinb, IDESC *hi, Int hinb, Int *ptra, MDESC *ma, Int *buff)
 {
-  Int   h, v, sizebuff;
+  Int   h, v;
+  size_t sizebuff;
   Int  *ptr2;
   sizebuff = 0;
   for (h = 0; h < hinb; h++) {
-    ptr2 = ptra + hi[h].lstart * ma->lda;
+    ptr2 = ptra + (size_t) hi[h].lstart * ma->lda;
     for (v = 0; v < vinb; v++) {
       Mlacpy(vi[v].len, hi[h].len,
 	     ptr2 + vi[v].lstart,
 	     ma->lda,
 	     buff + sizebuff, vi[v].len);
-      sizebuff += hi[h].len * vi[v].len;
+      sizebuff += (size_t) hi[h].len * vi[v].len;
     }
   }
   return sizebuff;
@@ -653,21 +666,22 @@ block2buff(IDESC *vi, Int vinb, IDESC *hi, Int hinb, Int *ptra, MDESC *ma, Int *
 static2 void
 buff2block(IDESC *vi, Int vinb, IDESC *hi, Int hinb, Int *buff, Int *ptrb, MDESC *mb)
 {
-  Int   h, v, sizebuff;
+  Int   h, v;
+  size_t sizebuff;
   Int  *ptr2;
   sizebuff = 0;
   for (h = 0; h < hinb; h++) {
-    ptr2 = ptrb + hi[h].lstart * mb->lda;
+    ptr2 = ptrb + (size_t) hi[h].lstart * mb->lda;
     for (v = 0; v < vinb; v++) {
       Mlacpy(vi[v].len, hi[h].len,
 	     buff + sizebuff, vi[v].len,
 	     ptr2 + vi[v].lstart,
 	     mb->lda);
-      sizebuff += hi[h].len * vi[v].len;
+      sizebuff += (size_t) hi[h].len * vi[v].len;
     }
   }
 }
-static2 Int
+static2 size_t
 inter_len(Int hinb, IDESC *hi, Int vinb, IDESC *vi)
 {
   Int   hlen, vlen, h, v;
@@ -677,15 +691,15 @@ inter_len(Int hinb, IDESC *hi, Int vinb, IDESC *vi)
   vlen = 0;
   for (v = 0; v < vinb; v++)
     vlen += vi[v].len;
-  return hlen * vlen;
+  return (size_t) hlen * vlen;
 }
 void
-Clacpy(Int m, Int n, Int *a, Int lda, Int *b, Int ldb)
+Clacpy(size_t m, size_t n, Int *a, size_t lda, Int *b, size_t ldb)
 {
-  Int   i, j;
+  size_t i, j;
+  assert(lda >= m && ldb >= m);
   lda -= m;
   ldb -= m;
-  assert(lda >= 0 && ldb >= 0);
   for (j = 0; j < n; j++) {
     for (i = 0; i < m; i++)
       *b++ = *a++;

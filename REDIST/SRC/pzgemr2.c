@@ -25,7 +25,7 @@ typedef struct {
   double r, i;
 }     dcomplex;
 #define Clacpy Czgelacpy
-void  Clacpy( Int m, Int n, dcomplex *a, Int lda, dcomplex *b, Int ldb );
+void  Clacpy( size_t m, size_t n, dcomplex *a, size_t lda, dcomplex *b, size_t ldb );
 typedef struct {
   Int   desctype;
   Int   ctxt;
@@ -75,11 +75,11 @@ extern void Czgerv2d( Int context, Int m, Int n, dcomplex* A, Int lda, Int rsrc,
 /* lapack */
 void  zlacpy_();
 /* aux fonctions */
-extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
+extern size_t localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
 extern void *mr2d_malloc( size_t n );
 extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
-extern Int memoryblocksize( MDESC *a );
+extern size_t memoryblocksize( MDESC *a );
 extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
 extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
@@ -90,7 +90,7 @@ extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int 
 #define scan_intervals zgescan_intervals
 extern void scanD0();
 extern void dispmat();
-extern void setmemory( dcomplex** ptr, Int size );
+extern void setmemory( dcomplex** ptr, size_t size );
 extern void freememory( dcomplex* ptr );
 extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
 extern void Cpzgemr2do();
@@ -114,9 +114,8 @@ extern void Cpzgemr2d();
 /************************************************************************/
 /* Set the memory space with the malloc function */
 void
-setmemory(dcomplex **adpointer, Int blocksize)
+setmemory(dcomplex **adpointer, size_t blocksize)
 {
-  assert(blocksize >= 0);
   if (blocksize == 0) {
     *adpointer = NULL;
     return;

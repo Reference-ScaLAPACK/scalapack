@@ -72,11 +72,11 @@ extern void Cigerv2d();
 /* lapack */
 void  ilacpy_();
 /* aux fonctions */
-extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
+extern size_t localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
 extern void *mr2d_malloc( size_t n );
 extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
-extern Int memoryblocksize( MDESC *a );
+extern size_t memoryblocksize( MDESC *a );
 extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
 extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
@@ -87,7 +87,7 @@ extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int 
 #define scan_intervals igescan_intervals
 extern void scanD0();
 extern void dispmat();
-extern void setmemory( Int** ptr, Int size );
+extern void setmemory( Int** ptr, size_t size );
 extern void freememory( Int* ptr );
 extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
 extern void Cpigemr2do();
@@ -111,9 +111,8 @@ extern void Cpigemr2d();
 /************************************************************************/
 /* Set the memory space with the malloc function */
 void
-setmemory(Int **adpointer, Int blocksize)
+setmemory(Int **adpointer, size_t blocksize)
 {
-  assert(blocksize >= 0);
   if (blocksize == 0) {
     *adpointer = NULL;
     return;
