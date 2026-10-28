@@ -2,7 +2,7 @@
 BLACBUFF *BI_Pack(BLACSCONTEXT *ctxt,BVOID *A,BLACBUFF *bp,MPI_Datatype Dtype)
 {
    BLACBUFF *BI_GetBuff(Int);
-   MpiInt i, info, one=1;
+   int i, info, one=1;
    MPI_Aint eltsiz;
 #ifdef ZeroByteTypeBug
    char *cptr;
@@ -38,6 +38,7 @@ BLACBUFF *BI_Pack(BLACSCONTEXT *ctxt,BVOID *A,BLACBUFF *bp,MPI_Datatype Dtype)
 #endif
    if (bp == NULL)
    {
+      // MPI_Pack_size_c exists but no need to invoke it for a count of one==1
       info=MPI_Pack_size(one, Dtype, ctxt->scp->comm, &i);
       bp = BI_GetBuff(i);
    }
