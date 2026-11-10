@@ -164,6 +164,6 @@ if(IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
 else()
   set(_scalapack_pc_libdir "\${prefix}/${CMAKE_INSTALL_LIBDIR}")
 endif()
-configure_file(scalapack.pc.in scalapack.pc @ONLY)
+configure_file(CMAKE/scalapack.pc.in scalapack.pc @ONLY)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/scalapack.pc"
         DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
