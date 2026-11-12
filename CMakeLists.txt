@@ -1,5 +1,13 @@
 cmake_minimum_required(VERSION 3.26...4.0)
 
+# Set default build type - must be before project() and be CACHE to take effect
+if(NOT CMAKE_BUILD_TYPE AND NOT DEFINED ENV{CMAKE_BUILD_TYPE})
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Release default" FORCE)
+  # Set the possible values of build type for cmake-gui
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release"
+                                               "RelWithDebInfo")
+endif()
+
 project(
   SCALAPACK
   VERSION 2.2.3
@@ -50,14 +58,6 @@ cmake_dependent_option(SCALAPACK_BUILD_COMPLEX16 "Build double precision complex
 
 if(UNIX AND CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
   string(APPEND CMAKE_Fortran_FLAGS " -fltconsistency -fp_port")
-endif()
-
-# Set default build type
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE "Release")
-  # Set the possible values of build type for cmake-gui
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release"
-                                               "RelWithDebInfo")
 endif()
 
 set(DART_TESTING_TIMEOUT 600)
