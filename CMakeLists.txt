@@ -23,28 +23,6 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 
-# ==============================================================================
-# Deprecated option compatibility (TODO: Remove this in a future release)
-# ==============================================================================
-function(scalapack_deprecate_build_option suffix description)
-  set(new_option "SCALAPACK_BUILD_${suffix}")
-  set(old_option "BUILD_${suffix}")
-  if(DEFINED ${old_option})
-    message(WARNING "${old_option} is deprecated; use ${new_option} instead")
-    if(NOT DEFINED ${new_option})
-      set(${new_option}
-          "${${old_option}}"
-          CACHE BOOL "${description}")
-    endif()
-  endif()
-endfunction()
-
-scalapack_deprecate_build_option(SINGLE "Build single precision real")
-scalapack_deprecate_build_option(DOUBLE "Build double precision real")
-scalapack_deprecate_build_option(COMPLEX "Build single precision complex")
-scalapack_deprecate_build_option(COMPLEX16 "Build double precision complex")
-# ==============================================================================
-
 # Build options
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(BUILD_TESTING "Build tests of the library" ON)
@@ -58,6 +36,16 @@ cmake_dependent_option(SCALAPACK_BUILD_COMPLEX16 "Build double precision complex
 
 if(UNIX AND CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
   string(APPEND CMAKE_Fortran_FLAGS " -fltconsistency -fp_port")
+endif()
+
+# Set default build type
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE
+      "Release"
+      CACHE STRING "Build type" FORCE)
+  # Set the possible values of build type for cmake-gui
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release"
+                                               "RelWithDebInfo")
 endif()
 
 set(DART_TESTING_TIMEOUT 600)
@@ -186,6 +174,6 @@ if(IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
 else()
   set(_scalapack_pc_libdir "\${prefix}/${CMAKE_INSTALL_LIBDIR}")
 endif()
-configure_file(scalapack.pc.in scalapack.pc @ONLY)
+configure_file(CMAKE/scalapack.pc.in scalapack.pc @ONLY)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/scalapack.pc"
         DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
