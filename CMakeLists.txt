@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.26...4.0)
 
+
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 4.3)
+  set(_spdx_license SPDX_LICENSE "BSD-3-Clause")
+endif()
+
 project(
   SCALAPACK
   VERSION 2.2.3
@@ -81,13 +86,13 @@ if(MSVC)
   list(APPEND _scalapack_library_targets scalapack-F)
 endif()
 
-foreach(_scalapack_target IN LISTS _scalapack_library_targets)
-  set_target_properties(
-    "${_scalapack_target}"
-    PROPERTIES POSITION_INDEPENDENT_CODE ON
-               VERSION "${PROJECT_VERSION}"
-               SOVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
-endforeach()
+set_target_properties(${_scalapack_library_targets}
+  PROPERTIES POSITION_INDEPENDENT_CODE ON
+             VERSION "${PROJECT_VERSION}"
+             SOVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 4.1)
+  set_target_properties(${_scalapack_library_targets} PROPERTIES SPDX_LICENSE "BSD-3-Clause")
+endif()
 
 target_link_libraries(scalapack PRIVATE LAPACK::LAPACK MPI::MPI_C)
 if(MSVC)
@@ -142,6 +147,10 @@ include(CPack)
 set(SCALAPACK_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/scalapack")
 
 install(TARGETS ${_scalapack_library_targets} EXPORT scalapack-targets)
+
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 4.5)
+  install(SBOM scalapackd EXPORTS scalapack-targets)
+endif()
 
 configure_package_config_file(
   CMAKE/scalapack-config.cmake.in
