@@ -1,4 +1,5 @@
 #include "redist.h"
+#include <stddef.h>
 /* $Id: pstrmrdrv.c,v 1.1.1.1 2000/02/15 18:04:11 susan Exp $
  * 
  * pstrmrdrv.c :
@@ -115,11 +116,11 @@ extern void Cigsum2d( Int context, char* scope, char* top, Int m, Int n, Int* A,
 void  slacpy_();
 /* aux fonctions */
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
-extern Int memoryblocksize( MDESC *a );
+extern size_t memoryblocksize( MDESC *a );
 /* tools and others function */
 #define setmemory strsetmemory
 #define freememory strfreememory
-extern void setmemory( float** ptr, Int size );
+extern void setmemory( float** ptr, size_t size );
 extern void freememory( char* ptr );
 extern void Cpstrmr2d( char* uplo, char* diag, Int m, Int n, float *ptrmyblock, Int ia, Int ja, MDESC *ma, float *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
 #if 0

@@ -22,7 +22,7 @@
 #define ilacpy_ ilacpy
 #endif
 #define Clacpy Citrlacpy
-void  Clacpy( Int m, Int n, Int *a, Int lda, Int *b, Int ldb );
+void  Clacpy( size_t m, size_t n, Int *a, size_t lda, Int *b, size_t ldb );
 typedef struct {
   Int   desctype;
   Int   ctxt;
@@ -70,11 +70,11 @@ extern void Cigamx2d( Int context, char* scope, char* top, Int m, Int n, Int* A,
 /* lapack */
 void  ilacpy_();
 /* aux fonctions */
-extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
+extern size_t localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
 extern void *mr2d_malloc( size_t n );
 extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
-extern Int memoryblocksize( MDESC *a );
+extern size_t memoryblocksize( MDESC *a );
 extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
 extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
@@ -83,9 +83,9 @@ extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int 
 #define setmemory itrsetmemory
 #define freememory itrfreememory
 #define scan_intervals itrscan_intervals
-extern void scanD0( char* uplo, char* diag, Int action, Int* ptrbuff, Int* ptrsizebuff, Int m, Int n, MDESC* ma, Int ia, Int ja, Int p0, Int q0, MDESC* mb, Int ib, Int jb, Int p1, Int q1, IDESC* v_inter, Int vinter_nb, IDESC* h_inter, Int hinter_nb, Int* ptrblock );
+extern void scanD0( char* uplo, char* diag, Int action, Int* ptrbuff, size_t* ptrsizebuff, Int m, Int n, MDESC* ma, Int ia, Int ja, Int p0, Int q0, MDESC* mb, Int ib, Int jb, Int p1, Int q1, IDESC* v_inter, Int vinter_nb, IDESC* h_inter, Int hinter_nb, Int* ptrblock );
 extern void dispmat();
-extern void setmemory( Int** ptr, Int size );
+extern void setmemory( Int** ptr, size_t size );
 extern void freememory( Int* ptr );
 extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
 extern void Cpitrmr2do();
@@ -109,9 +109,8 @@ extern void Cpitrmr2d();
 /************************************************************************/
 /* Set the memory space with the malloc function */
 void
-setmemory(Int **adpointer, Int blocksize)
+setmemory(Int **adpointer, size_t blocksize)
 {
-  assert(blocksize >= 0);
   if (blocksize == 0) {
     *adpointer = NULL;
     return;
@@ -172,7 +171,7 @@ static2 void
 intersect(char *uplo, char *diag,
 	  Int j, Int start, Int end,
 	  Int action,
-	  Int *ptrsizebuff, Int **pptrbuff, Int *ptrblock,
+	  size_t *ptrsizebuff, Int **pptrbuff, Int *ptrblock,
 	  Int m, Int n,
 	  MDESC *ma, Int ia, Int ja, Int templateheight0, Int templatewidth0,
 	  MDESC *mb, Int ib, Int jb, Int templateheight1, Int templatewidth1)
@@ -305,8 +304,8 @@ scanD0(uplo, diag, action, ptrbuff, ptrsizebuff,
        v_inter, vinter_nb,
        h_inter, hinter_nb,
        ptrblock)
-  Int   action,	/* # of the action done on the intersected intervals  */
-       *ptrsizebuff;	/* size of the communication ptrbuffer (chosen to be
+  Int   action;	/* # of the action done on the intersected intervals  */
+  size_t *ptrsizebuff;	/* size of the communication ptrbuffer (chosen to be
 			 * an output parameter in every cases) */
   Int  *ptrbuff	/* address of the communication ptrbuffer (a suffisant memory
       space is supposed to be allocated before the call) */ , *ptrblock;

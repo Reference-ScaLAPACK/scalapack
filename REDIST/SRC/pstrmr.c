@@ -172,7 +172,7 @@
 #define slacpy_ slacpy
 #endif
 #define Clacpy Cstrlacpy
-void  Clacpy( Int m, Int n, float *a, Int lda, float *b, Int ldb );
+void  Clacpy( size_t m, size_t n, float *a, size_t lda, float *b, size_t ldb );
 typedef struct {
   Int   desctype;
   Int   ctxt;
@@ -223,11 +223,11 @@ extern void Csgerv2d( Int context, Int m, Int n, float* A, Int lda, Int rsrc, In
 /* lapack */
 void  slacpy_();
 /* aux fonctions */
-extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
+extern size_t localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
 extern void *mr2d_malloc( size_t n );
 extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
-extern Int memoryblocksize( MDESC *a );
+extern size_t memoryblocksize( MDESC *a );
 extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
 extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
@@ -236,9 +236,9 @@ extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int 
 #define setmemory strsetmemory
 #define freememory strfreememory
 #define scan_intervals strscan_intervals
-extern void scanD0( char* uplo, char* diag, Int action, float* ptrbuff, Int* ptrsizebuff, Int m, Int n, MDESC* ma, Int ia, Int ja, Int p0, Int q0, MDESC* mb, Int ib, Int jb, Int p1, Int q1, IDESC* v_inter, Int vinter_nb, IDESC* h_inter, Int hinter_nb, float* ptrblock );
+extern void scanD0( char* uplo, char* diag, Int action, float* ptrbuff, size_t* ptrsizebuff, Int m, Int n, MDESC* ma, Int ia, Int ja, Int p0, Int q0, MDESC* mb, Int ib, Int jb, Int p1, Int q1, IDESC* v_inter, Int vinter_nb, IDESC* h_inter, Int hinter_nb, float* ptrblock );
 extern void dispmat();
-extern void setmemory( float** ptr, Int size );
+extern void setmemory( float** ptr, size_t size );
 extern void freememory( char* ptr );
 extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
 extern void Cpstrmr2do( char* uplo, char* diag, Int m, Int n, float *ptrmyblock, Int ia, Int ja, MDESC *ma, float *ptrmynewblock, Int ib, Int jb, MDESC *mb );
@@ -300,6 +300,20 @@ Cpstrmr2do(uplo, diag, m, n,
 	    ptrmynewblock, ib, jb, mb, gcontext);
   Cblacs_gridexit(gcontext);
 }
+/* send (recv == 0) or receive size elements in messages of at most 1 GiB,
+ * keeping the BLACS counts and the MPI message sizes within 32-bit range */
+static2 void
+xferbuff(Int ctxt, float *buff, size_t size, Int proc, Int recv)
+{
+  size_t chunk;
+  for (; size > 0; buff += chunk, size -= chunk) {
+    chunk = min(size, ((size_t) 1 << 30) / sizeof(float));
+    if (recv)
+      Csgerv2d(ctxt, (Int)chunk, (Int)1, buff, (Int)chunk, (Int)0, proc);
+    else
+      Csgesd2d(ctxt, (Int)chunk, (Int)1, buff, (Int)chunk, (Int)0, proc);
+  }
+}
 #define NBPARAM 20	/* p0,q0,p1,q1, puis ma,na,mba,nba,rowa,cola puis
 			 * idem B puis ia,ja puis ib,jb */
 #define MAGIC_MAX 100000000
@@ -315,7 +329,7 @@ Cpstrmr2d(char *uplo, char *diag, Int m, Int n,
   Int   mypnum, myprow0, mypcol0, myprow1, mypcol1, nprocs;
   Int   i, j;
   Int   nprow, npcol, gcontext;
-  Int   recvsize, sendsize;
+  size_t recvsize, sendsize;
   IDESC *h_inter;	/* to store the horizontal intersections */
   IDESC *v_inter;	/* to store the vertical intersections */
   Int   hinter_nb, vinter_nb;	/* number of intrsections in both directions */
@@ -440,7 +454,7 @@ Cpstrmr2d(char *uplo, char *diag, Int m, Int n,
     ptrmyblock += decal;
     ja = changeorigin(mypcol0, ma->spcol, q0,
 		      ma->nbcol, ja, &decal, &ma->spcol);
-    ptrmyblock += decal * ma->lda;
+    ptrmyblock += (size_t) decal * ma->lda;
     ma->m = ia + m;
     ma->n = ja + n;
     ib = changeorigin(myprow1, mb->sprow, p1,
@@ -448,7 +462,7 @@ Cpstrmr2d(char *uplo, char *diag, Int m, Int n,
     ptrmynewblock += decal;
     jb = changeorigin(mypcol1, mb->spcol, q1,
 		      mb->nbcol, jb, &decal, &mb->spcol);
-    ptrmynewblock += decal * mb->lda;
+    ptrmynewblock += (size_t) decal * mb->lda;
     mb->m = ib + m;
     mb->n = jb + n;
     if (p0 == 1)
@@ -527,8 +541,7 @@ Cpstrmr2d(char *uplo, char *diag, Int m, Int n,
 	  if (sendsize > 0
 	      && (step != myrang || !merecving)
 		) {
-	    Csgesd2d(gcontext, sendsize, (Int)1, ptrsendbuff, sendsize,
-		     (Int)0, proc1[i * q1 + j]);
+	    xferbuff(gcontext, ptrsendbuff, sendsize, proc1[i * q1 + j], 0);
 	  }	/* sendsize > 0 */
 	}	/* if (mesending ... */
 	if (merecving && sender[step] >= 0 &&
@@ -548,8 +561,7 @@ Cpstrmr2d(char *uplo, char *diag, Int m, Int n,
 		     ptrsendbuff, recvsize,
 		     ptrrecvbuff, recvsize);
 	    } else {
-	      Csgerv2d(gcontext, recvsize, (Int)1, ptrrecvbuff, recvsize,
-		       (Int)0, proc0[i * q0 + j]);
+	      xferbuff(gcontext, ptrrecvbuff, recvsize, proc0[i * q0 + j], 1);
 	    }
 	  }	/* recvsize > 0 */
 	}	/* if (merecving ...) */
@@ -634,12 +646,12 @@ init_chenille(Int mypnum, Int nprocs, Int n0, Int *proc0, Int n1, Int *proc1, In
     }
 }
 void
-Clacpy(Int m, Int n, float *a, Int lda, float *b, Int ldb)
+Clacpy(size_t m, size_t n, float *a, size_t lda, float *b, size_t ldb)
 {
-  Int   i, j;
+  size_t i, j;
+  assert(lda >= m && ldb >= m);
   lda -= m;
   ldb -= m;
-  assert(lda >= 0 && ldb >= 0);
   for (j = 0; j < n; j++) {
     for (i = 0; i < m; i++)
       *b++ = *a++;

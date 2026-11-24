@@ -1,4 +1,5 @@
 #include "redist.h"
+#include <stddef.h>
 /* $Id: pitrmrdrv.c,v 1.1.1.1 2000/02/15 18:04:10 susan Exp $
  * 
  * pitrmrdrv.c :
@@ -115,11 +116,11 @@ extern void Cigsum2d( Int context, char* scope, char* top, Int m, Int n, Int* A,
 void  ilacpy_();
 /* aux fonctions */
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
-extern Int memoryblocksize( MDESC *a );
+extern size_t memoryblocksize( MDESC *a );
 /* tools and others function */
 #define setmemory itrsetmemory
 #define freememory itrfreememory
-extern void setmemory( Int** ptr, Int size );
+extern void setmemory( Int** ptr, size_t size );
 extern void freememory( char* ptr );
 extern void Cpitrmr2d( char* uplo, char* diag, Int m, Int n, Int *ptrmyblock, Int ia, Int ja, MDESC *ma, Int *ptrmynewblock, Int ib, Int jb, MDESC *mb, Int globcontext );
 #if 0

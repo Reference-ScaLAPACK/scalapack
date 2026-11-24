@@ -22,7 +22,7 @@
 #define slacpy_ slacpy
 #endif
 #define Clacpy Csgelacpy
-void  Clacpy( Int m, Int n, float *a, Int lda, float *b, Int ldb );
+void  Clacpy( size_t m, size_t n, float *a, size_t lda, float *b, size_t ldb );
 typedef struct {
   Int   desctype;
   Int   ctxt;
@@ -72,11 +72,11 @@ extern void Csgerv2d( Int context, Int m, Int n, float* A, Int lda, Int rsrc, In
 /* lapack */
 void  slacpy_();
 /* aux fonctions */
-extern Int localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
+extern size_t localindice( Int ig, Int jg, Int templateheight, Int templatewidth, MDESC *a );
 extern void *mr2d_malloc( size_t n );
 extern Int ppcm( Int a, Int b );
 extern Int localsize( Int myprow, Int p, Int nbrow, Int m );
-extern Int memoryblocksize( MDESC *a );
+extern size_t memoryblocksize( MDESC *a );
 extern Int changeorigin( Int myp, Int sp, Int p, Int bs, Int i, Int *decal, Int *newsp );
 extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int gcontext );
 /* tools and others function */
@@ -87,7 +87,7 @@ extern void paramcheck( MDESC *a, Int i, Int j, Int m, Int n, Int p, Int q, Int 
 #define scan_intervals sgescan_intervals
 extern void scanD0();
 extern void dispmat();
-extern void setmemory( float** ptr, Int size );
+extern void setmemory( float** ptr, size_t size );
 extern void freememory( float* ptr );
 extern Int scan_intervals( char type, Int ja, Int jb, Int n, MDESC *ma, MDESC *mb, Int q0, Int q1, Int col0, Int col1, IDESC *result );
 extern void Cpsgemr2do();
@@ -111,9 +111,8 @@ extern void Cpsgemr2d();
 /************************************************************************/
 /* Set the memory space with the malloc function */
 void
-setmemory(float **adpointer, Int blocksize)
+setmemory(float **adpointer, size_t blocksize)
 {
-  assert(blocksize >= 0);
   if (blocksize == 0) {
     *adpointer = NULL;
     return;
