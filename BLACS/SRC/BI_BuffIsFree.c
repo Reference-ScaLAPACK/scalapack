@@ -6,7 +6,7 @@ Int BI_BuffIsFree(BLACBUFF *bp, Int Wait)
  *  wait for all async. operations to complete.
  */
 {
-   MpiInt i, info;
+   int i, info;
    extern MPI_Status *BI_Stats;
    extern Int BI_Np;
 

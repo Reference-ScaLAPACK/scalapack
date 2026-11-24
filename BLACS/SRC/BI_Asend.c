@@ -3,9 +3,9 @@
 void BI_Asend(BLACSCONTEXT *ctxt, Int dest, Int msgid, BLACBUFF *bp)
 {
    Int i, info;
-   MpiInt errclass;
+   int errclass;
 
-   info=MPI_Isend(bp->Buff, bp->N, bp->dtype, dest, msgid, ctxt->scp->comm,
+   info=_MPI_Isend(bp->Buff, bp->N, bp->dtype, dest, msgid, ctxt->scp->comm,
                 &bp->Aops[bp->nAops]);
    while(info != MPI_SUCCESS)
    {
@@ -22,7 +22,7 @@ void BI_Asend(BLACSCONTEXT *ctxt, Int dest, Int msgid, BLACBUFF *bp)
 "MPI error %d assumed to mean out of non-blocking resources on call to MPI_Isend",
                         info);
 #endif
-      info=MPI_Isend(bp->Buff, bp->N, bp->dtype, dest, msgid, ctxt->scp->comm,
+      info=_MPI_Isend(bp->Buff, bp->N, bp->dtype, dest, msgid, ctxt->scp->comm,
                    &bp->Aops[bp->nAops]);
    }
    bp->nAops++;

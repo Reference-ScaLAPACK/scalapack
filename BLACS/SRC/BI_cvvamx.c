@@ -1,10 +1,10 @@
 #include "Bdef.h"
-void BI_cvvamx(Int N, char *vec1, char *vec2)
+void BI_cvvamx(MpiInt N, char *vec1, char *vec2)
 {
    SCOMPLEX *v1=(SCOMPLEX*)vec1, *v2=(SCOMPLEX*)vec2;
    float diff;
    BI_DistType *dist1, *dist2;
-   Int i, k;
+   MpiInt i, k;
 
    k = N * sizeof(SCOMPLEX);
    i = k % sizeof(BI_DistType);

@@ -1,6 +1,6 @@
 #include "Bdef.h"
 MPI_Datatype BI_GetMpiGeType(BLACSCONTEXT *ctxt, Int m, Int n, Int lda,
-                                MPI_Datatype Dtype, Int *N)
+                                MPI_Datatype Dtype, MpiInt *N)
 {
    Int info;
    MPI_Datatype GeType;

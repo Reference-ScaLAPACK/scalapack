@@ -1,8 +1,8 @@
 #include "Bdef.h"
 
-void BI_ivvamn2(Int N, char *vec1, char *vec2)
+void BI_ivvamn2(MpiInt N, char *vec1, char *vec2)
 {
-   Int k;
+   MpiInt k;
    Int *v1=(Int*)vec1, *v2=(Int*)vec2;
    Int diff;
 
